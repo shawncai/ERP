@@ -1,5 +1,56 @@
 import request from '@/utils/request'
 
+export function collectAndPay(query) {
+  var params = new URLSearchParams()
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/financecount/collectAndPay',
+    method: 'post',
+    data: params
+  })
+}
+
+export function collectAndPayDetail(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgePersonId !== '' && query.judgePersonId !== null && query.judgePersonId !== undefined) {
+    params.append('judgePersonId', query.judgePersonId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/financecount/collectAndPayDetail',
+    method: 'post',
+    data: params
+  })
+}
+
 export function stockOrderCount(query) {
   var params = new URLSearchParams()
   if (query.type !== '' && query.type !== null && query.type !== undefined) {

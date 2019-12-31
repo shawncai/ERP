@@ -718,8 +718,8 @@ export default {
       for (let i = 0; i < nowlistdata2.length; i++) {
         money2 = money2 + ((nowlistdata2[i].taxPrice * nowlistdata2[i].quantity) - nowlistdata2[i].discountMoney)
       }
-      console.log('money1', money1)
-      console.log('money2', money2)
+      // console.log('money1', money1)
+      // console.log('money2', money2)
       this.personalForm.diffMoney = (money1 - money2).toFixed(2)
     },
     chooserep() {

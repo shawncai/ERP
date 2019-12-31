@@ -3089,6 +3089,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Financecount/shouldPayDetail'),
         name: 'shouldPayDetail',
         meta: { title: 'shouldPayDetail', noCache: true, roles: ['311-314-329-4'] }
+      },
+      {
+        path: 'collectAndPay',
+        component: () => import('@/views/Financecount/collectAndPay'),
+        name: 'collectAndPay',
+        meta: { title: 'collectAndPay', noCache: true, roles: ['311-314-367-4'] }
+      },
+      {
+        path: 'collectAndPayDetail',
+        component: () => import('@/views/Financecount/collectAndPayDetail'),
+        name: 'collectAndPayDetail',
+        meta: { title: 'collectAndPayDetail', noCache: true, roles: ['311-314-368-4'] }
       }
     ]
   },

@@ -3,28 +3,17 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.flmc')" label-width="100px">
-              <el-input v-model="getemplist.categoryname" clearable @keyup.enter.native="handleFilter"/>
+          <el-col :span="5" style="margin-left: 10px">
+            <el-form-item :label="$t('MemorandumList.per')" label-width="100px" prop="employeeId">
+              <el-input v-model="employeeId2" clearable style="margin-left: 18px;width: 200px" @focus="handlechooseStock2"/>
+              <my-emp2 :control.sync="stockControl2" @stockName2="stockName2"/>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.fllb')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" clearable @keyup.enter.native="handleFilter">
-                <el-option label="销售来源" value="1"/>
-                <!-- <el-option label="订单类型" value="2"/> -->
-                <!-- <el-option label="结算方式" value="3"/> -->
-                <el-option label="开票类型" value="4"/>
-                <el-option label="机会类型" value="5"/>
-                <el-option label="机会来源" value="6"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.qyzt')">
-              <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
-                <el-option label="on duty" value="1"/>
-                <el-option label="closed" value="2"/>
+            <el-form-item :label="$t('MemorandumList.stat')">
+              <el-select v-model="getemplist.stat" :value="getemplist.iseffective" clearable @keyup.enter.native="handleFilter">
+                <el-option label="未提醒" value="1"/>
+                <el-option label="已提醒" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -46,13 +35,9 @@
           <el-dropdown-item v-permission="['1-366-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- 表格导出操作 -->
-      <el-button v-permission="['1-366-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
-      <!-- 打印操作 -->
-      <el-button v-permission="['1-366-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['1-366-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center>
+      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.create')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('MemorandumList.time')" label-width="100px" prop="actionTime">
             <el-date-picker
@@ -127,26 +112,21 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgflsx')" class="normal" width="600px" center>
+      <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xg')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
-            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
-              <el-option label="销售来源" value="1"/>
-              <!-- <el-option label="订单类型" value="2"/> -->
-              <!-- <el-option label="结算方式" value="3"/> -->
-              <el-option label="开票类型" value="4"/>
-              <el-option label="机会类型" value="5"/>
-              <el-option label="机会来源" value="6"/>
-            </el-select>
+          <el-form-item :label="$t('MemorandumList.time')" label-width="100px" prop="actionTime">
+            <el-date-picker
+              v-model="editCategoryForm.actionTime"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              clearable
+              style="width: 100%"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
-            <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
+          <el-form-item :label="$t('MemorandumList.content')" label-width="100px" prop="content">
+            <el-input v-model="editCategoryForm.content" autocomplete="off"/>
           </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
-              <el-option :label="$t('updates.qy')" value="1"/>
-              <el-option :label="$t('updates.ty')" value="2"/>
-            </el-select>
+          <el-form-item :label="$t('MemorandumList.per')" label-width="100px" prop="employeeId">
+            <el-input v-model="employeeId" disabled style="margin-left: 18px;width: 200px"/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -168,12 +148,13 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
+import MyEmp2 from './components/MyEmp2'
 
 var _that
 export default {
   name: 'MemorandumList',
   directives: { waves, permission, permission2 },
-  components: { MyEmp, Pagination },
+  components: { MyEmp2, MyEmp, Pagination },
   filters: {
     typeFilter(status) {
       const statusMap = {
@@ -204,6 +185,8 @@ export default {
       }
     }
     return {
+      employeeId2: '',
+      stockControl2: false,
       employeeId: '',
       // 批量删除参数
       moreaction: [],
@@ -277,9 +260,20 @@ export default {
   },
   methods: {
     // 销售员回显
+    stockName2(val) {
+      console.log('stockName2', val)
+      this.employeeId2 = val.personName
+      this.getemplist.employeeId = val.id
+    },
+    // 销售员回显
     stockName(val) {
+      console.log('stockName', val)
       this.employeeId = val.personName
       this.addCategoryForm.employeeId = val.id
+    },
+    // 销售人员focus事件
+    handlechooseStock2() {
+      this.stockControl2 = true
     },
     // 销售人员focus事件
     handlechooseStock() {
@@ -411,8 +405,9 @@ export default {
       console.log(row)
       this.editcategoryVisible = true
       this.editCategoryForm = Object.assign({}, row)
-      this.editCategoryForm.type = String(row.type)
-      this.editCategoryForm.isEffective = String(row.isEffective)
+      this.editCategoryForm.memoryId = row.id
+      this.editCategoryForm.employeeId = row.employeeId
+      this.employeeId = row.employeeName
     },
     // 取消修改
     handleNo() {
@@ -422,6 +417,7 @@ export default {
     handleOk() {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
+          console.log('this.editCategoryForm', this.editCategoryForm)
           updateMemory(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
@@ -450,6 +446,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
+      this.employeeId = ''
       this.categoryVisible = true
     },
     // 取消操作
@@ -481,6 +478,7 @@ export default {
               this.$refs.addCategoryForm.resetFields()
               this.restAddCategoryForm()
               this.categoryVisible = false
+              this.employeeId = ''
             } else {
               this.$notify.error({
                 title: '错误',

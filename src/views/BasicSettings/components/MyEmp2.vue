@@ -223,7 +223,7 @@ export default {
     control() {
       this.employeeVisible = this.control
       console.log(this.control)
-      this.gitemplist()
+      // this.gitemplist()
       setTimeout(() => {
         this.$refs.multipleTable.clearSelection()
       }, 0)
@@ -401,8 +401,14 @@ export default {
       this.getemplistregions = []
     },
     handleSelectionChange(rows) {
-      console.log(rows)
-      this.moreaction = rows
+      console.log('myrows==========>', rows)
+      const obj = {}
+      const processaction = rows.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      this.moreaction = processaction
+      console.log('this.moreaction===>', this.moreaction)
       this.select_order_number = this.moreaction.length
       this.select_orderId = []
       if (rows) {
@@ -439,10 +445,10 @@ export default {
       const ids = processaction.map(item => item.id).join()
       const names = processaction.map(item => item.personName).join()
       console.log(ids, names)
+      this.$store.dispatch('getmyflagApproval', cancelid)
       this.$emit('personName', names)
       this.$emit('personIds', ids)
       this.$emit('cancelId', cancelid)
-      this.$store.dispatch('getmyflagApproval', cancelid)
     }
   }
 }

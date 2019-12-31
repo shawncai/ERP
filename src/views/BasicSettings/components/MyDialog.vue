@@ -160,7 +160,7 @@ export default {
         children: 'regionListVos'
       },
       // 处理过删除的数据
-      processval: [],
+      // processval: [],
       // 个人信息规则数据
       personalrules: {
         processName: [
@@ -197,20 +197,22 @@ export default {
       console.log('执行2222222===================================》', this.checklist)
       for (let i = 0; i < this.checklist.length; i++) {
         for (let j = 0; j < val.length; j++) {
-          if (this.checklist[i].id === val[j]) {
+          if (Number(this.checklist[i].id) === Number(val[j])) {
+            console.log('删除了数据')
             this.checklist.splice(i, 1)
           }
         }
       }
-      this.processval = this.checklist
+      // this.processval = this.checklist
+      console.log('处理过的数据', this.processval)
     },
     // 驾驶员列表返回数据
     personName(val) {
-      console.log(this.$store.getters.myflagApproval)
+      console.log('store=========================>', this.$store.getters.myflagApproval)
       const myval = this.$store.getters.myflagApproval
       for (let i = 0; i < this.checklist.length; i++) {
         for (let j = 0; j < myval.length; j++) {
-          if (this.checklist[i].id === myval[j]) {
+          if (Number(this.checklist[i].id) === Number(myval[j])) {
             this.checklist.splice(i, 1)
           }
         }
@@ -218,8 +220,20 @@ export default {
       const processval = this.checklist
       console.log('人员名称', val)
       console.log('原来的人员', processval)
-      for (let i = 0; i < processval.length; i++) {
-        val = val + ',' + processval[i].personName
+      if (processval.length === 1) {
+        if (val === '') {
+          val = processval[0].personName
+        } else {
+          val = val + ',' + processval[0].personName
+        }
+      } else {
+        for (let i = 0; i < processval.length; i++) {
+          if (val === '') {
+            val = processval[i].personName + ',' + val
+          } else {
+            val = val + ',' + processval[i].personName
+          }
+        }
       }
       val.split(',')
       const myarr = Array.from(new Set(val.split(','))).join(',')
@@ -232,16 +246,29 @@ export default {
       const myval = this.$store.getters.myflagApproval
       for (let i = 0; i < this.checklist.length; i++) {
         for (let j = 0; j < myval.length; j++) {
-          if (this.checklist[i].id === myval[j]) {
+          if (Number(this.checklist[i].id) === Number(myval[j])) {
             this.checklist.splice(i, 1)
           }
         }
       }
       const processval = this.checklist
-      for (let i = 0; i < processval.length; i++) {
+      if (processval.length === 1) {
+        if (val === '') {
+          val = processval[0].id
+        } else {
+          val = val + ',' + processval[0].id
+        }
+      } else {
+        for (let i = 0; i < processval.length; i++) {
+          if (val === '') {
+            val = processval[i].id + ',' + val
+          } else {
+            val = val + ',' + processval[i].id
+          }
         // const element = array[i];
-        val = val + ',' + processval[i].id
+        }
       }
+      val.split(',')
       const myarr = Array.from(new Set(val.split(','))).join(',')
       this.kongscope.row.stepHandler = ',' + myarr + ','
       console.log('this.kongscope.row.stepHandler', this.kongscope.row.stepHandler)

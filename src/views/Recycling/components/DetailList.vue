@@ -18,26 +18,26 @@
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                  <span>{{ personalForm.productCode }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                  <span>{{ personalForm.productTypeName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                  <span>{{ personalForm.color }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                  <span>{{ personalForm.productCategoryName }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.productCode }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.productTypeName }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.color')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.color }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.productCategoryName }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('Recycling.recyclingMoney')" style="width: 100%;">
                   <span>{{ personalForm.recyclingMoney }}</span>
@@ -58,16 +58,16 @@
                   <span>{{ personalForm.recyclingRepositoryName }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                  <span>{{ personalForm.locationId }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                  <span>{{ personalForm.batch }}</span>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.locationId }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="12">-->
+              <!--                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">-->
+              <!--                  <span>{{ personalForm.batch }}</span>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="12">
                 <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
                   <span>{{ personalForm.remark }}</span>
@@ -75,6 +75,34 @@
               </el-col>
             </el-row>
           </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ddmx') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: false, showStatus: false}"
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" />
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
+            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
+          </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
@@ -267,7 +295,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.incomeDetails
+      this.list2 = this.personalForm.recyclingDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

@@ -389,7 +389,9 @@ export default {
     VerificationList: '核销单列表',
     Memorandum: '备忘录',
     AddMemorandum: '新建备忘录',
-    MemorandumList: '备忘录列表'
+    MemorandumList: '备忘录列表',
+    collectAndPay: '收付款汇总',
+    collectAndPayDetail: '收付款明细'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3875,5 +3877,24 @@ export default {
     per: '提醒人',
     stat: '状态',
     createTime: '创建时间'
+  },
+  collectAndPay: {
+    time: '时间',
+    saleOut: '销售出库',
+    stockRetreat: '销售退货',
+    collectMoney: '收款',
+    income: '收入',
+    repaireOut: '维修出库',
+    advanceCollect: '预收',
+    totalCollect: '收款合计',
+    saleReturn: '销售出库',
+    payment: '付款单',
+    outlay: '出库',
+    totalPay: '总支出',
+    balance: '余额',
+    payModeName: '支付方式'
+  },
+  collectAndPayDetail: {
+    name: '名称'
   }
 }

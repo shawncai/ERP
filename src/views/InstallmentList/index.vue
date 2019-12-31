@@ -105,6 +105,11 @@
               <span>{{ scope.row.orderNumber }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('updates.repository')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.repositoryName }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.customerName }}</span>
