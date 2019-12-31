@@ -12,6 +12,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" disabled @change="clearnumber">
+                  <el-option value="1" label="销售出库单"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('ReturnExchange.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" disabled @focus="opensaleout" />
+              </el-form-item>
+              <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Collection.customerId')" prop="customerName" style="width: 100%;">
                 <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
               </el-form-item>
@@ -58,11 +71,59 @@
       </div>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150px"/>
+          <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/> -->
+          <!-- <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/> -->
+          <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
+          <el-editable-column :label="$t('updates.ckj')" prop="taxPrice" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
+          <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" min-width="150px"/> -->
+          <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cklv')" prop="discount" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
+      </div>
+      <my-detail :control.sync="control" @product="productdetail"/>
+      <div class="container">
+        <el-editable
+          ref="editable2"
+          :data.sync="list3"
           :edit-config="{ showIcon: true, showStatus: true}"
           class="click-table1"
           stripe
@@ -85,14 +146,14 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.shul')" prop="quantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-          <!--          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
+          <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
@@ -114,40 +175,6 @@
         </el-editable>
       </div>
     </el-card>
-    <!--    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 40px" shadow="never">-->
-    <!--      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.qsmx') }}</h2>-->
-    <!--      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">-->
-    <!--        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
-    <!--        <my-detail :control.sync="control" @product="productdetail"/>-->
-    <!--        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>-->
-    <!--      </div>-->
-    <!--      <div class="container">-->
-    <!--        <el-editable-->
-    <!--          ref="editable2"-->
-    <!--          :data.sync="list3"-->
-    <!--          :edit-config="{ showIcon: true, showStatus: true}"-->
-    <!--          class="click-table1"-->
-    <!--          stripe-->
-    <!--          border-->
-    <!--          size="medium"-->
-    <!--          style="width: 100%">-->
-    <!--          <el-editable-column type="selection" min-width="55" align="center"/>-->
-    <!--          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
-    <!--          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>-->
-    <!--          <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>-->
-    <!--        </el-editable>-->
-    <!--      </div>-->
-    <!--    </el-card>-->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -165,9 +192,12 @@ import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
 import MyRepository from './MyRepository'
+import MySaleout from './MySaleout'
+import MyPackage from './MyPackage'
+
 var _that
 export default {
-  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage },
   props: {
     editcontrol: {
       type: Boolean,
@@ -222,6 +252,8 @@ export default {
       // 编辑表格数据
       list2: [],
       list3: [],
+      saleoutcontrol: false,
+      packagecontrol: false,
       // 商品信息
       productForm: {},
       // 销售订单规则数据
@@ -246,8 +278,8 @@ export default {
       this.personalForm = this.editdata
       this.retreatRepositoryId = this.personalForm.repositoryName
       this.receivePersonId = this.personalForm.receivePersonName
-      this.list2 = this.personalForm.recoverVehicleDetailVos
-      this.list3 = this.personalForm.recoverVehicleLostVos
+      this.list2 = this.personalForm.recoverVehicleSourceOutVos
+      this.list3 = this.personalForm.recoverVehicleDetailVos
       this.getlocation()
     }
   },
@@ -257,6 +289,48 @@ export default {
     _that = this
   },
   methods: {
+    packagedata(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    handleAddpackage() {
+      // if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+      //   this.$notify.error({
+      //     title: '错误',
+      //     message: '请先选择仓库',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      this.packagecontrol = true
+    },
+    saleOutdata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+      this.personalForm.sourceMoney = val.allTaxMoney
+      this.personalForm.customerType = String(val.customerType)
+      this.Issource = true
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerName = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.address = val.address
+      this.personalForm.diffMoney = val.actualMoney
+      this.personalForm.sourceMoney = val.actualMoney
+      this.repositoryId = val.saleRepositoryName
+      this.personalForm.repositoryId = val.saleRepositoryId
+    },
+    saleOutDetail(val) {
+      this.list2 = val
+    },
+    // 选择源单编号
+    opensaleout() {
+      this.saleoutcontrol = true
+    },
+    clearnumber() {
+      this.personalForm.sourceNumber = ''
+      this.deliverPersonId = ''
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
@@ -402,7 +476,7 @@ export default {
         //     return false
         //   }
         // }
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable2.insert(val[i])
       }
     },
     // 收车人focus事件
@@ -532,50 +606,50 @@ export default {
         })
         return false
       }
-      // const EnterDetail2 = this.$refs.editable2.getRecords()
-      // EnterDetail.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-      //     delete elem.productCode
-      //   }
-      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-      //     delete elem.productName
-      //   }
-      //   if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-      //     delete elem.categoryId
-      //   }
-      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-      //     delete elem.typeId
-      //   }
-      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-      //     delete elem.unit
-      //   }
-      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
-      //     delete elem.color
-      //   }
-      //   if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-      //     delete elem.kpiGrade
-      //   }
-      //   if (elem.point === null || elem.point === '' || elem.point === undefined) {
-      //     delete elem.point
-      //   }
-      //   if (elem.price === null || elem.price === '' || elem.price === undefined) {
-      //     delete elem.price
-      //   }
-      //   if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-      //     delete elem.carCode
-      //   }
-      //   if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-      //     delete elem.batteryCode
-      //   }
-      //   if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-      //     delete elem.motorCode
-      //   }
-      //   return elem
-      // })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
       const parms2 = JSON.stringify(EnterDetail)
-      // const parms3 = JSON.stringify(EnterDetail2)
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -585,7 +659,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          updaterecoverVehicle(parms, parms2, null).then(res => {
+          updaterecoverVehicle(parms, parms3, parms2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
