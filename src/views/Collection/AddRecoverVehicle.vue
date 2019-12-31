@@ -13,6 +13,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="width: 100%;">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="clearnumber">
+                    <el-option value="1" label="销售出库单"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('ReturnExchange.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="opensaleout"/>
+                </el-form-item>
+                <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Collection.customerId')" prop="customerName" style="width: 100%;">
                   <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
                 </el-form-item>
@@ -60,16 +73,18 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.clxx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
         </div>
         <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
           <el-editable
-            ref="editable"
-            :data.sync="list2"
+            ref="editable2"
+            :data.sync="list3"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             stripe
@@ -124,16 +139,15 @@
       <!-- 出库明细 -->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckmx') }}</h2>
-        <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
             class="click-table1"
             stripe
             border
@@ -141,109 +155,30 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="item in locationlist"
-                    :key="item.id"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-            <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
-                <span v-else>{{ scope.row.carCode }}</span>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-                <span v-else>{{ scope.row.motorCode }}</span>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
-                <span v-else>{{ scope.row.batteryCode }}</span>
-              </template>
-            </el-editable-column>
-          </el-editable>
-        </div>
-      </el-card>
-      <!-- 收回明细 -->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.shmx') }}</h2>
-        <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-        </div>
-        <my-detail :control.sync="control" @product="productdetail"/>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            class="click-table1"
-            stripe
-            border
-            size="medium"
-            style="width: 100%">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
-              <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
-                  <el-option
-                    v-for="item in locationlist"
-                    :key="item.id"
-                    :value="item.id"
-                    :label="item.locationCode"/>
-                </el-select>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
-            <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
-                <span v-else>{{ scope.row.carCode }}</span>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-                <span v-else>{{ scope.row.motorCode }}</span>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
-                <span v-else>{{ scope.row.batteryCode }}</span>
-              </template>
-            </el-editable-column>
+            <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150px"/>
+            <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/> -->
+            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px"/> -->
+            <el-editable-column :label="$t('updates.ckj')" prop="taxPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
+            <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" min-width="150px"/> -->
+            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.cklv')" prop="discount" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -300,10 +235,12 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
+import MySaleout from './components/MySaleout'
+import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'AddRecoverVehicle',
-  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.receivePersonId === undefined || this.receivePersonId === null || this.receivePersonId === '') {
@@ -320,6 +257,9 @@ export default {
       }
     }
     return {
+      packagecontrol: false,
+      // 控制销售出库单
+      saleoutcontrol: false,
       // 收车仓库回显
       retreatRepositoryId: '',
       // 收车仓库选择控制期
@@ -342,13 +282,16 @@ export default {
       locationlist: [],
       list2: [],
       list3: [],
+      validRules: {
+      },
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        receiveDate: null
+        receiveDate: null,
+        sourceType: '1'
       },
       // 商品信息
       productForm: {},
@@ -377,6 +320,48 @@ export default {
     _that = this
   },
   methods: {
+    handleAddpackage() {
+      if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      this.packagecontrol = true
+    },
+    clearnumber() {
+      this.personalForm.sourceNumber = ''
+      this.deliverPersonId = ''
+    },
+    packagedata(val) {
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
+    },
+    saleOutdata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+      this.personalForm.sourceMoney = val.allTaxMoney
+      this.personalForm.customerType = String(val.customerType)
+      this.Issource = true
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerName = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.address = val.address
+      this.personalForm.diffMoney = val.actualMoney
+      this.personalForm.sourceMoney = val.actualMoney
+      this.repositoryId = val.saleRepositoryName
+      this.personalForm.repositoryId = val.saleRepositoryId
+    },
+    saleOutDetail(val) {
+      this.list2 = val
+    },
+    // 选择源单编号
+    opensaleout() {
+      this.saleoutcontrol = true
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
@@ -521,7 +506,7 @@ export default {
         //     return false
         //   }
         // }
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable2.insert(val[i])
       }
     },
     // 收车人focus事件
@@ -657,50 +642,50 @@ export default {
         })
         return false
       }
-      // const EnterDetail2 = this.$refs.editable2.getRecords()
-      // EnterDetail.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-      //     delete elem.productCode
-      //   }
-      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-      //     delete elem.productName
-      //   }
-      //   if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-      //     delete elem.categoryId
-      //   }
-      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-      //     delete elem.typeId
-      //   }
-      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-      //     delete elem.unit
-      //   }
-      //   if (elem.color === null || elem.color === '' || elem.color === undefined) {
-      //     delete elem.color
-      //   }
-      //   if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-      //     delete elem.kpiGrade
-      //   }
-      //   if (elem.point === null || elem.point === '' || elem.point === undefined) {
-      //     delete elem.point
-      //   }
-      //   if (elem.price === null || elem.price === '' || elem.price === undefined) {
-      //     delete elem.price
-      //   }
-      //   if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-      //     delete elem.carCode
-      //   }
-      //   if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-      //     delete elem.batteryCode
-      //   }
-      //   if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-      //     delete elem.motorCode
-      //   }
-      //   return elem
-      // })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
       const parms2 = JSON.stringify(EnterDetail)
-      // const parms3 = JSON.stringify(EnterDetail2)
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -710,7 +695,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createrecoverVehicle(parms, parms2, null, this.personalForm).then(res => {
+          createrecoverVehicle(parms, parms2, parms3, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

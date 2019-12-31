@@ -108,7 +108,8 @@ export function createrecoverVehicle(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
-  params.append('lostDetailJson', query3) // 你要传给后台的参数值 key/value
+  params.append('recoverVehicleSourceOutJson', query3) // 你要传给后台的参数值 key/value
+  // params.append('lostDetailJson', query3) // 你要传给后台的参数值 key/value
   if (query4.repositoryId !== '' && query4.repositoryId !== null && query4.repositoryId !== undefined) {
     params.append('repositoryId', query4.repositoryId) // 你要传给后台的参数值 key/value
   }
