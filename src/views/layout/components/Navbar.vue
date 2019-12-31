@@ -11,10 +11,10 @@
         <template slot="title">
           <svg-icon icon-class="menus" style="margin-left: 4px" />
         </template>
-        <el-menu-item index="9">{{ $t('updates.wlgl') }}</el-menu-item>
-        <el-menu-item index="11">{{ $t('updates.cwgl') }}</el-menu-item>
-        <el-menu-item index="12">{{ $t('updates.bbgl') }}</el-menu-item>
-        <el-menu-item index="13">{{ $t('updates.rzgl') }}</el-menu-item>
+        <el-menu-item v-if="iswuliu" index="9">{{ $t('updates.wlgl') }}</el-menu-item>
+        <el-menu-item v-if="iscaiwuroles" index="11">{{ $t('updates.cwgl') }}</el-menu-item>
+        <el-menu-item v-if="istongji" index="12">{{ $t('updates.bbgl') }}</el-menu-item>
+        <el-menu-item v-if="isbaobiao" index="13">{{ $t('updates.rzgl') }}</el-menu-item>
         <el-menu-item v-if="show < 1" index="1">{{ $t('updates.sy') }}</el-menu-item>
         <el-menu-item v-if="show < 2 && isxitong" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
         <el-menu-item v-if="show < 3 && iscaigou" index="2">{{ $t('updates.cggl') }}</el-menu-item>
@@ -127,7 +127,11 @@ export default {
       isyingxiao: false,
       isfenqi: false,
       isshengchang: false,
-      iszhijian: false
+      iszhijian: false,
+      iswuliu: false,
+      iscaiwuroles: false,
+      istongji: false,
+      isbaobiao: false
     };
   },
   computed: {
@@ -229,6 +233,34 @@ export default {
              '171-190-191-4', '171-190-192-1', '171-190-193-4', '171-190-194-1', '171-190-195-4', '171-190-196-1',
              '171-190-197-4', '171-190-198-1','171-190-199-4']
              const zhijian = ['227-228-1', '227-229-4', '227-230-1', '227-231-4', '227-232-1', '227-233-4', '227-234-1', '227-234-4']
+             const wuliu = ['1-247-248-1', '1-247-249-4', '235-236-1', '235-237-4', '235-238-4']
+             const caiwuroles =['266-257-4', '266-256-1', '266-259-4', '266-258-1', '266-127-1', '266-128-6', '266-128-4', '266-128-7', '266-128-67',
+              '266-128-5', '266-222-4', '266-221-1', '266-126-4', '266-127-1', '266-268-1', '104-128-6', '104-128-4', '104-128-7', '104-128-67',
+               '104-128-5', '266-267-4', '54-90-4', '54-91-1', '266-92-4', '266-93-1', '266-94-4', '266-95-1', '266-98-4', '266-99-1', '266-371-4', '266-372-4' ]
+               const tongjiroles =['311-312-318-4', '311-312-319-4', '311-312-320-4', '311-312-321-4', '311-312-322-4', '311-312-323-4',
+               '311-313-324-4', '311-313-325-4', '311-313-326-4', '311-313-327-4', '311-314-328-4', '311-314-329-4', '311-315-330-4', '311-315-331-4', '311-315-332-4',
+               '311-316-333-4', '311-316-334-4', '311-316-335-4', '311-316-336-4','311-317-337-4', '311-317-338-4', '311-317-339-4', '311-317-340-4', '311-317-341-4', '311-317-342-4', '311-317-343-4', '311-317-344-4', '311-317-345-4']
+              if (myroles.includes('273-274-4')) {
+          this.isbaobiao = true
+        }
+              for(const i in tongjiroles) {
+        if (myroles.includes(tongjiroles[i])) {
+          this.istongji = true
+          break
+        }
+      }
+               for(const i in caiwuroles) {
+        if (myroles.includes(caiwuroles[i])) {
+          this.iscaiwuroles = true
+          break
+        }
+      }
+             for(const i in wuliu) {
+        if (myroles.includes(wuliu[i])) {
+          this.iswuliu = true
+          break
+        }
+      }
              for(const i in zhijian) {
         if (myroles.includes(zhijian[i])) {
           this.iszhijian = true

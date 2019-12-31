@@ -177,7 +177,7 @@
             <el-editable-column v-if="false" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
-            <el-editable-column v-if="false" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
+            <!--            <el-editable-column v-if="false" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.thje')" prop="money" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.zk')" prop="discount" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
@@ -645,7 +645,7 @@ export default {
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -920,6 +920,7 @@ export default {
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
+            console.log(' elem.returnQuantity', elem.returnQuantity)
             if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0' || elem.returnQuantity > elem.sendQuantity) {
               i = 2
             }
