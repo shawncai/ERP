@@ -652,7 +652,14 @@ export default {
       const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
+        // console.log(Data[key], key)
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+        if (key === 'recoverVehicleDetailVos') {
+          delete Data[key]
+        }
+        if (key === 'recoverVehicleDetailVos' || key === 'approvalUseVos' || key === 'detailJson') {
           delete Data[key]
         }
       }
