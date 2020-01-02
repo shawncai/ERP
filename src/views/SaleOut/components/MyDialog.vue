@@ -396,14 +396,12 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
-                :controls="true"
-                :min="1.00"
+                :controls="false"
                 :value="scope.row.quantity"
-                @change="queryStock(scope.row)"
               />
             </template>
           </el-editable-column>
@@ -846,6 +844,7 @@ export default {
     packagedata(val) {
       console.log('val1222222', val)
       for (let i = 0; i < val.length; i++) {
+        val[i].quantity = 1
         this.$refs.editable2.insert(val[i])
       }
     },
