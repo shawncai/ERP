@@ -3881,15 +3881,15 @@ export default {
   collectAndPay: {
     time: '时间',
     saleOut: '销售出库',
-    stockRetreat: '销售退货',
+    stockRetreat: '采购退货',
     collectMoney: '收款',
     income: '收入',
     repaireOut: '维修出库',
     advanceCollect: '预收',
     totalCollect: '收款合计',
-    saleReturn: '销售出库',
+    saleReturn: '销售退货',
     payment: '付款单',
-    outlay: '出库',
+    outlay: '支出单',
     totalPay: '总支出',
     balance: '余额',
     payModeName: '结算方式'

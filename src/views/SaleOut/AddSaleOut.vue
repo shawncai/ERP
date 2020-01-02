@@ -77,8 +77,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="零售" />
-                    <el-option value="2" label="批发" />
+                    <el-option value="1" label="现金" />
+                    <el-option value="2" label="分期" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -435,7 +435,6 @@
                   :controls="true"
                   :min="1.00"
                   :value="scope.row.quantity"
-                  @change="queryStock(scope.row)"
                 />
               </template>
             </el-editable-column>
@@ -1818,19 +1817,14 @@ export default {
       // const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        // for (let j = 0; j < nowlistdata.length; j++) {
-        //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-        //     this.$notify.error({
-        //       title: '错误',
-        //       message: '物品已添加',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // }
         val[i].typeId = val[i].typeName
         console.log('val[i]', val[i])
-        this.$refs.editable.insert(val[i])
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '01') {
+          this.$refs.editable.insert(val[i])
+        } else {
+          this.$refs.editable2.insert(val[i])
+        }
       }
     },
     salecontract(val) {

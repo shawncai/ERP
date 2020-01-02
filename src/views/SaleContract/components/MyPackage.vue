@@ -1,15 +1,15 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :packagecontrol="packagecontrol" :close-on-press-escape="false" top="10px" title="选择赠品套餐" append-to-body @close="$emit('update:packagecontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable @focus="treechoose" @clear="restFilter"/>
-      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/> -->
       <!-- 更多搜索条件下拉栏 -->
-      <el-popover
+      <!-- <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
@@ -30,11 +30,11 @@
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
+      </el-popover> -->
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <!-- <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button> -->
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!-- <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </div>
     <!-- 列表开始 -->
     <el-table
@@ -45,64 +45,30 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"/>
-      <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
+      @current-change="handleSelectionChange">
+      <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" width="100">
+      <el-table-column :label="$t('Package.packageName')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.productName }}</span>
+          <span>{{ scope.row.packageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" width="100">
+      <el-table-column :label="$t('Package.isEffective')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.category }}</span>
+          <span>{{ scope.row.isEffective | isEffectiveFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" width="100">
+      <el-table-column :label="$t('Package.createPersonName')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.productType }}</span>
+          <span>{{ scope.row.createPersonName }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center" width="100">
+      <el-table-column :label="$t('Package.createDate')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.color }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.kpiGrade }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.point }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.costPrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.purchasePrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.createTime')" :resizable="false" prop="createTime" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createTime }}</span>
+          <span>{{ scope.row.createDate }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -115,33 +81,37 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { packageList, deletePackage } from '@/api/Package'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MySupplier from '../../Product/components/MySupplier'
-import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
-  components: { MyTree, MySupplier, Pagination },
+  components: { Pagination },
   filters: {
-    genderFilter(status) {
+    isEffectiveFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: '应用',
+        2: '禁用'
       }
       return statusMap[status]
     }
   },
   props: {
-    control: {
+    packagecontrol: {
       type: Boolean,
       default: false
+    },
+    productnumber: {
+      type: String,
+      default: null
     }
   },
   data() {
     return {
+      // 主商品数据
+      query: this.productnumber,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -153,7 +123,7 @@ export default {
       // 物品分类回显
       categoryid: '',
       // 物品选择框控制
-      productVisible: this.control,
+      productVisible: this.packagecontrol,
       // 更多搜索条件问题
       visible2: false,
       // 批量操作
@@ -168,36 +138,32 @@ export default {
       listLoading: true,
       // 物品列表查询加展示参数
       getemplist: {
-        productid: '',
-        code: '',
-        productname: '',
-        categoryid: '',
-        typeid: '',
-        isactive: '',
-        Productid: '',
-        pagenum: 1,
-        pagesize: 10
+        productCode: '',
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
   watch: {
-    control() {
-      this.productVisible = this.control
-      console.log(this.control)
+    packagecontrol() {
+      this.productVisible = this.packagecontrol
+      console.log(this.packagecontrol)
+    },
+    productnumber() {
+      this.query = this.productnumber
       this.getlist()
     }
-  },
-  created() {
-    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
     getlist() {
+      console.log('this.query', this.query)
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.productCode = this.query
+      packageList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -205,12 +171,6 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)
-      })
-      // 规格型号数据
-      searchEmpCategory2(2).then(res => {
-        if (res.data.ret === 200) {
-          this.types = res.data.data.content.list
-        }
       })
     },
     restFilter() {
@@ -224,7 +184,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      packageList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -234,8 +194,9 @@ export default {
         }
       })
     },
-    // 批量操作
+    // 单选操作
     handleSelectionChange(val) {
+      console.log('val12222', val)
       this.moreaction = val
     },
     // 供应商输入框focus事件触发
@@ -265,31 +226,23 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      const productDetail = this.moreaction.map(function(item) {
+      const productDetail = this.moreaction.packageSubVos.map(function(item) {
         return {
-          productCode: item.code,
+          productCode: item.productCode,
           productName: item.productName,
+          categoryName: '',
+          category: '',
           productType: item.typeId,
           typeName: item.productType,
-          type: item.typeId,
-          unit: item.saleMeasu,
-          color: item.color,
-          plannedQuantity: 0,
-          planDeliveryDate: '',
-          applicationReason: '',
-          sourceNumber: '',
-          sourceSerialNumber: '',
-          price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
-          remark: 0,
-          orderedQuantity: 0,
-          categoryName: item.category,
-          discount: 100
+          color: '',
+          unit: item.unit,
+          salePrice: '0.00',
+          money: '0.00',
+          quantity: 0
         }
       })
-      console.log(productDetail)
-      this.$emit('product', productDetail)
+      this.$emit('packagedata', productDetail)
+      this.$emit('salePrice', this.moreaction.salePrice)
     }
   }
 }

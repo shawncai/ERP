@@ -51,8 +51,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="零售" />
-                    <el-option value="2" label="批发" />
+                    <el-option value="1" label="现金" />
+                    <el-option value="2" label="分期" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -282,6 +282,8 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
+          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
         <div class="container">
@@ -378,9 +380,24 @@
                   @change="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
+                <span v-else>{{ scope.row.carCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <span v-else>{{ scope.row.motorCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -441,11 +458,12 @@ import MyOpportunity from './components/MyOpportunity'
 import MyInstallmentapply from './components/MyInstallmentapply'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
+import MyPackage from './components/MyPackage'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddSaleContract',
-  components: { MyAgent, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyAgent, MyPackage, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
@@ -506,6 +524,8 @@ export default {
       picidsData: {
         type: 25
       },
+      packagecontrol: false,
+      productnumber: '',
       actionurl: '',
       // 支付方式
       payModes: [],
@@ -673,6 +693,43 @@ export default {
     _that = this
   },
   methods: {
+    isEdit3(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
+    isEdit2(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01') { return true } else { return false }
+    },
+    salePrice(val) {
+      console.log('val1222222', val)
+      this.moreaction[0].salePrice = val
+    },
+    packagedata(val) {
+      console.log('val1222222', val)
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '请选择主商品',
+          message: '请选择主商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagecontrol = true
+      }
+    },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
     },

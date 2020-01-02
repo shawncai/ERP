@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :giftcontrol="giftcontrol" :close-on-press-escape="false" top="10px" title="选择赠品" append-to-body @close="$emit('update:giftcontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -41,12 +41,14 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -115,7 +117,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { productlist, searchEmpCategory2, chooseProduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -135,13 +137,24 @@ export default {
     }
   },
   props: {
-    control: {
+    giftcontrol: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
+      select_orderId: [],
+      select_order_number: [],
+      // 仓库数据
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -153,7 +166,7 @@ export default {
       // 物品分类回显
       categoryid: '',
       // 物品选择框控制
-      productVisible: this.control,
+      productVisible: this.giftcontrol,
       // 更多搜索条件问题
       visible2: false,
       // 批量操作
@@ -181,10 +194,13 @@ export default {
     }
   },
   watch: {
-    control() {
-      this.productVisible = this.control
-      console.log(this.control)
+    giftcontrol() {
+      this.productVisible = this.giftcontrol
+      console.log(this.giftcontrol)
       this.getlist()
+    },
+    personalform() {
+      this.query = this.personalform
     }
   },
   created() {
@@ -197,7 +213,8 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -224,7 +241,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -235,8 +252,17 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -270,26 +296,19 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          productType: item.typeId,
-          typeName: item.productType,
-          type: item.typeId,
-          unit: item.saleMeasu,
-          color: item.color,
-          plannedQuantity: 0,
-          planDeliveryDate: '',
-          applicationReason: '',
-          sourceNumber: '',
-          sourceSerialNumber: '',
-          price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
-          remark: 0,
-          orderedQuantity: 0,
           categoryName: item.category,
-          discount: 100
+          category: item.categoryId,
+          type: item.typeId,
+          typeName: item.productType,
+          color: item.color,
+          unit: item.purMeasu,
+          salePrice: (item.salePrice).toFixed(2),
+          money: '0.00',
+          quantity: 0
         }
       })
       console.log(productDetail)
-      this.$emit('product', productDetail)
+      this.$emit('gift', productDetail)
     }
   }
 }

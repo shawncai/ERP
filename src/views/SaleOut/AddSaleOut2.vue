@@ -82,8 +82,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="零售" />
-                    <el-option value="2" label="批发" />
+                    <el-option value="1" label="现金" />
+                    <el-option value="2" label="分期" />
                   </el-select>
                 </el-form-item>
               </el-col>
