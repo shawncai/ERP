@@ -147,11 +147,11 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hscbje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <!-- <el-editable-column :label="$t('updates.hscbje')" prop="includeTaxCostMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <!-- <el-editable-column prop="carCode" align="center" :label="$t('updates.cjbm')" min-width="170px"/> -->
             <!-- <el-editable-column prop="batteryCode" align="center" :label="$t('updates.dcbm')" min-width="170px"/> -->
             <!-- <el-editable-column prop="motorCode" align="center" :label="$t('updates.djbm')" min-width="170px"/> -->
