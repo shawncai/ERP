@@ -454,8 +454,8 @@ export default {
     },
     saleTypeFilter(status) {
       const statusMap = {
-        1: '类别1',
-        2: '类别2'
+        1: '现金',
+        2: '分期'
       }
       return statusMap[status]
     },

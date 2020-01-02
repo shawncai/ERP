@@ -68,6 +68,13 @@ export default {
   name: 'AddLocation',
   components: { MyCreate, MyRepository, MyDetail },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 控制仓库弹窗
       repositorycontrol: false,
@@ -94,7 +101,7 @@ export default {
           { required: true, message: '请输入货位高', trigger: 'blur' }
         ],
         repositoryId: [
-          { required: true, message: '请选择仓库', trigger: 'blue' }
+          { required: true, validator: validatePass, trigger: 'change' }
         ]
       }
     }

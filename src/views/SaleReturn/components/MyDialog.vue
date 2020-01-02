@@ -76,7 +76,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.saleRepositoryId')" style="width: 100%;">
-                <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -534,13 +534,26 @@ export default {
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
+        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
     },
     saleOutdata(val) {
       console.log(val)
       this.personalForm.sourceNumber = val.number
+      this.customerId = val.customerName
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.receiveAddress = val.address
+      this.personalForm.customerType = String(val.customerType)
+      this.personalForm.salePersonId = val.salePersonId
+      this.salePersonId = val.salePersonName
+      this.salePersonName = val.salePersonName
+      this.personalForm.saleRepositoryId = val.saleRepositoryId
+      this.saleRepositoryId = val.saleRepositoryName
+      console.log(this.list2)
     },
     updatebatch(event, scope) {
       if (event === true) {

@@ -61,7 +61,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <my-detail3 :control.sync="control" :personalform="personalForm" :checklist.sync="checklist" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -116,10 +116,10 @@ import { updateadjust } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
-import MyDetail from './MyDetail'
+import MyDetail3 from './MyDetail3'
 var _that
 export default {
-  components: { MyRepository, MyCreate, MyDetail },
+  components: { MyRepository, MyCreate, MyDetail3 },
   props: {
     editcontrol: {
       type: Boolean,
@@ -132,6 +132,7 @@ export default {
   },
   data() {
     return {
+      checklist: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 供应商信息数据
@@ -337,34 +338,43 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
-      if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined) {
+      if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined && this.personalForm.adjustRepositoryId !== 0) {
         this.control = true
+        this.checklist = this.$refs.editable.getRecords()
       } else {
         this.$notify.error({
           title: '错误',
           message: '请先选择仓库',
           offset: 100
         })
+        return false
       }
     },
     productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (String(this.checklist[i].productCode) === String(myval[j])) {
+            this.checklist.splice(i, 1)
           }
         }
-        this.$refs.editable.insert(val[i])
-        // this.$nextTick(() => this.$refs.editable.setActiveRow())
       }
-      // console.log(val)
-      // const row = this.$refs.editable.insert(val)
+      const processval = this.checklist
+      let finalval = []
+      finalval = processval.concat(val)
+      console.log('val', val)
+      const obj = {}
+      const processaction = finalval.reduce((cur, next) => {
+        obj[next.productId] ? '' : obj[next.productId] = true && cur.push(next)
+        return cur
+      }, [])
+      for (let i = 0; i < processaction.length; i++) {
+        processaction[i].quantity = 1
+        // this.$refs.editable.insert(finalval[i])
+      }
+      this.list2 = processaction
+      console.log('123', processaction)
+      const that = this
     },
     // 修改和取消按钮
     // 修改按钮

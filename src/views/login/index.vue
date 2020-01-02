@@ -83,7 +83,7 @@ export default {
       loginForm: {
         username: '',
         password: '',
-        country: '1'
+        country: '2'
       },
       passwordType: 'password',
       loading: false,

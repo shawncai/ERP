@@ -239,8 +239,8 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        judgeStat: 2,
-        receiptStat: 2,
+        judgeStat: '2',
+        receiptStat: '2',
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
         isActive: 1
@@ -381,9 +381,9 @@ export default {
           kpiGrade: '0.00',
           point: '0.00',
           quantity: item.quantity,
-          salePrice: (item.salePrice).toFixed(2),
-          costPrice: (item.costPrice).toFixed(2),
-          taxprice: (item.salePrice).toFixed(2),
+          salePrice: item.salePrice,
+          costPrice: item.costPrice,
+          taxprice: item.salePrice,
           // costMoney: (item.costMoney).toFixed(2),
           includeTaxMoney: (item.includeTaxMoney).toFixed(2),
           taxRate: item.taxRate,

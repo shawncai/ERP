@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgqckcd')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
-    <!--基本信息-->
+    <!--基本信息123123-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container">

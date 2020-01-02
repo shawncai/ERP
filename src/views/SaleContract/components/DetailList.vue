@@ -343,8 +343,8 @@ export default {
     },
     saleTypeFilter(status) {
       const statusMap = {
-        1: '零售',
-        2: '批发'
+        1: '现金',
+        2: '分期'
       }
       return statusMap[status]
     },

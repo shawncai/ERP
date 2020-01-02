@@ -270,7 +270,7 @@ export default {
         return {
           productCode: item.code,
           productName: item.productName,
-          productType: item.productType,
+          productType: item.typeId,
           typeName: item.productType,
           type: item.typeId,
           unit: item.saleMeasu,
