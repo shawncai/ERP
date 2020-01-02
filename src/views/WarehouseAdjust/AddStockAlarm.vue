@@ -42,7 +42,7 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('otherlanguage.spmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-product :control.sync="control" :repoid="repoId" @product="productdetail"/>
+          <my-detail3 :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -80,14 +80,14 @@ import '@/directive/noMoreClick/index.js'
 import { createstockalarm } from '@/api/WarehouseAdjust'
 import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
-import MyDetail from './components/MyDetail'
+import MyDetail3 from './components/MyDetail3'
 import MyCreate from './components/MyCreate'
 import MyProduct from './components/MyProduct'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddStockAlarm',
-  components: { MyProduct, MyRepository, MyDetail, MyCreate, MyAccept },
+  components: { MyProduct, MyRepository, MyDetail3, MyCreate, MyAccept },
   data() {
     return {
       repoId: '',
@@ -154,11 +154,14 @@ export default {
       }
       this.control = true
     },
-    productdetail(val) {
-      console.log(val)
-      this.list2 = val
-      // this.personalForm.productId = val.id
-      // this.productId = val.productName
+    async productdetail(val) {
+      console.log('val', val)
+      for (let i = 0; i < val.length; i++) {
+        val[i].quantity = 1
+        this.$refs.editable.insert(val[i])
+      }
+      console.log('123', 123)
+      const that = this
     },
     // 清空记录
     restAllForm() {

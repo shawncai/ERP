@@ -64,7 +64,7 @@
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
-        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <my-detail3 :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -152,11 +152,11 @@ import { addlocationadjust } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
-import MyDetail from './components/MyDetail'
+import MyDetail3 from './components/MyDetail3'
 var _that
 export default {
   name: 'AddLocationAdjust',
-  components: { MyCreate, MyRepository, MyDetail },
+  components: { MyCreate, MyRepository, MyDetail3 },
   data() {
     return {
       pickerOptions1: {
@@ -536,7 +536,7 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
-      if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined) {
+      if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined && this.personalForm.adjustRepositoryId !== 0) {
         this.control = true
       } else {
         this.$notify.error({
@@ -544,26 +544,17 @@ export default {
           message: '请先选择仓库',
           offset: 100
         })
+        return false
       }
     },
-    productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
+    async productdetail(val) {
+      console.log('val', val)
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: '错误',
-              message: '物品已添加',
-              offset: 100
-            })
-            return false
-          }
-        }
+        val[i].quantity = 1
         this.$refs.editable.insert(val[i])
-        // this.$nextTick(() => this.$refs.editable.setActiveRow())
       }
-      // console.log(val)
-      // const row = this.$refs.editable.insert(val)
+      console.log('123', 123)
+      const that = this
     },
     // 入库金额计算
     getSize(quan, pric) {

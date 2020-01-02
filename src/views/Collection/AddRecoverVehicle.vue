@@ -586,14 +586,56 @@ export default {
         })
         return false
       }
-      let i = 1
       EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
+          delete elem.categoryId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        return elem
+      })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      let i = 1
+      EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
           delete elem.quantity
           i = 2
-        } else if (elem.quantity === 0) {
+        } else if (elem.quantity === '0') {
           i = 2
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
@@ -642,48 +684,6 @@ export default {
         })
         return false
       }
-      const EnterDetail2 = this.$refs.editable2.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.categoryId === null || elem.categoryId === '' || elem.categoryId === undefined) {
-          delete elem.categoryId
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        return elem
-      })
       const parms2 = JSON.stringify(EnterDetail)
       const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm

@@ -54,12 +54,12 @@
         <el-table-column
           :label="$t('installmentAnalyze.yearAndMonth')"
           prop="yearAndMonth"
-          width="300"
+          width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.beginMoney')"
           prop="beginMoney"
-          width="300"
+          width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.saleAdd')"
@@ -73,8 +73,8 @@
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.change')"
-          prop="change"
-          width="300"
+          prop="changeCount"
+          width="200"
           align="center"/>
         <el-table-column :label="$t('installmentAnalyze.rewardPenalty')" align="center">
           <el-table-column
