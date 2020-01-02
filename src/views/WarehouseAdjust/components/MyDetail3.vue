@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
+      <!-- <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/> -->
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable @focus="treechoose" @clear="restFilter"/>
       <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
@@ -41,12 +41,14 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -90,11 +92,11 @@
           <span>{{ scope.row.costPrice }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
+      <!-- <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.purchasePrice }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.createName }}</span>
@@ -115,11 +117,12 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { searchEmpCategory2, chooseProduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
@@ -137,10 +140,21 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
+      select_orderId: [],
+      select_order_number: [],
+      // 仓库数据
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -176,27 +190,40 @@ export default {
         Productid: '',
         pagenum: 1,
         pagesize: 10
+      },
+      // 根据仓库查询仓库存量
+      queryemplist: {
+        pagenum: 1,
+        pagesize: 10,
+        repositoryId: 0
+      },
+      // 根据id查物品详情
+      detailList: {
+        pagenum: 1,
+        pagesize: 10
       }
     }
   },
   watch: {
     control() {
       this.productVisible = this.control
-      console.log(this.control)
+      // console.log(this.control)
       this.getlist()
+    },
+    personalform() {
+      this.query = this.personalform
     }
-  },
-  created() {
-    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
     getlist() {
+      this.list = []
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -205,6 +232,20 @@ export default {
           this.listLoading = false
         }, 0.5 * 100)
       })
+
+      // querycount(this.queryemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     const result = res.data.data.content.list
+      //     for (const i in result) {
+      //       this.detailList.code = result[i].code
+      //       productlist(this.detailList).then(res => {
+      //         this.list.push(res.data.data.content.list[0])
+      //         console.log(this.list)
+      //       })
+      //     }
+      //     this.listLoading = false
+      //   }
+      // })
       // 规格型号数据
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
@@ -223,8 +264,9 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log(res.data.data.content.list)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           // this.restFilter()
@@ -234,8 +276,17 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -265,28 +316,45 @@ export default {
     handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
+      for (const i in this.moreaction) {
+        if (this.moreaction[i].isBatch === 2) {
+          this.moreaction[i].batch = '不使用'
+        }
+      }
       const productDetail = this.moreaction.map(function(item) {
         return {
+          productId: item.id,
+          productType: item.productType,
           productCode: item.code,
           productName: item.productName,
-          categoryId: item.categoryId,
           category: item.categoryId,
           categoryName: item.category,
-          productType: item.typeId,
-          typeId: item.productType,
           type: item.typeId,
+          typeId: item.typeId,
           color: item.color,
           unit: item.purMeasu,
-          kpiGrade: item.kpiGrade,
-          point: item.point,
-          price: item.salePrice,
-          carCode: item.carCode,
-          batteryCode: item.batteryCode,
-          motorCode: item.motorCode,
-          quantity: 1
+          performanceScore: item.kpiGrade,
+          productScore: item.point,
+          quantity: 0,
+          salePrice: item.salePrice,
+          costPrice: item.costPrice,
+          costMoney: 0,
+          includeTaxMoney: 0,
+          taxRate: 0,
+          taxMoney: 0,
+          money: 0,
+          includeTaxCostMoney: '0.00',
+          discount: 0,
+          discountMoney: 0,
+          taxprice: '0.00',
+          alreadyApplicationQuantity: 0,
+          alreadyProduceQuantity: 0,
+          allQuantity: 0,
+          batch: item.batch,
+          discountRate: 0
         }
       })
-      console.log(productDetail)
+      // console.log(productDetail)
       this.$emit('product', productDetail)
     }
   }
