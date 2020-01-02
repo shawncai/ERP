@@ -61,7 +61,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
-      <my-detail3 :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <my-detail3 :control.sync="control" :personalform="personalForm" :checklist.sync="checklist" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -132,6 +132,7 @@ export default {
   },
   data() {
     return {
+      checklist: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 供应商信息数据
@@ -339,6 +340,7 @@ export default {
     handleAddproduct() {
       if (this.personalForm.adjustRepositoryId !== null && this.personalForm.adjustRepositoryId !== '' && this.personalForm.adjustRepositoryId !== undefined && this.personalForm.adjustRepositoryId !== 0) {
         this.control = true
+        this.checklist = this.$refs.editable.getRecords()
       } else {
         this.$notify.error({
           title: '错误',
@@ -349,12 +351,29 @@ export default {
       }
     },
     productdetail(val) {
-      console.log('val', val)
-      for (let i = 0; i < val.length; i++) {
-        val[i].quantity = 1
-        this.$refs.editable.insert(val[i])
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (String(this.checklist[i].productCode) === String(myval[j])) {
+            this.checklist.splice(i, 1)
+          }
+        }
       }
-      console.log('123', 123)
+      const processval = this.checklist
+      let finalval = []
+      finalval = processval.concat(val)
+      console.log('val', val)
+      const obj = {}
+      const processaction = finalval.reduce((cur, next) => {
+        obj[next.productId] ? '' : obj[next.productId] = true && cur.push(next)
+        return cur
+      }, [])
+      for (let i = 0; i < processaction.length; i++) {
+        processaction[i].quantity = 1
+        // this.$refs.editable.insert(finalval[i])
+      }
+      this.list2 = processaction
+      console.log('123', processaction)
       const that = this
     },
     // 修改和取消按钮

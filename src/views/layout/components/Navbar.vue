@@ -11,10 +11,10 @@
         <template slot="title">
           <svg-icon icon-class="menus" style="margin-left: 4px" />
         </template>
-        <el-menu-item v-if="iswuliu" index="9">{{ $t('updates.wlgl') }}</el-menu-item>
-        <el-menu-item v-if="iscaiwuroles" index="11">{{ $t('updates.cwgl') }}</el-menu-item>
-        <el-menu-item v-if="istongji" index="12">{{ $t('updates.bbgl') }}</el-menu-item>
-        <el-menu-item v-if="isbaobiao" index="13">{{ $t('updates.rzgl') }}</el-menu-item>
+        <el-menu-item v-if="mywlgl?(iswuliu && show < 9):iswuliu" index="9">{{ $t('updates.wlgl') }}</el-menu-item>
+        <el-menu-item v-if="mycwgl?(iscaiwuroles && show < 8):iscaiwuroles" index="11">{{ $t('updates.cwgl') }}</el-menu-item>
+        <el-menu-item v-if="mybbgl?(istongji && show < 7):istongji" index="12">{{ $t('updates.bbgl') }}</el-menu-item>
+        <el-menu-item v-if="myrzgl?(isbaobiao && show < 6):isbaobiao" index="13">{{ $t('updates.rzgl') }}</el-menu-item>
         <el-menu-item v-if="show < 1" index="1">{{ $t('updates.sy') }}</el-menu-item>
         <el-menu-item v-if="show < 2 && isxitong" index="10">{{ $t('updates.xtgl') }}</el-menu-item>
         <el-menu-item v-if="show < 3 && iscaigou" index="2">{{ $t('updates.cggl') }}</el-menu-item>
@@ -35,6 +35,10 @@
       <el-menu-item v-if="show > 6 && isfenqi" index="6">{{ $t('updates.fqgl') }}</el-menu-item>
       <el-menu-item v-if="show > 7 && isshengchang" index="7">{{ $t('updates.scgl') }}</el-menu-item>
       <el-menu-item v-if="show > 8 && iszhijian" index="8">{{ $t('updates.zjgl') }}</el-menu-item>
+      <el-menu-item v-if="mywlgl && iswuliu && show > 8" index="9">{{ $t('updates.wlgl') }}</el-menu-item>
+      <el-menu-item v-if="mycwgl && iscaiwuroles && show > 7" index="11">{{ $t('updates.cwgl') }}</el-menu-item>
+      <el-menu-item v-if="mybbgl && istongji && show > 6" index="12">{{ $t('updates.bbgl') }}</el-menu-item>
+      <el-menu-item v-if="myrzgl && isbaobiao && show > 4" index="13">{{ $t('updates.rzgl') }}</el-menu-item>
       <!-- a -->
       <!-- <el-submenu v-else index="44">
         <template slot="title">
@@ -131,7 +135,11 @@ export default {
       iswuliu: false,
       iscaiwuroles: false,
       istongji: false,
-      isbaobiao: false
+      isbaobiao: false,
+      mywlgl: false,
+      mycwgl: false,
+      mybbgl: false,
+      myrzgl: false
     };
   },
   computed: {
@@ -156,6 +164,7 @@ export default {
   created() {
     this.getBrowserWidth();
     this.judgerolement()
+    this.junglenavbar()
   },
   watch: {
     screenWidth(val) {
@@ -197,6 +206,7 @@ export default {
           that.show = 0;
         }
         console.log(that.show);
+        console.log(!that.mycwgl,that.iscaiwuroles,that.show < 8,!that.mycwgl && that.iscaiwuroles && that.show < 8);
       }
     }
   },
@@ -249,25 +259,25 @@ export default {
           break
         }
       }
-               for(const i in caiwuroles) {
+      for(const i in caiwuroles) {
         if (myroles.includes(caiwuroles[i])) {
           this.iscaiwuroles = true
           break
         }
       }
-             for(const i in wuliu) {
+      for(const i in wuliu) {
         if (myroles.includes(wuliu[i])) {
           this.iswuliu = true
           break
         }
       }
-             for(const i in zhijian) {
+      for(const i in zhijian) {
         if (myroles.includes(zhijian[i])) {
           this.iszhijian = true
           break
         }
       }
-for(const i in shengchang) {
+      for(const i in shengchang) {
         if (myroles.includes(shengchang[i])) {
           this.isshengchang = true
           break
@@ -311,6 +321,34 @@ for(const i in shengchang) {
       }
 
     },
+    junglenavbar() {
+      const junglearr = []
+      let falgnum = 0
+      junglearr.push(this.isxitong,this.iscaigou,this.isxiaoshou,this.iskucun,this.isyingxiao,this.isfenqi,this.isshengchang)
+      for (const i in junglearr) {
+        if (junglearr[i] === false) {
+          falgnum ++
+        }
+      }
+      if (falgnum === 1) {
+        this.mywlgl = true
+      } else if (falgnum === 2) {
+        this.mywlgl = true
+        this.mycwgl = true
+      } else if (falgnum === 3) {
+        this.mywlgl = true
+        this.mycwgl = true
+        this.mybbgl = true
+      } else if (falgnum >= 4) {
+        this.mywlgl = true
+        this.mycwgl = true
+        this.mybbgl = true
+        this.myrzgl = true
+      }
+      console.log('falgnum=====>',falgnum);
+      
+      console.log(!this.mywlgl && this.iswuliu && this.show < 7,!this.mywlgl,this.iswuliu,this.show < 7)
+    },
     toggleSideBar() {
       this.$store.dispatch("toggleSideBar");
     },
@@ -328,7 +366,7 @@ for(const i in shengchang) {
       window.screenWidth = document.body.clientWidth;
       this.screenWidth = window.screenWidth;
       const that = this;
-      // console.log(12323123123)
+      // console.log(that.screenWidth)
       if (that.screenWidth > 1525) {
         that.show = 9;
       }

@@ -656,7 +656,7 @@ export default {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }
-        if (key === 'recoverVehicleDetailVos') {
+        if (key === 'recoverVehicleDetailVos' || key === 'judgeStat') {
           delete Data[key]
         }
         if (key === 'recoverVehicleDetailVos' || key === 'approvalUseVos' || key === 'detailJson') {

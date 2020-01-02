@@ -39,6 +39,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -144,10 +145,17 @@ export default {
     personalform: {
       type: Object,
       default: null
+    },
+    checklist: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
+      checklistprop: this.checklist,
       getRowKeys(row) {
         return row.code
       },
@@ -201,23 +209,50 @@ export default {
       detailList: {
         pagenum: 1,
         pagesize: 10
-      }
+      },
+      flagarr: [],
+      myarr: []
     }
   },
   watch: {
     control() {
       this.productVisible = this.control
       // console.log(this.control)
+      setTimeout(() => {
+        this.$refs.multipleTable.clearSelection()
+      }, 0)
+      this.flagarr = []
+      this.moreaction = []
       this.getlist()
     },
     personalform() {
       this.query = this.personalform
+    },
+    checklist() {
+      this.checklistprop = this.checklist.map(item => {
+        return item.productCode
+      })
+      console.log(this.checklistprop)
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // 设置默认选中
+    memoryChecked() {
+      console.log('我执行啦')
+      this.list.forEach((row, index) => {
+        if (this.checklistprop.includes(row.code)) {
+          this.$refs.multipleTable.toggleRowSelection(row, true)
+          this.myarr.push(row.code)
+          this.flagarr = Array.from(new Set(this.myarr))
+          console.log('this.flagarr=====================>', this.flagarr)
+        } else {
+          this.$refs.multipleTable.toggleRowSelection(row, false)
+        }
+      })
+    },
     getlist() {
       this.list = []
       // 商品列表数据
@@ -227,6 +262,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
         }
         setTimeout(() => {
           this.listLoading = false
@@ -269,6 +305,7 @@ export default {
           console.log(res.data.data.content.list)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
           // this.restFilter()
         } else {
           // this.restFilter()
@@ -277,7 +314,14 @@ export default {
     },
     // 批量操作
     handleSelectionChange(rows) {
-      this.moreaction = rows
+      const obj = {}
+      const processaction = rows.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      this.moreaction = processaction
+      console.log('多选菜单', this.moreaction)
+
       this.select_order_number = this.moreaction.length
       this.select_orderId = []
       if (rows) {
@@ -314,14 +358,22 @@ export default {
     },
     // 物品选择添加
     handleAddTo() {
+      console.log('this.checklistprop', this.checklistprop)
+      console.log('this.moreaction', this.moreaction)
+      console.log('this.select_orderId', this.select_orderId)
       this.productVisible = false
       console.log(this.moreaction)
-      for (const i in this.moreaction) {
-        if (this.moreaction[i].isBatch === 2) {
-          this.moreaction[i].batch = '不使用'
+      const obj = {}
+      const processaction = this.moreaction.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      for (const i in this.processaction) {
+        if (this.processaction[i].isBatch === 2) {
+          this.processaction[i].batch = '不使用'
         }
       }
-      const productDetail = this.moreaction.map(function(item) {
+      const productDetail = processaction.map(function(item) {
         return {
           productId: item.id,
           productType: item.productType,
@@ -354,7 +406,15 @@ export default {
           discountRate: 0
         }
       })
+      const cancelid = []
+      this.checklistprop.forEach(item => {
+        if (this.flagarr.includes(item) && !this.moreaction.includes(item)) {
+          cancelid.push(item)
+        }
+      })
+      console.log('取消的id', cancelid)
       // console.log(productDetail)
+      this.$store.dispatch('getmyflagApproval', cancelid)
       this.$emit('product', productDetail)
     }
   }

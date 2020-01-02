@@ -240,6 +240,7 @@ export default {
       this.kongscope.row.handlerName = myarr
       this.kongscope.row.stepHandlerName = myarr
       console.log(' this.kongscope.row.handlerName', this.kongscope.row.handlerName)
+      this.$store.dispatch('getmyflagApproval', '')
     },
     personIds(val) {
       console.log(this.$store.getters.myflagApproval)
@@ -275,6 +276,7 @@ export default {
       // if (scope.row.step === null) {
       //   scope.row.step = scope.$index + 1
       // }
+      this.$store.dispatch('getmyflagApproval', '')
       return
     },
     // 国籍列表
