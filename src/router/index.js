@@ -1854,6 +1854,11 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/SaleContract/download',
+    component: () => import('@/views/SaleContract/download'),
+    hidden: true
+  },
+  {
     path: '/SaleOut',
     component: Layout,
     redirect: 'noredirect',

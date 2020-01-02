@@ -9,9 +9,13 @@ const publics = {
     newreceiptdata: '',
     newinstallpaydata: '',
     setchoosedata: '',
-    myflagApproval: ''
+    myflagApproval: '',
+    printdata: ''
   },
   mutations: {
+    set_printdata: (state, printdata) => {
+      state.printdata = printdata
+    },
     set_setchoosedata: (state, setchoosedata) => {
       state.setchoosedata = setchoosedata
     },
@@ -44,6 +48,9 @@ const publics = {
     }
   },
   actions: {
+    getprintdata({ commit }, printdata) {
+      commit('set_printdata', printdata)
+    },
     getsetchoosedata({ commit }, setchoosedata) {
       commit('set_setchoosedata', setchoosedata)
     },

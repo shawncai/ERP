@@ -468,6 +468,42 @@ export function chooseProduct(query) {
   })
 }
 
+// 盘点单专用
+export function chooseProduct1(query) {
+  var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productid !== '' && query.productid !== null && query.productid !== undefined) {
+    params.append('productid', query.productid) // 你要传给后台的参数值 key/value
+  }
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.productname !== '' && query.productname !== null && query.productname !== undefined) {
+    params.append('productName', query.productname) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryid !== '' && query.categoryid !== null && query.categoryid !== undefined) {
+    params.append('categoryid', query.categoryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeid !== '' && query.typeid !== null && query.typeid !== undefined) {
+    params.append('typeid', query.typeid) // 你要传给后台的参数值 key/value
+  }
+  if (query.isactive !== '' && query.isactive !== null && query.isactive !== undefined) {
+    params.append('isactive', query.isactive) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierid', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/product/chooseProduct1',
+    method: 'post',
+    data: params
+  })
+}
+
 // 删除商品
 export function deleteproduct(query, query2) {
   var params = new URLSearchParams()

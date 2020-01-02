@@ -50,6 +50,7 @@ const getters = {
   newreceiptdata: state => state.publics.newreceiptdata,
   newinstallpaydata: state => state.publics.newinstallpaydata,
   setchoosedata: state => state.publics.setchoosedata,
-  myflagApproval: state => state.publics.myflagApproval
+  myflagApproval: state => state.publics.myflagApproval,
+  printdata: state => state.publics.printdata
 }
 export default getters

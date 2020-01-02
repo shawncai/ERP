@@ -4,6 +4,7 @@
       :background="background"
       :current-page.sync="currentPage"
       :page-size.sync="pageSize"
+      :page-sizes="[10, 50, 200, 400, 800, 1000, 2000, 5000, 10000]"
       :layout="layout"
       :total="total"
       v-bind="$attrs"
@@ -34,7 +35,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [10, 20, 30, 50]
+        return [10, 50, 200, 400, 800, 1000, 2000, 5000, 10000]
       }
     },
     layout: {

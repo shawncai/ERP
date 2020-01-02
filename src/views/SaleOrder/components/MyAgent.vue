@@ -323,6 +323,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
+      this.employeeVisible = false
       this.$router.push('/Customer/NewAgent')
     },
     // 选择主生产计划数据时的操作
