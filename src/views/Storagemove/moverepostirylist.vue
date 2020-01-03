@@ -145,7 +145,7 @@
           <el-form-item :label="$t('Storagemove.repostiryName')" label-width="100px" prop="repostiryName">
             <el-input v-model="editCategoryForm.name" type="textarea" style="width:300px" @focus="handlerep"/>
           </el-form-item>
-          <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
+          <my-repository2 :repositorycontrol.sync="repositorycontrol2" :checkdata.sync="editpropdata" @repositoryname="repositoryname2"/>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
@@ -203,6 +203,7 @@ export default {
       }
     }
     return {
+      editpropdata: {},
       allpersonsids: [],
       emoloyeeName: '',
       // 查询人员
@@ -293,6 +294,7 @@ export default {
     },
     handlerep() {
       this.repositorycontrol2 = true
+      this.editpropdata = this.editCategoryForm
     },
     repositoryname2(val) {
       console.log(val)

@@ -1,5 +1,5 @@
 import store from '@/store'
-const needdata = store.getters.printdata
+const needdata = store.getters
 const content = `
   <div>
     <p style="margin:-60px">

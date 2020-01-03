@@ -2671,6 +2671,24 @@ export default {
     repositoryId: '仓库/门店'
   },
   repair: {
+    // 线下任务
+    yfpug: '已分派员工',
+    ygyjs: '员工已接受',
+    cf: '出发/开始',
+    wxjs: '结束',
+    ddbh: '订单编号',
+    ygxm: '员工姓名',
+    ygdh: '员工电话',
+    rwmc: '任务名称',
+    rwdz: '任务地址',
+    cjnr: '任务内容',
+    cjsj: '创建时间',
+    cjr: '创建人',
+    jg: '结果',
+    khxm: '客户姓名',
+    lx: '类型',
+    ydbh: '源单编号',
+    // =====================================
     servicemode: '维修方式',
     Employeetracks: '员工轨迹',
     terminate: '结束',

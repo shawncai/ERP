@@ -55,7 +55,7 @@
                 </a>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
+            <el-col :span="12">
               <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
                 <el-upload
                   ref="upload"
@@ -73,7 +73,7 @@
                   <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
                 </el-upload>
               </el-form-item>
-            </el-col> -->
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -820,7 +820,6 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false

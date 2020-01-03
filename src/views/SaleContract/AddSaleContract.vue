@@ -243,7 +243,7 @@
                   <el-input-number v-model="personalForm.firstMoney" :precision="2" :controls="false" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
                   <el-upload
                     ref="upload"
@@ -261,7 +261,7 @@
                     <div slot="tip" class="el-upload__tip">{{ $t('newupd.nnn') }}</div>
                   </el-upload>
                 </el-form-item>
-              </el-col> -->
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.totalMoney" :disabled="isinstallappley" style="margin-left: 18px;width: 200px" clearable/>
@@ -522,7 +522,7 @@ export default {
         }
       },
       picidsData: {
-        type: 25
+        type: 26
       },
       packagecontrol: false,
       productnumber: '',
@@ -637,6 +637,7 @@ export default {
         taxRate: 0,
         contractStat: '1'
       },
+      needarr: [],
       // 采购申请单规则数据
       personalrules: {
         customerType: [
@@ -685,6 +686,7 @@ export default {
     // this.getdatatime()
     this.getCategory()
     this.jungleshow()
+    this.getuploadurl()
   },
   activated() {
     this.getinformation()
@@ -693,6 +695,28 @@ export default {
     _that = this
   },
   methods: {
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    handlepicsuccess(response) {
+      console.log(response.data.content.picId)
+      const arr = []
+      arr.push(response.data.content.picId)
+      this.needarr = arr.join(',')
+    },
+    getuploadurl() {
+      if (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === '1') {
+        this.actionurl = process.env.BASE_API + '/erp/upload/uploadpic'
+      }
+      if (this.$store.getters.useCountry === 2 || this.$store.getters.useCountry === '2') {
+        this.actionurl = process.env.BASE_API + '/philippines/upload/uploadpic'
+      }
+      console.log(this.actionurl)
+    },
+    // 上传附件
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-1)
+    },
     isEdit3(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -730,34 +754,12 @@ export default {
         this.packagecontrol = true
       }
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    },
-    handlepicsuccess(response) {
-      console.log(response.data.content.picId)
-      const arr = []
-      arr.push(response.data.content.picId)
-      this.needarr = arr.join(',')
-    },
-    getuploadurl() {
-      if (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === '1') {
-        this.actionurl = process.env.BASE_API + '/erp/upload/uploadpic'
-      }
-      if (this.$store.getters.useCountry === 2 || this.$store.getters.useCountry === '2') {
-        this.actionurl = process.env.BASE_API + '/philippines/upload/uploadpic'
-      }
-      console.log(this.actionurl)
-    },
-    // 上传附件
-    handleChange(file, fileList) {
-      this.fileList3 = fileList.slice(-1)
-    },
     // 获取默认消息（分期列表）
     getinformation() {
       console.log(11111111111111111111111111)
       if (this.$store.getters.empcontract) {
         this.personalForm.sourceType = '2'
-        this.isinstallappley = false
+        this.isinstallappley = true
         this.installappley(this.$store.getters.empcontract[0])
         console.log('empcontract', this.$store.getters.empcontract)
         const installappley = this.$store.getters.empcontract[0]
@@ -772,8 +774,8 @@ export default {
             productType: item.typeId,
             color: item.color,
             unit: item.unit,
-            salePrice: installappley.totalMoney,
-            // salePrice: item.price,
+            // salePrice: installappley.totalMoney,
+            salePrice: item.price,
             costPrice: 0,
             performanceScore: item.kpiGrade,
             productScore: item.point,
@@ -1198,7 +1200,7 @@ export default {
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
       this.personalForm.installmentEndtime = `${eyear}-${emonth}`
-      this.personalForm.eachMoney = ((val.totalMoney - val.firstMoney) / val.installmentCount).toFixed(2)
+      this.personalForm.eachMoney = ((val.totalMoney) / val.installmentCount).toFixed(2)
     },
     // 更新类型
     updatecountry() {
@@ -1411,7 +1413,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createsaleContract(parms, parms2, this.personalForm).then(res => {
+          createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

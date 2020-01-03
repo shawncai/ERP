@@ -48,6 +48,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.provinceId')" prop="applyCellPhone" style="width: 100%;">
+                  {{ personalForm.provinceName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('InstallmentApply.cityId')" prop="applyCellPhone" style="width: 100%;">
+                  {{ personalForm.cityName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('InstallmentApply.currentAddress')" prop="currentAddress" style="width: 100%;">
                   {{ personalForm.currentAddress }}
                 </el-form-item>
@@ -577,7 +587,8 @@ export default {
         6: 'phili health',
         7: 'Pag-big',
         8: 'NBI',
-        9: 'POLICE ID'
+        9: 'POLICE ID',
+        10: 'others'
       }
       return statusMap[status]
     },

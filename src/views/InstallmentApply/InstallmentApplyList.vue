@@ -429,6 +429,22 @@ export default {
           })
           return false
         }
+        if (this.moreaction[0].judgeStat === 1) {
+          this.$notify.error({
+            title: '错误',
+            message: '该单据正在审核中',
+            offset: 100
+          })
+          return false
+        }
+        if (this.moreaction[0].judgeStat === 3) {
+          this.$notify.error({
+            title: '错误',
+            message: '该单据未通过审核',
+            offset: 100
+          })
+          return false
+        }
       }
       this.$store.dispatch('getempcontract', this.moreaction)
       this.$router.push('/SaleContract/AddSaleContract')

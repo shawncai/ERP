@@ -418,7 +418,7 @@ export default {
         payMode: '',
         settleMode: '',
         stockTypeId: '',
-        currency: '3',
+        currency: '1',
         exchangeRate: '1.0000'
       },
       // 采购申请单规则数据
