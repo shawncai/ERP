@@ -2043,7 +2043,7 @@ export const asyncRouterMap = [
         path: 'offlineTask',
         component: () => import('@/views/Repair/offlineTask'),
         name: 'offlineTask',
-        meta: { title: 'offlineTask', noCache: true, roles: ['54-67-272-4', '54-67-272-1', '54-67-272-2', '54-67-272-3', '54-67-272-5', '54-67-272-6', '54-67-272-7'] }
+        meta: { title: 'offlineTask', noCache: true }
       },
       {
         path: 'selfCheck',

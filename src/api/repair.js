@@ -467,3 +467,42 @@ export function faultsearch() {
     method: 'post'
   })
 }
+
+// 线下任务 查询
+export function getofflinelist(query) {
+  var params = new URLSearchParams()
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.result !== '' && query.result !== null && query.result !== undefined) {
+    params.append('result', query.result) // 你要传给后台的参数值 key/value
+  }
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.stat !== '' && query.stat !== null && query.stat !== undefined) {
+    params.append('stat', query.stat) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
+  }
+  if (query.begintime !== '' && query.begintime !== null && query.begintime !== undefined) {
+    params.append('begintime', query.begintime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize)
+  return request({
+    url: '/taskoffline/gettaskofflinelist',
+    data: params,
+    method: 'post'
+  })
+}
