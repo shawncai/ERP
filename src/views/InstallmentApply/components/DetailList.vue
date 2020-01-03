@@ -577,7 +577,8 @@ export default {
         6: 'phili health',
         7: 'Pag-big',
         8: 'NBI',
-        9: 'POLICE ID'
+        9: 'POLICE ID',
+        10: 'others'
       }
       return statusMap[status]
     },

@@ -90,6 +90,11 @@
             <span>{{ scope.row.salePrice }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('inventoryFluid.locationCode')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.locationName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('countlist.existStock')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.existStock }}</span>
@@ -270,6 +275,7 @@ export default {
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
+      var seperator2 = ':'
       var year = date.getFullYear()
       var month = date.getMonth() + 1
       var strDate = date.getDate()
@@ -279,7 +285,7 @@ export default {
       if (strDate >= 0 && strDate <= 9) {
         strDate = '0' + strDate
       }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
+      var currentdate = year + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
       this.todaydate = currentdate
     },
     cutnull(data) {
@@ -334,7 +340,8 @@ export default {
                 { field: 'existStock', displayName: 'current stocks', columnSize: `100px` },
                 { field: 'onStock', displayName: 'stocks intransit', columnSize: `100px` },
                 { field: 'ableStock', displayName: 'available stocks', columnSize: `100px` },
-                { field: 'safeStock', displayName: 'safe stocks', columnSize: `100px` }
+                { field: 'safeStock', displayName: 'safe stocks', columnSize: `100px` },
+                { field: 'locationName', displayName: 'location', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
                     <div class="custom-p"></div>
@@ -359,7 +366,7 @@ export default {
           '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
           '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
           '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
-          '.item { width: 40%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
+          '.item { width: 50%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
           '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
           '.itemname2 { width: 20% }' +
           '.itemcontent2 {width: 80%}' +

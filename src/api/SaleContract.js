@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 添加销售合同
-export function createsaleContract(query, query2, query4) {
+export function createsaleContract(query, query2, query4, query5) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
@@ -10,6 +10,9 @@ export function createsaleContract(query, query2, query4) {
   }
   if (query4.regionId !== '' && query4.regionId !== null && query4.regionId !== undefined) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query5 !== '' && query5 !== null && query5 !== undefined) {
+    params.append('picids', query5) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/saleContract/create',
@@ -67,10 +70,13 @@ export function searchsaleContract(query) {
 }
 
 //  修改销售合同
-export function updatesaleContract(query, query2) {
+export function updatesaleContract(query, query2, query5) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  if (query5 !== '' && query5 !== null && query5 !== undefined) {
+    params.append('picids', query5) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/saleContract/update',
     method: 'post',
