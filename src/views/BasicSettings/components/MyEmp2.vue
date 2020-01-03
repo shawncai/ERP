@@ -289,7 +289,11 @@ export default {
           this.flagarr = Array.from(new Set(this.myarr))
           console.log('this.flagarr=====================>', this.flagarr)
         } else {
-          this.$refs.multipleTable.toggleRowSelection(row, false)
+          try {
+            this.$refs.multipleTable.toggleRowSelection(row, false)
+          } catch (error) {
+            console.log(error)
+          }
         }
       })
     },
