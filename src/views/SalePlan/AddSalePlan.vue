@@ -426,6 +426,7 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        customerType: '2',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,

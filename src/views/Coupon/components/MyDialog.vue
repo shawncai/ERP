@@ -756,7 +756,7 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        customerType: '1',
+        customerType: '2',
         sendType: '2',
         sendDate: null,
         outDate: null,

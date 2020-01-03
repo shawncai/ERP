@@ -222,7 +222,7 @@ export default {
   watch: {
     control() {
       this.employeeVisible = this.control
-      console.log(this.control)
+      console.log('页面路劲', this.$route)
       // this.gitemplist()
       setTimeout(() => {
         this.$refs.multipleTable.clearSelection()
@@ -258,7 +258,7 @@ export default {
     }
   },
   created() {
-
+    this.gitemplist()
   },
   beforeCreate() {
     _that = this
@@ -271,7 +271,11 @@ export default {
       if (this.checklistprop.includes(row.id)) {
         this.checklistprop.splice(this.checklistprop.findIndex(item => item === row.id), 1)
       } else {
-        this.checklistprop[row.id] = row.id
+        try {
+          this.checklistprop[row.id] = row.id
+        } catch (error) {
+          console.log(error)
+        }
       }
       console.log('this.checklistprop', this.checklistprop)
     },
@@ -285,7 +289,11 @@ export default {
           this.flagarr = Array.from(new Set(this.myarr))
           console.log('this.flagarr=====================>', this.flagarr)
         } else {
-          this.$refs.multipleTable.toggleRowSelection(row, false)
+          try {
+            this.$refs.multipleTable.toggleRowSelection(row, false)
+          } catch (error) {
+            console.log(error)
+          }
         }
       })
     },

@@ -482,7 +482,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         sourceType: '5',
-        currency: '3',
+        currency: '1',
         orderDate: null,
         deptId: this.$store.getters.deptId,
         exchangeRate: '1.0000'

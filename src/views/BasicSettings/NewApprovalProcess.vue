@@ -405,6 +405,29 @@ export default {
     handlechoose(scope) {
       this.empcontrol2 = true
       console.log(scope)
+      if (scope.row.stepHandler) {
+        var a = scope.row.stepHandler
+        a = a.replace(/,/g, ' ')
+        var aa = a.split(' ')
+        var bb = scope.row.stepHandlerName.split(',')
+        for (let i = 0; i < aa.length; i++) {
+          if (aa[i] === '') {
+            aa.splice(i, 1)
+            i--
+          }
+        }
+        console.log('aaa', aa)
+        const newarr = []
+        for (let i = 0; i < aa.length; i++) {
+          const name = {
+            personName: bb[i],
+            id: aa[i]
+          }
+          newarr.push(name)
+        }
+        this.checklist = newarr
+        console.log(this.checklist)
+      }
       this.kongscope = scope
       this.kongscope.row.step = scope.$index + 1
     },

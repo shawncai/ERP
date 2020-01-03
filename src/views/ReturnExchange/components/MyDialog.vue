@@ -840,7 +840,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
-        customerType: '1',
+        customerType: '2',
         exchangeDate: null,
         stat: '1'
       }

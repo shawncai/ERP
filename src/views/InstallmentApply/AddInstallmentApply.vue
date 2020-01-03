@@ -51,28 +51,28 @@
                   <el-input v-model="personalForm.applyCellPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
                 </el-form-item>
               </el-col>
-              <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('InstallmentApply.provinceId')" prop="provinceId" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" @change="handlechange2">-->
-              <!--                    <el-option-->
-              <!--                      v-for="(item, index) in provinces"-->
-              <!--                      :key="index"-->
-              <!--                      :label="item.name"-->
-              <!--                      :value="item.id"/>-->
-              <!--                  </el-select>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
-              <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('InstallmentApply.cityId')" prop="cityId" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 200px">-->
-              <!--                    <el-option-->
-              <!--                      v-for="(item, index) in cities"-->
-              <!--                      :key="index"-->
-              <!--                      :label="item.name"-->
-              <!--                      :value="item.id"/>-->
-              <!--                  </el-select>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
+              <el-col :span="6">
+                <el-form-item :label="$t('InstallmentApply.provinceId')" prop="provinceId" style="width: 100%;">
+                  <el-select v-model="personalForm.provinceId" style="margin-left: 18px;width: 200px" @change="handlechange2">
+                    <el-option
+                      v-for="(item, index) in provinces"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('InstallmentApply.cityId')" prop="cityId" style="width: 100%;">
+                  <el-select v-model="personalForm.cityId" style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in cities"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.currentAddress')" prop="currentAddress" style="width: 100%;">
                   <el-input v-model="personalForm.currentAddress" style="margin-left: 18px;width: 200px" clearable/>
@@ -782,7 +782,8 @@ export default {
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
-        countryId: this.$store.getters.countryId,
+        countryId: 2,
+        // countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         gender: 1,
@@ -1351,7 +1352,8 @@ export default {
       this.list2 = {}
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
-        countryId: this.$store.getters.countryId,
+        countryId: 2,
+        // countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         gender: 1,

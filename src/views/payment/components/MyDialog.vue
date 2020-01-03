@@ -155,13 +155,7 @@
           <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.hph')" prop="invoiceNumber" align="center" min-width="200px">
-            <template slot="edit" slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.invoiceNumber"
-                :disabled="scope.row.invoiceNumber !== 0"/>
-            </template>
-          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.hph')" prop="invoiceNumber" align="center" min-width="200px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" :label="$t('updates.fplx')" prop="invoiceType" align="center" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bczfje')" prop="payThis" align="center" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.dkyfk')" prop="advanceMoney" align="center" min-width="170px"/>
