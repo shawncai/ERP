@@ -511,8 +511,11 @@ export default {
         }
         return elem
       })
+      let parms3 = null
+      if (rest2.length > 0) {
+        parms3 = JSON.stringify(rest2)
+      }
       const parms2 = JSON.stringify(rest)
-      const parms3 = JSON.stringify(rest2)
       const parms = JSON.stringify(this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {

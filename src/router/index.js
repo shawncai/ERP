@@ -3286,7 +3286,7 @@ export const asyncRouterMap = [
       title: 'Voucher',
       icon: 'pingzhen',
       type: 11,
-      roles: ['266-371-4']
+      roles: ['266-371-4', '266-373-1']
     },
     children: [
       {
@@ -3297,10 +3297,16 @@ export const asyncRouterMap = [
         meta: { title: 'Newvoucher', noCache: true }
       },
       {
+        path: 'Newvoucher2',
+        component: () => import('@/views/Voucher/Newvoucher2'),
+        name: 'Newvoucher2',
+        meta: { title: 'Newvoucher2', noCache: false, roles: ['266-373-1'] }
+      },
+      {
         path: 'Voucherlist',
         component: () => import('@/views/Voucher/Voucherlist'),
         name: 'Voucherlist',
-        meta: { title: 'Voucherlist', noCache: true }
+        meta: { title: 'Voucherlist', noCache: true, roles: ['266-371-4'] }
       }
     ]
   },

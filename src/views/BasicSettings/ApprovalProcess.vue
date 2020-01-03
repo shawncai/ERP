@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { searchProcess, deleteProcess, searchDetail, searchcategory, updateeapproval } from '@/api/BasicSettings'
+import { searchProcess, deleteProcess, searchDetail, searchcategory, updateeapproval, updateEffective } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -185,7 +185,7 @@ export default {
       console.log('row', row)
       this.personalForm2.id = row.id
       this.personalForm2.isEffective = 1
-      updateeapproval(this.personalForm2).then(res => {
+      updateEffective(this.personalForm2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',
@@ -208,7 +208,7 @@ export default {
       console.log('row', row)
       this.personalForm2.id = row.id
       this.personalForm2.isEffective = 2
-      updateeapproval(this.personalForm2).then(res => {
+      updateEffective(this.personalForm2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: '操作成功',

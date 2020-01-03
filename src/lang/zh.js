@@ -379,6 +379,7 @@ export default {
     installmentAnalyze: '分期应收款分析',
     Voucher: '凭证管理',
     Newvoucher: '新建凭证',
+    Newvoucher2: '新建凭证',
     Voucherlist: '凭证列表',
     AccessComponent: '维修零件领用单',
     AccessComponentlist: '维修零件领用单列表',
