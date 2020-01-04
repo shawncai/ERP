@@ -551,7 +551,8 @@ export default {
               }
             }
           }
-          this.list = arrlist2
+          // console.log('arrlist2=====', arrlist2)
+          // this.list = arrlist2
           if (this.switchparms === 1) {
             this.list = arrlist2.filter(item => {
               return (item.total === 1 || item.total === 3)
@@ -574,7 +575,7 @@ export default {
             }
             console.log('this.list', this.list)
           }
-          this.getSpanArr(arrlist2)
+          this.getSpanArr(this.list)
         }
         setTimeout(() => {
           this.listLoading = false
@@ -631,7 +632,7 @@ export default {
             console.log('this.list', this.list)
           } else if (this.switchparms === 1) {
             this.list = arrlist2.filter(item => {
-              return item.total === 2
+              return (item.total === 2 || item.total === 3)
             })
             this.switchparms = 1
             console.log('this.list', this.list)
