@@ -882,7 +882,7 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
-      this.getRate()
+      // this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {

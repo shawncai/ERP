@@ -622,7 +622,7 @@ export default {
         this.personalForm = this.$store.getters.empcontract
         this.personalForm.sourceType = (this.personalForm.sourceType).toString()
         this.personalForm.currency = (this.personalForm.currency).toString()
-        this.getRate()
+        // this.getRate()
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
         this.signPersonId = this.$store.getters.empcontract.signPersonName
@@ -1015,7 +1015,6 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
-      this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {
@@ -1190,7 +1189,7 @@ export default {
       this.personalForm.payMode = val.payMode
       if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
         this.personalForm.currency = String(val.moneyId)
-        this.getRate()
+        // this.getRate()
       }
       this.supplierIdDetail = val.supplierDetailVos
       this.$refs.editable.clear()

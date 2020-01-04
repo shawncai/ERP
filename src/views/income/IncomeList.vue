@@ -71,6 +71,51 @@
       <el-button v-permission="['54-90-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['54-90-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+
+      <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" class="filter-item" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
+
+      <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
+        <el-form ref="addCategoryForm" :model="voucherparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('otherlanguage.md')" label-width="100px" prop="type">
+            <el-select v-model="voucherparms.repositoryId" :disabled="isvoucherrep" style="width: 100%" filterable clearable @change="choosevoucherrep">
+              <el-option
+                v-for="(item, index) in respositoryarr"
+                :key="index"
+                :label="item.repositoryName"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('otherlanguage.qy')" label-width="100px" prop="type">
+            <el-cascader
+              :disabled="isvoucherregion"
+              :options="regions"
+              :props="props"
+              v-model="sendregionIds"
+              :show-all-levels="false"
+              :placeholder="$t('otherlanguage.qy')"
+              change-on-select
+              filterable
+              clearable
+              style="width: 100%"
+              @change="handlechange4"
+            />
+          </el-form-item>
+          <el-form-item :label="$t('otherlanguage.rq')" label-width="100px" prop="categoryname">
+            <el-date-picker
+              v-model="voucherparms.date"
+              :picker-options="pickerOptions1"
+              type="month"
+              value-format="yyyy-MM"
+              style="width: 100%"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlevoucher()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 新建操作 -->
       <el-button v-permission="['54-90-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -232,6 +277,24 @@ export default {
   },
   data() {
     return {
+      downloadLoading2: false,
+      categoryVisible: false,
+      isvoucherrep: false,
+      respositoryarr: [],
+      isvoucherregion: false,
+      sendregionIds: [],
+      regions: [],
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      voucherparms: {
+        repositoryId: '',
+        regionId: '',
+        date: '',
+        type: 2
+      },
       receiptVisible99: false,
       // 结算方式数据
       colseTypes: [],
@@ -305,6 +368,32 @@ export default {
     _that = this
   },
   methods: {
+    pickerOptions1: {
+      disabledDate: (time) => {
+        return time.getTime() > Date.now() - 8.64e7
+      }
+    },
+    handlevoucherparms() {
+      this.categoryVisible = true
+    },
+    choosevoucherrep(val) {
+      console.log(val)
+      if (val === '') {
+        this.isvoucherregion = false
+      } else {
+        this.isvoucherregion = true
+      }
+    },
+    // 根据区域选择门店
+    handlechange4(val) {
+      console.log(val)
+      if (val.length === 0) {
+        this.isvoucherrep = false
+      } else {
+        this.isvoucherrep = true
+        this.voucherparms.regionId = val[val.length - 1]
+      }
+    },
     // 附件操作
     check(row) {
       console.log(row)
