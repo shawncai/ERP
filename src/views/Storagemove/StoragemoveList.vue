@@ -550,6 +550,7 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.businessStat = String(row.businessStat)
+      this.personalForm.moveType = String(row.moveType)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -568,7 +569,7 @@ export default {
     isReview(row) {
       const userepository = this.$store.getters.repositoryId
       if (row.moveType === 1) {
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveOutRepository) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
           // console.log(approvalUse[approvalUse.length - 1].stepHandler)
@@ -580,7 +581,7 @@ export default {
           return false
         }
       } else if (row.moveType === 2) {
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveInRepository) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
           console.log(approvalUse[approvalUse.length - 1].stepHandler)
