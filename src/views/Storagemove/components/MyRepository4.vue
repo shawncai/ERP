@@ -45,14 +45,12 @@
       ref="multipleTable"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
-        :reserve-selection="true"
         type="selection"
         align="center"
         width="55"/>
@@ -136,6 +134,7 @@ export default {
       getRowKeys(row) {
         return row.id
       },
+      issearch: false,
       select_orderId: [],
       select_order_number: [],
       // 批量操作
@@ -187,7 +186,8 @@ export default {
       checknewarrdata: this.checkdata,
       havecheckedarr: [],
       result: [],
-      delearr: []
+      delearr: [],
+      checklistprop: []
     }
   },
   watch: {
@@ -204,107 +204,136 @@ export default {
     checkdata() {
       this.checknewarrdata = this.checkdata
       console.log('this.checknewarrdata', this.checknewarrdata)
+      this.checklistprop = this.checknewarrdata.repositories.map(item => {
+        return item.id
+      })
     },
-    list() {
-      console.log('this.list', this.list)
-      const needarr = this.list
-      this.delearr = this.checknewarrdata.repositories
+    // list() {
+    //   console.log('this.list', this.list)
+    //   const needarr = this.list
+    //   this.delearr = this.checknewarrdata.repositories
 
-      // console.log('delearr', this.delearr)
-      for (const i in needarr) {
-        for (const j in this.delearr) {
-          if (needarr[i].id === this.delearr[j].id) {
-            this.$refs.multipleTable.toggleRowSelection(needarr[i], true)
-          }
-        }
-      }
-    },
-    moreaction(newarr, oldoldval) {
-      console.log('newarr', newarr)
-      console.log('oldval', oldoldval)
+    //   console.log('delearr', this.delearr)
+    //   for (const i in needarr) {
+    //     for (const j in this.delearr) {
+    //       if (needarr[i].id === this.delearr[j].id) {
+    //         console.log(needarr[i])
+    //         this.$refs.multipleTable.toggleRowSelection(needarr[i], true)
+    //       }
+    //     }
+    //   }
+    // },
+    moreaction(val, oldval) {
+      this.delearr = this.checknewarrdata.repositories
+      // console.log('newarr', newarr)
+      // console.log('oldval', oldoldval)
       // console.log('this.delearr', this.delearr)
       // const val = this.uniqueArray(newarr, 'id')
       // const oldval = this.uniqueArray(oldoldval, 'id')
-      // console.log('val', val)
-      // console.log('oldval', oldval)
+      console.log('val', val)
+      console.log('oldval', oldval)
+      console.log('issearch', this.issearch)
       // console.log('result', this.result)
-      // if (oldval.length > val.length) {
-      //   for (const i in oldval) {
-      //     let flag = false
-      //     for (const j in val) {
-      //       if (oldval[i].id === val[j].id) {
-      //         flag = true
-      //         break
-      //       }
-      //     }
-      //     if (!flag) {
-      //       this.result.push(oldval[i])
-      //     }
-      //   }
-      // } else if (oldval.length < val.length) {
-      //   for (const i in val) {
-      //     let flag = false
-      //     for (const j in oldval) {
-      //       if (val[i].id === oldval[j].id) {
-      //         flag = true
-      //         break
-      //       }
-      //     }
-      //     if (!flag) {
-      //       for (const z in this.result) {
-      //         if (this.result[z].id === val[i].id) {
-      //           this.result.splice(z, 1)
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-
-      var arr1 = oldoldval
-
-      var arr2 = newarr
-
-      for (var i = arr1.length - 1; i >= 0; i--) {
-        const a = arr1[i].id
-        for (var j = arr2.length - 1; j >= 0; j--) {
-          const b = arr2[j].id
-          if (a === b) {
-            arr1.splice(i, 1)
-            this.result.push(arr1[i])
-            arr2.splice(j, 1)
-            break
+      if (oldval) {
+        if (oldval.length > val.length) {
+          for (const i in oldval) {
+            let flag = false
+            for (const j in val) {
+              if (oldval[i].id === val[j].id) {
+                flag = true
+                break
+              }
+            }
+            if (!flag) {
+              this.result.push(oldval[i])
+            }
+          }
+        } else if (oldval.length < val.length) {
+          for (const i in val) {
+            let flag = false
+            for (const j in oldval) {
+              if (val[i].id === oldval[j].id) {
+                flag = true
+                break
+              }
+            }
+            if (!flag) {
+              for (const z in this.result) {
+                if (this.result[z].id === val[i].id) {
+                  this.result.splice(z, 1)
+                }
+              }
+            }
           }
         }
       }
+
+      // var arr1 = oldoldval
+
+      // var arr2 = newarr
+
+      // for (var i = arr1.length - 1; i >= 0; i--) {
+      //   const a = arr1[i].id
+      //   for (var j = arr2.length - 1; j >= 0; j--) {
+      //     const b = arr2[j].id
+      //     if (a === b) {
+      //       arr1.splice(i, 1)
+      //       this.result.push(arr1[i])
+      //       arr2.splice(j, 1)
+      //       break
+      //     }
+      //   }
+      // }
 
       console.log('this.result====', this.result)
 
       // console.log('result', this.result)
-      // for (const i in this.delearr) {
-      //   for (const j in this.result) {
-      //     if (this.delearr[i].id === this.result[j].id) {
-      //       this.delearr.splice(i, 1)
-      //     }
-      //   }
-      // }
+      for (const i in this.delearr) {
+        for (const j in this.result) {
+          if (this.delearr[i].id === this.result[j].id) {
+            this.delearr.splice(i, 1)
+          }
+        }
+      }
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    memoryChecked() {
+      console.log('我执行啦')
+      this.list.forEach((row, index) => {
+        if (this.checklistprop.includes(row.id)) {
+          console.log(11222)
+          console.log(this.$refs.multipleTable)
+          this.$refs.multipleTable.toggleRowSelection(row, true)
+          // myarr = []
+          // this.myarr.push(row.id)
+          // this.flagarr = Array.from(new Set(this.myarr))
+          // console.log('this.flagarr=====================>', this.flagarr)
+        } else {
+          try {
+            this.$refs.multipleTable.toggleRowSelection(row, false)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.id)
-          }
-        })
-      }
+      // this.moreaction = rows
+      // this.moreaction = this.uniqueArray(rows, 'id')
+      // this.select_order_number = this.moreaction.length
+      // this.select_orderId = []
+      // if (rows) {
+      //   rows.forEach(row => {
+      //     if (row) {
+      //       this.select_orderId.push(row.id)
+      //     }
+      //   })
+      // }
     },
     getlist() {
       // 国家列表
@@ -319,6 +348,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
         }
         setTimeout(() => {
           this.listLoading = false
@@ -347,7 +377,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.repositoryVisible = true
+          // this.repositoryVisible = true
+          this.memoryChecked()
+          this.issearch = !this.issearch
         } else {
           this.$notify.error({
             title: '错误',

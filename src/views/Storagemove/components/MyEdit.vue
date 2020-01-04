@@ -647,6 +647,9 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      console.log('this.personalForm', this.personalForm)
       // const EnterDetail = this.$refs.editable.getRecords()
       // // 保存时同样商品不能有同一个批次
       // let i = 0
