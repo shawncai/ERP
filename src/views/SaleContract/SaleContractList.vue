@@ -458,6 +458,9 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
+      localStorage.clear()
+      // this.$store.dispatch('getprintdata', row)
+      localStorage.setItem('getprintdata', JSON.stringify(row))
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
     },
@@ -466,8 +469,6 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

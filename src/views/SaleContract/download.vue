@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import datazzz from '@/utils/salecontract'
 export default {
   data() {
     return {
@@ -24,13 +23,15 @@ export default {
   },
   methods: {
     seedata() {
-      console.log(datazzz)
+      var data1 = JSON.parse(localStorage.getItem('getprintdata'))
+      console.log(data1)
     },
     fetchData() {
       import('@/utils/salecontract').then(data => {
         const { title } = data.default
         document.title = title
         this.article = data.default
+        console.log(data.default)
         setTimeout(() => {
           this.fullscreenLoading = false
           this.$nextTick(() => {

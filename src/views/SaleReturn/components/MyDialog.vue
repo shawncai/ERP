@@ -534,7 +534,7 @@ export default {
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
+        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
         val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
         // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
@@ -658,18 +658,32 @@ export default {
       row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
     },
     getquantity(row) {
-      row.costMoney = row.returnQuantity * row.costPrice
-      row.taxprice = row.salePrice * (1 + row.taxRate / 100)
-      row.includeTaxMoney = row.returnQuantity * row.taxprice
-      row.money = row.returnQuantity * row.salePrice
-      row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
-      if (row.returnQuantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
+      console.log(row.discount)
+      console.log('row.salePrice', row.salePrice)
+      console.log('row.returnQuantity', row.returnQuantity)
+      console.log('row.taxMoney', row.taxMoney)
+      if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
+        this.$notify.error({
+          title: '错误',
+          message: '超过可退货数量',
+          offset: 100
+        })
+        row.returnQuantity = 1
+        console.log('row.salePrice', row.salePrice)
+        console.log('row.returnQuantity', row.returnQuantity)
+        console.log('row.taxMoney', row.taxMoney)
+        row.taxMoney = row.salePrice * row.returnQuantity * (row.taxRate / 100)
+        row.money = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
+        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
+        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
+        return row.returnQuantity
+      } else {
+        row.taxMoney = row.salePrice * row.returnQuantity * (row.taxRate / 100)
+        row.money = (row.salePrice * row.returnQuantity + Number(row.taxMoney)).toFixed(2)
+        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
+        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
+        return row.returnQuantity
       }
-      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
-      return row.returnQuantity
     },
     // 计算含税价
     gettaxprice(row) {

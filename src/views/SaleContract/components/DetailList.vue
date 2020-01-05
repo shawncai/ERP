@@ -411,7 +411,6 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
-      this.$store.dispatch('getprintdata', this.personalForm)
     },
     detaildata() {
       this.personalForm = this.detaildata
@@ -438,6 +437,7 @@ export default {
   },
   methods: {
     setdata() {
+      console.log(this.$store.getters.printdata)
       const routeUrl = this.$router.resolve({
         path: '/SaleContract/download'
       })

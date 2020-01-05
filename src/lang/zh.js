@@ -355,7 +355,7 @@ export default {
     searchSaleOrderReport: '销售订单汇总表',
     searchSaleOrderDetailReport: '销售订单明细汇总表',
     searchSaleReport: '销售出库单汇总表',
-    saleBillList: '销售出库单明细表',
+    saleBillList: '销售进出库明细表',
     saleBillDay: '销售出库单日报表',
     saleReceipt: '销售收款明细表',
     saleFlow: '销售流向表',
