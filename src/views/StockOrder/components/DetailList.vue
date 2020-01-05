@@ -30,6 +30,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="supplierId" style="width: 100%;">
+                  <span>{{ personalForm.stockRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockOrder.stockPersonId')" prop="inquiryPersonId" style="width: 100%;">
                   <span>{{ personalForm.stockPersonName }}</span>
                 </el-form-item>

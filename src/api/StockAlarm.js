@@ -12,6 +12,12 @@ export function countlist(query) {
   if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
     params.append('productName', query.productName) // 你要传给后台的参数值 key/value
   }
+  if (query.productCategory !== '' && query.productCategory !== null && query.productCategory !== undefined) {
+    params.append('productCategory', query.productCategory) // 你要传给后台的参数值 key/value
+  }
+  if (query.productType !== '' && query.productType !== null && query.productType !== undefined) {
+    params.append('productType', query.productType) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
