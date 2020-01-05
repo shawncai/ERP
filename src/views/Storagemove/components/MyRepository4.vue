@@ -45,12 +45,14 @@
       ref="multipleTable"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         align="center"
         width="55"/>
@@ -208,28 +210,27 @@ export default {
         return item.id
       })
     },
-    // list() {
-    //   console.log('this.list', this.list)
-    //   const needarr = this.list
-    //   this.delearr = this.checknewarrdata.repositories
-
-    //   console.log('delearr', this.delearr)
-    //   for (const i in needarr) {
-    //     for (const j in this.delearr) {
-    //       if (needarr[i].id === this.delearr[j].id) {
-    //         console.log(needarr[i])
-    //         this.$refs.multipleTable.toggleRowSelection(needarr[i], true)
-    //       }
-    //     }
-    //   }
-    // },
-    moreaction(val, oldval) {
+    list() {
+      console.log('this.list', this.list)
+      const needarr = this.list
       this.delearr = this.checknewarrdata.repositories
+
+      console.log('delearr', this.delearr)
+      for (const i in needarr) {
+        for (const j in this.delearr) {
+          if (needarr[i].id === this.delearr[j].id) {
+            this.$refs.multipleTable.toggleRowSelection(needarr[i], true)
+          }
+        }
+      }
+    },
+    moreaction(val, oldval) {
       // console.log('newarr', newarr)
       // console.log('oldval', oldoldval)
       // console.log('this.delearr', this.delearr)
       // const val = this.uniqueArray(newarr, 'id')
       // const oldval = this.uniqueArray(oldoldval, 'id')
+      console.log('this.moreaction', this.moreaction)
       console.log('val', val)
       console.log('oldval', oldval)
       console.log('issearch', this.issearch)
@@ -301,30 +302,29 @@ export default {
     _that = this
   },
   methods: {
-    memoryChecked() {
-      console.log('我执行啦')
-      this.list.forEach((row, index) => {
-        if (this.checklistprop.includes(row.id)) {
-          console.log(11222)
-          console.log(this.$refs.multipleTable)
-          this.$refs.multipleTable.toggleRowSelection(row, true)
-          // myarr = []
-          // this.myarr.push(row.id)
-          // this.flagarr = Array.from(new Set(this.myarr))
-          // console.log('this.flagarr=====================>', this.flagarr)
-        } else {
-          try {
-            this.$refs.multipleTable.toggleRowSelection(row, false)
-          } catch (error) {
-            console.log(error)
-          }
-        }
-      })
-    },
+    // memoryChecked() {
+    //   console.log('我执行啦')
+    //   this.list.forEach((row, index) => {
+    //     if (this.checklistprop.includes(row.id)) {
+    //       this.$refs.multipleTable.toggleRowSelection(row, true)
+    //       // myarr = []
+    //       // this.myarr.push(row.id)
+    //       // this.flagarr = Array.from(new Set(this.myarr))
+    //       // console.log('this.flagarr=====================>', this.flagarr)
+    //     } else {
+    //       try {
+    //         this.$refs.multipleTable.toggleRowSelection(row, false)
+    //       } catch (error) {
+    //         console.log(error)
+    //       }
+    //     }
+    //   })
+    // },
     // 批量操作
     handleSelectionChange(rows) {
       // this.moreaction = rows
-      // this.moreaction = this.uniqueArray(rows, 'id')
+      console.log('rows', rows)
+      this.moreaction = this.uniqueArray(rows, 'id')
       // this.select_order_number = this.moreaction.length
       // this.select_orderId = []
       // if (rows) {
@@ -348,7 +348,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          this.memoryChecked()
+          // this.memoryChecked()
         }
         setTimeout(() => {
           this.listLoading = false
@@ -378,7 +378,7 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           // this.repositoryVisible = true
-          this.memoryChecked()
+          // this.memoryChecked()
           this.issearch = !this.issearch
         } else {
           this.$notify.error({
