@@ -374,6 +374,10 @@ export default {
             m = 2
           }
         }
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '01' || re === '05') {
+          m = 1
+        }
         if (m === 1) {
           this.$refs.editable2.insert(val[i])
         }
@@ -450,7 +454,7 @@ export default {
       this.$refs.editable.clear()
       this.setbeforeproduct()
     },
-    // 设置待组装商品
+    // 设置待拆装商品
     async setbeforeproduct() {
       console.log('error1')
       this.$refs.editable.clear()
@@ -711,7 +715,7 @@ export default {
       if (i === 4) {
         this.$notify.error({
           title: '错误',
-          message: '组装后的商品货位不能为空',
+          message: '拆装后的商品货位不能为空',
           offset: 100
         })
         return false
@@ -736,9 +740,16 @@ export default {
       }
 
       const EnterDetail2 = this.$refs.editable2.getRecords()
+      let mm = 1
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01' || re === '05') {
+          if (elem.quantity !== 1) {
+            mm = 2
+          }
+        }
         if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
           i = 2
         }
@@ -746,10 +757,18 @@ export default {
           i = 3
         }
       })
+      if (mm === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '整车和电池数量只能为1',
+          offset: 100
+        })
+        return false
+      }
       if (i === 2) {
         this.$notify.error({
           title: '错误',
-          message: '组装前的商品货位不能为空',
+          message: '拆装前的商品货位不能为空',
           offset: 100
         })
         return false
@@ -757,7 +776,7 @@ export default {
       if (i === 3) {
         this.$notify.error({
           title: '错误',
-          message: '组装前的商品批次不能为空',
+          message: '拆装前的商品批次不能为空',
           offset: 100
         })
         return false

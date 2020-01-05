@@ -704,6 +704,10 @@ export default {
             m = 2
           }
         }
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '01' || re === '05') {
+          m = 1
+        }
         if (m === 1) {
           this.$refs.editable2.insert(val[i])
         }
@@ -878,10 +882,17 @@ export default {
         })
         return false
       }
+      let mm = 1
       console.log('EnterDetail2', EnterDetail2)
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01' || re === '05') {
+          if (elem.quantity !== 1) {
+            mm = 2
+          }
+        }
         // locationlist(null, elem.locationCode).then(res => {
         //   if (res.data.ret === 200) {
         //     elem.locationId = res.data.data.content.list[0].id
@@ -931,6 +942,14 @@ export default {
         }
         return elem
       })
+      if (mm === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '整车和电池数量只能为1',
+          offset: 100
+        })
+        return false
+      }
       if (i === 4) {
         this.$notify.error({
           title: '错误',

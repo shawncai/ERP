@@ -223,6 +223,8 @@
 </template>
 
 <script>
+import { getRepositoryList, detailList } from '@/api/Expenses'
+import { regionlist } from '@/api/public'
 import { searchincome, updateincome2, deleteincome } from '@/api/income'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -277,6 +279,11 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() > Date.now() - 8.64e7
+        }
+      },
       downloadLoading2: false,
       categoryVisible: false,
       isvoucherrep: false,
@@ -363,21 +370,102 @@ export default {
 
   mounted() {
     this.getlist()
+    this.getallrepositorys()
+    this.getallregionlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    pickerOptions1: {
-      disabledDate: (time) => {
-        return time.getTime() > Date.now() - 8.64e7
+    closetag() {
+      this.categoryVisible = false
+      this.restvoucherparms()
+    },
+    restvoucherparms() {
+      this.voucherparms = {
+        repositoryId: '',
+        regionId: '',
+        date: '',
+        type: 2
       }
+      this.respositoryarr = []
+      this.isvoucherregion = false
+      this.isvoucherrep = false
+    },
+    handlevoucher() {
+      console.log(this.voucherparms)
+      if (this.voucherparms.date === '' || this.voucherparms.date === null || this.voucherparms.date === undefined) {
+        this.$notify.error({
+          title: '请先选择日期',
+          message: '请先选择日期',
+          offset: 100
+        })
+        return false
+      }
+      if (this.voucherparms.repositoryId === '' && this.voucherparms.regionId === '') {
+        this.$notify.error({
+          title: '请选择门店或区域',
+          message: '请选择门店或区域',
+          offset: 100
+        })
+        return false
+      }
+
+      detailList(this.voucherparms).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          if (res.data.data.content.length === 0) {
+            this.$notify.error({
+              title: '该门店或区域暂无凭证',
+              message: '该门店或区域暂无凭证',
+              offset: 100
+            })
+            return false
+          } else {
+            const senddata = {}
+            senddata.voucherlist = res.data.data.content
+            senddata.date = this.voucherparms.date
+            senddata.regionId = this.voucherparms.regionId
+            senddata.repositoryId = this.voucherparms.repositoryId
+            senddata.type = this.voucherparms.type
+            senddata.sourceType = 2
+
+            this.$store.dispatch('getvoucherdata', senddata)
+            this.$router.push({ path: '/Voucher/Newvoucher' })
+          }
+        }
+      })
+    },
+    // 获取所有门店
+    getallrepositorys() {
+      getRepositoryList().then(res => {
+        if (res.data.ret === 200) {
+          this.respositoryarr = res.data.data.content.list
+        }
+      })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
+    // 获取所有区域
+    getallregionlist() {
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        }
+      })
     },
     handlevoucherparms() {
       this.categoryVisible = true
     },
     choosevoucherrep(val) {
-      console.log(val)
+      console.log('val', val)
       if (val === '') {
         this.isvoucherregion = false
       } else {
