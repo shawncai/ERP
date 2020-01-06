@@ -411,6 +411,8 @@ export default {
       }
     },
     allOrderinfo(val) {
+      this.personalForm.enterRepositoryId = val.stockRepositoryId
+      this.enterRepositoryId = val.stockRepositoryName
       this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.supplierId = val.supplierId
       this.supplierId = val.supplierName

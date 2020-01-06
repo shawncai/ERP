@@ -1,31 +1,54 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
+    <el-card class="box-card" style="margin-top: 15px;height: 120px">
+      <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
+        <el-row>
+          <el-col :span="6">
             <el-form-item :label="$t('updates.cangk')">
               <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
             </el-form-item>
             <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item :label="$t('updates.spbm')">
               <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item :label="$t('updates.spmc')">
               <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 154px;">
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item :label="$t('updates.xh')">
+              <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" clearable>
+                <el-option
+                  v-for="(item, index) in types"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('updates.fle')" style="width: 100%;">
+              <el-select v-model="getemplist.productCategory">
+                <el-option value="1" label="整车"/>
+                <el-option value="2" label="配件"/>
+                <el-option value="5" label="电池"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 60px;">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
-        </el-form>
-      </el-row>
+        </el-row>
+      </el-form>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
@@ -123,6 +146,7 @@
 </template>
 
 <script>
+import { searchEmpCategory2 } from '@/api/Product'
 import { countlist } from '@/api/StockAlarm'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -151,6 +175,7 @@ export default {
   },
   data() {
     return {
+      types: [],
       todaydate: null,
       repositorycontrol2: false,
       // 搜索数据----------------------
@@ -212,6 +237,11 @@ export default {
       this.getemplist.searchRepositoryId = val.id
     },
     getlist() {
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
       // 预警列表数据
       this.listLoading = true
       countlist(this.getemplist).then(res => {

@@ -29,6 +29,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="stockRepositoryId" style="width: 100%;">
+                  <el-input v-model="stockRepositoryId" placeholder="请选择采购仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <el-input v-model="stockPersonId" :disabled="IsStockPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -354,11 +360,21 @@ import MyPlan from './components/MyPlan'
 import MyDelivery from './components/MyDelivery'
 import MyLnquiry from './components/MyLnquiry'
 import MyContract from './components/MyContract'
+import MyRepository from './components/MyRepository'
+import MyArrival from '../Stockenter/components/MyArrival'
 var _that
 export default {
   name: 'AddStockOrder',
-  components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyContract, MyRepository, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.stockRepositoryId)
+      if (this.stockRepositoryId === undefined || this.stockRepositoryId === null || this.stockRepositoryId === '') {
+        callback(new Error('请选择入库仓库'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
@@ -392,6 +408,8 @@ export default {
       }
     }
     return {
+      repositorycontrol: false,
+      stockRepositoryId: this.$store.getters.repositoryName,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -475,6 +493,7 @@ export default {
       supplierIdDetail: [],
       // 采购申请单信息数据
       personalForm: {
+        stockRepositoryId: this.$store.getters.repositoryId,
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -489,6 +508,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        stockRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         signPersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
@@ -551,6 +573,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.stockRepositoryId = val.repositoryName
+      this.personalForm.stockRepositoryId = val.id
+    },
     changenumber(row) {
       if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
         return false
