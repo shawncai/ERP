@@ -279,12 +279,18 @@ export function deletetaskoffline(query) {
 // 添加线下任务
 export function addtaskoffline(query) {
   var params = new URLSearchParams()
-  params.append('taskname', query.taskname) // 你要传给后台的参数值 key/value
-  params.append('taskaddress', query.taskaddress) // 你要传给后台的参数值 key/value
-  params.append('taskcontent', query.taskcontent) // 你要传给后台的参数值 key/value
-  params.append('createid', query.createid) // 你要传给后台的参数值 key/value
-  params.append('employeeid', query.employeeid) // 你要传给后台的参数值 key/value
-  params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  params.append('taskName', query.taskname) // 你要传给后台的参数值 key/value
+  params.append('taskAddress', query.taskaddress) // 你要传给后台的参数值 key/value
+  params.append('taskContent', query.taskcontent) // 你要传给后台的参数值 key/value
+  params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  params.append('taskType', query.taskType) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  params.append('remarks', query.remarks) // 你要传给后台的参数值 key/value
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
   return request({
     url: '/taskoffline/addtaskoffline',
     method: 'post',

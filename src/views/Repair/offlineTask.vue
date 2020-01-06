@@ -40,73 +40,67 @@
             </el-table-column>cnpm install node-sass@latest
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.personName }}</span>
+                <span>{{ scope.row.employeeName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ygdh')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.phoneNumber }}</span>
+                <span>{{ scope.row.employeePhone }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwmc')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.invoiceNumber }}</span>
+                <span>{{ scope.row.taskName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwdz')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.taskAddress }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjnr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskContent }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjsj')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createTime }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.jg')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.result | result}}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.khxm')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.customerName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.lx')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskType | taskType }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ydbh')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.sourceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.stat')" :resizable="false" prop="stat" min-width="85px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.stat | zhuang }}</span>
+                <span>{{ scope.row.stat | statFilter }}</span>
               </template>
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
               <template slot-scope="scope">
-                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
                 <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
-                <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-                <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -128,62 +122,62 @@
             </el-table-column>cnpm install node-sass@latest
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.personName }}</span>
+                <span>{{ scope.row.employeeName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ygdh')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.phoneNumber }}</span>
+                <span>{{ scope.row.employeePhone }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwmc')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.invoiceNumber }}</span>
+                <span>{{ scope.row.taskName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwdz')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.taskAddress }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjnr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskContent }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjsj')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createTime }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.jg')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.result | result}}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.khxm')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.customerName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.lx')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskType | taskType }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ydbh')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.sourceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.stat')" :resizable="false" prop="stat" min-width="85px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.stat | zhuang }}</span>
+                <span>{{ scope.row.stat | statFilter }}</span>
               </template>
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
@@ -215,62 +209,62 @@
             </el-table-column>cnpm install node-sass@latest
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.personName }}</span>
+                <span>{{ scope.row.employeeName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ygdh')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.phoneNumber }}</span>
+                <span>{{ scope.row.employeePhone }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwmc')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.invoiceNumber }}</span>
+                <span>{{ scope.row.taskName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwdz')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.taskAddress }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjnr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskContent }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjsj')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createTime }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.jg')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.result | result}}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.khxm')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.customerName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.lx')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskType | taskType }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ydbh')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.sourceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.stat')" :resizable="false" prop="stat" min-width="85px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.stat | zhuang }}</span>
+                <span>{{ scope.row.stat | statFilter }}</span>
               </template>
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
@@ -302,62 +296,62 @@
             </el-table-column>cnpm install node-sass@latest
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.personName }}</span>
+                <span>{{ scope.row.employeeName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ygdh')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.phoneNumber }}</span>
+                <span>{{ scope.row.employeePhone }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwmc')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.invoiceNumber }}</span>
+                <span>{{ scope.row.taskName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwdz')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.taskAddress }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjnr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskContent }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjsj')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createTime }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.jg')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.result | result}}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.khxm')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.customerName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.lx')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskType | taskType }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ydbh')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.sourceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.stat')" :resizable="false" prop="stat" min-width="85px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.stat | zhuang }}</span>
+                <span>{{ scope.row.stat | statFilter }}</span>
               </template>
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
@@ -389,62 +383,62 @@
             </el-table-column>cnpm install node-sass@latest
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.personName }}</span>
+                <span>{{ scope.row.employeeName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ygdh')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.phoneNumber }}</span>
+                <span>{{ scope.row.employeePhone }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwmc')" :resizable="false" align="center" prop="phoneNumber" width="140px">
               <template slot-scope="scope">
-                <span>{{ scope.row.invoiceNumber }}</span>
+                <span>{{ scope.row.taskName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.rwdz')" prop="address" min-width="130px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.address }}</span>
+                <span>{{ scope.row.taskAddress }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjnr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskContent }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjsj')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createTime }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.cjr')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.createName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.jg')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.result | result}}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.khxm')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.customerName }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.lx')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.taskType | taskType }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.ydbh')" :resizable="false" prop="serviceExpectTime" min-width="100px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.serviceExpectTime }}</span>
+                <span>{{ scope.row.sourceNumber }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('repair.stat')" :resizable="false" prop="stat" min-width="85px" align="center">
               <template slot-scope="scope">
-                <span>{{ scope.row.stat | zhuang }}</span>
+                <span>{{ scope.row.stat | statFilter }}</span>
               </template>
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
@@ -454,8 +448,8 @@
                 <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
                 <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
                 <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-                <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
+                <!-- <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button> -->
+                <!-- <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -524,27 +518,64 @@
       </el-table> -->
       <!-- <pagination v-show="total>0" :total="total" :page.sync="listQuery.pagenum" :limit.sync="listQuery.pagesize" @pagination="getList" /> -->
     </div>
-    <el-dialog :visible.sync="addproject" :title="$t('repair.new')" width="50%" center lock-scroll >
-      <el-form :model="form" style="width: 400px; margin-left:50px;">
+    <el-dialog :visible.sync="addproject" class="edit" append-to-body width="550px" :title="$t('repair.new')" top="55px" center >
+      <el-form :model="form" style="width: 400px; margin-top:50px;">
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskname')">
           <el-input v-model="form.taskname"/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.lx')">
+          <el-select v-model="form.taskType" placeholder="please choose" style="width:280px;">
+            <!-- <el-option value="1" label="收款任务"/> -->
+            <el-option value="2" label="客户洽谈任务"/>
+            <!-- <el-option value="3" label="分期调查任务"/> -->
+            <el-option value="4" label="其他任务"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('SaleOut.saleRepositoryId')">
+          <el-input v-model="saleRepositoryId" @focus="handlechooseRep"/>
+          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskaddress')">
           <el-input v-model="form.taskaddress"/>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.khxm')">
+          <el-input v-model="customerId" @focus="chooseCustomer"/>
+          <el-button type="text" style="text-decoration:underline;color:#E6A23C;position:absolute;top:0;left:105%;" @click="addcustom">点击手动添加</el-button>
+          <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+        </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.assignstaff')">
-          <el-select v-model="form.employeeid" placeholder="please choose" @change="huoqu">
+          <el-select v-model="form.employeeId" placeholder="please choose" @change="huoqu" clearable filterable style="width:280px;">
             <el-option v-for="item in staffnamelist" :key="item.id" :label="item.personName" :value="item.id"/>
           </el-select>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskcontent')">
-          <el-input v-model="form.taskcontent"/>
+          <el-input v-model="form.taskcontent" type="textarea"/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.bz')">
+          <el-input v-model="form.remarks" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addproject = false">{{ $t('repair.cancel') }}</el-button>
         <el-button type="primary" @click="createData">{{ $t('repair.ok') }}</el-button>
       </div>
+    </el-dialog>
+    <!-- 自定义客户名称 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="mycusotom"
+      width="30%"
+      append-to-body
+      center>
+      <el-form :model="form2">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.khxm')">
+            <el-input v-model="form2.mycustomerName"/>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="mycusotom = false">取 消</el-button>
+        <el-button type="primary" @click="handlecustomer">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -556,6 +587,10 @@
   import permission2 from '@/directive/permission2/index.js' // 权限判断指令
   import checkPermission from '@/utils/permission' // 权限判断函数
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+  import MyCustomer from './components/MyCustomer'
+  import MyRepository from './components/MyRepository'
+
+
 
   const calendarTypeOptions = [
     { key: '1', display_name: 'finished' },
@@ -564,19 +599,45 @@
   var _that
 export default {
     name: 'Sample',
-    components: { Pagination },
+    components: { Pagination, MyCustomer, MyRepository },
     directives: { waves, permission, permission2 },
     filters: {
       result: function(val) {
-        if (val === 1) {
-          return 'finished'
-        } else if (val === 2) {
-          return 'unfinished'
+        const statmap = {
+          1: _that.$t('repair.wc'),
+          2: _that.$t('repair.wwc'),
+          3: _that.$t('repair.cszt')
         }
+        return statmap[val]
+      },
+      statFilter: function(val) {
+        const statmap = {
+          0: _that.$t('repair.all'),
+          1: _that.$t('repair.yfpug'),
+          2: _that.$t('repair.ygyjs'),
+          3: _that.$t('repair.cf'),
+          4: _that.$t('repair.wxjs')
+        }
+        return statmap[val]
+      },
+      taskType: function(val) {
+        const statmap = {
+          1: _that.$t('repair.skrw'),
+          2: _that.$t('repair.khqtrw'),
+          3: _that.$t('repair.fqdcrw'),
+          4: _that.$t('repair.qtrw')
+        }
+        return statmap[val]
       }
     },
     data() {
       return {
+        // 仓库回显
+        saleRepositoryId: this.$store.getters.repositoryName,
+        repositorycontrol: false,
+        mycusotom: false,
+        customercontrol: false,
+        customerId: '',
         // tab栏变量
         activeName: 'first',
         list: null,
@@ -684,6 +745,9 @@ export default {
           employeeid: '',
           repositoryid: this.$store.getters.repositoryId,
         },
+        form2: {
+          mycustomerName: ''
+        },
         formLabelWidth: '120px',
         dialogVisible: false,
         addproject: false,
@@ -708,6 +772,33 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.form.repositoryId = val.id
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    handlecustomer() {
+      this.mycusotom = false
+      this.customerId = this.form2.mycustomerName
+      this.form.customerName = this.form2.mycustomerName
+    },
+    addcustom() {
+      // console.log(123123);
+      this.mycusotom = true
+    },
+    customerdata(val) {
+      console.log(val)
+      this.form.customerId = val.id
+      this.customerId = val.customerName
+      this.form.customerName = val.customerName
+    },  
+    chooseCustomer() {
+      this.$forceUpdate()
+      this.customercontrol = true
+    },
     // tab栏切换
     handleClick(tab) {
       console.log(tab.name)
@@ -765,9 +856,33 @@ export default {
       // 列表渲染
       getList() {
         this.listLoading = true
-        gettaskofflinelist(this.listQuery).then(response => {
-          this.list = response.data.data.content.list
-          this.total = response.data.data.content.totalCount
+        let myquery = {}
+        let list = []
+        let total = 0
+        if (this.activeName === 'first') {
+          myquery = this.installList
+          list = this.list
+          total = this.total
+        } else if (this.activeName === 'second') {
+          myquery = this.installList2
+          list = this.list2
+          total = this.total2
+        } else if (this.activeName === 'third') {
+          myquery = this.installList3
+          list = this.list3
+          total = this.total3
+        } else if (this.activeName === 'four') {
+          myquery = this.installList4
+          list = this.list4
+          total = this.total4
+        } else if (this.activeName === 'five') {
+          myquery = this.installList5
+          list = this.list5
+          total = this.total5
+        }
+        getofflinelist(myquery).then(response => {
+          list = response.data.data.content.list
+          total = response.data.data.content.totalCount
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 100)
@@ -842,8 +957,7 @@ export default {
         this.addproject = true
       },
       createData() {
-        this.form.createid = this.$store.getters.userId
-        console.log(this.form.repositoryid)
+        this.form.createId = this.$store.getters.userId
         addtaskoffline(this.form).then(res => {
           this.getList()
           this.addproject = false
@@ -910,5 +1024,29 @@ export default {
   }
   .el-tabs__header is-top{
     padding-left: 20px;
+  }
+  .edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
+  }
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    display: block;
+    width: 550px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+  }
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
   }
 </style>
