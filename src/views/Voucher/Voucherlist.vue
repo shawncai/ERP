@@ -535,9 +535,11 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           const resarr = res.data.data.content
-          const arrlist = resarr.map(item => {
+          const arrlistz = resarr.map(item => {
             return item.voucherDetails
-          }).flat()
+          })
+          const arrlist = [].concat.apply([], arrlistz)
+
           const arrlist2 = [].concat.apply([], arrlist)
 
           for (const i in resarr) {
@@ -608,9 +610,10 @@ export default {
         if (res.data.ret === 200) {
           console.log(res)
           const resarr = res.data.data.content
-          const arrlist = resarr.map(item => {
+          const arrlistz = resarr.map(item => {
             return item.voucherDetails
-          }).flat()
+          })
+          const arrlist = [].concat.apply([], arrlistz)
           const arrlist2 = [].concat.apply([], arrlist)
 
           for (const i in resarr) {

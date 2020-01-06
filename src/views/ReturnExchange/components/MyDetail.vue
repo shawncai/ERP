@@ -304,7 +304,7 @@ export default {
           productCategoryName: item.category,
           kpiGrade: item.kpiGrade,
           point: item.point,
-          quantity: '0.00',
+          quantity: '1.00',
           salePrice: item.salePrice,
           costPrice: item.costPrice,
           taxPrice: item.salePrice,

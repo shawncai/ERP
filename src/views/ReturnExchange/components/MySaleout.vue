@@ -418,7 +418,8 @@ export default {
           motorCode: item.motorCode,
           discountRate: 0,
           discountMoney: 0,
-          includeTaxCostMoney: 0
+          includeTaxCostMoney: 0,
+          includeTaxMoney: 0
         }
       })
       const saleOutdata = [...this.choosedata.saleOutDetailVos, ...giftdata]
@@ -450,7 +451,8 @@ export default {
           motorCode: item.motorCode,
           discount: Number(item.discountRate) * 100,
           discountMoney: item.discountMoney,
-          includeTaxCostMoney: item.includeTaxCostMoney
+          includeTaxCostMoney: item.includeTaxCostMoney,
+          includeTaxMoney: item.includeTaxMoney
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

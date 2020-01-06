@@ -1648,6 +1648,7 @@ export default {
     },
     getincludeTaxCostMoney(row) {
       row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
       return row.includeTaxCostMoney
     },
     // 选择客户类型时清理客户名称

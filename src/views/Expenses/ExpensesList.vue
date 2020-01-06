@@ -373,8 +373,6 @@ export default {
 
   mounted() {
     this.getlist()
-    this.getallrepositorys()
-    this.getallregionlist()
   },
   beforeCreate() {
     _that = this
@@ -448,6 +446,8 @@ export default {
       }
     },
     handlevoucherparms() {
+      this.getallrepositorys()
+      this.getallregionlist()
       this.categoryVisible = true
     },
     // 根据区域选择门店

@@ -295,13 +295,21 @@ export default {
           })
         }))
         const nowlistdata = this.deepClone(voucherdata.voucherlist)
+        for (const i in nowlistdata) {
+          if (nowlistdata[i].debitMoney === null) {
+            nowlistdata[i].debitMoney = 0
+          }
+          if (nowlistdata[i].creditMoney === null) {
+            nowlistdata[i].creditMoney = 0
+          }
+        }
         const newArr = []
-
         nowlistdata.forEach(el => {
           const result = newArr.findIndex(ol => { return el.subjectCode === ol.subjectCode })
           if (result !== -1) {
             if (el.debitMoney !== null && el.debitMoney !== '' && el.debitMoney !== undefined) {
               newArr[result].debitMoney = newArr[result].debitMoney + el.debitMoney
+              newArr[result].creditMoney = newArr[result].creditMoney + el.creditMoney
             } else {
               newArr.push(el)
             }
