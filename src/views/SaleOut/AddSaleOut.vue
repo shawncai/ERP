@@ -1046,6 +1046,9 @@ export default {
       // if (this.personalForm.advanceMoney) {
       //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
       // }
+      if (this.$store.getters.newsaleoutdata) {
+        return this.$store.getters.newsaleoutdata.firstMoney
+      }
 
       if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
         console.log(12333333333)

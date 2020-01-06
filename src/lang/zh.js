@@ -459,6 +459,11 @@ export default {
     existQuantity: '现有数量'
   },
   saleBillList: {
+    freeMoney: '质保金额',
+    serviceMoney: '非质保金额',
+    freeQuantity: '质保数量',
+    serviceQuantity: '非质保数量',
+    repair: '维修',
     saleType: '销售方式',
     repositoryName: '仓库名称',
     productCode: '物品编码',
@@ -472,7 +477,9 @@ export default {
     total: '合计',
     costMoney: '成本',
     grossProfit: '毛利',
-    grossProfitRate: '毛利率'
+    grossProfitRate: '毛利率',
+    quantity: '数量',
+    color: '颜色'
   },
   shouldPayCount: {
     supplierId: '供应商编号',
