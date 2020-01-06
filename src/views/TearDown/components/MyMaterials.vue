@@ -91,7 +91,7 @@
       </el-table-column>
     </el-table>
     <!-- 列表结束 -->
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" />
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" style="padding: 0" @pagination="getlist" />
     <span slot="footer" class="dialog-footer">
       <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
     </span>

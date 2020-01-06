@@ -79,6 +79,51 @@
       <el-button v-permission="['131-141-142-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['131-141-142-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+
+      <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" class="filter-item" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
+
+      <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
+        <el-form ref="addCategoryForm" :model="voucherparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('otherlanguage.md')" label-width="100px" prop="type">
+            <el-select v-model="voucherparms.repositoryId" :disabled="isvoucherrep" style="width: 100%" filterable clearable @change="choosevoucherrep">
+              <el-option
+                v-for="(item, index) in respositoryarr"
+                :key="index"
+                :label="item.repositoryName"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+          <!--          <el-form-item :label="$t('otherlanguage.qy')" label-width="100px" prop="type">-->
+          <!--            <el-cascader-->
+          <!--              :disabled="isvoucherregion"-->
+          <!--              :options="regions"-->
+          <!--              :props="props"-->
+          <!--              v-model="sendregionIds"-->
+          <!--              :show-all-levels="false"-->
+          <!--              :placeholder="$t('otherlanguage.qy')"-->
+          <!--              change-on-select-->
+          <!--              filterable-->
+          <!--              clearable-->
+          <!--              style="width: 100%"-->
+          <!--              @change="handlechange4"-->
+          <!--            />-->
+          <!--          </el-form-item>-->
+          <el-form-item :label="$t('otherlanguage.rq')" label-width="100px" prop="categoryname">
+            <el-date-picker
+              v-model="voucherparms.date"
+              :picker-options="pickerOptions1"
+              type="month"
+              value-format="yyyy-MM"
+              style="width: 100%"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlevoucher()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 新建操作 -->
       <el-button v-permission="['131-141-142-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -179,6 +224,8 @@
 </template>
 
 <script>
+import { getRepositoryList, detailList } from '@/api/Expenses'
+import { regionlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchlist, deletestoragemove, updateStoragemove2 } from '@/api/Storagemove'
 import waves from '@/directive/waves' // Waves directive
@@ -221,6 +268,29 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() > Date.now() - 8.64e7
+        }
+      },
+      downloadLoading2: false,
+      categoryVisible: false,
+      isvoucherrep: false,
+      respositoryarr: [],
+      isvoucherregion: false,
+      sendregionIds: [],
+      regions: [],
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      voucherparms: {
+        repositoryId: '',
+        regionId: '',
+        date: '',
+        type: 6
+      },
       // 调入控制
       moveVisible: false,
       // 搜索数据----------------------
@@ -280,11 +350,118 @@ export default {
   mounted() {
     this.getdeptlist()
     this.getlist()
+    this.getallrepositorys()
+    this.getallregionlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    closetag() {
+      this.categoryVisible = false
+      this.restvoucherparms()
+    },
+    restvoucherparms() {
+      this.voucherparms = {
+        repositoryId: '',
+        regionId: '',
+        date: '',
+        type: 6
+      }
+      this.respositoryarr = []
+      this.isvoucherregion = false
+      this.isvoucherrep = false
+    },
+    handlevoucher() {
+      console.log(this.voucherparms)
+      if (this.voucherparms.date === '' || this.voucherparms.date === null || this.voucherparms.date === undefined) {
+        this.$notify.error({
+          title: '请先选择日期',
+          message: '请先选择日期',
+          offset: 100
+        })
+        return false
+      }
+      if (this.voucherparms.repositoryId === '' && this.voucherparms.regionId === '') {
+        this.$notify.error({
+          title: '请选择门店或区域',
+          message: '请选择门店或区域',
+          offset: 100
+        })
+        return false
+      }
+
+      detailList(this.voucherparms).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          if (res.data.data.content.length === 0) {
+            this.$notify.error({
+              title: '该门店或区域暂无凭证',
+              message: '该门店或区域暂无凭证',
+              offset: 100
+            })
+            return false
+          } else {
+            const senddata = {}
+            senddata.voucherlist = res.data.data.content
+            senddata.date = this.voucherparms.date
+            senddata.regionId = this.voucherparms.regionId
+            senddata.repositoryId = this.voucherparms.repositoryId
+            senddata.type = this.voucherparms.type
+            senddata.sourceType = 6
+
+            this.$store.dispatch('getvoucherdata', senddata)
+            this.$router.push({ path: '/Voucher/Newvoucher' })
+          }
+        }
+      })
+    },
+    // 获取所有门店
+    getallrepositorys() {
+      getRepositoryList().then(res => {
+        if (res.data.ret === 200) {
+          this.respositoryarr = res.data.data.content.list
+        }
+      })
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
+    // 获取所有区域
+    getallregionlist() {
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        }
+      })
+    },
+    handlevoucherparms() {
+      this.categoryVisible = true
+    },
+    choosevoucherrep(val) {
+      console.log('val', val)
+      if (val === '') {
+        this.isvoucherregion = false
+      } else {
+        this.isvoucherregion = true
+      }
+    },
+    // 根据区域选择门店
+    handlechange4(val) {
+      console.log(val)
+      if (val.length === 0) {
+        this.isvoucherrep = false
+      } else {
+        this.isvoucherrep = true
+        this.voucherparms.regionId = val[val.length - 1]
+      }
+    },
     isshow9(row) {
       // console.log('调入确认', row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length)
       // console.log('本人登录所在门店或者仓库', this.$store.getters.repositoryId)
@@ -550,6 +727,7 @@ export default {
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.businessStat = String(row.businessStat)
+      this.personalForm.moveType = String(row.moveType)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -568,7 +746,7 @@ export default {
     isReview(row) {
       const userepository = this.$store.getters.repositoryId
       if (row.moveType === 1) {
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveOutRepository) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
           // console.log(approvalUse[approvalUse.length - 1].stepHandler)
@@ -580,7 +758,7 @@ export default {
           return false
         }
       } else if (row.moveType === 2) {
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && userepository === row.moveInRepository) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
           console.log(approvalUse[approvalUse.length - 1].stepHandler)
@@ -754,5 +932,22 @@ export default {
   .filter-item{
     width: 140px;
     margin-left: 20px;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

@@ -95,7 +95,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable @change="changepenaltymoney"/>
                   <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
                 </el-form-item>
               </el-col>
@@ -279,6 +279,7 @@ export default {
         totalLackMoney: 0,
         couponSupport: 0
       },
+      allpenalty: 0,
       // 商品信息
       productForm: {},
       // 销售订单规则数据
@@ -321,12 +322,15 @@ export default {
       handler(oldval, newval) {
         console.log('switchmoney', this.switchmoney)
         let num = 0
+        let num2 = 0
         for (const i in this.switchmoney) {
           // console.log(typeof (this.list3[i].taxprice))
           num += this.switchmoney[i].thisMoney
+          num2 += this.switchmoney[i].penalty
         }
         console.log('num=====', num)
         this.personalForm.receiptMoney = num - this.personalForm.couponSupport
+        this.allpenalty = num2
       },
       deep: true,
       immediate: true
@@ -362,6 +366,11 @@ export default {
     _that = this
   },
   methods: {
+    changepenaltymoney(val) {
+      if (Number(val) > Number(this.allpenalty)) {
+        this.personalForm.penaltyMoney = this.allpenalty
+      }
+    },
     // 深拷贝
     deepClone(obj) {
       const _obj = JSON.stringify(obj)
@@ -369,7 +378,7 @@ export default {
       return objClone
     },
     changereceiptmoney(money) {
-      const val = Number(money) + Number(this.personalForm.couponSupport)
+      const val = Number(money) + Number(this.personalForm.couponSupport) - Number(this.personalForm.penaltyMoney)
       console.log(val)
       this.$refs.editable2.clear()
       const data = this.deepClone(this.allorderarr)
@@ -404,7 +413,7 @@ export default {
       }
     },
     changemoney(money) {
-      const val = Number(money) + Number(this.personalForm.receiptMoney)
+      const val = Number(money) + Number(this.personalForm.receiptMoney) - Number(this.personalForm.penaltyMoney)
       console.log(val)
       this.$refs.editable2.clear()
       const data = this.deepClone(this.allorderarr)
@@ -466,7 +475,7 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
-            thisMoney: item.shouldMoney - item.paidMoney - item.reward,
+            thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
         })
@@ -517,7 +526,7 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
-            thisMoney: item.shouldMoney - item.paidMoney - item.reward,
+            thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
         })
@@ -561,7 +570,7 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
-              thisMoney: item.shouldMoney - item.paidMoney - item.reward,
+              thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
           })

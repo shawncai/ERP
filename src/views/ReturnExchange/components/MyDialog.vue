@@ -202,6 +202,11 @@
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
+          <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <template slot-scope="scope">
+              <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discount" align="center" min-width="170">
@@ -408,6 +413,11 @@ export default {
     _that = this
   },
   methods: {
+    getincludeTaxCostMoney(row) {
+      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      return row.includeTaxCostMoney
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {

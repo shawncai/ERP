@@ -145,6 +145,15 @@ export function regionlist(query) {
   })
 }
 
+// 全部区域
+export function regionlist2(query) {
+  return request({
+    url: '/region/detaillist',
+    method: 'post',
+    params: query
+  })
+}
+
 // 查询下一级区域
 export function listbyparentid(query) {
   var params = new URLSearchParams()
@@ -173,6 +182,27 @@ export function searchregionName(query) {
 
 // 根据区域查门店
 export function searchRepository(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('regionId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('loginRepositoryId', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('regionIds', query3) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/repository/searchRepository',
+    method: 'post',
+    data: params
+  })
+}
+
+// 根据区域查门店
+export function searchRepository2(query, query2, query3) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('regionId', query) // 你要传给后台的参数值 key/value

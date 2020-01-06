@@ -355,7 +355,7 @@ export default {
     searchSaleOrderReport: '销售订单汇总表',
     searchSaleOrderDetailReport: '销售订单明细汇总表',
     searchSaleReport: '销售出库单汇总表',
-    saleBillList: '销售出库单明细表',
+    saleBillList: '销售进出库明细表',
     saleBillDay: '销售出库单日报表',
     saleReceipt: '销售收款明细表',
     saleFlow: '销售流向表',
@@ -379,6 +379,7 @@ export default {
     installmentAnalyze: '分期应收款分析',
     Voucher: '凭证管理',
     Newvoucher: '新建凭证',
+    Newvoucher2: '新建凭证',
     Voucherlist: '凭证列表',
     AccessComponent: '维修零件领用单',
     AccessComponentlist: '维修零件领用单列表',
@@ -458,6 +459,11 @@ export default {
     existQuantity: '现有数量'
   },
   saleBillList: {
+    freeMoney: '质保金额',
+    serviceMoney: '非质保金额',
+    freeQuantity: '质保数量',
+    serviceQuantity: '非质保数量',
+    repair: '维修',
     saleType: '销售方式',
     repositoryName: '仓库名称',
     productCode: '物品编码',
@@ -471,7 +477,9 @@ export default {
     total: '合计',
     costMoney: '成本',
     grossProfit: '毛利',
-    grossProfitRate: '毛利率'
+    grossProfitRate: '毛利率',
+    quantity: '数量',
+    color: '颜色'
   },
   shouldPayCount: {
     supplierId: '供应商编号',
@@ -3922,6 +3930,7 @@ export default {
   },
   collectAndPayDetail: {
     name: '名称',
-    sl: '回收数量'
+    sl: '回收数量',
+    cgck: '采购仓库'
   }
 }

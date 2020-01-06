@@ -87,9 +87,9 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
+      <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.costPrice }}</span>
+          <span>{{ scope.row.salePrice }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
@@ -304,7 +304,7 @@ export default {
           productCategoryName: item.category,
           kpiGrade: item.kpiGrade,
           point: item.point,
-          quantity: '0.00',
+          quantity: '1.00',
           salePrice: item.salePrice,
           costPrice: item.costPrice,
           taxPrice: item.salePrice,

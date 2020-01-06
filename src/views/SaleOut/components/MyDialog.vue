@@ -1346,7 +1346,7 @@ export default {
     },
     // 计算含税金额
     getincludeTaxMoney(row) {
-      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
       row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },

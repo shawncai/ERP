@@ -5,11 +5,11 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <!-- <button v-print="'#salecontract'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button> -->
-        <router-link target="_blank" to="/SaleContract/download">
-          <el-button type="primary" @click="setdata">
-            {{ $t('updates.print') }}
-          </el-button>
-        </router-link>
+        <!-- <router-link target="_blank" to="/SaleContract/download"> -->
+        <el-button type="primary" @click="setdata">
+          {{ $t('updates.print') }}
+        </el-button>
+        <!-- </router-link> -->
         <!-- <div v-if="false" id="salecontract" v-html="conetentdatazz"/> -->
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -152,6 +152,13 @@
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.eachMoney')" style="width: 100%;">
                   <span>{{ personalForm.eachMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('otherlanguage.djylfj')" style="width: 100%;">
+                  <a :href="personalForm.picPaths[0]">
+                    <el-button type="success">{{ $t('otherlanguage.djylfj') }}</el-button>
+                  </a>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -430,7 +437,11 @@ export default {
   },
   methods: {
     setdata() {
-      this.$store.dispatch('getprintdata', this.personalForm)
+      console.log(this.$store.getters.printdata)
+      const routeUrl = this.$router.resolve({
+        path: '/SaleContract/download'
+      })
+      window.open(routeUrl.href, '_blank')
     },
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {

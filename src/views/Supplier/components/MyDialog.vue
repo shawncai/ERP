@@ -469,6 +469,7 @@ export default {
           }
         }
         val[i].price = 0
+        val[i].discountRate = 0
         this.$refs.editable.insert(val[i])
       }
     },

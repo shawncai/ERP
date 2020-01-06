@@ -1,9 +1,17 @@
 import store from '@/store'
-const needdata = store.getters.printdata
+const needdata = JSON.parse(localStorage.getItem('getprintdata'))
+let cardata = {}
+function judgeiscar() {
+  const needcar = needdata.saleContractDetailVos.filter(item => {
+    return item.productCode.substr(0, 2) === '01'
+  })
+  cardata = needcar[0]
+}
+judgeiscar()
 const content = `
   <div>
     <p style="margin:-60px">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png" width="165" height="46" alt="C:\Users\hugh\Desktop\LOGO\NWOW.png" style="margin:0px auto" /></p>
+      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png" width="165" height="46" style="margin:0px auto" /></p>
     <p style="margin:0px; text-align:center;padding-top:50px">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -16,11 +24,11 @@ const content = `
       <span style="font-family:Gungsuh; font-size:30px; font-weight:500; text-decoration:underline;padding-bottom:2px;border-bottom:1 solid#fff;">SALES CERTIFICATION</span></p>
     <p style="margin:0px; text-align:justify">
       <span style="font-family:'Times New Roman'; font-size:12px;font-weight:bold">This is to certify that the Sales Invoice No.</span>
-      <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline"> _________________________________  </span>
+      <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline"> _______________${needdata.number}__________________  </span>
       <span style="font-family:'Times New Roman'; font-size:12px;font-weight:bold">was issued to</span>
-      <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">_________________________________</span></p>
+      <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">____________${needdata.customerName}______________________</span></p>
     <p style="margin:0px; text-align:justify">
-      <span style="font-family:'Times New Roman'; font-size:12px;font-weight:bold">of ___________________________________________________________</span>
+      <span style="font-family:'Times New Roman'; font-size:12px;font-weight:bold">of _____________________${needdata.signAddress}______________________________________</span>
       <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">&#xad;</span>
       <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">&#xad;</span>
       <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">&#xad;</span>
@@ -49,7 +57,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold;text-decoration:underline">____________${cardata.productCategoryName}_____________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">COLOR</span>
@@ -59,7 +67,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold;text-decoration:underline">____________${cardata.color}_____________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">MOTOR NUMBER</span>
@@ -337,7 +345,7 @@ const content = `
     <p style="margin:0px 0px 8px; text-align:justify">
       <span style="font-family:'Times New Roman'; font-size:12px">This hereby releases</span>
       <span style="font-family:'Times New Roman'; font-size:15px; font-weight:bold">NWOW Marketing</span>
-      <span style="font-family:'Times New Roman'; font-size:12px">from any and all liabilities upon apprehension/s of Mr. / Ms. _____________________________ by any government agencies for all types of traffic violation and from any all injuries suffered by him / her or by third person/s, financial or otherwise, while driving the above describe Electric Motor Vehicle unit. I, ________________________________________, fully understand and agreed to the foregoing.</span></p>
+      <span style="font-family:'Times New Roman'; font-size:12px; text-decoration:underline">from any and all liabilities upon apprehension/s of Mr. / Ms. __${needdata.customerName}__ by any government agencies for all types of traffic violation and from any all injuries suffered by him / her or by third person/s, financial or otherwise, while driving the above describe Electric Motor Vehicle unit. I, ____${needdata.customerName}____, fully understand and agreed to the foregoing.</span></p>
     <p style="margin:0px; padding-left:36px; text-indent:-36px">
       <span style="font-family:'Times New Roman'; font-size:12px">___________________________________</span>
       <span style="width:3px; text-indent:0px; display:inline-block"></span>
@@ -396,15 +404,15 @@ const content = `
       <span style="font-family:Arial; font-size:9px">&#xa0;</span></p>
     <p style="font-size:14px; line-height:108%; margin:0px; padding-left:0.5px; text-indent:-0.5px">
       <span style="font-family:Arial; font-size:14px"></span>
-      <span style="font-family:Arial; font-size:11px">Name of Customer: ____________________________</span>
+      <span style="font-family:Arial; font-size:11px">Name of Customer: ____${needdata.customerName}____</span>
       <span style="width:32.81px; text-indent:0px; display:inline-block"></span>
       <span style="width:200px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:Arial; font-size:11px">Date: ___________________</span></p>
+      <span style="font-family:Arial; font-size:11px">Date: ____${needdata.signDate}____</span></p>
     <p style="font-size:11px; line-height:108%; margin:0px; padding-left:0.5px; text-indent:-0.5px">
-      <span style="font-family:Arial; font-size:11px">Unit purchase: _______________________________</span>
+      <span style="font-family:Arial; font-size:11px">Unit purchase: _______${cardata.productCategoryName}____</span>
       <span style="width:33.62px; text-indent:0px; display:inline-block"></span>
       <span style="width:200px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:Arial; font-size:11px">Branch: __________________</span></p>
+      <span style="font-family:Arial; font-size:11px">Branch: _________${needdata.saleRepositoryName}_______</span></p>
     <p style="font-size:11px; line-height:108%; margin:0px">
       <span style="font-family:Calibri; font-size:11px">&#xa0;</span></p>
     <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.009.png" width="659" height="413" alt="" style="-aw-left-pos:17.25px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:57.05px; -aw-wrap-type:none; margin-left:17.25px; margin-top:57.05px; position:absolute; z-index:-65514" />
@@ -1193,7 +1201,7 @@ const content = `
     <p style="font-size:11px; line-height:108%; margin:0px 0px 4.6px">
       <span style="font-family:Calibri; font-size:11px">This is to certify that the</span>
       <span style="font-family:'Times New Roman'; font-size:11px">Electric Motor Vehicle</span>
-      <span style="font-family:Calibri; font-size:11px">describe above was physically released, received and accepxed by Mr. / Ms. ________________________ in A-1 condition as stated in the attached confirmation letter.</span></p>
+      <span style="font-family:Calibri; font-size:11px">describe above was physically released, received and accepxed by Mr. / Ms. ____________${needdata.customerName}____________ in A-1 condition as stated in the attached confirmation letter.</span></p>
     <p style="font-size:11px; line-height:108%; margin:0px 0px 4.6px">
       <span style="font-family:Calibri; font-size:11px">&#xa0;</span></p>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
@@ -1201,21 +1209,21 @@ const content = `
       <span style="font-family:Calibri; font-size:11.5px"></span>
     </p>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
-      <span style="font-family:Calibri; font-size:13px; font-weight:800">Model: ______________________________________</span>
+      <span style="font-family:Calibri; font-size:13px; font-weight:800">Model: __________________${cardata.productCategoryName}____________________</span>
       <span style="font-family:Calibri; font-size:11.5px"></span>
     </p>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
-      <span style="font-family:Calibri; font-size:13px; font-weight:800">Chassis Number: ______________________________</span>
+      <span style="font-family:Calibri; font-size:13px; font-weight:800">Chassis Number: _______________${cardata.carCode}_______________</span>
       <span style="font-family:Calibri; font-size:11.5px"></span>
     </p>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
-      <span style="font-family:Calibri; font-size:13px; font-weight:800">Motor Number: _______________________________</span></p>
+      <span style="font-family:Calibri; font-size:13px; font-weight:800">Motor Number: ______________${cardata.motorCode}_________________</span></p>
       <span style="font-family:Calibri; font-size:11.5px"></span>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
       <span style="font-family:Calibri; font-size:13px; font-weight:800">Charger Number: ______________________________</span></p>
       <span style="font-family:Calibri; font-size:11.5px"></span>
     <p style="margin:0px 0px 0.55px; padding-left:0.5px; text-align:justify; text-indent:-0.5px">
-      <span style="font-family:Calibri; font-size:11.5px; font-weight:bold">Color: _______________________________________</span>
+      <span style="font-family:Calibri; font-size:11.5px; font-weight:bold">Color: _________________${cardata.color}______________________</span>
       <span style="font-family:Calibri; font-size:11.5px"></span>
     </p>
     <p style="margin:0px 154.95px 0px 0px; padding-left:0.5px; text-indent:-0.5px">

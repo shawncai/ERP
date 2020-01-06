@@ -412,9 +412,13 @@ export default {
         })
         return false
       }
+      let i = 1
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.subjectCode === null || elem.subjectCode === '' || elem.subjectCode === undefined) {
+          i = 2
+        }
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
         }
@@ -426,6 +430,14 @@ export default {
         }
         return elem
       })
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '科目名称必选',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {

@@ -28,6 +28,7 @@
               trigger="click">
               <el-input v-model="saleRepositoryId" :placeholder="$t('SaleOut.saleRepositoryId')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter4" @focus="handlechooseRep"/>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              <el-input v-model="getemplist.customerName" placeholder="客户姓名" style="width: 40%;float: left;margin-left: 20px;" clearable @keyup.enter.native="handleFilter"/>
               <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
               <!--<el-option value="1" :label="$t('updates.zd')"/>-->
               <!--<el-option value="2" :label="$t('updates.zx')"/>-->
@@ -417,7 +418,8 @@ export default {
           motorCode: item.motorCode,
           discountRate: 0,
           discountMoney: 0,
-          includeTaxCostMoney: 0
+          includeTaxCostMoney: 0,
+          includeTaxMoney: 0
         }
       })
       const saleOutdata = [...this.choosedata.saleOutDetailVos, ...giftdata]
@@ -449,7 +451,8 @@ export default {
           motorCode: item.motorCode,
           discount: Number(item.discountRate) * 100,
           discountMoney: item.discountMoney,
-          includeTaxCostMoney: item.includeTaxCostMoney
+          includeTaxCostMoney: item.includeTaxCostMoney,
+          includeTaxMoney: item.includeTaxMoney
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)

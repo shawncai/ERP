@@ -85,9 +85,9 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.costprice')" :resizable="false" prop="costPrice" align="center" width="100">
+      <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.costPrice }}</span>
+          <span>{{ scope.row.salePrice }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">

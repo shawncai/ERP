@@ -27,17 +27,44 @@
                   <el-input v-model="personalForm.totalCreditMoney" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Voucher.qy')" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.region" :disabled="isOk" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Voucher.md')" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.repository" :disabled="isOk" style="margin-left: 18px;width: 200px"/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('Voucher.qy')" style="width: 100%;">
-                  <el-input v-model="personalForm.region" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('NewEmployeeInformation.regionid')" style="width: 100%;">
+                  <el-cascader
+                    :options="regions"
+                    :props="props"
+                    :disabled="isOk"
+                    v-model="personalForm.regionId2"
+                    :show-all-levels="false"
+                    :placeholder="$t('Hmodule.xzqy')"
+                    change-on-select
+                    filterable
+                    clearable
+                    style="margin-left: 18px;width: 200px"
+                    @change="handlechange4"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Voucher.md')" style="width: 100%;">
-                  <el-input v-model="personalForm.repository" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
+                  <el-select :disabled="isOk" v-model="personalForm.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="margin-left: 18px;width: 200px">
+                    <el-option
+                      v-for="(item, index) in repositories"
+                      :key="index"
+                      :label="item.repositoryName"
+                      :value="item.id"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
-
             </el-row>
           </el-form>
         </div>
@@ -134,12 +161,15 @@
 <script>
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail, addvoucher, searchRepository, regionlist } from '@/api/voucher'
+import { regionlist2, searchRepository2 } from '@/api/public'
 import '@/directive/noMoreClick/index.js'
 var _that
 export default {
-  name: 'Newvoucher',
+  name: 'Newvoucher2',
   data() {
     return {
+      repositories: [],
+      isOk: true,
       selectid: [],
       carstdata: '',
       treedata: [],
@@ -147,6 +177,12 @@ export default {
         value: 'id',
         label: 'subjectName',
         children: 'subjectFinanceVos'
+      },
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
       },
       suboptions: [],
       // 制单人回显
@@ -156,7 +192,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: '',
-        regionId: '',
+        regionId2: '',
         totalCreditMoney: 0,
         totalDebitMoney: 0
       },
@@ -191,8 +227,21 @@ export default {
   created() {
     this.getdatatime()
     this.gettree()
+    this.getnationlist()
+    this.handlechange4()
   },
   methods: {
+    // 国籍列表
+    getnationlist() {
+      // 区域列表数据
+      regionlist2().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
     entermoney(row) {
       console.log(row)
       if (row.balanceTrend) {
@@ -259,6 +308,9 @@ export default {
     async setvoucherdata() {
       const voucherdata = this.$store.getters.voucherdata
       console.log(voucherdata)
+      if (voucherdata === null || voucherdata === undefined || voucherdata === '') {
+        this.isOk = false
+      }
       // this.selectid = this.$store.getters.voucherdata.voucherlist.map(item => {
       //   return {
       //     id: item.id
@@ -295,21 +347,13 @@ export default {
           })
         }))
         const nowlistdata = this.deepClone(voucherdata.voucherlist)
-        for (const i in nowlistdata) {
-          if (nowlistdata[i].debitMoney === null) {
-            nowlistdata[i].debitMoney = 0
-          }
-          if (nowlistdata[i].creditMoney === null) {
-            nowlistdata[i].creditMoney = 0
-          }
-        }
         const newArr = []
+
         nowlistdata.forEach(el => {
           const result = newArr.findIndex(ol => { return el.subjectCode === ol.subjectCode })
           if (result !== -1) {
             if (el.debitMoney !== null && el.debitMoney !== '' && el.debitMoney !== undefined) {
               newArr[result].debitMoney = newArr[result].debitMoney + el.debitMoney
-              newArr[result].creditMoney = newArr[result].creditMoney + el.creditMoney
             } else {
               newArr.push(el)
             }
@@ -348,6 +392,7 @@ export default {
           this.list2[i].isdisable3 = true
         }
       }
+      this.$store.dispatch('getvoucherdata', '')
     },
     processchildren(val) {
       for (const i in val) {
@@ -403,20 +448,15 @@ export default {
         regionListVos: this.tranKTree(item.regionListVos)
       }))
     },
-    handlechange4(val) {
-      console.log(val)
-      const finalid = val[val.length - 1]
-      console.log(finalid)
-      this.region = finalid
-      this.personalForm.expensesregionId = finalid
-      // searchRepository(finalid).then(res => {
-      //   console.log(res)
-      //   if (res.data.ret === 200) {
-      //     this.repositories = res.data.data.content.list
-      //   } else {
-      //     console.log('区域选择门店')
-      //   }
-      // })
+    handlechange4() {
+      searchRepository2().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
     },
     // 新增收入明细
     insertEvent(index) {
@@ -458,6 +498,40 @@ export default {
     // },
     // 保存操作
     handlesave() {
+      const quyu = this.personalForm.regionId2.length
+      if (quyu > 0) {
+        this.personalForm.regionId = this.personalForm.regionId2[quyu - 1]
+      } else {
+        this.personalForm.regionId = ''
+      }
+      this.personalForm.sourceType = 0
+      let i = 1
+      if (this.personalForm.regionId === null || this.personalForm.regionId === undefined || this.personalForm.regionId === '') {
+        if (this.personalForm.repositoryId === null || this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+          i = 2
+        }
+      }
+      if (this.personalForm.regionId !== null && this.personalForm.regionId !== undefined && this.personalForm.regionId !== '') {
+        if (this.personalForm.repositoryId !== null && this.personalForm.repositoryId !== undefined && this.personalForm.repositoryId !== '') {
+          i = 3
+        }
+      }
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店必须选择一个',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 3) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店不能同时选择',
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.totalCreditMoney !== this.personalForm.totalDebitMoney) {
         this.$notify.error({
           title: '错误',
@@ -485,7 +559,10 @@ export default {
         }
         return elem
       })
-      const arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+      let arr4 = EnterDetail
+      if (this.$store.getters.voucherdata.voucherlist) {
+        arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+      }
       console.log('arr412345678990987-------', arr4)
       const parms2 = JSON.stringify(arr4)
 
@@ -514,6 +591,7 @@ export default {
                 this.$refs.editable.clear()
                 this.$refs.personalForm.clearValidate()
                 this.$refs.personalForm.resetFields()
+                this.personalForm.regionId2 = []
               } else {
                 this.$notify.error({
                   title: '错误',

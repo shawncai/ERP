@@ -442,7 +442,7 @@ export default {
           kpiGrade: item.kpiGrade,
           point: item.point,
           // taxprice: item.salePrice - item.taxMoney,
-          taxRate: item.taxRate,
+          taxRate: Number(item.taxRate) * 100,
           taxMoney: item.taxMoney,
           discount: item.discountRate * 100,
           discountMoney: 0,
@@ -456,8 +456,8 @@ export default {
           locationId: item.locationId,
           locationName: item.locationName,
           includeTaxCostMoney: 0,
-          includeTaxMoney: 0,
-          money: item.salePrice,
+          includeTaxMoney: (item.salePrice) * 1 + Number(item.taxMoney),
+          money: (item.salePrice) * 1 + Number(item.taxMoney),
           stat: 0
         }
       })

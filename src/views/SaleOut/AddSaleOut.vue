@@ -1046,6 +1046,9 @@ export default {
       // if (this.personalForm.advanceMoney) {
       //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
       // }
+      if (this.$store.getters.newsaleoutdata) {
+        return this.$store.getters.newsaleoutdata.firstMoney
+      }
 
       if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
         console.log(12333333333)
@@ -1593,7 +1596,7 @@ export default {
     },
     // 计算含税金额
     getincludeTaxMoney(row) {
-      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
       row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
@@ -1645,6 +1648,7 @@ export default {
     },
     getincludeTaxCostMoney(row) {
       row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
       return row.includeTaxCostMoney
     },
     // 选择客户类型时清理客户名称

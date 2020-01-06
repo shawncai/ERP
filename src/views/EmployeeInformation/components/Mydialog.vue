@@ -176,7 +176,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.repositoryid')" style="width: 100%;">
-                <el-select v-model="personalForm.repositoryId" :placeholder="$t('Hmodule.xzmd')" filterable style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="margin-left: 18px;width: 200px" @clear="clearrepo">
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -404,6 +404,9 @@ export default {
     _that = this
   },
   methods: {
+    clearrepo() {
+      this.personalForm.repositoryId = ''
+    },
     ids2(val) {
       this.supp = val
     },

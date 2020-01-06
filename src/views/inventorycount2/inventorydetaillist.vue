@@ -9,11 +9,11 @@
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 70px">
-            <el-form-item :label="$t('updates.pp')">
-              <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
+          <!--          <el-col :span="4" style="margin-left: 70px">-->
+          <!--            <el-form-item :label="$t('updates.pp')">-->
+          <!--              <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
+          <!--            </el-form-item>-->
+          <!--          </el-col>-->
           <el-col :span="4" style="margin-left: 70px">
             <el-form-item :label="$t('updates.xh')">
               <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
@@ -39,10 +39,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 88px">
-            <el-form-item :label="$t('updates.fle')">
-              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter" @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            <el-form-item :label="$t('updates.fle')" style="width: 100%;">
+              <el-select v-model="getemplist.categoryId">
+                <el-option value="1" label="整车"/>
+                <el-option value="2" label="配件"/>
+                <el-option value="5" label="电池"/>
+              </el-select>
             </el-form-item>
+            <!--            <el-form-item :label="$t('updates.fle')">-->
+            <!--              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter" @focus="treechoose"/>-->
+            <!--              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>-->
+            <!--            </el-form-item>-->
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
             <!-- 搜索按钮 -->
@@ -271,7 +278,7 @@ export default {
   },
 
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.changeName()
   },
   beforeCreate() {
@@ -298,7 +305,7 @@ export default {
       if (this.getemplist.type === '4') {
         this.first = '种类名称'
       }
-      this.getlist()
+      // this.getlist()
     },
     checkPermission,
     // 不让勾选
@@ -366,6 +373,14 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择仓库',
+          offset: 100
+        })
+        return false
+      }
       this.getemplist.pageNum = 1
       if (this.date === null || this.date === undefined || this.date === '') {
         this.getemplist.beginTime = ''

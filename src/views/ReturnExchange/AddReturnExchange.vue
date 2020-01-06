@@ -203,8 +203,13 @@
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="150px"/>
+            <!--            <el-editable-column :label="$t('updates.zko')" prop="discount" align="center" min-width="150px"/>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discount" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -395,6 +400,23 @@ export default {
       }
     }
   },
+  watch: {
+    list2: {
+      handler() {
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          num1 += this.list2[i].taxPrice * this.list2[i].quantity - this.list2[i].discountMoney
+        }
+        for (const i in this.list3) {
+          num2 += this.list3[i].taxPrice * this.list3[i].quantity - this.list3[i].discountMoney
+        }
+        this.personalForm.diffMoney = (num2 - num1).toFixed(2)
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   created() {
     this.getdatatime()
     this.getnationlist()
@@ -403,6 +425,11 @@ export default {
     _that = this
   },
   methods: {
+    getincludeTaxCostMoney(row) {
+      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      return row.includeTaxCostMoney
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {

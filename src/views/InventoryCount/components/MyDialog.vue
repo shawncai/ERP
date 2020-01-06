@@ -449,6 +449,27 @@ export default {
     getDiff(par1, par2, par3) {
       console.log(par1)
       par3.diffQuantity = Math.abs(par2 - par1)
+      let num1 = 0
+      let num2 = 0
+      let num3 = 0
+      let num4 = 0
+      let num5 = 0
+      let num6 = 0
+      for (const i in this.list2) {
+        num1 += this.list2[i].inventoryQuantity
+        num2 += this.list2[i].actualQuantity
+        num3 += this.list2[i].diffQuantity
+        num4 += this.list2[i].price * this.list2[i].inventoryQuantity
+        num5 += this.list2[i].price * this.list2[i].actualQuantity
+        num6 += this.list2[i].price * this.list2[i].diffQuantity
+        console.log('this.list2[i].diffQuantity', this.list2[i].diffQuantity)
+      }
+      this.heji1 = num1
+      this.heji2 = num2
+      this.heji3 = num3
+      this.heji4 = num4
+      this.heji5 = num5
+      this.heji6 = num6
       return Math.abs(par2 - par1)
     },
     // 总金额计算

@@ -29,6 +29,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="stockRepositoryId" style="width: 100%;">
+                <el-input v-model="stockRepositoryId" placeholder="请选择采购仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('StockOrder.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                 <el-input v-model="stockPersonId" :disabled="IsStockPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -324,10 +330,11 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyContract from './MyContract'
+import MyRepository from './MyRepository'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyContract, MyRepository, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -339,6 +346,14 @@ export default {
     }
   },
   data() {
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.stockRepositoryId)
+      if (this.stockRepositoryId === undefined || this.stockRepositoryId === null || this.stockRepositoryId === '') {
+        callback(new Error('请选择入库仓库'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
@@ -372,6 +387,8 @@ export default {
       }
     }
     return {
+      repositorycontrol: false,
+      stockRepositoryId: '',
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -455,6 +472,9 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        stockRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         signPersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
@@ -503,6 +523,7 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
+      this.stockRepositoryId = this.personalForm.stockRepositoryName
       this.list2 = this.personalForm.stockOrderDetailVos
       this.changeRate()
     }
@@ -515,6 +536,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.stockRepositoryId = val.repositoryName
+      this.personalForm.stockRepositoryId = val.id
+    },
     // 处理汇率
     changeRate() {
       console.log(123)
@@ -882,7 +911,7 @@ export default {
       this.personalForm.deliveryMode = val.deliveryMode
       this.personalForm.settleMode = val.settleId
       this.personalForm.currency = String(val.currency)
-      this.getRate()
+      // this.getRate()
     },
     // 采购询价单加载过来数据
     lnquiry(val) {

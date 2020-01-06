@@ -545,6 +545,22 @@ export function deleteProcess(query, query2) {
 }
 
 // 修改审批流程
+export function updateEffective(query, detailJson) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('is_effective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalProcess/updateEffective',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改审批流程
 export function updateeapproval(query, detailJson) {
   var params = new URLSearchParams()
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
