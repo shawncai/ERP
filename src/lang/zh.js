@@ -3818,6 +3818,10 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    zc: '整车',
+    pj: '配件',
+    jgj: '紧固件',
+    dc: '电池',
     djylfj: '点击预览下载附件',
     fph: '发票号',
     bcskje: '本次收款金额',

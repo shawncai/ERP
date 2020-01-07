@@ -15,8 +15,12 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.categoryid')" prop="productCategoryId" style="width: 40%;">
-            <el-input v-model="productCategoryId" style="width: 100%;" placeholder="请选择物品分类" @focus="treechoose"/>
-            <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            <el-select v-model="personalForm.productCategoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 100%;" clearable>
+              <el-option :label="$t('otherlanguage.zc')" value="1"/>
+              <el-option :label="$t('otherlanguage.pj')" value="2"/>
+              <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+              <el-option :label="$t('otherlanguage.dc')" value="5"/>
+            </el-select>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 35%;margin-top:1%">
             <el-radio-group v-model="personalForm.commissionCategory">

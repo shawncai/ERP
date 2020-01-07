@@ -18,8 +18,12 @@
           </el-col>
           <el-col :span="3" style="margin-left: 45px">
             <el-form-item :label="$t('updates.fle')">
-              <el-input v-model="productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable @clear="restFilter" @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+              <el-select v-model="getemplist.productCategory" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable>
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 45px">

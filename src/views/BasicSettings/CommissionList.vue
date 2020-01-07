@@ -3,7 +3,6 @@
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <!-- <el-input v-model="productCategoryId" placeholder="请选择物品分类" class="filter-item" style="width: 150px" @focus="treechoose"/> -->
-      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <el-select v-model="getemplist.commissionType" placeholder="请选择提成类型" class="filter-item" clearable >
         <el-option value="1" label="提成比例" />
         <el-option value="2" label="固定金额" />
@@ -99,8 +98,12 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Product.categoryid')" prop="productCategoryId" style="width: 40%;">
-            <el-input v-model="productCategoryId" style="width: 150px" placeholder="请选择物品分类" @focus="treechoose"/>
-            <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+            <el-select v-model="getemplist.productCategoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 150px" clearable>
+              <el-option :label="$t('otherlanguage.zc')" value="1"/>
+              <el-option :label="$t('otherlanguage.pj')" value="2"/>
+              <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+              <el-option :label="$t('otherlanguage.dc')" value="5"/>
+            </el-select>
           </el-form-item>
           <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 100%;margin-top:1%">
             <el-radio-group v-model="editNumberingform.commissionCategory">

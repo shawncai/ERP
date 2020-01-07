@@ -5,8 +5,12 @@
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="categoryId" :placeholder="$t('StockRequire.categoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="treechoose" @clear="restFilter"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">

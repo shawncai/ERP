@@ -1,5 +1,22 @@
 import store from '@/store'
-const needdata = JSON.parse(localStorage.getItem('getprintdata'))
+function cutnull(data) {
+  for (const x in data) {
+    if (data[x] === null) { // 如果是null 把直接内容转为 ''
+      data[x] = ''
+    } else {
+      if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+        data[x] = data[x].map(z => {
+          return cutnull(z)
+        })
+      }
+      if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+        data[x] = cutnull(data[x])
+      }
+    }
+  }
+  return data
+}
+const needdata = cutnull(JSON.parse(localStorage.getItem('getprintdata')))
 let cardata = {}
 function judgeiscar() {
   const needcar = needdata.saleContractDetailVos.filter(item => {
@@ -7,11 +24,13 @@ function judgeiscar() {
   })
   cardata = needcar[0]
 }
+const imgurl = '/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png'
+
 judgeiscar()
 const content = `
   <div>
     <p style="margin:-60px">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png" width="165" height="46" style="margin:0px auto" /></p>
+      <img src="${imgurl}" width="165" height="46" style="margin:0px auto" /></p>
     <p style="margin:0px; text-align:center;padding-top:50px">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -127,7 +146,7 @@ const content = `
     <p style="margin:0px">
       <span style="font-family:'Times New Roman'; font-size:12px">&#xa0;</span></p>
     <p style="margin:0px; text-align:center">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.003.png" width="194" height="45" style="-aw-left-pos:0px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.6px; -aw-wrap-type:through;margin:0px auto" /></p>
+      <img src="${imgurl}" width="194" height="45" style="-aw-left-pos:0px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.6px; -aw-wrap-type:through;margin:0px auto" /></p>
     <p style="margin:0px">
       <span style="font-family:Calibri; font-size:8px">&#xa0;</span></p>
     <p style="margin:0px; text-align:center">
@@ -330,7 +349,7 @@ const content = `
     </p>
     
     <p style="margin:15px 0px 8px">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.006.png" width="165" height="31" style="-aw-left-pos:0px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.8px; -aw-wrap-type:through;margin:0px auto" /></p>
+      <img src="${imgurl}" width="165" height="31" style="-aw-left-pos:0px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.8px; -aw-wrap-type:through;margin:0px auto" /></p>
     <p style="margin:0px; text-align:center">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -393,7 +412,7 @@ const content = `
     <p style="margin:0px; text-align:center">
       <span style="font-family:Calibri; font-size:11px">&#xa0;</span></p>
     <p style="margin:0px">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.008.png" width="165" height="43" style="-aw-left-pos:179.15px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0px; -aw-wrap-type:through; margin:0px auto" /></p>
+      <img src="${imgurl}" width="165" height="43" style="-aw-left-pos:179.15px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0px; -aw-wrap-type:through; margin:0px auto" /></p>
     <p style="margin:0px; text-align:center">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -1283,7 +1302,7 @@ const content = `
   <span style="font-family:'Bookman Old Style'; font-size:10px; font-weight:bold">&#xa0;</span></p>
   <div>
     <p style="margin:0px; padding-left:0.5px; text-indent:-0.5px">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.010.png" width="171" height="47" style="-aw-left-pos:166.2px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.75px; -aw-wrap-type:through; margin:0px auto" /></p>
+      <img src="${imgurl}" width="171" height="47" style="-aw-left-pos:166.2px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.75px; -aw-wrap-type:through; margin:0px auto" /></p>
     <p style="line-height:10px; margin:0px 0px 8px; text-align:justify">
       <span style="font-family:Calibri; font-size:11px">&#xa0;</span></p>
     <p style="margin:0px; text-align:center">
@@ -1467,7 +1486,7 @@ const content = `
       <p style="margin:0px; text-align:center">
       <span style="font-family:'Bookman Old Style'; font-size:10px; font-weight:bold">&#xa0;</span></p>
     <p style="margin:0px; text-align:center">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.011.png" width="234" height="48" style="-aw-left-pos:166.75px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.1px; -aw-wrap-type:through; margin:0px auto" /></p>
+      <img src="${imgurl}" width="234" height="48" style="-aw-left-pos:166.75px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.1px; -aw-wrap-type:through; margin:0px auto" /></p>
     <p style="margin:0px; text-align:center">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -1553,7 +1572,7 @@ const content = `
       <p style="margin:0px; text-align:center">
       <span style="font-family:'Bookman Old Style'; font-size:10px; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:12px; line-height:108%; margin:0px 0px 8px; text-align:center">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.014.png" width="263" height="80" style="-aw-left-pos:113px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:4.75px; -aw-wrap-type:through;  margin:0px auto" /></p>
+      <img src="${imgurl}" width="263" height="80" style="-aw-left-pos:113px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:4.75px; -aw-wrap-type:through;  margin:0px auto" /></p>
     <p style="margin:0px; text-align:center">
       <span style="font-family:Calibri; font-size:8px">#5780 A Binakayan Highway Tramo-Bantayan Kawit, Cavite (in front of JNL Motor Parts)</span></p>
     <p style="margin:0px; text-align:center">
@@ -1622,7 +1641,7 @@ const content = `
     <p style="font-size:12px; line-height:108%; margin:0px 0px 8px">
       <br style="page-break-before:always; clear:both" /></p>
     <p style="font-size:11px; line-height:108%; margin:0px 0px 0px 39px; text-align:justify">
-      <img src="/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.016.png" width="263" height="72" style="-aw-left-pos:136px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0px; -aw-wrap-type:through; margin:0px auto" />
+      <img src="${imgurl}" width="263" height="72" style="-aw-left-pos:136px; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0px; -aw-wrap-type:through; margin:0px auto" />
       <a name="_Hlk13506575"></a>
     </p>
     <p style="font-size:12px; line-height:108%; margin:0px 0px 8px 39px; text-align:justify">
