@@ -2105,20 +2105,20 @@ export const asyncRouterMap = [
       title: 'income',
       icon: 'shourudan',
       type: 11,
-      roles: ['54-90-4', '54-91-1']
+      roles: ['266-90-4', '266-91-1']
     },
     children: [
       {
         path: 'AddIncome',
         component: () => import('@/views/income/AddIncome'),
         name: 'AddIncome',
-        meta: { title: 'AddIncome', noCache: false, roles: ['54-91-1'] }
+        meta: { title: 'AddIncome', noCache: false, roles: ['266-91-1'] }
       },
       {
         path: 'IncomeList',
         component: () => import('@/views/income/IncomeList'),
         name: 'IncomeList',
-        meta: { title: 'IncomeList', noCache: true, roles: ['54-90-1', '54-90-2', '54-90-3', '54-90-4', '54-90-5', '54-90-6', '54-90-7', '54-90-18', '54-90-16', '54-90-17'] }
+        meta: { title: 'IncomeList', noCache: true, roles: ['266-90-1', '266-90-2', '266-90-3', '266-90-4', '266-90-5', '266-90-6', '266-90-7', '266-90-18', '266-90-16', '266-90-17'] }
       }
     ]
   },
