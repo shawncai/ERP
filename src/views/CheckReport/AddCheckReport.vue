@@ -995,6 +995,7 @@ export default {
       this.reportdata3 = val.produceTaskDetailVos
       this.personalForm.sourceNumber = val.taskNumber
       this.personalForm.inspectionDeptId = val.produceDeptId
+      this.personalForm.sourceSerialNumber = val.id
       if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
         this.personalForm.produceManagerId = val.handlePersonId
         this.produceManagerId = val.handlePersonName

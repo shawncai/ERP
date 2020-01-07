@@ -1037,38 +1037,44 @@ export default {
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
       }
-
-      if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
-        console.log(198283774747)
+      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+        return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+        return this.$store.getters.newsaleoutdata.firstMoney
+      } else if (this.receivableMoney) {
+        return this.receivableMoney
+      } else {
         return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
+
+      // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
+      //   console.log(198283774747)
+      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      // }
 
       // if (this.personalForm.advanceMoney) {
       //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
       // }
-      if (this.$store.getters.newsaleoutdata) {
-        return this.$store.getters.newsaleoutdata.firstMoney
-      }
 
-      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
-        console.log(12333333333)
-        this.personalForm.receivableMoney = this.receivableMoney
-        return (this.receivableMoney - Number(this.personalForm.couponSupport))
-      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      } else {
-        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
-          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
-          this.personalForm.receivableMoney = this.heji3 - this.heji4
-          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
-        }
-      }
+      // if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+      //   console.log(12333333333)
+      //   this.personalForm.receivableMoney = this.receivableMoney
+      //   return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      // } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else {
+      //   if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+      //     console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+      //     this.personalForm.receivableMoney = this.heji3 - this.heji4
+      //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+      //   }
+      // }
     },
     isEdit3(row) {
       console.log('222', row)
@@ -1832,6 +1838,7 @@ export default {
       }
     },
     salecontract(val) {
+      console.log('val===========', val)
       console.log('val.firstMoney', val.firstMoney)
       this.receivableMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
