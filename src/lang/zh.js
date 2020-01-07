@@ -1505,6 +1505,7 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
+
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',
@@ -3826,6 +3827,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xzgs: '选择公司',
     zc: '整车',
     pj: '配件',
     jgj: '紧固件',

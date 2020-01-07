@@ -9,21 +9,21 @@
         <el-button type="primary" @click="setdata">
           {{ $t('updates.print') }}
         </el-button>
-        <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
-          <el-form ref="addCategoryForm" :model="contractparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-            <el-form-item :label="$t('otherlanguage.md')" label-width="100px" prop="type">
-              <el-select v-model="contractparms.repositoryId" style="width: 100%" filterable clearable >
-                <el-option
-                  v-for="(item, index) in respositoryarr"
-                  :key="index"
-                  :label="item.repositoryName"
-                  :value="item.id"
-                />
+        <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.xzgs')" append-to-body class="normal" width="600px" center>
+          <el-form class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+            <el-form-item :label="$t('otherlanguage.xzgs')" label-width="100px" prop="type">
+              <el-select v-model="selectcompany" style="width: 100%" filterable clearable >
+                <el-option value="1" label="NWOW MARKETING"/>
+                <el-option value="2" label="TAILG MARKETING"/>
+                <el-option value="3" label="YADEA MARKETING"/>
+                <el-option value="4" label="RH MARKETING"/>
+                <el-option value="5" label="MARKETINGERVP MARKETING"/>
+                <el-option value="6" label="EHERO MARKETING"/>
               </el-select>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="handlevoucher()">{{ $t('Hmodule.sure') }}</el-button>
+            <el-button type="primary" @click="handleprint()">{{ $t('Hmodule.sure') }}</el-button>
             <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
           </span>
         </el-dialog>
@@ -415,6 +415,7 @@ export default {
   },
   data() {
     return {
+      selectcompany: '',
       respositoryarr: [],
       categoryVisible: false,
       contractparms: {
@@ -459,12 +460,25 @@ export default {
     _that = this
   },
   methods: {
-    setdata() {
-      console.log(this.$store.getters.printdata)
+    handleprint() {
+      this.categoryVisible = false
+      localStorage.setItem('selectcompany', this.selectcompany)
+      // console.log('this.selectcompany', this.selectcompany)
       const routeUrl = this.$router.resolve({
         path: '/SaleContract/download'
       })
       window.open(routeUrl.href, '_blank')
+    },
+    closetag() {
+      this.categoryVisible = false
+    },
+    setdata() {
+      this.categoryVisible = true
+      // console.log(this.$store.getters.printdata)
+      // const routeUrl = this.$router.resolve({
+      //   path: '/SaleContract/download'
+      // })
+      // window.open(routeUrl.href, '_blank')
     },
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
