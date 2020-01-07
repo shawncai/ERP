@@ -138,6 +138,28 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('income.region')" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  v-model="scope.row.region"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 200px"
+                  @change="handlechange5(scope)"
+                />
+                <!--                <el-input v-model="scope.row.regionId" @focus="handlechoose(scope)"/>-->
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('income.incomeRepositoryId')" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input v-model="scope.row.repositoryId" @focus="handlechoose(scope)"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -257,6 +279,12 @@ export default {
     _that = this
   },
   methods: {
+    handlechange5(val) {
+      console.log('val', val.row.region)
+      const finalid = val.row.region[val.row.region.length - 1]
+      console.log(finalid)
+      val.row.regionId = finalid
+    },
     findtreedata(val, val2) {
       let data;
       (val || []).map(i => {
@@ -333,14 +361,6 @@ export default {
       console.log(finalid)
       this.region = finalid
       this.personalForm.transferRegionId = finalid
-      // searchRepository(finalid).then(res => {
-      //   console.log(res)
-      //   if (res.data.ret === 200) {
-      //     this.repositories = res.data.data.content.list
-      //   } else {
-      //     console.log('区域选择门店')
-      //   }
-      // })
     },
     // 转化数据方法
     tranKTree(arr) {
