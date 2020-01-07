@@ -155,6 +155,7 @@
             <el-button v-permission="['131-132-133-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-132-133-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['131-132-133-101']" v-show="isReview6(scope.row)" type="primary" size="mini" @click="handleReview6(scope.row)">{{ $t('collectAndPayDetail.fjf') }}</el-button>
             <el-button v-permission="['131-132-133-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-132-133-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-132-133-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
@@ -171,7 +172,7 @@
 </template>
 
 <script>
-import { stockenterlist, deletestockenter, updatestockenter3, updatestockenter } from '@/api/Stockenter'
+import { stockenterlist, deletestockenter, updatestockenter3, updatestockenter, updateExtra } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -351,6 +352,62 @@ export default {
         console.log('wrong')
       })
     },
+    isReview6(row) {
+      console.log(row)
+      if (row.receiptStat !== 3 && row.judgeStat === 2) {
+        return true
+      }
+    },
+    // 结单操作
+    handleReview6(row) {
+      // this.reviewParms = {}
+      // this.reviewParms.id = row.id
+      // this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$prompt('请输入附加费', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[0-9]+(.[0-9]{2})?$/,
+        inputErrorMessage: '附加费格式不正确'
+      }).then(({ value }) => {
+        // this.$message({
+        //   type: 'success',
+        //   message: '你的邮箱是: ' + value
+        // })
+        // this.reviewParms.receiptStat = 3
+        const parms = JSON.stringify(this.reviewParms)
+        updateExtra(row.id, this.$store.getters.userId, value).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '设置成功!'
+            })
+            this.getlist()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
+      // this.$confirm('请结单', '结单', {
+      //   distinguishCancelAndClose: true,
+      //   confirmButtonText: '结单',
+      //   type: 'warning'
+      // }).then(() => {
+      //   this.reviewParms.receiptStat = 3
+      //   const parms = JSON.stringify(this.reviewParms)
+      //   updatestockenter3(parms).then(res => {
+      //     if (res.data.ret === 200) {
+      //       this.$message({
+      //         type: 'success',
+      //         message: '结单成功!'
+      //       })
+      //       this.getlist()
+      //     }
+      //   })
+      // })
+    },
     // 判断结单按钮
     isReview2(row) {
       console.log(row)
@@ -369,8 +426,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 3
-        const parms = JSON.stringify(this.reviewParms)
-        updatestockenter3(parms).then(res => {
+        const parms = {
+          receiptStat: 3,
+          id: row.id
+        }
+        // const parms = JSON.stringify(this.reviewParms)
+        console.log(this.reviewParms)
+        updatestockenter(parms, '').then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -379,6 +441,8 @@ export default {
             this.getlist()
           }
         })
+      }).catch(() => {
+        console.log('wrong')
       })
     },
     checkPermission,

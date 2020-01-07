@@ -216,8 +216,8 @@
                 {{ personalForm.lowerPrice }}
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
+            <el-col v-permission="['1-31-33-115']" :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.cbj')" style="width: 100%;">
                 {{ personalForm.memberPrice }}
               </el-form-item>
             </el-col>
@@ -440,11 +440,14 @@
 
 <script>
 import { productInventory, productStockRetreat, productSaleReturn, productStockInfo } from '@/api/Product'
+import checkPermission from '@/utils/permission' // 权限判断函数
+import permission from '@/directive/permission/index.js' // 权限判断指令
 import Pagination from '@/components/Pagination'
 import MyRepository from './MyRepository'
 import MySupplier from '../../StockPlan/components/MySupplier' // Secondary package based on el-pagination
 var _that
 export default {
+  directives: { permission },
   components: { MySupplier, MyRepository, Pagination },
   filters: {
     sourceFilter(status) {
@@ -621,6 +624,7 @@ export default {
     _that = this
   },
   methods: {
+    checkPermission,
     // 采购信息详情
     getstockinfo() {
       productStockInfo(this.getstockinfodata).then(res => {
