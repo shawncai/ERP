@@ -333,8 +333,9 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      const producedata = this.choosedata.produceTaskDetailVos
       console.log('choosedata', this.choosedata)
+      const producedata = this.choosedata.produceTaskDetailVos
+
       const num = this.choosedata
       const productDetail = producedata.map(function(item) {
         return {
@@ -356,21 +357,22 @@ export default {
         return productlist(item.productCode)
       }))
       // console.log('list', list[0].data.data.content.list)
-      console.log('productDetail', productDetail)
+      // console.log('productDetail', productDetail)
       // 在外部把数据加到数组里面去
-      for (let i = 0; i < productDetail.length; i++) {
-        for (let j = 0; j < list.length; j++) {
-          if (list[j].data.data.content.length) {
-            if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
-              productDetail[i].price = list[j].data.data.content.list[0].costPrice
-              productDetail[i].enterPrice = list[j].data.data.content.list[0].costPrice
-              productDetail[i].color = list[j].data.data.content.list[0].color
-              productDetail[i].typeId = list[j].data.data.content.list[0].typeId
-              productDetail[i].typeIdname = list[j].data.data.content.list[0].productType
-            }
-          }
-        }
-      }
+      // for (let i = 0; i < productDetail.length; i++) {
+      //   for (let j = 0; j < list.length; j++) {
+      //     if (list[j].data.data.content.length) {
+      //       if (productDetail[i].productCode === list[j].data.data.content.list[0].code) {
+      //         productDetail[i].price = list[j].data.data.content.list[0].memberPrice
+      //         productDetail[i].enterPrice = list[j].data.data.content.list[0].memberPrice
+      //         productDetail[i].color = list[j].data.data.content.list[0].color
+      //         productDetail[i].typeId = list[j].data.data.content.list[0].typeId
+      //         productDetail[i].typeIdname = list[j].data.data.content.list[0].productType
+      //       }
+      //     }
+      //   }
+      // }
+      console.log('productDetail', productDetail)
       this.$emit('productDetail', productDetail)
       this.$emit('moredata', num)
     }

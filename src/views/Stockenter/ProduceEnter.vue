@@ -112,12 +112,12 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
+            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/> -->
+            <!-- <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.price) }}</p>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -357,7 +357,7 @@ export default {
         // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
         val[i].actualEnterQuantity = val[i].passQuantity
         this.$refs.editable.insert(val[i])
-      }0
+      }
     },
     moredata(val) {
       console.log(val)
@@ -456,9 +456,9 @@ export default {
       }
     },
     // 入库金额计算
-    getSize(quan, pric) {
-      return quan * pric
-    },
+    // getSize(quan, pric) {
+    //   return quan * pric
+    // },
     // 清空记录
     restAllForm() {
       this.personalForm = {
