@@ -57,7 +57,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                 <el-input v-model="incomeRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -216,18 +216,8 @@ export default {
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
       this.incomeRepositoryId = this.personalForm.incomeRepositoryName
-      this.list2 = this.personalForm.incomeDetails
-      getRegion(this.personalForm.incomeRegionId).then(res => {
-        if (res.data.ret === 200) {
-          if (res.data.data.content.zcc !== null && res.data.data.content.zcc !== '' && res.data.data.content.zcc !== undefined) {
-            const zhuz = res.data.data.content.zcc.split(',')
-            this.personalForm.incomeregion = zhuz.map(function(item) {
-              return parseInt(item)
-            })
-            console.log('this.personalForm.incomeregion', this.personalForm.incomeregion)
-          }
-        }
-      })
+      this.list2 = this.personalForm.incomeDetailVos
+      this.getTypes()
     }
   },
   created() {
@@ -238,6 +228,34 @@ export default {
     _that = this
   },
   methods: {
+    getarrs() {
+      console.log('222', 222)
+      console.log('this.personalForm.expensesRegionId', this.personalForm.incomeRegionId)
+      const needata = this.findPathByLeafId(this.personalForm.incomeRegionId, this.regions)
+      console.log('needata', needata)
+      this.personalForm.incomeregion = needata
+      const finalid = needata[needata.length - 1]
+      console.log(finalid)
+      this.region = finalid
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
     handlechange4(val) {
       console.log(val)
       const finalid = val[val.length - 1]
@@ -257,7 +275,25 @@ export default {
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
     },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     getTypes() {
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          console.log('333', 333)
+          this.getarrs()
+        } else {
+          console.log('区域列表出错')
+        }
+      })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -278,15 +314,6 @@ export default {
           console.log('区域列表出错')
         }
       })
-    },
-    // 转化数据方法
-    tranKTree(arr) {
-      if (!arr || !arr.length) return
-      return arr.map(item => ({
-        id: item.id,
-        regionName: item.regionName,
-        regionListVos: this.tranKTree(item.regionListVos)
-      }))
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
