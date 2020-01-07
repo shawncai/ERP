@@ -156,6 +156,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: '',
+        repository: '',
         regionId: '',
         totalCreditMoney: 0,
         totalDebitMoney: 0

@@ -39,8 +39,12 @@
                 <el-option :label="$t('Hmodule.s1')" value="1"/>
                 <el-option :label="$t('Hmodule.x2')" value="2"/>
               </el-select>
-              <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @focus="treechoose" @clear="clear2"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+              <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
+              </el-select>
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>

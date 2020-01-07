@@ -9,6 +9,24 @@
         <el-button type="primary" @click="setdata">
           {{ $t('updates.print') }}
         </el-button>
+        <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
+          <el-form ref="addCategoryForm" :model="contractparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+            <el-form-item :label="$t('otherlanguage.md')" label-width="100px" prop="type">
+              <el-select v-model="contractparms.repositoryId" style="width: 100%" filterable clearable >
+                <el-option
+                  v-for="(item, index) in respositoryarr"
+                  :key="index"
+                  :label="item.repositoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="handlevoucher()">{{ $t('Hmodule.sure') }}</el-button>
+            <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+          </span>
+        </el-dialog>
         <!-- </router-link> -->
         <!-- <div v-if="false" id="salecontract" v-html="conetentdatazz"/> -->
         <div class="container" style="margin-top: 37px">
@@ -397,6 +415,11 @@ export default {
   },
   data() {
     return {
+      respositoryarr: [],
+      categoryVisible: false,
+      contractparms: {
+
+      },
       // 审核数据
       reviewList: [],
       // 详细表数据
