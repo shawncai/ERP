@@ -165,7 +165,7 @@
             <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
+            <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
         </el-table-column>
       </el-table>
@@ -174,24 +174,24 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible99" title="附件" class="normal" width="600px" center>
-        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
-          <el-form-item label-width="100px;">
-            <el-row>
-              <el-col v-for="(item, index) in picPaths" :key="index">
-                <el-card :body-style="{ padding: '0px' }">
-                  <el-popover
-                    placement="top"
-                    trigger="hover">
-                    <img :src="item " width="800px" height="800px">
-                    <img slot="reference" :src="'http://192.168.1.26:9090/uploads/transfer/'+item" width="500px" class="image" style="width: 100%">
-                  </el-popover>
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
+      <!--      <el-dialog :visible.sync="receiptVisible99" title="附件" class="normal" width="600px" center>-->
+      <!--        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">-->
+      <!--          <el-form-item label-width="100px;">-->
+      <!--            <el-row>-->
+      <!--              <el-col v-for="(item, index) in picPaths" :key="index">-->
+      <!--                <el-card :body-style="{ padding: '0px' }">-->
+      <!--                  <el-popover-->
+      <!--                    placement="top"-->
+      <!--                    trigger="hover">-->
+      <!--                    <img :src="item " width="800px" height="800px">-->
+      <!--                    <img slot="reference" :src="'http://192.168.1.26:9090/uploads/transfer/'+item" width="500px" class="image" style="width: 100%">-->
+      <!--                  </el-popover>-->
+      <!--                </el-card>-->
+      <!--              </el-col>-->
+      <!--            </el-row>-->
+      <!--          </el-form-item>-->
+      <!--        </el-form>-->
+      <!--      </el-dialog>-->
     </el-card>
   </div>
 </template>

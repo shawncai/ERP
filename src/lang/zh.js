@@ -3935,6 +3935,9 @@ export default {
   collectAndPayDetail: {
     name: '名称',
     sl: '回收数量',
-    cgck: '采购仓库'
+    cgck: '采购仓库',
+    fjf: '附加费',
+    cbj: '成本价',
+    fx: '方向'
   }
 }

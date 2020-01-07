@@ -58,6 +58,11 @@
                   <span>{{ personalForm.currency | currencyFilter }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
+                  <span>{{ personalForm.direction | directionFilter }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -185,6 +190,13 @@ export default {
         1: _that.$t('updates.cgsq'),
         2: _that.$t('updates.cgxq'),
         3: _that.$t('Hmodule.Nosource')
+      }
+      return statusMap[status]
+    },
+    directionFilter(status) {
+      const statusMap = {
+        1: '门店',
+        2: '公司'
       }
       return statusMap[status]
     },

@@ -83,6 +83,26 @@
         </div>
       </el-card>
       <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.srmx') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
@@ -234,7 +254,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.incomeDetails
+      this.list2 = this.personalForm.transferDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

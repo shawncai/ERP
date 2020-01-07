@@ -93,11 +93,44 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
+                <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="门店"/>
+                  <el-option value="2" label="公司"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
     </el-card>
     <!--子件信息-->
+    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.srmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="insertEvent(-1)">{{ $t('updates.tjsrx') }}</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <div class="container" style="margin-bottom: 51px;">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -109,6 +142,7 @@
 
 <script>
 import { updatetransfer } from '@/api/Transfer'
+import { subjectList } from '@/api/SubjectFinance'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import { regionlist } from '@/api/public'
@@ -144,6 +178,12 @@ export default {
       }
     }
     return {
+      suboptions: [],
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
+      },
       region: null,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -188,7 +228,7 @@ export default {
         handlePersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
-        TransferDate: [
+        transferDate: [
           { required: true, message: '请选择收款日期', trigger: 'change' }
         ],
         transferRegion: [
@@ -208,19 +248,93 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.direction = this.personalForm.direction.toString()
       this.handlePersonId = this.personalForm.handlePersonName
       this.incomeRepositoryId = this.personalForm.incomeRepositoryName
-      this.list2 = this.personalForm.incomeDetails
+      this.list2 = this.personalForm.transferDetailVos
+      this.getTypes()
+      this.gettree()
     }
   },
   created() {
     this.getdatatime()
-    this.getTypes()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    getarrs() {
+      console.log('222', 222)
+      console.log('this.personalForm.transferRegionId', this.personalForm.transferRegionId)
+      const needata = this.findPathByLeafId(this.personalForm.transferRegionId, this.regions)
+      console.log('needata', needata)
+      this.personalForm.transferRegion = needata
+      const finalid = needata[needata.length - 1]
+      console.log(finalid)
+      this.region = finalid
+    },
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
+    gettree() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.suboptions = this.processchildren(res.data.data.content)
+          this.treedata = res.data.data.content
+        }
+      })
+      console.log(321)
+    },
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+        // if (val[i].) {
+        // }
+      }
+      return val
+    },
+    test(row, val) {
+      console.log(row, val)
+      const finid = val[val.length - 1]
+      const needata = this.findtreedata(this.treedata, finid)
+      console.log('needata', needata)
+      row.subjectName = needata.subjectName
+      row.subjectCode = needata.subjectNumber
+    },
     handlechange4(val) {
       console.log(val)
       const finalid = val[val.length - 1]
@@ -266,6 +380,7 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
+          this.getarrs()
         } else {
           console.log('区域列表出错')
         }
