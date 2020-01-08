@@ -203,7 +203,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
                   <span style="margin-left: 20px;">
-                    {{ bencishoukaungjine }}
+                    {{ personalForm.receivableMoney }}
                     <!-- {{ getReceivableMoney() }} -->
                   </span>
                 </el-form-item>
@@ -636,7 +636,6 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
-      bencishoukaungjine: 0,
       // 赠品选择控制
       packagecontrol: false,
       productnumber: '',
@@ -746,7 +745,8 @@ export default {
         pointSupport: 0,
         ridMoney: 0,
         ridBikeMoney: 0,
-        advanceMoney: 0
+        advanceMoney: 0,
+        receiveMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -1044,14 +1044,14 @@ export default {
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
-        this.bencishoukaungjine = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        this.bencishoukaungjine = this.$store.getters.newsaleoutdata.firstMoney
+        this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
-        this.bencishoukaungjine = this.receivableMoney
+        this.personalForm.receivableMoney = this.receivableMoney
       } else {
-        this.bencishoukaungjine = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
