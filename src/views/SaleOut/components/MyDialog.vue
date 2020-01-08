@@ -173,7 +173,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
                 <!-- <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px" disabled/> -->
-                {{ getReceivableMoney() }}
+                {{ bencishoukaungjine }}
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -584,6 +584,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      bencishoukaungjine: 0,
       moreaction: '',
       // 赠品选择控制
       packagecontrol: false,
@@ -777,6 +778,7 @@ export default {
         this.heji1 = num
         this.heji3 = num1
         this.heji4 = num2
+        this.getReceivableMoney()
         // console.log(num)
       },
       deep: true
@@ -807,28 +809,88 @@ export default {
     _that = this
   },
   methods: {
-    getReceivableMoney(val) {
+    getReceivableMoney() {
       console.log('666', 666)
-      console.log('val', val)
-      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
-        this.personalForm.receivableMoney = this.receivableMoney
-        return (this.receivableMoney - Number(this.personalForm.couponSupport))
-      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
-      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
-      } else {
-        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
-          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
-          this.personalForm.receivableMoney = this.heji3 - this.heji4
-          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
-        }
+      if (!this.personalForm.pointSupport) {
+        this.personalForm.pointSupport = 0
       }
+      if (!this.personalForm.couponSupport) {
+        this.personalForm.couponSupport = 0
+      }
+      if (!this.personalForm.ridMoney) {
+        this.personalForm.ridMoney = 0
+      }
+      if (!this.personalForm.ridBikeMoney) {
+        this.personalForm.ridBikeMoney = 0
+      }
+      if (!this.personalForm.advanceMoney) {
+        this.personalForm.advanceMoney = 0
+      }
+      console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+        console.log('this.heji3', this.heji3)
+        console.log('this.heji4', this.heji4)
+        this.bencishoukaungjine = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+        this.bencishoukaungjine = this.$store.getters.newsaleoutdata.firstMoney
+      } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
+        console.log('是否是销售合同带入过来')
+        this.bencishoukaungjine = this.receivableMoney
+      } else {
+        this.bencishoukaungjine = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      }
+
+      // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
+      //   console.log(198283774747)
+      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      // }
+
+      // if (this.personalForm.advanceMoney) {
+      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
+      // }
+
+      // if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+      //   console.log(12333333333)
+      //   this.personalForm.receivableMoney = this.receivableMoney
+      //   return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      // } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else {
+      //   if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+      //     console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+      //     this.personalForm.receivableMoney = this.heji3 - this.heji4
+      //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+      //   }
+      // }
     },
+    // getReceivableMoney(val) {
+    //   console.log('666', 666)
+    //   console.log('val', val)
+    //   if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+    //     this.personalForm.receivableMoney = this.receivableMoney
+    //     return (this.receivableMoney - Number(this.personalForm.couponSupport))
+    //   } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+    //     console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+    //     this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney
+    //     return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport))
+    //   } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+    //     console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+    //     this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney
+    //     return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport))
+    //   } else {
+    //     if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+    //       console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+    //       this.personalForm.receivableMoney = this.heji3 - this.heji4
+    //       return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+    //     }
+    //   }
+    // },
     changemoney(val) {
       console.log(val)
     },
@@ -1160,6 +1222,7 @@ export default {
       if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
         this.personalForm.payType = String(val.payType)
       }
+      this.getReceivableMoney()
     },
     getlocation() {
       // 货位根据仓库id展现
@@ -1476,6 +1539,9 @@ export default {
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
+      if (val.receiveMoney) {
+        this.personalForm.advanceMoney = val.receiveMoney
+      }
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone
@@ -1488,6 +1554,7 @@ export default {
       // this.personalForm.saleRepositoryId = val.saleRepositoryId
       // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
+      this.getReceivableMoney()
     },
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
@@ -1520,6 +1587,7 @@ export default {
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.address
+      this.getReceivableMoney()
     },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
@@ -1550,6 +1618,7 @@ export default {
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId
       this.handleRepositoryId = val.handleRepositoryName
+      this.getReceivableMoney()
     },
     // 无来源添加商品
     handleAddproduct() {
