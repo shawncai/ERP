@@ -334,9 +334,11 @@ export default {
         return {
           id: item.序号,
           costPrice: item.出厂价,
-          saleprice: item.零售价
+          saleprice: item.零售价,
+          purchasePrice: item.采购价
         }
       })
+      console.log('uploaddata', uploaddata)
       const jsonupload = JSON.stringify(uploaddata)
       updateProductPrice(jsonupload).then(res => {
         if (res.data.ret === 200) {

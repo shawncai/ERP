@@ -278,7 +278,8 @@ export default {
           type: item.typeId,
           unit: item.stockMeasu,
           color: item.color,
-          proportion: 0
+          proportion: 0,
+          purchasePrice: item.purchasePrice
         }
       })
       console.log(productDetail)
