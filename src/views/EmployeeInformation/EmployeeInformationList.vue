@@ -1,85 +1,66 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('NewEmployeeInformation.employeename')">
-              <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Customer.phone2')">
-              <el-input v-model="getemplist.phonenumber" :placeholder="$t('Customer.phone2')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('NewEmployeeInformation.time')">
-              <el-date-picker
-                v-model="getemplist.time"
-                :placeholder="$t('Hmodule.xzrq')"
-                type="date"
-                value-format="yyyy-MM-dd"
-                style="width:100%"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.stat" :value="getemplist.stat" :placeholder="$t('NewEmployeeInformation.status')" style="width: 40%;float: left;margin-left: 20px" clearable>
-                <el-option label="在职" value="1"/>
-                <el-option label="离职" value="2"/>
-              </el-select>
-              <el-select v-model="getemplist.regionid" :value="getemplist.regionid" :placeholder="$t('NewEmployeeInformation.regionid')" style="width: 40%;float: right;margin-right: 20px" clearable>
-                <el-option
-                  v-for="(item, index) in regions"
-                  :key="index"
-                  :label="item.regionName"
-                  :value="item.id"/>
-              </el-select>
-              <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option
-                  v-for="(item, index) in repositories"
-                  :key="index"
-                  :label="item.repositoryName"
-                  :value="item.id"/>
-              </el-select>
-              <!-- <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.phonenumber" :placeholder="$t('Customer.phone2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-date-picker
+        v-model="getemplist.time"
+        :placeholder="$t('NewEmployeeInformation.time')"
+        type="date"
+        value-format="yyyy-MM-dd"
+        class="filter-item"/>
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.stat" :value="getemplist.stat" :placeholder="$t('NewEmployeeInformation.status')" style="width: 40%;float: left;margin-left: 20px" clearable>
+          <el-option label="在职" value="1"/>
+          <el-option label="离职" value="2"/>
+        </el-select>
+        <el-select v-model="getemplist.regionid" :value="getemplist.regionid" :placeholder="$t('NewEmployeeInformation.regionid')" style="width: 40%;float: right;margin-right: 20px" clearable>
+          <el-option
+            v-for="(item, index) in regions"
+            :key="index"
+            :label="item.regionName"
+            :value="item.id"/>
+        </el-select>
+        <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option
+            v-for="(item, index) in repositories"
+            :key="index"
+            :label="item.repositoryName"
+            :value="item.id"/>
+        </el-select>
+        <!-- <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
                 <el-option
                   v-for="(item, index) in jobs"
                   :key="index"
                   :label="item.categoryName"
                   :value="item.id"/>
               </el-select> -->
-              <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
-                <el-option
-                  v-for="(item, index) in roles"
-                  :key="index"
-                  :label="item.roleName"
-                  :value="item.id"/>
-              </el-select>
-              <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :label="item.deptName"
-                  :value="item.id"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+        <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+          <el-option
+            v-for="(item, index) in roles"
+            :key="index"
+            :label="item.roleName"
+            :value="item.id"/>
+        </el-select>
+        <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
+          <el-option
+            v-for="(item, index) in depts"
+            :key="index"
+            :label="item.deptName"
+            :value="item.id"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 20px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -795,7 +776,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>
