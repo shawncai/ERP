@@ -1,63 +1,42 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <!-- 搜索条件栏目 -->
-          <el-col :span="5">
-            <el-form-item :label="$t('Product.code')" label-width="100px">
-              <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Product.productname')">
-              <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Product.supplierid')">
-              <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="clear"/>
-            </el-form-item>
-            <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-          </el-col>
-          <!-- 更多搜索条件下拉栏 -->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="250"
-              trigger="click">
-              <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-              <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option :label="$t('Hmodule.s1')" value="1"/>
-                <el-option :label="$t('Hmodule.x2')" value="2"/>
-              </el-select>
-              <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option :label="$t('otherlanguage.zc')" value="1"/>
-                <el-option :label="$t('otherlanguage.pj')" value="2"/>
-                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-                <el-option :label="$t('otherlanguage.dc')" value="5"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <!-- 搜索按钮 -->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="clear"/>
+
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">
+          <el-option
+            v-for="(item, index) in types"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"
+          />
+        </el-select>
+        <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option :label="$t('Hmodule.s1')" value="1"/>
+          <el-option :label="$t('Hmodule.x2')" value="2"/>
+        </el-select>
+        <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option :label="$t('otherlanguage.zc')" value="1"/>
+          <el-option :label="$t('otherlanguage.pj')" value="2"/>
+          <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+          <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px; margin-top: 20px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -87,9 +66,18 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('Hmodule.wpfl')" label-width="100px" prop="categoryname">
-            <el-input v-model="categoryid2" :placeholder="$t('Hmodule.wpfl')" clearable @focus="treechoose2" @clear="clear4"/>
-            <my-tree2 :treecontrol.sync="treecontrol2" @tree="tree2"/>
+          <el-form-item :label="$t('Hmodule.wpfl')" label-width="100px" >
+            <!-- <el-input v-model="categoryid2" :placeholder="$t('Hmodule.wpfl')" clearable @focus="treechoose2" @clear="clear4"/>
+            <my-tree2 :treecontrol.sync="treecontrol2" @tree="tree2"/> -->
+            <el-select v-model="exportparms.categoryid" :placeholder="$t('Hmodule.wpfl')" clearable style="width: 100%">
+              <el-option :label="$t('otherlanguage.zc')" value="1"/>
+              <el-option :label="$t('otherlanguage.pj')" value="2"/>
+              <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+              <el-option :label="$t('otherlanguage.dc')" value="5"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('Product.productname')" label-width="100px" >
+            <el-input v-model="exportparms.productname" :placeholder="$t('Product.productname')" style="width:100%" clearable/>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -345,7 +333,7 @@ export default {
       const uploaddata = results.map(item => {
         return {
           id: item.序号,
-          costPrice: item.成本价,
+          costPrice: item.出厂价,
           saleprice: item.零售价
         }
       })
@@ -707,7 +695,7 @@ export default {
     handleexport() {
       this.downloadLoading = true
       this.exportparms.pagenum = 1
-      this.exportparms.pagesize = 999999
+      this.exportparms.pagesize = 99999999
       productlist(this.exportparms).then(res => {
         if (res.data.ret === 200) {
           const list = res.data.data.content.list
@@ -722,7 +710,7 @@ export default {
             this.categoryVisible = false
           } else {
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '成本价', '零售价', '采购价', '创建者', '创建时间']
+        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '出厂价', '零售价', '采购价', '创建者', '创建时间']
         const filterVal = ['id', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'salePrice', 'purchasePrice', 'createId', 'createTime']
         const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
@@ -801,7 +789,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

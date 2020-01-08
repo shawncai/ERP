@@ -205,8 +205,8 @@ export default {
         if (that.screenWidth <= 338) {
           that.show = 0;
         }
-        console.log(that.show);
-        console.log(!that.mycwgl,that.iscaiwuroles,that.show < 8,!that.mycwgl && that.iscaiwuroles && that.show < 8);
+        // console.log(that.show);
+        // console.log(!that.mycwgl,that.iscaiwuroles,that.show < 8,!that.mycwgl && that.iscaiwuroles && that.show < 8);
       }
     }
   },
@@ -397,7 +397,7 @@ export default {
       if (that.screenWidth <= 338) {
         that.show = 0;
       }
-      console.log(123123, that.show);
+      // console.log(123123, that.show);
     }
   }
 };

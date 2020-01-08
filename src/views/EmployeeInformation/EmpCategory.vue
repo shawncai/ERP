@@ -1,30 +1,27 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;padding: 5px 0" shadow="never">
-      <el-row :gutter="10">
-        <el-col :span="5">
-          <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" clearable @keyup.enter.native="handleFilter"/>
-        </el-col>
-        <el-col :span="5">
-          <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.fllb')" clearable @keyup.enter.native="handleFilter">
-            <el-option label="合同属性" value="1"/>
-            <el-option label="职位类别" value="2"/>
-            <el-option label="合同类别" value="3"/>
-          </el-select>
-        </el-col>
-        <el-col :span="5">
-          <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('updates.qyzt')" clearable @keyup.enter.native="handleFilter">
-            <el-option :label="$t('updates.qy')" value="1"/>
-            <el-option :label="$t('updates.ty')" value="2"/>
-          </el-select>
-        </el-col>
-        <!--更多搜索条件-->
-        <el-col :span="3" style="margin-left: 20px">
-          <!-- 搜索按钮 -->
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </el-col>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.fllb')" class="filter-item" clearable @keyup.enter.native="handleFilter">
+        <el-option label="合同属性" value="1"/>
+        <el-option label="职位类别" value="2"/>
+        <el-option label="合同类别" value="3"/>
+      </el-select>
+      <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('updates.qyzt')" class="filter-item" clearable @keyup.enter.native="handleFilter">
+        <el-option :label="$t('updates.qy')" value="1"/>
+        <el-option :label="$t('updates.ty')" value="2"/>
+      </el-select>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
-      </el-row>
+      <!-- <el-row :gutter="10">
+        <el-col :span="5"/>
+        <el-col :span="5"/>
+        <el-col :span="5"/> -->
+      <!--更多搜索条件-->
+      <!-- <el-col :span="3" style="margin-left: 20px"> -->
+      <!-- 搜索按钮 -->
+      <!-- </el-col>
+      </el-row> -->
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -498,7 +495,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    padding: 10px 0;
+    width: 180px;
     margin-left: 20px;
   }
 </style>
