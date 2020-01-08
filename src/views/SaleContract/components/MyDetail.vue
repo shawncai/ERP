@@ -284,12 +284,15 @@ export default {
           applicationReason: '',
           sourceNumber: '',
           sourceSerialNumber: '',
-          price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
+          price: item.salePrice,
+          salePrice: item.salePrice,
+          includeTaxPrice: item.salePrice,
           remark: 0,
           orderedQuantity: 0,
           categoryName: item.category,
-          discount: 100
+          discount: 0,
+          performanceScore: item.kpiGrade,
+          productScore: item.point
         }
       })
       console.log(productDetail)

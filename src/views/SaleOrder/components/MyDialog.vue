@@ -202,9 +202,9 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.wpfl')" prop="Categoryid" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" min-width="150px"/>
@@ -233,7 +233,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit5(scope.row)" v-model="scope.row.batteryCode" clearable />
+              <el-input v-if="isEdit3(scope.row)" v-model="scope.row.batteryCode" clearable />
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
@@ -749,8 +749,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(0)
-        console.log(row.discountRate)
+        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
       }
     },
     // 计算金额

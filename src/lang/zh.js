@@ -3060,6 +3060,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    wly: '无来源',
     ckmx: '出库明细',
     shmx: '收回明细',
     sncode: 'sn编码',
@@ -3834,7 +3835,7 @@ export default {
     dc: '电池',
     djylfj: '点击预览下载附件',
     fph: '发票号',
-    bcskje: '本次收款金额',
+    bcskje: '本次预收金额',
     yskdk: '预收款抵扣',
     buyIntention: '购买意向',
     spmx: '商品明细',

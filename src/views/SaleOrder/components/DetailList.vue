@@ -132,9 +132,9 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="Categoryid" align="center" />
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" />
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" />
+            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" />
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
