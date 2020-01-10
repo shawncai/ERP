@@ -2480,6 +2480,7 @@ export default {
     receiptAccount: '收款账户',
     receiptAccountNumber: '账号',
     receiptPersonId: '收款人',
+    receiptRepositoryId: '收款门店',
     receiptDate: '收款日期',
     totalLackMoney: '本次欠款合计',
     remark: '备注',
@@ -3828,6 +3829,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xjdh: '询价单号',
     xzgs: '选择公司',
     zc: '整车',
     pj: '配件',

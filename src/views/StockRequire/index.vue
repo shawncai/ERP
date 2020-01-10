@@ -1,61 +1,40 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.wlfl')" label-width="100px">
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+      <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <my-detail :control.sync="control" @productdata="productdata"/>
+      <el-select v-model="getemplist.isPlan" :placeholder="$t('updates.sfysccg')" :value="getemplist.isPlan" class="filter-item" clearable>
+        <el-option :label="$t('updates.yes')" value="1"/>
+        <el-option :label="$t('updates.no')" value="2"/>
+      </el-select>
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="需求日期开始"
+          end-placeholder="需求日期结束"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
 
-              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
-                <el-option :label="$t('otherlanguage.zc')" value="1"/>
-                <el-option :label="$t('otherlanguage.pj')" value="2"/>
-                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-                <el-option :label="$t('otherlanguage.dc')" value="5"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.wlmc')">
-              <el-input v-model="getemplist.productName" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
-              <my-detail :control.sync="control" @productdata="productdata"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.sfysccg')" label-width="150px">
-              <el-select v-model="getemplist.isPlan" :value="getemplist.isPlan" clearable>
-                <el-option :label="$t('updates.yes')" value="1"/>
-                <el-option :label="$t('updates.no')" value="2"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="需求日期开始"
-                end-placeholder="需求日期结束"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 表格导出操作 -->
@@ -365,7 +344,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

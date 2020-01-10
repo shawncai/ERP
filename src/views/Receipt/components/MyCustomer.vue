@@ -151,6 +151,7 @@
 <script>
 import { searchRepository } from '@/api/public'
 import { searchCusCategory, customerlist } from '@/api/Customer'
+import { installmentlist } from '@/api/InstallmentList'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -338,10 +339,49 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
-      this.employeeVisible = false
+    async handleConfirm() {
       console.log(this.choosedata)
-      this.$emit('customerdata', this.choosedata)
+      const date = new Date()
+      const str = this.choosedata.customerName
+      const getemplist = {
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: 0,
+        customerId: this.choosedata.id
+      }
+      let Installmentdata = []
+      await installmentlist(getemplist).then(res => {
+        console.log(res)
+        Installmentdata = res.data.data.content.list
+      })
+      console.log('Installmentdata', Installmentdata)
+      if (Installmentdata.length === 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '该客户没有分期信息',
+          offset: 100
+        })
+        return false
+      }
+      const InstallmentDetail = Installmentdata[0].installmentOrderDetailVos.map(function(item) {
+        return {
+          installmentDetailId: item.id,
+          presentCount: item.idx,
+          returnMoney: item.shouldMoney,
+          shouldMoney: item.shouldMoney,
+          returnSource: item.capitalMoney,
+          reward: item.reward,
+          penalty: item.penalty,
+          returnInterest: item.interestMoney,
+          paidmoney: item.paidMoney,
+          unpay: item.shouldMoney - item.paidMoney,
+          installmentId: item.installmentId
+        }
+      })
+      console.log('InstallmentDetail', InstallmentDetail)
+      this.$emit('InstallmentDetail', InstallmentDetail)
+      this.$emit('Installment', this.choosedata)
+      this.employeeVisible = false
     }
     // 仓库管理员选择结束
   }
