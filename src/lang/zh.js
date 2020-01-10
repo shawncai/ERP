@@ -2681,6 +2681,7 @@ export default {
   },
   repair: {
     // 线下任务
+    Redispatch: '再分配',
     yfpug: '已分派员工',
     ygyjs: '员工已接受',
     cf: '出发/开始',
