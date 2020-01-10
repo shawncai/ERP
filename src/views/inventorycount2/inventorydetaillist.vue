@@ -40,16 +40,13 @@
           </el-col>
           <el-col :span="4" style="margin-left: 88px">
             <el-form-item :label="$t('updates.fle')" style="width: 100%;">
-              <el-select v-model="getemplist.categoryId">
-                <el-option value="1" label="整车"/>
-                <el-option value="2" label="配件"/>
-                <el-option value="5" label="电池"/>
+              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" clearable>
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
               </el-select>
             </el-form-item>
-            <!--            <el-form-item :label="$t('updates.fle')">-->
-            <!--              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter" @focus="treechoose"/>-->
-            <!--              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>-->
-            <!--            </el-form-item>-->
           </el-col>
           <el-col :span="4" style="margin-left: 35px">
             <!-- 搜索按钮 -->
@@ -278,7 +275,7 @@ export default {
   },
 
   mounted() {
-    // this.getlist()
+    this.gettyps()
     this.changeName()
   },
   beforeCreate() {
@@ -341,12 +338,14 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    getlist() {
+    gettyps() {
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
       })
+    },
+    getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
       inventorydetaillist(this.getemplist).then(res => {

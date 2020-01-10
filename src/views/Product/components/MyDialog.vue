@@ -266,9 +266,9 @@
               <el-input v-model="personalForm.lowerPrice" placeholder="请输入最低价" style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Product.memberprice')" style="width: 100%;">
-              <el-input v-model="personalForm.memberPrice" placeholder="请输入会员价" style="margin-left: 18px;width: 200px" clearable/>
+          <el-col v-permission="['1-31-33-115']" :span="12">
+            <el-form-item :label="$t('collectAndPayDetail.cbj')" style="width: 100%;">
+              <el-input v-model="personalForm.memberPrice" style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
         </el-form>
@@ -332,9 +332,11 @@ import MyEmp from './MyEmp'
 import MySupplier from './MySupplier'
 import MyTree from './MyTree'
 import MyCenter from './MyCenter'
-// eslint-disable-next-line no-unused-vars
+import checkPermission from '@/utils/permission' // 权限判断函数
+import permission from '@/directive/permission/index.js' // 权限判断指令// eslint-disable-next-line no-unused-vars
 var _that
 export default {
+  directives: { permission },
   components: { MyCenter, MyTree, MySupplier, MyEmp },
   props: {
     control: {
@@ -567,6 +569,7 @@ export default {
     _that = this
   },
   methods: {
+    checkPermission,
     // updateunit() {
     //   this.getcategorys()
     //   if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {

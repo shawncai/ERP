@@ -17,7 +17,7 @@ export function updatestat(query, query2) {
 // 特殊分类属性列表
 export function searchEmpCategory2(query) {
   var params = new URLSearchParams()
-  if (query !== '' && query !== null) {
+  if (query !== '' && query !== null && query !== undefined) {
     params.append('type', query) // 你要传给后台的参数值 key/value
   }
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
@@ -31,7 +31,7 @@ export function searchEmpCategory2(query) {
 
 export function searchEmpCategory3(query) {
   var params = new URLSearchParams()
-  if (query !== '' && query !== null) {
+  if (query !== '' && query !== null && query !== undefined) {
     params.append('id', query) // 你要传给后台的参数值 key/value
   }
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
@@ -46,13 +46,13 @@ export function searchEmpCategory3(query) {
 // 分类属性列表
 export function searchEmpCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryname !== '' && query.categoryname !== null) {
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
-  if (query.iseffective !== '' && query.iseffective !== null) {
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
-  if (query.type !== '' && query.type !== null) {
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
@@ -67,19 +67,19 @@ export function searchEmpCategory(query) {
 // 新增分类属性
 export function addEmpCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryname !== '' && query.categoryname !== null) {
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
-  if (query.category !== '' && query.category !== null) {
+  if (query.category !== '' && query.category !== null && query.category !== undefined) {
     params.append('category', query.category) // 你要传给后台的参数值 key/value
   }
-  if (query.iseffective !== '' && query.iseffective !== null) {
+  if (query.iseffective !== '' && query.iseffective !== null && query.iseffective !== undefined) {
     params.append('iseffective', query.iseffective) // 你要传给后台的参数值 key/value
   }
-  if (query.code !== '' && query.code !== null) {
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
-  if (query.type !== '' && query.type !== null) {
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   return request({
@@ -92,13 +92,13 @@ export function addEmpCategory(query) {
 // 修改分类属性
 export function updateEmpCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryName !== '' && query.categoryName !== null) {
+  if (query.categoryName !== '' && query.categoryName !== null && query.categoryName !== undefined) {
     params.append('categoryname', query.categoryName) // 你要传给后台的参数值 key/value
   }
-  if (query.isEffective !== '' && query.isEffective !== null) {
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
     params.append('iseffective', query.isEffective) // 你要传给后台的参数值 key/value
   }
-  if (query.id !== '' && query.id !== null) {
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
@@ -111,7 +111,7 @@ export function updateEmpCategory(query) {
 // 删除分类属性
 export function delateEmpCategory(query, query2) {
   var params = new URLSearchParams()
-  if (query !== '' && query !== null) {
+  if (query !== '' && query !== null && query !== undefined) {
     params.append('ids', query) // 你要传给后台的参数值 key/value
   }
   if (query2 !== '' && query2 !== null && query2 !== undefined) {

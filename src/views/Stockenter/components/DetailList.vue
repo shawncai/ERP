@@ -83,6 +83,11 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.fjf')" prop="enterRepositoryId" style="width: 100%">
+                  <span>{{ personalForm.extraMoney }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -123,8 +128,9 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
-            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />
+            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
+            <el-editable-column :label="$t('collectAndPayDetail.fjf')" prop="extraMoney" align="center" />
           </el-editable>
         </div>
       </el-card>

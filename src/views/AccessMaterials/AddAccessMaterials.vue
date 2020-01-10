@@ -355,6 +355,13 @@ export default {
           })
         }
         if (res.data.ret === 200) {
+          if (res.data.data.wrong !== '' && res.data.data.wrong !== null && res.data.data.wrong !== undefined) {
+            this.$notify.error({
+              title: '错误提示',
+              message: res.data.data.wrong,
+              offset: 100
+            })
+          }
           const nowlistdata = this.$refs.editable.getRecords()
           const detaildata = res.data.data.content
           for (let i = 0; i < detaildata.length; i++) {

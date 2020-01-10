@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
 // 添加转账单
-export function createtransfer(query, query2) {
+export function createtransfer(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query3) // 你要传给后台的参数值 key/value
   if (query2.repositoryId !== '' && query2.repositoryId !== null && query2.repositoryId !== undefined) {
     params.append('repositoryId', query2.repositoryId) // 你要传给后台的参数值 key/value
   }
@@ -63,9 +64,10 @@ export function searchtransfer(query) {
 }
 
 // 修改转账单
-export function updatetransfer(query) {
+export function updatetransfer(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/transfer/update',
     method: 'post',

@@ -39,9 +39,25 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('income.region')" prop="expensesregion" style="width: 100%;">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  v-model="personalForm.expensesregion"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 200px"
+                  @change="handlechange4"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Expenses.expensesRepositoryId')" style="width: 100%;">
                 <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -110,6 +126,7 @@
 
 <script>
 import { updateexpenses } from '@/api/Expenses'
+import { regionlist } from '@/api/public'
 import { subjectList } from '@/api/SubjectFinance'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -137,7 +154,20 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.personalForm.expensesregion === undefined || this.personalForm.expensesregion === null || this.personalForm.expensesregion === '') {
+        callback(new Error('请选择区域'))
+      } else {
+        callback()
+      }
+    }
     return {
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
+      regions: [],
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -182,6 +212,9 @@ export default {
         ],
         expensesDate: [
           { required: true, message: '请选择支出日期', trigger: 'change' }
+        ],
+        expensesregion: [
+          { required: true, validator: validatePass3, trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -200,43 +233,60 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.expensesRepositoryId = this.personalForm.expensesRepositoryName
       this.list2 = this.personalForm.expensesDetailVos
+      this.getTypes()
     }
   },
   created() {
     this.getdatatime()
-    this.getTypes()
     this.gettree()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    // getParent(data2, nodeId2) {
-    //   var arrRes = []
-    //   if (data2.length === 0) {
-    //     if (nodeId2) {
-    //       arrRes.unshift(data2)
-    //     }
-    //     return arrRes
-    //   }
-    //   const rev = (data, nodeId) => {
-    //     for (var i = 0, length = data.length; i < length; i++) {
-    //       const node = data[i]
-    //       if (node.id == nodeId) {
-    //         arrRes.unshift(node)
-    //         rev(data2, node.parent_id)
-    //         break
-    //       } else {
-    //         if (node.children) {
-    //           rev(node.children, nodeId)
-    //         }
-    //       }
-    //     }
-    //     return arrRes
-    //   }
-    //   arrRes = rev(data2, nodeId2)
-    //   return arrRes
-    // },
+    getarrs() {
+      console.log('222', 222)
+      console.log('this.personalForm.expensesRegionId', this.personalForm.expensesRegionId)
+      const needata = this.findPathByLeafId(this.personalForm.expensesRegionId, this.regions)
+      console.log('needata', needata)
+      this.personalForm.expensesregion = needata
+      const finalid = needata[needata.length - 1]
+      console.log(finalid)
+      this.region = finalid
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.region = finalid
+      this.personalForm.expensesregionId = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
     findtreedata(val, val2) {
       let data;
       (val || []).map(i => {
@@ -284,7 +334,25 @@ export default {
     insertEvent(index) {
       this.$refs.editable.insertAt({ productCode: null }, index)
     },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     getTypes() {
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          console.log('333', 333)
+          this.getarrs()
+        } else {
+          console.log('区域列表出错')
+        }
+      })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {

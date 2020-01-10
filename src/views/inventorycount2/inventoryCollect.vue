@@ -29,8 +29,12 @@
 
           <el-col :span="5" style="margin-left: 40px">
             <el-form-item :label="$t('updates.fle')">
-              <el-input v-model="categoryId" :placeholder="$t('Hmodule.wpfl')" clearable @clear="restFilter2" @focus="treechoose"/>
-              <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
+              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" clearable>
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5" style="margin-left: 15px">

@@ -227,9 +227,9 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.wpfl')" prop="Categoryid" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" min-width="150px"/>

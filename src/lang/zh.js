@@ -1505,6 +1505,7 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
+
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',
@@ -3060,6 +3061,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    wly: '无来源',
     ckmx: '出库明细',
     shmx: '收回明细',
     sncode: 'sn编码',
@@ -3827,9 +3829,14 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xzgs: '选择公司',
+    zc: '整车',
+    pj: '配件',
+    jgj: '紧固件',
+    dc: '电池',
     djylfj: '点击预览下载附件',
     fph: '发票号',
-    bcskje: '本次收款金额',
+    bcskje: '本次预收金额',
     yskdk: '预收款抵扣',
     buyIntention: '购买意向',
     spmx: '商品明细',
@@ -3932,6 +3939,9 @@ export default {
   collectAndPayDetail: {
     name: '名称',
     sl: '回收数量',
-    cgck: '采购仓库'
+    cgck: '采购仓库',
+    fjf: '附加费',
+    cbj: '成本价',
+    fx: '方向'
   }
 }

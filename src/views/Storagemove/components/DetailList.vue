@@ -745,7 +745,7 @@ export default {
         header: `<div class="pringtitle">
                     <div class="custom-p"></div>
                       <br>
-                      <div class="ordername">Gavite City Transfer list/ 送货单</div>
+                      <div class="ordername">${this.personalForm.moveInRepositoryName} Transfer list/ 送货单</div>
                         <br>
                         <div class="line1"></div>
                         <div class="supplier">
@@ -859,7 +859,7 @@ export default {
         header: `<div class="pringtitle">
                     <div class="custom-p"></div>
                       <br>
-                      <div class="ordername">Sta maria New order/ 店面订货单</div>
+                      <div class="ordername">${this.personalForm.moveInRepositoryName} New order/ 店面订货单</div>
                         <br>
                         <div class="line1"></div>
                         <div class="supplier">

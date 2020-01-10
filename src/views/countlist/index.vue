@@ -78,11 +78,6 @@
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockAlarm.searchRepositoryId')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.repositoryName }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('StockAlarm.code')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.code }}</span>
@@ -113,6 +108,11 @@
             <span>{{ scope.row.salePrice }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('countlist.ableStock')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.ableStock }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('inventoryFluid.locationCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.locationName }}</span>
@@ -128,14 +128,14 @@
             <span>{{ scope.row.onStock }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('countlist.ableStock')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.ableStock }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('countlist.safeStock')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.safeStock }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockAlarm.searchRepositoryId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
       </el-table>

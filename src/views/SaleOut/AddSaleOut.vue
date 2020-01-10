@@ -203,8 +203,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
                   <span style="margin-left: 20px;">
-                    <!-- {{ receivableMoney }} -->
-                    {{ getReceivableMoney() }}
+                    {{ personalForm.receivableMoney }}
+                    <!-- {{ getReceivableMoney() }} -->
                   </span>
                 </el-form-item>
               </el-col>
@@ -737,7 +737,7 @@ export default {
         sendType: '2',
         sendDate: null,
         outDate: null,
-        sourceType: '5',
+        sourceType: '',
         otherMoney: '0',
         couponSupport: 0,
         outType: '1',
@@ -745,7 +745,8 @@ export default {
         pointSupport: 0,
         ridMoney: 0,
         ridBikeMoney: 0,
-        advanceMoney: 0
+        advanceMoney: 0,
+        receiveMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -834,6 +835,7 @@ export default {
         this.heji1 = num
         this.heji3 = num1
         this.heji4 = num2
+        this.getReceivableMoney()
         // console.log(num)
       },
       deep: true
@@ -905,10 +907,11 @@ export default {
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
         this.personalForm.sourceType = '2'
-        console.log('this.$store.getters.newsaleoutdata', this.$store.getters.newsaleoutdata)
+        console.log('this.$store.getters.newsaleoutdatacontract', this.$store.getters.newsaleoutdata)
         this.installappley(this.$store.getters.newsaleoutdata)
+        this.getReceivableMoney()
+        this.$store.dispatch('getnewsaleoutdata', '')
       }
-      this.$store.dispatch('getempcontract', '')
     },
     installappley(val) {
       console.log('getempcontract3', this.$store.getters.newsaleoutdata)
@@ -916,6 +919,9 @@ export default {
       this.heji10 = 0
       this.Isproduct = true
       this.IsSourceNumber = false
+      if (this.$store.getters.newsaleoutdata.firstMoney !== '' && this.$store.getters.newsaleoutdata.firstMoney !== null && this.$store.getters.newsaleoutdata.firstMoney !== undefined) {
+        this.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
+      }
       this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
       this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
       this.customerId = this.$store.getters.newsaleoutdata.customerName
@@ -1017,9 +1023,8 @@ export default {
         })
       }
     },
-    getReceivableMoney(val) {
+    getReceivableMoney() {
       console.log('666', 666)
-      console.log('val', val)
       if (!this.personalForm.pointSupport) {
         this.personalForm.pointSupport = 0
       }
@@ -1029,46 +1034,54 @@ export default {
       if (!this.personalForm.ridMoney) {
         this.personalForm.ridMoney = 0
       }
-
       if (!this.personalForm.ridBikeMoney) {
         this.personalForm.ridBikeMoney = 0
       }
-
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
       }
-
-      if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
-        console.log(198283774747)
-        return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+        console.log('this.heji3', this.heji3)
+        console.log('this.heji4', this.heji4)
+        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+        this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
+      } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
+        console.log('是否是销售合同带入过来')
+        this.personalForm.receivableMoney = this.receivableMoney
+      } else {
+        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
+
+      // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
+      //   console.log(198283774747)
+      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+      // }
 
       // if (this.personalForm.advanceMoney) {
       //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
       // }
-      if (this.$store.getters.newsaleoutdata) {
-        return this.$store.getters.newsaleoutdata.firstMoney
-      }
 
-      if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
-        console.log(12333333333)
-        this.personalForm.receivableMoney = this.receivableMoney
-        return (this.receivableMoney - Number(this.personalForm.couponSupport))
-      } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
-        console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-        this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
-        return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      } else {
-        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
-          console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
-          this.personalForm.receivableMoney = this.heji3 - this.heji4
-          return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
-        }
-      }
+      // if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
+      //   console.log(12333333333)
+      //   this.personalForm.receivableMoney = this.receivableMoney
+      //   return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      // } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
+      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
+      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
+      //   return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
+      // } else {
+      //   if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
+      //     console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
+      //     this.personalForm.receivableMoney = this.heji3 - this.heji4
+      //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
+      //   }
+      // }
     },
     isEdit3(row) {
       console.log('222', row)
@@ -1230,6 +1243,10 @@ export default {
         this.Isproduct = true
         this.IsSourceNumber = false
         this.personalForm.customerType = '2'
+        if (this.$store.getters.empcontract3.advanceMoney !== '' && this.$store.getters.empcontract3.advanceMoney !== null && this.$store.getters.empcontract3.advanceMoney !== undefined) {
+          this.personalForm.ridMoney = this.$store.getters.empcontract3.advanceMoney
+        }
+
         this.personalForm.customerId = this.$store.getters.empcontract3.customerId
         this.customerId = this.$store.getters.empcontract3.customerName
         this.personalForm.customerPhone = this.$store.getters.empcontract3.phone
@@ -1252,6 +1269,7 @@ export default {
           this.$store.getters.empcontract3.advanceOrderDetailVos[i].categoryName = this.$store.getters.empcontract3.advanceOrderDetailVos[i].productCategoryName
           this.$refs.editable.insert(this.$store.getters.empcontract3.advanceOrderDetailVos[i])
         }
+        this.getReceivableMoney()
         this.$store.dispatch('getempcontract3', '')
       }
     },
@@ -1295,17 +1313,21 @@ export default {
           this.$store.getters.empcontract2.saleOpportunityDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract2.saleOpportunityDetailVos[i].id
           this.$refs.editable.insert(this.$store.getters.empcontract2.saleOpportunityDetailVos[i])
         }
+        this.getReceivableMoney()
         this.$store.dispatch('getempcontract2', '')
       }
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
+        console.log('getempcontractsaleorder', this.$store.getters.empcontract)
         this.personalForm.sourceType = '1'
         this.Isproduct = true
         this.IsSourceNumber = false
         if (this.list2 !== 0 && this.list2 !== undefined && this.list2 !== null) {
           this.$refs.editable.clear()
+        }
+        if (this.$store.getters.empcontract.receiveMoney) {
+          this.personalForm.advanceMoney = this.$store.getters.empcontract.receiveMoney
         }
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
         if (this.$store.getters.empcontract.customerType !== null && this.$store.getters.empcontract.customerType !== undefined && this.$store.getters.empcontract.customerType !== '') {
@@ -1339,6 +1361,7 @@ export default {
           this.$store.getters.empcontract.saleOrderDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.saleOrderDetailVos[i].id
           this.$refs.editable.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
         }
+        this.getReceivableMoney()
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -1749,6 +1772,7 @@ export default {
       // this.personalForm.saleRepositoryId = val.saleRepositoryId
       // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
+      this.getReceivableMoney()
     },
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
@@ -1781,6 +1805,7 @@ export default {
         this.personalForm.payMode = val.payMode
       }
       this.personalForm.address = val.address
+      this.getReceivableMoney()
     },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
@@ -1814,6 +1839,7 @@ export default {
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId
       this.handleRepositoryId = val.handleRepositoryName
+      this.getReceivableMoney()
     },
     // 源单类型为销售合同
     salecontractDetail(val) {
@@ -1832,6 +1858,7 @@ export default {
       }
     },
     salecontract(val) {
+      console.log('val===========', val)
       console.log('val.firstMoney', val.firstMoney)
       this.receivableMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
@@ -1852,6 +1879,7 @@ export default {
       if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
         this.personalForm.payType = String(val.payType)
       }
+      this.getReceivableMoney()
     },
     recyclingdata(val) {
       // console.log(12312312312)
@@ -1995,7 +2023,7 @@ export default {
         sendType: '2',
         sendDate: null,
         outDate: null,
-        sourceType: '5',
+        sourceType: '',
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId

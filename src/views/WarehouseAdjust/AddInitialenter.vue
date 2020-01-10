@@ -401,8 +401,18 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
-      this.control = true
-      this.checklist = this.$refs.editable.getRecords()
+      console.log('this.personalForm.enterRepositoryId', this.personalForm.enterRepositoryId)
+      if (this.enterRepositoryId === null || this.enterRepositoryId === '' || this.enterRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择仓库',
+          offset: 100
+        })
+        return false
+      } else {
+        this.control = true
+        this.checklist = this.$refs.editable.getRecords()
+      }
     },
     productdetail(val) {
       console.log(val)

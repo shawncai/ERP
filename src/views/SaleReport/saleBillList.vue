@@ -7,9 +7,10 @@
           <el-col :span="3">
             <el-form-item :label="$t('updates.fle')">
               <el-select v-model="getemplist.productCategory" :value="getemplist.productCategory" clearable style="width: 100px" @keyup.enter.native="handleFilter">
-                <el-option value="1" label="整车"/>
-                <el-option value="2" label="配件"/>
-                <el-option value="5" label="电池"/>
+                <el-option :label="$t('otherlanguage.zc')" value="1"/>
+                <el-option :label="$t('otherlanguage.pj')" value="2"/>
+                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+                <el-option :label="$t('otherlanguage.dc')" value="5"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -82,23 +83,26 @@
         :data="list"
         border
         style="width: 100%">
-        <el-table-column
-          :label="$t('saleBillList.repositoryName')"
-          prop="repositoryName"
-          width="200"
-          align="center"/>
+        <!--        <el-table-column-->
+        <!--          :label="$t('saleBillList.repositoryName')"-->
+        <!--          prop="repositoryName"-->
+        <!--          width="200"-->
+        <!--          align="center"/>-->
         <el-table-column
           :label="$t('saleBillList.productName')"
+          fixed="left"
           prop="productName"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.productCode')"
+          fixed="left"
           prop="productCode"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.color')"
+          fixed="left"
           prop="color"
           width="200"
           align="center"/>

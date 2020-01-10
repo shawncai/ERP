@@ -8,10 +8,11 @@
         <el-option value="2" label="设计BOM"/>
         <el-option value="3" label="制造BOM"/>
       </el-select>
+      <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
       <!--      <el-input v-model="categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable @focus="treechoose"/>-->
-      <!--      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>-->
       <!-- 更多搜索条件下拉栏 -->
       <!--      <el-popover-->
       <!--        v-model="visible2"-->
@@ -54,17 +55,12 @@
         type="selection"
         width="55"
         align="center"/>
-      <el-table-column :label="$t('MaterialsList.id')" :resizable="false" align="center" min-width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('MaterialsList.bomNumber')" :resizable="false" align="center" min-width="150">
+      <el-table-column :label="$t('MaterialsList.bomNumber')" :resizable="false" align="center" min-width="150" fixed="left">
         <template slot-scope="scope">
           <span>{{ scope.row.bomNumber }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('MaterialsList.productName')" :resizable="false" align="center" min-width="150">
+      <el-table-column :label="$t('MaterialsList.productName')" :resizable="false" align="center" min-width="150" fixed="left">
         <template slot-scope="scope">
           <span>{{ scope.row.productName }}</span>
         </template>
