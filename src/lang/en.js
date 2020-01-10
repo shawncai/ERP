@@ -2658,6 +2658,7 @@ export default {
     repositoryId: 'warehouse/branch'
   },
   repair: {
+    Redispatch: 'ReDispatch',
     yfpug: 'assigned',
     ygyjs: 'accepted',
     cf: 'ongoing',
