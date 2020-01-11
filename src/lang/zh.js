@@ -1898,6 +1898,7 @@ export default {
     summary: '摘要'
   },
   Invoice: {
+    fph: '发票号',
     sourceType: '业务单类型',
     sourceNumber: '业务单据编号',
     invoiceNumber: '发票号',

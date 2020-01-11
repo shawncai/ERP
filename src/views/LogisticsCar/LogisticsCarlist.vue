@@ -1,52 +1,34 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <!-- 搜索条件栏目 -->
-            <el-form-item :label="$t('LogisticsCar.carname')" label-width="100px">
-              <el-input v-model="getemplist.carname" :placeholder="$t('LogisticsCar.carname')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('LogisticsCar.carnumber')">
-              <el-input v-model="getemplist.carnumber" :placeholder="$t('LogisticsCar.carnumber')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('LogisticsCar.licencenumber')">
-              <el-input v-model="getemplist.licencenumber" :placeholder="$t('LogisticsCar.licencenumber')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-popover
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.cartype" placeholder="车辆类型" style="width: 40%;float: left;margin-left: 20px" clearable>
-                <el-option value="1" label="大货车"/>
-                <el-option value="2" label="小货车"/>
-                <el-option value="3" label="小轿车"/>
-              </el-select>
-              <el-select v-model="getemplist.stat" placeholder="车辆状态" style="width: 40%;float: right;margin-right: 20px" clearable>
-                <el-option label="正常" value="1"/>
-                <el-option :label="$t('updates.ty')" value="2"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" >{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
 
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-          <!-- 批量操作 -->
-        </el-form>
-      </el-row>
+      <el-input v-model="getemplist.carname" :placeholder="$t('LogisticsCar.carname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.carnumber" :placeholder="$t('LogisticsCar.carnumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.licencenumber" :placeholder="$t('LogisticsCar.licencenumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-popover
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.cartype" placeholder="车辆类型" style="width: 40%;float: left;margin-left: 20px" clearable>
+          <el-option value="1" label="大货车"/>
+          <el-option value="2" label="小货车"/>
+          <el-option value="3" label="小轿车"/>
+        </el-select>
+        <el-select v-model="getemplist.stat" placeholder="车辆状态" style="width: 40%;float: right;margin-right: 20px" clearable>
+          <el-option label="正常" value="1"/>
+          <el-option :label="$t('updates.ty')" value="2"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" >{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-dropdown @command="handleCommand">
@@ -386,7 +368,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+     width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

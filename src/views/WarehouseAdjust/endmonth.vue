@@ -1,41 +1,24 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.wpbm')">
-              <el-input v-model="getemplist.productCode" :placeholder="$t('endmonth.productCode')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('Hmodule.wpmc')">
-              <el-input v-model="getemplist.productName" :placeholder="$t('endmonth.productName')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.ny')">
-              <el-date-picker
-                v-model="getemplist.date"
-                :placeholder="$t('updates.xzy')"
-                type="month"
-                style="width: 80%;"
-                value-format="yyyy-MM"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.cangk')">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" style="width: 80%;" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 15px">
+
+      <el-input v-model="getemplist.productCode" :placeholder="$t('endmonth.productCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.productName" :placeholder="$t('endmonth.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-date-picker
+        v-model="getemplist.date"
+        :placeholder="$t('updates.ny')"
+        type="month"
+        class="filter-item"
+        value-format="yyyy-MM"/>
+
+      <el-input v-model="searchRepositoryId" :placeholder="$t('Inventorydetaillist.repositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
@@ -461,7 +444,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+     width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

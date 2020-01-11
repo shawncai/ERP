@@ -1,81 +1,73 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.kssj')" label-width="100px">
-              <el-date-picker
-                v-model="getemplist.beginTime"
-                :picker-options="pickerOptions0"
-                type="date"
-                value-format="yyyy-MM-dd"
-                @change="cleardeposit"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.jssj')">
-              <el-date-picker
-                v-model="getemplist.endTime"
-                :picker-options="pickerOptions1"
-                type="date"
-                value-format="yyyy-MM-dd"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Hmodule.ggzx')">
-              <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
-            </el-form-item>
-            <my-center :control.sync="centercontrol" @center="center"/>
-          </el-col>
-          <!--更多搜索条件-->
-          <!--<el-col :span="3">-->
-          <!--<el-popover-->
-          <!--v-model="visible2"-->
-          <!--placement="bottom"-->
-          <!--width="500"-->
-          <!--trigger="click">-->
-          <!--<el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" clearable style="width: 40%;float: left;margin-left: 20px">-->
-          <!--<el-option-->
-          <!--v-for="(item, index) in depts"-->
-          <!--:key="index"-->
-          <!--:value="item.id"-->
-          <!--:label="item.deptName"/>-->
-          <!--</el-select>-->
-          <!--<el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>-->
-          <!--<my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
-          <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
-          <!--<el-option value="1" :label="$t('updates.zd')"/>-->
-          <!--<el-option value="2" :label="$t('updates.zx')"/>-->
-          <!--<el-option value="3" :label="$t('updates.jd')"/>-->
-          <!--</el-select>-->
-          <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">-->
-          <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
-          <!--<el-option value="1" :label="$t('updates.shz')"/>-->
-          <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
-          <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
-          <!--</el-select>-->
-          <!--<el-date-picker-->
-          <!--v-model="date"-->
-          <!--type="daterange"-->
-          <!--range-separator="-"-->
-          <!--unlink-panels-->
-          <!--start-placeholder="询价日期"-->
-          <!--end-placeholder="询价日期"-->
-          <!--value-format="yyyy-MM-dd"-->
-          <!--style="margin-top: 20px;margin-left: 20px"/>-->
-          <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
-          <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
-          <!--</div>-->
-          <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
-          <!--</el-popover>-->
-          <!--</el-col>-->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-date-picker
+        v-model="getemplist.beginTime"
+        :picker-options="pickerOptions0"
+        :placeholder="$t('updates.kssj')"
+        type="date"
+        class="filter-item"
+        value-format="yyyy-MM-dd"
+        @change="cleardeposit"/>
+
+      <el-date-picker
+        :placeholder="$t('updates.jssj')"
+        v-model="getemplist.endTime"
+        :picker-options="pickerOptions1"
+        type="date"
+        class="filter-item"
+        value-format="yyyy-MM-dd"/>
+
+      <el-input v-model="workCenterId" :placeholder="$t('ProduceRequire.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+
+      <my-center :control.sync="centercontrol" @center="center"/>
+
+      <!--更多搜索条件-->
+      <!--<el-col :span="3">-->
+      <!--<el-popover-->
+      <!--v-model="visible2"-->
+      <!--placement="bottom"-->
+      <!--width="500"-->
+      <!--trigger="click">-->
+      <!--<el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" clearable style="width: 40%;float: left;margin-left: 20px">-->
+      <!--<el-option-->
+      <!--v-for="(item, index) in depts"-->
+      <!--:key="index"-->
+      <!--:value="item.id"-->
+      <!--:label="item.deptName"/>-->
+      <!--</el-select>-->
+      <!--<el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose"/>-->
+      <!--<my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
+      <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">-->
+      <!--<el-option value="1" :label="$t('updates.zd')"/>-->
+      <!--<el-option value="2" :label="$t('updates.zx')"/>-->
+      <!--<el-option value="3" :label="$t('updates.jd')"/>-->
+      <!--</el-select>-->
+      <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">-->
+      <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
+      <!--<el-option value="1" :label="$t('updates.shz')"/>-->
+      <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
+      <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
+      <!--</el-select>-->
+      <!--<el-date-picker-->
+      <!--v-model="date"-->
+      <!--type="daterange"-->
+      <!--range-separator="-"-->
+      <!--unlink-panels-->
+      <!--start-placeholder="询价日期"-->
+      <!--end-placeholder="询价日期"-->
+      <!--value-format="yyyy-MM-dd"-->
+      <!--style="margin-top: 20px;margin-left: 20px"/>-->
+      <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
+      <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
+      <!--</div>-->
+      <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
+      <!--</el-popover>-->
+      <!--</el-col>-->
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -519,7 +511,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

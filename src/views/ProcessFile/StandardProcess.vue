@@ -1,59 +1,44 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="120px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.gxbh')">
-              <el-input v-model="getemplist.code" :placeholder="$t('ProcessFile.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.pysx')">
-              <el-input v-model="getemplist.shortName" :placeholder="$t('ProcessFile.shortName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.gzzxmc')">
-              <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
-            </el-form-item>
-            <my-center :control.sync="centercontrol" @center="center"/>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="4" style="margin-left: 154px;">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.testMethod" placeholder="请选择校验方式" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option value="1" label="自检"/>
-                <el-option value="2" label="别人检"/>
-              </el-select>
-              <el-select v-model="getemplist.isCost" placeholder="是否计费" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option :label="$t('updates.yes')" value="1"/>
-                <el-option :label="$t('updates.no')" value="2"/>
-              </el-select>
-              <el-select v-model="getemplist.isHelp" placeholder="是否外部协助" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option :label="$t('updates.yes')" value="1"/>
-                <el-option :label="$t('updates.no')" value="2"/>
-              </el-select>
-              <el-select v-model="getemplist.stat" placeholder="启用状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option :label="$t('updates.yes')" value="1"/>
-                <el-option :label="$t('updates.no')" value="2"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="4">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 15px;">
+
+      <el-input v-model="getemplist.code" :placeholder="$t('ProcessFile.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.shortName" :placeholder="$t('ProcessFile.shortName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="workCenterId" :placeholder="$t('ProcessFile.workCenterId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="workcenterchoose"/>
+
+      <my-center :control.sync="centercontrol" @center="center"/>
+
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.testMethod" placeholder="请选择校验方式" clearable style="width: 40%;float: left;margin-left: 20px">
+          <el-option value="1" label="自检"/>
+          <el-option value="2" label="别人检"/>
+        </el-select>
+        <el-select v-model="getemplist.isCost" placeholder="是否计费" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option :label="$t('updates.yes')" value="1"/>
+          <el-option :label="$t('updates.no')" value="2"/>
+        </el-select>
+        <el-select v-model="getemplist.isHelp" placeholder="是否外部协助" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option :label="$t('updates.yes')" value="1"/>
+          <el-option :label="$t('updates.no')" value="2"/>
+        </el-select>
+        <el-select v-model="getemplist.stat" placeholder="启用状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+          <el-option :label="$t('updates.yes')" value="1"/>
+          <el-option :label="$t('updates.no')" value="2"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
@@ -399,7 +384,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>
