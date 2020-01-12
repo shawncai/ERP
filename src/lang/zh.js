@@ -2997,6 +2997,7 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    hhd: '换货单',
     ggxh: '规格型号',
     cilent: '点击上传',
     cancel: '取消',

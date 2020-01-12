@@ -15,8 +15,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width:200px" @change="chooseSource">
-                    <el-option value="1" label="销售出库单"/>
-                    <el-option value="2" label="无来源"/>
+                    <el-option :label="$t('updates.xsckd')" value="1"/>
+                    <el-option :label="$t('Hmodule.Nosource')" value="2"/>
+                    <el-option :label="$t('Hmodule.hhd')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -129,6 +130,7 @@
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+          <my-returnexchange :returncontrol.sync="returncontrol" @returnDetail="returnDetail" @returndata="returndata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -148,8 +150,8 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
@@ -344,11 +346,12 @@ import MyRequire from './components/MyRequire'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySaleout from './components/MySaleout'
+import MyReturnexchange from './components/MyReturnexchange'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddSaleReturn',
-  components: { MySaleout, MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MySaleout, MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MyReturnexchange },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -372,6 +375,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      returncontrol: false,
       // 判断权限
       isshow: false,
       // 控制是否从源单添加
@@ -428,7 +432,7 @@ export default {
         customerId: '',
         sourceType: '2',
         exchangeRate: '1.0000',
-        currency: '3',
+        currency: '1',
         returnDate: null,
         saleRepositoryId: this.$store.getters.repositoryId
       },
@@ -562,7 +566,7 @@ export default {
       //   row.quantity = 1
       //   return row.quantity
       // }
-      if (re === '01' && this.personalForm.sourceType === 2) { return true } else { return false }
+      if (re === '01') { return true } else { return false }
     },
     // 判断权限
     jungleshow() {
@@ -572,8 +576,11 @@ export default {
     },
     // 添加源单操作
     handleAddSource() {
-      this.saleoutcontrol = true
-      console.log(123)
+      if (this.personalForm.sourceType === '1') {
+        this.saleoutcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.returncontrol = true
+      }
     },
     // 汇率变化
     changeRate() {
@@ -642,6 +649,30 @@ export default {
     // choosesaleout() {
     //   this.saleoutcontrol = true
     // },
+    returnDetail(val) {
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
+        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    returndata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.sourceNumber
+      this.customerId = val.customerName
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerPhone = val.customerPhone
+      // this.personalForm.receiveAddress = val.address
+      this.personalForm.customerType = String(val.customerType)
+      this.personalForm.salePersonId = val.salePersonId
+      // this.salePersonId = val.salePersonName
+      // this.salePersonName = val.salePersonName
+      this.personalForm.saleRepositoryId = val.repositoryId
+      this.saleRepositoryId = val.repositoryName
+      console.log(this.list2)
+    },
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
@@ -661,7 +692,7 @@ export default {
       this.personalForm.customerType = String(val.customerType)
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
-      this.salePersonName = val.salePersonName
+      this.personalForm.salePersonId = val.salePersonId
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
       console.log(this.list2)
@@ -715,6 +746,10 @@ export default {
         this.IsNumber = true
         this.personalForm.sourceNumber = ''
         this.IsSourceNumber = true
+      } else if (val === '3') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.IsSourceNumber = false
       }
       // this.restAllForm()
     },
@@ -734,7 +769,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev)
             }
           }, 0)
           sums[index] += ''

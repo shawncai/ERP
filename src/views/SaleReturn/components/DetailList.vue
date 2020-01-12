@@ -330,7 +330,8 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: _that.$t('updates.xsckd'),
-        2: _that.$t('Hmodule.Nosource')
+        2: _that.$t('Hmodule.Nosource'),
+        3: _that.$t('Hmodule.hhd')
       }
       return statusMap[status]
     },
