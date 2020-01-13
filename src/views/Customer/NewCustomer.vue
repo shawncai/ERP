@@ -17,6 +17,12 @@
           <el-form-item :label="$t('Customer.phone')" style="width: 40%">
             <el-input v-model.number="customerForm.phone" clearable/>
           </el-form-item>
+          <el-form-item :label="$t('Customer.phone12')" style="width: 40%">
+            <el-input v-model.number="customerForm.phone2" clearable/>
+          </el-form-item>
+          <el-form-item :label="$t('Customer.phone13')" style="width: 40%">
+            <el-input v-model.number="customerForm.phone3" clearable/>
+          </el-form-item>
           <el-form-item :label="$t('updates2.landline')" style="width: 40%">
             <el-input v-model="customerForm.landline" clearable/>
           </el-form-item>

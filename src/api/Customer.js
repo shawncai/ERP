@@ -78,6 +78,12 @@ export function addCustomer(query) {
   if (query.phone !== '' && query.phone !== null && query.phone !== undefined) {
     params.append('phone', query.phone) // 你要传给后台的参数值 key/value
   }
+  if (query.phone2 !== '' && query.phone2 !== null && query.phone2 !== undefined) {
+    params.append('phone2', query.phone2) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone3 !== '' && query.phone3 !== null && query.phone3 !== undefined) {
+    params.append('phone3', query.phone3) // 你要传给后台的参数值 key/value
+  }
   if (query.gender !== '' && query.gender !== null && query.gender !== undefined) {
     params.append('gender', query.gender) // 你要传给后台的参数值 key/value
   }
@@ -139,8 +145,14 @@ export function updateCustomer(query) {
   if (query.lastName !== '' && query.lastName !== null && query.lastName !== undefined) {
     params.append('lastname', query.lastName) // 你要传给后台的参数值 key/value
   }
-  if (query.phoneNumber !== '' && query.phoneNumber !== null && query.phoneNumber !== undefined) {
-    params.append('phone', query.phoneNumber) // 你要传给后台的参数值 key/value
+  if (query.phone !== '' && query.phone !== null && query.phone !== undefined) {
+    params.append('phone', query.phone) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone2 !== '' && query.phone2 !== null && query.phone2 !== undefined) {
+    params.append('phone2', query.phone2) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone3 !== '' && query.phone3 !== null && query.phone3 !== undefined) {
+    params.append('phone3', query.phone3) // 你要传给后台的参数值 key/value
   }
   if (query.gender !== '' && query.gender !== null && query.gender !== undefined) {
     params.append('gender', query.gender) // 你要传给后台的参数值 key/value
