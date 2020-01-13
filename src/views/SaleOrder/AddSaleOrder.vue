@@ -515,7 +515,7 @@ export default {
       }
     }
     const validatePass2 = (rule, value, callback) => {
-      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+      if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
         callback(new Error('请选择客户'))
       } else {
         callback()
