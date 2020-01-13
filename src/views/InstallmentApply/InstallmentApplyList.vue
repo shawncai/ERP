@@ -214,6 +214,7 @@ import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { CustomerSurveyReportList2 } from '@/api/CustomerSurveyReport'
+import { addtaskoffline } from '../../api/repair'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -355,7 +356,9 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 自动创建列表
+      form: {}
     }
   },
 
@@ -466,9 +469,19 @@ export default {
       const tempData = Object.assign({}, this.formdata)
       this.reviewParms.id = tempData.id
       this.reviewParms.inquirePersonId = this.dispatchform.id
+      for (const key in this.reviewParms) {
+        if (key === 'judgePersonId' || key === 'judgeStat') {
+          delete this.reviewParms[key]
+        }
+      }
       const parms = JSON.stringify(this.reviewParms)
       updateapply2(parms).then(res => {
         if (res.data.ret === 200) {
+          // 自动生成线下任务单
+          this.form.employeeId = this.dispatchform.id
+          addtaskoffline(this.form).then(res => {
+            console.log(res)
+          })
           this.isvisible = false
           this.$notify({
             title: 'successful',
@@ -486,6 +499,16 @@ export default {
       this.isvisible = true
       console.log(row)
       getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.form.taskType = 3
+        this.form.taskname = '分期收款任务'
+        this.form.repositoryId = row.saleRepositoryId
+        this.form.customerName = row.firstName + ' ' + row.middleName + ' ' + row.lastName
+        this.form.taskaddress = row.currentAddress
+        this.form.employeeId = row.inquirePersonId
+        this.form.taskcontent = '分期申请调查'
+        this.form.sourceNumber = row.applyNumber
+        this.form.createId = row.createPersonId
+        this.form.remark = ''
         this.options2 = res.data.data.content.list
       })
     },

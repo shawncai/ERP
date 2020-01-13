@@ -1082,6 +1082,7 @@ export default {
       }
     },
     changeRate(val) {
+      this.getratelist()
       console.log('首付款', this.personalForm.firstMoney)
       console.log('单价', this.productForm.price)
       console.log('折扣1', this.rate)

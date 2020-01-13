@@ -62,7 +62,7 @@
       </el-row>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <!-- 列表开始 -->
+      <!-- 列表开始1.13 -->
       <el-table
         v-loading="listLoading"
         :key="tableKey"
@@ -71,7 +71,9 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange">
+        <el-table-column type="selection" min-width="55" align="center" />
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
@@ -268,6 +270,10 @@ export default {
     _that = this
   },
   methods: {
+    handleSelectionChange(val) {
+      console.log(val)
+      this.moreaction = val
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
