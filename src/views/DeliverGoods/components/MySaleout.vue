@@ -324,9 +324,7 @@ export default {
       this.listLoading = true
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list.filter(item => {
-            return item.confirmPersonId !== null
-          })
+          this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -373,9 +371,7 @@ export default {
       }
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list.filter(item => {
-            return item.confirmPersonId !== null
-          })
+          this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
