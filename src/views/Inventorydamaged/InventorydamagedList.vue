@@ -1,10 +1,10 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
+    <el-card class="box-card" style="margin-top: 15px">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.title" :placeholder="$t('Inventorydamaged.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.damagedNumber" :placeholder="$t('Inventorydamaged.damagedNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.damagedDeptId" placeholder="请选择报损部门" clearable class="filter-item">
+      <el-select v-model="getemplist.damagedDeptId" :placeholder="$t('Inventorydamaged.damagedDeptId')" clearable class="filter-item">
         <el-option
           v-for="(item, index) in depts"
           :key="index"
@@ -34,7 +34,7 @@
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
@@ -586,7 +586,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

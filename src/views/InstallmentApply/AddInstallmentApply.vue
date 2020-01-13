@@ -304,7 +304,7 @@
                   <el-select v-model="personalForm.mateLiveStauts" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
                     <el-option value="1" label="和亲戚一起居住"/>
                     <el-option value="2" label="租房"/>
-                    <el-option value="3" label="按揭"/>
+                    <el-option value="3" label="自有住房"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -1082,6 +1082,7 @@ export default {
       }
     },
     changeRate(val) {
+      this.getratelist()
       console.log('首付款', this.personalForm.firstMoney)
       console.log('单价', this.productForm.price)
       console.log('折扣1', this.rate)

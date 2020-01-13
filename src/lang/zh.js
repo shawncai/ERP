@@ -1460,6 +1460,7 @@ export default {
     storageMoveDate: '出库日期'
   },
   StockAlarm: {
+    color: '颜色',
     searchRepositoryId: '仓库',
     code: '商品编码',
     productName: '商品名称',
@@ -1900,6 +1901,7 @@ export default {
     summary: '摘要'
   },
   Invoice: {
+    fph: '发票号',
     sourceType: '业务单类型',
     sourceNumber: '业务单据编号',
     invoiceNumber: '发票号',
@@ -2356,6 +2358,7 @@ export default {
     salecontrat: '销售合同'
   },
   InstallmentList: {
+    color: '颜色',
     isChange: '是否改期',
     afterCount: '改期后期数',
     afterRate: '改期后利率',
@@ -2482,6 +2485,7 @@ export default {
     receiptAccount: '收款账户',
     receiptAccountNumber: '账号',
     receiptPersonId: '收款人',
+    receiptRepositoryId: '收款门店',
     receiptDate: '收款日期',
     totalLackMoney: '本次欠款合计',
     remark: '备注',
@@ -2682,6 +2686,7 @@ export default {
   },
   repair: {
     // 线下任务
+    Redispatch: '再分配',
     yfpug: '已分派员工',
     ygyjs: '员工已接受',
     cf: '出发/开始',
@@ -2996,6 +3001,7 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    hhd: '换货单',
     ggxh: '规格型号',
     cilent: '点击上传',
     cancel: '取消',
@@ -3830,6 +3836,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xjdh: '询价单号',
     xzgs: '选择公司',
     zc: '整车',
     pj: '配件',

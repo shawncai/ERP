@@ -915,6 +915,9 @@ export default {
     },
     installappley(val) {
       console.log('getempcontract3', this.$store.getters.newsaleoutdata)
+      if (val.sourceType === 2 && val.sourceNumber !== null) {
+        this.personalForm.applyNumber = val.sourceNumber
+      }
       this.heji9 = 0
       this.heji10 = 0
       this.Isproduct = true
@@ -1860,6 +1863,9 @@ export default {
     salecontract(val) {
       console.log('val===========', val)
       console.log('val.firstMoney', val.firstMoney)
+      if (val.sourceType === 2 && val.sourceNumber !== null) {
+        this.personalForm.applyNumber = val.sourceNumber
+      }
       this.receivableMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'

@@ -1,64 +1,48 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.khxmi')" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentApply.customerName')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.dh')">
-              <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('InstallmentApply.salePersonId')">
-              <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
-              <my-emp :control.sync="stockControl" @stockName="stockName"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option :label="$t('updates.zd')" value="1"/>
-                <el-option :label="$t('updates.zx')" value="2"/>
-                <el-option :label="$t('updates.jd')" value="3"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option :label="$t('updates.wsh')" value="0"/>
-                <el-option :label="$t('updates.shz')" value="1"/>
-                <el-option :label="$t('updates.shtg')" value="2"/>
-                <el-option :label="$t('updates.shptg')" value="3"/>
-              </el-select>
-              <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentApply.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+      <my-emp :control.sync="stockControl" @stockName="stockName"/>
+
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
+          <el-option :label="$t('updates.zd')" value="1"/>
+          <el-option :label="$t('updates.zx')" value="2"/>
+          <el-option :label="$t('updates.jd')" value="3"/>
+        </el-select>
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
+        <!--<el-date-picker-->
+        <!--v-model="date"-->
+        <!--type="daterange"-->
+        <!--range-separator="-"-->
+        <!--unlink-panels-->
+        <!--start-placeholder="销售日期"-->
+        <!--end-placeholder="销售日期"-->
+        <!--value-format="yyyy-MM-dd"-->
+        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -214,6 +198,7 @@ import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { CustomerSurveyReportList2 } from '@/api/CustomerSurveyReport'
+import { addtaskoffline } from '../../api/repair'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -355,7 +340,9 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 自动创建列表
+      form: {}
     }
   },
 
@@ -466,9 +453,19 @@ export default {
       const tempData = Object.assign({}, this.formdata)
       this.reviewParms.id = tempData.id
       this.reviewParms.inquirePersonId = this.dispatchform.id
+      for (const key in this.reviewParms) {
+        if (key === 'judgePersonId' || key === 'judgeStat') {
+          delete this.reviewParms[key]
+        }
+      }
       const parms = JSON.stringify(this.reviewParms)
       updateapply2(parms).then(res => {
         if (res.data.ret === 200) {
+          // 自动生成线下任务单
+          this.form.employeeId = this.dispatchform.id
+          addtaskoffline(this.form).then(res => {
+            console.log(res)
+          })
           this.isvisible = false
           this.$notify({
             title: 'successful',
@@ -486,6 +483,16 @@ export default {
       this.isvisible = true
       console.log(row)
       getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.form.taskType = 3
+        this.form.taskname = '分期收款任务'
+        this.form.repositoryId = row.saleRepositoryId
+        this.form.customerName = row.firstName + ' ' + row.middleName + ' ' + row.lastName
+        this.form.taskaddress = row.currentAddress
+        this.form.employeeId = row.inquirePersonId
+        this.form.taskcontent = '分期申请调查'
+        this.form.sourceNumber = row.applyNumber
+        this.form.createId = row.createPersonId
+        this.form.remark = ''
         this.options2 = res.data.data.content.list
       })
     },
@@ -656,6 +663,8 @@ export default {
           }
         }
       }
+
+      console.log('processdata', processdata)
       this.list = processdata
       this.listLoading = false
       // 部门列表数据
@@ -742,6 +751,9 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log('index', index)
+        console.log('this.$store.getters.userId', this.$store.getters.userId)
+        console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           if (row.isInvestigation === 2) {
             return true
@@ -976,8 +988,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

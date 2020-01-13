@@ -1,34 +1,21 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 70px" shadow="never">
-      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.yf')">
-              <el-date-picker
-                v-model="date2"
-                :placeholder="$t('updates.xzy')"
-                type="month"
-                value-format="yyyy-MM"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 140px">
-            <el-form-item :label="$t('updates.repository')">
-              <el-input v-model="repositoryId" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 70px">
-            <el-form-item :label="$t('updates.wpbm')">
-              <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 70px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-date-picker
+        v-model="date2"
+        :placeholder="$t('updates.xzy')"
+        class="filter-item"
+        type="month"
+        value-format="yyyy-MM"/>
+
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-input v-model="getemplist.code" :placeholder="$t('updates.wpbm')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -510,8 +497,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

@@ -1,77 +1,57 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <!-- 搜索条件栏目 -->
-          <el-col :span="5">
-            <el-form-item :label="$t('Supplier.id')" label-width="100px">
-              <el-input v-model="getemplist.id" :placeholder="$t('Supplier.id')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Supplier.supplierName')">
-              <el-input v-model="getemplist.supplierName" :placeholder="$t('Supplier.supplierName')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Supplier.typeId')">
-              <el-select v-model="getemplist.typeId" :value="getemplist.typeId" placeholder="请选择供应商类别" clearable>
-                <el-option
-                  v-for="(item, index) in typeIds"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!-- 更多搜索条件下拉栏 -->
-          <el-col :span="3">
-            <el-popover
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-cascader
-                :options="regions"
-                :props="props"
-                v-model="getemplistregions"
-                :show-all-levels="false"
-                placeholder="所在区域"
-                change-on-select
-                filterable
-                clearable
-                style="width: 40%;float: left;margin-left: 20px"
-                @change="handlechange4"
-              />
-              <el-select v-model="getemplist.levelId" placeholder="请选择优质级别" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option
-                  v-for="(item, index) in levelIds"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-              <el-select v-model="getemplist.groupId" multiple placeholder="请选择供应商分组" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option
-                  v-for="(item, index) in groupIds"
-                  :key="index"
-                  :label="item.groupName"
-                  :value="item.id"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-          <!-- 批量操作 -->
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.id" :placeholder="$t('Supplier.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.supplierName" :placeholder="$t('Supplier.supplierName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.typeId" :value="getemplist.typeId" :placeholder="$t('Supplier.typeId')" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in typeIds"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-popover
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-cascader
+          :options="regions"
+          :props="props"
+          v-model="getemplistregions"
+          :show-all-levels="false"
+          placeholder="所在区域"
+          change-on-select
+          filterable
+          clearable
+          style="width: 40%;float: left;margin-left: 20px"
+          @change="handlechange4"
+        />
+        <el-select v-model="getemplist.levelId" placeholder="请选择优质级别" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option
+            v-for="(item, index) in levelIds"
+            :key="index"
+            :label="item.categoryName"
+            :value="item.id"
+          />
+        </el-select>
+        <el-select v-model="getemplist.groupId" multiple placeholder="请选择供应商分组" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option
+            v-for="(item, index) in groupIds"
+            :key="index"
+            :label="item.groupName"
+            :value="item.id"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-dropdown @command="handleCommand">
@@ -718,7 +698,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+   width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

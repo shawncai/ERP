@@ -1,30 +1,16 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.khxmi')" label-width="100px">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.dh')">
-              <el-input v-model="getemplist.customerPhone" placeholder="电话" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.fqsqbh')" label-width="100px">
-              <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('StockInvoice.address')" label-width="100px">
-              <el-input v-model="getemplist.address" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <!-- <el-col :span="3">
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.address" :placeholder="$t('StockInvoice.address')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <!--更多搜索条件-->
+      <!-- <el-col :span="3">
             <el-popover
               v-model="visible2"
               placement="bottom"
@@ -56,12 +42,9 @@
           <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
           </el-col> -->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px; margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -128,6 +111,11 @@
           <el-table-column :label="$t('InstallmentList.productCode')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.productCode }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.color')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.color }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.productName')" :resizable="false" align="center" min-width="150">
@@ -863,8 +851,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .el-table >>> .warning-row {
     background: #F56C6C;

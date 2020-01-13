@@ -1,60 +1,42 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 115px" shadow="never">
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
 
-      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="3">
-            <el-form-item :label="$t('updates.fle')">
-              <el-select v-model="getemplist.productCategory" :value="getemplist.productCategory" clearable style="width: 100px" @keyup.enter.native="handleFilter">
-                <el-option :label="$t('otherlanguage.zc')" value="1"/>
-                <el-option :label="$t('otherlanguage.pj')" value="2"/>
-                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-                <el-option :label="$t('otherlanguage.dc')" value="5"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 55px">
-            <el-form-item :label="$t('updates.repository')">
-              <el-input v-model="repositoryId" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 90px">
-            <el-form-item :label="$t('saleBillList.saleType')">
-              <el-select v-model="getemplist.saleType" :value="getemplist.saleType" clearable style="width: 100px" @keyup.enter.native="handleFilter">
-                <el-option value="1" label="现金销售"/>
-                <el-option value="2" label="分期销售"/>
-                <el-option value="3" label="配件销售"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <el-form-item :label="$t('updates.rq')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="width: 250px"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="3">
-            <el-form-item :label="$t('updates.xh')">
-              <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" style="width: 100px" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="4" style="margin-left: 56px">
+      <el-select v-model="getemplist.productCategory" :placeholder="$t('updates.fle')" :value="getemplist.productCategory" clearableclass="filter-item" @keyup.enter.native="handleFilter">
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-select v-model="getemplist.saleType" :placeholder="$t('saleBillList.saleType')" :value="getemplist.saleType" clearable class="filter-item" @keyup.enter.native="handleFilter">
+        <el-option value="1" label="现金销售"/>
+        <el-option value="2" label="分期销售"/>
+        <el-option value="3" label="配件销售"/>
+      </el-select>
+
+      <el-form-item :label="$t('updates.rq')">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          value-format="yyyy-MM-dd"
+          style="width: 250px"/>
+      </el-form-item>
+      <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+
+      <!-- <el-col :span="4" style="margin-left: 56px">
             <el-form-item :label="$t('updates.cjh')">
               <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
@@ -69,12 +51,9 @@
               <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col> -->
-          <el-col :span="4" style="margin-left: 44px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -426,12 +405,13 @@ export default {
     margin: 0px 10px;
   }
   .filter-container{
-    padding: 20px;
+     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 0px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

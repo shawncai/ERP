@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.applyNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.applyNumber" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.applyNumber" style="margin-left: 18px;width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -827,6 +827,7 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
+      this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allIncludeTaxMoney
       this.personalForm.customerType = String(val.customerType)

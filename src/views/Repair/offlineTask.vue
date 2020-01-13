@@ -182,13 +182,13 @@
             </el-table-column>
             <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="335px">
               <template slot-scope="scope">
-                <el-button v-permission="['54-67-68-5']" type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
-                <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button>
-                <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button>
-                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 2" size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
-                <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button>
-                <el-button v-permission="['54-67-68-29']" v-show="scope.row.stat == 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-                <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button>
+                <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('table2.view') }}</el-button>
+                <!-- <el-button v-permission="['54-67-68-2']" v-show="scope.row.stat == 1" type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('Complaint.delete') }}</el-button> -->
+                <!-- <el-button v-permission="['54-67-68-3']" v-show="scope.row.stat == 1" size="mini" type="warning" @click="handleedit(scope.row)">{{ $t('repair.edit2') }}</el-button> -->
+                <el-button size="mini" type="info" @click="handlecancel(scope.row)">{{ $t('repair.cancel') }}</el-button>
+                <!-- <el-button v-show="scope.row.stat == 5" size="mini" type="info" @click="handlefinish(scope.row)">{{ $t('repair.terminate') }}</el-button> -->
+                <el-button size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Redispatch') }}</el-button>
+                <!-- <el-button v-show="scope.row.stat !== 1" size="mini" style="width: 90px;" plain disabled>{{ $t('repair.Dispatched') }}</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -206,7 +206,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.employeeName }}</span>
@@ -590,8 +590,6 @@
   import MyCustomer from './components/MyCustomer'
   import MyRepository from './components/MyRepository'
 
-
-
   const calendarTypeOptions = [
     { key: '1', display_name: 'finished' },
     { key: '2', display_name: 'unfinished' }
@@ -772,6 +770,15 @@ export default {
     _that = this
   },
   methods: {
+    handleDetail(row) {
+      console.log('查看',row);
+    },
+    handlecancel(row) {
+      console.log('取消',row);
+    },
+    handleDispatch(row) {
+      console.log('重分配',row);
+    },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
       this.form.repositoryId = val.id

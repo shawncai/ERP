@@ -828,9 +828,19 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
+      this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
-      this.personalForm.sourceMoney = val.allTaxMoney
+      this.personalForm.sourceMoney = val.allIncludeTaxMoney
+      this.personalForm.customerType = String(val.customerType)
       this.Issource = true
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+      this.personalForm.customerId = val.customerId
+      this.personalForm.diffMoney = val.actualMoney
+      // this.personalForm.sourceMoney = val.actualMoney
+      this.repositoryId = val.saleRepositoryName
+      this.personalForm.repositoryId = val.saleRepositoryId
+      // this.Issource = true
     },
     // 源单为调拨单
     StoragemoveDetail(val) {

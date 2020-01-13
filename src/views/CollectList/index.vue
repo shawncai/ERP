@@ -1,70 +1,54 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.khxmi')">
-              <el-input v-model="getemplist.customerName" :placeholder="$t('CollectList.customerName')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.cjbm')">
-              <el-input v-model="getemplist.carCode" placeholder="车架编码" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.djbm')">
-              <el-input v-model="getemplist.motorCode" :placeholder="$t('CollectList.motorCode')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
-              <!--<el-option value="1" :label="$t('updates.zd')"/>-->
-              <!--<el-option value="2" :label="$t('updates.zx')"/>-->
-              <!--<el-option value="3" :label="$t('updates.jd')"/>-->
-              <!--</el-select>-->
-              <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
-              <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
-              <!--<el-option value="1" :label="$t('updates.shz')"/>-->
-              <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
-              <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
-              <!--</el-select>-->
-              <el-input v-model="getemplist.batteryCode" :placeholder="$t('CollectList.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
-              <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
-              <el-date-picker
-                v-model="getemplist.time"
-                :placeholder="$t('Hmodule.xzrq')"
-                type="date"
-                value-format="yyyy-MM-dd"
-                style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.customerName" :placeholder="$t('CollectList.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.carCode" :placeholder="$t('updates.cjbm')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.motorCode" :placeholder="$t('CollectList.motorCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
+        <!--<el-option value="1" :label="$t('updates.zd')"/>-->
+        <!--<el-option value="2" :label="$t('updates.zx')"/>-->
+        <!--<el-option value="3" :label="$t('updates.jd')"/>-->
+        <!--</el-select>-->
+        <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+        <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
+        <!--<el-option value="1" :label="$t('updates.shz')"/>-->
+        <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
+        <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
+        <!--</el-select>-->
+        <el-input v-model="getemplist.batteryCode" :placeholder="$t('CollectList.batteryCode')" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.count" :placeholder="$t('CollectList.count')" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter"/>
+        <el-date-picker
+          v-model="getemplist.time"
+          :placeholder="$t('Hmodule.xzrq')"
+          type="date"
+          value-format="yyyy-MM-dd"
+          style="width: 40%;float: left;margin-left: 20px;margin-top: 20px"/>
+        <!--<el-date-picker-->
+        <!--v-model="date"-->
+        <!--type="daterange"-->
+        <!--range-separator="-"-->
+        <!--unlink-panels-->
+        <!--start-placeholder="销售日期"-->
+        <!--end-placeholder="销售日期"-->
+        <!--value-format="yyyy-MM-dd"-->
+        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -377,6 +361,15 @@ export default {
       this.formdata = Object.assign({}, row)
       this.isvisible = true
       console.log(row)
+      this.form.taskType = 1
+      this.form.taskname = '分期收款任务'
+      this.form.repositoryId = row.saleRepositoryId
+      this.form.customerName = row.customerName
+      this.form.taskaddress = row.currentAddress
+      this.form.taskcontent = `需向${this.customerName}客户收款${row.shouldMoney}钱`
+      this.form.sourceNumber = row.orderNumber
+      this.form.createId = row.createPersonId
+      this.form.remark = ''
       getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
         this.options2 = res.data.data.content.list
       })
@@ -728,8 +721,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     /*padding: 10px 20px 10px;*/

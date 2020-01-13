@@ -1,26 +1,15 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.czr')">
-              <el-input v-model="operatorId" :placeholder="$t('income.handlePersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.mk')">
-              <el-input v-model="getemplist.module" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 154px;">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 15px">
+      <el-input v-model="operatorId" :placeholder="$t('updates.czr')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+
+      <my-emp :control.sync="stockControl" @stockName="stockName"/>
+
+      <el-input v-model="getemplist.module" :placeholder="$t('updates.mk')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
@@ -295,7 +284,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

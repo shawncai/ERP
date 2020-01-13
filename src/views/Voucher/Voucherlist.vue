@@ -1,34 +1,24 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('Voucher.pzh')" label-width="100px">
-              <el-input v-model="getemplist.voucherNo" :placeholder="$t('Voucher.pzh')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.zcdbh')">
-              <el-select v-model="getemplist.voucherStat" :value="getemplist.voucherStat" :placeholder="$t('Voucher.pzh')" clearable>
-                <el-option :label="$t('Voucher.jz')" value="1"/>
-                <el-option :label="$t('Voucher.gz')" value="2"/>
-                <el-option :label="$t('Voucher.jiez')" value="3"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('Voucher.rq')">
-              <el-date-picker
-                v-model="getemplist.receiptdate"
-                :placeholder="$t('Voucher.rq')"
-                type="date"
-                value-format="yyyy-MM-dd"
-                style="width:100%"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <!-- <el-col :span="3">
+    <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+
+      <el-input v-model="getemplist.voucherNo" :placeholder="$t('Voucher.pzh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-select v-model="getemplist.voucherStat" :value="getemplist.voucherStat" :placeholder="$t('Voucher.pzh')" class="filter-item" clearable>
+        <el-option :label="$t('Voucher.jz')" value="1"/>
+        <el-option :label="$t('Voucher.gz')" value="2"/>
+        <el-option :label="$t('Voucher.jiez')" value="3"/>
+      </el-select>
+
+      <el-date-picker
+        v-model="getemplist.receiptdate"
+        :placeholder="$t('Voucher.rq')"
+        type="date"
+        value-format="yyyy-MM-dd"
+        class="filter-item"/>
+
+      <!--更多搜索条件-->
+      <!-- <el-col :span="3">
             <el-popover
               v-model="visible2"
               placement="bottom"
@@ -58,12 +48,9 @@
               <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
           </el-col> -->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -888,8 +875,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

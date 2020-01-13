@@ -1,47 +1,30 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="3" style="margin-left: 15px">
-            <el-form-item :label="$t('updates.dcck')">
-              <el-input v-model="outRepositoryId" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 100px">
-            <el-form-item :label="$t('updates.drck')">
-              <el-input v-model="enterRepositoryId" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 100px">
-            <el-form-item :label="$t('updates.fle')">
-              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 100px" clearable>
-                <el-option :label="$t('otherlanguage.zc')" value="1"/>
-                <el-option :label="$t('otherlanguage.pj')" value="2"/>
-                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-                <el-option :label="$t('otherlanguage.dc')" value="5"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 50px">
-            <el-form-item :label="$t('updates.rq')">
-              <el-date-picker
-                v-model="date"
-                :placeholder="$t('Hmodule.xzrq')"
-                type="date"
-                style="width: 130px"
-                value-format="yyyy-MM-dd"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 100px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="outRepositoryId" :placeholder="$t('updates.dcck')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-input v-model="enterRepositoryId" :placeholder="$t('updates.drck')" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
+
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+
+      <el-date-picker
+        v-model="date"
+        :placeholder="$t('Hmodule.xzrq')"
+        class="filter-item"
+        type="date"
+        value-format="yyyy-MM-dd"
+      />
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -487,8 +470,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 0px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

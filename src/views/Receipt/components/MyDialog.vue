@@ -24,7 +24,7 @@
                 <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
               </el-form-item>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-              <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+              <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail2" @Installment="Installment"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
@@ -72,6 +72,12 @@
                 <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
               </el-form-item>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Receipt.receiptRepositoryId')" prop="receiptRepositoryId" style="width: 100%;">
+                <el-input v-model="receiptRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooserepo"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Receipt.receiptDate')" prop="payDate" style="width: 100%;">
@@ -190,10 +196,12 @@ import MyMater from './MyMater'
 import MyInstallment from './MyInstallment'
 import MyAgent from '../../SaleOpportunity/components/MyAgent'
 import { searchCategory } from '@/api/Supplier'
+import MyRepository from './MyRepository'
+import MyCustomer from './MyCustomer'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp, MyRepository, MyCustomer },
   props: {
     editcontrol: {
       type: Boolean,
@@ -240,7 +248,17 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      if (this.receiptRepositoryId === undefined || this.receiptRepositoryId === null || this.receiptRepositoryId === '') {
+        callback(new Error('请选择收款门店'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      // 收款门店
+      receiptRepositoryId: '',
       allorderarr: [],
       switchmoney: 0,
       // 选择的数据
@@ -306,6 +324,9 @@ export default {
         receiptPersonId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
+        receiptRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         receiptDate: [
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
@@ -328,6 +349,7 @@ export default {
       console.log('this.personalForm', this.personalForm)
       this.customerId = this.personalForm.customerName
       this.receiptPersonId = this.personalForm.receiptPersonName
+      this.receiptRepositoryId = this.personalForm.receiptRepositoryName
       this.isshow = true
       this.list2 = this.personalForm.receiptDetails
       this.getdetailtabledata()
@@ -353,6 +375,18 @@ export default {
     _that = this
   },
   methods: {
+    handlechooserepo() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.receiptRepositoryId = val.repositoryName
+      this.personalForm.receiptRepositoryId = val.id
+    },
+    changepenaltymoney(val) {
+      if (Number(val) > Number(this.allpenalty)) {
+        this.personalForm.penaltyMoney = this.allpenalty
+      }
+    },
     getdetailtabledata() {
       const parms = {
         pageNum: 1,
@@ -660,8 +694,11 @@ export default {
     },
     // 收款人回显
     stockName(val) {
+      console.log(val)
       this.receiptPersonId = val.personName
       this.personalForm.receiptPersonId = val.id
+      this.personalForm.receiptRepositoryId = val.repositoryId
+      this.receiptRepositoryId = val.repositoryName
     },
     // 总计
     getSummaries(param) {
@@ -795,6 +832,62 @@ export default {
       }
       this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
     },
+    InstallmentDetail2(val) {
+      console.log(val)
+      this.$refs.editable2.clear()
+      if (val.length) {
+        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        const InstallmentDetail = val.map(function(item) {
+          return {
+            installmentDetailId: item.installmentDetailId,
+            presentCount: item.presentCount,
+            returnMoney: item.returnMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.returnSource,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.returnInterest,
+            paidmoney: item.paidmoney,
+            unpay: item.unpay,
+            thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
+            installmentId: item.installmentId
+          }
+        })
+        console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+        for (let i = 0; i < InstallmentDetail.length; i++) {
+          this.$refs.editable2.insert(InstallmentDetail[i])
+        }
+        // this.list2 = InstallmentDetail
+        this.allorderarr = InstallmentDetail
+        this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      }
+      // else {
+      //   this.$refs.editable2.clear()
+      //   const valmap = []
+      //   valmap.push(val)
+      //   const InstallmentDetail = valmap.map(function(item) {
+      //     return {
+      //       installmentDetailId: item.id,
+      //       presentCount: item.idx,
+      //       returnMoney: item.shouldMoney,
+      //       shouldMoney: item.shouldMoney,
+      //       returnSource: item.capitalMoney,
+      //       reward: item.reward,
+      //       penalty: item.penalty,
+      //       returnInterest: item.interestMoney,
+      //       paidmoney: item.paidMoney,
+      //       unpay: item.shouldMoney - item.paidMoney,
+      //       thisMoney: item.shouldMoney - item.paidMoney,
+      //       installmentId: item.installmentId
+      //     }
+      //   })
+      //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+      //   for (let i = 0; i < InstallmentDetail.length; i++) {
+      //     this.$refs.editable2.insert(InstallmentDetail[i])
+      //   }
+      //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      // }
+    },
     InstallmentDetail(val) {
       // console.log(val)
       setTimeout(() => {
@@ -813,7 +906,7 @@ export default {
               returnInterest: item.returnInterest,
               paidmoney: item.paidmoney,
               unpay: item.unpay,
-              thisMoney: item.unpay,
+              thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
           })

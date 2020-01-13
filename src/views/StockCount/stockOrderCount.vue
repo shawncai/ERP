@@ -1,35 +1,22 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('stockOrderCount.type')">
-              <el-select v-model="getemplist.type" :value="getemplist.type" @keyup.enter.native="handleFilter" @change="changeName">
-                <el-option :label="$t('updates.gys')" value="1"/>
-                <el-option :label="$t('updates.jbr')" value="2"/>
-                <!-- <el-option value="3" :label="$t('updates.pp')"/> -->
-                <el-option value="4" label="种类"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 65px">
-            <el-form-item :label="$t('stockOrderCount.date')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="margin-left: 70px"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 360px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-select v-model="getemplist.type" :placeholder="$t('stockOrderCount.type')" :value="getemplist.type" class="filter-item" @keyup.enter.native="handleFilter" @change="changeName">
+        <el-option :label="$t('updates.gys')" value="1"/>
+        <el-option :label="$t('updates.jbr')" value="2"/>
+        <!-- <el-option value="3" :label="$t('updates.pp')"/> -->
+        <el-option value="4" label="种类"/>
+      </el-select>
+
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -439,8 +426,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+   width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

@@ -1,31 +1,13 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="80px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.cangk')">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.hwbh')">
-              <el-input v-model="getemplist.locationCode" :placeholder="$t('WarehouseAdjust.locationCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.hwmc')">
-              <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 154px;">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px">
+      <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+      <el-input v-model="getemplist.locationCode" :placeholder="$t('WarehouseAdjust.locationCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
@@ -363,7 +345,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+   width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

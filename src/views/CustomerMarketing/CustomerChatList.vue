@@ -1,52 +1,36 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.qtbh')" label-width="100px">
-              <el-input v-model="getemplist.chatNumber" :placeholder="$t('CustomerMarketing.chatNumber')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.khxmi')">
-              <el-input v-model="getemplist.customerName" placeholder="客户姓名" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.qtzt')">
-              <el-input v-model="getemplist.title" placeholder="洽谈主题" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-input v-model="handlePersonId" :placeholder="$t('CustomerMarketing.handlePersonId')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter4" @focus="handlechooseStock"/>
-              <my-emp :control.sync="stockControl" @stockName="stockName"/>
-              <el-select v-model="getemplist.phase" :value="getemplist.phase" :placeholder="$t('CustomerMarketing.phase')" clearable style="width: 40%;float: right;margin-right: 20px">
-                <el-option value="1" label="阶段1"/>
-              </el-select>
-              <el-select v-model="getemplist.buyIntention" :value="getemplist.buyIntention" :placeholder="$t('otherlanguage.buyIntention')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option value="1" label="低"/>
-                <el-option value="2" label="中"/>
-                <el-option value="3" label="高"/>
-              </el-select>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.chatNumber" :placeholder="$t('CustomerMarketing.chatNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.customerName" :placeholder="$t('updates.khxmi')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.title" :placeholder="$t('updates.qtzt')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-input v-model="handlePersonId" :placeholder="$t('CustomerMarketing.handlePersonId')" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter4" @focus="handlechooseStock"/>
+        <my-emp :control.sync="stockControl" @stockName="stockName"/>
+        <el-select v-model="getemplist.phase" :value="getemplist.phase" :placeholder="$t('CustomerMarketing.phase')" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option value="1" label="阶段1"/>
+        </el-select>
+        <el-select v-model="getemplist.buyIntention" :value="getemplist.buyIntention" :placeholder="$t('otherlanguage.buyIntention')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option value="1" label="低"/>
+          <el-option value="2" label="中"/>
+          <el-option value="3" label="高"/>
+        </el-select>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -591,7 +575,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>
