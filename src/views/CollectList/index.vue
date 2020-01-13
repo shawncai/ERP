@@ -361,6 +361,15 @@ export default {
       this.formdata = Object.assign({}, row)
       this.isvisible = true
       console.log(row)
+      this.form.taskType = 1
+      this.form.taskname = '分期收款任务'
+      this.form.repositoryId = row.saleRepositoryId
+      this.form.customerName = row.customerName
+      this.form.taskaddress = row.currentAddress
+      this.form.taskcontent = `需向${this.customerName}客户收款${row.shouldMoney}钱`
+      this.form.sourceNumber = row.orderNumber
+      this.form.createId = row.createPersonId
+      this.form.remark = ''
       getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
         this.options2 = res.data.data.content.list
       })

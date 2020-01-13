@@ -590,8 +590,6 @@
   import MyCustomer from './components/MyCustomer'
   import MyRepository from './components/MyRepository'
 
-
-
   const calendarTypeOptions = [
     { key: '1', display_name: 'finished' },
     { key: '2', display_name: 'unfinished' }
