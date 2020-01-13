@@ -1898,6 +1898,7 @@ export default {
     summary: '摘要'
   },
   Invoice: {
+    fph: '发票号',
     sourceType: '业务单类型',
     sourceNumber: '业务单据编号',
     invoiceNumber: '发票号',
@@ -2480,6 +2481,7 @@ export default {
     receiptAccount: '收款账户',
     receiptAccountNumber: '账号',
     receiptPersonId: '收款人',
+    receiptRepositoryId: '收款门店',
     receiptDate: '收款日期',
     totalLackMoney: '本次欠款合计',
     remark: '备注',
@@ -2995,6 +2997,7 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    hhd: '换货单',
     ggxh: '规格型号',
     cilent: '点击上传',
     cancel: '取消',
@@ -3829,6 +3832,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xjdh: '询价单号',
     xzgs: '选择公司',
     zc: '整车',
     pj: '配件',

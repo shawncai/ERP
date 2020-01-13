@@ -1,34 +1,20 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.hbdzt')" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('ProduceTask.title')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.hbdbh')">
-              <el-input v-model="getemplist.reportNumber" placeholder="汇报单编号" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.djzt')">
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable >
-                <el-option :label="$t('updates.zd')" value="1"/>
-                <el-option :label="$t('updates.zx')" value="2"/>
-                <el-option :label="$t('updates.jd')" value="3"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.title" :placeholder="$t('ProduceTask.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.reportNumber" :placeholder="$t('updates.hbdbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" class="filter-item" clearable >
+        <el-option :label="$t('updates.zd')" value="1"/>
+        <el-option :label="$t('updates.zx')" value="2"/>
+        <el-option :label="$t('updates.jd')" value="3"/>
+      </el-select>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -607,7 +593,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

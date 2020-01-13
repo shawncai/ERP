@@ -25,7 +25,8 @@
                   <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                 </el-form-item>
                 <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-                <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+                <!-- <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/> -->
+                <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
@@ -75,6 +76,12 @@
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Receipt.receiptRepositoryId')" prop="receiptRepositoryId" style="width: 100%;">
+                  <el-input v-model="receiptRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooserepo"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Receipt.receiptDate')" prop="receiptDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.receiptDate"
@@ -118,7 +125,7 @@
       <!--子件信息-->
       <el-card v-if="personalForm.customerType === '2'" class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >收款明细</h2>
-        <el-button v-if="isshow" type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         <div class="container">
           <el-editable
             ref="editable2"
@@ -132,7 +139,7 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column v-if="isshow" type="selection" min-width="55" align="center"/>
+            <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
@@ -190,11 +197,13 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyInstallment from './components/MyInstallment'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
+import MyCustomer from './components/MyCustomer'
 import { searchCategory } from '@/api/Supplier'
+import MyRepository from './components/MyRepository'
 var _that
 export default {
   name: 'AddReceipt',
-  components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp },
+  components: { MyAgent, MyInstallment, MyMater, MyDetail, MyEmp, MyCustomer, MyRepository },
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
@@ -217,6 +226,13 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      if (this.receiptRepositoryId === undefined || this.receiptRepositoryId === null || this.receiptRepositoryId === '') {
+        callback(new Error('请选择收款门店'))
+      } else {
+        callback()
+      }
+    }
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.receiptDate === undefined || this.personalForm.receiptDate === null || this.personalForm.receiptDate === '') {
         callback(new Error('请选择收款日期'))
@@ -232,9 +248,12 @@ export default {
       }
     }
     return {
+      repositorycontrol: false,
+      // 收款门店
+      receiptRepositoryId: '',
       allorderarr: [],
       switchmoney: 0,
-      isshow: false,
+      isshow: true,
       allmoney: '',
       // 批量操作
       moreaction: [],
@@ -305,6 +324,9 @@ export default {
         receiptPersonId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
+        receiptRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         receiptDate: [
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
@@ -366,6 +388,13 @@ export default {
     _that = this
   },
   methods: {
+    handlechooserepo() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      this.receiptRepositoryId = val.repositoryName
+      this.personalForm.receiptRepositoryId = val.id
+    },
     changepenaltymoney(val) {
       if (Number(val) > Number(this.allpenalty)) {
         this.personalForm.penaltyMoney = this.allpenalty
@@ -651,8 +680,11 @@ export default {
     },
     // 收款人回显
     stockName(val) {
+      console.log(val)
       this.receiptPersonId = val.personName
       this.personalForm.receiptPersonId = val.id
+      this.personalForm.receiptRepositoryId = val.repositoryId
+      this.receiptRepositoryId = val.repositoryName
     },
     // 总计
     getSummaries(param) {
@@ -781,8 +813,8 @@ export default {
       }, 0)
     },
     Installment(val) {
-      // console.log(val)
-      this.personalForm.customerId = val.customerId
+      console.log('val=====', val)
+      this.personalForm.customerId = val.id
       this.customerId = val.customerName
       if (val.advanceMoney !== null && val.advanceMoney !== undefined && val.advanceMoney !== '') {
         this.yufu = val.advanceMoney
@@ -811,10 +843,12 @@ export default {
               installmentId: item.installmentId
             }
           })
-          console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+          // console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
           for (let i = 0; i < InstallmentDetail.length; i++) {
             this.$refs.editable2.insert(InstallmentDetail[i])
           }
+          // this.list2 = InstallmentDetail
+          this.allorderarr = InstallmentDetail
           this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
         }
         // else {

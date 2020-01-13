@@ -1,27 +1,13 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="7">
-            <el-form-item :label="$t('newupd.fds')" label-width="100px">
-              <el-input v-model="getemplist.title" :placeholder="$t('AccessTools.title')" style="width: 90%;" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7" style="margin-left: 10px">
-            <el-form-item :label="$t('newupd.cxz')" label-width="100px">
-              <el-select v-model="getemplist.returnStat" clearable style="width: 80%;float: left;margin-left: 20px">
-                <el-option value="0" label="未归还" />
-                <el-option value="1" label="已归还" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.title" :placeholder="$t('AccessTools.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.returnStat" :placeholder="$t('newupd.cxz')" class="filter-item" clearable >
+        <el-option value="0" label="未归还" />
+        <el-option value="1" label="已归还" />
+      </el-select>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -766,7 +752,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+   width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

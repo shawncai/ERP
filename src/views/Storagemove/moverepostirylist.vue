@@ -1,21 +1,13 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.ygmc')">
-              <el-input v-model="emoloyeeName" style="width: 190px" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
-              <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="emoloyeeName" :placeholder="$t('updates.ygmc')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
+      <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -673,7 +665,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+   width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

@@ -1,29 +1,14 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('CustomerSurveyReport.title')">
-              <el-input v-model="getemplist.title" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('CustomerSurveyReport.number')">
-              <el-input v-model="getemplist.number" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('CustomerSurveyReport.customerName')">
-              <el-input v-model="getemplist.customerName" clearable @keyup.enter.native="handleFilter" @clear="restFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+
+      <el-input v-model="getemplist.title" :placeholder="$t('CustomerSurveyReport.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.number" :placeholder="$t('CustomerSurveyReport.number')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.customerName" :placeholder="$t('CustomerSurveyReport.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -586,7 +571,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

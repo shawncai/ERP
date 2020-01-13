@@ -1,54 +1,35 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 120px">
-      <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.cangk')">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
-            </el-form-item>
-            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.spbm')">
-              <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.spmc')">
-              <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.xh')">
-              <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.fle')" style="width: 100%;">
-              <el-select v-model="getemplist.productCategory">
-                <el-option value="1" label="整车"/>
-                <el-option value="2" label="配件"/>
-                <el-option value="5" label="电池"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 60px;">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+    <el-card class="box-card" style="margin-top: 15px">
+
+      <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-select v-model="getemplist.productCategory" :placeholder="$t('updates.fle')" class="filter-item">
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
@@ -441,7 +422,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+     width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

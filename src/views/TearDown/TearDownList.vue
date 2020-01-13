@@ -1,62 +1,48 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.czdzt')">
-              <el-input v-model="getemplist.title" :placeholder="$t('TearDown.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.czdbh')">
-              <el-input v-model="getemplist.teardownNumber" :placeholder="$t('TearDown.teardownNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.jbr')">
-              <el-input v-model="handlePersonId" :placeholder="$t('TearDown.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
-            </el-form-item>
-            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          </el-col>
-          <el-col :span="4" style="margin-left: 154px;">
-            <!-- 更多搜索条件下拉栏 -->
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.teardownDeptId" placeholder="请选择拆装部门" style="width: 40%;float: left;margin-left: 20px" clearable >
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-input v-model="TearDownRepositoryId" :placeholder="$t('TearDown.teardownRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="Start"
-                end-placeholder="End"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px;width: 434px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="4">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 15px;">
+
+      <el-input v-model="getemplist.title" :placeholder="$t('TearDown.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.teardownNumber" :placeholder="$t('TearDown.teardownNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="handlePersonId" :placeholder="$t('TearDown.handlePersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
+
+      <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+
+      <!-- 更多搜索条件下拉栏 -->
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.teardownDeptId" placeholder="请选择拆装部门" style="width: 40%;float: left;margin-left: 20px" clearable >
+          <el-option
+            v-for="(item, index) in depts"
+            :key="index"
+            :value="item.id"
+            :label="item.deptName"/>
+        </el-select>
+        <el-input v-model="TearDownRepositoryId" :placeholder="$t('TearDown.teardownRepositoryId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
+        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="Start"
+          end-placeholder="End"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px;width: 434px"/>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
@@ -616,7 +602,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+     width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

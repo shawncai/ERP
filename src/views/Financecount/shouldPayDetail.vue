@@ -1,46 +1,32 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" style="margin-left: -34px;width: 130px" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 40px">
-            <el-form-item :label="$t('shouldPayCount.startMonth')">
-              <el-date-picker
-                ref="datesRef"
-                v-model="data1"
-                :editable = "false"
-                :placeholder="$t('updates.xzy')"
-                type="month"
-                format="yyyy-MM"
-                value-format="yyyy-MM"
-                style="margin-left: -34px;"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 140px">
-            <el-form-item :label="$t('shouldPayCount.endMonth')">
-              <el-date-picker
-                ref="datesRef"
-                v-model="data2"
-                :editable = "false"
-                :placeholder="$t('updates.xzy')"
-                type="month"
-                format="yyyy-MM"
-                style="margin-left: -34px;"
-                value-format="yyyy-MM"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 160px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" class="filter-item" @focus="handlechoose"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
+      <el-date-picker
+        ref="datesRef"
+        v-model="data1"
+        :editable = "false"
+        :placeholder="$t('shouldPayCount.startMonth')"
+        type="month"
+        format="yyyy-MM"
+        value-format="yyyy-MM"
+        class="filter-item"
+      />
+      <el-date-picker
+        ref="datesRef"
+        v-model="data2"
+        :editable = "false"
+        :placeholder="$t('shouldPayCount.endMonth')"
+        type="month"
+        format="yyyy-MM"
+        class="filter-item"
+        value-format="yyyy-MM"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -471,8 +457,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 0px;
+   width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

@@ -1,39 +1,25 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="6">
-            <el-form-item :label="$t('updates.cpmc')" label-width="100px">
-              <el-input v-model="getemplist.productName" :placeholder="$t('ProductCost.productName')" clearable style="width: 80%" @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" style="margin-left: 10px">
-            <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
-              <el-date-picker
-                v-model="getemplist.accountTime"
-                :placeholder="$t('updates.xzy')"
-                type="month"
-                value-format="yyyy-MM"
-                style="margin-left: 11px;width: 80%"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.cbhsff')">
-              <el-select v-model="getemplist.accountType" clearable value="personalForm.accountType">
-                <el-option value="1" label="约当产量法"/>
-                <el-option value="2" label="定额成本法"/>
-                <el-option value="3" label="定额比例法"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+
+      <el-input v-model="getemplist.productName" :placeholder="$t('ProductCost.productName')" clearable class="filter-item" @keyup.enter.native="handleFilter"/>
+
+      <el-date-picker
+        v-model="getemplist.accountTime"
+        :placeholder="$t('ProductCost.accountTime')"
+        class="filter-item"
+        type="month"
+        value-format="yyyy-MM"
+      />
+
+      <el-select v-model="getemplist.accountType" :placeholder="$t('updates.cbhsff')" class="filter-item" clearable value="personalForm.accountType">
+        <el-option value="1" label="约当产量法"/>
+        <el-option value="2" label="定额成本法"/>
+        <el-option value="3" label="定额比例法"/>
+      </el-select>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -682,7 +668,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+   width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

@@ -1,62 +1,49 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.skddh')" label-width="100px">
-              <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.skr')">
-              <el-input v-model="receiptPersonId" placeholder="收款人" @clear="restFilter" @focus="handlechooseStock"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.skdzt')">
-              <el-input v-model="getemplist.title" placeholder="收款单主题" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <!--<el-col :span="3">-->
-          <!--<el-popover-->
-          <!--v-model="visible2"-->
-          <!--placement="bottom"-->
-          <!--width="500"-->
-          <!--trigger="click">-->
-          <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
-          <!--<el-option value="1" :label="$t('updates.zd')"/>-->
-          <!--<el-option value="2" :label="$t('updates.zx')"/>-->
-          <!--<el-option value="3" :label="$t('updates.jd')"/>-->
-          <!--</el-select>-->
-          <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
-          <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
-          <!--<el-option value="1" :label="$t('updates.shz')"/>-->
-          <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
-          <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
-          <!--</el-select>-->
-          <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
-          <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
-          <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
-          <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
-          <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
-          <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
-          <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
-          <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
-          <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
-          <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
-          <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
-          <!--</div>-->
-          <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
-          <!--</el-popover>-->
-          <!--</el-col>-->
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/>
+
+      <el-input v-model="getemplist.title" :placeholder="$t('updates.skdzt')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <!--更多搜索条件-->
+      <!--<el-col :span="3">-->
+      <!--<el-popover-->
+      <!--v-model="visible2"-->
+      <!--placement="bottom"-->
+      <!--width="500"-->
+      <!--trigger="click">-->
+      <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
+      <!--<el-option value="1" :label="$t('updates.zd')"/>-->
+      <!--<el-option value="2" :label="$t('updates.zx')"/>-->
+      <!--<el-option value="3" :label="$t('updates.jd')"/>-->
+      <!--</el-select>-->
+      <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
+      <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
+      <!--<el-option value="1" :label="$t('updates.shz')"/>-->
+      <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
+      <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
+      <!--</el-select>-->
+      <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
+      <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
+      <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
+      <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
+      <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
+      <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
+      <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
+      <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
+      <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
+      <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
+      <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
+      <!--</div>-->
+      <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
+      <!--</el-popover>-->
+      <!--</el-col>-->
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px; margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
@@ -802,8 +789,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

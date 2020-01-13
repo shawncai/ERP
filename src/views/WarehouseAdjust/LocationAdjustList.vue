@@ -1,62 +1,47 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.tzdzt')">
-              <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.tzdbh')">
-              <el-input v-model="getemplist.adjustNumber" :placeholder="$t('WarehouseAdjust.adjustNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6" :label="$t('updates.jbr')">
-            <el-form-item :label="$t('WarehouseAdjust.handlePersonId')">
-              <el-input v-model="handlePersonId" :placeholder="$t('WarehouseAdjust.handlePersonId')" class="filter-item" clearable @focus="handlechooseDelivery"/>
-            </el-form-item>
-            <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-          </el-col>
-          <el-col :span="4">
-            <!-- 更多搜索条件下拉栏 -->
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-input v-model="adjustRepositoryId" placeholder="请选择入库仓库" style="float: left;margin-left: 20px" class="filter-item" clearable @focus="handlechooseRep"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable class="filter-item" style="float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="Start"
-                end-placeholder="End"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="4">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 15px">
+
+      <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.adjustNumber" :placeholder="$t('WarehouseAdjust.adjustNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="handlePersonId" :placeholder="$t('WarehouseAdjust.handlePersonId')" class="filter-item" clearable @focus="handlechooseDelivery"/>
+
+      <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-input v-model="adjustRepositoryId" placeholder="请选择入库仓库" style="float: left;margin-left: 20px" class="filter-item" clearable @focus="handlechooseRep"/>
+        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+        <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable class="filter-item" style="float: left;margin-left: 20px">
+          <el-option
+            v-for="(item, index) in depts"
+            :key="index"
+            :value="item.id"
+            :label="item.deptName"/>
+        </el-select>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="Start"
+          end-placeholder="End"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 140px" @click="visible2 = !visible2"><svg-icon icon-class="shaixuan" style="margin-right: 6px"/>{{ $t('public.filter') }}</el-button>
+      </el-popover>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
@@ -611,7 +596,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+     width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

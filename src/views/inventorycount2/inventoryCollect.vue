@@ -1,53 +1,31 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 130px" shadow="never">
-      <el-form ref="getemplist" :model="getemplist" label-width="70px" style="margin-top: -9px">
-        <el-row>
-          <el-col :span="5" style="margin-left: 15px">
-            <el-form-item :label="$t('updates.repository')">
-              <el-input v-model="repositoryId" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 40px">
-            <el-form-item :label="$t('updates.pp')">
-              <el-input v-model="getemplist.brand" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 40px">
-            <el-form-item :label="$t('updates.xh')">
-              <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable>
-                <el-option
-                  v-for="(item, index) in types"
-                  :key="index"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
 
-          <el-col :span="5" style="margin-left: 40px">
-            <el-form-item :label="$t('updates.fle')">
-              <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" clearable>
-                <el-option :label="$t('otherlanguage.zc')" value="1"/>
-                <el-option :label="$t('otherlanguage.pj')" value="2"/>
-                <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-                <el-option :label="$t('otherlanguage.dc')" value="5"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 15px">
-            <el-form-item :label="$t('updates.wpbm')">
-              <el-input v-model="getemplist.code" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 15px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-input v-model="getemplist.brand" :placeholder="$t('updates.pp')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+      <el-input v-model="getemplist.code" :placeholder="$t('updates.wpbm')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -481,8 +459,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+   width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

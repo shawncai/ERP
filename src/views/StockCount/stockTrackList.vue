@@ -1,36 +1,22 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('Hmodule.wpmc')">
-              <el-input v-model="getemplist.productName" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 80px">
-            <el-form-item :label="$t('StockContract.supplierId')">
-              <el-input v-model="supplierId" style="width: 110px" @focus="handlechoose" @clear="restFilter"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 47px">
-            <el-form-item :label="$t('stockOrderCount.date')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                value-format="yyyy-MM-dd"
-                style="width: 250px"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="43" style="margin-left: 252px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+
+      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"
+        style="width: 250px"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -487,8 +473,9 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 0px;
+   width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

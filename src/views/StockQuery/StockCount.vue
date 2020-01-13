@@ -1,41 +1,22 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="90px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.wpbm')">
-              <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
-              <my-detail :control.sync="control" @product="product"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 70px">
-            <el-form-item :label="$t('updates.gys')">
-              <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 118px">
-            <el-form-item :label="$t('updates.cgsjd')">
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                style="width: 230px;"
-                start-placeholder="Start"
-                end-placeholder="End"
-                value-format="yyyy-MM-dd"
-              />
-            </el-form-item>
-          </el-col>
-          <!--更多搜索条件-->
-          <el-col :span="4" style="margin-left: 155px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" class="filter-item" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <my-detail :control.sync="control" @product="product"/>
+      <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" class="filter-item" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        style="width: 230px;"
+        start-placeholder="Start"
+        end-placeholder="End"
+        value-format="yyyy-MM-dd"
+      />
+      <el-button v-waves type="primary" icon="el-icon-search" class="filter-item" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <span style="float: left;margin-bottom: 13px">{{ $t('updates.tjx') }}</span>
@@ -285,7 +266,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+     width: 180px;
+    margin-left: 20px;
+    padding: 10px 0;
   }
 </style>

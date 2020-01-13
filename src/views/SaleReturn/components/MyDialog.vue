@@ -14,17 +14,18 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
-                  <el-option value="1" label="销售出库单"/>
-                  <el-option value="2" label="无来源"/>
+                  <el-option :label="$t('updates.xsckd')" value="1"/>
+                  <el-option :label="$t('Hmodule.Nosource')" value="2"/>
+                  <el-option :label="$t('Hmodule.hhd')" value="3"/>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 200px" @focus="choosesaleout"/>
               </el-form-item>
               <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
@@ -116,7 +117,10 @@
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.thmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
+        <my-saleout :saleoutcontrol.sync="saleoutcontrol" :personaldata="personalForm" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
+        <my-returnexchange :returncontrol.sync="returncontrol" @returnDetail="returnDetail" @returndata="returndata"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -301,10 +305,11 @@ import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
 import MySaleout from './MySaleout'
+import MyReturnexchange from './MyReturnexchange'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MySaleout },
+  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MySaleout, MyReturnexchange },
   props: {
     editcontrol: {
       type: Boolean,
@@ -325,6 +330,10 @@ export default {
       }
     }
     return {
+      // 判断权限
+      isshow: false,
+      // 控制是否从源单添加
+      IsSourceNumber: true,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -333,6 +342,7 @@ export default {
       personalForm: this.editdata,
       // 控制源单
       saleoutcontrol: false,
+      returncontrol: false,
       // 合计信息
       heji1: '',
       heji2: '',
@@ -424,6 +434,38 @@ export default {
     _that = this
   },
   methods: {
+    returnDetail(val) {
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
+        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    returndata(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.sourceNumber
+      this.customerId = val.customerName
+      this.personalForm.customerId = val.customerId
+      this.personalForm.customerPhone = val.customerPhone
+      // this.personalForm.receiveAddress = val.address
+      this.personalForm.customerType = String(val.customerType)
+      this.personalForm.salePersonId = val.salePersonId
+      // this.salePersonId = val.salePersonName
+      // this.salePersonName = val.salePersonName
+      this.personalForm.saleRepositoryId = val.repositoryId
+      this.saleRepositoryId = val.repositoryName
+      console.log(this.list2)
+    },
+    // 添加源单操作
+    handleAddSource() {
+      if (this.personalForm.sourceType === '1') {
+        this.saleoutcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.returncontrol = true
+      }
+    },
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
@@ -528,8 +570,12 @@ export default {
       }
     },
     // 选择源单
-    choosesaleout() {
-      this.saleoutcontrol = true
+    choosesaleout(val) {
+      if (this.personalForm.sourceType === '1') {
+        this.saleoutcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.returncontrol = true
+      }
     },
     saleOutDetail(val) {
       this.$refs.editable.clear()
@@ -550,7 +596,7 @@ export default {
       this.personalForm.customerType = String(val.customerType)
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
-      this.salePersonName = val.salePersonName
+      this.personalForm.salePersonId = val.salePersonId
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
       console.log(this.list2)

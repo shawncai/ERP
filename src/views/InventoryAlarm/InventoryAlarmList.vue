@@ -2,30 +2,13 @@
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
     <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.cangk')">
-              <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-            </el-form-item>
-            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-          </el-col>
-          <!--          <el-col :span="4">-->
-          <!--            <el-form-item :label="$t('updates.spbm')">-->
-          <!--              <el-input v-model="getemplist.code" :placeholder="$t('StockAlarm.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
-          <!--          <el-col :span="4">-->
-          <!--            <el-form-item :label="$t('updates.spmc')">-->
-          <!--              <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
-          <el-col :span="4" style="margin-left: 154px;">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+      \
+      <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px; margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 表格导出操作 -->
@@ -240,7 +223,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
+    width: 180px;
     margin-left: 20px;
+    padding: 10px 0;
   }
 </style>
