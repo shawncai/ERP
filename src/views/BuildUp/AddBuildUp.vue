@@ -277,7 +277,7 @@ export default {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 仓库回显
       buildupRepositoryId: '',
       // 经办人控制窗口
@@ -291,6 +291,7 @@ export default {
       materialcontrol: false,
       // 组装信息数据
       personalForm: {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -744,6 +745,7 @@ export default {
     restAllForm() {
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
+        handlePersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
@@ -751,7 +753,7 @@ export default {
         type: '1'
       }
       this.buildupRepositoryId = ''
-      this.handlePersonId = ''
+      this.handlePersonId = this.$store.getters.name
     },
     // 保存操作
     async handlesave() {

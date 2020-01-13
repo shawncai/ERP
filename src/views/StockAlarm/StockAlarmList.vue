@@ -146,6 +146,7 @@ export default {
       downloadLoading: false,
       // 表格数据
       list: [],
+      list2: [],
       // 表格数据条数
       total: 0,
       // 表格识别
@@ -157,11 +158,21 @@ export default {
 
   mounted() {
     this.getlist()
+    this.getlist2()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getlist2() {
+      this.getemplist.pageNum = 1
+      this.getemplist.pageSize = 9999
+      searchalarm(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list2 = res.data.data.content.list
+        }
+      })
+    },
     checkPermission,
     // 仓库列表focus事件触发
     handlechooseRep() {
@@ -215,15 +226,25 @@ export default {
     },
     // 导出
     handleExport() {
+      for (let i = 0; i < this.list2.length; i++) {
+        // 1: '下限预警',
+        // 2: '上线预警'
+        if (this.list2[i].alarmType === 1) {
+          this.list2[i].alarmTypeName = '下限预警'
+        } else if (this.list2[i].alarmType === 2) {
+          this.list2[i].alarmTypeName = '上线预警'
+        }
+      }
+      console.log('this.list2', this.list2)
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockAlarmName', 'StockAlarmShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
+          const tHeader = ['编号', '物品编码', '物品名称', '规格型号', '单位', '库存下限', '库存上限', '现有库存', '报警类型']
+          const filterVal = ['id', 'code', 'productName', 'typeName', 'stockMeasurement', 'downStock', 'upStock', 'existStock', 'alarmTypeName']
+          const data = this.formatJson(filterVal, this.list2)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '库存预警列表'
           })
           this.downloadLoading = false
         })
