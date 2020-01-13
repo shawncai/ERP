@@ -1458,6 +1458,7 @@ export default {
     storageMoveDate: '出库日期'
   },
   StockAlarm: {
+    color: '颜色',
     searchRepositoryId: '仓库',
     code: '商品编码',
     productName: '商品名称',
@@ -2355,6 +2356,7 @@ export default {
     salecontrat: '销售合同'
   },
   InstallmentList: {
+    color: '颜色',
     isChange: '是否改期',
     afterCount: '改期后期数',
     afterRate: '改期后利率',

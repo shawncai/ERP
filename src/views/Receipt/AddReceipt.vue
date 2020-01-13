@@ -26,7 +26,7 @@
                 </el-form-item>
                 <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 <!-- <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/> -->
-                <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+                <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail2" @Installment="Installment"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
@@ -821,63 +821,117 @@ export default {
       }
       this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
     },
+    InstallmentDetail2(val) {
+      console.log(val)
+      this.$refs.editable2.clear()
+      if (val.length) {
+        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        const InstallmentDetail = val.map(function(item) {
+          return {
+            installmentDetailId: item.installmentDetailId,
+            presentCount: item.presentCount,
+            returnMoney: item.returnMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.returnSource,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.returnInterest,
+            paidmoney: item.paidmoney,
+            unpay: item.unpay,
+            thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
+            installmentId: item.installmentId
+          }
+        })
+        console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+        for (let i = 0; i < InstallmentDetail.length; i++) {
+          this.$refs.editable2.insert(InstallmentDetail[i])
+        }
+        // this.list2 = InstallmentDetail
+        this.allorderarr = InstallmentDetail
+        this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      }
+      // else {
+      //   this.$refs.editable2.clear()
+      //   const valmap = []
+      //   valmap.push(val)
+      //   const InstallmentDetail = valmap.map(function(item) {
+      //     return {
+      //       installmentDetailId: item.id,
+      //       presentCount: item.idx,
+      //       returnMoney: item.shouldMoney,
+      //       shouldMoney: item.shouldMoney,
+      //       returnSource: item.capitalMoney,
+      //       reward: item.reward,
+      //       penalty: item.penalty,
+      //       returnInterest: item.interestMoney,
+      //       paidmoney: item.paidMoney,
+      //       unpay: item.shouldMoney - item.paidMoney,
+      //       thisMoney: item.shouldMoney - item.paidMoney,
+      //       installmentId: item.installmentId
+      //     }
+      //   })
+      //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+      //   for (let i = 0; i < InstallmentDetail.length; i++) {
+      //     this.$refs.editable2.insert(InstallmentDetail[i])
+      //   }
+      //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      // }
+    },
     InstallmentDetail(val) {
       // console.log(val)
-      setTimeout(() => {
-        this.$refs.editable2.clear()
-        if (val.length) {
-          console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
-          const InstallmentDetail = val.map(function(item) {
-            return {
-              installmentDetailId: item.installmentDetailId,
-              presentCount: item.presentCount,
-              returnMoney: item.returnMoney,
-              shouldMoney: item.shouldMoney,
-              returnSource: item.returnSource,
-              reward: item.reward,
-              penalty: item.penalty,
-              returnInterest: item.returnInterest,
-              paidmoney: item.paidmoney,
-              unpay: item.unpay,
-              thisMoney: item.unpay,
-              installmentId: item.installmentId
-            }
-          })
-          // console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
-          for (let i = 0; i < InstallmentDetail.length; i++) {
-            this.$refs.editable2.insert(InstallmentDetail[i])
+      this.$refs.editable2.clear()
+      if (val.length) {
+        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        const InstallmentDetail = val.map(function(item) {
+          return {
+            installmentDetailId: item.installmentDetailId,
+            presentCount: item.presentCount,
+            returnMoney: item.returnMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.returnSource,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.returnInterest,
+            paidmoney: item.paidmoney,
+            unpay: item.unpay,
+            thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
+            installmentId: item.installmentId
           }
-          // this.list2 = InstallmentDetail
-          this.allorderarr = InstallmentDetail
-          this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+        })
+        // console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+        for (let i = 0; i < InstallmentDetail.length; i++) {
+          this.$refs.editable2.insert(InstallmentDetail[i])
         }
-        // else {
-        //   this.$refs.editable2.clear()
-        //   const valmap = []
-        //   valmap.push(val)
-        //   const InstallmentDetail = valmap.map(function(item) {
-        //     return {
-        //       installmentDetailId: item.id,
-        //       presentCount: item.idx,
-        //       returnMoney: item.shouldMoney,
-        //       shouldMoney: item.shouldMoney,
-        //       returnSource: item.capitalMoney,
-        //       reward: item.reward,
-        //       penalty: item.penalty,
-        //       returnInterest: item.interestMoney,
-        //       paidmoney: item.paidMoney,
-        //       unpay: item.shouldMoney - item.paidMoney,
-        //       thisMoney: item.shouldMoney - item.paidMoney,
-        //       installmentId: item.installmentId
-        //     }
-        //   })
-        //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
-        //   for (let i = 0; i < InstallmentDetail.length; i++) {
-        //     this.$refs.editable2.insert(InstallmentDetail[i])
-        //   }
-        //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
-        // }
-      }, 0)
+        // this.list2 = InstallmentDetail
+        this.allorderarr = InstallmentDetail
+        this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      }
+      // else {
+      //   this.$refs.editable2.clear()
+      //   const valmap = []
+      //   valmap.push(val)
+      //   const InstallmentDetail = valmap.map(function(item) {
+      //     return {
+      //       installmentDetailId: item.id,
+      //       presentCount: item.idx,
+      //       returnMoney: item.shouldMoney,
+      //       shouldMoney: item.shouldMoney,
+      //       returnSource: item.capitalMoney,
+      //       reward: item.reward,
+      //       penalty: item.penalty,
+      //       returnInterest: item.interestMoney,
+      //       paidmoney: item.paidMoney,
+      //       unpay: item.shouldMoney - item.paidMoney,
+      //       thisMoney: item.shouldMoney - item.paidMoney,
+      //       installmentId: item.installmentId
+      //     }
+      //   })
+      //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+      //   for (let i = 0; i < InstallmentDetail.length; i++) {
+      //     this.$refs.editable2.insert(InstallmentDetail[i])
+      //   }
+      //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      // }
     },
     // 源单控制
     handleAddsourceNum() {

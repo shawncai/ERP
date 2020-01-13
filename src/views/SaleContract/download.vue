@@ -35,7 +35,7 @@ export default {
         setTimeout(() => {
           this.fullscreenLoading = false
           this.$nextTick(() => {
-            // window.print()
+            window.print()
           })
         }, 3000)
       })

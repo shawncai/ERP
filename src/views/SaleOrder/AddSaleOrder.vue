@@ -205,7 +205,7 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ddmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="chooseType">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -800,6 +800,14 @@ export default {
     },
     // 无来源添加商品
     chooseType() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     // 从源单中添加商品
@@ -948,6 +956,14 @@ export default {
     },
     // 无来源添加商品
     handleAddproduct() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {

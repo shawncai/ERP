@@ -1206,6 +1206,9 @@ export default {
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'
       }
+      if (val.sourceType === 2 && val.sourceNumber !== null) {
+        this.personalForm.applyNumber = val.sourceNumber
+      }
       this.personalForm.customerId = val.customerId
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone

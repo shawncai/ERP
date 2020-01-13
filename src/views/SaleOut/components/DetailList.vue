@@ -174,7 +174,7 @@
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
             <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />
             <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" /> -->
-            <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" />
+            <el-editable-column :label="$t('updates.ckj')" prop="salePrice" align="center" />
             <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />

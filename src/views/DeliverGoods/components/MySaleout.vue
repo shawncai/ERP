@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.confirmPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">
@@ -324,7 +324,9 @@ export default {
       this.listLoading = true
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.confirmPersonId !== null
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -371,7 +373,9 @@ export default {
       }
       searchsaleOut(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.confirmPersonId !== null
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
