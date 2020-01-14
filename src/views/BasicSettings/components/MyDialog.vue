@@ -214,6 +214,7 @@ export default {
         for (let j = 0; j < myval.length; j++) {
           if (Number(this.checklist[i].id) === Number(myval[j])) {
             this.checklist.splice(i, 1)
+            // i--
           }
         }
       }
@@ -249,6 +250,7 @@ export default {
         for (let j = 0; j < myval.length; j++) {
           if (Number(this.checklist[i].id) === Number(myval[j])) {
             this.checklist.splice(i, 1)
+            // i--
           }
         }
       }

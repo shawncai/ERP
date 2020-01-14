@@ -512,3 +512,45 @@ export function getofflinelist(query) {
     method: 'post'
   })
 }
+
+// 线下任务修改
+export function updateoffline(query) {
+  var params = new URLSearchParams()
+  if (query.taskId !== '' && query.taskId !== null && query.taskId !== undefined) {
+    params.append('taskId', query.taskId) // 你要传给后台的参数值 key/value
+  }
+  if (query.taskName !== '' && query.taskName !== null && query.taskName !== undefined) {
+    params.append('taskName', query.taskName) // 你要传给后台的参数值 key/value
+  }
+  if (query.taskAddress !== '' && query.taskAddress !== null && query.taskAddress !== undefined) {
+    params.append('taskAddress', query.taskAddress) // 你要传给后台的参数值 key/value
+  }
+  if (query.taskContent !== '' && query.taskContent !== null && query.taskContent !== undefined) {
+    params.append('taskContent', query.taskContent) // 你要传给后台的参数值 key/value
+  }
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.remarks !== '' && query.remarks !== null && query.remarks !== undefined) {
+    params.append('remarks', query.remarks) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'taskoffline/updatetaskoffline',
+    data: params,
+    method: 'post'
+  })
+}
+
+// 线下任务取消
+export function cancleoffline(query) {
+  var params = new URLSearchParams()
+  params.append('taskId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: 'taskoffline/cancelTask',
+    data: params,
+    method: 'post'
+  })
+}

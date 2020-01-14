@@ -65,15 +65,17 @@
       <!-- 列表开始1.13 -->
       <el-table
         v-loading="listLoading"
+        ref="multipleTable"
         :key="tableKey"
         :data="list"
+        :row-key="getRowKeys"
         border
         fit
         highlight-current-row
         style="width: 100%;"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange">
-        <el-table-column type="selection" min-width="55" align="center" />
+        <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
@@ -194,10 +196,20 @@ export default {
     supp: {
       type: Number,
       default: null
+    },
+    checklist: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
+      // 获取row的key值
+      getRowKeys(row) {
+        return row.id
+      },
       // 选择框控制
       employeeVisible: this.entercontrol,
       // 类别获取参数
@@ -252,27 +264,98 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      checklistprop: this.checklist,
+      flagarr: [],
+      myarr: []
     }
   },
   watch: {
     entercontrol() {
       this.employeeVisible = this.entercontrol
       this.getlist()
+      setTimeout(() => {
+        this.$refs.multipleTable.clearSelection()
+      }, 0)
+      this.flagarr = []
+      this.moreaction = []
     },
     supp() {
       this.getemplist.supplierId = this.supp
       this.getlist()
       console.log(this.supp)
+    },
+    checklist() {
+      const mychecklistprop = this.checklist.map(item => {
+        return item.sourceNumber
+      })
+      this.checklistprop = Array.from(new Set(mychecklistprop))
+      console.log('this.checklistprop==============>', this.checklistprop)
+      // const needarr = this.$refs.multipleTable.selection
+      // const delearr = this.checklistprop
+      // const add = needarr.filter(item => !delearr.some(ele => ele === item.id))
+      // console.log('add', add)
+      // for (const i in this.$refs.multipleTable.selection) {
+      //   for (const j in add) {
+      //     if (this.$refs.multipleTable.selection[i].code === add[j].code) {
+      //       this.$refs.multipleTable.selection.splice(i, 1)
+      //     }
+      //   }
+      // }
+      // console.log('this.$refs.multipleTable.selection', this.$refs.multipleTable.selection)
+      // if (this.checklistprop) {
+      //   this.checklistprop.forEach(row => {
+      //     if (row) {
+      //       this.select_orderId.push(row.productCode)
+      //     }
+      //   })
+      // }
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    handleSelectionChange(val) {
-      console.log(val)
-      this.moreaction = val
+    // 默认选中
+    memoryChecked() {
+      console.log('我执行啦')
+      this.list.forEach((row, index) => {
+        if (this.checklistprop.includes(row.enterNumber)) {
+          this.$refs.multipleTable.toggleRowSelection(row, true)
+          // myarr = []
+          this.myarr.push(row.enterNumber)
+          this.flagarr = Array.from(new Set(this.myarr))
+          console.log('this.flagarr=====================>', this.flagarr)
+        } else {
+          try {
+            this.$refs.multipleTable.toggleRowSelection(row, false)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      })
+    },
+    handleSelectionChange(rows) {
+      // console.log(val)
+      // this.moreaction = val
+      console.log('myrows==========>', rows)
+      const obj = {}
+      const processaction = rows.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      this.moreaction = processaction
+      console.log('this.moreaction===>', this.moreaction)
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
+      console.log('this.select_orderId', this.select_orderId)
     },
     // 更新采购类型
     updatecountry() {
@@ -284,7 +367,22 @@ export default {
       stockenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockEnterDetailVos.length; j++) {
+              if (this.list[i].stockEnterDetailVos[j].invoiceQuantity === this.list[i].stockEnterDetailVos[j].actualEnterQuantity) {
+                this.list[i].stockEnterDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].stockEnterDetailVos.length === 0) {
+              this.list.splice(i, 1)
+              i--
+            }
+          }
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
         }
         setTimeout(() => {
           this.listLoading = false
@@ -317,6 +415,7 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          this.memoryChecked()
           // this.restFilter()
         } else {
           // this.restFilter()
@@ -364,8 +463,17 @@ export default {
     async handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const enterdata = this.choosedata.stockEnterDetailVos
-      const number = this.choosedata.enterNumber
+      // const enterdata = this.choosedata.stockEnterDetailVos
+      // const number = this.choosedata.enterNumber
+      const enterdata = []
+      for (const i in this.moreaction) {
+        for (let j = 0; j < this.moreaction[i].stockEnterDetailVos.length; j++) {
+          this.moreaction[i].stockEnterDetailVos[j].sourceNumber = this.moreaction[i].enterNumber
+          enterdata.push(this.moreaction[i].stockEnterDetailVos[j])
+        }
+        // this.moreaction[i].stockEnterDetailVos.sourceNumber = this.moreaction[i].enterNumber
+        // enterdata.push(this.moreaction[i].stockEnterDetailVos)
+      }
       const enterDetail = enterdata.map(function(item) {
         return {
           productCode: item.productCode,
@@ -378,7 +486,7 @@ export default {
           arrivalQuantity: item.arrivalQuantity,
           retreatQuantity: 0,
           retreatReason: '',
-          sourceNumber: number,
+          sourceNumber: item.sourceNumber,
           sourceSerialNumber: item.id,
           remark: item.remark,
           quantity: item.actualEnterQuantity,
@@ -396,9 +504,40 @@ export default {
           invoiceQuantity: item.invoiceQuantity
         }
       })
-      console.log(enterDetail)
-      this.$emit('enter', enterDetail)
-      this.$emit('enterinfo', this.choosedata)
+      console.log('enterDetail==============================>', enterDetail)
+      for (let i = 0; i < enterDetail.length; i++) {
+        for (let j = 0; j < this.checklistprop.length; j++) {
+          if (enterDetail[i].sourceNumber === this.checklistprop[j]) {
+            console.log('i======================>', enterDetail[i].sourceNumber)
+            // enterDetail.splice(i, 1)
+            // i--
+          }
+        }
+      }
+      const myenterDetail = enterDetail
+      const obj = {}
+      const processaction = this.moreaction.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      console.log('processaction', processaction)
+      const cancelid = []
+      console.log('添加标志=====================>', this.flagarr)
+      // checklistprop在flagarr有在moreaction没有说明取消，否则未取消
+      this.checklistprop.forEach(item => {
+        console.log(item)
+        var index = processaction.findIndex(myindex => myindex.enterNumber === item)
+        console.log('index', index)
+        console.log(this.flagarr.includes(item), !processaction.includes(item))
+        if (this.flagarr.includes(item) && index) {
+          cancelid.push(item)
+        }
+      })
+      console.log('取消的id', cancelid)
+      console.log(myenterDetail)
+      this.$store.dispatch('getmyflagApproval', cancelid)
+      this.$emit('enter', myenterDetail)
+      this.$emit('enterinfo', this.moreaction)
     }
     // 仓库管理员选择结束
   }
