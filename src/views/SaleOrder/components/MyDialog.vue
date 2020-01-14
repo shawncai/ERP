@@ -881,6 +881,9 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.saleOrderDetailVos
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           // this.personalForm.repositoryId = this.$store.getters.repositoryId

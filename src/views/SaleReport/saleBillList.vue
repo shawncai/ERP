@@ -17,16 +17,13 @@
         <el-option value="2" label="分期销售"/>
         <el-option value="3" label="配件销售"/>
       </el-select>
-
-      <el-form-item :label="$t('updates.rq')">
-        <el-date-picker
-          v-model="date"
-          type="daterange"
-          range-separator="-"
-          unlink-panels
-          value-format="yyyy-MM-dd"
-          style="width: 250px"/>
-      </el-form-item>
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"
+        style="width: 250px"/>
       <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
         <el-option
           v-for="(item, index) in types"
