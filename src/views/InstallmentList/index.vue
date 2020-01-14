@@ -113,6 +113,11 @@
               <span>{{ scope.row.productCode }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('InstallmentList.color')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.color }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.productName')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.productName }}</span>
@@ -153,6 +158,11 @@
               <span>{{ scope.row.paidMoney }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('InstallmentList.reward')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.reward }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.totalMoney }}</span>
@@ -161,6 +171,11 @@
           <el-table-column :label="$t('InstallmentList.cancelMoney')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.cancelMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('InstallmentList.status')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.stat | payFilter2 }}</span>
             </template>
           </el-table-column>
           <!--          <el-table-column :label="$t('InstallmentList.installmentMoney')" :resizable="false" align="center" min-width="150">-->
@@ -199,7 +214,7 @@
               <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
               <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
               <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2&&scope.row.stat !== 3&&scope.row.stat !== 6" type="primary" @click="handleMyReceipt1(scope.row)"><span>改期</span></el-button>
-              <el-button v-show="scope.row.stat !== 6" type="primary" style="width: 84px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
+              <el-button v-show="scope.row.stat !== 2&&scope.row.stat !== 6" type="primary" style="width: 84px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -266,7 +281,7 @@
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.unpay')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
+              <span>{{ scope.row.shouldMoney - scope.row.paidMoney - scope.row.reward }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.collectperson')" :resizable="false" align="center" min-width="150">
@@ -356,6 +371,16 @@ export default {
         1: '未还',
         2: '已还',
         3: '逾期',
+        6: '已核销'
+      }
+      return statusMap[status]
+    },
+    payFilter2(status) {
+      const statusMap = {
+        1: '正常',
+        2: '已还清',
+        3: '逾期',
+        4: '催收状态',
         6: '已核销'
       }
       return statusMap[status]

@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.outPersonName }}</span>
+            <span>{{ scope.row.confirmPersonName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">

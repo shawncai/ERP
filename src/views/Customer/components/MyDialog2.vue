@@ -23,11 +23,21 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 100%">
-                <el-input v-model="customerForm.phoneNumber" placeholder="请输入客户电话" clearable style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="customerForm.phone" placeholder="请输入客户电话" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('updates2.landline')" style="width: 40%">
+              <el-form-item :label="$t('Customer.phone12')" style="margin-left: 18px;width: 100%">
+                <el-input v-model.number="customerForm.phone2" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.phone13')" style="margin-left: 18px;width: 100%">
+                <el-input v-model.number="customerForm.phone3" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('updates2.landline')" style="margin-left: 18px;width: 100%">
                 <el-input v-model="customerForm.landline" clearable/>
               </el-form-item>
             </el-col>
@@ -207,6 +217,9 @@ export default {
     },
     editdata() {
       this.customerForm = this.editdata
+      this.customerForm.phone = this.customerForm.phoneNumber
+      this.customerForm.phone2 = this.customerForm.phoneNumber2
+      this.customerForm.phone3 = this.customerForm.phoneNumber3
       this.getnationlist()
       this.getCategory()
       this.handlechange(this.customerForm.countryId)

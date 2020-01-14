@@ -1,7 +1,7 @@
 import store from '@/store'
 function cutnull(data) {
   for (const x in data) {
-    if (data[x] === null) { // 如果是null 把直接内容转为 ''
+    if (data[x] === null || data[x] === undefined || data[x] === '') { // 如果是null 把直接内容转为 ''
       data[x] = ''
     } else {
       if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
@@ -22,7 +22,7 @@ function judgeiscar() {
   const needcar = needdata.saleContractDetailVos.filter(item => {
     return item.productCode.substr(0, 2) === '01'
   })
-  cardata = needcar[0]
+  cardata = cutnull(needcar[0])
 }
 const selectcompany = localStorage.getItem('selectcompany')
 let imgurl = ''
@@ -82,7 +82,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">___________${needdata.signDate}_____________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">MODEL OF VEHICLE</span>
@@ -109,7 +109,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________${cardata.motorCode}________________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">VEHICLE NUMBER</span>
@@ -117,7 +117,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________${cardata.carCode}________________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">BATTERY NUMBER</span>
@@ -125,7 +125,7 @@ const content = `
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">:</span>
       <span style="width:31.92px; text-indent:0px; display:inline-block"></span>
-      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________________________</span></p>
+      <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">_____________${cardata.batteryCode}________________</span></p>
     <p style="margin:0px">
       <span style="width:36px; text-indent:0px; display:inline-block"></span>
       <span style="font-family:'Bookman Old Style'; font-size:12px; font-weight:bold">CHARGER NUMBER</span>

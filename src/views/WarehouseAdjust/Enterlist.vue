@@ -403,6 +403,7 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
+      console.log('this.$store.getters.userId', this.$store.getters.userId)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')

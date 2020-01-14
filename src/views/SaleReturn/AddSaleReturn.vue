@@ -971,12 +971,18 @@ export default {
             return false
           }
           let i = 1
+          const sourceType = this.personalForm.sourceType
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
             console.log(' elem.returnQuantity', elem.returnQuantity)
-            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0' || elem.returnQuantity > elem.sendQuantity) {
+            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0') {
               i = 2
+            }
+            if (sourceType === '1') {
+              if (elem.returnQuantity > elem.sendQuantity) {
+                i = 2
+              }
             }
             // if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
             //   delete elem.batch

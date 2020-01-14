@@ -96,7 +96,7 @@
         </el-table-column>
         <el-table-column :label="$t('inventoryFluid.locationCode')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.locationName }}</span>
+            <span>{{ scope.row.locationCode }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('countlist.existStock')" :resizable="false" align="center" min-width="150">

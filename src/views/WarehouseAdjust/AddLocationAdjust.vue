@@ -233,7 +233,7 @@ export default {
   methods: {
     getLocationData(row) {
       // 默认货位
-      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+      getlocation(this.personalForm.adjustRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
           console.log('res', res)
           if (res.data.data.content.length !== 0) {

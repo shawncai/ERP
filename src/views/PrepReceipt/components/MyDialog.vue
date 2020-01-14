@@ -11,7 +11,7 @@
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('PrepReceipt.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="销售订单"/>
@@ -23,7 +23,7 @@
                 <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseOrder"/>
               </el-form-item>
               <my-order :ordercontrol.sync="ordercontrol" @order="order"/>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('PrepReceipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
                 <el-input v-model="personalForm.receiptMoney" style="margin-left: 18px;width: 200px"/>
@@ -282,7 +282,7 @@ export default {
     },
     customerdata(val) {
       console.log(val)
-      this.personalForm.agentId = val.id
+      this.personalForm.customerId = val.id
       this.personalForm.customerName = val.customerName
     },
     // 选择客户focus

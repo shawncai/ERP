@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.applyNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.applyNumber" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.applyNumber" style="margin-left: 18px;width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -194,6 +194,11 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.ckj')" prop="taxPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+              <template slot-scope="scope">
+                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -201,11 +206,6 @@
                   :controls="false"
                   v-model="scope.row.taxRate"
                   @input="gettaxRate(scope.row)"/>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
-              <template slot-scope="scope">
-                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px"/>
@@ -242,7 +242,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -343,6 +343,7 @@ export default {
       depts: [],
       // 配送单信息数据
       personalForm: {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -411,6 +412,26 @@ export default {
         for (const i in this.list3) {
           num2 += this.list3[i].taxPrice * this.list3[i].quantity - this.list3[i].discountMoney
         }
+        console.log('num1', num1)
+        console.log('num2', num2)
+        this.personalForm.diffMoney = (num2 - num1).toFixed(2)
+      },
+      deep: true,
+      immediate: true
+    },
+    list3: {
+      handler() {
+        let num1 = 0
+        let num2 = 0
+        for (const i in this.list2) {
+          num1 += this.list2[i].taxPrice * this.list2[i].quantity - this.list2[i].discountMoney
+        }
+        for (const i in this.list3) {
+          num2 += this.list3[i].taxPrice * this.list3[i].quantity - this.list3[i].discountMoney
+        }
+        console.log('list3', this.list3)
+        console.log('num1', num1)
+        console.log('num2', num2)
         this.personalForm.diffMoney = (num2 - num1).toFixed(2)
       },
       deep: true,
@@ -425,6 +446,12 @@ export default {
     _that = this
   },
   methods: {
+    // 判断整车或者电池
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
     getincludeTaxCostMoney(row) {
       row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
       row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
@@ -800,6 +827,7 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
+      this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allIncludeTaxMoney
       this.personalForm.customerType = String(val.customerType)
@@ -865,6 +893,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -1043,6 +1072,44 @@ export default {
         }
         return elem
       })
+      let m = 1
+      let b = 1
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+            m = 2
+          }
+        }
+      })
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '05') {
+          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+            b = 2
+          }
+        }
+      })
+      if (m === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '整车相关编码必填',
+          offset: 100
+        })
+        return false
+      }
+      if (b === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '电池相关编码必填',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm

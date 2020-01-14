@@ -281,7 +281,7 @@ export default {
           bomNumber: '',
           processName: '',
           planStartDate: '',
-          produceQuantity: 0,
+          produceQuantity: 1,
           alreadyProduceQuantity: 0,
           alreadyEnterQuantity: 0,
           reportedCheckQuantity: 0,

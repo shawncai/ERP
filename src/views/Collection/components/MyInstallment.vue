@@ -19,7 +19,7 @@
             </el-form-item>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 30px">
+          <!-- <el-col :span="3" style="margin-left: 30px">
             <el-popover
               v-model="visible2"
               placement="bottom"
@@ -35,22 +35,22 @@
                 <el-option :label="$t('updates.shz')" value="1"/>
                 <el-option :label="$t('updates.shtg')" value="2"/>
                 <el-option :label="$t('updates.shptg')" value="3"/>
-              </el-select>
-              <!--<el-date-picker-->
-              <!--v-model="date"-->
-              <!--type="daterange"-->
-              <!--range-separator="-"-->
-              <!--unlink-panels-->
-              <!--start-placeholder="销售日期"-->
-              <!--end-placeholder="销售日期"-->
-              <!--value-format="yyyy-MM-dd"-->
-              <!--style="margin-top: 20px;margin-left: 20px"/>-->
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+              </el-select> -->
+          <!--<el-date-picker-->
+          <!--v-model="date"-->
+          <!--type="daterange"-->
+          <!--range-separator="-"-->
+          <!--unlink-panels-->
+          <!--start-placeholder="销售日期"-->
+          <!--end-placeholder="销售日期"-->
+          <!--value-format="yyyy-MM-dd"-->
+          <!--style="margin-top: 20px;margin-left: 20px"/>-->
+          <!-- <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
               <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
             </el-popover>
-          </el-col>
+          </el-col> -->
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -107,7 +107,7 @@
             <span>{{ scope.row.totalMoney - scope.row.installmentMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -116,7 +116,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />

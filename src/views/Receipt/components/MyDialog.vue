@@ -24,7 +24,7 @@
                 <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
               </el-form-item>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
-              <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
+              <my-customer :customercontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail2" @Installment="Installment"/>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Receipt.moneyType')" style="width: 100%;">
@@ -144,8 +144,8 @@
           <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
+          <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
+          <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
         </el-editable>
       </div>
@@ -396,7 +396,10 @@ export default {
       }
       installmentlist(parms).then(res => {
         if (res.data.ret === 200) {
-          this.allorderarr = res.data.data.content.list[0].installmentOrderDetailVos.map(function(item) {
+          const needarrlist = res.data.data.content.list[0].installmentOrderDetailVos.filter(item => {
+            return item.stat !== 2
+          })
+          this.allorderarr = needarrlist.map(function(item) {
             return {
               installmentDetailId: item.id,
               presentCount: item.idx,
@@ -408,6 +411,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney - item.reward,
               installmentId: item.installmentId
             }
@@ -519,6 +524,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney,
             installmentId: item.installmentId
           }
@@ -569,6 +576,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney,
             installmentId: item.installmentId
           }
@@ -613,6 +622,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney,
               installmentId: item.installmentId
             }
@@ -832,6 +843,67 @@ export default {
       }
       this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
     },
+    InstallmentDetail2(val) {
+      console.log(val)
+      this.$refs.editable2.clear()
+      if (val.length) {
+        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        const needarr = val.filter(item => {
+          return item.stat !== 2
+        })
+        const InstallmentDetail = needarr.map(function(item) {
+          return {
+            installmentDetailId: item.installmentDetailId,
+            presentCount: item.presentCount,
+            returnMoney: item.returnMoney,
+            shouldMoney: item.shouldMoney,
+            returnSource: item.returnSource,
+            reward: item.reward,
+            penalty: item.penalty,
+            returnInterest: item.returnInterest,
+            paidmoney: item.paidmoney,
+            unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
+            thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
+            installmentId: item.installmentId
+          }
+        })
+        console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+        for (let i = 0; i < InstallmentDetail.length; i++) {
+          this.$refs.editable2.insertAt(InstallmentDetail[i], -1)
+        }
+        // this.list2 = InstallmentDetail
+        this.allorderarr = InstallmentDetail
+        this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      }
+      // else {
+      //   this.$refs.editable2.clear()
+      //   const valmap = []
+      //   valmap.push(val)
+      //   const InstallmentDetail = valmap.map(function(item) {
+      //     return {
+      //       installmentDetailId: item.id,
+      //       presentCount: item.idx,
+      //       returnMoney: item.shouldMoney,
+      //       shouldMoney: item.shouldMoney,
+      //       returnSource: item.capitalMoney,
+      //       reward: item.reward,
+      //       penalty: item.penalty,
+      //       returnInterest: item.interestMoney,
+      //       paidmoney: item.paidMoney,
+      //       unpay: item.shouldMoney - item.paidMoney,
+      //       thisMoney: item.shouldMoney - item.paidMoney,
+      //       installmentId: item.installmentId
+      //     }
+      //   })
+      //   console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
+      //   for (let i = 0; i < InstallmentDetail.length; i++) {
+      //     this.$refs.editable2.insert(InstallmentDetail[i])
+      //   }
+      //   this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
+      // }
+    },
     InstallmentDetail(val) {
       // console.log(val)
       setTimeout(() => {
@@ -850,7 +922,9 @@ export default {
               returnInterest: item.returnInterest,
               paidmoney: item.paidmoney,
               unpay: item.unpay,
-              thisMoney: item.unpay,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.unpay,
+              thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
           })

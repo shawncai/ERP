@@ -44,6 +44,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('Customer.phone12')" prop="phoneNumber" style="width: 100%">
+                  {{ customerForm.phoneNumber2 }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Customer.phone13')" prop="phoneNumber" style="width: 100%">
+                  {{ customerForm.phoneNumber3 }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('updates2.landline')" prop="phoneNumber" style="width: 100%">
                   {{ customerForm.landline }}
                 </el-form-item>

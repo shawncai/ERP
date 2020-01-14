@@ -375,7 +375,8 @@ export default {
           returnInterest: item.interestMoney,
           paidmoney: item.paidMoney,
           unpay: item.shouldMoney - item.paidMoney,
-          installmentId: item.installmentId
+          installmentId: item.installmentId,
+          stat: item.stat
         }
       })
       console.log('InstallmentDetail', InstallmentDetail)

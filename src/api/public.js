@@ -304,7 +304,7 @@ export function getQuantity2(query, query2, query3, query4) {
   })
 }
 
-// 单一货位列表
+// 单一货位列表，默认查询是启用状态的
 export function getlocation(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
@@ -315,6 +315,7 @@ export function getlocation(query, query2) {
       params.append('productCode', query2.productCode) // 你要传给后台的参数值 key/value
     }
   }
+  params.append('isEffective', 1) // 你要传给后台的参数值 key/value
   return request({
     url: '/location/getlocation',
     method: 'post',
@@ -322,7 +323,7 @@ export function getlocation(query, query2) {
   })
 }
 
-// 单一货位列表
+// 单一货位列表，默认查询是启用状态的
 export function getlocation6(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
@@ -331,6 +332,7 @@ export function getlocation6(query, query2) {
   if (query2.toolsCode !== '' && query2.toolsCode !== null && query2.toolsCode !== undefined) {
     params.append('productCode', query2.toolsCode) // 你要传给后台的参数值 key/value
   }
+  params.append('isEffective', 1) // 你要传给后台的参数值 key/value
   return request({
     url: '/location/getlocation',
     method: 'post',
@@ -338,7 +340,7 @@ export function getlocation6(query, query2) {
   })
 }
 
-// 货位列表
+// 货位列表，默认查询是启用状态的
 export function locationlist(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
@@ -347,12 +349,55 @@ export function locationlist(query, query2) {
   if (query2 !== '' && query2 !== null && query2 !== undefined) {
     params.append('locationCode', query2) // 你要传给后台的参数值 key/value
   }
+  params.append('isEffective', 1) // 你要传给后台的参数值 key/value
   // params.append('repositoryId', this.$store.getters.repositoryId) // 你要传给后台的参数值 key/value
   // params.append('regionIds', this.$store.getters.regionId) // 你要传给后台的参数值 key/value
   params.append('pageNum', 1) // 你要传给后台的参数值 key/value
   params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
   return request({
     url: '/location/locationlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 货位列表
+export function locationlistByEff(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('searchRepositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('locationCode', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('isEffective', query3) // 你要传给后台的参数值 key/value
+  }
+  // params.append('repositoryId', this.$store.getters.repositoryId) // 你要传给后台的参数值 key/value
+  // params.append('regionIds', this.$store.getters.regionId) // 你要传给后台的参数值 key/value
+  params.append('pageNum', 1) // 你要传给后台的参数值 key/value
+  params.append('pageSize', 99999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/location/locationlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 单一货位列表
+export function getlocationByEff(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('repositoryId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2.toolsCode !== '' && query2.toolsCode !== null && query2.toolsCode !== undefined) {
+    params.append('productCode', query2.toolsCode) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('isEffective', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/location/getlocation',
     method: 'post',
     data: params
   })

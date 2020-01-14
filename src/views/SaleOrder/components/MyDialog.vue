@@ -787,6 +787,14 @@ export default {
     },
     // 无来源添加商品
     handleAddproduct() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择出库仓库',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -873,6 +881,9 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.saleOrderDetailVos
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           // this.personalForm.repositoryId = this.$store.getters.repositoryId

@@ -308,7 +308,7 @@ export default {
           unit: item.purMeasu,
           salePrice: (item.salePrice).toFixed(2),
           money: '0.00',
-          quantity: 0
+          quantity: 1
         }
       })
       console.log(productDetail)

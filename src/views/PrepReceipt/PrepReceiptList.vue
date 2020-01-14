@@ -10,7 +10,7 @@
 
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
-      <el-popover
+      <!-- <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
@@ -30,7 +30,7 @@
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
+      </el-popover> -->
 
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -81,11 +81,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('PrepReceipt.sourceNumber')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('PrepReceipt.sourceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceNumber }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('PrepReceipt.receiptMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptMoney }}</span>
@@ -211,6 +211,7 @@ export default {
   },
   data() {
     return {
+      receiptVisible99: false,
       // 结算方式数据
       colseTypes: [],
       // 结算方式获取参数

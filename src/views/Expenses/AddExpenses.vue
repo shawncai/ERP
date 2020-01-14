@@ -215,7 +215,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        handlePersonId: this.$store.getters.userId
+        handlePersonId: this.$store.getters.userId,
+        expensesRegionId: this.$store.getters.regionId
       },
       // 收入单规则数据
       personalrules: {
@@ -224,10 +225,11 @@ export default {
         ],
         expensesDate: [
           { required: true, message: '请选择支出日期', trigger: 'change' }
-        ],
-        expensesregion: [
-          { required: true, validator: validatePass3, trigger: 'change' }
         ]
+        // ,
+        // expensesregion: [
+        //   { required: true, validator: validatePass3, trigger: 'change' }
+        // ]
       },
       // 收入单明细数据
       list2: [],
@@ -245,6 +247,36 @@ export default {
     _that = this
   },
   methods: {
+    getarrs() {
+      console.log('222', 222)
+      console.log('北京市朝阳区爱谁谁')
+      console.log('this.personalForm', this.personalForm)
+      console.log('this.regions', this.regions)
+      const needata = this.findPathByLeafId(this.personalForm.expensesRegionId, this.regions)
+      console.log('needata', needata)
+      this.personalForm.expensesregion = needata
+      const finalid = needata[needata.length - 1]
+      console.log(finalid)
+      this.region = finalid
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
     findtreedata(val, val2) {
       let data;
       (val || []).map(i => {
@@ -338,6 +370,7 @@ export default {
       regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
+          this.getarrs()
         } else {
           console.log('区域列表出错')
         }

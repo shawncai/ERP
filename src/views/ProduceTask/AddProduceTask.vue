@@ -86,7 +86,7 @@
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType==='3'" :label="$t('Hmodule.ggzx')" prop="workCenterName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.scsl')" prop="produceQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.scsl')" prop="produceQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" :label="$t('updates.bimbm')" prop="bomNumber" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" :label="$t('updates.gylx')" prop="processName" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" :label="$t('updates.jhkgsj')" prop="planStartDate" align="center" min-width="160px"/>
