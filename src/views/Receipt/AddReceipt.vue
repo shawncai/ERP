@@ -504,6 +504,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -555,6 +557,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -599,6 +603,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
@@ -826,7 +832,10 @@ export default {
       this.$refs.editable2.clear()
       if (val.length) {
         console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
-        const InstallmentDetail = val.map(function(item) {
+        const needarr = val.filter(item => {
+          return item.stat !== 2
+        })
+        const InstallmentDetail = needarr.map(function(item) {
           return {
             installmentDetailId: item.installmentDetailId,
             presentCount: item.presentCount,
@@ -838,13 +847,15 @@ export default {
             returnInterest: item.returnInterest,
             paidmoney: item.paidmoney,
             unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
         })
         console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
         for (let i = 0; i < InstallmentDetail.length; i++) {
-          this.$refs.editable2.insert(InstallmentDetail[i])
+          this.$refs.editable2.insertAt(InstallmentDetail[i], -1)
         }
         // this.list2 = InstallmentDetail
         this.allorderarr = InstallmentDetail
@@ -894,6 +905,8 @@ export default {
             returnInterest: item.returnInterest,
             paidmoney: item.paidmoney,
             unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }

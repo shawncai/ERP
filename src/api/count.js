@@ -599,8 +599,8 @@ export function saleBillList(query) {
   if (query.productCategory !== '' && query.productCategory !== null && query.productCategory !== undefined) {
     params.append('productCategory', query.productCategory) // 你要传给后台的参数值 key/value
   }
-  if (query.brand !== '' && query.brand !== null && query.brand !== undefined) {
-    params.append('brand', query.brand) // 你要传给后台的参数值 key/value
+  if (query.productType !== '' && query.productType !== null && query.productType !== undefined) {
+    params.append('productType', query.productType) // 你要传给后台的参数值 key/value
   }
   if (query.saleType !== '' && query.saleType !== null && query.saleType !== undefined) {
     params.append('saleType', query.saleType) // 你要传给后台的参数值 key/value

@@ -18,7 +18,7 @@
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('PrepReceipt.sourceType')" prop="sourceType" style="width: 100%;">
                   <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
                 </el-form-item>
@@ -27,7 +27,7 @@
                 <el-form-item :label="$t('PrepReceipt.sourceNumber')" style="width: 100%;">
                   <span>{{ personalForm.sourceNumber }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('PrepReceipt.receiptMoney')" prop="receiptMoney" style="width: 100%;">
                   <span>{{ personalForm.receiptMoney }}</span>
