@@ -504,6 +504,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -555,6 +557,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -599,6 +603,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
@@ -841,6 +847,8 @@ export default {
             returnInterest: item.returnInterest,
             paidmoney: item.paidmoney,
             unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -897,6 +905,8 @@ export default {
             returnInterest: item.returnInterest,
             paidmoney: item.paidmoney,
             unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }

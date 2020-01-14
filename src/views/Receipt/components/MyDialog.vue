@@ -144,8 +144,8 @@
           <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
+          <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
+          <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
         </el-editable>
       </div>
@@ -411,6 +411,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney - item.reward,
               installmentId: item.installmentId
             }
@@ -522,6 +524,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney,
             installmentId: item.installmentId
           }
@@ -572,6 +576,8 @@ export default {
             returnInterest: item.interestMoney,
             paidmoney: item.paidMoney,
             unpay: item.shouldMoney - item.paidMoney,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney,
             installmentId: item.installmentId
           }
@@ -616,6 +622,8 @@ export default {
               returnInterest: item.interestMoney,
               paidmoney: item.paidMoney,
               unpay: item.shouldMoney - item.paidMoney,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney,
               installmentId: item.installmentId
             }
@@ -855,6 +863,8 @@ export default {
             returnInterest: item.returnInterest,
             paidmoney: item.paidmoney,
             unpay: item.unpay,
+            collectedMoney: item.paidMoney,
+            uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
             installmentId: item.installmentId
           }
@@ -912,6 +922,8 @@ export default {
               returnInterest: item.returnInterest,
               paidmoney: item.paidmoney,
               unpay: item.unpay,
+              collectedMoney: item.paidMoney,
+              uncollectedMoney: item.unpay,
               thisMoney: item.shouldMoney - item.paidmoney - item.reward + Number(item.penalty),
               installmentId: item.installmentId
             }
