@@ -15,7 +15,6 @@
       <el-select v-model="getemplist.saleType" :placeholder="$t('saleBillList.saleType')" :value="getemplist.saleType" clearable class="filter-item" @keyup.enter.native="handleFilter">
         <el-option value="1" label="现金销售"/>
         <el-option value="2" label="分期销售"/>
-        <el-option value="3" label="配件销售"/>
       </el-select>
       <el-date-picker
         v-model="date"
@@ -24,7 +23,7 @@
         unlink-panels
         value-format="yyyy-MM-dd"
         style="width: 250px"/>
-      <el-select v-model="getemplist.brand" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
+      <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
         <el-option
           v-for="(item, index) in types"
           :key="index"

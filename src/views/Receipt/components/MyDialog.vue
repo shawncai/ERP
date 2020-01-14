@@ -396,7 +396,10 @@ export default {
       }
       installmentlist(parms).then(res => {
         if (res.data.ret === 200) {
-          this.allorderarr = res.data.data.content.list[0].installmentOrderDetailVos.map(function(item) {
+          const needarrlist = res.data.data.content.list[0].installmentOrderDetailVos.filter(item => {
+            return item.stat !== 2
+          })
+          this.allorderarr = needarrlist.map(function(item) {
             return {
               installmentDetailId: item.id,
               presentCount: item.idx,
@@ -837,7 +840,10 @@ export default {
       this.$refs.editable2.clear()
       if (val.length) {
         console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
-        const InstallmentDetail = val.map(function(item) {
+        const needarr = val.filter(item => {
+          return item.stat !== 2
+        })
+        const InstallmentDetail = needarr.map(function(item) {
           return {
             installmentDetailId: item.installmentDetailId,
             presentCount: item.presentCount,
@@ -855,7 +861,7 @@ export default {
         })
         console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)
         for (let i = 0; i < InstallmentDetail.length; i++) {
-          this.$refs.editable2.insert(InstallmentDetail[i])
+          this.$refs.editable2.insertAt(InstallmentDetail[i], -1)
         }
         // this.list2 = InstallmentDetail
         this.allorderarr = InstallmentDetail
