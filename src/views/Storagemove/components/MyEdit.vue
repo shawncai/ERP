@@ -697,6 +697,8 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      const repositoryId = this.$store.getters.repositoryId
+      const regionId = this.$store.getters.regionId
       if (rest.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -740,6 +742,14 @@ export default {
         }
         return elem
       })
+      console.log('this.personalForm.moveType', this.personalForm.moveType)
+      if (this.personalForm.moveType === '1') {
+        console.log('this.personalForm.moveOutRepositoryRegion', this.personalForm.moveOutRepositoryRegion)
+        console.log('this.$store.getters.regionId', this.$store.getters.regionId)
+        if (repositoryId === this.personalForm.moveOutRepository || (regionId === this.personalForm.moveOutRepositoryRegion && repositoryId === 0)) {
+          this.personalForm.modifyStat = 2
+        }
+      }
       const parm = JSON.stringify(this.personalForm)
       const parms2 = JSON.stringify(rest)
       updateStoragemove(parm, parms2).then(res => {
