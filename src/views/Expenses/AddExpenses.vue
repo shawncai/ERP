@@ -349,6 +349,11 @@ export default {
       this.$refs.editable.insertAt({ productCode: null }, index)
     },
     getTypes() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== 0 && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined && this.$store.getters.repositoryId !== '') {
+        this.expensesRepositoryId = this.$store.getters.repositoryName
+        this.personalForm.expensesRepositoryId = this.$store.getters.repositoryId
+      }
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.payModes = res.data.data.content.list

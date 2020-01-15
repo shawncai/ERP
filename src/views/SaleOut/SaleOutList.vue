@@ -103,6 +103,11 @@
             <span>{{ scope.row.confirmPersonName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('SaleOut.saleType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.saleType | saleTypeFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.outDate }}</span>
@@ -167,6 +172,15 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
+    saleTypeFilter(sta) {
+      const statusMap = {
+
+        1: '现金',
+        2: '分期'
+
+      }
+      return statusMap[sta]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),
@@ -478,9 +492,6 @@ export default {
       }
       if (row.saleType !== null) {
         this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
       }
       if (row.payType !== null) {
         this.personalForm.payType = String(row.payType)

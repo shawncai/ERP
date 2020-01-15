@@ -63,7 +63,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
+              <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
                 <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                   <el-option value="1" label="现金" />
                   <el-option value="2" label="分期" />
@@ -482,6 +482,7 @@
 </template>
 
 <script>
+import { customerlist2 } from '@/api/Customer'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo } from '@/api/public'
 import { updatesaleOut } from '@/api/SaleOut'
@@ -675,6 +676,9 @@ export default {
       control: false,
       // 销售订单规则数据
       personalrules: {
+        saleType: [
+          { required: true, message: '请选择销售类别', trigger: 'change' }
+        ],
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
@@ -1210,6 +1214,12 @@ export default {
         this.personalForm.applyNumber = val.sourceNumber
       }
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.salePersonId
@@ -1467,6 +1477,7 @@ export default {
     clearCustomer() {
       this.personalForm.customerId = ''
       this.customerId = ''
+      this.personalForm.advanceMoney = 0
     },
     // 选择客户focus
     chooseCustomer() {
@@ -1484,6 +1495,12 @@ export default {
       console.log(111, this.personalForm.customerPhone)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.phoneNumber = val.phoneNumber
       this.personalForm.address = val.address
@@ -1493,6 +1510,12 @@ export default {
       console.log(222, val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.agentName
       this.personalForm.phoneNumber = val.phone
       this.personalForm.address = val.address
@@ -1541,10 +1564,16 @@ export default {
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
-      if (val.receiveMoney) {
-        this.personalForm.advanceMoney = val.receiveMoney
-      }
+      // if (val.receiveMoney) {
+      //   this.personalForm.advanceMoney = val.receiveMoney
+      // }
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.salePersonId
@@ -1579,6 +1608,12 @@ export default {
     advanceData(val) {
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phone
       this.personalForm.salePersonId = val.salePersonId

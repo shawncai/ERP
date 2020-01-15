@@ -47,6 +47,19 @@ export function customerlist(query) {
   })
 }
 
+// 销售出库单用到客户详情
+export function customerlist2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customer/customerInfo',
+    method: 'post',
+    data: params
+  })
+}
+
 // 客户详情
 export function customerDetail(query) {
   var params = new URLSearchParams()

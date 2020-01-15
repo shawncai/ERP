@@ -55,7 +55,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
-                  <span>{{ personalForm.saleTypeName }}</span>
+                  <span>{{ personalForm.saleType | saleTypeFilter }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -404,6 +404,15 @@ import { productlist } from '@/api/public'
 var _that
 export default {
   filters: {
+    saleTypeFilter(sta) {
+      const statusMap = {
+
+        1: '现金',
+        2: '分期'
+
+      }
+      return statusMap[sta]
+    },
     sourceTypeFilter(status) {
       const statusMap = {
         1: _that.$t('updates.xsdd'),
@@ -449,13 +458,6 @@ export default {
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
         3: _that.$t('Hmodule.shbtg')
-      }
-      return statusMap[status]
-    },
-    saleTypeFilter(status) {
-      const statusMap = {
-        1: '现金',
-        2: '分期'
       }
       return statusMap[status]
     },
