@@ -38,7 +38,7 @@
                   <el-date-picker
                     v-model="personalForm.surveyDate"
                     :picker-options="pickerOptions3"
-                    :disabled="isinstallappley"
+                    :disabled="true"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>

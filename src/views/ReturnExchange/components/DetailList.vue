@@ -318,8 +318,8 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.returnExchangeOutVos
-      this.list3 = this.personalForm.returnExchangeRetreatVos
+      this.list2 = this.personalForm.returnExchangeRetreatVos
+      this.list3 = this.personalForm.returnExchangeOutVos
       for (const i in this.list2) {
         this.list2[i].taxPrice = this.list2[i].salePrice + this.list2[i].taxMoney
       }

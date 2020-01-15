@@ -695,7 +695,8 @@ export default {
       this.personalForm.salePersonId = val.salePersonId
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
-      console.log(this.list2)
+      // this.list3 = val.saleOutGiftVos
+      // console.log(this.list2)
     },
     updatebatch(event, scope) {
       if (event === true) {
@@ -801,6 +802,44 @@ export default {
       this.heji5 = sums[17]
       this.heji6 = sums[15] - sums[17]
       this.personalForm.actualReturnMoney = this.heji6
+      return sums
+    },
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[1] = ''
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[7] = ''
+      sums[8] = ''
+      sums[9] = ''
+      sums[10] = ''
+      this.heji9 = sums[12]
+      this.heji10 = sums[11]
+      this.personalForm.otherMoney = sums[12]
       return sums
     },
     // 通过折扣额计算折扣

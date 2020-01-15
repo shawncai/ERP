@@ -18,6 +18,7 @@
       </el-select>
       <el-date-picker
         v-model="date"
+        :default-time="['00:00:00', '23:59:59']"
         type="daterange"
         range-separator="-"
         unlink-panels
@@ -360,9 +361,10 @@ export default {
         })
         return false
       }
+
+      this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+      this.getemplist.endTime = this.date[1] + ' 23:59:59'
       console.log(this.getemplist)
-      this.getemplist.beginTime = this.date[0]
-      this.getemplist.endTime = this.date[1]
       saleBillList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content

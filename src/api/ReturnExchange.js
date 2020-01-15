@@ -4,8 +4,8 @@ import request from '@/utils/request'
 export function addReturnExchange(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('returnExchangeJson', query) // 你要传给后台的参数值 key/value
-  params.append('returnExchangeOutJson', query2) // 你要传给后台的参数值 key/value
-  params.append('returnExchangeRetreatJson', query3) // 你要传给后台的参数值 key/value
+  params.append('returnExchangeOutJson', query3) // 你要传给后台的参数值 key/value
+  params.append('returnExchangeRetreatJson', query2) // 你要传给后台的参数值 key/value
   if (query4.repositoryId !== '' && query4.repositoryId !== null && query4.repositoryId !== undefined) {
     params.append('repositoryId', query4.repositoryId) // 你要传给后台的参数值 key/value
   }
