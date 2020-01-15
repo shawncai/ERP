@@ -331,6 +331,7 @@ export default {
   },
   watch: {
     filterText(val) {
+      console.log(val)
       this.$refs.tree2.filter(val)
     }
   },
@@ -538,7 +539,7 @@ export default {
       return result
     },
     getReturnNode(node, _array, value) {
-      const isPass = node.data && node.data.categoryName && node.data.categoryName.toUpperCase().indexOf(value.toUpperCase()) !== -1
+      const isPass = node.data && node.data.subjectName && node.data.subjectName.toUpperCase().indexOf(value.toUpperCase()) !== -1
       isPass ? _array.push(isPass) : ''
       this.index++
       if (!isPass && node.level !== 1 && node.parent) {

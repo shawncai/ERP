@@ -75,7 +75,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金" />
                     <el-option value="2" label="分期" />
@@ -225,7 +225,7 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
-          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
@@ -544,6 +544,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { customerlist2 } from '@/api/Customer'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
@@ -626,6 +627,14 @@ export default {
         callback(new Error('入库数量不能为空'))
       } else if (value < 0) {
         callback(new Error('入库数量需大于0'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass8 = (rule, value, callback) => {
+      console.log(89, this.customerId)
+      if (this.personalForm.saleType === undefined || this.personalForm.saleType === null || this.personalForm.saleType === '') {
+        callback(new Error('请选择销售类别'))
       } else {
         callback()
       }
@@ -737,7 +746,7 @@ export default {
         sendType: '2',
         sendDate: null,
         outDate: null,
-        sourceType: '',
+        sourceType: '5',
         otherMoney: '0',
         couponSupport: 0,
         outType: '1',
@@ -750,6 +759,9 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        saleType: [
+          { required: true, validator: validatePass8, trigger: 'change' }
+        ],
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
@@ -927,7 +939,16 @@ export default {
       }
       this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
       this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
+
       this.customerId = this.$store.getters.newsaleoutdata.customerName
+
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
+
       this.personalForm.customerPhone = this.$store.getters.newsaleoutdata.phone
       this.personalForm.salePersonId = this.$store.getters.newsaleoutdata.salePersonId
       this.salePersonId = this.$store.getters.newsaleoutdata.salePersonName
@@ -1251,6 +1272,12 @@ export default {
         }
 
         this.personalForm.customerId = this.$store.getters.empcontract3.customerId
+        customerlist2(this.personalForm.customerId).then(res => {
+          console.log('res======', res)
+          if (res.data.ret === 200) {
+            this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          }
+        })
         this.customerId = this.$store.getters.empcontract3.customerName
         this.personalForm.customerPhone = this.$store.getters.empcontract3.phone
         this.personalForm.salePersonId = this.$store.getters.empcontract3.salePersonId
@@ -1337,6 +1364,12 @@ export default {
           this.personalForm.customerType = String(this.$store.getters.empcontract.customerType)
         }
         this.personalForm.customerId = this.$store.getters.empcontract.customerId
+        customerlist2(this.personalForm.customerId).then(res => {
+          console.log('res======', res)
+          if (res.data.ret === 200) {
+            this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          }
+        })
         this.customerId = this.$store.getters.empcontract.customerName
         // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
@@ -1462,6 +1495,7 @@ export default {
         // }
       } else if (val === '6') {
         this.IsSourceNumber = true
+        this.Isproduct = true
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -1681,6 +1715,7 @@ export default {
     clearCustomer() {
       this.personalForm.customerId = ''
       this.customerId = ''
+      this.personalForm.advanceMoney = 0
     },
     // 选择客户focus
     chooseCustomer() {
@@ -1697,15 +1732,28 @@ export default {
       console.log(val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.address = val.address
+      this.personalForm.advanceMoney = val.advanceMoney
       this.point = val.point
     },
     agentdata(val) {
       console.log('val', val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.agentName
       this.personalForm.customerPhone = val.phone
       this.personalForm.address = val.address
@@ -1760,10 +1808,16 @@ export default {
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
-      if (val.receiveMoney) {
-        this.personalForm.advanceMoney = val.receiveMoney
-      }
+      // if (val.receiveMoney) {
+      //   this.personalForm.advanceMoney = val.receiveMoney
+      // }
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.salePersonId
@@ -1800,6 +1854,12 @@ export default {
       this.personalForm.ridMoney = val.advanceMoney
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phone
       this.personalForm.salePersonId = val.salePersonId
@@ -1871,6 +1931,12 @@ export default {
         this.personalForm.customerType = '2'
       }
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.salePersonId
@@ -1894,6 +1960,12 @@ export default {
       console.log('val', val)
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res======', res)
+        if (res.data.ret === 200) {
+          this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+        }
+      })
       this.customerId = val.customerName
       this.personalForm.salePersonId = val.recyclingPersonId
       this.salePersonId = val.recyclingPersonName

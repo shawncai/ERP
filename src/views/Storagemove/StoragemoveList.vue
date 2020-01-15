@@ -187,6 +187,7 @@
             <!-- <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button> -->
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-show="isReview11(scope.row)" style="margin-left: 18px;" title="confirm" type="primary" size="mini" icon="el-icon-check" circle @click="confirm2(scope.row)"/>
             <el-button v-permission="['131-141-142-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-141-142-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-141-142-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -325,6 +326,7 @@ export default {
       listLoading: true,
       // 修改传给组件的数据
       personalForm: {},
+      personalForm2: {},
       // 修改控制修改组件数据
       editVisible: false,
       editVisible3: false
@@ -342,6 +344,30 @@ export default {
     _that = this
   },
   methods: {
+    confirm2(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.modifyStat = 1
+      const parms = JSON.stringify(this.personalForm2)
+      updateStoragemove2(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     closetag() {
       this.categoryVisible = false
       this.restvoucherparms()
@@ -461,6 +487,13 @@ export default {
         }
       }
       if (row.judgeStat === 2 && row.storageMoveDetailConfirmVos.length !== row.storageMoveDetailVos.length && (this.$store.getters.repositoryId === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isReview11(row) {
+      if (row.modifyStat === 2 && (this.$store.getters.repositoryId === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
         return true
       } else {
         return false
@@ -732,7 +765,9 @@ export default {
       const userepository = this.$store.getters.repositoryId
       console.log(this.$store.getters.userId)
       if (row.moveType === 1) {
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
+        console.log('row', row)
+        console.log('row.modifyStat', row.modifyStat)
+        if (row.modifyStat === 1 && row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           console.log(1233444444)
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
