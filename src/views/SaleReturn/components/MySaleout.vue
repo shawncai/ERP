@@ -415,7 +415,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const saleOutdata = this.choosedata.saleOutDetailVos
+      const saleOutdata = this.choosedata.saleOutDetailVos.concat(this.choosedata.saleOutGiftVos)
       for (const i in saleOutdata) {
         saleOutdata[i].sourceNumber = this.choosedata.number
       }
@@ -446,11 +446,11 @@ export default {
           kpiGrade: item.kpiGrade,
           point: item.point,
           // taxprice: item.salePrice - item.taxMoney,
-          taxRate: Number(item.taxRate) * 100,
-          taxMoney: item.taxMoney,
-          discount: item.discountRate * 100,
+          taxRate: Number(item.taxRate) * 100 || 0,
+          taxMoney: item.taxMoney || 0,
+          discount: item.discountRate * 100 || 0,
           discountMoney: 0,
-          OriginalDiscountMont: item.discountMoney,
+          OriginalDiscountMont: item.discountMoney || 0,
           alreadyReturnQuantity: item.retreatQuantity,
           carCode: item.carCode,
           motorCode: item.motorCode,
@@ -460,8 +460,8 @@ export default {
           locationId: item.locationId,
           locationName: item.locationName,
           includeTaxCostMoney: 0,
-          includeTaxMoney: (item.salePrice) * 1 + Number(item.taxMoney),
-          money: (item.salePrice) * 1 + Number(item.taxMoney),
+          includeTaxMoney: (item.salePrice) * 1 + Number(item.taxMoney) || 0,
+          money: (item.salePrice) * 1 + Number(item.taxMoney) || 0,
           stat: 0
         }
       })
