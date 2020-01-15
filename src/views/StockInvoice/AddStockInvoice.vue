@@ -131,7 +131,7 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgfpmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
-          <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
+          <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" :checklist.sync="checklist" @enter="enter" @enterinfo="enterinfo"/>
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -347,6 +347,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      checklist: [],
       // 回显仓库
       retreatRepositoryId: '',
       // 控制仓库
@@ -557,7 +558,8 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              console.log(prev)
+              return prev
             }
           }, 0)
           sums[index] += ''
@@ -571,7 +573,7 @@ export default {
       sums[5] = ''
       sums[6] = ''
       sums[10] = ''
-      sums[15] = ''
+      sums[14] = ''
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
@@ -688,13 +690,53 @@ export default {
         return false
       }
       this.entercontrol = true
+      if (this.list2.length > 0) {
+        console.log('this.list2========>', this.list2)
+        this.checklist = this.list2
+        console.log('this.checklist', this.checklist)
+      } else {
+        this.checklist = []
+      }
     },
     enter(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        val[i].quantity = (val[i].actualEnterQuantity - val[i].invoiceQuantity).toFixed(2)
-        this.$refs.editable.insert(val[i])
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (this.checklist[i].sourceNumber === myval[j]) {
+            this.checklist.splice(i, 1)
+            i--
+          }
+        }
       }
+      const mychecklist = this.checklist
+      console.log('mychecklist=====>', mychecklist, val)
+      const mychecklistprop = this.checklist.map(item => {
+        return item.sourceNumber
+      })
+      const checklistprop = Array.from(new Set(mychecklistprop))
+      console.log('checklistprop', checklistprop)
+      for (let i = 0; i < val.length; i++) {
+        var index = checklistprop.findIndex(item => item === val[i].sourceNumber)
+        console.log(i, !index)
+        if (!index) {
+          val.splice(i, 1)
+          i--
+        }
+      }
+      const newarr = val.concat(mychecklist)
+      const newnewarr = this.uniqueArray(newarr, 'productCode', 'sourceNumber')
+      // const obj = {}
+      // const processaction = newarr.reduce((cur, next) => {
+      //   obj[next.sourceNumber] ? '' : obj[next.sourceNumber] = true && cur.push(next)
+      //   return cur
+      // }, [])
+      this.$refs.editable.clear()
+      console.log('newnewarr======>', newnewarr)
+      for (let i = 0; i < newnewarr.length; i++) {
+        newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity).toFixed(2)
+        this.$refs.editable.insert(newnewarr[i])
+      }
+      this.$store.dispatch('getmyflagApproval', '')
     },
     enterinfo(val) {
     //   this.personalForm.sourceNumber = val.number
@@ -718,6 +760,24 @@ export default {
     //     this.personalForm.currencyId = String(val.currencyId)
     //   }
     //   this.getTypes()
+    },
+    // json数组去重
+    uniqueArray(array, key, key2) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key] && item[key2] === result[j][key2]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
     },
     // 更新类型
     updatecountry() {

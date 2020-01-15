@@ -577,10 +577,62 @@
         <el-button type="primary" @click="handlecustomer">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 重新分派调查员 -->
+    <el-dialog :visible.sync="isvisible" title="分派调查员" append-to-body width="600px" class="normal" center lock-scroll>
+      <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
+          <el-select v-model="dispatchform.employeeId" filterable>
+            <el-option
+              v-for="(item, index) in options2"
+              :key="index"
+              :label="item.personName"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isvisible = false">{{ $t('repair.cancel') }}</el-button>
+        <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
+      </div>
+    </el-dialog>
+    <!-- 查看页面 -->
+    <el-dialog :visible.sync="viewproject" class="edit" append-to-body width="550px" :title="$t('repair.new')" top="55px" center >
+      <el-form :model="viewform" style="width: 400px; margin-top:50px;">
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskname')">
+          <el-input v-model="viewform.taskName" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.lx')">
+          <el-select v-model="viewform.taskType" placeholder="please choose" style="width:280px;" disabled>
+            <el-option value="1" label="收款任务"/>
+            <el-option value="2" label="客户洽谈任务"/>
+            <el-option value="3" label="分期调查任务"/>
+            <el-option value="4" label="其他任务"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('SaleOut.saleRepositoryId')">
+          <el-input v-model="viewform.repositoryName" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskaddress')">
+          <el-input v-model="viewform.taskAddress" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.khxm')">
+          <el-input v-model="viewform.customerName" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.assignstaff')">
+          <el-input v-model="viewform.employeeName" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.taskcontent')">
+          <el-input v-model="viewform.taskContent" type="textarea" disabled/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('repair.bz')">
+          <el-input v-model="viewform.remarks" type="textarea" disabled/>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
-  import { editrepairproject, stafflist, gettaskofflinelist, deletetaskoffline, addtaskoffline, getofflinelist } from '../../api/repair'
+  import { editrepairproject, stafflist, gettaskofflinelist, deletetaskoffline, addtaskoffline, getofflinelist, updateoffline, cancleoffline, getremplist2  } from '../../api/repair'
   import { allstore } from '@/api/employee'
   import waves from '@/directive/waves' // Waves directive
   import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -630,6 +682,15 @@ export default {
     },
     data() {
       return {
+        viewform: {},
+        // 查看页面
+        viewproject: false,
+        // 重分派员工列表
+        dispatchform: {},
+        // 分派员工列表
+        options2: [],
+        // 重分派开关
+        isvisible: false,
         // 仓库回显
         saleRepositoryId: this.$store.getters.repositoryName,
         repositorycontrol: false,
@@ -754,6 +815,7 @@ export default {
     },
     created() {
       this.getinstalllist()
+      this.initemplist()
       // this.getAllStaff()
       // this.getAllStores()
     },
@@ -770,14 +832,72 @@ export default {
     _that = this
   },
   methods: {
+    initemplist() {
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+    },
     handleDetail(row) {
       console.log('查看',row);
+      this.viewproject = true
+      this.viewform = Object.assign({}, row)
+      this.viewform.taskType =String(this.viewform.taskType
+      )
     },
     handlecancel(row) {
       console.log('取消',row);
+      this.$confirm('确认取消?', 'tips', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        cancleoffline(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '取消成功!'
+            })
+            this.getinstalllist()
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          cancleoffline(row.id).then(res => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: '取消成功!'
+              })
+              this.getinstalllist()
+            }
+          })
+        }
+      })
     },
     handleDispatch(row) {
-      console.log('重分配',row);
+      this.isvisible = true
+      this.dispatchform = Object.assign({}, row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+      console.log('重分配',this.dispatchform);
+    },
+    dispatch() {
+      this.dispatchform.taskId = this.dispatchform.id
+      updateoffline(this.dispatchform).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.isvisible = false
+          this.getinstalllist()
+        }
+      })
+      console.log('重新分派sure', this.dispatchform);
     },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName

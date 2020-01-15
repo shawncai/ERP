@@ -11,14 +11,14 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
+      <!-- <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['1-9-169-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
       <!-- 表格导出操作 -->
       <el-button v-permission="['1-9-169-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
@@ -81,10 +81,17 @@
             <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('BasicSettings.iseffective3')" :resizable="false" prop="gender" align="center" width="80">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isEffective | iseffectiveFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-permission="['1-9-169-8']" v-show="scope.row.isEffective === 2" style="margin-left: 18px;" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="open(scope.row)"/>
+            <el-button v-permission="['1-9-169-9']" v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="close(scope.row)"/>
             <el-button v-permission="['1-9-169-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-permission="['1-9-169-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <!-- <el-button v-permission="['1-9-169-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -98,7 +105,7 @@
 </template>
 
 <script>
-import { locationlist, deletelocation } from '@/api/WarehouseAdjust'
+import { locationlistByEff, deletelocation, updatelocation } from '@/api/WarehouseAdjust'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -113,10 +120,10 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyRepository, Pagination, MyLocation },
   filters: {
-    genderFilter(status) {
+    iseffectiveFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: '启用',
+        2: '停用'
       }
       return statusMap[status]
     }
@@ -148,6 +155,7 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      personalForm2: {},
       // 控制组件数据
       editVisible: false,
       // 开始时间到结束时间
@@ -162,11 +170,61 @@ export default {
     _that = this
   },
   methods: {
+    // 启用停用操作
+    open(row) {
+      console.log('row', row)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 1
+      const parms = JSON.stringify(this.personalForm2)
+      updatelocation(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
+    close(row) {
+      console.log('row', row)
+      console.log('row.id', row.id)
+      this.personalForm2.id = row.id
+      this.personalForm2.isEffective = 2
+      const parms = JSON.stringify(this.personalForm2)
+      updatelocation(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '操作成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
+    },
     checkPermission,
     getlist() {
       // 货位单列表数据
       this.listLoading = true
-      locationlist(this.getemplist).then(res => {
+      locationlistByEff(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -185,7 +243,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      locationlist(this.getemplist).then(res => {
+      locationlistByEff(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
