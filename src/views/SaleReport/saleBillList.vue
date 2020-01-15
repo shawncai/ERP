@@ -131,7 +131,7 @@
 
         <el-table-column :label="$t('saleBillList.actualsale')" align="center">
           <el-table-column
-            :label="$t('saleBillList.money')"
+            :label="$t('saleBillList.actualMoney')"
             prop="money"
             width="200"
             align="center"/>
