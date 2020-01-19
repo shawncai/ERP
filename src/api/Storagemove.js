@@ -59,10 +59,10 @@ export function searchlist(query) {
     params.append('ArrivalEndTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
-    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+    params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
   }
   if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
-    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+    params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
