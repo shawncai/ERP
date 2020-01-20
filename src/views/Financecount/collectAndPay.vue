@@ -269,13 +269,13 @@ export default {
   methods: {
     myytablehead({ row, column, rowIndex, columnIndex }) {
       console.log('myindex=================>', row, column, rowIndex, columnIndex)
+      if (columnIndex === 12) {
+        return 'border-right:3px solid red'
+      }
     },
     myTable({ row, column, rowIndex, columnIndex }) {
-      console.log(123)
-      if (rowIndex === 0) {
-        return 'text-align:left'
-      } else {
-        return 'text-align:center'
+      if (columnIndex === 12) {
+        return 'border-right:3px solid red'
       }
     },
     treechoose() {
