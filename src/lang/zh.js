@@ -3950,6 +3950,8 @@ export default {
     cgck: '采购仓库',
     fjf: '附加费',
     cbj: '成本价',
-    fx: '方向'
+    fx: '方向',
+    transferReceipt: '门店收到公司转账',
+    transferExpense: '门店转给公司'
   }
 }

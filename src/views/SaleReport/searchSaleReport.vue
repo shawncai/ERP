@@ -353,8 +353,8 @@ export default {
         this.getemplist.beginTime = ''
         this.getemplist.endTime = ''
       } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59s'
       }
       searchSaleReport(this.getemplist).then(res => {
         if (res.data.ret === 200) {

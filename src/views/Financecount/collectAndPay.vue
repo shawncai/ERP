@@ -3,9 +3,9 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-select v-model="getemplist.type" :placeholder="$t('stockOrderCount.type')" :value="getemplist.type" class="filter-item" style="width: 120px" @keyup.enter.native="handleFilter" @change="changeName">
         <el-option value="1" label="仓库"/>
-        <el-option value="2" label="制单人"/>
+        <!-- <el-option value="2" label="制单人"/>
         <el-option value="3" label="审核人"/>
-        <el-option value="4" label="经办人"/>
+        <el-option value="4" label="经办人"/> -->
         <!--                <el-option value="5" label="日期分组"/>-->
       </el-select>
 
@@ -90,8 +90,8 @@
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('collectAndPay.outlay')"
-          prop="outlay"
+          :label="$t('collectAndPayDetail.transferExpense')"
+          prop="transferExpense"
           width="240"
           align="center"/>
         <el-table-column
@@ -105,8 +105,18 @@
           width="240"
           align="center"/>
         <el-table-column
-          :label="$t('collectAndPay.payModeName')"
-          prop="payModeName"
+          :label="$t('collectAndPayDetail.transferReceipt')"
+          prop="transferReceipt"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.outlay')"
+          prop="outlay"
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.balance')"
+          prop="transferBalance"
           width="240"
           align="center"/>
       </el-table>
@@ -238,7 +248,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '3'
+        type: '1'
       },
       // 传给组件的数据
       personalForm: {},

@@ -168,7 +168,7 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="productTypeName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
@@ -434,7 +434,8 @@ export default {
         exchangeRate: '1.0000',
         currency: '1',
         returnDate: null,
-        saleRepositoryId: this.$store.getters.repositoryId
+        saleRepositoryId: this.$store.getters.repositoryId,
+        ridMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -981,8 +982,14 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        customerType: '2',
+        customerId: '',
+        sourceType: '2',
+        exchangeRate: '1.0000',
+        currency: '1',
+        returnDate: null,
         saleRepositoryId: this.$store.getters.repositoryId,
-        returnDate: null
+        ridMoney: 0
       }
       this.customerId = null
       this.salePersonId = null
@@ -1035,15 +1042,15 @@ export default {
             // if (elem.color === null || elem.color === '' || elem.color === undefined) {
             //   delete elem.color
             // }
-            // if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-            //   delete elem.kpiGrade
-            // }
-            // if (elem.point === null || elem.point === '' || elem.point === undefined) {
-            //   delete elem.point
-            // }
-            // if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-            //   delete elem.salePrice
-            // }
+            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+              delete elem.kpiGrade
+            }
+            if (elem.point === null || elem.point === '' || elem.point === undefined) {
+              delete elem.point
+            }
+            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+              delete elem.salePrice
+            }
             // if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
             //   delete elem.costPrice
             // }
