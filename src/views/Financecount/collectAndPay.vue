@@ -25,6 +25,8 @@
       <!-- 列表开始 -->
       <el-table
         :data="list"
+        :cell-style="myTable"
+        :header-cell-style="myytablehead"
         border
         style="width: 100%">
         <!--        <el-table-column-->
@@ -255,6 +257,17 @@ export default {
     _that = this
   },
   methods: {
+    myytablehead({ row, column, rowIndex, columnIndex }) {
+      console.log('myindex=================>', row, column, rowIndex, columnIndex)
+    },
+    myTable({ row, column, rowIndex, columnIndex }) {
+      console.log(123)
+      if (rowIndex === 0) {
+        return 'text-align:left'
+      } else {
+        return 'text-align:center'
+      }
+    },
     treechoose() {
       this.treecontrol = true
     },
