@@ -1,5 +1,15 @@
 import request from '@/utils/request'
 
+export function addPurchaseVoucher(query) {
+  var params = new URLSearchParams()
+  params.append('enterId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/voucher/addPurchaseVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
 // 列表和查询仓库门店
 export function stockenterlist(query) {
   var params = new URLSearchParams()

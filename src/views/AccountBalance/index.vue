@@ -13,6 +13,7 @@
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-permission="['266-372-79']" v-waves class="filter-item" type="primary" style="width: 120px;margin-top: 10px" round @click="handleFilter2">{{ $t('collectAndPayDetail.lrqcsj') }}</el-button>
 
     </el-card>
 
@@ -58,7 +59,7 @@
             align="center"/>
           <el-table-column
             :label="$t('otherlanguage.df')"
-            prop="changeCreditMoney "
+            prop="changeCreditMoney"
             width="200"
             align="center"/>
         </el-table-column>
@@ -96,11 +97,34 @@
       <!-- 列表结束 -->
       <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
+    <el-dialog :visible.sync="categoryVisible2" :title="$t('collectAndPayDetail.lrqcsj')" append-to-body width="600px" class="normal" center>
+      <el-editable
+        v-loading="listLoading"
+        ref="editable"
+        :data.sync="list2"
+        :edit-config="{ showIcon: true, showStatus: true}"
+        class="click-table1"
+        height="600px"
+        stripe
+        border
+        size="medium"
+        style="width: 100%">
+        <el-editable-column :label="$t('Hmodule.xh')" fixed min-width="55" align="center" type="index"/>
+        <el-editable-column :label="$t('updates.kmmc')" fixed prop="subjectName" align="center" min-width="150px"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" label="期初余额借方" prop="beginDebitMoney" align="center" min-width="150px"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" label="期初余额贷方" prop="beginCreditMoney" align="center" min-width="150px"/>
+      </el-editable>
+      <span slot="footer" class="dialog-footer">
+        <el-button v-no-more-click type="primary" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="handlecancel2()">{{ $t('Hmodule.cancel') }}</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { subjectBalanceList } from '@/api/voucher'
+import { initBalance, getSubject } from '@/api/SubjectFinance'
 import { productSendAndReceive } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -156,6 +180,8 @@ export default {
   },
   data() {
     return {
+      list2: [],
+      list: [],
       categoryId: '',
       first: '',
       step1: '',
@@ -179,6 +205,8 @@ export default {
       typeparms: {
         pagenum: 1,
         pagesize: 99999
+      },
+      addCategoryForm2: {
       },
       // 采购类别数据
       // 申请部门数据
@@ -208,13 +236,12 @@ export default {
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
-      list: [],
       // 表格数据条数
       total: 0,
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       // 采购申请查询加展示参数
       getemplist: {
         repositoryId: this.$store.getters.repositoryId,
@@ -225,7 +252,8 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      categoryVisible2: false
     }
   },
 
@@ -237,6 +265,38 @@ export default {
     _that = this
   },
   methods: {
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    handlesave2() {
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      const parms2 = JSON.stringify(EnterDetail)
+      this.listLoading = true
+      initBalance(parms2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: '成功',
+            message: '新建成功',
+            type: 'success',
+            offset: 100
+          })
+          this.getlist()
+          this.categoryVisible2 = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -251,6 +311,26 @@ export default {
       }
       var currentdate = year + seperator1 + month
       this.date2 = currentdate
+      getSubject().then(res => {
+        if (res.data.ret === 200) {
+          const list = res.data.data.content
+          for (let i = 0; i < list.length; i++) {
+            const param = {}
+            param.subjectName = list[i].subjectName
+            param.subjectCode = list[i].subjectCode
+            param.beginDebitMoney = 0.0
+            param.beginCreditMoney = 0.0
+            this.list2.push(list[i])
+          }
+          console.log('this.list2', this.list2)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
+        }
+      })
     },
     treechoose() {
       this.treecontrol = true
@@ -310,7 +390,6 @@ export default {
     },
     getlist() {
       // 物料需求计划列表数据
-      this.listLoading = true
       if (this.date2 === null || this.date2 === undefined || this.date2 === '' || this.date2.length === 0) {
         this.getemplist.receiptdate = '2019-10'
       } else {
@@ -320,9 +399,6 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
         }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
       })
     },
     // 清空搜索条件
@@ -333,6 +409,12 @@ export default {
     restFilter2() {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
+    },
+    handleFilter2() {
+      this.categoryVisible2 = true
+    },
+    handlecancel2() {
+      this.categoryVisible2 = false
     },
     // 搜索
     handleFilter() {

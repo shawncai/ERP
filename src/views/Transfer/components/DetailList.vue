@@ -23,7 +23,7 @@
                   <span>{{ personalForm.transferTicket }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('income.region')" style="width: 100%;">
                   <span>{{ personalForm.transferRegionName }}</span>
                 </el-form-item>
@@ -32,7 +32,7 @@
                 <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
                   <span>{{ personalForm.transferRepositoryName }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                   <span>{{ personalForm.transferDate }}</span>
@@ -97,6 +97,8 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Voucher.qy')" prop="regionName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Voucher.md')" prop="repositoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>

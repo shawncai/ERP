@@ -130,7 +130,7 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="300">
           <template slot-scope="scope">
             <el-button v-permission="['131-132-133-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
@@ -139,6 +139,7 @@
             <el-button v-permission="['131-132-133-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-132-133-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-132-133-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['266-373-1']" v-show="scope.row.extraMoney !== null&&scope.row.judgeStat !== ''&&scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -152,7 +153,7 @@
 </template>
 
 <script>
-import { stockenterlist, deletestockenter, updatestockenter3, updatestockenter, updateExtra } from '@/api/Stockenter'
+import { addPurchaseVoucher, stockenterlist, deletestockenter, updatestockenter3, updatestockenter, updateExtra } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -251,6 +252,23 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt1(row) {
+      this.$confirm('请确认生成凭证', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        addPurchaseVoucher(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '生成凭证成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)

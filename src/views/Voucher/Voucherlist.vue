@@ -70,6 +70,7 @@
       <el-button v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 86px" @click="handleswitch">{{ $t('otherlanguage.zh') }}</el-button>
       <!-- 结转损益操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-sort" type="primary" @click="handleswitchtojz">{{ $t('otherlanguage.jzsy') }}</el-button>
+      <el-button v-permission="['266-373-1']" v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 120px" @click="handleMyReceipt1">结转库房支出</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -99,6 +100,16 @@
         <el-table-column :label="$t('Voucher.pzzh')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.voucherNo }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Voucher.qy')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.regionName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Voucher.md')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Voucher.zy')" :resizable="false" align="center" min-width="150">
@@ -195,7 +206,7 @@
 
 <script>
 import { searchexpenses, updateexpenses2, deleteexpenses } from '@/api/Expenses'
-import { voucherlist, updatevoucher, deletevoucher } from '@/api/voucher'
+import { voucherlist, updatevoucher, deletevoucher, addProduceVoucher, endProfit } from '@/api/voucher'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -321,35 +332,67 @@ export default {
     this.getlist()
   },
   methods: {
-    async handleswitchtojz() {
-      console.log(this.moreaction)
-      const arrowdata = this.moreaction
-      if (this.moreaction.length === 0) {
-        this.$message({
-          type: 'error',
-          message: '请先选择数据!'
-        })
-      } else {
-        let dataz = []
-        for (const i in arrowdata) {
-          const parms = {}
-          parms.id = arrowdata[i].voucherId
-          parms.voucherStat = 3
-          const sendparms = JSON.stringify(parms)
-          dataz = await updatevoucher(sendparms)
-            .then(res => {
-              return res.data
+    handleMyReceipt1(row) {
+      this.$confirm('请确认结转库房支出', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        addProduceVoucher(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '结转库房支出成功!'
             })
-        }
-        console.log(dataz)
-        if (dataz.ret === 200) {
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          })
-          this.getlist()
-        }
-      }
+            this.getlist()
+          }
+        })
+      })
+    },
+    async handleswitchtojz(row) {
+      this.$confirm('请确认结转损益', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        endProfit(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '结转损益成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
+      // console.log(this.moreaction)
+      // const arrowdata = this.moreaction
+      // if (this.moreaction.length === 0) {
+      //   this.$message({
+      //     type: 'error',
+      //     message: '请先选择数据!'
+      //   })
+      // } else {
+      //   let dataz = []
+      //   for (const i in arrowdata) {
+      //     const parms = {}
+      //     parms.id = arrowdata[i].voucherId
+      //     parms.voucherStat = 3
+      //     const sendparms = JSON.stringify(parms)
+      //     dataz = await updatevoucher(sendparms)
+      //       .then(res => {
+      //         return res.data
+      //       })
+      //   }
+      //   console.log(dataz)
+      //   if (dataz.ret === 200) {
+      //     this.$message({
+      //       type: 'success',
+      //       message: '操作成功!'
+      //     })
+      //     this.getlist()
+      //   }
+      // }
     },
     handleswitch() {
       if (this.switchparms === 1) {

@@ -1,5 +1,23 @@
 import request from '@/utils/request'
 
+export function endProfit(query) {
+  var params = new URLSearchParams()
+  return request({
+    url: '/voucher/endProfit',
+    method: 'post',
+    data: params
+  })
+}
+
+export function addProduceVoucher(query) {
+  var params = new URLSearchParams()
+  return request({
+    url: '/voucher/addProduceVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询科目是否是借方还是贷方
 export function getSubjectDetail(query) {
   var params = new URLSearchParams()
@@ -140,7 +158,7 @@ export function subjectBalanceList(query) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/voucher/subjectBalanceList',
+    url: '/balance/subjectBalanceList',
     method: 'post',
     data: params
   })

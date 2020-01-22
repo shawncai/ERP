@@ -26,7 +26,7 @@
                 <el-input v-model="personalForm.totalCreditMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('Voucher.qy')" style="width: 100%;">
                 <el-input v-model="personalForm.regionName" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
@@ -35,7 +35,7 @@
               <el-form-item :label="$t('Voucher.md')" style="width: 100%;">
                 <el-input v-model="personalForm.repositoryName" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -60,6 +60,33 @@
           style="width: 100%">
           <el-editable-column :selectable="selectableEvent" type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="setcarst" align="center" min-width="200px">
+            <template slot="edit" slot-scope="scope">
+              <el-cascader
+                :options="regions"
+                :props="props"
+                v-model="scope.row.regionId"
+                :show-all-levels="false"
+                :placeholder="$t('Hmodule.xzqy')"
+                change-on-select
+                filterable
+                clearable
+                style="width: 150px"
+                @change="handlechange4"
+              />
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="200px">
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 150px">
+                <el-option
+                  v-for="(item, index) in repositories"
+                  :key="index"
+                  :label="item.repositoryName"
+                  :value="item.id"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input v-model="scope.row.summary" :disabled="scope.row.isdisable && scope.row.source === 1" clearable/>
@@ -132,6 +159,7 @@
 <script>
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail, addvoucher, updatevoucher } from '@/api/voucher'
+import { regionlist2, searchRepository2 } from '@/api/public'
 var _that
 export default {
   props: {
@@ -161,8 +189,14 @@ export default {
         label: 'subjectName',
         children: 'subjectFinanceVos'
       },
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
       suboptions: [],
-
+      options: [],
       // 选择的数据
       choosedata: [],
       payModes: [],
@@ -192,6 +226,8 @@ export default {
       personalrules: {},
       // 收入单明细数据
       list2: [],
+      regions: {},
+      repositories: {},
       // 收入单明细列表规则
       validRules: {
       }
@@ -203,16 +239,22 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.list2 = this.editdata.voucherDetails
+      this.getarrs()
+      this.getnationlist()
+      this.handlechange5()
       this.gettree()
     },
     list2: {
       handler() {
         let num = 0
         let num1 = 0
-        for (const i in this.list2) {
-          console.log(this.list2[i])
-          num += Number(this.list2[i].debitMoney)
-          num1 += Number(this.list2[i].creditMoney)
+        if (this.list2.length > 0) {
+          for (const i in this.list2) {
+            console.log(this.list2[i])
+            num += Number(this.list2[i].debitMoney)
+            num1 += Number(this.list2[i].creditMoney)
+          }
         }
         this.personalForm.totalDebitMoney = num
         this.personalForm.totalCreditMoney = num1
@@ -221,6 +263,65 @@ export default {
     }
   },
   methods: {
+    getarrs() {
+      console.log('this.list2', this.list2)
+      for (let i = 0; i < this.list2.length; i++) {
+        console.log('222', 222)
+        // console.log('this.list2', this.list2[i].regionId)
+        if (this.list2[i].regionId !== null && this.list2[i].regionId !== '' && this.list2[i].regionId !== undefined) {
+          this.list2[i].regionId = this.list2[i].regionPath
+          // console.log('this.list2', this.list2[i].regionId)
+          // const needata = this.findPathByLeafId(this.list2[i].regionId, this.regions)
+          // console.log('needata', needata)
+          // this.list2[i].regionId = needata
+          // const finalid = needata[needata.length - 1]
+          // console.log(finalid)
+          // this.region = finalid
+        } else {
+          this.list2[i].regionId = []
+        }
+      }
+      console.log('this.list2', this.list2)
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    handlechange5() {
+      searchRepository2().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+    },
+    // 区域列表数据
+    getnationlist() {
+      // 区域列表数据
+      regionlist2().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
     entermoney(row) {
       console.log(row)
       if (row.balanceTrend) {
@@ -254,24 +355,6 @@ export default {
         return false
       } else {
         return true
-      }
-    },
-    findPathByLeafId(leafId, nodes, path) {
-      if (path === undefined) {
-        path = []
-      }
-      for (var i = 0; i < nodes.length; i++) {
-        var tmpPath = path.concat()
-        tmpPath.push(nodes[i].id)
-        if (leafId === nodes[i].id) {
-          return tmpPath
-        }
-        if (nodes[i].subjectFinanceVos) {
-          var findResult = this.findPathByLeafId(leafId, nodes[i].subjectFinanceVos, tmpPath)
-          if (findResult) {
-            return findResult
-          }
-        }
       }
     },
     async setvoucherdata() {

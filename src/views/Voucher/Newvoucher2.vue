@@ -37,7 +37,7 @@
               <!--                  <el-input v-model="personalForm.repository" :disabled="isOk" style="margin-left: 18px;width: 200px"/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.regionid')" style="width: 100%;">
                   <el-cascader
                     :options="regions"
@@ -64,7 +64,7 @@
                       :value="item.id"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -89,6 +89,33 @@
             style="width: 100%">
             <el-editable-column :selectable="selectableEvent" type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  v-model="scope.row.regionId"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 180px"
+                  @change="handlechange4"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
+                  <el-option
+                    v-for="(item, index) in repositories"
+                    :key="index"
+                    :label="item.repositoryName"
+                    :value="item.id"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.summary" clearable/>
@@ -307,7 +334,7 @@ export default {
     },
     async setvoucherdata() {
       const voucherdata = this.$store.getters.voucherdata
-      console.log(voucherdata)
+      console.log('voucherdata', voucherdata)
       if (voucherdata === null || voucherdata === undefined || voucherdata === '') {
         this.isOk = false
       }
@@ -505,16 +532,56 @@ export default {
         this.personalForm.regionId = ''
       }
       this.personalForm.sourceType = 0
-      let i = 1
-      if (this.personalForm.regionId === null || this.personalForm.regionId === undefined || this.personalForm.regionId === '') {
-        if (this.personalForm.repositoryId === null || this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
-          i = 2
-        }
+      if (this.personalForm.totalCreditMoney !== this.personalForm.totalDebitMoney) {
+        this.$notify.error({
+          title: '错误',
+          message: '贷方金额和借方金额不匹配',
+          offset: 100
+        })
+        return false
       }
-      if (this.personalForm.regionId !== null && this.personalForm.regionId !== undefined && this.personalForm.regionId !== '') {
-        if (this.personalForm.repositoryId !== null && this.personalForm.repositoryId !== undefined && this.personalForm.repositoryId !== '') {
-          i = 3
+      let i = 1
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.subjectCode === null || elem.subjectCode === undefined || elem.subjectCode === '') {
+          i = 4
         }
+        if (elem.regionId === null || elem.regionId === undefined || elem.regionId === '') {
+          if (elem.repositoryId === null || elem.repositoryId === undefined || elem.repositoryId === '') {
+            i = 2
+          }
+        }
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+          if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
+            i = 3
+          }
+        }
+        if (elem.repositoryId === null || elem.repositoryId === '' || elem.repositoryId === undefined) {
+          delete elem.repositoryId
+        }
+        if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
+          delete elem.summary
+        }
+        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
+          delete elem.subjectFinanceId
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
+        }
+        if (elem.id === null || elem.id === '' || elem.id === undefined) {
+          delete elem.id
+        }
+        return elem
+      })
+      if (i === 4) {
+        this.$notify.error({
+          title: '错误',
+          message: '会计科目必须选择一个',
+          offset: 100
+        })
+        return false
       }
       if (i === 2) {
         this.$notify.error({
@@ -532,40 +599,6 @@ export default {
         })
         return false
       }
-      if (this.personalForm.totalCreditMoney !== this.personalForm.totalDebitMoney) {
-        this.$notify.error({
-          title: '错误',
-          message: '贷方金额和借方金额不匹配',
-          offset: 100
-        })
-        return false
-      }
-
-      const EnterDetail = this.$refs.editable.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
-          delete elem.summary
-        }
-        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
-          delete elem.subjectFinanceId
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.id === null || elem.id === '' || elem.id === undefined) {
-          delete elem.id
-        }
-        return elem
-      })
-      let arr4 = EnterDetail
-      if (this.$store.getters.voucherdata.voucherlist) {
-        arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
-      }
-      console.log('arr412345678990987-------', arr4)
-      const parms2 = JSON.stringify(arr4)
-
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -576,6 +609,24 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              console.log('elem.regionId', elem.regionId)
+              if (elem.regionId === null || elem.regionId === '' || elem.regionId === undefined) {
+                delete elem.regionId
+              } else {
+                const finalid = elem.regionId[elem.regionId.length - 1]
+                console.log(finalid)
+                elem.regionId = finalid
+              }
+            })
+            let arr4 = EnterDetail
+            if (this.$store.getters.voucherdata.voucherlist) {
+              arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+            }
+            console.log('arr412345678990987-------', arr4)
+            const parms2 = JSON.stringify(arr4)
             addvoucher(parms, parms2, this.ownregion).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

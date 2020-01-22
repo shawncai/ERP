@@ -18,6 +18,16 @@ export function createtransfer(query, query2, query3) {
   })
 }
 
+export function addTransferVoucher(query) {
+  var params = new URLSearchParams()
+  params.append('transferId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/voucher/addTransferVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询转账单
 export function searchtransfer(query) {
   var params = new URLSearchParams()

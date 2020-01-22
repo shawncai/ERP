@@ -150,6 +150,7 @@
             <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['266-373-1']" v-show="scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
         </el-table-column>
@@ -182,7 +183,7 @@
 </template>
 
 <script>
-import { searchtransfer, updatetransfer2, deletetransfer } from '@/api/Transfer'
+import { searchtransfer, updatetransfer2, deletetransfer, addTransferVoucher } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -313,6 +314,23 @@ export default {
       console.log(row)
       this.receiptVisible9 = true
       this.picPaths = row.picPaths
+    },
+    handleMyReceipt1(row) {
+      this.$confirm('请确认生成凭证', '确认', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        type: 'warning'
+      }).then(() => {
+        addTransferVoucher(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: '生成凭证成功!'
+            })
+            this.getlist()
+          }
+        })
+      })
     },
     // 确认
     handleReview1(row) {
