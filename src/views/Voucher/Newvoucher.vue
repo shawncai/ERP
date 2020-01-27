@@ -27,7 +27,7 @@
                   <el-input v-model="personalForm.totalCreditMoney" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Voucher.qy')" style="width: 100%;">
                   <el-input v-model="personalForm.region" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
@@ -36,7 +36,7 @@
                 <el-form-item :label="$t('Voucher.md')" style="width: 100%;">
                   <el-input v-model="personalForm.repository" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
 
             </el-row>
           </el-form>
@@ -62,6 +62,35 @@
             style="width: 100%">
             <el-editable-column :selectable="selectableEvent" type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  :disabled="scope.row.isdisable"
+                  v-model="scope.row.regionId"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 180px"
+                  @change="handlechange4"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
+                  <el-option
+                    v-for="(item, index) in repositories"
+                    :key="index"
+                    :disabled="scope.row.isdisable"
+                    :label="item.repositoryName"
+                    :value="item.id"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.summary" clearable/>
@@ -134,6 +163,7 @@
 <script>
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail, addvoucher, searchRepository, regionlist } from '@/api/voucher'
+import { regionlist2, searchRepository2 } from '@/api/public'
 import '@/directive/noMoreClick/index.js'
 var _that
 export default {
@@ -143,6 +173,12 @@ export default {
       selectid: [],
       carstdata: '',
       treedata: [],
+      // 区域列表字段更改
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
       props2: {
         value: 'id',
         label: 'subjectName',
@@ -190,10 +226,32 @@ export default {
     }
   },
   created() {
+    this.getnationlist()
+    this.handlechange5()
     this.getdatatime()
     this.gettree()
   },
   methods: {
+    handlechange5() {
+      searchRepository2().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+    },
+    getnationlist() {
+      // 区域列表数据
+      regionlist2().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
     entermoney(row) {
       console.log(row)
       if (row.balanceTrend) {
@@ -273,21 +331,21 @@ export default {
         this.personalForm.sourceType = voucherdata.sourceType
         // this.personalForm.region = voucherdata.expensesRegionName
         // this.personalForm.repository = voucherdata.expensesRepositoryName
-        if (voucherdata.repositoryId) {
-          searchRepository(voucherdata.repositoryId).then(res => {
-            if (res.data.ret === 200) {
-              this.personalForm.repository = res.data.data.content.list[0].repositoryName
-            }
-          })
-        }
-        if (voucherdata.regionId) {
-          regionlist(voucherdata.regionId).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.personalForm.region = res.data.data.content.list[0].regionName
-            }
-          })
-        }
+        // if (voucherdata.repositoryId) {
+        //   searchRepository(voucherdata.repositoryId).then(res => {
+        //     if (res.data.ret === 200) {
+        //       this.personalForm.repository = res.data.data.content.list[0].repositoryName
+        //     }
+        //   })
+        // }
+        // if (voucherdata.regionId) {
+        //   regionlist(voucherdata.regionId).then(res => {
+        //     console.log(res)
+        //     if (res.data.ret === 200) {
+        //       this.personalForm.region = res.data.data.content.list[0].regionName
+        //     }
+        //   })
+        // }
         this.personalForm.regionId = voucherdata.regionId
         this.personalForm.repositoryId = voucherdata.repositoryId
         const voucherdetaildata = await Promise.all(voucherdata.voucherlist.map(item => {
@@ -348,6 +406,24 @@ export default {
           this.list2[i].isdisable2 = true
           this.list2[i].isdisable3 = true
         }
+        console.log('this.list2', this.list2)
+        // for (const i in this.list2) {
+        //   if (voucherdata.repositoryId) {
+        //     searchRepository(voucherdata.repositoryId).then(res => {
+        //       if (res.data.ret === 200) {
+        //         this.personalForm.repository = res.data.data.content.list[0].repositoryName
+        //       }
+        //     })
+        //   }
+        //   if (voucherdata.regionId) {
+        //     regionlist(voucherdata.regionId).then(res => {
+        //       console.log(res)
+        //       if (res.data.ret === 200) {
+        //         this.personalForm.region = res.data.data.content.list[0].regionName
+        //       }
+        //     })
+        //   }
+        // }
       }
     },
     processchildren(val) {
@@ -467,11 +543,27 @@ export default {
         })
         return false
       }
-
+      let i = 1
       const EnterDetail = this.$refs.editable.getRecords()
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.subjectCode === null || elem.subjectCode === undefined || elem.subjectCode === '') {
+          i = 4
+        }
+        if (elem.regionId === null || elem.regionId === undefined || elem.regionId === '') {
+          if (elem.repositoryId === null || elem.repositoryId === undefined || elem.repositoryId === '') {
+            i = 2
+          }
+        }
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+          if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
+            i = 3
+          }
+        }
+        if (elem.repositoryId === null || elem.repositoryId === '' || elem.repositoryId === undefined) {
+          delete elem.repositoryId
+        }
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
         }
@@ -486,9 +578,33 @@ export default {
         }
         return elem
       })
-      const arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
-      console.log('arr412345678990987-------', arr4)
-      const parms2 = JSON.stringify(arr4)
+      if (i === 4) {
+        this.$notify.error({
+          title: '错误',
+          message: '会计科目必须选择一个',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店必须选择一个',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 3) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店不能同时选择',
+          offset: 100
+        })
+        return false
+      }
+      // const arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+      // console.log('arr412345678990987-------', arr4)
+      // const parms2 = JSON.stringify(arr4)
 
       const Data = this.personalForm
       for (const key in Data) {
@@ -500,6 +616,24 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              console.log('elem.regionId', elem.regionId)
+              if (elem.regionId === null || elem.regionId === '' || elem.regionId === undefined) {
+                delete elem.regionId
+              } else {
+                const finalid = elem.regionId[elem.regionId.length - 1]
+                console.log(finalid)
+                elem.regionId = finalid
+              }
+            })
+            let arr4 = EnterDetail
+            if (this.$store.getters.voucherdata.voucherlist) {
+              arr4 = [...EnterDetail, ...this.$store.getters.voucherdata.voucherlist]
+            }
+            console.log('arr412345678990987-------', arr4)
+            const parms2 = JSON.stringify(arr4)
             addvoucher(parms, parms2, this.ownregion).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

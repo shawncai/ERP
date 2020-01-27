@@ -17,7 +17,7 @@
                   <el-input v-model="personalForm.transferTicket" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('income.region')" prop="transferRegion" style="width: 100%;">
                   <el-cascader
                     :options="regions"
@@ -38,7 +38,7 @@
                   <el-input v-model="transferRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                   <el-date-picker
@@ -125,6 +125,33 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-cascader
+                  :options="regions"
+                  :props="props"
+                  v-model="scope.row.regionId"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="min-width: 180px"
+                  @change="handlechange4"
+                />
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="min-width: 180px">
+                  <el-option
+                    v-for="(item, index) in repositories"
+                    :key="index"
+                    :label="item.repositoryName"
+                    :value="item.id"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
@@ -138,28 +165,6 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('income.region')" align="center" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-cascader
-                  :options="regions"
-                  :props="props"
-                  v-model="scope.row.region"
-                  :show-all-levels="false"
-                  :placeholder="$t('Hmodule.xzqy')"
-                  change-on-select
-                  filterable
-                  clearable
-                  style="margin-left: 18px;width: 200px"
-                  @change="handlechange5(scope)"
-                />
-                <!--                <el-input v-model="scope.row.regionId" @focus="handlechoose(scope)"/>-->
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('income.incomeRepositoryId')" align="center" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.repositoryId" @focus="handlechoose(scope)"/>
-              </template>
-            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -178,7 +183,7 @@ import { subjectList } from '@/api/SubjectFinance'
 import { createtransfer } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
-import { regionlist } from '@/api/public'
+import { regionlist, searchRepository2 } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyRepository from './components/MyRepository'
 // eslint-disable-next-line no-unused-vars
@@ -202,6 +207,7 @@ export default {
       }
     }
     return {
+      repositories: [],
       suboptions: [],
       props2: {
         value: 'id',
@@ -239,15 +245,16 @@ export default {
       // 部门数据
       depts: [],
       // 经办人回显
-      handlePersonId: '',
       // 控制经办人
       stockControl: false,
+      handlePersonId: this.$store.getters.name,
       // 收入单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        handlePersonId: this.$store.getters.userId,
         currency: '1',
         direction: '1'
       },
@@ -274,11 +281,22 @@ export default {
     this.getdatatime()
     this.getTypes()
     this.gettree()
+    this.handlechange4()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    handlechange4() {
+      searchRepository2().then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.repositories = res.data.data.content.list
+        } else {
+          console.log('区域选择门店')
+        }
+      })
+    },
     handlechange5(val) {
       console.log('val', val.row.region)
       const finalid = val.row.region[val.row.region.length - 1]
@@ -354,13 +372,6 @@ export default {
           }
         }
       }
-    },
-    handlechange4(val) {
-      console.log(val)
-      const finalid = val[val.length - 1]
-      console.log(finalid)
-      this.region = finalid
-      this.personalForm.transferRegionId = finalid
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -451,13 +462,14 @@ export default {
     restAllForm() {
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
+        handlePersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
         direction: '1'
       }
-      this.handlePersonId = null
+      this.handlePersonId = this.$store.getters.name
       this.personalForm.handlePersonId = null
       this.incomeRepositoryId = null
       this.personalForm.incomeRepositoryId = null
@@ -484,8 +496,21 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.subjectCode === null || elem.subjectCode === '' || elem.subjectCode === undefined) {
-          i = 2
+        if (elem.subjectCode === null || elem.subjectCode === undefined || elem.subjectCode === '') {
+          i = 4
+        }
+        if (elem.regionId === null || elem.regionId === undefined || elem.regionId === '') {
+          if (elem.repositoryId === null || elem.repositoryId === undefined || elem.repositoryId === '') {
+            i = 2
+          }
+        }
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+          if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
+            i = 3
+          }
+        }
+        if (elem.repositoryId === null || elem.repositoryId === '' || elem.repositoryId === undefined) {
+          delete elem.repositoryId
         }
         if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
           delete elem.summary
@@ -498,17 +523,45 @@ export default {
         }
         return elem
       })
-      if (i === 2) {
+      if (i === 4) {
         this.$notify.error({
           title: '错误',
-          message: '科目名称必选',
+          message: '会计科目必须选择一个',
           offset: 100
         })
         return false
       }
-      const parms2 = JSON.stringify(EnterDetail)
+      if (i === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店必须选择一个',
+          offset: 100
+        })
+        return false
+      }
+      if (i === 3) {
+        this.$notify.error({
+          title: '错误',
+          message: '区域，门店不能同时选择',
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            console.log('elem.regionId', elem.regionId)
+            if (elem.regionId === null || elem.regionId === '' || elem.regionId === undefined) {
+              delete elem.regionId
+            } else {
+              const finalid = elem.regionId[elem.regionId.length - 1]
+              console.log(finalid)
+              elem.regionId = finalid
+            }
+          })
+          const parms2 = JSON.stringify(EnterDetail)
           createtransfer(parms, this.personalForm, parms2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

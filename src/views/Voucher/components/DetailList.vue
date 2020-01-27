@@ -33,7 +33,7 @@
                   <span>{{ personalForm.totalCreditMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('Voucher.qy')" style="width: 100%;">
                   <span>{{ personalForm.regionName }}</span>
                 </el-form-item>
@@ -42,7 +42,7 @@
                 <el-form-item :label="$t('Voucher.md')" style="width: 100%;">
                   <span>{{ personalForm.repositoryName }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -62,6 +62,8 @@
             style="width: 100%">
             <!-- <el-editable-column type="selection" min-width="55" align="center"/> -->
             <el-editable-column :label="$t('Voucher.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Voucher.qy')" prop="regionName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Voucher.md')" prop="repositoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.zy')" prop="summary" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Voucher.kjkm')" prop="subjectName" align="center" min-width="150px"/>
             <!-- <el-editable-column :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->

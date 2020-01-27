@@ -1,5 +1,24 @@
 import request from '@/utils/request'
 
+export function initBalance(query) {
+  var params = new URLSearchParams()
+  params.append('subjectBalanceJson', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/balance/initBalance',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getSubject(query) {
+  var params = new URLSearchParams()
+  return request({
+    url: '/balance/getSubject',
+    method: 'post',
+    data: params
+  })
+}
+
 //   添加采购退货
 export function addSubject(query) {
   var params = new URLSearchParams()

@@ -480,11 +480,13 @@ export default {
         }
       })
       for (let i = 0; i < result2.length; i++) {
-        if (result2[i].productCode.substring(0, 2) === '01') {
-          console.log('01')
-          const list = await materialslist2(result2[i].productCode)
+        // if (result2[i].productCode.substring(0, 2) === '01') {
+        const list = await materialslist2(result2[i].productCode)
+        console.log('list122', list.data.data.content.list)
+        if (list.data.data.content.list.length > 0) {
           console.log('list', list.data.data.content.list[0].materialsListDetailVos)
           const list2 = list.data.data.content.list[0].materialsListDetailVos
+
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
             console.log('val[i]', result2[i])
@@ -500,6 +502,10 @@ export default {
           // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
           this.$refs.editable2.insert(result2[i])
         }
+        // } else {
+        //   // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+        //   this.$refs.editable2.insert(result2[i])
+        // }
       }
     },
     getdatatime() { // 默认显示今天
