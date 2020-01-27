@@ -69,7 +69,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                  <span>{{ personalForm.saleTypeName }}</span>
+                  <span>{{ personalForm.saleType | saleTypeFilter }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">

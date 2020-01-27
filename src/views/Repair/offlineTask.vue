@@ -987,33 +987,59 @@ export default {
         let list = []
         let total = 0
         if (this.activeName === 'first') {
+          console.log('1233')
           myquery = this.installList
-          list = this.list
-          total = this.total
-        } else if (this.activeName === 'second') {
-          myquery = this.installList2
-          list = this.list2
-          total = this.total2
-        } else if (this.activeName === 'third') {
-          myquery = this.installList3
-          list = this.list3
-          total = this.total3
-        } else if (this.activeName === 'four') {
-          myquery = this.installList4
-          list = this.list4
-          total = this.total4
-        } else if (this.activeName === 'five') {
-          myquery = this.installList5
-          list = this.list5
-          total = this.total5
-        }
-        getofflinelist(myquery).then(response => {
-          list = response.data.data.content.list
-          total = response.data.data.content.totalCount
+         getofflinelist(myquery).then(response => {
+          this.list = response.data.data.content.list
+          this.total = response.data.data.content.totalCount
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 100)
         })
+        } else if (this.activeName === 'second') {
+          myquery = this.installList2
+         getofflinelist(myquery).then(response => {
+          this.list2 = response.data.data.content.list
+          this.total2 = response.data.data.content.totalCount
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+        } else if (this.activeName === 'third') {
+          myquery = this.installList3
+          getofflinelist(myquery).then(response => {
+          this.list3 = response.data.data.content.list
+          this.total3 = response.data.data.content.totalCount
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+        } else if (this.activeName === 'four') {
+          myquery = this.installList4
+          getofflinelist(myquery).then(response => {
+          this.list4 = response.data.data.content.list
+          this.total4 = response.data.data.content.totalCount
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+        } else if (this.activeName === 'five') {
+          myquery = this.installList5
+          getofflinelist(myquery).then(response => {
+          this.list5 = response.data.data.content.list
+          this.total5 = response.data.data.content.totalCount
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+        }
+        // getofflinelist(myquery).then(response => {
+        //   list = response.data.data.content.list
+        //   total = response.data.data.content.totalCount
+        //   setTimeout(() => {
+        //     this.listLoading = false
+        //   }, 0.5 * 100)
+        // })
       },
       getAllStores() {
         const repositoryid = this.$store.getters.repositoryId

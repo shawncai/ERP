@@ -186,7 +186,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
-                <el-input v-model="personalForm.advanceMoney" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>
               <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
             </el-col>
@@ -838,7 +838,7 @@ export default {
         this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
-        this.personalForm.receivableMoney = this.receivableMoney
+        this.personalForm.receivableMoney = this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       } else {
         this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
@@ -1788,6 +1788,14 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.saleOutDetailVos
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.saleOutGiftVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.isDeliver
+      delete this.personalForm.payType
+      delete this.personalForm.currency
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId

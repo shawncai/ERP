@@ -759,6 +759,7 @@ export default {
       console.log(11111111111111111111111111)
       if (this.$store.getters.empcontract) {
         this.personalForm.sourceType = '2'
+        this.personalForm.saleType = '2'
         this.isinstallappley = true
         this.installappley(this.$store.getters.empcontract[0])
         console.log('empcontract', this.$store.getters.empcontract)
@@ -1175,6 +1176,7 @@ export default {
     installappley(val) {
       console.log('源单数据', val)
       const date = new Date()
+      this.personalForm.saleType = '2'
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
       this.personalForm.dayOfMonth = val.installmentDays
