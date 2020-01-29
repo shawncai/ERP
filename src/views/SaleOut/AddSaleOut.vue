@@ -338,6 +338,7 @@
                 <el-input-number
                   :precision="2"
                   :controls="false"
+                  :min="0"
                   v-model="scope.row.discountRate"
                   @change="getdiscountRate(scope.row)"/>
               </template>
@@ -347,6 +348,7 @@
                 <el-input-number
                   :precision="2"
                   :controls="false"
+                  :min="0"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row)"/>
               </template>
@@ -2254,13 +2256,13 @@ export default {
               delete elem.includeTaxCostMoney
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
+              elem.discountRate = 0
             }
             if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
               elem.discountRate = elem.discountRate / 100
             }
             if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
+              elem.discountMoney = 0
             }
             if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
               delete elem.carCode

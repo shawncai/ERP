@@ -65,7 +65,7 @@
               <el-cascader
                 :options="regions"
                 :props="props"
-                v-model="scope.row.regionId"
+                v-model="scope.row.regionPath"
                 :show-all-levels="false"
                 :placeholder="$t('Hmodule.xzqy')"
                 change-on-select
@@ -226,7 +226,7 @@ export default {
       personalrules: {},
       // 收入单明细数据
       list2: [],
-      regions: {},
+      regions: [],
       repositories: {},
       // 收入单明细列表规则
       validRules: {
@@ -264,12 +264,11 @@ export default {
   },
   methods: {
     getarrs() {
-      console.log('this.list2', this.list2)
       for (let i = 0; i < this.list2.length; i++) {
         console.log('222', 222)
         // console.log('this.list2', this.list2[i].regionId)
         if (this.list2[i].regionId !== null && this.list2[i].regionId !== '' && this.list2[i].regionId !== undefined) {
-          this.list2[i].regionId = this.list2[i].regionPath
+          // this.list2[i].regionId = this.list2[i].regionPath
           // console.log('this.list2', this.list2[i].regionId)
           // const needata = this.findPathByLeafId(this.list2[i].regionId, this.regions)
           // console.log('needata', needata)
@@ -278,7 +277,8 @@ export default {
           // console.log(finalid)
           // this.region = finalid
         } else {
-          this.list2[i].regionId = []
+          this.list2[i].regionId = null
+          this.list2[i].regionPath = []
         }
       }
       console.log('this.list2', this.list2)
@@ -357,8 +357,26 @@ export default {
         return true
       }
     },
+    findPathByLeafId2(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].subjectFinanceVos) {
+          var findResult = this.findPathByLeafId2(leafId, nodes[i].subjectFinanceVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
     async setvoucherdata() {
-      console.log('this.editdata', this.editdata)
+      console.log('this.editdata222222', this.editdata)
       const voucherdata = this.personalForm
       this.selectid = this.personalForm.voucherDetails.map(item => {
         return {
@@ -374,11 +392,12 @@ export default {
         this.list2 = voucherdata.voucherDetails.filter(item => {
           return (item.total === 1 || item.total === 3)
         })
-        console.log('voucherdetaildata222222222', voucherdetaildata)
+
         for (const i in voucherdetaildata) {
-          const carstdata = this.findPathByLeafId(voucherdetaildata[i].subjectId, this.treedata)
+          const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
           voucherdetaildata[i].setcarst = carstdata
         }
+        console.log('voucherdetaildata222222222', voucherdetaildata)
         for (const i in this.list2) {
           for (const j in voucherdetaildata) {
             if (this.list2[i].subjectCode === voucherdetaildata[j].itemCode) {
@@ -431,6 +450,8 @@ export default {
           return res.data.data.content
         })
       row.balanceTrend = voucherdetaildata.balanceTrend
+      row.subjectName = voucherdetaildata.itemName
+      row.subjectCode = voucherdetaildata.itemCode
       console.log('voucherdetaildata', voucherdetaildata)
       if (voucherdetaildata.balanceTrend === 1) {
         row.isdisable2 = false
@@ -446,6 +467,7 @@ export default {
         if (res.data.ret === 200) {
           this.suboptions = this.processchildren(res.data.data.content)
           this.treedata = res.data.data.content
+          console.log('this.treedata', this.treedata)
           this.setvoucherdata()
         }
       })
@@ -482,6 +504,7 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      console.log('this.personalForm', this.personalForm)
       if (this.personalForm.totalCreditMoney !== this.personalForm.totalDebitMoney) {
         this.$notify.error({
           title: '错误',
@@ -513,12 +536,18 @@ export default {
         }
         return elem
       })
+      for (const i in EnterDetail) {
+        if (EnterDetail[i].regionPath) {
+          EnterDetail[i].regionId = EnterDetail[i].regionPath[EnterDetail[i].regionPath.length - 1]
+        }
+      }
       const expresndata = this.personalForm.voucherDetails.filter(item => {
         return item.total === 2
       })
       const arr4 = [...EnterDetail, ...expresndata]
       const parms2 = JSON.stringify(arr4)
       const Data = {}
+      Data.id = this.personalForm.id
       Data.createPersonId = this.personalForm.createPersonId
       Data.countryId = this.personalForm.countryId
       Data.regionId = this.personalForm.regionId

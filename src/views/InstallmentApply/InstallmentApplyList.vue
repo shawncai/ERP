@@ -432,6 +432,14 @@ export default {
           })
           return false
         }
+        if (this.moreaction[0].isInvestigation !== 2) {
+          this.$notify.error({
+            title: '错误',
+            message: '该单据尚未调查',
+            offset: 100
+          })
+          return false
+        }
       }
       this.$store.dispatch('getempcontract', this.moreaction)
       this.$router.push('/SaleContract/AddSaleContract')

@@ -437,17 +437,17 @@ export default {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 9) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      } else if (columnIndex === 10) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
       } else if (columnIndex === 11) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 12) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 13) {
         return {
           rowspan: _row,
           colspan: _col
@@ -687,7 +687,7 @@ export default {
       this.getemplist.handlePersonId = val.id
     },
     // 修改操作
-    async handleEdit(row) {
+    handleEdit(row) {
       console.log(row)
 
       const detailsearch = {
@@ -695,14 +695,12 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds
       }
-      const editdata = await voucherlist(detailsearch).then(res => {
-        return res.data.data.content[0]
+      voucherlist(detailsearch).then(res => {
+        if (res.data.ret === 200) {
+          this.editVisible = true
+          this.personalForm = res.data.data.content[0]
+        }
       })
-      console.log('editdata', editdata)
-      if (editdata) {
-        this.editVisible = true
-        this.personalForm = editdata
-      }
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -732,8 +730,8 @@ export default {
         console.log(1222222)
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        // console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
         if (index > -1 && (row.voucherStat === 1)) {
           return true
         }

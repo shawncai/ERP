@@ -32,11 +32,11 @@
             :label="item.repositoryName"
             :value="item.id"/>
         </el-select>
-        <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
+        <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
           <el-option
-            v-for="(item, index) in jobs"
+            v-for="(item, index) in roles"
             :key="index"
-            :label="item.categoryName"
+            :label="item.roleName"
             :value="item.id"/>
         </el-select>
         <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
@@ -123,6 +123,7 @@
 <script>
 import { regionlist, searchRepository } from '@/api/public'
 import { getemplist, getdeptlist, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getrolelist } from '@/api/employee'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 var _that
@@ -149,6 +150,7 @@ export default {
       getRowKeys(row) {
         return row.id
       },
+      roles: [],
       select_orderId: [],
       select_order_number: [],
       // 职位搜索时参数
@@ -254,6 +256,13 @@ export default {
           this.jobs = res.data.data.content.list
         } else {
           console.log('职位列表出错')
+        }
+      })
+      getrolelist().then(res => {
+        if (res.data.ret === 200) {
+          this.roles = res.data.data.content
+        } else {
+          console.log('角色列表出错')
         }
       })
     },

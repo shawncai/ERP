@@ -3803,6 +3803,10 @@ export default {
     landline: 'landline'
   },
   otherlanguage: {
+    zc: '整车',
+    pj: '配件',
+    jgj: '紧固件',
+    dc: '电池',
     newvoucher: '凭证',
     md: 'branch',
     qy: 'area',
