@@ -253,6 +253,22 @@ export default {
     },
     // 保存操作
     handlesave() {
+      console.log('this.personalForm', this.personalForm)
+      const repordstors = this.$refs.editable.getRecords()
+      if (repordstors.length === 0 && this.personalForm.repositoryFlag === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择适用门店',
+          offset: 100
+        })
+        return false
+      }
+      console.log('repordstors', repordstors)
+      const needrotys = repordstors.map(item => {
+        return item.id
+      })
+      this.personalForm.suitRepositorys = ',' + needrotys.join(',') + ','
+      console.log('this.personalForm.suitRepositorys', this.personalForm.suitRepositorys)
       const EnterDetail = this.$refs.editable2.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
@@ -315,6 +331,7 @@ export default {
           for (const i in EnterDetail) {
             const obj = Object.assign(EnterDetail[i], this.personalForm)
             const parms = JSON.stringify(obj)
+            console.log(obj)
             addPackage(parms, parms2).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

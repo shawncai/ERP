@@ -192,6 +192,7 @@ export function searchRepository(query, query2, query3) {
   if (query3 !== '' && query3 !== null && query3 !== undefined) {
     params.append('regionIds', query3) // 你要传给后台的参数值 key/value
   }
+  params.append('iseffective', 1) // 你要传给后台的参数值 key/value
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({
@@ -213,6 +214,7 @@ export function searchRepository2(query, query2, query3) {
   if (query3 !== '' && query3 !== null && query3 !== undefined) {
     params.append('regionIds', query3) // 你要传给后台的参数值 key/value
   }
+  params.append('iseffective', 1) // 你要传给后台的参数值 key/value
   params.append('pagenum', 1) // 你要传给后台的参数值 key/value
   params.append('pagesize', 99999) // 你要传给后台的参数值 key/value
   return request({

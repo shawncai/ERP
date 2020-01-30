@@ -283,11 +283,27 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.packageSubVos
+      delete this.personalForm.repositoryVos
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      const repordstors = this.$refs.editable.getRecords()
+      if (repordstors.length === 0 && this.personalForm.repositoryFlag === 2) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择适用门店',
+          offset: 100
+        })
+        return false
+      }
+      console.log('repordstors', repordstors)
+      const needrotys = repordstors.map(item => {
+        return item.id
+      })
+      this.personalForm.suitRepositorys = ',' + needrotys.join(',') + ','
       const EnterDetail = this.$refs.editable2.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({

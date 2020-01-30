@@ -3953,6 +3953,7 @@ export default {
     fx: '方向',
     transferReceipt: '门店收到公司转账',
     transferExpense: '门店转给公司',
-    lrqcsj: '录入期初数据'
+    lrqcsj: '录入期初数据',
+    ygssmdm: '员工所属门店'
   }
 }

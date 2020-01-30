@@ -81,7 +81,7 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
@@ -105,6 +105,11 @@
         <el-table-column :label="$t('Storagemove.moveperson')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.employeeName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('collectAndPayDetail.ygssmdm')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.empRepositoryName }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('CheckSet.checkTools')" :resizable="false" align="center" min-width="200">

@@ -97,6 +97,11 @@
           <span>{{ scope.row.gender | genderFilter }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.roleName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.deptName }}</span>
