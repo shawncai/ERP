@@ -392,7 +392,8 @@ export default {
     AddMemorandum: '新建备忘录',
     MemorandumList: '备忘录列表',
     collectAndPay: '收付款汇总',
-    collectAndPayDetail: '收付款明细'
+    collectAndPayDetail: '收付款明细',
+    NewAccessoriesOut: '新建配件出库单'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
