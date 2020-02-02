@@ -3,20 +3,25 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
               <el-input v-model="getemplist.name" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="5" style="margin-left: 10%">
-            <el-form-item :label="$t('updates.stat')" label-width="100px">
-              <el-select v-model="getemplist.stat" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
-                <el-option :label="$t('updates.qy')" value="1"/>
-                <el-option value="2" label="未启用"/>
+          <el-col :span="4" style="margin-left: 10%">
+            <el-form-item :label="$t('Coupon.money')" label-width="100px">
+              <el-input-number v-model="getemplist.money" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 160px"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" style="margin-left: 10%">
+            <el-form-item :label="$t('collectAndPay.type')" label-width="100px">
+              <el-select v-model="getemplist.type" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
+                <el-option value="1" label="全部门店"/>
+                <el-option value="2" label="部分门店"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 20%">
+          <el-col :span="3" style="margin-left: 8%">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -69,6 +74,21 @@
             <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('collectAndPay.type')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.type | statFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('collectAndPay.number')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.number }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Coupon.money')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.money }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Coupon.beginTime')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.beginTime }}</span>
@@ -79,32 +99,22 @@
             <span>{{ scope.row.endTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Coupon.couponStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('collectAndPay.send')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.couponStat }}</span>
+            <span>{{ scope.row.number - scope.row.leftNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Coupon.received')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('collectAndPay.left')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.received }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Coupon.used')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.used }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Coupon.stat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stat | statFilter }}</span>
+            <span>{{ scope.row.leftNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['215-216-217-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
             <el-button v-show="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['215-216-217-2']" v-show="scope.row.number - scope.row.leftNumber === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -142,8 +152,8 @@ export default {
   filters: {
     statFilter(status) {
       const statusMap = {
-        1: '启用',
-        2: '未启用'
+        1: '全部门店',
+        2: '部分门店'
       }
       return statusMap[status]
     },

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 添加领料单
-export function createCoupon(query, query2, query3) {
+export function createCoupon(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('Json', query) // 你要传给后台的参数值 key/value
@@ -19,8 +19,11 @@ export function couponlist(query) {
   if (query.name !== '' && query.name !== null && query.name !== undefined) {
     params.append('name', query.name) // 你要传给后台的参数值 key/value
   }
-  if (query.stat !== '' && query.stat !== null && query.stat !== undefined) {
-    params.append('stat', query.stat) // 你要传给后台的参数值 key/value
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.money !== '' && query.money !== null && query.money !== undefined) {
+    params.append('money', query.money) // 你要传给后台的参数值 key/value
   }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value

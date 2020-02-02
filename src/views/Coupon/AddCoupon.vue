@@ -18,13 +18,55 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.requireMoney')" prop="requireMoney" style="width: 100%;">
-                  <el-input-number v-model="personalForm.requireMoney" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
+                <el-form-item :label="$t('collectAndPay.number')" prop="number" style="width: 100%;">
+                  <el-input-number v-model="personalForm.number" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.beginTime')" prop="beginTime" style="width: 100%;">
+                <el-form-item :label="$t('collectAndPay.type')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.type" style="margin-left: 18px;width: 210px" @change="changeType">
+                    <el-radio :label="1" style="width: 100px">全部门店</el-radio>
+                    <el-radio :label="2">部分门店</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.repostiryName')" style="width: 100%;">
+                  <el-input :disabled="repo" v-model="personalForm.itemName" :value="personalForm.itemName" placeholder="请选择仓库" filterable clearable style="margin-left: 18px;width: 200px;" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname($event)"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.effectiveType')" prop="effectiveType" style="width: 100%;">
+                  <el-select v-model="personalForm.effectiveType" multiple collapse-tags style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="分期付款"/>
+                    <el-option value="2" label="购车"/>
+                    <el-option value="3" label="配件"/>
+                    <el-option value="4" label="电池"/>
+                    <el-option value="5" label="全部适用"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.isRepeat')" prop="isDiscount" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isRepeat" style="margin-left: 18px;width: 210px">
+                    <el-radio :label="1" style="width: 100px">Yes</el-radio>
+                    <el-radio :label="2">No</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.effectiveTime')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.effectiveTime" style="margin-left: 18px;width: 225px" @change="changeTime">
+                    <el-radio :label="1" style="width: 100px">限制时间</el-radio>
+                    <el-radio :label="2">不限制时间</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Coupon.beginTime')" style="width: 100%;">
                   <el-date-picker
+                    :disabled="addpro"
                     v-model="personalForm.beginTime"
                     :picker-options="pickerOptions1"
                     type="date"
@@ -33,8 +75,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.endTime')" prop="endTime" style="width: 100%;">
+                <el-form-item :label="$t('Coupon.endTime')" style="width: 100%;">
                   <el-date-picker
+                    :disabled="addpro"
                     v-model="personalForm.endTime"
                     :picker-options="pickerOptions1"
                     type="date"
@@ -42,125 +85,14 @@
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.beginClock')" style="width: 100%;">
-                  <el-input-number v-model="personalForm.beginClock" :precision="0" :controls="false" :step="0.1" :min="0" :max="12" style="margin-left: 11px;width: 200px;text-align: left"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.endClock')" style="width: 100%;">
-                  <el-input-number v-model="personalForm.endClock" :precision="0" :controls="false" :step="0.1" :min="0" :max="12" style="margin-left: 11px;width: 200px;text-align: left"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.isDiscount')" prop="isDiscount" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isDiscount" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">YES</el-radio>
-                    <el-radio :label="2">NO</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.isToday')" prop="isToday" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isToday" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">YES</el-radio>
-                    <el-radio :label="2">NO</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.applicableWeek')" style="width: 100%;">
-                  <el-select v-model="personalForm.applicableWeek" multiple collapse-tags style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="周一"/>
-                    <el-option value="2" label="周二"/>
-                    <el-option value="3" label="周三"/>
-                    <el-option value="4" label="周四"/>
-                    <el-option value="5" label="周五"/>
-                    <el-option value="6" label="周六"/>
-                    <el-option value="7" label="周日"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Coupon.content')" style="width: 100%;">
-                  <el-input v-model="personalForm.content" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.sysp') }}</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
-          <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
-          <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
-          <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
-          <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-          <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
-        </div>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            :summary-method="getSummaries"
-            class="click-table1"
-            stripe
-            border
-            size="medium"
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="code" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" />
-            <el-editable-column :label="$t('updates.jbdw')" prop="purchaseMeasurement" align="center" />
-            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
-          </el-editable>
-        </div>
-      </el-card>
-      <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
-      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
-        <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
-          <el-form-item label-width="100px;" style="    width: 500px;">
-            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
-              <el-table
-                :data="list111"
-                height="220"
-                style="width: 100%;"
-              >
-                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.repositoryName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.productName }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
-                  <template slot-scope="scope">
-                    <span >{{ scope.row.ableStock }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
     </div>
   </div>
 </template>
@@ -193,6 +125,8 @@ export default {
   components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     return {
+      addpro: false,
+      repo: true,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -276,9 +210,11 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        effectiveTime: 1,
+        type: 1,
+        isRepeat: 2,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isDiscount: 1,
         isToday: 1,
@@ -289,6 +225,9 @@ export default {
       personalrules: {
         name: [
           { required: true, message: '请输入优惠券名称', trigger: 'change' }
+        ],
+        number: [
+          { required: true, message: '请输入发行量', trigger: 'change' }
         ],
         money: [
           { required: true, message: '请输入面值', trigger: 'change' }
@@ -327,6 +266,25 @@ export default {
     _that = this
   },
   methods: {
+    changeType() {
+      console.log('this.personalForm.type', this.personalForm.type)
+      if (this.personalForm.type === 1) {
+        this.repo = true
+        this.personalForm.repositoryId = ''
+        this.personalForm.itemName = ''
+      } else {
+        this.repo = false
+      }
+    },
+    changeTime() {
+      if (this.personalForm.effectiveTime === 1) {
+        this.addpro = false
+      } else {
+        this.addpro = true
+        this.personalForm.beginTime = ''
+        this.personalForm.endTime = ''
+      }
+    },
     checkStock(row) {
       console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
       if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
@@ -526,8 +484,17 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.id
+      console.log(val)
+      const name = []
+      const id = []
+      for (const i in val) {
+        name.push(val[i].repositoryName)
+        id.push(val[i].id)
+      }
+      console.log(name, id)
+      this.personalForm.itemName = name.join(',')
+      this.personalForm.repositoryId = id.join(',')
+      console.log(this.personalForm)
     },
     // 出库人focus事件触发
     handlechooseAccept() {
@@ -952,16 +919,22 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        effectiveTime: 1,
+        type: 1,
+        isRepeat: 2,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isDiscount: 1,
         isToday: 1,
         stat: 1,
-        applicableWeek: [],
+        effectiveType: [],
         requireMoney: 0
       }
+      this.addpro = false
+      this.repo = true
+      this.personalForm.repositoryId = ''
+      this.personalForm.itemName = ''
     },
     // 深拷贝
     deepClone(obj) {
@@ -973,94 +946,50 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          let applicableProductId = ''
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            console.log('id', elem.id)
-            if (elem.id !== null || elem.id !== '' || elem.id !== undefined) {
-              applicableProductId = applicableProductId + ',' + elem.id
+          if (this.personalForm.type === 2) {
+            if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === null || this.personalForm.repositoryId === '') {
+              this.$notify.error({
+                title: '错误',
+                message: '请选择门店',
+                offset: 100
+              })
+              return false
             }
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.category === null || elem.category === '' || elem.category === undefined) {
-              delete elem.category
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-              delete elem.kpiGrade
-            }
-            if (elem.point === null || elem.point === '' || elem.point === undefined) {
-              delete elem.point
-            }
-            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
-            }
-            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
-            }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-              delete elem.carCode
-            }
-            if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-              delete elem.motorCode
-            }
-            if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-              delete elem.batteryCode
-            }
-            return elem
-          })
-          console.log('resulet', applicableProductId)
-          if (applicableProductId !== '') {
-            applicableProductId = applicableProductId + ','
           }
-          this.personalForm.applicableProductId = applicableProductId
+          if (this.personalForm.effectiveType === undefined || this.personalForm.effectiveType === null || this.personalForm.effectiveType === '' || this.personalForm.effectiveType.length === 0) {
+            this.$notify.error({
+              title: '错误',
+              message: '请选择适用类别',
+              offset: 100
+            })
+            return false
+          }
+          if (this.personalForm.effectiveTime === 1) {
+            if (this.personalForm.beginTime === undefined || this.personalForm.beginTime === null || this.personalForm.beginTime === '') {
+              this.$notify.error({
+                title: '错误',
+                message: '请选择开始时间',
+                offset: 100
+              })
+              return false
+            }
+            if (this.personalForm.endTime === undefined || this.personalForm.endTime === null || this.personalForm.endTime === '') {
+              this.$notify.error({
+                title: '错误',
+                message: '请选择截止时间',
+                offset: 100
+              })
+              return false
+            }
+            if (this.personalForm.endTime <= this.personalForm.beginTime) {
+              this.$notify.error({
+                title: '错误',
+                message: '截止时间需要大于开始时间',
+                offset: 100
+              })
+              return false
+            }
+          }
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -1070,6 +999,8 @@ export default {
               delete Data[key]
             }
           }
+          this.personalForm.effectiveType = this.personalForm.effectiveType.join(',')
+          console.log('this.personalForm.effectiveType', this.personalForm.effectiveType)
           const parms = JSON.stringify(Data)
           createCoupon(parms).then(res => {
             console.log(res)
@@ -1081,7 +1012,6 @@ export default {
                 offset: 100
               })
               this.restAllForm()
-              this.$refs.editable.clear()
               this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({

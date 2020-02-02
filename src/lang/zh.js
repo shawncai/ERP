@@ -851,7 +851,7 @@ export default {
     applicableRepositoryId: '使用门店',
     applicableProductId: '使用商品',
     stat: '状态',
-    received: '已领取',
+    received: '已发放',
     used: '已使用',
     couponStat: '优惠券状态',
     couponType: '优惠券类型',
@@ -3942,7 +3942,14 @@ export default {
     outlay: '支出单',
     totalPay: '总支出',
     balance: '余额',
-    payModeName: '结算方式'
+    payModeName: '结算方式',
+    type: '优惠券类型',
+    effectiveTime: '有效期',
+    effectiveType: '适用类别',
+    isRepeat: '是否可以叠加',
+    number: '发行量',
+    send: '已发放数量',
+    left: '剩余数量'
   },
   collectAndPayDetail: {
     name: '名称',

@@ -37,18 +37,24 @@
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </div>
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
-      @current-change="handleCurrentChange">
+      @current-change="handleCurrentChange"
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        :reserve-selection="true"
+        type="selection"
+        width="55"/>
       <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
@@ -91,6 +97,7 @@ import { regionlist, getcountrylist } from '@/api/public'
 import { searchRepCategory, searchRepository2 } from '@/api/Repository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
@@ -119,10 +126,17 @@ export default {
   },
   data() {
     return {
-      // 仓库弹窗控制
-      repositoryVisible: this.repositorycontrol,
+      getRowKeys(row) {
+        return row.id
+      },
+      select_orderId: [],
+      select_order_number: [],
+      // 批量操作
+      moreaction: '',
       // 转化数据
       choosedata: '',
+      // 仓库弹窗控制
+      repositoryVisible: this.repositorycontrol,
       // 类型列表
       types: [],
       // 国家列表
@@ -175,6 +189,19 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
+    },
     getlist() {
       // 国家列表
       getcountrylist().then(res => {
@@ -217,6 +244,12 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.repositoryVisible = true
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '出错了',
+            offset: 100
+          })
         }
       })
     },
@@ -236,7 +269,7 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
-      this.$emit('repositoryname', this.choosedata)
+      this.$emit('repositoryname', this.moreaction)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
