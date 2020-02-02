@@ -7,12 +7,12 @@
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
                     <el-option value="1" label="销售订单"/>
@@ -23,25 +23,25 @@
                     <el-option value="6" label="二手回车单"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col v-if="personalForm.sourceType === '6'" :span="6" >
+              </el-col> -->
+              <!-- <el-col v-if="personalForm.sourceType === '6'" :span="6" >
                 <el-form-item :label="$t('SaleOut.ershouNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
                     <el-option value="1" label="经销商"/>
                     <el-option value="2" label="零售"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="width: 100%;">
                   <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
@@ -59,7 +59,7 @@
                   <el-input v-model="personalForm.customerAccount" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col> -->
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="width: 100%;">
                   <el-select v-model="personalForm.outType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="销售出库"/>
@@ -67,14 +67,14 @@
                     <el-option value="3" label="以旧换新"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="现金" />
@@ -91,8 +91,8 @@
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
                   <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
@@ -106,8 +106,8 @@
                     </template>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceType')" style="width: 100%;">
                   <el-select ref="clear2" v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
@@ -122,8 +122,8 @@
                     </template>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
                   <el-select ref="clear3" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
@@ -138,31 +138,31 @@
                     </template>
                   </el-select>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              </el-col> -->
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
                   <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="width:100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.address')" style="width: 100%;">
                   <el-input v-model="personalForm.address" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outPersonId')" style="width: 100%;">
                   <el-input v-model="outPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col> -->
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.outDate"
@@ -171,7 +171,7 @@
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="width: 100%;">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
@@ -227,11 +227,11 @@
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
+          <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
           <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
           <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
-          <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
+          <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/> -->
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
@@ -376,7 +376,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+      <!-- <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
@@ -418,12 +418,7 @@
                 <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <!--            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>-->
-            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>-->
-            <!--            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>-->
-            <!--            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
-            <!--            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -441,7 +436,7 @@
             </el-editable-column>
           </el-editable>
         </div>
-      </el-card>
+      </el-card> -->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
@@ -487,7 +482,7 @@
                   <el-input v-model="heji8" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
                   <el-input v-model="heji9" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
@@ -496,7 +491,7 @@
                 <el-form-item :label="$t('SaleOut.heji10')" style="width: 100%;">
                   <el-input v-model="heji10" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
                   <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px"/>
@@ -554,7 +549,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
-import MyDetail from './components/MyDetail'
+import MyDetail from './components/MyDetail3'
 import { searchCategory } from '@/api/Supplier'
 import MyApply from './components/MyApply'
 import MySupplier from '../Product/components/MySupplier'
@@ -573,7 +568,7 @@ import MyRecycling from './components/MyRecycling'
 import MyPackage from './components/MyPackage'
 var _that
 export default {
-  name: 'AddSaleOut',
+  name: 'NewAccessoriesOut',
   components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -748,6 +743,7 @@ export default {
         sendType: '2',
         sendDate: null,
         outDate: null,
+        saleType: '1',
         sourceType: '5',
         otherMoney: '0',
         couponSupport: 0,
@@ -1518,12 +1514,12 @@ export default {
       }).forEach(function(elem) {
         elem.quantity = 1
       })
-      const EnterDetail2 = this.$refs.editable2.getRecords()
-      EnterDetail2.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        elem.quantity = 1
-      })
+      //   const EnterDetail2 = this.$refs.editable2.getRecords()
+      //   EnterDetail2.map(function(elem) {
+      //     return elem
+      //   }).forEach(function(elem) {
+      //     elem.quantity = 1
+      //   })
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
     },
@@ -2096,18 +2092,25 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        salePersonId: this.$store.getters.userId,
+        address: '',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '2',
         sendType: '2',
-        sendDate: null,
-        outDate: null,
-        sourceType: '',
-        otherMoney: '',
+        saleType: '1',
+        sourceType: '5',
+        otherMoney: '0',
+        couponSupport: 0,
+        outType: '1',
         saleRepositoryId: this.$store.getters.repositoryId,
-        salePersonId: this.$store.getters.userId,
+        pointSupport: 0,
+        ridMoney: 0,
+        ridBikeMoney: 0,
+        advanceMoney: 0,
+        receiveMoney: 0,
         isInvoice: 1
       }
       this.customerId = null
@@ -2191,7 +2194,7 @@ export default {
             })
             return false
           }
-          const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+          //   const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',
@@ -2277,43 +2280,43 @@ export default {
             }
             return elem
           })
-          EnterDetail2.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-              delete elem.batch
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.category === null || elem.category === '' || elem.category === undefined) {
-              delete elem.category
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            return elem
-          })
+          //   EnterDetail2.map(function(elem) {
+          //     return elem
+          //   }).forEach(function(elem) {
+          //     if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          //       delete elem.batch
+          //     }
+          //     if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          //       delete elem.productName
+          //     }
+          //     if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          //       delete elem.productCode
+          //     }
+          //     if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          //       delete elem.category
+          //     }
+          //     if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          //       delete elem.unit
+          //     }
+          //     if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          //       delete elem.color
+          //     }
+          //     if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          //       delete elem.type
+          //     }
+          //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          //       delete elem.money
+          //     }
+          //     if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          //       delete elem.quantity
+          //     }
+          //     if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          //       delete elem.salePrice
+          //     }
+          //     return elem
+          //   })
           const parms2 = JSON.stringify(EnterDetail)
-          const parms3 = JSON.stringify(EnterDetail2)
+          const parms3 = ''
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -2335,7 +2338,7 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
-              this.$refs.editable2.clear()
+              //   this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()

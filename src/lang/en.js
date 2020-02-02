@@ -383,7 +383,8 @@ export default {
     AccessComponent: '维修零件领用单',
     AccessComponentlist: 'claim list',
     AddAccessComponent: 'parts claim form',
-    AccountBalance: '科目余额表'
+    AccountBalance: '科目余额表',
+    NewAccessoriesOut: '新建配件出库单'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
