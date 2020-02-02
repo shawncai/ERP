@@ -2863,7 +2863,7 @@ export const asyncRouterMap = [
         path: 'CouponList',
         component: () => import('@/views/Coupon/CouponList'),
         name: 'CouponList',
-        meta: { title: 'CouponList', noCache: true, roles: ['215-216-218-2', '215-216-218-3', '215-216-218-4', '215-216-218-5', '215-216-218-6', '215-216-218-7', '215-216-218-8', '215-216-218-9'] }
+        meta: { title: 'CouponList', noCache: true, roles: ['215-216-217-2', '215-216-217-3', '215-216-217-4', '215-216-217-5', '215-216-217-6', '215-216-217-7', '215-216-217-8', '215-216-217-9'] }
       }
     ]
   },
