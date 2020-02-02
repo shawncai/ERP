@@ -2,11 +2,9 @@
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-select v-model="getemplist.type" :placeholder="$t('stockOrderCount.type')" :value="getemplist.type" class="filter-item" style="width: 120px" @keyup.enter.native="handleFilter" @change="changeName">
-        <el-option value="1" label="仓库"/>
-        <!-- <el-option value="2" label="制单人"/>
-        <el-option value="3" label="审核人"/>
-        <el-option value="4" label="经办人"/> -->
-        <!--                <el-option value="5" label="日期分组"/>-->
+        <el-option value="3" label="年"/>
+        <el-option value="4" label="月"/>
+        <el-option value="5" label="日"/>
       </el-select>
 
       <el-date-picker
@@ -121,7 +119,7 @@
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
   </div>
 </template>
@@ -248,7 +246,7 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '1'
+        repositoryId: this.$store.getters.repositoryId
       },
       // 传给组件的数据
       personalForm: {},
@@ -260,7 +258,7 @@ export default {
   },
 
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.changeName()
   },
   beforeCreate() {
@@ -306,7 +304,7 @@ export default {
         this.first = '日期分组'
         this.second = true
       }
-      this.getlist()
+      // this.getlist()
     },
     checkPermission,
     // 不让勾选
@@ -385,13 +383,13 @@ export default {
         this.getemplist.beginTime = ''
         this.getemplist.endTime = ''
       } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
       }
       collectAndPay(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()
