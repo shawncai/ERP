@@ -34,6 +34,50 @@ export function couponlist(query) {
   })
 }
 
+// 领料单列表
+export function searchProvide(query) {
+  var params = new URLSearchParams()
+  if (query.couponName !== '' && query.couponName !== null && query.couponName !== undefined) {
+    params.append('couponName', query.couponName) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryName !== '' && query.repositoryName !== null && query.repositoryName !== undefined) {
+    params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/coupon/searchProvide',
+    method: 'post',
+    data: params
+  })
+}
+
+// 领料单列表
+export function searchUse(query) {
+  var params = new URLSearchParams()
+  if (query.couponName !== '' && query.couponName !== null && query.couponName !== undefined) {
+    params.append('couponName', query.couponName) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryName !== '' && query.repositoryName !== null && query.repositoryName !== undefined) {
+    params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.couponId !== '' && query.couponId !== null && query.couponId !== undefined) {
+    params.append('couponId', query.couponId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/coupon/searchUse',
+    method: 'post',
+    data: params
+  })
+}
 // 删除领料单
 export function deletecoupon(query, query2) {
   var params = new URLSearchParams()

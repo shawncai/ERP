@@ -312,6 +312,8 @@ export default {
     Coupon: '优惠券',
     AddCoupon: '新增优惠券',
     CouponList: '优惠券管理',
+    CouponProvideList: '优惠发放记录管理',
+    CouponUseList: '优惠券使用记录',
     Package: '组合套餐',
     AddPackage: '新建组合套餐',
     PackageList: '组合套餐列表',
@@ -3950,7 +3952,15 @@ export default {
     isRepeat: '是否可以叠加',
     number: '发行量',
     send: '已发放数量',
-    left: '剩余数量'
+    left: '剩余数量',
+    usedNumber: '已使用数量',
+    couponName: '优惠券名称',
+    repositoryName: '门店名称',
+    couponNumber: '优惠券码',
+    customerName: '客户姓名',
+    useDate: '使用时间',
+    actualUseMoney: '实际抵扣金额',
+    leftMoney: '剩余金额'
   },
   collectAndPayDetail: {
     name: '名称',

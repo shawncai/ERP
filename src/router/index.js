@@ -2850,7 +2850,7 @@ export const asyncRouterMap = [
       title: 'Coupon',
       icon: 'kehuyingxiao',
       type: 5,
-      roles: ['215-216-218-1', '215-216-218-4']
+      roles: ['215-216-218-1', '215-216-217-4', '215-216-220-4', '215-216-219-4']
     },
     children: [
       {
@@ -2864,6 +2864,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Coupon/CouponList'),
         name: 'CouponList',
         meta: { title: 'CouponList', noCache: true, roles: ['215-216-217-2', '215-216-217-3', '215-216-217-4', '215-216-217-5', '215-216-217-6', '215-216-217-7', '215-216-217-8', '215-216-217-9'] }
+      },
+      {
+        path: 'CouponProvideList',
+        component: () => import('@/views/Coupon/CouponProvideList'),
+        name: 'CouponProvideList',
+        meta: { title: 'CouponProvideList', noCache: true, roles: ['215-216-220-4'] }
+      },
+      {
+        path: 'CouponUseList',
+        component: () => import('@/views/Coupon/CouponUseList'),
+        name: 'CouponUseList',
+        meta: { title: 'CouponUseList', noCache: true, roles: ['215-216-219-4'] }
       }
     ]
   },
