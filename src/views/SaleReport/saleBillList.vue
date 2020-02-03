@@ -56,8 +56,11 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        v-loading="listLoading"
         :data="list"
+        :summary-method="getSummaries2"
         border
+        show-summary
         style="width: 100%">
         <!--        <el-table-column-->
         <!--          :label="$t('saleBillList.repositoryName')"-->
@@ -292,6 +295,36 @@ export default {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        if (index === 1) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     gettype() {
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
@@ -365,12 +398,16 @@ export default {
       this.getemplist.beginTime = this.date[0] + ' 00:00:00'
       this.getemplist.endTime = this.date[1] + ' 23:59:59'
       console.log(this.getemplist)
+      this.listLoading = true
       saleBillList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
         } else {
           // this.restFilter()
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 仓库列表focus事件触发
