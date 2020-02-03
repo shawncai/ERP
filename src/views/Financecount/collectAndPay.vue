@@ -2,12 +2,14 @@
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-select v-model="getemplist.type" :placeholder="$t('stockOrderCount.type')" :value="getemplist.type" class="filter-item" style="width: 120px" @keyup.enter.native="handleFilter" @change="changeName">
-        <el-option value="1" label="仓库"/>
-        <!-- <el-option value="2" label="制单人"/>
-        <el-option value="3" label="审核人"/>
-        <el-option value="4" label="经办人"/> -->
-        <!--                <el-option value="5" label="日期分组"/>-->
+        <el-option value="1" label="所有仓库"/>
+        <el-option value="3" label="年"/>
+        <el-option value="4" label="月"/>
+        <el-option value="5" label="日"/>
       </el-select>
+
+      <el-input v-if="second" v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-date-picker
         v-model="date"
@@ -24,9 +26,12 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        v-loading="listLoading"
         :data="list"
         :cell-style="myTable"
         :header-cell-style="myytablehead"
+        :summary-method="getSummaries2"
+        show-summary
         border
         style="width: 100%">
         <!--        <el-table-column-->
@@ -35,9 +40,18 @@
         <!--          width="240"-->
         <!--          align="center"/>-->
         <el-table-column
+          v-if="getemplist.type !== '1'"
+          :label="first"
+          prop="time"
+          width="240"
+          fixed
+          align="center"/>
+        <el-table-column
+          v-if="getemplist.type === '1'"
           :label="first"
           prop="name"
           width="240"
+          fixed
           align="center"/>
         <!--        <el-table-column-->
         <!--          :label="$t('collectAndPay.time')"-->
@@ -121,7 +135,7 @@
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
   </div>
 </template>
@@ -183,6 +197,8 @@ export default {
   },
   data() {
     return {
+      // 加载表格
+      listLoading: true,
       categoryId: '',
       first: '',
       second: false,
@@ -242,8 +258,6 @@ export default {
       total: 0,
       // 表格识别
       tableKey: 0,
-      // 加载表格
-      listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
@@ -260,15 +274,50 @@ export default {
   },
 
   mounted() {
-    this.getlist()
+    this.getdatatime()
     this.changeName()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
     myytablehead({ row, column, rowIndex, columnIndex }) {
-      console.log('myindex=================>', row, column, rowIndex, columnIndex)
+      // console.log('myindex=================>', row, column, rowIndex, columnIndex)
       if (columnIndex === 12) {
         return 'border-right:3px solid red'
       }
@@ -288,25 +337,27 @@ export default {
     changeName() {
       if (this.getemplist.type === '1') {
         this.first = '仓库'
+        this.restFilter2()
         this.second = false
       }
-      if (this.getemplist.type === '2') {
+      if (this.getemplist.type === '6') {
         this.first = ' 制单人'
         this.second = false
       }
       if (this.getemplist.type === '3') {
-        this.first = '审核人'
-        this.second = false
+        this.first = '日期'
+        this.second = true
       }
       if (this.getemplist.type === '4') {
-        this.first = '经办人'
+        this.first = '日期'
         this.second = true
       }
       if (this.getemplist.type === '5') {
-        this.first = '日期分组'
+        this.first = '日期'
         this.second = true
       }
-      this.getlist()
+      this.list = []
+      // this.getlist()
     },
     checkPermission,
     // 不让勾选
@@ -342,16 +393,40 @@ export default {
     updatecountry() {
       this.getlist()
     },
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      console.log('currentdate', currentdate)
+      // this.personalForm.sendDate = currentdate
+      // this.personalForm.outDate = currentdate
+      this.getemplist.beginTime = currentdate + ' 00:00:00'
+      this.getemplist.endTime = currentdate + ' 23:59:59'
+      this.getlist()
+    },
     getlist() {
       const para = {}
       para.iseffective = 1
       para.type = 1
-      para.pagenum = 1
-      para.pagesize = 999
-      searchStockCategory(para).then(res => {
+      this.listLoading = true
+      // para.pagenum = 1
+      // para.pagesize = 999
+      searchStockCategory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
       // 物料需求计划列表数据
       this.listLoading = true
@@ -371,8 +446,8 @@ export default {
       this.getemplist.customerId = ''
     },
     restFilter2() {
-      this.stockPersonId = ''
-      this.getemplist.stockPersonId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
     },
     restFilter3() {
       this.handlePersonId = ''
@@ -380,22 +455,83 @@ export default {
     },
     // 搜索
     handleFilter() {
+      console.log('this.date', this.date)
+      if (this.getemplist.type === '1' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请先选择日期',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '3' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '3' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择日期',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '4' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '4' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择日期',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '5' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.type === '5' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
+        this.$notify.error({
+          title: '错误',
+          message: '请选择日期',
+          offset: 100
+        })
+        return false
+      }
       this.getemplist.pageNum = 1
-      if (this.date === null || this.date === undefined || this.date === '') {
+      if (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0) {
         this.getemplist.beginTime = ''
         this.getemplist.endTime = ''
       } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
       }
+      this.listLoading = true
       collectAndPay(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 采购人focus事件
@@ -460,15 +596,15 @@ export default {
         }
       }
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.repositoryId = val.repositoryName
-      this.getemplist.repositoryId = val.id
-    },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+    // repositoryname(val) {
+    //   console.log(val)
+    //   this.repositoryId = val.repositoryName
+    //   this.getemplist.repositoryId = val.id
+    // },
     // 部门列表focus刷新
     updatedept() {
       this.getlist()
