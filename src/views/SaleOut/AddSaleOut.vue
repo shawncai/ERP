@@ -197,7 +197,7 @@
               </el-col>
               <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
-                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 150px" @blur="changeCoupon"/>
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
                 </el-form-item>
               </el-col>
@@ -1103,15 +1103,19 @@ export default {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - this.personalForm.couponMoney)
+        const needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
         // const mon = this.personalForm.receivableMoney - this.personalForm.couponMoney
         // this.$set(this.personalForm, 'receivableMoney', mon)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+        console.log('123', 123)
         this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
+        console.log('234', 234)
         this.personalForm.receivableMoney = this.receivableMoney
       } else {
+        console.log('456', 456)
         this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
 
