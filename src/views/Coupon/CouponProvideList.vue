@@ -3,25 +3,17 @@
     <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
+          <el-col :span="5">
             <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
-              <el-input v-model="getemplist.name" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.couponName" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 10%">
-            <el-form-item :label="$t('Coupon.money')" label-width="100px">
-              <el-input-number v-model="getemplist.money" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 160px"/>
+          <el-col :span="5" style="margin-left: 10%">
+            <el-form-item :label="$t('collectAndPay.repositoryName')" label-width="100px">
+              <el-input v-model="getemplist.repositoryName" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="4" style="margin-left: 10%">
-            <el-form-item :label="$t('collectAndPay.type')" label-width="100px">
-              <el-select v-model="getemplist.type" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
-                <el-option value="1" label="全部门店"/>
-                <el-option value="2" label="部分门店"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 8%">
+          <el-col :span="5" style="margin-left: 8%">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
           </el-col>
@@ -29,17 +21,7 @@
       </el-row>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- 新建操作 -->
-      <el-button v-permission="['215-216-217-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['215-216-220-102']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">发放</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -53,64 +35,41 @@
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
-        <el-table-column
-          :selectable="selectInit"
-          type="selection"
-          width="55"
-          fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <!--        门店名称、优惠券名称、面值、发放数量、已使用数量、操作-->
+        <!--        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="50">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>-->
+        <!--          </template>-->
+        <!--          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>-->
+        <!--        </el-table-column>-->
+        <el-table-column :label="$t('collectAndPay.repositoryName')" :resizable="false" fixed="left" align="center" min-width="200">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
-          </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
-        </el-table-column>
-        <el-table-column :label="$t('Coupon.name')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('collectAndPay.type')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('collectAndPay.couponName')" :resizable="false" prop="judgeStat" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.type | statFilter }}</span>
+            <span>{{ scope.row.couponName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('collectAndPay.number')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Coupon.money')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('Coupon.money')" :resizable="false" prop="judgeStat" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.money }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Coupon.beginTime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('collectAndPay.number')" :resizable="false" prop="judgeStat" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.beginTime }}</span>
+            <span>{{ scope.row.provideNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Coupon.endTime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('collectAndPay.usedNumber')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.endTime }}</span>
+            <span>{{ scope.row.usedNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('collectAndPay.send')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.number - scope.row.leftNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('collectAndPay.left')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.leftNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-permission="['215-216-217-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
-            <el-button v-show="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['215-216-217-2']" v-show="scope.row.number - scope.row.leftNumber === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['215-216-220-5']" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -8px;">查看明细</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -124,7 +83,7 @@
 </template>
 
 <script>
-import { couponlist, deletecoupon, updatecoupon } from '@/api/Coupon'
+import { searchProvide, deletecoupon, updatecoupon } from '@/api/Coupon'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -142,7 +101,7 @@ import MyRepository from './components/MyRepository'
 
 var _that
 export default {
-  name: 'CouponList',
+  name: 'CouponProvideList',
   directives: { waves, permission, permission2 },
   components: { MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
@@ -332,7 +291,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      couponlist(this.getemplist).then(res => {
+      searchProvide(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -368,7 +327,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      couponlist(this.getemplist).then(res => {
+      searchProvide(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
