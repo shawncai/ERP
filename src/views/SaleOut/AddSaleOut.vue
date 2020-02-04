@@ -197,7 +197,7 @@
               </el-col>
               <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
-                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 100px" type="number"/>
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 150px" @blur="changeCoupon"/>
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
                 </el-form-item>
               </el-col>
@@ -548,6 +548,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { customerlist2 } from '@/api/Customer'
+import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
@@ -764,7 +765,8 @@ export default {
         ridBikeMoney: 0,
         advanceMoney: 0,
         receiveMoney: 0,
-        isInvoice: 1
+        isInvoice: 1,
+        couponMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -897,6 +899,24 @@ export default {
     _that = this
   },
   methods: {
+    changeCoupon() {
+      console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
+      const parms2 = JSON.stringify(this.personalForm.couponSupports)
+      returnMoney(parms2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.personalForm.couponMoney = res.data.data.content
+          console.log('res.data.data.content', res.data.data.content)
+          this.getReceivableMoney(res.data.data.content)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+    },
     addDomain() {
       this.personalForm.couponSupports.push({
         couponSupport: 0
@@ -1082,7 +1102,10 @@ export default {
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
-        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
+        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - this.personalForm.couponMoney)
+        // const mon = this.personalForm.receivableMoney - this.personalForm.couponMoney
+        // this.$set(this.personalForm, 'receivableMoney', mon)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
@@ -1091,6 +1114,13 @@ export default {
       } else {
         this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
       }
+
+      // 减去优惠券
+      // console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
+      // console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
+      // const mon = this.personalForm.receivableMoney - this.personalForm.couponMoney
+      // this.$set(this.personalForm, 'receivableMoney', mon)
+      // console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
       //   console.log(198283774747)
