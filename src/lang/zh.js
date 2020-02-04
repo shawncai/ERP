@@ -3966,7 +3966,8 @@ export default {
     actualUseMoney: '实际抵扣金额',
     leftMoney: '剩余金额',
     number2: '数量',
-    ffxx: '发放信息'
+    ffxx: '发放信息',
+    couponNumbers: '优惠券码'
   },
   collectAndPayDetail: {
     name: '名称',
