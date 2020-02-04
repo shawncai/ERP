@@ -2130,6 +2130,7 @@ export default {
   SalePlan: {
     title: '计划主题',
     planType: '计划类型',
+    planCategory: '计划类别',
     planDate: '计划日期',
     beginTime: '开始时间',
     endTime: '结束时间',
@@ -2139,9 +2140,20 @@ export default {
     targetMoney: '计划额',
     regionId: '区域',
     repositoryid: '门店',
+    regOrRep: '区域/门店',
     week: '周',
     month: '月',
-    quarter: '季度'
+    quarter: '季度',
+    planTarget: '销售目标',
+    address: '地点名称',
+    typeId: '商品类型',
+    quantity: '数量',
+    money: '金额',
+    actualQuantity: '实际数量',
+    actualMoney: '实际金额',
+    xzmd: '请输入内容',
+    planNum: '计划编号',
+    trackingStatistics: '跟踪统计'
   },
   SaleOpportunity: {
     title: '机会主题',
@@ -3069,6 +3081,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    gz: '跟踪',
     wly: '无来源',
     ckmx: '出库明细',
     shmx: '收回明细',

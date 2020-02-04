@@ -8,37 +8,95 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
-                <el-select v-model="personalForm.planType" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="年"/>
-                  <el-option value="2" label="月"/>
-                  <el-option value="3" label="周"/>
-                  <el-option value="4" label="日"/>
+              <el-form-item :label="$t('SalePlan.planCategory')" prop="" style="width: 100%;">
+                <el-select
+                  v-model="personalForm.planCategory"
+                  style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="门店计划" />
+                  <el-option value="2" label="区域计划" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
-                <el-date-picker
-                  v-model="personalForm.planDate"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  style="margin-left: 18px;width: 200px"/>
+              <el-form-item :label="$t('SalePlan.planType')" prop="" style="width: 100%;">
+                <el-select
+                  v-model="personalForm.planType"
+                  style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="年计划" />
+                  <el-option value="2" label="季计划" />
+                  <el-option value="3" label="月计划" />
+                  <el-option value="4" label="周计划" />
+                  <el-option value="5" label="日计划" />
+                </el-select>
               </el-form-item>
             </el-col>
+            <!-- <el-col :span="6">
+                <el-form-item :label="$t('SalePlan.planDate')" style="100%">
+                  <el-date-picker
+                    v-if="personalForm.planType == 5"
+                    v-model="personalForm.planDate"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="margin-left: 18px;width:200px" />
+                  <el-date-picker
+                    v-else-if="personalForm.planType == 1 || 2 || 3 || 4"
+                    v-model="personalForm.planDate"
+                    type="year"
+                    value-format="yyyy"
+                    placeholder="选择年"
+                    style="margin-left: 18px;width: 200px"
+                    @change="getnum" />
+                  <el-input v-else v-model="personalForm.planDate" disabled style="margin-left: 18px;width:200px" />
+                </el-form-item>
+            </el-col> -->
+            <!-- <el-col :span="6">
+                <el-form-item v-if="isshow" :label="$t(typeName)" style="width: 100%;">
+                  <el-select
+                    v-if="personalForm.planType == 2"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="春季" />
+                    <el-option value="2" label="夏季" />
+                    <el-option value="3" label="秋季" />
+                    <el-option value="4" label="冬季" />
+                  </el-select>
+                  <el-select
+                    v-if="personalForm.planType == 3"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="一月" />
+                    <el-option value="2" label="二月" />
+                    <el-option value="3" label="三月" />
+                    <el-option value="4" label="四月" />
+                    <el-option value="5" label="五月" />
+                    <el-option value="6" label="六月" />
+                    <el-option value="7" label="七月" />
+                    <el-option value="8" label="八月" />
+                    <el-option value="9" label="九月" />
+                    <el-option value="10" label="十月" />
+                    <el-option value="11" label="十一月" />
+                    <el-option value="12" label="十二月" />
+                  </el-select>
+                  <el-select
+                    v-if="personalForm.planType == 4"
+                    v-model="personalForm.planDateAdd"
+                    style="margin-left: 18px;width: 200px">
+                    <el-option v-for="item in weeklist" :key="item.id" :label="item.label" :value="item.value"/>
+                  </el-select>
+                </el-form-item>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.beginTime"
-                  :picker-options="pickerOptions0"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  style="margin-left: 18px;width: 200px"
-                  @change="cleardeposit"/>
+                  style="margin-left: 18px;width:200px"
+                  @change="cleardeposit" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -48,22 +106,28 @@
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  style="margin-left: 18px;width: 200px"/>
+                  style="margin-left: 18px;width:200px" />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.lowerPlanMoney" style="margin-left: 18px;width: 200px" clearable/>
+            <el-col v-if="personalForm.planCategory === '2'" :span="12" >
+              <el-form-item :label="$t('SalePlan.regionId')" style="width: 100%;">
+                <el-cascader
+                  :options="regions"
+                  :props="reprops"
+                  v-model="personalForm.planRegionId"
+                  :show-all-levels="false"
+                  :placeholder="$t('Hmodule.xzqy')"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="margin-left: 18px;width: 200px"
+                />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
-                <el-input v-model="personalForm.planTotalMoney" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
-                <el-input v-model="personalForm.urgePlan" style="margin-left: 18px;width: 200px" clearable/>
+            <el-col v-if="personalForm.planCategory === '1'" :span="12">
+              <el-form-item :label="$t('SalePlan.repositoryid')" style="width: 100%;">
+                <el-input v-model="repositoryid" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -74,52 +138,89 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.jhmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddproduct">{{ $t('updates.tjmx') }}</el-button>
-        <!--<el-button type="danger" @click="deleteTreeData">{{ $t('Hmodule.delete') }}</el-button>-->
+        <el-button @click="insertEvent(-1)">{{ $t('updates.tjmx') }}</el-button>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('updates.scmx') }}</el-button>
       </div>
-      <el-dialog :visible.sync="categoryVisible" title="添加明细" class="normal" width="600px" append-to-body center>
-        <el-form ref="addCategoryForm" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('SalePlan.regionId')" label-width="100px" prop="type">
-            <el-cascader v-model="addCategoryForm.regionId" :options="provinceList" :props="props" placeholder="" style="width: 100%" @active-item-change="handleItemChange" @change="handlechange4"/>
-          </el-form-item>
-          <el-form-item :label="$t('SalePlan.repositoryid')" label-width="100px">
-            <el-select v-model="addCategoryForm.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable style="width: 100%;" @change="changeValue">
-              <el-option
-                v-for="(item, index) in repositories"
-                :key="index"
-                :label="item.repositoryName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('SalePlan.lowerPlanMoney')" label-width="100px">
-            <el-input v-model="addCategoryForm.lowerMoney" autocomplete="off"/>
-          </el-form-item>
-          <el-form-item :label="$t('SalePlan.targetMoney')" label-width="100px">
-            <el-input v-model="addCategoryForm.targetMoney" autocomplete="off"/>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
-          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
-        </span>
-      </el-dialog>
       <div class="container">
-        <el-tree
-          ref="DeviceGroupTree"
-          :data="data2"
-          :props="defaultProps"
-          :check-strictly = "true"
-          show-checkbox
-          default-expand-all
-          node-key="id"
-          @check-change="handleCheckChange">
-          <span slot-scope="{ node, data }" class="custom-tree-node">
-            <span>{{ node.label }}</span>
-            <span v-if="data.parentId !== 0" style="margin-left: 50px">
-              <i class="el-icon-delete" @click="nodeDelete(node, data)"/>
-            </span>
-          </span>
-        </el-tree>
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.planTarget')" prop="" align="center" min-width="250px">
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.planTarget" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px" @change="jungleAddress(scope.row,$event)">
+                <el-option value="1" label="销售任务" />
+                <el-option value="2" label="分期付款收款任务" />
+                <el-option value="3" label="准时交款任务" />
+                <el-option value="4" label="一个月未交任务" />
+                <el-option value="5" label="连续三个月未交任务" />
+                <el-option value="6" label="连续三个月以上未交任务" />
+                <el-option value="7" label="地点任务" />
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.address')" prop="address" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isedit(scope.row)" v-model="scope.row.address" clearable/>
+              <span v-else/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.typeId')" prop="typeId" align="center" min-width="250px">
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.typeId" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
+                <el-option
+                  v-for="(item, index) in CategoryList"
+                  :key="index"
+                  :label="item.categoryName"
+                  :value="item.id"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.quantity')" prop="quantity" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :disabled="scope.row.isdisable2"
+                v-model="scope.row.quantity"
+              />
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.money')" prop="money" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :disabled="scope.row.isdisable2"
+                v-model="scope.row.money"
+              />
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.actualQuantity"
+                disabled
+              />
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.actualMoney"
+                disabled
+              />
+            </template>
+          </el-editable-column>
+        </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -132,9 +233,9 @@
 </template>
 
 <script>
-import { updatesaleplan } from '@/api/SalePlan'
+import { updatesaleplan, saleplanlistDetail, searchEmpCategory } from '@/api/SalePlan'
 import { searchSaleCategory } from '@/api/SaleCategory'
-import { listbyparentid, searchRepository, searchregionName, getId } from '@/api/public'
+import { listbyparentid, searchRepository, searchregionName, getId, regionlist } from '@/api/public'
 import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyDetail from './MyDetail'
@@ -142,10 +243,11 @@ import MyApply from './MyApply'
 import MyRequire from './MyRequire'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
+import MyRepository from './MyRepository'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyAgent, MyCustomer, MyRequire, MyApply, MyDetail, MyDelivery, MyEmp, MyRepository },
   props: {
     editcontrol: {
       type: Boolean,
@@ -177,6 +279,19 @@ export default {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.personalForm.beginTime).getTime() - 8.64e7
         }
+      },
+      // 默认仓库
+      repositoryid: '',
+      // 仓库开关
+      repositorycontrol: false,
+      // 区域列表
+      regions: [],
+      regionids: [],
+      // 区域列表字段更改re
+      reprops: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
       },
       // 选择的数据
       choosedata: [],
@@ -275,7 +390,9 @@ export default {
       list3: [],
       // 明细列表规则
       validRules: {
-      }
+      },
+      // 商品类别列表
+      CategoryList: []
     }
   },
   watch: {
@@ -283,18 +400,120 @@ export default {
       this.editVisible = this.editcontrol
     },
     editdata() {
-      this.personalForm = this.editdata
-      this.data2 = this.personalForm.salePlanDetailVos
+      console.log(this.regions)
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          console.log('this.editdata1111=====>', this.editdata)
+          console.log('this.regions1111=====>', this.regions)
+          console.log('shuzuregions1111===>', this.findPathByLeafId(this.editdata.planRegionId, this.regions))
+          console.log('this.editdata2222=====>', this.editdata)
+          this.personalForm = this.editdata
+          this.personalForm.planRegionId = this.findPathByLeafId(this.personalForm.planRegionId, this.regions)
+          this.personalForm.planCategory = String(this.personalForm.planCategory)
+          this.personalForm.planType = String(this.personalForm.planType)
+          this.repositoryid = this.personalForm.planRepositoryName
+          this.data2 = this.personalForm.salePlanDetailVos
+          saleplanlistDetail(this.personalForm.id).then(res => {
+            console.log('详情数据============>', res.data.data.content.salePlanDetailVos)
+            for (let i = 0; i < res.data.data.content.salePlanDetailVos.length; i++) {
+              res.data.data.content.salePlanDetailVos[i].planTarget = String(res.data.data.content.salePlanDetailVos[i].planTarget)
+            }
+            this.list2 = res.data.data.content.salePlanDetailVos
+          })
+        } else {
+          console.log('区域列表出错')
+        }
+      })
     }
   },
   created() {
     this.getTypes()
     this.getTreeId()
+    this.getCategory()
+    // this.getregionlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // 插入数据
+    insertEvent(index) {
+      console.log('表格数据===============>', this.$refs.editable.getRecords(0))
+      const mytable = this.$refs.editable.getRecords(0)
+      this.$refs.editable.insertAt(mytable, index)
+    },
+    // 处理区域id
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
+    // 区域列表数据
+    getregionlist() {
+      console.log('执行查找区域列表')
+      console.log('1111111111111111111=====>', this.personalForm.planRegionId)
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          this.personalForm.planRegionId = this.findPathByLeafId(this.personalForm.planRegionId, this.regions)
+          console.log('222222222222222222222=====>', this.personalForm.planRegionId)
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
+    getCategory() {
+      searchEmpCategory().then(res => {
+        this.CategoryList = res.data.data.content.list
+      })
+    },
+    // 判断是否可以修改
+    isedit(row) {
+      console.log('row============>', row)
+      const flag = row.planTarget
+      if (flag === '7') {
+        return true
+      } else {
+        return false
+      }
+    },
+    // 判断计划类别
+    jungleAddress(row, val) {
+      if (val === '7') {
+        row.address = ''
+      }
+    },
+    repositoryname(val) {
+      this.repositoryid = val.repositoryName
+      this.personalForm.planRepositoryId = val.id
+    },
+    // 打开仓库
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     // 获取递归值
     getTreeId() {
       getId().then(res => {
@@ -320,8 +539,8 @@ export default {
     //   }
     // },
     handleCheckChange(data, checked) {
-      console.log(data)
-      console.log(checked)
+      // console.log(data)
+      // console.log(checked)
       if (checked === true) {
         this.child = true
         this.childData = data
@@ -350,7 +569,7 @@ export default {
         this.cleardata()
         this.addCategoryForm.id++
       } else if (this.child === true) {
-        console.log(this.childData)
+        // console.log(this.childData)
         const treeData = { label: '', id: 1, parentId: 0, level: 1, salePlanDetailVos: [] }
         treeData.label = this.addCategoryForm.repositoryName + ':  最低目标额(元):  ' + this.addCategoryForm.lowerMoney + '     ' + '目标额（元): ' + this.addCategoryForm.targetMoney
         treeData.parentId = this.childData.id
@@ -367,8 +586,8 @@ export default {
       }
     },
     changeValue(value) {
-      console.log(value)
-      console.log(this.repositories)
+      // console.log(value)
+      // console.log(this.repositories)
       let obj = {}
       obj = this.repositories.find((item) => {
         return item.id === value
@@ -379,7 +598,7 @@ export default {
     handlechange4(val) {
       const finalid = val[val.length - 1]
       searchregionName(finalid).then(res => {
-        console.log(res)
+        // console.log(res)
       })
       searchRepository(finalid).then(res => {
         console.log(res)
@@ -391,7 +610,7 @@ export default {
       })
     },
     getPosition(val, cb) {
-      console.log(val)
+      // console.log(val)
       const vm = this // 查询省市县
       let params = {}
       if (!val) { // 初始化加载 获取所有省份数据
@@ -443,7 +662,7 @@ export default {
             }
           })
         } else if (val.length === 3) { // 加载4级   查询该省市下县级数据
-          console.log(vm.provinceList)
+          // console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -462,7 +681,7 @@ export default {
             }
           })
         } else if (val.length === 4) { // 加载5级   查询该省市下县级数据
-          console.log(vm.provinceList)
+          // console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -485,7 +704,7 @@ export default {
             }
           })
         } else if (val.length === 5) { // 加载6级   查询该省市下县级数据
-          console.log(vm.provinceList)
+          // console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -512,7 +731,7 @@ export default {
             }
           })
         } else if (val.length === 6) { // 加载7级   查询该省市下县级数据
-          console.log(vm.provinceList)
+          // console.log(vm.provinceList)
           vm.provinceList.map((item) => {
             if (item.value === val[0]) {
               item.cities.map((value) => {
@@ -563,7 +782,7 @@ export default {
         }
       })
       searchRepository(this.personalForm.regionId).then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.ret === 200) {
           this.repositories = res.data.data.content.list
         } else {
@@ -750,9 +969,7 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
-      const EnterDetail = this.treeToList(this.data2) // 输出转换后数组
-      console.log(EnterDetail)
-      console.log(EnterDetail)
+      const EnterDetail = this.list2 // 输出转换后数组
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: '错误',
@@ -760,6 +977,16 @@ export default {
           offset: 100
         })
         return false
+      }
+      for (let i = 0; i < EnterDetail.length; i++) {
+        if (EnterDetail[i].address === '' && EnterDetail[i].planTarget === '7') {
+          this.$notify.error({
+            title: '错误',
+            message: '地点信息未填完整',
+            offset: 100
+          })
+          return false
+        }
       }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm

@@ -1,64 +1,133 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('SalePlan.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.planNumber" :placeholder="$t('updates.jhdh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.planType" :placeholder="$t('SalePlan.planType')" :value="getemplist.planType" class="filter-item" clearable @keyup.enter.native="handleFilter">
-        <el-option value="1" label="年"/>
-        <el-option value="2" label="月"/>
-        <el-option value="3" label="周"/>
-        <el-option value="4" label="日"/>
+      <el-input
+        v-model="getemplist.title"
+        :placeholder="$t('SalePlan.title')"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+      />
+      <el-input
+        v-model="getemplist.planNumber"
+        :placeholder="$t('updates.jhdh')"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+      />
+      <el-select
+        v-model="getemplist.planType"
+        :placeholder="$t('SalePlan.planType')"
+        :value="getemplist.planType"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+      >
+        <el-option value="1" label="年" />
+        <el-option value="2" label="月" />
+        <el-option value="3" label="周" />
+        <el-option value="4" label="日" />
       </el-select>
-      <el-popover
-        v-model="visible2"
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option :label="$t('updates.zd')" value="1"/>
-          <el-option :label="$t('updates.zx')" value="2"/>
-          <el-option :label="$t('updates.jd')" value="3"/>
+      <el-popover v-model="visible2" placement="bottom" width="500" trigger="click">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="申请时间"
+          end-placeholder="申请时间"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+        <el-select
+          v-model="getemplist.judgeStat"
+          :value="getemplist.judgeStat"
+          :placeholder="$t('updates.spzt')"
+          clearable
+          style="margin-top: 20px;width: 50%;margin-left: 20px;"
+        >
+          <el-option :label="$t('updates.wsh')" value="0" />
+          <el-option :label="$t('updates.shz')" value="1" />
+          <el-option :label="$t('updates.shtg')" value="2" />
+          <el-option :label="$t('updates.shptg')" value="3" />
         </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option :label="$t('updates.wsh')" value="0"/>
-          <el-option :label="$t('updates.shz')" value="1"/>
-          <el-option :label="$t('updates.shtg')" value="2"/>
-          <el-option :label="$t('updates.shptg')" value="3"/>
-        </el-select>
-        <!--<el-date-picker-->
-        <!--v-model="date"-->
-        <!--type="daterange"-->
-        <!--range-separator="-"-->
-        <!--unlink-panels-->
-        <!--start-placeholder="销售日期"-->
-        <!--end-placeholder="销售日期"-->
-        <!--value-format="yyyy-MM-dd"-->
-        <!--style="margin-top: 20px;margin-left: 20px"/>-->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button
+            v-waves
+            class="filter-item"
+            type="primary"
+            style="float: right"
+            round
+            @click="handleFilter"
+          >{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button
+          v-waves
+          slot="reference"
+          type="primary"
+          class="filter-item"
+          style="width: 130px"
+          @click="visible2 = !visible2"
+        >
+          {{ $t('public.filter') }}
+          <svg-icon icon-class="shaixuan" style="margin-left: 4px" />
+        </el-button>
       </el-popover>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-
+      <el-button
+        v-waves
+        class="filter-item"
+        type="primary"
+        icon="el-icon-search"
+        style="width: 86px;margin-top: 10px"
+        round
+        @click="handleFilter"
+      >{{ $t('public.search') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
+          {{ $t('public.batchoperation') }}
+          <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['54-61-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['54-61-2']" style="text-align: left" command="delete">
+            <svg-icon icon-class="shanchu" style="width: 40px" />
+            {{ $t('public.delete') }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['54-61-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button
+        v-permission="['54-61-6']"
+        v-waves
+        :loading="downloadLoading"
+        class="filter-item"
+        style="width: 86px"
+        @click="handleExport"
+      >
+        <svg-icon icon-class="daochu" />
+        {{ $t('public.export') }}
+      </el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['54-61-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button
+        v-permission="['54-61-7']"
+        v-waves
+        class="filter-item"
+        icon="el-icon-printer"
+        style="width: 86px"
+        @click="handlePrint"
+      >{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['54-61-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button
+        v-permission="['54-61-1']"
+        v-waves
+        class="filter-item"
+        icon="el-icon-plus"
+        type="success"
+        style="width: 86px"
+        @click="handleAdd"
+      >{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -71,73 +140,245 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+      >
         <el-table-column
           :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+          align="center"
+        />
+        <el-table-column
+          :label="$t('public.id')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.planNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" />
         </el-table-column>
-        <el-table-column :label="$t('SalePlan.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.title')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SalePlan.planType')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.planType')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.planType | planTypeFliter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SalePlan.planDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.planCategory')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
-            <span>{{ scope.row.planDate }}</span>
+            <span>{{ scope.row.planCategory | planCategoryFliter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SalePlan.lowerPlanMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.beginTime')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
-            <span>{{ scope.row.lowerPlanMoney }}</span>
+            <span>{{ scope.row.beginTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SalePlan.planTotalMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.endTime')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
-            <span>{{ scope.row.planTotalMoney }}</span>
+            <span>{{ scope.row.endTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SalePlan.regOrRep')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.planRepositoryName || scope.row.planRegionName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('public.judgeStat')"
+          :resizable="false"
+          prop="judgeStat"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('public.receiptStat')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column
+          :label="$t('public.actions')"
+          :resizable="false"
+          align="center"
+          min-width="230"
+        >
           <template slot-scope="scope">
-            <el-button v-permission2="['54-61-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['54-61-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button
+              v-permission2="['54-61-3', scope.row.createPersonId]"
+              v-show="scope.row.judgeStat === 0"
+              :title="$t('updates.xg')"
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              circle
+              @click="handleEdit(scope.row)"
+            />
+            <el-button
+              v-show="isReview(scope.row)"
+              :title="$t('updates.spi')"
+              type="warning"
+              size="mini"
+              icon="el-icon-view"
+              circle
+              @click="handleReview(scope.row)"
+            />
+            <el-button
+              v-show="isTrace(scope.row)"
+              :title="$t('updates.gz')"
+              type="warning"
+              size="mini"
+              icon="el-icon-message"
+              circle
+              @click="handleTrace(scope.row)"
+            />
+            <el-button
+              v-permission2="['54-61-2', scope.row.createPersonId]"
+              v-show="scope.row.judgeStat === 0"
+              :title="$t('updates.sc')"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="handleDelete(scope.row)"
+            />
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="getemplist.pageNum"
+        :limit.sync="getemplist.pageSize"
+        @pagination="getlist"
+      />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist" />
       <!--修改结束=================================================-->
+      <!-- 跟踪统计================================================= -->
+      <el-dialog :visible.sync="traceControl" :title="$t('SalePlan.trackingStatistics')" class="edit" width="1010px" top="55px" >
+        <el-form :model="traceForm">
+          <el-card class="box-card" shadow="never">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.planNum')" style="width: 100%;">
+                  <el-input v-model="traceForm.planNumber" style="margin-left: 18px;width:200px" disabled />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
+                  <el-input v-model="traceForm.title" style="margin-left: 18px;width:200px" disabled />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div class="container">
+              <el-editable
+                ref="editable"
+                :data.sync="list2"
+                :edit-config="{ showIcon: true, showStatus: true}"
+                class="click-table1"
+                stripe
+                border
+                size="medium"
+                style="width: 100%">
+                <el-editable-column type="selection" min-width="55" align="center"/>
+                <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+                <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.planTarget')" prop="" align="center" min-width="250px">
+                  <template slot="edit" slot-scope="scope">
+                    <el-select v-model="scope.row.planTarget" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px" disabled @change="jungleAddress(scope.row,$event)" >
+                      <el-option value="1" label="销售任务" />
+                      <el-option value="2" label="分期付款收款任务" />
+                      <el-option value="3" label="准时交款任务" />
+                      <el-option value="4" label="一个月未交任务" />
+                      <el-option value="5" label="连续三个月未交任务" />
+                      <el-option value="6" label="连续三个月以上未交任务" />
+                      <el-option value="7" label="地点任务" />
+                    </el-select>
+                  </template>
+                </el-editable-column>
+                <el-editable-column :label="$t('SalePlan.address')" prop="address" align="center" min-width="150px"/>
+                <el-editable-column :label="$t('SalePlan.typeId')" prop="productType" align="center" min-width="250px"/>
+                <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" >
+                  <template slot="edit" slot-scope="scope">
+                    <el-input-number
+                      :precision="2"
+                      :disabled="scope.row.isdisable3"
+                      v-model="scope.row.actualQuantity"
+                    />
+                  </template>
+                </el-editable-column>
+                <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" >
+                  <template slot="edit" slot-scope="scope">
+                    <el-input-number
+                      :precision="2"
+                      :disabled="scope.row.isdisable3"
+                      v-model="scope.row.actualMoney"
+                    />
+                  </template>
+                </el-editable-column>
+              </el-editable>
+            </div>
+          </el-card>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="traceControl = false">取 消</el-button>
+          <el-button type="primary" @click="handsavetrace">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 统计结束================================================= -->
     </el-card>
   </div>
 </template>
 
 <script>
-import { saleplanlist, deletesaleplan, updatesaleplan2 } from '@/api/SalePlan'
+import { saleplanlist, deletesaleplan, updatesaleplan2, saleplanlistDetail, updatetrace } from '@/api/SalePlan'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -177,9 +418,17 @@ export default {
     planTypeFliter(status) {
       const statusMap = {
         1: '年',
-        2: '月',
-        3: '周',
-        4: '日'
+        2: '季',
+        3: '月',
+        4: '周',
+        5: '日'
+      }
+      return statusMap[status]
+    },
+    planCategoryFliter(status) {
+      const statusMap = {
+        1: '门店',
+        2: '区域'
       }
       return statusMap[status]
     },
@@ -193,6 +442,11 @@ export default {
   },
   data() {
     return {
+      list2: [],
+      formLabelWidth: '130px',
+      traceForm: {},
+      // 追踪开关
+      traceControl: false,
       // 回显客户
       customerName: '',
       // 控制客户
@@ -252,7 +506,17 @@ export default {
       date: []
     }
   },
-
+  watch: {
+    traceControl() {
+      saleplanlistDetail(this.traceForm.id).then(res => {
+        console.log('详情数据============>', res.data.data.content.salePlanDetailVos)
+        for (let i = 0; i < res.data.data.content.salePlanDetailVos.length; i++) {
+          res.data.data.content.salePlanDetailVos[i].planTarget = String(res.data.data.content.salePlanDetailVos[i].planTarget)
+        }
+        this.list2 = res.data.data.content.salePlanDetailVos
+      })
+    }
+  },
   mounted() {
     this.getlist()
   },
@@ -260,6 +524,31 @@ export default {
     _that = this
   },
   methods: {
+    handsavetrace() {
+      this.traceControl = false
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].planTarget = Number(this.list2[i].planTarget)
+      }
+      const parms = JSON.stringify(this.list2)
+      updatetrace(parms).then(res => {
+        console.log(res)
+      })
+    },
+    // 追踪操作
+    handleTrace(row) {
+      console.log('追踪')
+      this.traceControl = true
+      this.traceForm = row
+    },
+    // 判断是否可以追踪
+    isTrace(row) {
+      // console.log('row========>', row)
+      if (row.judgeStat === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
@@ -331,6 +620,14 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      console.log('this.date==============>', this.date, this.getemplist)
+      if (this.date) {
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
+      } else {
+        delete this.getemplist.beginTime
+        delete this.getemplist.endTime
+      }
       saleplanlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -356,13 +653,11 @@ export default {
     },
     // 供应商列表返回数据
     supplierName(val) {
-      console.log(val)
       this.supplierId = val.supplierName
       this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
@@ -396,21 +691,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
       this.detailvisible = true
       this.personalForm = Object.assign({}, row)
     },
     // 判断审核按钮
     isReview(row) {
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-        const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
-        }
-      }
+      // if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+      //   const approvalUse = row.approvalUseVos
+      //   const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+      //   if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+      //     return true
+      //   }
+      // }
+      return true
     },
     // 审批操作
     handleReview(row) {
@@ -422,21 +715,9 @@ export default {
         confirmButtonText: '通过',
         cancelButtonText: '不通过',
         type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updatesaleplan2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '审核成功!'
-            })
-            this.getlist()
-          }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          this.reviewParms.judgeStat = 3
+      })
+        .then(() => {
+          this.reviewParms.judgeStat = 2
           const parms = JSON.stringify(this.reviewParms)
           updatesaleplan2(parms).then(res => {
             if (res.data.ret === 200) {
@@ -447,8 +728,22 @@ export default {
               this.getlist()
             }
           })
-        }
-      })
+        })
+        .catch(action => {
+          if (action === 'cancel') {
+            this.reviewParms.judgeStat = 3
+            const parms = JSON.stringify(this.reviewParms)
+            updatesaleplan2(parms).then(res => {
+              if (res.data.ret === 200) {
+                this.$message({
+                  type: 'success',
+                  message: '审核成功!'
+                })
+                this.getlist()
+              }
+            })
+          }
+        })
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -463,8 +758,42 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => {
-          deletesaleplan(ids, this.$store.getters.userId).then(res => {
+        })
+          .then(() => {
+            deletesaleplan(ids, this.$store.getters.userId).then(res => {
+              if (res.data.ret === 200 || res.data.ret === 100) {
+                this.$notify({
+                  title: '删除成功',
+                  type: 'success',
+                  offset: 100
+                })
+                this.getlist()
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: '出错了',
+                  offset: 100
+                })
+              }
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
+      }
+    },
+    // 单条删除
+    handleDelete(row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          deletesaleplan(row.id, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: '删除成功',
@@ -480,43 +809,13 @@ export default {
               })
             }
           })
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           })
         })
-      }
-    },
-    // 单条删除
-    handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deletesaleplan(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200 || res.data.ret === 100) {
-            this.$notify({
-              title: '删除成功',
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: '出错了',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
     },
     // 新增数据
     handleAdd() {
@@ -525,22 +824,44 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'SalePlanName', 'SalePlanShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = [
+          '供应商编号',
+          '供应商名称',
+          '供应商简称',
+          '供应商类别',
+          '所在区域',
+          '采购员',
+          '供应商优质级别',
+          '建档人',
+          '建档日期'
+        ]
+        const filterVal = [
+          'id',
+          'SalePlanName',
+          'SalePlanShortName',
+          'typeName',
+          'regionName',
+          'buyerName',
+          'levelName',
+          'createName',
+          'createTime'
+        ]
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '经销商资料表'
         })
+        this.downloadLoading = false
+      })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        return v[j]
-      }))
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          return v[j]
+        })
+      )
     },
     // 打印
     handlePrint() {
@@ -551,7 +872,7 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
-      console.log(val)
+      // console.log(val)
       this.enterRepositoryId = val.repositoryName
       this.getemplist.enterRepositoryId = val.id
     },
@@ -580,28 +901,54 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .ERP-container >>>  .el-form-item__label{
-    color: #909399;
-    text-align: left;
+.edit >>> .el-dialog{
+    -webkit-transform: none;
+    transform: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: auto;
   }
-  .app-container >>> .el-table .cell {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    line-height: 24px;
-    word-break: keep-all;
-    word-wrap: break-word;
-    white-space: pre-wrap;
+  .edit >>> .el-dialog__header{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 1010px;
+    z-index: 100;
+    border-bottom: 1px solid #f1f1f1;
   }
-  .ERP-container {
-    margin: 0px 10px;
+  .edit >>> .el-dialog__body{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
   }
-  .filter-container{
-    padding: 20px;
-    padding-left: 0px;
+  .edit >>> .el-dialog {
+    background:#f1f1f1 ;
+    left: 0;
   }
-  .filter-item{
-     width: 180px;
-    margin-left: 20px;
-    padding: 10px 0;
-  }
+.ERP-container >>> .el-form-item__label {
+  color: #909399;
+  text-align: left;
+}
+.app-container >>> .el-table .cell {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 24px;
+  word-break: keep-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.ERP-container {
+  margin: 0px 10px;
+}
+.filter-container {
+  padding: 20px;
+  padding-left: 0px;
+}
+.filter-item {
+  width: 180px;
+  margin-left: 20px;
+  padding: 10px 0;
+}
 </style>
