@@ -211,6 +211,10 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt1(val) {
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/Coupon/CouponUseList')
+    },
     // 确认操作
     handleEdit2(row) {
       this.reviewParms = {}
@@ -510,7 +514,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Coupon/AddCoupon')
+      this.$router.push('/Coupon/AddCouponProvide')
     },
     handleAdd2() {
       this.$router.push('/Coupon/AddSaleOut2')

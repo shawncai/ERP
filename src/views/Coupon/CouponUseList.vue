@@ -20,9 +20,6 @@
         </el-form>
       </el-row>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-button v-permission="['215-216-220-102']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">发放</el-button>
-    </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
@@ -292,6 +289,13 @@ export default {
       this.getlist()
     },
     getlist() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.getemplist.couponId = this.$store.getters.empcontract.couponId
+        this.getemplist.repositoryId = this.$store.getters.empcontract.repositoryId
+        this.getemplist.flag = 1
+        this.$store.dispatch('getempcontract', '')
+      }
       // 物料需求计划列表数据
       this.listLoading = true
       searchUse(this.getemplist).then(res => {
@@ -329,6 +333,8 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist.couponId = null
+      this.getemplist.repositoryId = null
       this.getemplist.pageNum = 1
       searchUse(this.getemplist).then(res => {
         if (res.data.ret === 200) {

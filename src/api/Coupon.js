@@ -1,6 +1,19 @@
 import request from '@/utils/request'
 
 // 添加领料单
+export function provide(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('detailJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/coupon/provide',
+    method: 'post',
+    data: params
+  })
+}
+
+// 添加领料单
 export function createCoupon(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {

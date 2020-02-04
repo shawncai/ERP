@@ -2876,6 +2876,13 @@ export const asyncRouterMap = [
         component: () => import('@/views/Coupon/CouponUseList'),
         name: 'CouponUseList',
         meta: { title: 'CouponUseList', noCache: true, roles: ['215-216-219-4'] }
+      },
+      {
+        path: 'AddCouponProvide',
+        component: () => import('@/views/Coupon/AddCouponProvide'),
+        hidden: true,
+        name: 'AddCouponProvide',
+        meta: { title: 'AddCouponProvide', noCache: false }
       }
     ]
   },

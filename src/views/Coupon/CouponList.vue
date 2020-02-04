@@ -107,10 +107,9 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['215-216-217-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" title="禁用" type="warning" size="mini" icon="el-icon-close" circle @click="handleReview(scope.row)"/>
-            <el-button v-show="isReview2(scope.row)" title="启用" type="warning" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['215-216-217-3']" v-show="scope.row.number - scope.row.leftNumber === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['215-216-217-2']" v-show="scope.row.number - scope.row.leftNumber === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['215-216-217-102']" v-waves v-show="scope.row.leftNumber > 0" class="filter-item" type="success" style="width: 66px" @click="handleAdd3(scope.row)">发放</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -252,6 +251,11 @@ export default {
     _that = this
   },
   methods: {
+    // 新增数据
+    handleAdd3(val) {
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/Coupon/AddCouponProvide')
+    },
     // 确认操作
     handleEdit2(row) {
       this.reviewParms = {}

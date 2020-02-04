@@ -63,7 +63,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ddmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('collectAndPay.ffxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -73,13 +73,8 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="code" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" />
-            <el-editable-column :label="$t('updates.jbdw')" prop="purchaseMeasurement" align="center" />
-            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('collectAndPay.repositoryName')" prop="repositoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('collectAndPay.number2')" prop="provideNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -201,15 +196,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.productVos
-      this.list3 = this.personalForm.saleOrderCostDetails
-      this.reviewList = []
-      const review = this.personalForm.approvalUseVos
-      for (const i in review) {
-        if (review[i].actualStepHandler !== null) {
-          this.reviewList.push(review[i])
-        }
-      }
+      this.list2 = this.personalForm.couponProvideVos
     }
   },
   beforeCreate() {

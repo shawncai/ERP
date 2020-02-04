@@ -41,13 +41,7 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          :selectable="selectInit"
-          type="selection"
-          width="55"
-          fixed="left"
-          align="center"/>
+        @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span >{{ scope.row.id }}</span>
@@ -296,7 +290,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      this.$emit('recyclingdata', this.choosedata)
+      this.$emit('coupondata', this.choosedata)
     }
     // 仓库管理员选择结束
   }

@@ -312,8 +312,9 @@ export default {
     Coupon: '优惠券',
     AddCoupon: '新增优惠券',
     CouponList: '优惠券管理',
-    CouponProvideList: '优惠发放记录管理',
+    CouponProvideList: '优惠发放记录',
     CouponUseList: '优惠券使用记录',
+    AddCouponProvide: '优惠券发放',
     Package: '组合套餐',
     AddPackage: '新建组合套餐',
     PackageList: '组合套餐列表',
@@ -3960,7 +3961,9 @@ export default {
     customerName: '客户姓名',
     useDate: '使用时间',
     actualUseMoney: '实际抵扣金额',
-    leftMoney: '剩余金额'
+    leftMoney: '剩余金额',
+    number2: '数量',
+    ffxx: '发放信息'
   },
   collectAndPayDetail: {
     name: '名称',

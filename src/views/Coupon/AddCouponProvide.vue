@@ -9,22 +9,23 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Coupon.name')" prop="name" style="width: 100%;">
-                  <el-input v-model="personalForm.name" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input :disabled="nameDis" v-model="personalForm.name" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                  <my-coupon :recyclingcontrol.sync="recyclingcontrol" @coupondata="coupondata($event)"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.money')" prop="money" style="width: 100%;">
-                  <el-input-number v-model="personalForm.money" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
+                <el-form-item :label="$t('Coupon.money')" style="width: 100%;">
+                  <el-input-number v-model="personalForm.money" :precision="2" :controls="false" :step="0.1" :min="0" disabled style="margin-left: 11px;width: 200px;text-align: left"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.number')" prop="number" style="width: 100%;">
-                  <el-input-number v-model="personalForm.number" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
+                <el-form-item :label="$t('collectAndPay.left')" style="width: 100%;">
+                  <el-input-number v-model="personalForm.leftNumber" :controls="false" :step="0.1" :min="0" disabled style="margin-left: 11px;width: 200px;text-align: left"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.type')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.type" style="margin-left: 18px;width: 210px" @change="changeType">
+                  <el-radio-group v-model="personalForm.type" disabled style="margin-left: 18px;width: 210px">
                     <el-radio :label="1" style="width: 100px">全部门店</el-radio>
                     <el-radio :label="2">部分门店</el-radio>
                   </el-radio-group>
@@ -32,13 +33,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.repostiryName')" style="width: 100%;">
-                  <el-input :disabled="repo" v-model="personalForm.itemName" :value="personalForm.itemName" placeholder="请选择仓库" filterable clearable style="margin-left: 18px;width: 200px;" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname($event)"/>
+                  <el-input v-model="personalForm.itemName" :value="personalForm.itemName" disabled placeholder="请选择仓库" filterable clearable style="margin-left: 18px;width: 200px;" @focus="handlechooseRep"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.effectiveType')" prop="effectiveType" style="width: 100%;">
-                  <el-select v-model="personalForm.effectiveType" multiple collapse-tags style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('collectAndPay.effectiveType')" style="width: 100%;">
+                  <el-select v-model="personalForm.effectiveType" disabled multiple collapse-tags style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="分期付款"/>
                     <el-option value="2" label="购车"/>
                     <el-option value="3" label="配件"/>
@@ -48,8 +48,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.isRepeat')" prop="isDiscount" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isRepeat" style="margin-left: 18px;width: 210px">
+                <el-form-item :label="$t('collectAndPay.isRepeat')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isRepeat" disabled style="margin-left: 18px;width: 210px">
                     <el-radio :label="1" style="width: 100px">Yes</el-radio>
                     <el-radio :label="2">No</el-radio>
                   </el-radio-group>
@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.effectiveTime')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.effectiveTime" style="margin-left: 18px;width: 225px" @change="changeTime">
+                  <el-radio-group v-model="personalForm.effectiveTime" disabled style="margin-left: 18px;width: 225px" @change="changeTime">
                     <el-radio :label="1" style="width: 100px">限制时间</el-radio>
                     <el-radio :label="2">不限制时间</el-radio>
                   </el-radio-group>
@@ -66,9 +66,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Coupon.beginTime')" style="width: 100%;">
                   <el-date-picker
-                    :disabled="addpro"
                     v-model="personalForm.beginTime"
                     :picker-options="pickerOptions1"
+                    disabled
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -77,9 +77,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Coupon.endTime')" style="width: 100%;">
                   <el-date-picker
-                    :disabled="addpro"
                     v-model="personalForm.endTime"
                     :picker-options="pickerOptions1"
+                    disabled
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -87,6 +87,32 @@
               </el-col>
             </el-row>
           </el-form>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.symd') }}</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button :disabled="repo" @click="handlechooseRep">选择门店</el-button>
+          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname($event)"/>
+          <!--          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>-->
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <!--            <el-editable-column type="selection" min-width="55" align="center"/>-->
+            <!--            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>-->
+            <el-editable-column :label="$t('collectAndPay.repositoryName')" prop="repositoryName" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 0}, type: 'visible'}" :label="$t('collectAndPay.number2')" prop="number" align="center" min-width="150px"/>
+          </el-editable>
         </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px">
@@ -99,7 +125,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { createCoupon } from '@/api/Coupon'
+import { provide } from '@/api/Coupon'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist3 } from '@/api/public'
 import MyEmp from './components/MyEmp'
@@ -119,13 +145,14 @@ import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
+import MyCoupon from './components/MyCoupon'
 var _that
 export default {
-  name: 'AddCoupon',
-  components: { MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  name: 'AddCouponProvide',
+  components: { MyCoupon, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   data() {
     return {
-      addpro: false,
+      nameDis: false,
       repo: true,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -168,6 +195,7 @@ export default {
       saleRepositoryId: '',
       // 控制仓库
       repositorycontrol: false,
+      recyclingcontrol: false,
       // 回显出库人
       outPersonId: '',
       // 控制出库人
@@ -240,7 +268,7 @@ export default {
         ]
       },
       // 订单明细数据
-      list2: [],
+      list: [],
       // 销售费用明细
       list3: [],
       // 明细列表规则
@@ -266,14 +294,21 @@ export default {
     _that = this
   },
   methods: {
-    changeType() {
-      console.log('this.personalForm.type', this.personalForm.type)
-      if (this.personalForm.type === 1) {
-        this.repo = true
-        this.personalForm.repositoryId = ''
-        this.personalForm.itemName = ''
-      } else {
-        this.repo = false
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        // this.personalForm.sourceNumber = this.$store.getters.empcontract.number
+        this.list = []
+        this.personalForm = this.$store.getters.empcontract
+        this.personalForm.effectiveType = this.personalForm.effectiveType.split(',')
+        this.personalForm.itemName = this.personalForm.repositoryName
+        if (this.personalForm.type === 1) {
+          this.repo = false
+        } else {
+          this.repo = true
+          this.list = this.personalForm.repositories
+        }
+        this.$store.dispatch('getempcontract', '')
       }
     },
     changeTime() {
@@ -395,45 +430,6 @@ export default {
         this.$store.dispatch('getempcontract2', '')
       }
     },
-    getinformation() {
-      if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-        this.personalForm.sourceType = '1'
-        this.Isproduct = true
-        this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
-          this.$refs.editable.clear()
-        }
-        this.personalForm.sourceNumber = this.$store.getters.empcontract.number
-        if (this.$store.getters.empcontract.customerType !== null && this.$store.getters.empcontract.customerType !== undefined && this.$store.getters.empcontract.customerType !== '') {
-          this.personalForm.customerType = String(this.$store.getters.empcontract.customerType)
-        }
-        this.personalForm.customerId = this.$store.getters.empcontract.customerId
-        this.customerId = this.$store.getters.empcontract.customerName
-        this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
-        this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
-        this.salePersonId = this.$store.getters.empcontract.salePersonName
-        this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
-        this.personalForm.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryId
-        this.saleRepositoryId = this.$store.getters.empcontract.saleRepositoryName
-        this.personalForm.address = this.$store.getters.empcontract.transAddress
-        for (let i = 0; i < this.$store.getters.empcontract.saleOrderDetailVos.length; i++) {
-          this.$store.getters.empcontract.saleOrderDetailVos[i].categoryName = this.$store.getters.empcontract.saleOrderDetailVos[i].productCategoryName
-          this.$store.getters.empcontract.saleOrderDetailVos[i].category = this.$store.getters.empcontract.saleOrderDetailVos[i].productCategory
-          this.$store.getters.empcontract.saleOrderDetailVos[i].typeName = this.$store.getters.empcontract.saleOrderDetailVos[i].productTypeName
-          this.$store.getters.empcontract.saleOrderDetailVos[i].type = this.$store.getters.empcontract.saleOrderDetailVos[i].productType
-          this.$store.getters.empcontract.saleOrderDetailVos[i].kpiGrade = '0.00'
-          this.$store.getters.empcontract.saleOrderDetailVos[i].point = '0.00'
-          this.$store.getters.empcontract.saleOrderDetailVos[i].carCode = 0
-          this.$store.getters.empcontract.saleOrderDetailVos[i].motorCode = 0
-          this.$store.getters.empcontract.saleOrderDetailVos[i].batteryCode = 0
-          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceNumber = this.$store.getters.empcontract.number
-          this.$store.getters.empcontract.saleOrderDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.saleOrderDetailVos[i].id
-          this.$refs.editable.insert(this.$store.getters.empcontract.saleOrderDetailVos[i])
-        }
-        this.$store.dispatch('getempcontract', '')
-      }
-    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -479,22 +475,39 @@ export default {
         }
       }
     },
+    handlechoose() {
+      this.recyclingcontrol = true
+    },
     // 出库仓库focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
     },
-    repositoryname(val) {
-      console.log(val)
-      const name = []
-      const id = []
-      for (const i in val) {
-        name.push(val[i].repositoryName)
-        id.push(val[i].id)
+    coupondata(val) {
+      this.list = []
+      console.log('coupondata', val)
+      this.personalForm = val
+      this.personalForm.effectiveType = this.personalForm.effectiveType.split(',')
+      this.personalForm.itemName = this.personalForm.repositoryName
+      if (this.personalForm.type === 1) {
+        this.repo = false
+      } else {
+        this.repo = true
+        this.list = val.repositories
       }
-      console.log(name, id)
-      this.personalForm.itemName = name.join(',')
-      this.personalForm.repositoryId = id.join(',')
-      console.log(this.personalForm)
+    },
+    repositoryname(val) {
+      console.log('val', val)
+      this.list = val
+      // const name = []
+      // const id = []
+      // for (const i in val) {
+      //   name.push(val[i].repositoryName)
+      //   id.push(val[i].id)
+      // }
+      // console.log(name, id)
+      // this.personalForm.itemName = name.join(',')
+      // this.personalForm.repositoryId = id.join(',')
+      // console.log(this.personalForm)
     },
     // 出库人focus事件触发
     handlechooseAccept() {
@@ -946,63 +959,31 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          if (this.personalForm.type === 2) {
-            if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === null || this.personalForm.repositoryId === '') {
-              this.$notify.error({
-                title: '错误',
-                message: '请选择门店',
-                offset: 100
-              })
-              return false
-            }
-          }
-          if (this.personalForm.effectiveType === undefined || this.personalForm.effectiveType === null || this.personalForm.effectiveType === '' || this.personalForm.effectiveType.length === 0) {
+          const EnterDetail = this.$refs.editable.getRecords()
+          if (EnterDetail.length === 0) {
             this.$notify.error({
               title: '错误',
-              message: '请选择适用类别',
+              message: '门店不能为空',
               offset: 100
             })
             return false
           }
-          if (this.personalForm.effectiveTime === 1) {
-            if (this.personalForm.beginTime === undefined || this.personalForm.beginTime === null || this.personalForm.beginTime === '') {
-              this.$notify.error({
-                title: '错误',
-                message: '请选择开始时间',
-                offset: 100
-              })
-              return false
-            }
-            if (this.personalForm.endTime === undefined || this.personalForm.endTime === null || this.personalForm.endTime === '') {
-              this.$notify.error({
-                title: '错误',
-                message: '请选择截止时间',
-                offset: 100
-              })
-              return false
-            }
-            if (this.personalForm.endTime <= this.personalForm.beginTime) {
-              this.$notify.error({
-                title: '错误',
-                message: '截止时间需要大于开始时间',
-                offset: 100
-              })
-              return false
-            }
+          let number = 0
+          for (let i = 0; i < this.list.length; i++) {
+            this.list[i].couponId = this.personalForm.id
+            this.list[i].repositoryid = this.list[i].id
+            number = number + this.list[i].number
           }
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
+          if (number > this.personalForm.leftNumber) {
+            this.$notify.error({
+              title: '错误',
+              message: '发放数量不能超过剩余数量',
+              offset: 100
+            })
+            return false
           }
-          this.personalForm.effectiveType = this.personalForm.effectiveType.join(',')
-          console.log('this.personalForm.effectiveType', this.personalForm.effectiveType)
-          const parms = JSON.stringify(Data)
-          createCoupon(parms).then(res => {
+          const parms2 = JSON.stringify(EnterDetail)
+          provide(parms2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -1013,6 +994,7 @@ export default {
               })
               this.restAllForm()
               this.$refs.personalForm.resetFields()
+              this.$refs.editable.clear()
             } else {
               this.$notify.error({
                 title: '错误',
