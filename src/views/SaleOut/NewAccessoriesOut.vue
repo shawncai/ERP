@@ -177,11 +177,11 @@
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
                   <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number"/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
@@ -199,6 +199,12 @@
                   <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 100px" type="number"/>
+                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+                </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
@@ -733,6 +739,11 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ],
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -887,6 +898,11 @@ export default {
     _that = this
   },
   methods: {
+    addDomain() {
+      this.personalForm.couponSupports.push({
+        couponSupport: 0
+      })
+    },
     chooseNumber() {
       this.recyclingcontrol = true
     },
