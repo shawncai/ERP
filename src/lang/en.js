@@ -3804,6 +3804,11 @@ export default {
     landline: 'landline'
   },
   otherlanguage: {
+    wxy: '维修员',
+    wxxm: '维修项目',
+    fbdkh: '非本店客户价格',
+    xjdh: '询价单号',
+    xzgs: '选择公司',
     zc: '整车',
     pj: '配件',
     jgj: '紧固件',
@@ -3830,7 +3835,11 @@ export default {
     qmye: '期末余额',
     jf: '借方',
     df: '贷方',
-    zcfp: '重新分派'
+    zcfp: '重新分派',
+    qyong: '启用',
+    tingyong: '停用',
+    fs: '发送',
+    bfs: '不发送'
   },
   accessComponent: {
     accessPersonId: 'receiver',
