@@ -3840,6 +3840,9 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    wxy: '维修员',
+    wxxm: '维修项目',
+    fbdkh: '非本店客户价格',
     xjdh: '询价单号',
     xzgs: '选择公司',
     zc: '整车',

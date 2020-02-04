@@ -34,6 +34,11 @@
             <span>{{ scope.row.price }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('otherlanguage.fbdkh')" :resizable='false' prop="price" min-width="80px" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.otherPrice }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('repair.Description2')" :resizable='false' prop="description" min-width="110px" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.description }}</span>
@@ -58,6 +63,9 @@
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.price2')">
           <el-input v-model="categoriesform.price"/>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('otherlanguage.fbdkh')">
+          <el-input v-model="categoriesform.otherPrice"/>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{ $t('repair.cancel') }}</el-button>
@@ -80,6 +88,9 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.price2')">
           <el-input v-model="form.price"/>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth" :label="$t('otherlanguage.fbdkh')">
+          <el-input v-model="form.otherPrice"/>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" :label="$t('repair.KPIScore')">
           <el-input v-model="form.mark"/>
@@ -223,7 +234,7 @@ export default {
     updateData() {
       const tempData = Object.assign({}, this.categoriesform)
       const itemid = tempData.id
-      editrepairproject(this.categoriesform.price, itemid).then(res => {
+      editrepairproject(this.categoriesform.price, itemid, this.categoriesform.otherPrice).then(res => {
         if (res.data.ret === 200) {
           this.getList()
           this.dialogFormVisible = false

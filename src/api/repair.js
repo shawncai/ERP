@@ -1,5 +1,18 @@
 import request from '@/utils/request'
 
+// 门店维修员工列表
+export function getServiceEmp(serviceid) {
+  var params = new URLSearchParams()
+  if (serviceid !== '' && serviceid !== null && serviceid !== undefined) {
+    params.append('repositoryId', serviceid) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/repository/getServiceEmp',
+    method: 'post',
+    data: params
+  })
+}
+
 // 维修列表
 export function repairList(query) {
   var params = new URLSearchParams()
@@ -116,19 +129,62 @@ export function repositorylist(query) {
 // 新增维修订单
 export function newservice(query) {
   var params = new URLSearchParams()
-  params.append('components', query.components) // 你要传给后台的参数值 key/value
-  params.append('detail', query.detail) // 你要传给后台的参数值 key/value
-  params.append('producttype', query.producttype) // 你要传给后台的参数值 key/value
-  params.append('userid', query.userid) // 你要传给后台的参数值 key/value
-  params.append('address', query.address) // 你要传给后台的参数值 key/value
-  params.append('personname', query.personname) // 你要传给后台的参数值 key/value
-  params.append('phonenumber', query.phonenumber) // 你要传给后台的参数值 key/value
-  params.append('servicexpecttime', query.servicexpecttime) // 你要传给后台的参数值 key/value
-  params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
-  params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
-  params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
-  params.append('components', query.components) // 你要传给后台的参数值 key/value
-  params.append('servicemode', query.servicemode) // 你要传给后台的参数值 key/value
+  // params.append('detail', query.detail) // 你要传给后台的参数值 key/value
+  // params.append('producttype', query.producttype) // 你要传给后台的参数值 key/value
+  // params.append('userid', query.userid) // 你要传给后台的参数值 key/value
+  // params.append('address', query.address) // 你要传给后台的参数值 key/value
+  // params.append('personname', query.personname) // 你要传给后台的参数值 key/value
+  // params.append('phonenumber', query.phonenumber) // 你要传给后台的参数值 key/value
+  // params.append('servicexpecttime', query.servicexpecttime) // 你要传给后台的参数值 key/value
+  // params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  // params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  // params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  // params.append('components', query.components) // 你要传给后台的参数值 key/value
+  // params.append('servicemode', query.servicemode) // 你要传给后台的参数值 key/value
+  if (query.employeeId !== '' && query.employeeId !== null && query.employeeId !== undefined) {
+    params.append('employeeId', query.employeeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.detail !== '' && query.detail !== null && query.detail !== undefined) {
+    params.append('detail', query.detail) // 你要传给后台的参数值 key/value
+  }
+  if (query.producttype !== '' && query.producttype !== null && query.producttype !== undefined) {
+    params.append('producttype', query.producttype) // 你要传给后台的参数值 key/value
+  }
+  if (query.userid !== '' && query.userid !== null && query.userid !== undefined) {
+    params.append('userid', query.userid) // 你要传给后台的参数值 key/value
+  }
+  if (query.address !== '' && query.address !== null && query.address !== undefined) {
+    params.append('address', query.address) // 你要传给后台的参数值 key/value
+  }
+  if (query.personname !== '' && query.personname !== null && query.personname !== undefined) {
+    params.append('personname', query.personname) // 你要传给后台的参数值 key/value
+  }
+  if (query.phonenumber !== '' && query.phonenumber !== null && query.phonenumber !== undefined) {
+    params.append('phonenumber', query.phonenumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.servicexpecttime !== '' && query.servicexpecttime !== null && query.servicexpecttime !== undefined) {
+    params.append('servicexpecttime', query.servicexpecttime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryid !== '' && query.repositoryid !== null && query.repositoryid !== undefined) {
+    params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.cityid !== '' && query.cityid !== null && query.cityid !== undefined) {
+    params.append('cityid', query.cityid) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.provinceid !== '' && query.provinceid !== null && query.provinceid !== undefined) {
+    params.append('provinceid', query.provinceid) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.components !== '' && query.components !== null && query.components !== undefined) {
+    params.append('components', query.components) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.servicemode !== '' && query.servicemode !== null && query.servicemode !== undefined) {
+    params.append('servicemode', query.servicemode) // 你要传给后台的参数值 key/value
+  }
+
   return request({
     url: '/admin/service/newservice',
     method: 'post',
@@ -150,9 +206,10 @@ export function repairprojectList(query) {
 }
 
 // 维修项目修改
-export function editrepairproject(price, itemid) {
+export function editrepairproject(price, itemid, otherPrice) {
   var params = new URLSearchParams()
   params.append('price', price) // 你要传给后台的参数值 key/value
+  params.append('otherPrice', otherPrice) // 你要传给后台的参数值 key/value
   params.append('itemid', itemid) // 你要传给后台的参数值 key/value
   return request({
     url: '/admin/service/updateserviceitem',
@@ -178,6 +235,7 @@ export function addrepairproject(query) {
   params.append('producttype', query.producttype) // 你要传给后台的参数值 key/value
   params.append('name', query.name) // 你要传给后台的参数值 key/value
   params.append('price', query.price) // 你要传给后台的参数值 key/value
+  params.append('otherPrice', query.otherPrice) // 你要传给后台的参数值 key/value
   params.append('desc', query.desc) // 你要传给后台的参数值 key/value
   params.append('mark', query.mark) // 你要传给后台的参数值 key/value
   return request({

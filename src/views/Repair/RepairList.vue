@@ -32,7 +32,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -90,7 +90,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -147,7 +147,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -204,7 +204,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -261,7 +261,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -318,7 +318,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -375,7 +375,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -432,7 +432,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.customername')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.personName }}</span>
@@ -709,10 +709,30 @@
           <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
         </div>
       </el-dialog>
-      <el-dialog :visible.sync="dialogFormVisible" :title="$t('repair.Add')" width="60%" center lock-scroll top="20px">
+      <el-dialog :visible.sync="dialogFormVisible" class="normal" width="600px" center :title="$t('repair.Add')">
         <el-form ref="form" :model="form" :rules="personalrules" style="width: 400px; margin-left:50px;margin-top: 37px;">
+          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Servicebranch')" prop="repositoryid">
+            <el-select v-model="form.repositoryid" placeholder="please choose" filterable style="width: 300px" @change="chooserepository">
+              <el-option
+                v-for="item in shopoptions"
+                :key="item.id"
+                :label="item.repositoryName"
+                :value="item.id"/>
+            </el-select>
+          </el-form-item>
+           <el-form-item :label-width="formLabelWidth" :label="$t('otherlanguage.wxy')" prop="employeeId">
+            <!-- <el-input v-model="form.employeename" @focus="chooserepairperson" clearable style="width: 300px"/>
+             <my-emp :control.sync="stockControl"/> -->
+             <el-select v-model="form.employeeId" placeholder="please choose" filterable style="width: 300px">
+              <el-option
+                v-for="item in employees"
+                :key="item.id"
+                :label="item.personName"
+                :value="item.id"/>
+            </el-select>
+          </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Model')" prop="producttype">
-            <el-select v-model="form.producttype" placeholder="please choose">
+            <el-select v-model="form.producttype" placeholder="please choose" style="width: 300px">
               <el-option
                 v-for="(item, index) in options"
                 :key="index"
@@ -720,43 +740,29 @@
                 :value="item.categoryName"/>
             </el-select>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Parts')" prop="components">
-            <el-input v-model="form.components" @focus="choosefault"/>
-            <my-fault :packagecontrol.sync="faultcontrol" @faultdetail="faultdetail"/>
-            <!--            <el-cascader-->
-            <!--              :options="regions"-->
-            <!--              :props="props"-->
-            <!--              v-model="form.components"-->
-            <!--              :placeholder="$t('Hmodule.xzqy')"-->
-            <!--              filterable-->
-            <!--              clearable-->
-            <!--              style="width: 100%;"-->
-            <!--              @change="handlechange4"-->
-            <!--            />-->
-          </el-form-item>
           <!--          <el-form-item :label-width="formLabelWidth" prop="userid" :label="$t('repair.LoginAccount')">-->
           <!--            <el-input v-model="userid" @focus="chooseCustomer"/>-->
           <!--            <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>-->
           <!--          </el-form-item>-->
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Name2')" prop="personname">
-            <el-input v-model="form.personname" @focus="chooseCustomer"/>
+            <el-input v-model="form.personname" @focus="chooseCustomer" style="width: 300px"/>
             <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
           </el-form-item>
           <!--          <el-form-item :label-width="formLabelWidth" prop="personname" :label="$t('repair.Name2')">-->
           <!--            <el-input v-model="form.personname"/>-->
           <!--          </el-form-item>-->
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.MobileNumber')" prop="phonenumber">
-            <el-input v-model="form.phonenumber"/>
+            <el-input v-model="form.phonenumber" style="width: 300px"/>
           </el-form-item>
           <!--          //1上门维修，2到店维修-->
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.servicemode')" prop="servicemode">
-            <el-select v-model="form.servicemode" @change="choosemode">
-              <el-option value="1" label="上门维修" />
+            <el-select v-model="form.servicemode" @change="choosemode" style="width: 300px">
+              <!-- <el-option value="1" label="上门维修" /> -->
               <el-option value="2" label="到店维修" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('Customer.provinceid')" prop="provinceid">
-            <el-select v-model="form.provinceid" filterable placeholder="请选择省" @change="handlechange2">
+          <!-- <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('Customer.provinceid')" prop="provinceid">
+            <el-select v-model="form.provinceid" filterable placeholder="请选择省" @change="handlechange2" style="width: 300px">
               <el-option
                 v-for="(item, index) in provinces"
                 :key="index"
@@ -765,36 +771,27 @@
             </el-select>
           </el-form-item>
           <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('Customer.cityid')" prop="cityid">
-            <el-select v-model="form.cityid" filterable placeholder="请选择市">
+            <el-select v-model="form.cityid" filterable placeholder="请选择市" style="width: 300px">
               <el-option
                 v-for="(item, index) in cities"
                 :key="index"
                 :label="item.name"
                 :value="item.id"/>
             </el-select>
-          </el-form-item>
-          <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('repair.Address2')" prop="address">
-            <el-input v-model="form.address"/>
-          </el-form-item>
+          </el-form-item> -->
+          <!-- <el-form-item v-show="isshow" :label-width="formLabelWidth" :label="$t('repair.Address2')" prop="address">
+            <el-input v-model="form.address" style="width: 300px"/>
+          </el-form-item> -->
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.ExpectedTime')" prop="servicexpecttime">
             <el-date-picker
               v-model="form.servicexpecttime"
               type="date"
               value-format="yyyy-MM-dd"
-              style="width: 198px;"
+              style="width: 300px"
               :placeholder="$t('Hmodule.xzrq')"/>
           </el-form-item>
-          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Servicebranch')" prop="repositoryid">
-            <el-select v-model="form.repositoryid" placeholder="please choose">
-              <el-option
-                v-for="item in shopoptions"
-                :key="item.id"
-                :label="item.repositoryName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Description2')">
-            <el-input v-model="form.detail"/>
+            <el-input v-model="form.detail" style="width: 300px"/>
           </el-form-item>
           
         </el-form>
@@ -834,11 +831,12 @@
 </template>
 
 <script>
-import { repairList, repairDetail, repairtoemp, searchproblemobject, repositorylist, newservice, getserviceschedule, deleteservice, retoreposervice, serviceretoemp, endservicebackground, getremplist2 } from '@/api/repair'
+import {getServiceEmp, repairList, repairDetail, repairtoemp, searchproblemobject, repositorylist, newservice, getserviceschedule, deleteservice, retoreposervice, serviceretoemp, endservicebackground, getremplist2 } from '@/api/repair'
 import { getprovincelist, getcitylist } from '@/api/public'
 import { getposition } from '@/api/map'
 import MyCustomer from './MyCustomer'
 import MyFault from './components/MyFault'
+import MyEmp from './components/MyEmp'
 import waves from '@/directive/waves' // Waves directive
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
@@ -857,7 +855,7 @@ var _that
 export default {
   name: 'InstallOrder',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyCustomer, MyFault },
+  components: { Pagination, MyCustomer, MyFault, MyEmp },
   filters: {
     fenpai: function(val) {
       if (val === null) {
@@ -901,7 +899,18 @@ export default {
         callback()
       }
     }
+
+     const validatePass3 = (rule, value, callback) => {
+      console.log(this.form.employeename)
+      if (this.form.employeename === undefined || this.form.employeename === null || this.form.employeename === '') {
+        callback(new Error('请选择维修员'))
+      } else {
+        callback()
+      }
+    }
     return {
+      employees: [],
+      stockControl: false,
       faultcontrol: false,
       isshow: false,
       personalrules: {
@@ -934,6 +943,9 @@ export default {
         ],
         servicemode: [
           { required: true, message: '请选择维修方式', trigger: 'change' }
+        ],
+        employeeId: [
+          { required: true, message: '请选择维修员', trigger: 'change' }
         ]
       },
       xiala,
@@ -1114,7 +1126,8 @@ export default {
         servicexpecttime: '',
         repositoryid: '',
         detail: '',
-        cityid: ''
+        cityid: '',
+        servicemode: '2'
       },
       options2: [],
       customercontrol: false,
@@ -1149,11 +1162,29 @@ export default {
     this.getAllStores()
     this.customerdata2(2)
     this.getlist()
+    // this.getrepairpersonn()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    chooserepository(val) {
+      console.log('val', val)
+      this.getrepairpersonn(val)
+    },
+    getrepairpersonn(val) {
+      getServiceEmp(this.form.repositoryid).then(res => {
+        console.log('res', res)
+        if (res.data.ret === 200) {
+          this.employees = res.data.data.content.filter(item => {
+							return item.serviceTask < 5
+						})
+        }
+      })
+    },
+    chooserepairperson() {
+      this.stockControl = true
+    },
     faultdetail(val) {
       this.form.components = val.map(item => {
         return item.name
@@ -1893,5 +1924,23 @@ export default {
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;
+  }
+
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>
