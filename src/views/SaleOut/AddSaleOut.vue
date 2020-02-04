@@ -178,11 +178,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
@@ -199,6 +194,12 @@
                   <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
+                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+                </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
@@ -547,6 +548,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { customerlist2 } from '@/api/Customer'
+import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
@@ -738,6 +740,11 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ],
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -758,7 +765,8 @@ export default {
         ridBikeMoney: 0,
         advanceMoney: 0,
         receiveMoney: 0,
-        isInvoice: 1
+        isInvoice: 1,
+        couponMoney: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -891,6 +899,29 @@ export default {
     _that = this
   },
   methods: {
+    changeCoupon() {
+      console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
+      const parms2 = JSON.stringify(this.personalForm.couponSupports)
+      returnMoney(parms2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.personalForm.couponMoney = res.data.data.content
+          console.log('res.data.data.content', res.data.data.content)
+          this.getReceivableMoney(res.data.data.content)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+    },
+    addDomain() {
+      this.personalForm.couponSupports.push({
+        couponSupport: 0
+      })
+    },
     chooseNumber() {
       this.recyclingcontrol = true
     },
@@ -1071,14 +1102,46 @@ export default {
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
-        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
+        console.log('123', 123)
+        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
-        this.personalForm.receivableMoney = this.receivableMoney
+        console.log('234', 234)
+        let needmoney = (this.receivableMoney - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.receivableMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
-        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        console.log('456', 456)
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
@@ -2314,6 +2377,16 @@ export default {
           })
           const parms2 = JSON.stringify(EnterDetail)
           const parms3 = JSON.stringify(EnterDetail2)
+          let couponNumbers = ''
+          for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+            if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+              couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+            }
+          }
+          console.log('couponNumbers', couponNumbers)
+          couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+          console.log('couponNumbers', couponNumbers)
+          this.personalForm.couponNumbers = couponNumbers
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -2324,7 +2397,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createsaleOut(parms, parms2, parms3, this.personalForm).then(res => {
+          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

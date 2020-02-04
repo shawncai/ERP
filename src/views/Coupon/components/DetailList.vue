@@ -4,15 +4,9 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="12">
-                <el-form-item class="print2" label="优惠券编号" style="width: 100%;display: none">
-                  {{ personalForm.id }}
-                </el-form-item>
-              </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Coupon.name')" style="width: 100%;">
                   <span>{{ personalForm.name }}</span>
@@ -24,8 +18,33 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Coupon.requireMoney')" prop="customerType" style="width: 100%;">
-                  <span>{{ personalForm.requireMoney }}</span>
+                <el-form-item :label="$t('collectAndPay.number')" prop="customerType" style="width: 100%;">
+                  <span>{{ personalForm.number }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.type')" style="width: 100%;">
+                  <span>{{ personalForm.type | statFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Storagemove.repostiryName')" prop="outType" style="width: 100%;">
+                  <span>{{ personalForm.repositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.effectiveType')" prop="salePersonId" style="width: 100%;">
+                  <span>{{ personalForm.effectiveTypeName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.isRepeat')" prop="salePersonId" style="width: 100%;">
+                  <span>{{ personalForm.isRepeat | isTodayFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.effectiveTime')" style="width: 100%;">
+                  <span>{{ personalForm.effectiveTime | isTodayFilter2 }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -38,48 +57,13 @@
                   <span>{{ personalForm.endTime }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.beginClock')" style="width: 100%;">
-                  <span>{{ personalForm.beginClock }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.endClock')" prop="outType" style="width: 100%;">
-                  <span>{{ personalForm.endClock }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.isDiscount')" prop="salePersonId" style="width: 100%;">
-                  <span>{{ personalForm.isDiscount | isDiscountFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.stat')" prop="salePersonId" style="width: 100%;">
-                  <span>{{ personalForm.isDiscount | statFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.isToday')" style="width: 100%;">
-                  <span>{{ personalForm.isToday | isTodayFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.applicableWeek')" style="width: 100%;">
-                  <span>{{ personalForm.applicableWeek }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Coupon.content')" style="width: 100%;">
-                  <span>{{ personalForm.content }}</span>
-                </el-form-item>
-              </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ddmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('collectAndPay.ffxx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -89,13 +73,8 @@
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="code" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('updates.wpfl')" prop="category" align="center" />
-            <el-editable-column :label="$t('updates.jbdw')" prop="purchaseMeasurement" align="center" />
-            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
+            <el-editable-column :label="$t('collectAndPay.repositoryName')" prop="repositoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('collectAndPay.number2')" prop="provideNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -115,6 +94,13 @@ export default {
       }
       return statusMap[status]
     },
+    isTodayFilter2(status) {
+      const statusMap = {
+        1: '限制时间',
+        2: '不限制时间'
+      }
+      return statusMap[status]
+    },
     isTodayFilter(status) {
       const statusMap = {
         1: 'YES',
@@ -124,8 +110,8 @@ export default {
     },
     statFilter(status) {
       const statusMap = {
-        1: '启用',
-        2: '未启用'
+        1: '全部门店',
+        2: '部分门店'
       }
       return statusMap[status]
     },
@@ -210,15 +196,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.productVos
-      this.list3 = this.personalForm.saleOrderCostDetails
-      this.reviewList = []
-      const review = this.personalForm.approvalUseVos
-      for (const i in review) {
-        if (review[i].actualStepHandler !== null) {
-          this.reviewList.push(review[i])
-        }
-      }
+      this.list2 = this.personalForm.couponProvideVos
     }
   },
   beforeCreate() {
