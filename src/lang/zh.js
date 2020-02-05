@@ -2156,7 +2156,8 @@ export default {
     actualMoney: '实际金额',
     xzmd: '请输入内容',
     planNum: '计划编号',
-    trackingStatistics: '跟踪统计'
+    trackingStatistics: '跟踪统计',
+    progress: '进度'
   },
   SaleOpportunity: {
     title: '机会主题',

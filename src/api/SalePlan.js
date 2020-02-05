@@ -103,6 +103,7 @@ export function updatesaleplan2(query) {
 export function searchEmpCategory(query) {
   var params = new URLSearchParams()
   params.append('iseffective', 1) // 你要传给后台的参数值 key/value
+  params.append('type', 2) // 你要传给后台的参数值 key/value
   // if (query.type !== '' && query.type !== null && query.type !== undefined) {
   //   params.append('type', query.type)
   // }

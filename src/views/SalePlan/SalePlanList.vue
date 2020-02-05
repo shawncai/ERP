@@ -696,13 +696,13 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
-      // if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-      //   const approvalUse = row.approvalUseVos
-      //   const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-      //   if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-      //     return true
-      //   }
-      // }
+      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+        const approvalUse = row.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          return true
+        }
+      }
       return true
     },
     // 审批操作

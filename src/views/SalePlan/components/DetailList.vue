@@ -76,6 +76,11 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('SalePlan.progress')" prop="" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <el-progress ref="myprogress" :text-inside="true" :stroke-width="18" :percentage="clacProgress(scope.row)" :status="mystatus" :format="_format(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.planTarget')" prop="" align="center" min-width="250px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.planTarget" :placeholder="$t('SalePlan.xzmd')" disabled clearable filterable style="margin-left: 18px;width: 180px">
@@ -263,6 +268,7 @@ export default {
   },
   data() {
     return {
+      mystatus: '',
       // 树结构数据
       data2: [],
       defaultProps: {
@@ -312,6 +318,26 @@ export default {
   methods: {
     handlecancel() {
       this.editVisible = false
+    },
+    // 进度条
+    clacProgress(row) {
+      console.log('row==================>', row)
+      const res = ((row.actualQuantity / row.quantity) * 100).toFixed(0)
+      if (res < 50) {
+        this.mystatus = 'exception'
+      } else if (res >= 50 && res < 100) {
+        this.mystatus = 'text'
+      } else {
+        this.mystatus = 'success'
+      }
+      console.log(typeof res)
+      return res > 100 ? 100 : res
+    },
+    _format(row) {
+      this.$nextTick(function() {
+        var dom = this.$refs.myprogress.$el.children[0].children[0].children[0].children[0].innerText = ((row.actualQuantity / row.quantity) * 100).toFixed(0) + '%'
+        console.log('dom=================>', dom)
+      })
     }
   }
 }

@@ -186,13 +186,14 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.typeId')" prop="typeId" align="center" min-width="250px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.typeId" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
+                <el-select v-if="isedit2(scope.row)" v-model="scope.row.typeId" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
                   <el-option
                     v-for="(item, index) in CategoryList"
                     :key="index"
                     :label="item.categoryName"
                     :value="item.id"/>
                 </el-select>
+                <span v-else/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.quantity')" prop="quantity" align="center" min-width="150" >
@@ -506,9 +507,9 @@ export default {
       list3: [],
       // 明细列表规则
       validRules: {
-        address: [{
-          required: true, message: 'Please enter a address.', trigger: 'blur'
-        }],
+        // address: [{
+        //   required: true, message: 'Please enter a address.', trigger: 'blur'
+        // }],
         quantity: [{
           required: true, message: 'Please enter a quantity.', trigger: ''
         }],
@@ -545,11 +546,21 @@ export default {
     _that = this
   },
   methods: {
-    // 判断是否可以修改
+    // 判断是否可以修改任务地点
     isedit(row) {
       console.log('row============>', row)
       const flag = row.planTarget
       if (flag === '7') {
+        return true
+      } else {
+        return false
+      }
+    },
+    // 判断是否可以修改商品类型
+    isedit2(row) {
+      console.log('row============>', row)
+      const flag = row.planTarget
+      if (flag === '1') {
         return true
       } else {
         return false

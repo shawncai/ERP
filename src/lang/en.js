@@ -2129,7 +2129,8 @@ export default {
     actualMoney: 'actualMoney',
     xzmd: 'Enter',
     planNum: 'No.',
-    trackingStatistics: 'trackingStats'
+    trackingStatistics: 'trackingStats',
+    progress: 'progress'
   },
   SaleOpportunity: {
     title: 'subject',
