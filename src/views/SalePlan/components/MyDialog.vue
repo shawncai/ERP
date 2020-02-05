@@ -513,8 +513,10 @@ export default {
     },
     // 判断计划类别
     jungleAddress(row, val) {
-      if (val === '7') {
-        row.address = ''
+      if (val !== '7') {
+        delete row.address
+      } else if (val !== '1') {
+        delete row.typeId
       }
     },
     repositoryname(val) {
@@ -1001,6 +1003,15 @@ export default {
       }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
+      for (let i = 0; i < EnterDetail.length; i++) {
+        for (const key in EnterDetail[i]) {
+          console.log('key===============>', EnterDetail[i][key])
+          if (EnterDetail[i][key] === '' || EnterDetail[i][key] === undefined || EnterDetail[i][key] === null) {
+            console.log('执行')
+            delete EnterDetail[i][key]
+          }
+        }
+      }
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
