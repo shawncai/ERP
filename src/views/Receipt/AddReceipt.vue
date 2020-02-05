@@ -64,9 +64,15 @@
                   <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
+                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
+                <el-form-item :label="$t('collectAndPay.couponSupport2')" style="width: 100%;">
+                  <el-input v-model="personalForm.couponSupport" disabled style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -190,6 +196,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { returnMoney } from '@/api/Coupon'
 import { createreceipt } from '@/api/Receipt'
 import { agentCollectList } from '@/api/public'
 import MyEmp from './components/MyEmp'
@@ -287,6 +294,11 @@ export default {
       payModes: [],
       // 销售订单信息数据
       personalForm: {
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ],
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -296,7 +308,8 @@ export default {
         receiptMoney: 0,
         deductionMoney: 0,
         totalLackMoney: 0,
-        couponSupport: 0
+        couponSupport: 0,
+        couponMoney: 0
       },
       allpenalty: 0,
       // 商品信息
@@ -351,7 +364,7 @@ export default {
           num2 += this.switchmoney[i].penalty
         }
         console.log('num=====', num)
-        this.personalForm.receiptMoney = num - this.personalForm.couponSupport
+        this.personalForm.receiptMoney = num
         this.allpenalty = num2
       },
       deep: true,
@@ -388,6 +401,32 @@ export default {
     _that = this
   },
   methods: {
+    changeCoupon() {
+      console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
+      const parms2 = JSON.stringify(this.personalForm.couponSupports)
+      returnMoney(parms2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          if (res.data.data.content > this.personalForm.receiptMoney) {
+            this.personalForm.couponSupport = this.personalForm.receiptMoney
+          } else {
+            this.personalForm.couponSupport = res.data.data.content
+          }
+          console.log('res.data.data.content', res.data.data.content)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+    },
+    addDomain() {
+      this.personalForm.couponSupports.push({
+        couponSupport: 0
+      })
+    },
     handlechooserepo() {
       this.repositorycontrol = true
     },
@@ -1027,6 +1066,17 @@ export default {
           return false
         }
         const parms2 = JSON.stringify(EnterDetail)
+        console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
+        let couponNumbers = ''
+        for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+          if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+            couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+          }
+        }
+        console.log('couponNumbers', couponNumbers)
+        couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+        console.log('couponNumbers', couponNumbers)
+        this.personalForm.couponNumbers = couponNumbers
         const Data = this.personalForm
         for (const key in Data) {
           if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

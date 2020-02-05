@@ -3981,7 +3981,8 @@ export default {
     leftMoney: '剩余金额',
     number2: '数量',
     ffxx: '发放信息',
-    couponNumbers: '优惠券码'
+    couponNumbers: '优惠券码',
+    couponSupport2: '优惠劵抵用金额'
   },
   collectAndPayDetail: {
     name: '名称',

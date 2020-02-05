@@ -90,11 +90,12 @@ export function searchsaleOut(query) {
 }
 
 // 修改销售出库单
-export function updatesaleOut(query, query2, query3) {
+export function updatesaleOut(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   params.append('giftJson', query3) // 你要传给后台的参数值 key/value
+  params.append('receivableMoney2', query4) // 你要传给后台的参数值 key/value
   return request({
     url: '/saleOut/update',
     method: 'post',
