@@ -2189,6 +2189,17 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          if (this.personalForm.sourceType === '5') {
+            if (this.personalForm.saleType === '2') {
+              this.$notify.error({
+                title: '错误',
+                message: '无来源时销售类别不能是分期',
+                offset: 100
+              })
+              return false
+            }
+          }
+
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           // 整车出库时相关编码必填
           let m = 1
