@@ -568,8 +568,10 @@ export default {
     },
     // 判断计划类别
     jungleAddress(row, val) {
-      if (val === '7') {
-        row.address = ''
+      if (val !== '7') {
+        delete row.address
+      } else if (val !== '1') {
+        delete row.typeId
       }
     },
     // 处理区域id
@@ -1319,6 +1321,7 @@ export default {
       this.customerId = null
       this.salePersonId = null
       this.data2 = ''
+      this.repositoryid = ''
     },
     // 树结构数据转数组
     treeToList(tree) {
@@ -1359,11 +1362,13 @@ export default {
       }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
-      const regionId_length = Data.regionId.length
-      if (regionId_length === 0) {
-        Data.regionId = ''
-      } else {
-        Data.regionId = Data.regionId[regionId_length - 1]
+      if (Data.regionId) {
+        const regionId_length = Data.planRegionId.length
+        if (regionId_length === 0) {
+          Data.planRegionId = ''
+        } else {
+          Data.planRegionId = Data.planRegionId[regionId_length - 1]
+        }
       }
       console.log('Data==============>', Data)
       console.log('EnterDetail==============>', EnterDetail)
@@ -1374,6 +1379,15 @@ export default {
       }
       Data.planType = Number(Data.planType)
       Data.planCategory = Number(Data.planCategory)
+      for (let i = 0; i < EnterDetail.length; i++) {
+        for (const key in EnterDetail[i]) {
+          console.log('key===============>', EnterDetail[i][key])
+          if (EnterDetail[i][key] === '' || EnterDetail[i][key] === undefined || EnterDetail[i][key] === null) {
+            console.log('执行')
+            delete EnterDetail[i][key]
+          }
+        }
+      }
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]

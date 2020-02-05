@@ -322,7 +322,7 @@ export default {
     // 进度条
     clacProgress(row) {
       console.log('row==================>', row)
-      const res = ((row.actualQuantity / row.quantity) * 100).toFixed(0)
+      const res = Number(((row.actualQuantity / row.quantity) * 100).toFixed(0))
       if (res < 50) {
         this.mystatus = 'exception'
       } else if (res >= 50 && res < 100) {
