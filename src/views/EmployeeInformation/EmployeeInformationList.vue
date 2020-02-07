@@ -89,6 +89,7 @@
         border
         fit
         highlight-current-row
+        height="400"
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -745,7 +746,7 @@ export default {
     handlechange4() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
       if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
-        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
           if (res.data.ret === 200) {
             this.repositories = res.data.data.content.list
             this.repositories2 = res.data.data.content.list

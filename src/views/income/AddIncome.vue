@@ -314,6 +314,8 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
+          const newarr = res.data.data.content
+          console.log('newarr', newarr)
           this.suboptions = this.processchildren(res.data.data.content)
           this.treedata = res.data.data.content
         }
