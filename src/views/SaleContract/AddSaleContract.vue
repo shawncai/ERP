@@ -466,7 +466,7 @@ export default {
   components: { MyAgent, MyPackage, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass4 = (rule, value, callback) => {
-      if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
+      if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
         callback(new Error('请选择客户'))
       } else {
         callback()
