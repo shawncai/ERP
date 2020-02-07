@@ -458,7 +458,7 @@ export default {
             this.receiptVisible2 = true
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -684,7 +684,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -707,7 +707,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -797,7 +797,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -851,7 +851,7 @@ export default {
           // liveStatus
           if (this.personalForm.liveStatus === '' || this.personalForm.liveStatus === undefined || this.personalForm.liveStatus === null) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请选择居住状况',
               offset: 100
             })
@@ -859,7 +859,7 @@ export default {
           }
           if (this.personalForm.liveType === '' || this.personalForm.liveType === undefined || this.personalForm.liveType === null) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请选择居住类型',
               offset: 100
             })
@@ -879,8 +879,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -892,7 +892,7 @@ export default {
               this.$refs.upload.clearFiles()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })

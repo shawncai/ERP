@@ -482,7 +482,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -506,7 +506,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -530,7 +530,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -559,7 +559,7 @@ export default {
             this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -605,7 +605,7 @@ export default {
       if (event === true) {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -710,7 +710,7 @@ export default {
       console.log('row.taxMoney', row.taxMoney)
       if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '超过可退货数量',
           offset: 100
         })
@@ -783,7 +783,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -843,7 +843,7 @@ export default {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '明细表不能为空',
               offset: 100
             })
@@ -950,7 +950,7 @@ export default {
           })
           if (i === 2) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请正确填写退货数量',
               offset: 100
             })
@@ -983,7 +983,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -991,8 +991,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

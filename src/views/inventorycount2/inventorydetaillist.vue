@@ -346,7 +346,7 @@ export default {
     handleFilter() {
       if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择仓库',
           offset: 100
         })

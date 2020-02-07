@@ -473,7 +473,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -497,7 +497,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -521,7 +521,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -574,7 +574,7 @@ export default {
       if (row.location === null || row.location === '' || row.location === undefined) {
         console.log('1222222200--------------')
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '仓库不存在此商品!',
           offset: 100
         })
@@ -599,7 +599,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '仓库内无该物品',
                 offset: 100
               })
@@ -608,7 +608,7 @@ export default {
             }
             if (row.quantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -617,7 +617,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -634,7 +634,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (row.quantity > res.data.data.content[0].quantity) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -643,7 +643,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -706,7 +706,7 @@ export default {
     handleAddpackage() {
       if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择仓库',
           offset: 100
         })
@@ -719,7 +719,7 @@ export default {
         console.log(this.personalForm.repositoryId)
         if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -745,7 +745,7 @@ export default {
     handleAddproduct() {
       if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择仓库',
           offset: 100
         })
@@ -1096,7 +1096,7 @@ export default {
       })
       if (m === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '整车相关编码必填',
           offset: 100
         })
@@ -1104,7 +1104,7 @@ export default {
       }
       if (b === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '电池相关编码必填',
           offset: 100
         })
@@ -1125,8 +1125,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -1137,7 +1137,7 @@ export default {
               this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -1145,8 +1145,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

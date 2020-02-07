@@ -287,7 +287,7 @@ export default {
       if (value === undefined || value === null || value === '') {
         // callback(new Error('请选择供应商'))
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择质检人员',
           offset: 100
         })
@@ -534,7 +534,7 @@ export default {
     handleAdd() {
       if (this.personalForm.sampleQuantity === '' || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '抽样数量为空',
           offset: 100
         })
@@ -617,7 +617,7 @@ export default {
           const list = res.data.data.content.list
           if (list.length < 1) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '该物品未添加检验项目',
               offset: 100
             })
@@ -877,7 +877,7 @@ export default {
       console.log(this.personalForm.sampleQuantity)
       if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '合格数量不能大于抽样数量',
           offset: 100
         })
@@ -1014,7 +1014,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1055,7 +1055,7 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -1063,7 +1063,7 @@ export default {
       }
       if (this.personalForm.passQuantity > this.personalForm.sampleQuantity) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '合格数量不能大于抽样数量',
           offset: 100
         })
@@ -1075,7 +1075,7 @@ export default {
         console.log(this.personalForm.checkQuantity > (this.arrivalQuantity - this.reportCheckingQuantity))
         if (this.personalForm.checkQuantity > (this.arrivalQuantity - this.reportCheckingQuantity)) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '质检数量超过关联单据数量',
             offset: 100
           })
@@ -1133,8 +1133,8 @@ export default {
                     console.log(res)
                     if (res.data.ret === 200) {
                       this.$notify({
-                        title: '成功',
-                        message: '保存成功',
+                        title: 'successful',
+                        message: 'save successful',
                         type: 'success',
                         offset: 100
                       })
@@ -1148,7 +1148,7 @@ export default {
                       this.$refs.personalForm3.resetFields()
                     } else {
                       this.$notify.error({
-                        title: '错误',
+                        title: 'wrong',
                         message: res.data.msg,
                         offset: 100
                       })
@@ -1156,8 +1156,8 @@ export default {
                   })
                 } else {
                   this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
+                    title: 'wrong',
+                    message: 'Information is incomplete',
                     offset: 100
                   })
                   return false
@@ -1165,8 +1165,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -1174,8 +1174,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

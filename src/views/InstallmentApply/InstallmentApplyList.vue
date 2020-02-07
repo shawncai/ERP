@@ -357,14 +357,14 @@ export default {
     handleAddreport() {
       if (this.moreaction.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择单据',
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请不要选择多个单据',
           offset: 100
         })
@@ -372,7 +372,7 @@ export default {
       } else {
         if (this.moreaction[0].judgeStat !== 0) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '单据已审核',
             offset: 100
           })
@@ -384,7 +384,7 @@ export default {
         this.$router.push('/CustomerSurveyReport/AddCustomerSurveyReport')
       } else {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先分配调查',
           offset: 100
         })
@@ -395,14 +395,14 @@ export default {
     handleAddcontrat() {
       if (this.moreaction.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择单据',
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请不要选择多个单据',
           offset: 100
         })
@@ -410,7 +410,7 @@ export default {
       } else {
         if (this.moreaction[0].judgeStat === 0) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先审核单据',
             offset: 100
           })
@@ -418,7 +418,7 @@ export default {
         }
         if (this.moreaction[0].judgeStat === 1) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '该单据正在审核中',
             offset: 100
           })
@@ -426,7 +426,7 @@ export default {
         }
         if (this.moreaction[0].judgeStat === 3) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '该单据未通过审核',
             offset: 100
           })
@@ -434,7 +434,7 @@ export default {
         }
         if (this.moreaction[0].isInvestigation !== 2) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '该单据尚未调查',
             offset: 100
           })
@@ -846,7 +846,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -877,7 +877,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })

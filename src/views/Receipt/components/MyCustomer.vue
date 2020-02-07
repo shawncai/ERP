@@ -357,7 +357,7 @@ export default {
       console.log('Installmentdata', Installmentdata)
       if (Installmentdata.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '该客户没有分期信息',
           offset: 100
         })

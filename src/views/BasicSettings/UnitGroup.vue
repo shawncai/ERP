@@ -420,7 +420,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -451,7 +451,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })
@@ -476,7 +476,7 @@ export default {
           console.log('nowlistdata', nowlistdata)
           if (nowlistdata.length < 1) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请添加明细',
               offset: 100
             })
@@ -485,7 +485,7 @@ export default {
           for (let j = 0; j < nowlistdata.length; j++) {
             if (nowlistdata[j].unitId === null || nowlistdata[j].unitId === '' || nowlistdata[j].unitId === undefined || nowlistdata[j].proportion === null || nowlistdata[j].proportion === '' || nowlistdata[j].proportion === undefined) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '请输入完整',
                 offset: 100
               })
@@ -500,7 +500,7 @@ export default {
           updateUnitGroup(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
+                title: 'successful',
                 message: '修改成功',
                 type: 'success',
                 offset: 100
@@ -515,8 +515,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -544,7 +544,7 @@ export default {
       console.log('nowlistdata', nowlistdata)
       if (nowlistdata.length < 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请添加明细',
           offset: 100
         })
@@ -553,7 +553,7 @@ export default {
       for (let j = 0; j < nowlistdata.length; j++) {
         if (nowlistdata[j].unitId === null || nowlistdata[j].unitId === '' || nowlistdata[j].unitId === undefined || nowlistdata[j].proportion === null || nowlistdata[j].proportion === '' || nowlistdata[j].proportion === undefined) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请输入完整',
             offset: 100
           })
@@ -571,7 +571,7 @@ export default {
           creatUnitGroup(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
+                title: 'successful',
                 message: '新建成功',
                 type: 'success',
                 offset: 100
@@ -584,7 +584,7 @@ export default {
               this.categoryVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -592,8 +592,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

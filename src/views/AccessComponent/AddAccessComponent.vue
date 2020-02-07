@@ -363,7 +363,7 @@ export default {
     queryStock(row) {
       if (row.location === null || row.location === '' || row.location === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '仓库不存在此商品!',
           offset: 100
         })
@@ -421,7 +421,7 @@ export default {
         console.log('handleRepositoryId', this.personalForm.handleRepositoryId)
         if (this.personalForm.handleRepositoryId === undefined || this.personalForm.handleRepositoryId === '' || this.personalForm.handleRepositoryId === null) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -434,7 +434,7 @@ export default {
               // this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -449,7 +449,7 @@ export default {
     handleAddproduct() {
       if (this.handleRepositoryId === null || this.handleRepositoryId === '' || this.handleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -667,7 +667,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -690,7 +690,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -828,7 +828,7 @@ export default {
           console.log(EnterDetail)
           if (EnterDetail.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '明细表不能为空',
               offset: 100
             })
@@ -851,7 +851,7 @@ export default {
           })
           if (c === 2) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '电池出库时数量必须为1',
               offset: 100
             })
@@ -859,7 +859,7 @@ export default {
           }
           if (b === 2) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '电池出库时电池编码必填',
               offset: 100
             })
@@ -952,8 +952,8 @@ export default {
               console.log(res)
               if (res.data.ret === 200) {
                 this.$notify({
-                  title: '成功',
-                  message: '保存成功',
+                  title: 'successful',
+                  message: 'save successful',
                   type: 'success',
                   offset: 100
                 })
@@ -963,7 +963,7 @@ export default {
                 this.$refs.personalForm.resetFields()
               } else {
                 this.$notify.error({
-                  title: '错误',
+                  title: 'wrong',
                   message: res.data.msg,
                   offset: 100
                 })
@@ -971,7 +971,7 @@ export default {
             })
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '明细不能为空',
               offset: 100
             })
@@ -979,8 +979,8 @@ export default {
           }
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

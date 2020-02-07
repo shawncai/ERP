@@ -316,7 +316,7 @@ export default {
         console.log(this.personalForm.outRepositoryId)
         if (this.personalForm.outRepositoryId === undefined || this.personalForm.outRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -329,7 +329,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -381,7 +381,7 @@ export default {
     queryStock(row) {
       if (row.location === null || row.location === '' || row.location === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '仓库不存在此商品!',
           offset: 100
         })
@@ -406,7 +406,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '仓库内无该物品',
                 offset: 100
               })
@@ -415,7 +415,7 @@ export default {
             }
             if (row.outQuantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -424,7 +424,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -441,7 +441,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (row.outQuantity > res.data.data.content[0].outQuantity) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -450,7 +450,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -505,7 +505,7 @@ export default {
     handleAddproduct() {
       if (this.outRepositoryId === null || this.outRepositoryId === '' || this.outRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -520,7 +520,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -559,7 +559,7 @@ export default {
       console.log(i)
       if (i > EnterDetail.length) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '同样商品不能有同一个批次',
           offset: 100
         })
@@ -577,7 +577,7 @@ export default {
       console.log(j)
       if (j === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '批次货位不能为空',
           offset: 100
         })
@@ -592,7 +592,7 @@ export default {
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -660,7 +660,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

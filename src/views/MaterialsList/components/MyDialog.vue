@@ -192,7 +192,7 @@ export default {
           this.personalForm.color = val.color
         } else if (res.data.data.content === true) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '物料已添加',
             offset: 100
           })
@@ -242,7 +242,7 @@ export default {
       console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -306,7 +306,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

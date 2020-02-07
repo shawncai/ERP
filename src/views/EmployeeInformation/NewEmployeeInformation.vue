@@ -580,15 +580,15 @@ export default {
                           console.log(res)
                         } else {
                           this.$notify.error({
-                            title: '错误',
+                            title: 'wrong',
                             message: res.data.msg,
                             offset: 100
                           })
                         }
                       })
                       this.$notify({
-                        title: '成功',
-                        message: '保存成功',
+                        title: 'successful',
+                        message: 'save successful',
                         type: 'success',
                         offset: 100
                       })
@@ -599,13 +599,13 @@ export default {
                       this.$refs.companyForm.resetFields()
                     } else if (res.data.msg === 'account isExist') {
                       this.$notify.error({
-                        title: '错误',
+                        title: 'wrong',
                         message: '登陆账号已存在',
                         offset: 100
                       })
                     } else {
                       this.$notify.error({
-                        title: '错误',
+                        title: 'wrong',
                         message: res.data.msg,
                         offset: 100
                       })
@@ -613,8 +613,8 @@ export default {
                   })
                 } else {
                   this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
+                    title: 'wrong',
+                    message: 'Information is incomplete',
                     offset: 100
                   })
                   return false
@@ -623,8 +623,8 @@ export default {
             } else {
               this.$refs.companyForm.validate()
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               const anchor2 = this.$refs.lianxi.offsetTop
@@ -636,8 +636,8 @@ export default {
           this.$refs.connectForm.validate()
           this.$refs.companyForm.validate()
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           const anchor = this.$refs.geren.offsetTop
@@ -696,8 +696,8 @@ export default {
                   register(form3).then(res => {
                     if (res.data.ret === 200) {
                       this.$notify({
-                        title: '成功',
-                        message: '保存成功',
+                        title: 'successful',
+                        message: 'save successful',
                         type: 'success',
                         offset: 100
                       })
@@ -709,13 +709,13 @@ export default {
                       document.documentElement.scrollTop = anchor2 - 100
                     } else if (res.data.msg === 'account isExist') {
                       this.$notify.error({
-                        title: '错误',
+                        title: 'wrong',
                         message: '登陆账号已存在',
                         offset: 100
                       })
                     } else {
                       this.$notify.error({
-                        title: '错误',
+                        title: 'wrong',
                         message: res.data.msg,
                         offset: 100
                       })
@@ -723,8 +723,8 @@ export default {
                   })
                 } else {
                   this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
+                    title: 'wrong',
+                    message: 'Information is incomplete',
                     offset: 100
                   })
                   return false
@@ -732,8 +732,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -741,8 +741,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           const anchor = this.$refs.geren.offsetTop

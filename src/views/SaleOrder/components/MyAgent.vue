@@ -255,7 +255,7 @@ export default {
           this.customertypes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -267,7 +267,7 @@ export default {
           this.levels = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -279,7 +279,7 @@ export default {
           this.sources = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -295,7 +295,7 @@ export default {
           this.total = res.data.data.content.totalCount
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -314,7 +314,7 @@ export default {
           this.total = res.data.data.content.totalCount
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

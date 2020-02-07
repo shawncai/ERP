@@ -574,7 +574,7 @@ export default {
     //   this.getcategorys()
     //   if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {
     //     this.$notify.error({
-    //       title: '错误',
+    //       title: 'wrong',
     //       message: '请先选择基本计量单位组',
     //       offset: 100
     //     })
@@ -670,7 +670,7 @@ export default {
     checkunitGroupIds() {
       if (this.personalForm.purchaseMeasurement === null || this.personalForm.purchaseMeasurement === '' || this.personalForm.purchaseMeasurement === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择基本计量单位',
           offset: 100
         })
@@ -950,7 +950,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -958,8 +958,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

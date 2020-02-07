@@ -113,7 +113,7 @@ export default {
       console.log(node)
       if (node.level === 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '顶层不可选择',
           offset: 100
         })
@@ -123,7 +123,7 @@ export default {
       this.choosedata = data
       if (this.choosedata.level === 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '顶层不可选择',
           offset: 100
         })

@@ -458,7 +458,7 @@ export default {
       console.log('this.date', this.date)
       if (this.getemplist.type === '1' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择日期',
           offset: 100
         })
@@ -466,7 +466,7 @@ export default {
       }
       if (this.getemplist.type === '3' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择仓库',
           offset: 100
         })
@@ -474,7 +474,7 @@ export default {
       }
       if (this.getemplist.type === '3' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择日期',
           offset: 100
         })
@@ -482,7 +482,7 @@ export default {
       }
       if (this.getemplist.type === '4' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择仓库',
           offset: 100
         })
@@ -490,7 +490,7 @@ export default {
       }
       if (this.getemplist.type === '4' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择日期',
           offset: 100
         })
@@ -498,7 +498,7 @@ export default {
       }
       if (this.getemplist.type === '5' && (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择仓库',
           offset: 100
         })
@@ -506,7 +506,7 @@ export default {
       }
       if (this.getemplist.type === '5' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择日期',
           offset: 100
         })

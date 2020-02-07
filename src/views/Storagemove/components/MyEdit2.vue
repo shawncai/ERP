@@ -486,8 +486,8 @@ export default {
       this.ischeck = true
       if (row.data.locationId === null) {
         this.$notify.error({
-          title: '错误',
-          message: '信息未填完整',
+          title: 'wrong',
+          message: 'Information is incomplete',
           offset: 100
         })
         this.ischeck = false
@@ -600,7 +600,7 @@ export default {
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -662,7 +662,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

@@ -329,7 +329,7 @@ export default {
         console.log(this.personalForm.recyclingRepositoryId)
         if (this.personalForm.recyclingRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -363,7 +363,7 @@ export default {
     handleAddproduct() {
       if (this.recyclingRepositoryId === null || this.recyclingRepositoryId === '' || this.recyclingRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择回收仓库',
           offset: 100
         })
@@ -423,7 +423,7 @@ export default {
       if (event === true) {
         if (this.personalForm.recyclingRepositoryId === null || this.personalForm.recyclingRepositoryId === '' || this.personalForm.recyclingRepositoryId === undefined) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择门店',
             offset: 100
           })
@@ -431,7 +431,7 @@ export default {
         }
         if (this.personalForm.productCode === null || this.personalForm.productCode === '' || this.personalForm.productCode === undefined) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择物品',
             offset: 100
           })
@@ -551,7 +551,7 @@ export default {
       for (const i in EnterDetail) {
         if (EnterDetail[i].actualEnterQuantity === 0) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '商品数量不能为0',
             offset: 100
           })
@@ -568,7 +568,7 @@ export default {
       })
       if (i === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '商品货位不能为空',
           offset: 100
         })
@@ -578,7 +578,7 @@ export default {
       console.log(EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -643,7 +643,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -651,8 +651,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

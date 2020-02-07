@@ -701,7 +701,7 @@ export default {
         if (res.data.ret === 200) {
           this.tableData3 = res.data.data.content.list
           this.total3 = res.data.data.content.totalCount
-          console.log('成功')
+          console.log('successful')
         }
       })
     },

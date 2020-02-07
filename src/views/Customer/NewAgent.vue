@@ -425,7 +425,7 @@ export default {
           this.transmodes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -437,7 +437,7 @@ export default {
           this.deliverymodes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -449,7 +449,7 @@ export default {
           this.customertypes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -461,7 +461,7 @@ export default {
           this.levels = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -473,7 +473,7 @@ export default {
           this.sources = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -487,7 +487,7 @@ export default {
           this.nations = res.data.data.content
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -501,7 +501,7 @@ export default {
           this.provinces = res.data.data.content
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -519,7 +519,7 @@ export default {
           this.cities = res.data.data.content
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -552,8 +552,8 @@ export default {
                         console.log(res)
                         if (res.data.ret === 200) {
                           this.$notify({
-                            title: '成功',
-                            message: '保存成功',
+                            title: 'successful',
+                            message: 'save successful',
                             type: 'success',
                             offset: 100
                           })
@@ -568,7 +568,7 @@ export default {
                           this.$refs.customerForm4.resetFields()
                         } else {
                           this.$notify.error({
-                            title: '错误',
+                            title: 'wrong',
                             message: res.data.msg,
                             offset: 100
                           })
@@ -576,8 +576,8 @@ export default {
                       })
                     } else {
                       this.$notify.error({
-                        title: '错误',
-                        message: '信息未填完整',
+                        title: 'wrong',
+                        message: 'Information is incomplete',
                         offset: 100
                       })
                       return false
@@ -585,8 +585,8 @@ export default {
                   })
                 } else {
                   this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
+                    title: 'wrong',
+                    message: 'Information is incomplete',
                     offset: 100
                   })
                   return false
@@ -594,8 +594,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -603,8 +603,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -649,8 +649,8 @@ export default {
                         console.log(res)
                         if (res.data.ret === 200) {
                           this.$notify({
-                            title: '成功',
-                            message: '保存成功',
+                            title: 'successful',
+                            message: 'save successful',
                             type: 'success',
                             offset: 100
                           })
@@ -668,7 +668,7 @@ export default {
                           document.documentElement.scrollTop = anchor - 100
                         } else {
                           this.$notify.error({
-                            title: '错误',
+                            title: 'wrong',
                             message: res.data.msg,
                             offset: 100
                           })
@@ -676,8 +676,8 @@ export default {
                       })
                     } else {
                       this.$notify.error({
-                        title: '错误',
-                        message: '信息未填完整',
+                        title: 'wrong',
+                        message: 'Information is incomplete',
                         offset: 100
                       })
                       const anchor = this.$refs.fuzhu.offsetTop
@@ -688,8 +688,8 @@ export default {
                   })
                 } else {
                   this.$notify.error({
-                    title: '错误',
-                    message: '信息未填完整',
+                    title: 'wrong',
+                    message: 'Information is incomplete',
                     offset: 100
                   })
                   const anchor = this.$refs.caiwu.offsetTop
@@ -700,8 +700,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               const anchor = this.$refs.yewu.offsetTop
@@ -712,8 +712,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           const anchor = this.$refs.geren.offsetTop

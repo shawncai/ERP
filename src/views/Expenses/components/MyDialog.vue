@@ -436,7 +436,7 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -462,7 +462,7 @@ export default {
       })
       if (i === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '科目名称必选',
           offset: 100
         })
@@ -495,7 +495,7 @@ export default {
                 this.editVisible = false
               } else {
                 this.$notify.error({
-                  title: '错误',
+                  title: 'wrong',
                   message: '出错了',
                   offset: 100
                 })
@@ -506,8 +506,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

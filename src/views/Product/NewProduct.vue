@@ -464,7 +464,7 @@ export default {
         callback(new Error('请输入'))
       } else {
         if (!Number.isInteger(value)) {
-          console.log('成功', Number.isInteger(value))
+          console.log('successful', Number.isInteger(value))
           callback(new Error('请输入正确数字'))
         } else {
           console.log('失败', Number.isInteger(value))
@@ -478,7 +478,7 @@ export default {
       setTimeout(() => {
         if (!Number.isInteger(value)) {
           callback(new Error('请输入正确数字'))
-          console.log('成功', Number.isInteger(value))
+          console.log('successful', Number.isInteger(value))
         } else {
           console.log('失败', Number.isInteger(value))
           callback()
@@ -704,7 +704,7 @@ export default {
       this.getcategorys()
       if (this.personalForm.unitGroupId === null || this.personalForm.unitGroupId === '' || this.personalForm.unitGroupId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择基本计量单位组',
           offset: 100
         })
@@ -755,7 +755,7 @@ export default {
     checkunitGroupIds() {
       if (this.personalForm.purchasemeasurement === null || this.personalForm.purchasemeasurement === '' || this.personalForm.purchasemeasurement === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择基本计量单位',
           offset: 100
         })
@@ -961,8 +961,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -976,7 +976,7 @@ export default {
                   this.$router.go(-1)
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -984,8 +984,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -993,8 +993,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -1075,8 +1075,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -1092,7 +1092,7 @@ export default {
                   this.$refs.upload.clearFiles()
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -1100,8 +1100,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               const anchor2 = this.$refs.lianxi.offsetTop
@@ -1112,8 +1112,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           const anchor3 = this.$refs.lianxi.offsetTop

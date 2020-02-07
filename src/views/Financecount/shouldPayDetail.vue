@@ -346,7 +346,7 @@ export default {
       } else {
         this.list = []
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '搜索条件不能为空',
           offset: 100
         })

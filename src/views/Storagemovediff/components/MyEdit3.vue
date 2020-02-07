@@ -469,7 +469,7 @@ export default {
       }
       if (m === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '整车出库时相关编码必填',
           offset: 100
         })
@@ -582,7 +582,7 @@ export default {
         console.log(this.personalForm.moveOutRepository)
         if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -595,7 +595,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -639,7 +639,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -664,7 +664,7 @@ export default {
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -734,7 +734,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

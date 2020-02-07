@@ -208,7 +208,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '工序已添加',
               offset: 100
             })
@@ -233,7 +233,7 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -269,8 +269,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -280,7 +280,7 @@ export default {
                   this.$refs.personalForm.resetFields()
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -289,16 +289,16 @@ export default {
             }
           }).catch(valid => {
             this.$notify.error({
-              title: '错误',
-              message: '信息未填完整',
+              title: 'wrong',
+              message: 'Information is incomplete',
               offset: 100
             })
             return false
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

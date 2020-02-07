@@ -985,7 +985,7 @@ export default {
       const EnterDetail = this.list2 // 输出转换后数组
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '计划明细不能为空',
           offset: 100
         })
@@ -994,7 +994,7 @@ export default {
       for (let i = 0; i < EnterDetail.length; i++) {
         if (EnterDetail[i].address === '' && EnterDetail[i].planTarget === '7') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '地点信息未填完整',
             offset: 100
           })
@@ -1033,7 +1033,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
