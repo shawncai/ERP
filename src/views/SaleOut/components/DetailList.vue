@@ -109,6 +109,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="width: 100%;">
+                  <span>{{ personalForm.couponSupportOld }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
                   <span>{{ personalForm.couponSupport }}</span>
                 </el-form-item>
@@ -132,7 +137,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                  <span>{{ personalForm.receivableMoney }}</span>
+                  <span>{{ personalForm.receivableMoneyForDetail }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -516,6 +521,8 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log('this.detaildata', this.detaildata)
+      console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
       this.list2 = this.personalForm.saleOutDetailVos
       this.list3 = this.personalForm.saleOutGiftVos
       for (const i in this.list2) {

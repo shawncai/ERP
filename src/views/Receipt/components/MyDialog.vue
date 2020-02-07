@@ -74,6 +74,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="width: 100%;">
+                <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Receipt.receiptPersonId')" prop="receiptPersonId" style="width: 100%;">
                 <el-input v-model="receiptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
               </el-form-item>
@@ -1046,6 +1051,9 @@ export default {
     },
     // 保存操作
     handlesave() {
+      if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+        this.personalForm.couponSupportOld = 0
+      }
       if (this.personalForm.customerType === '1') {
         const EnterDetail = this.$refs.editable.getRecords()
         if (EnterDetail.length === 0) {

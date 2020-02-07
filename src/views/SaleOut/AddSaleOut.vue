@@ -178,6 +178,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="width: 100%;">
+                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
@@ -766,7 +771,8 @@ export default {
         advanceMoney: 0,
         receiveMoney: 0,
         isInvoice: 1,
-        couponMoney: 0
+        couponMoney: 0,
+        couponSupportOld: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -1099,12 +1105,15 @@ export default {
         this.personalForm.advanceMoney = 0
       }
       console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+        this.personalForm.couponSupportOld = 0
+      }
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.advanceMoney))
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1113,8 +1122,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('123', 123)
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney)
+        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld))
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1124,8 +1133,8 @@ export default {
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
         console.log('234', 234)
-        let needmoney = (this.receivableMoney - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.receivableMoney)
+        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld))
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1134,8 +1143,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('456', 456)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld))
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -2171,7 +2180,8 @@ export default {
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
-        isInvoice: 1
+        isInvoice: 1,
+        couponSupportOld: 0
       }
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
@@ -2199,7 +2209,9 @@ export default {
               return false
             }
           }
-
+          if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+            this.personalForm.couponSupportOld = 0
+          }
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           // 整车出库时相关编码必填
           let m = 1
