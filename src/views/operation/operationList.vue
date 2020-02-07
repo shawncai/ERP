@@ -150,7 +150,7 @@ export default {
           } else {
             this.getemplist.pageNum = this.getemplist.pageNum - 1
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '已经最后一页',
               offset: 100
             })
@@ -224,7 +224,7 @@ export default {
           // this.restFilter()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

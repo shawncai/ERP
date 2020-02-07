@@ -452,7 +452,7 @@ export default {
             children.splice(index, 1)
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })
@@ -472,7 +472,7 @@ export default {
       updateSubject(parms).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '修改成功',
             type: 'success',
             offset: 100
@@ -561,7 +561,7 @@ export default {
       console.log('addtreeform', this.addtreeform)
       if (this.addtreeform.subjectNumber === null || this.addtreeform.subjectNumber === '' || this.addtreeform.subjectNumber === undefined || this.addtreeform.subjectName === null || this.addtreeform.subjectName === '' || this.addtreeform.subjectName === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写完整',
           offset: 100
         })
@@ -572,7 +572,7 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '新建成功',
             type: 'success',
             offset: 100
@@ -591,7 +591,7 @@ export default {
           this.newdata.productClassfyVos.push(newChild)
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })
@@ -601,7 +601,7 @@ export default {
     handleedit() {
       if ((this.edititem.itemCode.substring(0, this.edititem.itemCode2.length) !== this.edititem.itemCode2) || (this.edititem.itemCode.substring(this.edititem.itemCode2.length, this.edititem.itemCode.length).length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请按照编码规则填写',
           offset: 100
         })
@@ -609,7 +609,7 @@ export default {
       }
       if (this.edititem.itemCode === null || this.edititem.itemCode === '' || this.edititem.itemCode === undefined || this.edititem.itemName === null || this.edititem.itemName === '' || this.edititem.itemName === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写完整',
           offset: 100
         })
@@ -621,7 +621,7 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '修改成功',
             type: 'success',
             offset: 100
@@ -632,7 +632,7 @@ export default {
           this.edititemVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })
@@ -653,7 +653,7 @@ export default {
       console.log('this.additem.itemCode', this.additem.itemCode)
       if ((this.additem.itemCode.substring(0, this.additem.itemCode2.length) !== this.additem.itemCode2) || (this.additem.itemCode.substring(this.additem.itemCode2.length, this.additem.itemCode.length).length === 0)) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请按照编码规则填写',
           offset: 100
         })
@@ -661,7 +661,7 @@ export default {
       }
       if (this.additem.itemCode === null || this.additem.itemCode === '' || this.additem.itemCode === undefined || this.additem.itemName === null || this.additem.itemName === '' || this.additem.itemName === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写完整',
           offset: 100
         })
@@ -677,7 +677,7 @@ export default {
         console.log(res)
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '新建成功',
             type: 'success',
             offset: 100
@@ -699,7 +699,7 @@ export default {
           this.newdata.subjectFinanceVos.push(newChild)
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })

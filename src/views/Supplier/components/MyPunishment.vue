@@ -87,8 +87,8 @@ export default {
       createPunishment(parms).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
-            message: '保存成功',
+            title: 'successful',
+            message: 'save successful',
             type: 'success',
             offset: 100
           })

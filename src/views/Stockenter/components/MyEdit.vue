@@ -313,7 +313,7 @@ export default {
         console.log(this.personalForm.enterRepositoryId)
         if (this.personalForm.enterRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -346,7 +346,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -390,7 +390,7 @@ export default {
       })
       if (m === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '整车入库时相关编码必填',
           offset: 100
         })
@@ -398,7 +398,7 @@ export default {
       }
       if (n === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '整车入库时数量必须为1',
           offset: 100
         })
@@ -406,7 +406,7 @@ export default {
       }
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -467,7 +467,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

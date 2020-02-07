@@ -439,7 +439,7 @@ export default {
             this.receiptVisible2 = true
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -515,7 +515,7 @@ export default {
       }
       if (qq === 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '质检过的商品都已入库',
           offset: 100
         })
@@ -564,7 +564,7 @@ export default {
 
       if (b === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '电池出库时电池编码必填',
           offset: 100
         })
@@ -573,7 +573,7 @@ export default {
       console.log(rest)
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -635,7 +635,7 @@ export default {
       })
       if (i === 4) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '商品货位和批次不能为空',
           offset: 100
         })
@@ -649,8 +649,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -660,7 +660,7 @@ export default {
               this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -668,8 +668,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -749,7 +749,7 @@ export default {
         console.log(this.personalForm.enterRepositoryId)
         if (this.personalForm.enterRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -816,7 +816,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })

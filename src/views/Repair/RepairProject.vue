@@ -219,7 +219,7 @@ export default {
         this.getList()
         this.addproject = false
         this.$notify({
-          title: '成功',
+          title: 'successful',
           message: '创建成功',
           type: 'success',
           duration: 2000
@@ -239,7 +239,7 @@ export default {
           this.getList()
           this.dialogFormVisible = false
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '修改成功',
             type: 'success',
             duration: 2000

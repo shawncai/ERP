@@ -404,7 +404,7 @@ export default {
       const rest2 = this.$refs.editable.getRecords()
       if (this.$refs.editable.getRecords().length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写细则',
           offset: 100
         })
@@ -432,7 +432,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

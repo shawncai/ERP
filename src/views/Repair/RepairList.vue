@@ -1643,7 +1643,7 @@ export default {
         })
       } else {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写',
           offset: 100
         })
@@ -1669,8 +1669,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

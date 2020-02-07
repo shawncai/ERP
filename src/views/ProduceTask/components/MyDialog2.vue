@@ -414,7 +414,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -438,7 +438,7 @@ export default {
     chooseproduce() {
       if (this.personalForm.workCenterId === '' || this.personalForm.workCenterId === null || this.personalForm.workCenterId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择工作中心',
           offset: 100
         })
@@ -463,7 +463,7 @@ export default {
       console.log(val)
       if (val.finishQuantity > val.produceQuantity - val.alreadyProduceQuantity) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '完成数已超出限制',
           offset: 100
         })
@@ -511,7 +511,7 @@ export default {
       const EnterDetail4 = this.$refs.editable4.getRecords()
       if (EnterDetail.length === 0 || EnterDetail2.length === 0 || EnterDetail3.length === 0 || EnterDetail4.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -642,7 +642,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

@@ -386,7 +386,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -406,7 +406,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -436,7 +436,7 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -486,7 +486,7 @@ export default {
       const EnterDetail2 = this.$refs.editable2.getRecords()
       if (EnterDetail2.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -553,7 +553,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

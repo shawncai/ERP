@@ -863,7 +863,7 @@ export default {
           this.getReceivableMoney(res.data.data.content)
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })
@@ -1042,7 +1042,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1066,7 +1066,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1090,7 +1090,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1133,7 +1133,7 @@ export default {
       console.log('row+++=======', row)
       if (row.locationName === null || row.locationName === '' || row.locationName === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '仓库不存在此商品!',
           offset: 100
         })
@@ -1158,7 +1158,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '仓库内无该物品',
                 offset: 100
               })
@@ -1167,7 +1167,7 @@ export default {
             }
             if (row.quantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -1176,7 +1176,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1193,7 +1193,7 @@ export default {
             console.log('res.data.data.content', res.data.data.content)
             if (row.quantity > res.data.data.content[0].quantity) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
                 offset: 100
               })
@@ -1202,7 +1202,7 @@ export default {
             }
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1224,7 +1224,7 @@ export default {
       if (event === true) {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -1292,7 +1292,7 @@ export default {
         // for (let j = 0; j < nowlistdata.length; j++) {
         //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
         //     this.$notify.error({
-        //       title: '错误',
+        //       title: 'wrong',
         //       message: '物品已添加',
         //       offset: 100
         //     })
@@ -1625,7 +1625,7 @@ export default {
     handleAddSource() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -1734,7 +1734,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1761,7 +1761,7 @@ export default {
     handleAddproduct() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -1787,7 +1787,7 @@ export default {
             console.log('result2', res.data.data.content)
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -1801,7 +1801,7 @@ export default {
     handleAddGift() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -1815,7 +1815,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1901,7 +1901,7 @@ export default {
           if (this.personalForm.sourceType === '5') {
             if (this.personalForm.saleType === '2') {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '无来源时销售类别不能是分期',
                 offset: 100
               })
@@ -1931,7 +1931,7 @@ export default {
           })
           if (m === 2) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '整车出库时相关编码必填',
               offset: 100
             })
@@ -1957,7 +1957,7 @@ export default {
           console.log(i)
           if (i > EnterDetail.length) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '同样商品不能有同一个批次',
               offset: 100
             })
@@ -1975,7 +1975,7 @@ export default {
           console.log(j)
           if (j === 2) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '批次货位不能为空',
               offset: 100
             })
@@ -1984,7 +1984,7 @@ export default {
           const EnterDetail2 = this.$refs.editable2.getRecords()
           if (EnterDetail.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '明细表不能为空',
               offset: 100
             })
@@ -2143,7 +2143,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -2151,8 +2151,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

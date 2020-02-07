@@ -710,7 +710,7 @@ export default {
             console.log(this.personalForm.exchangeRate)
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -733,7 +733,7 @@ export default {
             this.receiptVisible2 = true
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -753,7 +753,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             // this.$notify.error({
-            //   title: '错误',
+            //   title: 'wrong',
             //   message: '物品已添加',
             //   offset: 100
             // })
@@ -802,7 +802,7 @@ export default {
     chooseType() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -958,7 +958,7 @@ export default {
     handleAddproduct() {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -972,7 +972,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1068,7 +1068,7 @@ export default {
         if (valid) {
           if (this.personalForm.otherMoney === null || this.personalForm.otherMoney === undefined || this.personalForm.otherMoney === '') {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '其他费用不能为空',
               offset: 100
             })
@@ -1077,7 +1077,7 @@ export default {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '明细表不能为空',
               offset: 100
             })
@@ -1163,8 +1163,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -1178,7 +1178,7 @@ export default {
               this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -1186,8 +1186,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

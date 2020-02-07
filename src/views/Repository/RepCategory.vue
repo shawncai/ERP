@@ -341,7 +341,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -364,7 +364,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -418,7 +418,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -449,7 +449,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })
@@ -481,7 +481,7 @@ export default {
           updateRepCategory(this.editCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
+                title: 'successful',
                 message: '修改成功',
                 type: 'success',
                 offset: 100
@@ -492,7 +492,7 @@ export default {
               this.editcategoryVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -500,8 +500,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -544,7 +544,7 @@ export default {
           addRepCategory(this.addCategoryForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
+                title: 'successful',
                 message: '新建成功',
                 type: 'success',
                 offset: 100
@@ -556,7 +556,7 @@ export default {
               this.categoryVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -564,8 +564,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -580,7 +580,7 @@ export default {
           addRepCategory(this.addCategoryForm2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
+                title: 'successful',
                 message: '新建成功',
                 type: 'success',
                 offset: 100
@@ -592,7 +592,7 @@ export default {
               this.categoryVisible2 = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -600,15 +600,15 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
         }
         // } else {
         //   this.$notify.error({
-        //     title: '错误',
+        //     title: 'wrong',
         //     message: '请选择类型',
         //     offset: 100
         //   })

@@ -266,7 +266,7 @@ export default {
         console.log(this.personalForm.adjustRepositoryId)
         if (this.personalForm.adjustRepositoryId === undefined || this.personalForm.adjustRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -280,7 +280,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -322,7 +322,7 @@ export default {
       if (event === true) {
         if (this.personalForm.adjustRepositoryId === undefined || this.personalForm.adjustRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -343,7 +343,7 @@ export default {
         this.checklist = this.$refs.editable.getRecords()
       } else {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择仓库',
           offset: 100
         })
@@ -387,7 +387,7 @@ export default {
       console.log(EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -404,7 +404,7 @@ export default {
       console.log(j)
       if (j === 2) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '调入货位和调出货位都不能为空',
           offset: 100
         })
@@ -481,7 +481,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

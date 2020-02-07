@@ -559,7 +559,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -590,7 +590,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })

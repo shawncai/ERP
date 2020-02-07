@@ -556,7 +556,7 @@ export default {
             this.$set(this.personalForm, 'exchangeRate', res.data.data.content.rate)
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -833,7 +833,7 @@ export default {
       } else if (this.personalForm.sourceType === '2') {
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择供应商',
             duration: 0
           })
@@ -843,7 +843,7 @@ export default {
       } else if (this.personalForm.sourceType === '3') {
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择供应商',
             duration: 0
           })
@@ -853,7 +853,7 @@ export default {
       } else if (this.personalForm.sourceType === '4') {
         if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择供应商',
             duration: 0
           })
@@ -873,7 +873,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -921,7 +921,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -983,7 +983,7 @@ export default {
       }
       if (re === 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '源单中的商品该供应商都无法提供',
           offset: 100
         })
@@ -1013,7 +1013,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1100,7 +1100,7 @@ export default {
     handleAddproduct() {
       if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择供应商',
           duration: 0
         })
@@ -1116,7 +1116,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1181,7 +1181,7 @@ export default {
             const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
             if (EnterDetail.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '明细表不能为空',
                 offset: 100
               })
@@ -1199,7 +1199,7 @@ export default {
             console.log('ll', ll)
             if (ll === 2) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '采购数量不能为0',
                 offset: 100
               })
@@ -1223,7 +1223,7 @@ export default {
             console.log('ll2', ll2)
             if (ll2 === 2) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '交货日期不能早于下单日期',
                 offset: 100
               })
@@ -1322,7 +1322,7 @@ export default {
                 this.editVisible = false
               } else {
                 this.$notify.error({
-                  title: '错误',
+                  title: 'wrong',
                   message: '出错了',
                   offset: 100
                 })
@@ -1333,8 +1333,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

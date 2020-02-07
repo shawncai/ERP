@@ -397,7 +397,7 @@ export default {
           this.$emit('rest', true)
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '删除失败',
             offset: 100
           })
@@ -497,7 +497,7 @@ export default {
         console.log(this.personalForm.countRepositoryId)
         if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -510,7 +510,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -689,7 +689,7 @@ export default {
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -771,7 +771,7 @@ export default {
                   this.editVisible = false
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: '出错了',
                     offset: 100
                   })
@@ -779,8 +779,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -788,8 +788,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

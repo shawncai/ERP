@@ -507,7 +507,7 @@ export default {
       console.log('this.personalForm', this.personalForm)
       if (this.personalForm.totalCreditMoney !== this.personalForm.totalDebitMoney) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '贷方金额和借方金额不匹配',
           offset: 100
         })
@@ -516,7 +516,7 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -575,7 +575,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

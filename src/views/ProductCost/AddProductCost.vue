@@ -490,7 +490,7 @@ export default {
           if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -546,7 +546,7 @@ export default {
           if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingMaterialsQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -582,7 +582,7 @@ export default {
           if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.endWorkHours === '' || this.personalForm.endWorkHours === null || this.personalForm.endWorkHours === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.endMaterialsQuantity === '' || this.personalForm.endMaterialsQuantity === null || this.personalForm.endMaterialsQuantity === undefined || this.personalForm.finishWorkHours === '' || this.personalForm.finishWorkHours === null || this.personalForm.finishWorkHours === undefined || this.personalForm.finishMaterialsUsedQuantity === '' || this.personalForm.finishMaterialsUsedQuantity === null || this.personalForm.finishMaterialsUsedQuantity === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -628,7 +628,7 @@ export default {
           if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -677,7 +677,7 @@ export default {
           if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.finishQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -713,7 +713,7 @@ export default {
           if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.endWorkHours === '' || this.personalForm.endWorkHours === null || this.personalForm.endWorkHours === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.endMaterialsQuantity === '' || this.personalForm.endMaterialsQuantity === null || this.personalForm.endMaterialsQuantity === undefined || this.personalForm.finishWorkHours === '' || this.personalForm.finishWorkHours === null || this.personalForm.finishWorkHours === undefined || this.personalForm.finishMaterialsUsedQuantity === '' || this.personalForm.finishMaterialsUsedQuantity === null || this.personalForm.finishMaterialsUsedQuantity === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -760,7 +760,7 @@ export default {
           if (this.personalForm.completeRate === '' || this.personalForm.completeRate === null || this.personalForm.completeRate === undefined || this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -807,7 +807,7 @@ export default {
           if (this.personalForm.finishQuantity === '' || this.personalForm.finishQuantity === null || this.personalForm.finishQuantity === undefined || this.personalForm.finishQuantity === '' || this.personalForm.producingMaterialsQuantity === null || this.personalForm.producingMaterialsQuantity === undefined || this.personalForm.producingQuantity === '' || this.personalForm.producingQuantity === null || this.personalForm.producingQuantity === undefined || this.personalForm.producingSalary === '' || this.personalForm.producingSalary === null || this.personalForm.producingSalary === undefined || this.personalForm.producingCost === '' || this.personalForm.producingCost === null || this.personalForm.producingCost === undefined) {
             this.change()
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '上方字段未填写完整',
               offset: 100
             })
@@ -856,7 +856,7 @@ export default {
     handleAdd() {
       if (this.personalForm.sampleQuantity === '' || this.personalForm.sampleQuantity === null || this.personalForm.sampleQuantity === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '抽样数量为空',
           offset: 100
         })
@@ -1133,7 +1133,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -1289,8 +1289,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -1304,7 +1304,7 @@ export default {
               this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -1312,7 +1312,7 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '成本费用明细未输入',
             offset: 100
           })

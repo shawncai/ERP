@@ -615,7 +615,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -638,7 +638,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -725,7 +725,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -763,7 +763,7 @@ export default {
         if (valid) {
           if (this.personalForm.liveStatus === '' || this.personalForm.liveStatus === undefined || this.personalForm.liveStatus === null) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请选择居住状况',
               offset: 100
             })
@@ -771,7 +771,7 @@ export default {
           }
           if (this.personalForm.liveType === '' || this.personalForm.liveType === undefined || this.personalForm.liveType === null) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请选择居住类型',
               offset: 100
             })
@@ -803,7 +803,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -811,8 +811,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

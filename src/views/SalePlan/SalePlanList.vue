@@ -233,16 +233,16 @@
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           :label="$t('public.receiptStat')"
           :resizable="false"
           align="center"
           min-width="150"
-        >
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
-          </template>
-        </el-table-column>
+        > -->
+        <!-- <template slot-scope="scope">
+          <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
+        </template>
+        </el-table-column> -->
         <el-table-column
           :label="$t('public.actions')"
           :resizable="false"
@@ -272,9 +272,9 @@
             <el-button
               v-show="isTrace(scope.row)"
               :title="$t('updates.gz')"
-              type="warning"
+              type="success"
               size="mini"
-              icon="el-icon-message"
+              icon="el-icon-news"
               circle
               @click="handleTrace(scope.row)"
             />
@@ -699,11 +699,12 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
-      return true
     },
     // 审批操作
     handleReview(row) {
@@ -770,7 +771,7 @@ export default {
                 this.getlist()
               } else {
                 this.$notify.error({
-                  title: '错误',
+                  title: 'wrong',
                   message: '出错了',
                   offset: 100
                 })
@@ -803,7 +804,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })

@@ -388,7 +388,7 @@ export default {
       console.log(this.date)
       if (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === '' || this.date.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择门店和日期开始搜索',
           offset: 100
         })

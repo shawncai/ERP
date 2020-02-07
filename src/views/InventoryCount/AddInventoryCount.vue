@@ -415,7 +415,7 @@ export default {
             this.receiptVisible2 = true
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: res.data.msg,
               offset: 100
             })
@@ -501,7 +501,7 @@ export default {
         console.log(this.personalForm.countRepositoryId)
         if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -515,7 +515,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -613,8 +613,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -624,7 +624,7 @@ export default {
                   this.$refs.personalForm.resetFields()
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -632,8 +632,8 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
-                message: '信息未填完整',
+                title: 'wrong',
+                message: 'Information is incomplete',
                 offset: 100
               })
               return false
@@ -641,8 +641,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false
@@ -712,7 +712,7 @@ export default {
     handleAddproduct() {
       if (this.countRepositoryId === '' || this.countRepositoryId === null || this.countRepositoryId === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择仓库',
           offset: 100
         })

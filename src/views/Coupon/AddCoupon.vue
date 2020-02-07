@@ -289,7 +289,7 @@ export default {
       console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
       if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -307,7 +307,7 @@ export default {
               this.receiptVisible2 = true
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -442,7 +442,7 @@ export default {
       if (event === true) {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -709,7 +709,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -744,7 +744,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -776,7 +776,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -807,7 +807,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -847,7 +847,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -867,7 +867,7 @@ export default {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '物品已添加',
               offset: 100
             })
@@ -949,7 +949,7 @@ export default {
           if (this.personalForm.type === 2) {
             if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === null || this.personalForm.repositoryId === '') {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '请选择门店',
                 offset: 100
               })
@@ -958,7 +958,7 @@ export default {
           }
           if (this.personalForm.effectiveType === undefined || this.personalForm.effectiveType === null || this.personalForm.effectiveType === '' || this.personalForm.effectiveType.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '请选择适用类别',
               offset: 100
             })
@@ -967,7 +967,7 @@ export default {
           if (this.personalForm.effectiveTime === 1) {
             if (this.personalForm.beginTime === undefined || this.personalForm.beginTime === null || this.personalForm.beginTime === '') {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '请选择开始时间',
                 offset: 100
               })
@@ -975,7 +975,7 @@ export default {
             }
             if (this.personalForm.endTime === undefined || this.personalForm.endTime === null || this.personalForm.endTime === '') {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '请选择截止时间',
                 offset: 100
               })
@@ -983,7 +983,7 @@ export default {
             }
             if (this.personalForm.endTime <= this.personalForm.beginTime) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '截止时间需要大于开始时间',
                 offset: 100
               })
@@ -1006,8 +1006,8 @@ export default {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
-                title: '成功',
-                message: '保存成功',
+                title: 'successful',
+                message: 'save successful',
                 type: 'success',
                 offset: 100
               })
@@ -1015,7 +1015,7 @@ export default {
               this.$refs.personalForm.resetFields()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: res.data.msg,
                 offset: 100
               })
@@ -1023,8 +1023,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

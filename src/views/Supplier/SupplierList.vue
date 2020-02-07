@@ -285,7 +285,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -308,7 +308,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -328,7 +328,7 @@ export default {
       if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined && this.moreaction.length !== 0) {
         if (this.moreaction.length > 1) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请选择一个供应商',
             offset: 100
           })
@@ -340,7 +340,7 @@ export default {
         }
       } else {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择要考核的供应商',
           offset: 100
         })
@@ -352,7 +352,7 @@ export default {
       if (this.moreaction !== '' && this.moreaction !== null && this.moreaction !== undefined && this.moreaction.length !== 0) {
         if (this.moreaction.length > 1) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请选择一个供应商',
             offset: 100
           })
@@ -363,7 +363,7 @@ export default {
         }
       } else {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择要考核的供应商',
           offset: 100
         })
@@ -386,7 +386,7 @@ export default {
           this.total = res.data.data.content.totalCount
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -407,7 +407,7 @@ export default {
           this.typeIds = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -419,7 +419,7 @@ export default {
           this.levelIds = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -443,7 +443,7 @@ export default {
           this.total = res.data.data.content.totalCount
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -494,7 +494,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -525,7 +525,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })
@@ -546,7 +546,7 @@ export default {
           this.groupData = res.data.data.content
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -579,7 +579,7 @@ export default {
           this.groupList()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -603,7 +603,7 @@ export default {
             this.groupList()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })

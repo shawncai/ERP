@@ -663,7 +663,7 @@ export default {
       console.log(this.$refs.editable.getRecords())
       if (row.applyQuantity > row.existStock) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '申请数量超过库存数量',
           offset: 100
         })
@@ -712,7 +712,7 @@ export default {
         console.log(this.personalForm.moveOutRepository)
         if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择仓库',
             offset: 100
           })
@@ -725,7 +725,7 @@ export default {
               this.updatebatch3(scope)
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '该仓库没有该商品',
                 offset: 100
               })
@@ -772,7 +772,7 @@ export default {
     handleAddproduct() {
       if (this.moveOutRepository === null || this.moveOutRepository === '' || this.moveOutRepository === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请先选择出库仓库',
           offset: 100
         })
@@ -833,7 +833,7 @@ export default {
       // console.log(i)
       // if (i > EnterDetail.length) {
       //   this.$notify.error({
-      //     title: '错误',
+      //     title: 'wrong',
       //     message: '同样商品不能有同一个批次',
       //     offset: 100
       //   })
@@ -851,7 +851,7 @@ export default {
       // console.log(j)
       // if (j === 2) {
       //   this.$notify.error({
-      //     title: '错误',
+      //     title: 'wrong',
       //     message: '批次货位不能为空',
       //     offset: 100
       //   })
@@ -861,7 +861,7 @@ export default {
       // console.log(EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '明细表不能为空',
           offset: 100
         })
@@ -925,8 +925,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -936,7 +936,7 @@ export default {
                   this.$refs.personalForm.resetFields()
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -945,16 +945,16 @@ export default {
             }
           }).catch(valid => {
             this.$notify.error({
-              title: '错误',
-              message: '信息未填完整',
+              title: 'wrong',
+              message: 'Information is incomplete',
               offset: 100
             })
             return false
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

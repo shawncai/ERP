@@ -129,14 +129,14 @@ export default {
           this.dialogVisible = true
           this.contentdata = res.data.msg
           // this.$notify({
-          //   title: '成功',
+          //   title: 'successful',
           //   message: res.data.msg,
           //   type: 'success',
           //   duration: 0
           // })
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             duration: 0
           })

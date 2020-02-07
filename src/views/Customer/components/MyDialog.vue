@@ -445,7 +445,7 @@ export default {
           this.deliverymodes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -457,7 +457,7 @@ export default {
           this.transmodes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -469,7 +469,7 @@ export default {
           this.customertypes = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -481,7 +481,7 @@ export default {
           this.levels = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -493,7 +493,7 @@ export default {
           this.sources = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -577,7 +577,7 @@ export default {
           this.editVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

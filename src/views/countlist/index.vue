@@ -251,7 +251,7 @@ export default {
           // this.restFilter()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -333,7 +333,7 @@ export default {
           const tabeldata = this.cutnull(res.data.data.content.list)
           if (res.data.data.content.list.length === 0) {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '该门店没有数据',
               offset: 100
             })
@@ -390,7 +390,7 @@ export default {
           }
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

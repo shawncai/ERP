@@ -317,7 +317,7 @@ export default {
       if (event === true) {
         if (this.personalForm.PrepReceiptRepositoryId === null || this.personalForm.PrepReceiptRepositoryId === '' || this.personalForm.PrepReceiptRepositoryId === undefined) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择门店',
             offset: 100
           })
@@ -325,7 +325,7 @@ export default {
         }
         if (this.personalForm.productCode === null || this.personalForm.productCode === '' || this.personalForm.productCode === undefined) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先选择物品',
             offset: 100
           })
@@ -453,7 +453,7 @@ export default {
               this.editVisible = false
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -461,8 +461,8 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '信息未填完整',
+            title: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
           return false

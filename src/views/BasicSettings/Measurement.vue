@@ -246,7 +246,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -269,7 +269,7 @@ export default {
           this.getlist()
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -314,7 +314,7 @@ export default {
       console.log(this.editNumberingform)
       if (this.editNumberingform.type === null || this.editNumberingform.type === '' || this.editNumberingform.type === undefined || this.editNumberingform.categoryName === null || this.editNumberingform.categoryName === '' || this.editNumberingform.categoryName === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '名称和类别不能为空',
           offset: 100
         })
@@ -332,7 +332,7 @@ export default {
           this.editNumberingVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })
@@ -363,7 +363,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -394,7 +394,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })
@@ -425,7 +425,7 @@ export default {
     handleOk() {
       if (this.Numberingform.type === null || this.Numberingform.type === '' || this.Numberingform.type === undefined || this.Numberingform.categoryname === null || this.Numberingform.categoryname === '' || this.Numberingform.categoryname === undefined) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '名称和类别不能为空',
           offset: 100
         })
@@ -443,7 +443,7 @@ export default {
           this.addNumberingVisible = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: res.data.msg,
             offset: 100
           })

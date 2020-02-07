@@ -273,14 +273,14 @@ export default {
     handleAddsaleout() {
       if (this.moreaction.length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请选择单据',
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请不要选择多个单据',
           offset: 100
         })
@@ -288,7 +288,7 @@ export default {
       } else {
         if (this.moreaction[0].judgeStat === 0) {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '请先审核单据',
             offset: 100
           })
@@ -519,7 +519,7 @@ export default {
               this.getlist()
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '出错了',
                 offset: 100
               })
@@ -550,7 +550,7 @@ export default {
             this.getlist()
           } else {
             this.$notify.error({
-              title: '错误',
+              title: 'wrong',
               message: '出错了',
               offset: 100
             })

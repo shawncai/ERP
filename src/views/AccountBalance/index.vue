@@ -278,7 +278,7 @@ export default {
       initBalance(parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '成功',
+            title: 'successful',
             message: '新建成功',
             type: 'success',
             offset: 100
@@ -287,7 +287,7 @@ export default {
           this.categoryVisible2 = false
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -325,7 +325,7 @@ export default {
           console.log('this.list2', this.list2)
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })

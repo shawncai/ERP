@@ -262,7 +262,7 @@ export default {
           this.repositories = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -280,7 +280,7 @@ export default {
       //     this.list2 = res.data.data.detail
       //   } else {
       //     this.$notify.error({
-      //       title: '错误',
+      //       title: 'wrong',
       //       message: '出错了',
       //       offset: 100
       //     })
@@ -312,7 +312,7 @@ export default {
           this.repositories = res.data.data.content.list
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '出错了',
             offset: 100
           })
@@ -334,7 +334,7 @@ export default {
       const rest2 = this.$refs.editable.getRecords()
       if (this.$refs.editable.getRecords().length === 0) {
         this.$notify.error({
-          title: '错误',
+          title: 'wrong',
           message: '请填写细则',
           offset: 100
         })
@@ -357,8 +357,8 @@ export default {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '成功',
-                    message: '保存成功',
+                    title: 'successful',
+                    message: 'save successful',
                     type: 'success',
                     offset: 100
                   })
@@ -368,7 +368,7 @@ export default {
                   this.$refs.editable.clear()
                 } else {
                   this.$notify.error({
-                    title: '错误',
+                    title: 'wrong',
                     message: res.data.msg,
                     offset: 100
                   })
@@ -377,7 +377,7 @@ export default {
               })
             } else {
               this.$notify.error({
-                title: '错误',
+                title: 'wrong',
                 message: '信息未填写完整',
                 offset: 100
               })
@@ -386,7 +386,7 @@ export default {
           })
         } else {
           this.$notify.error({
-            title: '错误',
+            title: 'wrong',
             message: '信息未填写完整',
             offset: 100
           })
@@ -442,7 +442,7 @@ export default {
       // 提交请求
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve('保存成功')
+          resolve('save successful')
         }, 300)
       })
     },
