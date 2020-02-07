@@ -4,53 +4,57 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
-          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="销售计划单编号" style="width: 100%;display: none">
-                  {{ personalForm.planNumber }}
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
                 <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                  <span>{{ personalForm.title }}</span>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
-                  <span>{{ personalForm.planType | planTypeFilter }}</span>
+                <el-form-item :label="$t('SalePlan.planCategory')" prop="" style="width: 100%;">
+                  <el-select
+                    v-model="personalForm.planCategory"
+                    style="margin-left: 18px;width: 200px"
+                    disabled>
+                    <el-option value="1" label="门店计划" />
+                    <el-option value="2" label="区域计划" />
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('SalePlan.planDate')" style="width: 100%;">
-                  <span>{{ personalForm.planDate }}</span>
+                <el-form-item :label="$t('SalePlan.planType')" prop="" style="width: 100%;">
+                  <el-select
+                    v-model="personalForm.planType"
+                    style="margin-left: 18px;width: 200px"
+                    disabled>
+                    <el-option value="1" label="年计划" />
+                    <el-option value="2" label="季计划" />
+                    <el-option value="3" label="月计划" />
+                    <el-option value="4" label="周计划" />
+                    <el-option value="5" label="日计划" />
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
-                  <span>{{ personalForm.beginTime }}</span>
+                  <el-input v-model="personalForm.beginTime" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SalePlan.endTime')" style="width: 100%;">
-                  <span>{{ personalForm.endTime }}</span>
+                  <el-input v-model="personalForm.endTime" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SalePlan.lowerPlanMoney')" style="width: 100%;">
-                  <span>{{ personalForm.lowerPlanMoney }}</span>
+              <el-col v-if="personalForm.planCategory === '2'" :span="12">
+                <el-form-item :label="$t('SalePlan.regionId')" style="width: 100%;">
+                  <el-input v-model="personalForm.planRegionName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SalePlan.planTotalMoney')" style="width: 100%;">
-                  <span>{{ personalForm.planTotalMoney }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('SalePlan.urgePlan')" style="width: 100%;">
-                  <span>{{ personalForm.urgePlan }}</span>
+              <el-col v-if="personalForm.planCategory === '1'" :span="12">
+                <el-form-item :label="$t('SalePlan.repositoryid')" style="width: 100%;">
+                  <el-input v-model="personalForm.planRepositoryName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -59,16 +63,44 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.jhmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.jhmx') }}</h2>
         <div class="container">
-          <el-tree
-            ref="DeviceGroupTree"
-            :data="data2"
-            :props="defaultProps"
-            :check-strictly = "true"
-            default-expand-all
-            node-key="id"
-          />
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('SalePlan.progress')" prop="" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <el-progress ref="myprogress" :text-inside="true" :stroke-width="18" :percentage="clacProgress(scope.row)" :status="mystatus" :format="_format(scope.row)"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.planTarget')" prop="" align="center" min-width="250px">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.planTarget" :placeholder="$t('SalePlan.xzmd')" disabled clearable filterable style="margin-left: 18px;width: 180px">
+                  <el-option value="1" label="销售任务" />
+                  <el-option value="2" label="分期付款收款任务" />
+                  <el-option value="3" label="准时交款任务" />
+                  <el-option value="4" label="一个月未交任务" />
+                  <el-option value="5" label="连续三个月未交任务" />
+                  <el-option value="6" label="连续三个月以上未交任务" />
+                  <el-option value="7" label="地点任务" />
+                </el-select>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('SalePlan.address')" prop="address" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('SalePlan.typeId')" prop="productType" align="center" min-width="250px"/>
+            <el-editable-column :label="$t('SalePlan.quantity')" prop="quantity" align="center" min-width="150" />
+            <el-editable-column :label="$t('SalePlan.money')" prop="money" align="center" min-width="150" />
+            <el-editable-column :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" />
+            <el-editable-column :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" />
+          </el-editable>
         </div>
       </el-card>
       <!--审核状态-->
@@ -150,6 +182,7 @@
 </template>
 
 <script>
+import { saleplanlistDetail } from '@/api/SalePlan'
 var _that
 export default {
   filters: {
@@ -235,6 +268,7 @@ export default {
   },
   data() {
     return {
+      mystatus: '',
       // 树结构数据
       data2: [],
       defaultProps: {
@@ -264,6 +298,13 @@ export default {
       this.data2 = this.personalForm.salePlanDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
+      saleplanlistDetail(this.personalForm.id).then(res => {
+        console.log('详情数据============>', res.data.data.content.salePlanDetailVos)
+        for (let i = 0; i < res.data.data.content.salePlanDetailVos.length; i++) {
+          res.data.data.content.salePlanDetailVos[i].planTarget = String(res.data.data.content.salePlanDetailVos[i].planTarget)
+        }
+        this.list2 = res.data.data.content.salePlanDetailVos
+      })
       for (const i in review) {
         if (review[i].actualStepHandler !== null) {
           this.reviewList.push(review[i])
@@ -277,6 +318,26 @@ export default {
   methods: {
     handlecancel() {
       this.editVisible = false
+    },
+    // 进度条
+    clacProgress(row) {
+      console.log('row==================>', row)
+      const res = Number(((row.actualQuantity / row.quantity) * 100).toFixed(0))
+      if (res < 50) {
+        this.mystatus = 'exception'
+      } else if (res >= 50 && res < 100) {
+        this.mystatus = 'text'
+      } else {
+        this.mystatus = 'success'
+      }
+      console.log(typeof res)
+      return res > 100 ? 100 : res
+    },
+    _format(row) {
+      this.$nextTick(function() {
+        var dom = this.$refs.myprogress.$el.children[0].children[0].children[0].children[0].innerText = ((row.actualQuantity / row.quantity) * 100).toFixed(0) + '%'
+        console.log('dom=================>', dom)
+      })
     }
   }
 }

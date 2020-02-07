@@ -62,9 +62,15 @@
                 <el-input v-model="personalForm.receiptAccountNumber" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
+            <el-col v-for="(item, index) in personalForm2.couponSupports" :key="index" :span="12">
+              <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
+                <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
+                <el-button v-show="index === personalForm2.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
+              <el-form-item :label="$t('collectAndPay.couponSupport2')" style="width: 100%;">
+                <el-input v-model="personalForm.couponSupport" disabled style="margin-left: 18px;width: 200px" type="number" @change="changemoney"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -73,7 +79,7 @@
               </el-form-item>
               <my-emp :control.sync="stockControl" @stockName="stockName"/>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Receipt.receiptRepositoryId')" prop="receiptRepositoryId" style="width: 100%;">
                 <el-input v-model="receiptRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooserepo"/>
               </el-form-item>
@@ -187,6 +193,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { returnMoney } from '@/api/Coupon'
 import { updatereceipt2 } from '@/api/Receipt'
 import { agentCollectList } from '@/api/public'
 import { installmentlist } from '@/api/InstallmentList'
@@ -256,6 +263,13 @@ export default {
       }
     }
     return {
+      personalForm2: {
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ]
+      },
       repositorycontrol: false,
       // 收款门店
       receiptRepositoryId: '',
@@ -346,6 +360,30 @@ export default {
     editdata() {
       this.getways()
       this.personalForm = this.editdata
+      if (this.personalForm.couponNumbers === '' || this.personalForm.couponNumbers === null || this.personalForm.couponNumbers === undefined) {
+        this.personalForm2.couponSupports = [
+          {
+            couponSupport: 0
+          }
+        ]
+      } else {
+        this.personalForm2.couponSupports = [
+          {
+            couponSupport: 0
+          }
+        ]
+        const coupon = []
+        var b = this.personalForm.couponNumbers.split(',')
+        console.log('b', b)
+        for (let i = 0; i < b.length; i++) {
+          const param = {}
+          param.couponSupport = b[i]
+          coupon.push(param)
+        }
+        console.log('coupon', coupon)
+        this.personalForm2.couponSupports = coupon
+        console.log('this.personalForm.couponSupports2', this.personalForm2.couponSupports)
+      }
       console.log('this.personalForm', this.personalForm)
       this.customerId = this.personalForm.customerName
       this.receiptPersonId = this.personalForm.receiptPersonName
@@ -363,7 +401,7 @@ export default {
           num += this.switchmoney[i].thisMoney
         }
         console.log('num=====', num)
-        this.personalForm.receiptMoney = num - this.personalForm.couponSupport
+        this.personalForm.receiptMoney = num
       },
       deep: true,
       immediate: true
@@ -375,6 +413,32 @@ export default {
     _that = this
   },
   methods: {
+    changeCoupon() {
+      console.log('this.personalForm.couponSupports', this.personalForm2.couponSupports)
+      const parms2 = JSON.stringify(this.personalForm2.couponSupports)
+      returnMoney(parms2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          if (res.data.data.content > this.personalForm.receiptMoney) {
+            this.personalForm.couponSupport = this.personalForm.receiptMoney
+          } else {
+            this.personalForm.couponSupport = res.data.data.content
+          }
+          console.log('res.data.data.content', res.data.data.content)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+    },
+    addDomain() {
+      this.personalForm2.couponSupports.push({
+        couponSupport: 0
+      })
+    },
     handlechooserepo() {
       this.repositorycontrol = true
     },
@@ -1044,6 +1108,17 @@ export default {
           return false
         }
         const parms2 = JSON.stringify(EnterDetail)
+        console.log('this.personalForm.couponSupports', this.personalForm2.couponSupports)
+        let couponNumbers = ''
+        for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
+          if (this.personalForm2.couponSupports[i].couponSupport !== 0 && this.personalForm2.couponSupports[i].couponSupport !== '') {
+            couponNumbers = couponNumbers + this.personalForm2.couponSupports[i].couponSupport + ','
+          }
+        }
+        console.log('couponNumbers', couponNumbers)
+        couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+        console.log('couponNumbers', couponNumbers)
+        this.personalForm.couponNumbers = couponNumbers
         const Data = this.personalForm
         for (const key in Data) {
           if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

@@ -1103,28 +1103,46 @@ export default {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-        const needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        if (needmoney < 0) {
+          needmoney = 0
+        }
         this.$set(this.personalForm, 'receivableMoney', needmoney)
-        // const mon = this.personalForm.receivableMoney - this.personalForm.couponMoney
-        // this.$set(this.personalForm, 'receivableMoney', mon)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('123', 123)
-        this.personalForm.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
+        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
         console.log('234', 234)
-        this.personalForm.receivableMoney = this.receivableMoney
+        let needmoney = (this.receivableMoney - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.receivableMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('456', 456)
-        this.personalForm.receivableMoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponMoney))
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
-
-      // 减去优惠券
-      // console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-      // console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
-      // const mon = this.personalForm.receivableMoney - this.personalForm.couponMoney
-      // this.$set(this.personalForm, 'receivableMoney', mon)
-      // console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
       //   console.log(198283774747)
@@ -2171,6 +2189,17 @@ export default {
     handlesave() {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          if (this.personalForm.sourceType === '5') {
+            if (this.personalForm.saleType === '2') {
+              this.$notify.error({
+                title: '错误',
+                message: '无来源时销售类别不能是分期',
+                offset: 100
+              })
+              return false
+            }
+          }
+
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           // 整车出库时相关编码必填
           let m = 1
@@ -2359,6 +2388,16 @@ export default {
           })
           const parms2 = JSON.stringify(EnterDetail)
           const parms3 = JSON.stringify(EnterDetail2)
+          let couponNumbers = ''
+          for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+            if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+              couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+            }
+          }
+          console.log('couponNumbers', couponNumbers)
+          couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+          console.log('couponNumbers', couponNumbers)
+          this.personalForm.couponNumbers = couponNumbers
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -2369,7 +2408,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createsaleOut(parms, parms2, parms3, this.personalForm).then(res => {
+          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

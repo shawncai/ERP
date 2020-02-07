@@ -98,3 +98,41 @@ export function updatesaleplan2(query) {
     data: params
   })
 }
+
+// 分类属性列表
+export function searchEmpCategory(query) {
+  var params = new URLSearchParams()
+  params.append('iseffective', 1) // 你要传给后台的参数值 key/value
+  params.append('type', 2) // 你要传给后台的参数值 key/value
+  // if (query.type !== '' && query.type !== null && query.type !== undefined) {
+  //   params.append('type', query.type)
+  // }
+  params.append('pagenum', 1) // 你要传给后台的参数值 key/value
+  params.append('pagesize', 999999) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/product/searchProCategory',
+    method: 'post',
+    data: params
+  })
+}
+// 销售计划详情
+export function saleplanlistDetail(query) {
+  var params = new URLSearchParams()
+  params.append('planId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/saleplan/planDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售计划追踪
+export function updatetrace(query2) {
+  var params = new URLSearchParams()
+  params.append('salePlanDetailJson', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/saleplan/updateDetail',
+    method: 'post',
+    data: params
+  })
+}

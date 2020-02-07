@@ -2106,6 +2106,7 @@ export default {
   SalePlan: {
     title: 'plan subject',
     planType: 'plan type',
+    planCategory: 'planCategory',
     planDate: 'plan date',
     beginTime: 'start time',
     endTime: 'end time',
@@ -2115,9 +2116,21 @@ export default {
     targetMoney: 'planned amount',
     regionId: 'area',
     repositoryid: 'branch',
+    regOrRep: 'region/repository',
     week: 'week',
     month: 'month',
-    quarter: 'season'
+    quarter: 'season',
+    planTarget: 'planTarget',
+    address: 'address',
+    typeId: 'typeId',
+    quantity: 'quantity',
+    money: 'money',
+    actualQuantity: 'actualQuantity',
+    actualMoney: 'actualMoney',
+    xzmd: 'Enter',
+    planNum: 'No.',
+    trackingStatistics: 'trackingStats',
+    progress: 'progress'
   },
   SaleOpportunity: {
     title: 'subject',
@@ -3039,6 +3052,7 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    gz: 'trace',
     ckmx: 'Out of stock detail',
     shmx: 'recovery detail',
     zxsyj: 'total sales amount',

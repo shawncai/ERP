@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 添加销售出库单
-export function createsaleOut(query, query2, query3, query4) {
+export function createsaleOut(query, query2, query3, query4, query5) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
@@ -12,6 +12,7 @@ export function createsaleOut(query, query2, query3, query4) {
   if (query4.regionId !== '' && query4.regionId !== null && query4.regionId !== undefined) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
+  params.append('receivableMoney2', query5) // 你要传给后台的参数值 key/value
   return request({
     url: '/saleOut/create',
     method: 'post',
@@ -89,11 +90,12 @@ export function searchsaleOut(query) {
 }
 
 // 修改销售出库单
-export function updatesaleOut(query, query2, query3) {
+export function updatesaleOut(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   params.append('giftJson', query3) // 你要传给后台的参数值 key/value
+  params.append('receivableMoney2', query4) // 你要传给后台的参数值 key/value
   return request({
     url: '/saleOut/update',
     method: 'post',
