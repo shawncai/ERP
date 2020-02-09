@@ -14,6 +14,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
+                  <span>{{ personalForm.direction | directionFilter }}</span>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
                 <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
@@ -23,42 +29,22 @@
                   <span>{{ personalForm.transferTicket }}</span>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="12">
-                <el-form-item :label="$t('income.region')" style="width: 100%;">
-                  <span>{{ personalForm.transferRegionName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
-                  <span>{{ personalForm.transferRepositoryName }}</span>
-                </el-form-item>
-              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                   <span>{{ personalForm.transferDate }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">
-                  <span>{{ personalForm.transferMoney }}</span>
+                <el-form-item :label="$t('otherlanguage.zzlx')" style="width: 100%;">
+                  <span>{{ personalForm.transferType | transferTypeFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
-                  <span>{{ personalForm.transferOutAccount }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
-                  <span>{{ personalForm.transferOutBank }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.direction === '2'" :span="12">
                 <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
                   <span>{{ personalForm.transferInAccount }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.direction === '2'" :span="12">
                 <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
                   <span>{{ personalForm.transferInBank }}</span>
                 </el-form-item>
@@ -187,6 +173,14 @@
 var _that
 export default {
   filters: {
+    transferTypeFilter(status) {
+      const statusMap = {
+        1: '现金',
+        2: '支票',
+        3: '银行转账'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),
@@ -196,9 +190,10 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeIdFilter(status) {
+    directionFilter(status) {
       const statusMap = {
-        1: '采购1'
+        1: '门店',
+        2: '公司'
       }
       return statusMap[status]
     },

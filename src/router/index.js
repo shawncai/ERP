@@ -3377,6 +3377,27 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/AccountManagement',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AccountManagement',
+    alwaysShow: true,
+    meta: {
+      title: 'AccountManagement',
+      icon: 'kemuyue',
+      type: 11,
+      roles: ['266-374-4']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AccountManagement/index'),
+        name: 'AccountManagement',
+        meta: { title: 'AccountManagement', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

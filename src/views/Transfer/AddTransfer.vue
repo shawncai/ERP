@@ -8,6 +8,14 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
+                  <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="门店"/>
+                    <el-option value="2" label="公司"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -49,12 +57,21 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('otherlanguage.zzlx')" style="width: 100%;">
+                  <el-select v-model="personalForm.transferType" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="现金"/>
+                    <el-option value="2" label="支票"/>
+                    <el-option value="3" label="银行转账"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <!--              <el-col :span="6">-->
               <!--                <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">-->
               <!--                  <el-input v-model="personalForm.transferMoney" style="margin-left: 18px;width:200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
                   <el-input v-model="personalForm.transferOutAccount" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -63,15 +80,21 @@
                 <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
                   <el-input v-model="personalForm.transferOutBank" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferInAccount" style="margin-left: 18px;width:200px" clearable/>
+              </el-col> -->
+              <el-col v-if="personalForm.direction === '2'" :span="6">
+                <el-form-item v-if="personalForm.direction === '2'" :label="$t('Transfer.transferInAccount')" prop="transferInAccount" style="width: 100%;">
+                  <el-select v-model="personalForm.transferInAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts" @change="setbank">
+                    <el-option
+                      v-for="(item, index) in accounts"
+                      :key="index"
+                      :label="item.accountNumber"
+                      :value="item.accountNumber"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-show="personalForm.direction === '2'" :span="6">
                 <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable disabled/>
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
@@ -94,20 +117,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
-                  <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="门店"/>
-                    <el-option value="2" label="公司"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.srmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('otherlanguage.zzmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">{{ $t('updates.tjsrx') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -179,6 +194,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { searchAccount } from '@/api/AccountManagement'
 import { subjectList } from '@/api/SubjectFinance'
 import { createtransfer } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
@@ -207,6 +223,13 @@ export default {
       }
     }
     return {
+      accounts: [],
+      accountsparm: {
+        pageNum: 1,
+        pageSize: 1000000,
+        isEffective: '1'
+
+      },
       repositories: [],
       suboptions: [],
       props2: {
@@ -256,7 +279,8 @@ export default {
         regionId: this.$store.getters.regionId,
         handlePersonId: this.$store.getters.userId,
         currency: '1',
-        direction: '1'
+        direction: '1',
+        transferType: '1'
       },
       // 收入单规则数据
       personalrules: {
@@ -268,6 +292,9 @@ export default {
         ],
         transferRegion: [
           { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        transferInAccount: [
+          { required: true, message: '请选择账户', trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -287,6 +314,32 @@ export default {
     _that = this
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
+    setbank(val) {
+      const bankdata = this.accounts.filter(item => {
+        return item.accountNumber === val
+      })
+      console.log('bankdata', bankdata)
+      this.personalForm.transferInBank = bankdata[0].bank
+    },
+    getaccounts() {
+      searchAccount(this.accountsparm).then(res => {
+        if (res.data.ret === 200) {
+          this.accounts = res.data.data.content.list
+        }
+      })
+    },
     handlechange4() {
       searchRepository2().then(res => {
         console.log(res)
@@ -321,7 +374,9 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
         }
       })
@@ -467,7 +522,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        direction: '1'
+        direction: '1',
+        transferType: '1'
       }
       this.handlePersonId = this.$store.getters.name
       this.personalForm.handlePersonId = null
@@ -484,6 +540,7 @@ export default {
       }
       const parms = JSON.stringify(Data)
       const EnterDetail = this.$refs.editable.getRecords()
+      console.log('EnterDetail', EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -504,7 +561,7 @@ export default {
             i = 2
           }
         }
-        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
           if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
             i = 3
           }

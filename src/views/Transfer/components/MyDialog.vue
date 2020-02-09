@@ -7,6 +7,14 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
+                <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="门店"/>
+                  <el-option value="2" label="公司"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
@@ -16,28 +24,6 @@
                 <el-input v-model="personalForm.transferTicket" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
-              <el-form-item :label="$t('income.region')" prop="transferRegion" style="width: 100%;">
-                <el-cascader
-                  :options="regions"
-                  :props="props"
-                  v-model="personalForm.transferRegion"
-                  :show-all-levels="false"
-                  :placeholder="$t('Hmodule.xzqy')"
-                  change-on-select
-                  filterable
-                  clearable
-                  style="margin-left: 18px;width: 200px"
-                  @change="handlechange4"
-                />
-              </el-form-item>
-            </el-col> -->
-            <!-- <el-col :span="12">
-              <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
-                <el-input v-model="transferRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
-              </el-form-item>
-            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
                 <el-date-picker
@@ -48,36 +34,31 @@
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">
-                <el-input v-model="personalForm.transferMoney" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col> -->
             <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
-                <el-input v-model="personalForm.transferOutAccount" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
-                <el-input v-model="personalForm.transferOutBank" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('otherlanguage.zzlx')" style="width: 100%;">
+                <el-select v-model="personalForm.transferType" style="margin-left: 18px;width: 200px">
+                  <el-option value="1" label="现金"/>
+                  <el-option value="2" label="支票"/>
+                  <el-option value="3" label="银行转账"/>
+                </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferInAccount')" prop="transferTicket" style="width: 100%;">
-                <el-input v-model="personalForm.transferInAccount" style="margin-left: 18px;width: 200px" clearable/>
+            <el-col v-if="personalForm.direction === '2'" :span="12">
+              <el-form-item v-if="personalForm.direction === '2'" :label="$t('Transfer.transferInAccount')" prop="transferInAccount" style="width: 100%;">
+                <el-select v-model="personalForm.transferInAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts" @change="setbank">
+                  <el-option
+                    v-for="(item, index) in accounts"
+                    :key="index"
+                    :label="item.accountNumber"
+                    :value="item.accountNumber"/>
+                </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col v-show="personalForm.direction === '2'" :span="12">
               <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
-                <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable disabled/>
               </el-form-item>
             </el-col>
-            <!--            <el-col :span="12">-->
-            <!--              <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">-->
-            <!--                <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width: 200px" clearable/>-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                 <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
@@ -93,14 +74,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
-                <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="门店"/>
-                  <el-option value="2" label="公司"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
+
           </el-row>
         </el-form>
       </div>
@@ -125,7 +99,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="setcarst" align="center" min-width="150px">
+          <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.qy')" prop="regionIds" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-cascader
                 :options="regions"
@@ -164,7 +138,7 @@
                 @change="test(scope.row,$event)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="120px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -178,6 +152,7 @@
 </template>
 
 <script>
+import { searchAccount } from '@/api/AccountManagement'
 import { updatetransfer } from '@/api/Transfer'
 import { subjectList } from '@/api/SubjectFinance'
 import { searchSaleCategory } from '@/api/SaleCategory'
@@ -216,6 +191,13 @@ export default {
       }
     }
     return {
+      accounts: [],
+      accountsparm: {
+        pageNum: 1,
+        pageSize: 1000000,
+        isEffective: '1'
+
+      },
       repositories: [],
       suboptions: [],
       props2: {
@@ -272,6 +254,9 @@ export default {
         ],
         transferRegion: [
           { required: true, validator: validatePass3, trigger: 'change' }
+        ],
+        transferInAccount: [
+          { required: true, message: '请选择账户', trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -291,7 +276,7 @@ export default {
       this.handlePersonId = this.personalForm.handlePersonName
       this.incomeRepositoryId = this.personalForm.incomeRepositoryName
       this.list2 = this.personalForm.transferDetailVos
-      this.setregionIds()
+      // this.setregionIds()
       this.getTypes()
       this.gettree()
     }
@@ -303,37 +288,68 @@ export default {
     _that = this
   },
   methods: {
-    async setvoucherdata() {
-      console.log('this.editdata222222', this.editdata)
-      const voucherdata = this.personalForm
-      this.selectid = this.personalForm.transferDetailVos.map(item => {
-        return {
-          id: item.id
-        }
-      })
-      if (voucherdata) {
-        const voucherdetaildata = await Promise.all(voucherdata.transferDetailVos.map(item => {
-          return getSubjectDetail(item.subjectCode).then(res => {
-            return res.data.data.content
-          })
-        }))
-
-        for (const i in voucherdetaildata) {
-          const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
-          voucherdetaildata[i].setcarst = carstdata
-        }
-        console.log('voucherdetaildata222222222', voucherdetaildata)
-        for (const i in this.list2) {
-          for (const j in voucherdetaildata) {
-            if (this.list2[i].subjectCode === voucherdetaildata[j].itemCode) {
-              this.list2[i].setcarst = voucherdetaildata[j].setcarst
-              this.list2[i].balanceTrend = voucherdetaildata[j].balanceTrend
-            }
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
           }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
         }
-        console.log('list222222222222', this.list2)
       }
     },
+    setbank(val) {
+      const bankdata = this.accounts.filter(item => {
+        return item.accountNumber === val
+      })
+      console.log('bankdata', bankdata)
+      this.personalForm.transferInBank = bankdata[0].bank
+    },
+    getaccounts() {
+      searchAccount(this.accountsparm).then(res => {
+        if (res.data.ret === 200) {
+          this.accounts = res.data.data.content.list
+        }
+      })
+    },
+    // async setvoucherdata() {
+    //   console.log('this.editdata222222', this.editdata)
+    //   const voucherdata = this.personalForm
+    //   this.selectid = this.personalForm.transferDetailVos.map(item => {
+    //     return {
+    //       id: item.id
+    //     }
+    //   })
+    //   if (voucherdata) {
+    //     const voucherdetaildata = await Promise.all(voucherdata.transferDetailVos.map(item => {
+    //       return getSubjectDetail(item.subjectCode).then(res => {
+    //         return res.data.data.content
+    //       })
+    //     }))
+
+    //     for (const i in voucherdetaildata) {
+    //       const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
+    //       voucherdetaildata[i].setcarst = carstdata
+    //     }
+    //     const testarr = this.list2
+    //     console.log('voucherdetaildata222222222', voucherdetaildata)
+    //     for (const i in testarr) {
+    //       for (const j in voucherdetaildata) {
+    //         if (testarr[i].subjectCode === voucherdetaildata[j].itemCode) {
+    //           testarr[i].setcarst = voucherdetaildata[j].setcarst
+    //         }
+    //       }
+    //     }
+
+    //     // for (const i in testarr) {
+    //     //   this.$refs.editable.insert(testarr[i])
+    //     // }
+
+    //     // console.log('list222222222222', this.list2)
+    //   }
+    // },
     findPathByLeafId2(leafId, nodes, path) {
       if (path === undefined) {
         path = []
@@ -352,14 +368,14 @@ export default {
         }
       }
     },
-    setregionIds() {
-      for (const i in this.list2) {
-        if (this.list2[i].regionId) {
-          this.list2[i].regionIds = this.findPathByLeafId(this.list2[i].regionId, this.regions)
-        }
-      }
-      console.log('this.list2', this.list2)
-    },
+    // setregionIds() {
+    //   for (const i in this.list2) {
+    //     if (this.list2[i].regionId) {
+    //       this.list2[i].regionIds = this.findPathByLeafId(this.list2[i].regionId, this.regions)
+    //     }
+    //   }
+    //   console.log('this.list2', this.list2)
+    // },
     findPathByLeafId(leafId, nodes, path) {
       if (path === undefined) {
         path = []
@@ -406,9 +422,11 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
-          this.setvoucherdata()
+          // this.setvoucherdata()
         }
       })
       console.log(321)
@@ -437,17 +455,6 @@ export default {
       console.log(val)
       const finalid = val[val.length - 1]
       row.regionId = finalid
-      console.log(finalid)
-      this.region = finalid
-      this.personalForm.transferRegionId = finalid
-      // searchRepository(finalid).then(res => {
-      //   console.log(res)
-      //   if (res.data.ret === 200) {
-      //     this.repositories = res.data.data.content.list
-      //   } else {
-      //     console.log('区域选择门店')
-      //   }
-      // })
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -584,7 +591,7 @@ export default {
             i = 2
           }
         }
-        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
           if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
             i = 3
           }

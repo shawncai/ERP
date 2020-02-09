@@ -58,11 +58,11 @@
                   <span>{{ personalForm.currency | currencyFilter }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
                   <span>{{ personalForm.direction | directionFilter }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>

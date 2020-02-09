@@ -246,6 +246,18 @@ export default {
     _that = this
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
     getarrs() {
       console.log('222', 222)
       console.log('北京市朝阳区爱谁谁')
@@ -316,7 +328,8 @@ export default {
         if (res.data.ret === 200) {
           const newarr = res.data.data.content
           console.log('newarr', newarr)
-          this.suboptions = this.processchildren(res.data.data.content)
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
         }
       })
