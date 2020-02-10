@@ -140,6 +140,8 @@
             <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['266-94-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+
             <el-button v-permission="['266-373-1']" v-show="scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
@@ -305,6 +307,12 @@ export default {
     _that = this
   },
   methods: {
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
+    },
     // 附件操作
     check(row) {
       console.log(row)
@@ -572,6 +580,35 @@ export default {
           return true
         }
       }
+    },
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm('请反审批', '反审批', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反审批',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatetransfer2(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: '反审批失败!'
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '反审批成功!'
+              })
+            }
+            this.getlist()
+          }
+        })
+      })
     },
     // 审批操作
     handleReview(row) {

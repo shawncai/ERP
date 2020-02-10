@@ -263,6 +263,18 @@ export default {
     }
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
     getarrs() {
       for (let i = 0; i < this.list2.length; i++) {
         console.log('222', 222)
@@ -465,9 +477,10 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
-          console.log('this.treedata', this.treedata)
           this.setvoucherdata()
         }
       })

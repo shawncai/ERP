@@ -232,6 +232,18 @@ export default {
     this.gettree()
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
     handlechange5() {
       searchRepository2().then(res => {
         console.log(res)
@@ -464,7 +476,9 @@ export default {
       console.log('this.$store.getters.useCountry', this.$store.getters.useCountry)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
           this.setvoucherdata()
         }
@@ -556,7 +570,7 @@ export default {
             i = 2
           }
         }
-        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
           if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
             i = 3
           }

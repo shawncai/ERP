@@ -2182,8 +2182,10 @@ export default {
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
         isInvoice: 1,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        receivableMoney: ''
       }
+      this.receivableMoney = ''
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
       this.saleRepositoryId = this.$store.getters.repositoryName
@@ -2412,6 +2414,7 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
+          this.personalForm.receivableMoney = this.receivableMoney
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

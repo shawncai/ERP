@@ -384,7 +384,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ productCode: null }, index)
+      this.$refs.editable.insertAt({}, index)
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -484,7 +484,7 @@ export default {
       delete this.personalForm.receiptStat
       delete this.personalForm.expensesDetailVos
       delete this.personalForm.expensesDetailVos
-
+      delete this.personalForm.approvalUseVos
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

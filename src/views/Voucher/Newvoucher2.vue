@@ -100,14 +100,13 @@
                   change-on-select
                   filterable
                   clearable
-                  style="margin-left: 18px;width: 180px"
                   @change="handlechange4"
                 />
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="margin-left: 18px;width: 180px">
+                <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable>
                   <el-option
                     v-for="(item, index) in repositories"
                     :key="index"
@@ -258,6 +257,18 @@ export default {
     this.handlechange4()
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
     // 国籍列表
     getnationlist() {
       // 区域列表数据
@@ -459,7 +470,9 @@ export default {
       console.log('this.$store.getters.useCountry', this.$store.getters.useCountry)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
           this.setvoucherdata()
         }
@@ -553,7 +566,7 @@ export default {
             i = 2
           }
         }
-        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '') {
+        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
           if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
             i = 3
           }
