@@ -155,7 +155,7 @@
           </div>
         </el-dialog>
       </el-card>
-      <el-card class="box-card" style="float: left;width: 65%; max-height: 800px;margin-left: 15px">
+      <el-card class="box-card" style="float: left;width: 65%; max-height: 1000px;margin-left: 15px">
         <el-button v-permission="['266-267-1']" v-waves v-if="showLevel > 3" class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;margin-bottom: 10px" @click="handleAdd">{{ $t('public.add') }}</el-button>
         <el-table
           :key="tableKey"
