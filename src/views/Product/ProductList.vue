@@ -48,7 +48,7 @@
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['1-31-33-14']" style="text-align: left" command="up" ><svg-icon icon-class="上架" style="width: 40px"/>{{ $t('public.up') }}</el-dropdown-item>
           <el-dropdown-item v-permission="['1-31-33-15']" style="text-align: left" command="down"><svg-icon icon-class="下架" style="width: 40px"/>{{ $t('public.down') }}</el-dropdown-item>
-          <el-dropdown-item v-permission="['1-31-33-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <!--          <el-dropdown-item v-permission="['1-31-33-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
