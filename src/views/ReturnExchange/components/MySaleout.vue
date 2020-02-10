@@ -418,7 +418,7 @@ export default {
           costMoney: 0,
           taxRate: 0,
           taxMoney: 0,
-          money: 0,
+          money: item.money,
           carCode: item.carCode,
           batteryCode: item.batteryCode,
           motorCode: item.motorCode,
