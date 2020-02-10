@@ -451,12 +451,12 @@ export const asyncRouterMap = [
         name: 'RepCategory',
         meta: { title: 'RepCategory', noCache: true, roles: ['1-9-13-1', '1-9-13-2', '1-9-13-3', '1-9-13-4', '1-9-13-5', '1-9-13-6', '1-9-13-7', '1-9-13-8', '1-9-13-9'] }
       },
-      {
-        path: 'Manyinsert',
-        component: () => import('@/views/Repository/Manyinsert'),
-        name: 'Manyinsert',
-        meta: { title: 'Manyinsert', noCache: true, roles: ['1-9-12-13'] }
-      },
+      // {
+      //   path: 'Manyinsert',
+      //   component: () => import('@/views/Repository/Manyinsert'),
+      //   name: 'Manyinsert',
+      //   meta: { title: 'Manyinsert', noCache: true, roles: ['1-9-12-13'] }
+      // },
       {
         path: 'AddLocation',
         component: () => import('@/views/WarehouseAdjust/AddLocation'),
@@ -496,12 +496,12 @@ export const asyncRouterMap = [
         name: 'CustomerList',
         meta: { title: 'CustomerList', noCache: true, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
       },
-      {
-        path: 'ManyCustomer',
-        component: () => import('@/views/Customer/ManyCustomer'),
-        name: 'ManyCustomer',
-        meta: { title: 'ManyCustomer', noCache: true, roles: ['1-14-19-13'] }
-      },
+      // {
+      //   path: 'ManyCustomer',
+      //   component: () => import('@/views/Customer/ManyCustomer'),
+      //   name: 'ManyCustomer',
+      //   meta: { title: 'ManyCustomer', noCache: true, roles: ['1-14-19-13'] }
+      // },
       {
         path: 'NewAgent',
         component: () => import('@/views/Customer/NewAgent'),
@@ -564,13 +564,14 @@ export const asyncRouterMap = [
         component: () => import('@/views/Supplier/SupplierCategory'),
         name: 'SupplierCategory',
         meta: { title: 'SupplierCategory', noCache: true, roles: ['1-22-28-1', '1-22-28-2', '1-22-28-3', '1-22-28-4', '1-22-28-5', '1-22-28-6', '1-22-28-7', '1-22-28-8', '1-22-28-9'] }
-      },
-      {
-        path: 'ManySupplier',
-        component: () => import('@/views/Supplier/ManySupplier'),
-        name: 'ManySupplier',
-        meta: { title: 'ManySupplier', noCache: true, roles: ['1-22-27-13'] }
       }
+      // ,
+      // {
+      //   path: 'ManySupplier',
+      //   component: () => import('@/views/Supplier/ManySupplier'),
+      //   name: 'ManySupplier',
+      //   meta: { title: 'ManySupplier', noCache: true, roles: ['1-22-27-13'] }
+      // }
     ]
   },
   {
