@@ -396,7 +396,8 @@ export default {
     MemorandumList: '备忘录列表',
     collectAndPay: '收付款汇总',
     collectAndPayDetail: '收付款明细',
-    NewAccessoriesOut: '新建配件出库单'
+    NewAccessoriesOut: '新建配件出库单',
+    AccountManagement: '账户管理'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3854,6 +3855,12 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    zzmx: '转账明细',
+    zzlx: '转账类型',
+    xjzh: '新建账户',
+    xgzh: '修改账户',
+    yhzh: '账号',
+    yh: '银行',
     wxy: '维修员',
     wxxm: '维修项目',
     fbdkh: '非本店客户价格',

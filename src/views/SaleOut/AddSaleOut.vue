@@ -226,7 +226,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
+      <!--出库明细-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -382,6 +382,7 @@
           </el-editable>
         </div>
       </el-card>
+      <!-- 赠品明细 -->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -436,15 +437,15 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
-              <template slot="edit" slot-scope="scope">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <!-- <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
                   :controls="false"
                   :value="scope.row.quantity"
                 />
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
           </el-editable>
         </div>
       </el-card>
@@ -2181,8 +2182,10 @@ export default {
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
         isInvoice: 1,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        receivableMoney: ''
       }
+      this.receivableMoney = ''
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
       this.saleRepositoryId = this.$store.getters.repositoryName
@@ -2388,10 +2391,10 @@ export default {
               delete elem.type
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
+              elem.money = 0
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
+              elem.quantity = 0
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
               delete elem.salePrice
@@ -2400,6 +2403,7 @@ export default {
           })
           const parms2 = JSON.stringify(EnterDetail)
           const parms3 = JSON.stringify(EnterDetail2)
+          console.log('EnterDetail2', EnterDetail2)
           let couponNumbers = ''
           for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
             if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
@@ -2410,6 +2414,7 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
+          this.personalForm.receivableMoney = this.receivableMoney
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

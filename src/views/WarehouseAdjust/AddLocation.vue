@@ -80,7 +80,7 @@ export default {
       repositorycontrol: false,
       // 货位单信息数据
       personalForm: {
-        createPersonId: 2
+        createPersonId: this.$store.getters.userId
       },
       repositoryId: '',
       // 货位单规则数据
@@ -155,7 +155,10 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {}
+      this.personalForm = {
+        createPersonId: this.$store.getters.userId,
+        repositoryId: ''
+      }
       this.repositoryId = ''
     },
     // 取消操作

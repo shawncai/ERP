@@ -72,9 +72,20 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesAccount')" style="width: 100%;">
                   <el-input v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 200px" clearable/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('Expenses.expensesAccount')" prop="transferInAccount" style="width: 100%;">
+                  <el-select v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts">
+                    <el-option
+                      v-for="(item, index) in accounts"
+                      :key="index"
+                      :label="item.accountNumber"
+                      :value="item.accountNumber"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -136,6 +147,7 @@
 </template>
 
 <script>
+import { searchAccount } from '@/api/AccountManagement'
 import { subjectList } from '@/api/SubjectFinance'
 import '@/directive/noMoreClick/index.js'
 import { createexpenses } from '@/api/Expenses'
@@ -165,6 +177,13 @@ export default {
       }
     }
     return {
+      accounts: [],
+      accountsparm: {
+        pageNum: 1,
+        pageSize: 1000000,
+        isEffective: '1'
+
+      },
       suboptions: [],
       pickerOptions1: {
         disabledDate: (time) => {
@@ -247,6 +266,25 @@ export default {
     _that = this
   },
   methods: {
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
+    getaccounts() {
+      searchAccount(this.accountsparm).then(res => {
+        if (res.data.ret === 200) {
+          this.accounts = res.data.data.content.list
+        }
+      })
+    },
     getarrs() {
       console.log('222', 222)
       console.log('北京市朝阳区爱谁谁')
@@ -314,7 +352,9 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
         }
       })

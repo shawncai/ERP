@@ -71,9 +71,20 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('Expenses.expensesAccount')" style="width: 100%;">
                 <el-input v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="12">
+              <el-form-item :label="$t('Expenses.expensesAccount')" style="width: 100%;">
+                <el-select v-model="personalForm.expensesAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts">
+                  <el-option
+                    v-for="(item, index) in accounts"
+                    :key="index"
+                    :label="item.accountNumber"
+                    :value="item.accountNumber"/>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -110,7 +121,17 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="setcarst" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-cascader
+                v-model="scope.row.setcarst"
+                :options="suboptions"
+                :props="props2"
+                :show-all-levels="false"
+                filterable
+                @change="test(scope.row,$event)"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -125,6 +146,7 @@
 </template>
 
 <script>
+import { searchAccount } from '@/api/AccountManagement'
 import { updateexpenses } from '@/api/Expenses'
 import { regionlist } from '@/api/public'
 import { subjectList } from '@/api/SubjectFinance'
@@ -162,6 +184,14 @@ export default {
       }
     }
     return {
+      accounts: [],
+      accountsparm: {
+        pageNum: 1,
+        pageSize: 1000000,
+        isEffective: '1'
+
+      },
+      region: '',
       props: {
         value: 'id',
         label: 'regionName',
@@ -232,18 +262,38 @@ export default {
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
       this.expensesRepositoryId = this.personalForm.expensesRepositoryName
+      this.region = this.personalForm.expensesRegionId
       this.list2 = this.personalForm.expensesDetailVos
       this.getTypes()
+      this.gettree()
     }
   },
   created() {
     this.getdatatime()
-    this.gettree()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getaccounts() {
+      searchAccount(this.accountsparm).then(res => {
+        if (res.data.ret === 200) {
+          this.accounts = res.data.data.content.list
+        }
+      })
+    },
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
     getarrs() {
       console.log('222', 222)
       console.log('this.personalForm.expensesRegionId', this.personalForm.expensesRegionId)
@@ -324,7 +374,9 @@ export default {
       console.log(123)
       subjectList().then(res => {
         if (res.data.ret === 200) {
-          this.suboptions = this.processchildren(res.data.data.content)
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
           this.treedata = res.data.data.content
         }
       })
@@ -332,7 +384,7 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ productCode: null }, index)
+      this.$refs.editable.insertAt({}, index)
     },
     // 转化数据方法
     tranKTree(arr) {
@@ -428,6 +480,11 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.expensesDetailVos
+      delete this.personalForm.expensesDetailVos
+      delete this.personalForm.approvalUseVos
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -469,7 +526,9 @@ export default {
         return false
       }
       const parms2 = JSON.stringify(EnterDetail)
+      console.log('EnterDetail', EnterDetail)
       const Data = this.personalForm
+      console.log('Data', Data)
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]

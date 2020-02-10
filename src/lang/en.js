@@ -384,7 +384,8 @@ export default {
     AccessComponentlist: 'claim list',
     AddAccessComponent: 'parts claim form',
     AccountBalance: '科目余额表',
-    NewAccessoriesOut: '新建配件出库单'
+    NewAccessoriesOut: '新建配件出库单',
+    AccountManagement: '账户管理'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -3818,6 +3819,12 @@ export default {
     landline: 'landline'
   },
   otherlanguage: {
+    zzmx: '转账明细',
+    zzlx: '转账类型',
+    xjzh: '新建账户',
+    xgzh: '修改账户',
+    yhzh: '账号',
+    yh: '银行',
     wxy: '维修员',
     wxxm: '维修项目',
     fbdkh: '非本店客户价格',

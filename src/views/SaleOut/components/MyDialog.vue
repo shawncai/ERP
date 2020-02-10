@@ -1877,8 +1877,10 @@ export default {
         sendDate: null,
         outDate: null,
         sourceType: '5',
-        otherMoney: ''
+        otherMoney: '',
+        receivableMoney: ''
       }
+      this.receivableMoney = ''
       this.customerId = null
       this.salePersonId = null
       this.saleRepositoryId = null
@@ -2114,6 +2116,7 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
+          this.personalForm.receivableMoney = this.receivableMoney
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

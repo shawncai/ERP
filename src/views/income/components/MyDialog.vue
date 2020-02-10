@@ -110,7 +110,18 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/>
+          <!-- <el-editable-column :label="$t('updates.kmmc')" prop="subjectName" align="center" min-width="150px"/> -->
+          <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="setcarst" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-cascader
+                v-model="scope.row.setcarst"
+                :options="suboptions"
+                :props="props2"
+                :show-all-levels="false"
+                filterable
+                @change="test(scope.row,$event)"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -125,6 +136,7 @@
 </template>
 
 <script>
+import { subjectList } from '@/api/SubjectFinance'
 import { updateincome } from '@/api/income'
 import { searchCategory } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -154,6 +166,12 @@ export default {
       }
     }
     return {
+      suboptions: [],
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
+      },
       // 区域列表
       regions: [],
       region: null,
@@ -218,6 +236,7 @@ export default {
       this.incomeRepositoryId = this.personalForm.incomeRepositoryName
       this.list2 = this.personalForm.incomeDetailVos
       this.getTypes()
+      this.gettree()
     }
   },
   created() {
@@ -228,6 +247,65 @@ export default {
     _that = this
   },
   methods: {
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
+    test(row, val) {
+      console.log(row, val)
+      const finid = val[val.length - 1]
+      const needata = this.findtreedata(this.treedata, finid)
+      console.log('needata', needata)
+      row.subjectName = needata.subjectName
+      row.subjectCode = needata.subjectNumber
+    },
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+        // if (val[i].) {
+        // }
+      }
+      return val
+    },
+    gettree() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          const newarr = res.data.data.content
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
+          this.treedata = res.data.data.content
+          // this.setvoucherdata()
+        }
+      })
+      console.log(321)
+    },
     getarrs() {
       console.log('222', 222)
       console.log('this.personalForm.expensesRegionId', this.personalForm.incomeRegionId)

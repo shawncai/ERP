@@ -203,6 +203,8 @@
 </template>
 
 <script>
+import { subjectList } from '@/api/SubjectFinance'
+import { getSubjectDetail } from '@/api/voucher'
 import { getRepositoryList, detailList } from '@/api/Expenses'
 import { regionlist } from '@/api/public'
 import { searchincome, updateincome2, deleteincome } from '@/api/income'
@@ -344,7 +346,8 @@ export default {
       // 开始时间到结束时间
       date: [],
       receiptVisible9: false,
-      picPaths: []
+      picPaths: [],
+      treedata: []
     }
   },
 
@@ -632,13 +635,78 @@ export default {
       this.handlePersonId = val.personName
       this.getemplist.handlePersonId = val.id
     },
+
+    gettree(val) {
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.treedata = res.data.data.content
+          this.setvoucherdata(val)
+        }
+      })
+    },
+    findPathByLeafId2(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].subjectFinanceVos) {
+          var findResult = this.findPathByLeafId2(leafId, nodes[i].subjectFinanceVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+
+    async setvoucherdata(val) {
+      // console.log('this.editdata222222', this.editdata)
+      const voucherdata = val
+      this.selectid = val.incomeDetailVos.map(item => {
+        return {
+          id: item.id
+        }
+      })
+      if (voucherdata) {
+        const voucherdetaildata = await Promise.all(voucherdata.incomeDetailVos.map(item => {
+          return getSubjectDetail(item.subjectCode).then(res => {
+            return res.data.data.content
+          })
+        }))
+
+        for (const i in voucherdetaildata) {
+          const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
+          voucherdetaildata[i].setcarst = carstdata
+        }
+
+        console.log('voucherdetaildata222222222', voucherdetaildata)
+        console.log('this.regions', this.regions)
+        const testarr = val.incomeDetailVos
+        for (const i in testarr) {
+          for (const j in voucherdetaildata) {
+            if (testarr[i].subjectCode === voucherdetaildata[j].itemCode) {
+              testarr[i].setcarst = voucherdetaildata[j].setcarst
+            }
+          }
+        }
+
+        this.editVisible = true
+        this.personalForm = Object.assign({}, val)
+        this.personalForm.sourceType = String(val.sourceType)
+        this.personalForm.currency = String(val.currency)
+
+        // console.log('list222222222222', this.list2)
+      }
+    },
+
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
+      this.gettree(row)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

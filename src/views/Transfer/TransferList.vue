@@ -113,16 +113,6 @@
             <span>{{ scope.row.transferDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Transfer.transferOutAccount')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.transferOutAccount }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Transfer.transferOutBank')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.transferOutBank }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('Transfer.transferInAccount')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.transferInAccount }}</span>
@@ -150,6 +140,8 @@
             <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['266-94-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+
             <el-button v-permission="['266-373-1']" v-show="scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
@@ -185,6 +177,9 @@
 <script>
 import { searchtransfer, updatetransfer2, deletetransfer, addTransferVoucher } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
+import { subjectList } from '@/api/SubjectFinance'
+import { getSubjectDetail } from '@/api/voucher'
+import { regionlist } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -237,6 +232,7 @@ export default {
   },
   data() {
     return {
+      regions: [],
       // 结算方式数据
       colseTypes: [],
       // 结算方式获取参数
@@ -298,17 +294,25 @@ export default {
       // 开始时间到结束时间
       date: [],
       receiptVisible9: false,
-      picPaths: []
+      picPaths: [],
+      treedata: []
     }
   },
 
   mounted() {
     this.getlist()
+    this.getreginons()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
+    },
     // 附件操作
     check(row) {
       console.log(row)
@@ -435,13 +439,122 @@ export default {
       this.handlePersonId = val.personName
       this.getemplist.handlePersonId = val.id
     },
+    // 转化数据方法
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
+    getreginons() {
+      // 区域列表数据
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          // this.getarrs()
+        } else {
+          console.log('区域列表出错')
+        }
+      })
+    },
+
+    gettree(val) {
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          this.treedata = res.data.data.content
+          this.setvoucherdata(val)
+        }
+      })
+    },
+    findPathByLeafId2(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].subjectFinanceVos) {
+          var findResult = this.findPathByLeafId2(leafId, nodes[i].subjectFinanceVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    findPathByLeafId(leafId, nodes, path) {
+      if (path === undefined) {
+        path = []
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpPath = path.concat()
+        tmpPath.push(nodes[i].id)
+        if (leafId === nodes[i].id) {
+          return tmpPath
+        }
+        if (nodes[i].regionListVos) {
+          var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+          if (findResult) {
+            return findResult
+          }
+        }
+      }
+    },
+    async setvoucherdata(val) {
+      // console.log('this.editdata222222', this.editdata)
+      const voucherdata = val
+      this.selectid = val.transferDetailVos.map(item => {
+        return {
+          id: item.id
+        }
+      })
+      if (voucherdata) {
+        const voucherdetaildata = await Promise.all(voucherdata.transferDetailVos.map(item => {
+          return getSubjectDetail(item.subjectCode).then(res => {
+            return res.data.data.content
+          })
+        }))
+
+        for (const i in voucherdetaildata) {
+          const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
+          voucherdetaildata[i].setcarst = carstdata
+        }
+
+        console.log('voucherdetaildata222222222', voucherdetaildata)
+        console.log('this.regions', this.regions)
+        const testarr = val.transferDetailVos
+        for (const i in testarr) {
+          for (const j in voucherdetaildata) {
+            if (testarr[i].subjectCode === voucherdetaildata[j].itemCode) {
+              testarr[i].setcarst = voucherdetaildata[j].setcarst
+            }
+          }
+        }
+        for (const i in val.transferDetailVos) {
+          if (val.transferDetailVos[i].regionId) {
+            val.transferDetailVos[i].regionIds = this.findPathByLeafId(val.transferDetailVos[i].regionId, this.regions)
+          } else {
+            val.transferDetailVos[i].regionIds = []
+          }
+        }
+
+        this.editVisible = true
+        this.personalForm = Object.assign({}, val)
+        this.personalForm.sourceType = String(val.sourceType)
+        this.personalForm.currency = String(val.currency)
+        this.personalForm.transferType = String(val.transferType)
+
+        // console.log('list222222222222', this.list2)
+      }
+    },
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
+      this.gettree(row)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -467,6 +580,35 @@ export default {
           return true
         }
       }
+    },
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm('请反审批', '反审批', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '反审批',
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatetransfer2(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: '反审批失败!'
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '反审批成功!'
+              })
+            }
+            this.getlist()
+          }
+        })
+      })
     },
     // 审批操作
     handleReview(row) {
