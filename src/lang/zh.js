@@ -9,6 +9,7 @@ export default {
     nwow: 'NWOW后台管理',
     CheckSet: '质检明细设置',
     home: '首页',
+    home2: '首页',
     map: '地图',
     carlocation: '车辆管理',
     AddSupplierAdjust: '新建供应商调价单',
@@ -330,7 +331,9 @@ export default {
     CostInstallmanage: '费用设置管理',
     categorymanage: '费用类别管理',
     SubjectFinance: '往来科目',
+    SubjectFinance2: '往来科目',
     countlist: '库存查询',
+    countlist2: '库存查询',
     SearchInventoryAlarmRules: '货物流转报警规则列表',
     AddInventoryAlarm: '新增货物流转报警规则',
     InventoryAlarmList: '货物流转报警查询',
@@ -388,6 +391,7 @@ export default {
     AccessComponentlist: '维修零件领用单列表',
     AddAccessComponent: '新建维修零件领用单',
     AccountBalance: '科目余额表',
+    AccountBalance2: '科目余额表',
     Verification: '核销单',
     AddVerification: '新建核销单',
     VerificationList: '核销单列表',
@@ -397,7 +401,9 @@ export default {
     collectAndPay: '收付款汇总',
     collectAndPayDetail: '收付款明细',
     NewAccessoriesOut: '新建配件出库单',
-    AccountManagement: '账户管理'
+    AccountManagement: '账户管理',
+    AccountManagement2: '账户管理',
+    expensesSummary: '支出单汇总'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',

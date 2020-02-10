@@ -64,6 +64,8 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
@@ -232,6 +234,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       regions: [],
       // 结算方式数据
       colseTypes: [],
@@ -302,6 +305,9 @@ export default {
   mounted() {
     this.getlist()
     this.getreginons()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this

@@ -24,7 +24,9 @@
       <!-- 列表开始 -->
       <el-table
         :data="list"
+        :summary-method="getSummaries2"
         border
+        show-summary
         style="width: 100%">
         <el-table-column
           :label="$t('searchSaleOrderReport.id')"
@@ -250,6 +252,35 @@ export default {
     _that = this
   },
   methods: {
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        if (index === 1) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     treechoose() {
       this.treecontrol = true
     },

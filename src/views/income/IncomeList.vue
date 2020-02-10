@@ -104,8 +104,10 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
         border
         fit
         highlight-current-row
@@ -261,6 +263,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() > Date.now() - 8.64e7
@@ -355,6 +358,9 @@ export default {
     this.getlist()
     this.getallrepositorys()
     this.getallregionlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this

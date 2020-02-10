@@ -98,12 +98,13 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :row-key="getRowKeys"
+        :height="tableHeight"
         border
         fit
-        height="400"
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
@@ -229,6 +230,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       loading: false,
       excelData: {
         header: null,
@@ -299,6 +301,9 @@ export default {
 
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 200
+    }, 100)
   },
   beforeCreate() {
     _that = this

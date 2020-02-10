@@ -9,6 +9,7 @@ export default {
     nwow: 'NWOW back stage management',
     CheckSet: 'quality inspection detail settings',
     home: 'home',
+    home2: 'home',
     map: 'map',
     carlocation: 'tracking',
     AddSupplierAdjust: 'price-adjustment form',
@@ -327,7 +328,9 @@ export default {
     CostInstallmanage: 'expenses settings management',
     categorymanage: 'expenses category management',
     SubjectFinance: 'corresponding subject',
+    SubjectFinance2: 'corresponding subject',
     countlist: 'stocks search',
+    countlist2: 'stocks search',
     SearchInventoryAlarmRules: 'alarm list',
     AddInventoryAlarm: 'new alarm rules',
     InventoryAlarmList: 'alarm search',
@@ -384,8 +387,11 @@ export default {
     AccessComponentlist: 'claim list',
     AddAccessComponent: 'parts claim form',
     AccountBalance: '科目余额表',
+    AccountBalance2: '科目余额表',
     NewAccessoriesOut: '新建配件出库单',
-    AccountManagement: '账户管理'
+    AccountManagement: '账户管理',
+    AccountManagement2: '账户管理',
+    expensesSummary: '支出单汇总'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',

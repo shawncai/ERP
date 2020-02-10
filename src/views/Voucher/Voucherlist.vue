@@ -77,9 +77,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :span-method="arraySpanMethod"
+        :height="tableHeight"
         border
         fit
         highlight-current-row
@@ -259,6 +261,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       switchparms: 1,
       receiptVisible99: false,
       // 结算方式数据
@@ -330,6 +333,9 @@ export default {
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 100
+    }, 100)
   },
   methods: {
     handleMyReceipt1(row) {

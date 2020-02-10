@@ -126,10 +126,10 @@ export const asyncRouterMap = [
     path: '/home',
     component: Layout,
     redirect: 'noredirect',
-    name: 'home',
+    name: 'home2',
     alwaysShow: true,
     meta: {
-      title: 'home',
+      title: 'home2',
       icon: 'shouye',
       type: 1
     },
@@ -1012,10 +1012,10 @@ export const asyncRouterMap = [
     path: '/countlist',
     component: Layout,
     redirect: 'noredirect',
-    name: 'countlist',
+    name: 'countlist2',
     alwaysShow: true,
     meta: {
-      title: 'countlist',
+      title: 'countlist2',
       icon: 'yujing',
       type: 4,
       roles: ['131-154-4']
@@ -1783,10 +1783,10 @@ export const asyncRouterMap = [
     path: '/SubjectFinance',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Invoice',
+    name: 'SubjectFinance2',
     alwaysShow: true,
     meta: {
-      title: 'SubjectFinance',
+      title: 'SubjectFinance2',
       icon: 'fapiao',
       type: 11,
       roles: ['266-267-4']
@@ -3108,7 +3108,7 @@ export const asyncRouterMap = [
       title: 'Financecount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-314-328-4', '311-314-329-4']
+      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '314-375-4']
     },
     children: [
       {
@@ -3134,6 +3134,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Financecount/collectAndPayDetail'),
         name: 'collectAndPayDetail',
         meta: { title: 'collectAndPayDetail', noCache: true, roles: ['311-314-368-4'] }
+      },
+      {
+        path: 'expensesSummary',
+        component: () => import('@/views/Financecount/expensesSummary'),
+        name: 'expensesSummary',
+        meta: { title: 'expensesSummary', noCache: true, roles: ['311-314-375-4'] }
       }
     ]
   },
@@ -3340,10 +3346,10 @@ export const asyncRouterMap = [
     path: '/AccountBalance',
     component: Layout,
     redirect: 'noredirect',
-    name: 'AccountBalance',
+    name: 'AccountBalance2',
     alwaysShow: true,
     meta: {
-      title: 'AccountBalance',
+      title: 'AccountBalance2',
       icon: 'kemuyue',
       type: 11,
       roles: ['266-372-4']
@@ -3382,10 +3388,10 @@ export const asyncRouterMap = [
     path: '/AccountManagement',
     component: Layout,
     redirect: 'noredirect',
-    name: 'AccountManagement',
+    name: 'AccountManagement2',
     alwaysShow: true,
     meta: {
-      title: 'AccountManagement',
+      title: 'AccountManagement2',
       icon: 'kemuyue',
       type: 11,
       roles: ['266-374-4']

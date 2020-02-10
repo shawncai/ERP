@@ -737,6 +737,7 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.chooseSourceType()
     },
     editdata() {
       this.personalForm = this.editdata
@@ -846,7 +847,6 @@ export default {
   created() {
     this.getTypes()
     this.getdatatime()
-    this.chooseSourceType()
   },
   beforeCreate() {
     _that = this
