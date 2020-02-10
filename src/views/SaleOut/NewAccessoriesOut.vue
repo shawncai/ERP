@@ -2408,6 +2408,14 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
+          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '本次收款金额不能为空',
+              offset: 100
+            })
+            return false
+          }
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
