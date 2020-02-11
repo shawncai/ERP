@@ -304,8 +304,8 @@ export default {
     },
     newoldFilter(status) {
       const statusMap = {
-        1: '老',
-        2: '新'
+        1: '本店客户',
+        2: '非本店客户'
       }
       return statusMap[status]
     },

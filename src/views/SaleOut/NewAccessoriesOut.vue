@@ -378,7 +378,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -505,7 +505,7 @@
               </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
-                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -1105,6 +1105,9 @@ export default {
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
       }
+      if (!this.personalForm.otherMoney) {
+        this.personalForm.otherMoney = 0
+      }
       console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
@@ -1113,8 +1116,8 @@ export default {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1123,8 +1126,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('123', 123)
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld))
+        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1134,8 +1137,8 @@ export default {
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
         console.log('234', 234)
-        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld))
+        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1144,8 +1147,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('456', 456)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney))
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld))
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1182,6 +1185,11 @@ export default {
       //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
       //   }
       // }
+    },
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '05') { return true } else { return false }
     },
     isEdit3(row) {
       console.log('222', row)

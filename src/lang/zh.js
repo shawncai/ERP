@@ -470,6 +470,7 @@ export default {
     existQuantity: '现有数量'
   },
   saleBillList: {
+    actualMoney: '实际销售金额',
     freeMoney: '质保金额',
     serviceMoney: '非质保金额',
     freeQuantity: '质保数量',
@@ -1018,7 +1019,7 @@ export default {
     birthday: '生日',
     source: '客户来源',
     source2: '经销商来源',
-    newold: '新老客户',
+    newold: '是否本店客户',
     customertype: '经销商类型',
     customertype2: '客户类型',
     customername: '客户姓名',

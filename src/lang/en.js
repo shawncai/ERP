@@ -388,7 +388,7 @@ export default {
     AddAccessComponent: 'parts claim form',
     AccountBalance: '科目余额表',
     AccountBalance2: '科目余额表',
-    NewAccessoriesOut: '新建配件出库单',
+    NewAccessoriesOut: 'Spare parts sales from',
     AccountManagement: '账户管理',
     AccountManagement2: '账户管理',
     expensesSummary: '支出单汇总'
@@ -458,6 +458,7 @@ export default {
     existQuantity: 'existing quantity'
   },
   saleBillList: {
+    actualMoney: '实际销售金额',
     saleType: 'sales mode',
     repositoryName: 'warehouse name',
     productCode: 'product ID coding',

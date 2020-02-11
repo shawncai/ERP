@@ -6,6 +6,8 @@
       <el-input v-model="getemplist.code" :placeholder="$t('StockOut.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="outPersonId" :placeholder="$t('StockOut.outPersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
       <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -172,6 +174,9 @@ export default {
   },
   data() {
     return {
+      repositoryId: '',
+      repositorycontrol: false,
+
       // 审核传参
       reviewParms: {
         id: '',
@@ -226,6 +231,21 @@ export default {
     _that = this
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    // 清空搜索仓库选择
+    clearFilter() {
+      this.getemplist.repositoryId = ''
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
+
     // 确认操作
     handleEdit2(row) {
       this.reviewParms = {}

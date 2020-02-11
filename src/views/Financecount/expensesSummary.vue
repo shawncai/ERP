@@ -48,9 +48,11 @@
       >
         <el-table-column
           :label="$t('updates.repository')"
+          :resizable="false"
           prop="repositoryName"
           width="240"
           align="center"
+          fixed="left"
         />
         <el-table-column
           label="6601.01 Selling-expenses-internet"

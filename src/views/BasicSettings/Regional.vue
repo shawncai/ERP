@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-39-377-1']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('public.add') }}</el-button>
     </div>
     <tree-table :data="data" :eval-func="func" :eval-args="args" :expand-all="expandAll" border>
       <el-table-column :label="$t('area.SerialNumber')" align="center">
@@ -36,9 +36,9 @@
       </el-table-column>
       <el-table-column :label="$t('area.Operation')" width="240" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('updates.xjzqy') }}</el-button>
-          <el-button v-if="scope.row.isNext === 2" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('area.delete') }}</el-button>
-          <el-button type="warning" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+          <el-button v-permission="['1-39-377-3']" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('updates.xjzqy') }}</el-button>
+          <el-button v-permission="['1-39-377-2']" v-if="scope.row.isNext === 2" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('area.delete') }}</el-button>
+          <el-button v-permission="['1-39-377-3']" type="warning" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
         </template>
       </el-table-column>
     </tree-table>

@@ -74,8 +74,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('Customer.newold')" style="width: 100%">
                 <el-select v-model="customerForm.newOrOld" :value="customerForm.newOrOld" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
-                  <el-option label="老" value="1"/>
-                  <el-option label="新" value="2"/>
+                  <el-option label="本店客户" value="1"/>
+                  <el-option label="非本店客户" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>
