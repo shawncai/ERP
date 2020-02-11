@@ -75,7 +75,7 @@ export default {
       bottom: 0px;
     }
     .el-scrollbar__wrap {
-      margin-bottom: -10px !important
+      margin-bottom: 5px !important
     }
   }
 }
