@@ -237,7 +237,7 @@ export default {
     },
     // 清空搜索仓库选择
     clearFilter() {
-      this.getemplist.repositoryId = ''
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
       this.repositoryId = ''
     },
     repositoryname(val) {

@@ -1520,7 +1520,6 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
-
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',
