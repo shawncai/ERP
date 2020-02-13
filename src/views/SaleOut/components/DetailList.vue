@@ -153,6 +153,14 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px" disabled>
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -414,6 +422,13 @@ import { productlist } from '@/api/public'
 var _that
 export default {
   filters: {
+    isFreeTypeFilter(sta) {
+      const statusMap = {
+        1: 'yes',
+        2: 'no'
+      }
+      return statusMap[sta]
+    },
     saleTypeFilter(sta) {
       const statusMap = {
 

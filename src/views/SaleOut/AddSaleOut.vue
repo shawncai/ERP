@@ -2181,9 +2181,16 @@ export default {
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
+        receivableMoney: 0,
+        receiveMoney: 0,
         isInvoice: 1,
         couponSupportOld: 0,
-        receivableMoney: ''
+        // receivableMoney: '',
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ]
       }
       this.receivableMoney = ''
       this.customerId = null
@@ -2414,7 +2421,8 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
-          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
+          // eslint-disable-next-line use-isnan
+          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
             this.$notify.error({
               title: 'wrong',
               message: '本次收款金额不能为空',

@@ -196,6 +196,14 @@
               </el-form-item>
               <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
+                <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px" disabled>
+                  <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                  <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -1921,11 +1929,17 @@ export default {
           const EnterDetail = this.$refs.editable.getRecords()
           // 整车出库时相关编码必填
           let m = 1
+          // 整车不能质保
+          let m3 = 1
+          const m4 = this.personalForm.isFree
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
             const re = elem.productCode.slice(0, 2)
             if (re === '01') {
+              if (m4 === 1) {
+                m3 = 2
+              }
               if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
                 m = 2
               }
@@ -1935,6 +1949,14 @@ export default {
             this.$notify.error({
               title: 'wrong',
               message: '整车出库时相关编码必填',
+              offset: 100
+            })
+            return false
+          }
+          if (m3 === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '整车不能算作质保',
               offset: 100
             })
             return false
@@ -2104,7 +2126,6 @@ export default {
             }
             return elem
           })
-          const parms2 = JSON.stringify(EnterDetail)
           const parms3 = JSON.stringify(EnterDetail2)
           let couponNumbers = ''
           for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
@@ -2124,6 +2145,22 @@ export default {
             })
             return false
           }
+          if (this.personalForm.isFree === 1) {
+            this.personalForm.taxMoney = 0
+            this.personalForm.includeTaxMoney = 0
+            this.personalForm.money = 0
+            this.personalForm.receivableMoney = 0
+            this.personalForm.discount_money = 0
+            this.personalForm.actualMoney = 0
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              elem.money = 0
+              elem.taxprice = 0
+              elem.includeTaxMoney = 0
+            })
+          }
+          const parms2 = JSON.stringify(EnterDetail)
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

@@ -227,6 +227,14 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
+                  <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px">
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -773,7 +781,8 @@ export default {
         receiveMoney: 0,
         isInvoice: 1,
         couponMoney: 0,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        isFree: 2
       },
       // 销售订单规则数据
       personalrules: {
@@ -2188,8 +2197,14 @@ export default {
         ridBikeMoney: 0,
         advanceMoney: 0,
         receiveMoney: 0,
+        receivableMoney: 0,
         isInvoice: 1,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ]
       }
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
@@ -2396,7 +2411,6 @@ export default {
           //     }
           //     return elem
           //   })
-          const parms2 = JSON.stringify(EnterDetail)
           const parms3 = ''
           let couponNumbers = ''
           for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
@@ -2416,6 +2430,22 @@ export default {
             })
             return false
           }
+          if (this.personalForm.isFree === 1) {
+            this.personalForm.taxMoney = 0
+            this.personalForm.includeTaxMoney = 0
+            this.personalForm.money = 0
+            this.personalForm.receivableMoney = 0
+            this.personalForm.discount_money = 0
+            this.personalForm.actualMoney = 0
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              elem.money = 0
+              elem.taxprice = 0
+              elem.includeTaxMoney = 0
+            })
+          }
+          const parms2 = JSON.stringify(EnterDetail)
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
