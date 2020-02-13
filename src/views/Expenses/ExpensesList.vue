@@ -110,7 +110,9 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
+        :height="tableHeight"
         :data="list"
         border
         fit
@@ -269,6 +271,8 @@ export default {
   },
   data() {
     return {
+
+      tableHeight: 50,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() > Date.now() - 8.64e7
@@ -360,6 +364,9 @@ export default {
 
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this

@@ -1,8 +1,7 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 15px;height: 60px">
-      \
+    <el-card class="box-card" style="margin-top: 15px">
       <el-input v-model="searchRepositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
 
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>

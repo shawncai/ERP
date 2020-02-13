@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column :resizable="false" :label="$t('table.actions')" align="center" min-width="100" >
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
+            <el-button v-permission="['54-67-376-3']" type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table2.edit') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

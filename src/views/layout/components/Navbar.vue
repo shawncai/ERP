@@ -408,6 +408,10 @@ export default {
   display: none;
 }
 
+.el-menu-demo >>> .el-menu-item {
+  height: 43px;
+}
+
 .navbar >>> .el-menu--popup-bottom-start {
   margin-top: -15px !important;
 }

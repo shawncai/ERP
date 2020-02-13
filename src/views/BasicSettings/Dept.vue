@@ -15,7 +15,7 @@
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-39-378-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="addDeptVisible" title="新建部门" width="500px" style="margin-top:10px">
         <el-form :model="AddDeptform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
           <el-form-item label-width="120px" label="部门编号">
@@ -84,8 +84,8 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['1-39-378-3']" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-permission="['1-39-378-2']" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -121,11 +121,14 @@ import { getdeptlist, adddept, updatedept, deletedept } from '@/api/BasicSetting
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyDialog from './components/MyDialog'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
   name: 'Dept',
-  directives: { waves },
+  directives: { waves, permission, permission2 },
   components: { Pagination, MyDialog },
   filters: {
     genderFilter(status) {
@@ -183,6 +186,7 @@ export default {
     _that = this
   },
   methods: {
+    checkPermission,
     getlist() {
       // 部门列表数据
       this.listLoading = true

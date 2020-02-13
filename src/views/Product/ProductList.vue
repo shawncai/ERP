@@ -41,16 +41,16 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
+      <!-- <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['1-31-33-14']" style="text-align: left" command="up" ><svg-icon icon-class="上架" style="width: 40px"/>{{ $t('public.up') }}</el-dropdown-item>
-          <el-dropdown-item v-permission="['1-31-33-15']" style="text-align: left" command="down"><svg-icon icon-class="下架" style="width: 40px"/>{{ $t('public.down') }}</el-dropdown-item>
-          <!--          <el-dropdown-item v-permission="['1-31-33-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
-        </el-dropdown-menu>
-      </el-dropdown>
+          <el-dropdown-item v-permission="['1-31-33-15']" style="text-align: left" command="down"><svg-icon icon-class="下架" style="width: 40px"/>{{ $t('public.down') }}</el-dropdown-item> -->
+      <!--          <el-dropdown-item v-permission="['1-31-33-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>-->
+      <!-- </el-dropdown-menu>
+      </el-dropdown> -->
       <!-- 表格导出操作 -->
       <el-button v-permission="['1-31-33-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
@@ -98,12 +98,12 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :row-key="getRowKeys"
         border
         fit
-        height="400"
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
@@ -229,6 +229,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       loading: false,
       excelData: {
         header: null,
@@ -299,6 +300,9 @@ export default {
 
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 200
+    }, 100)
   },
   beforeCreate() {
     _that = this

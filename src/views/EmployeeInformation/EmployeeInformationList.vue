@@ -84,12 +84,13 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
         highlight-current-row
-        height="400"
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
@@ -97,23 +98,23 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" width="60">
+        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" width="100">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" fixed="left" align="center" width="80">
+        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" fixed="left" align="center" width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.jobNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" fixed="left" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" fixed="left" align="center" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.account }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" fixed="left" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" fixed="left" align="center" width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
           </template>
@@ -123,34 +124,34 @@
             <span>{{ scope.row.gender | genderFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.birthday')" :resizable="false" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.birthday }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.email')" :resizable="false" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.email }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.roleName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.deptName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" align="center" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.regionName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" align="center" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.deptName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.email')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.email }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.birthday')" :resizable="false" align="center" width="180">
+          <template slot-scope="scope">
+            <span>{{ scope.row.birthday }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('NewEmployeeInformation.createTime')" :resizable="false" align="center" width="100">
@@ -168,7 +169,7 @@
             <span>{{ scope.row.stat | statFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="180">
           <template slot-scope="scope">
             <el-button v-permission2="['1-2-4-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['1-2-4-9']" v-show="scope.row.stat === 1" title="停用" size="mini" type="warning" icon="el-icon-close" circle @click="handleDisable(scope.row)"/>
@@ -226,6 +227,7 @@ export default {
       }
     }
     return {
+      tableHeight: 50,
       // 判断是否能点击
       selected: true,
       // 详情传递id
@@ -397,6 +399,9 @@ export default {
   mounted() {
     this.getlist()
     this.handlechange4()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this

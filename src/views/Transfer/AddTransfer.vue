@@ -395,7 +395,7 @@ export default {
       return val
     },
     test(row, val) {
-      console.log(row, val)
+      console.log('val', val)
       const finid = val[val.length - 1]
       const needata = this.findtreedata(this.treedata, finid)
       console.log('needata', needata)
@@ -439,7 +439,87 @@ export default {
     },
     // 新增收入明细
     insertEvent(index) {
-      this.$refs.editable.insertAt({ productCode: null }, index)
+      if (this.$store.getters.repositoryId !== 0 && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined && this.$store.getters.repositoryId !== '') {
+        console.log('this.$store.getters.regionId', this.$store.getters.regionId)
+
+        const needata = this.findPathByLeafId(this.$store.getters.regionId, this.regions)
+        console.log('needata', needata)
+        if (needata.includes(28)) {
+          const subjectdata = [1, 2, 9, 43, 283]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(29)) {
+          const subjectdata = [1, 2, 9, 43, 279]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(47)) {
+          const subjectdata = [1, 2, 9, 43, 231]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(65)) {
+          const subjectdata = [1, 2, 9, 43, 280]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(66)) {
+          const subjectdata = [1, 2, 9, 43, 282]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(67)) {
+          const subjectdata = [1, 2, 9, 43, 285]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(68)) {
+          const subjectdata = [1, 2, 9, 43, 286]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(79)) {
+          const subjectdata = [1, 2, 9, 43, 284]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(80)) {
+          const subjectdata = [1, 2, 9, 43, 281]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(81)) {
+          const subjectdata = [1, 2, 9, 43, 287]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else if (needata.includes(90)) {
+          const subjectdata = [1, 2, 9, 43, 236]
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId, subjectFinance: subjectdata }, index)
+        } else {
+          this.$refs.editable.insertAt({ repositoryId: this.$store.getters.repositoryId }, index)
+        }
+      } else {
+        const needata = this.findPathByLeafId(this.$store.getters.regionId, this.regions)
+        console.log('needata', needata)
+        if (needata.includes(28)) {
+          const subjectdata = [1, 2, 9, 43, 283]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(29)) {
+          const subjectdata = [1, 2, 9, 43, 279]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(47)) {
+          const subjectdata = [1, 2, 9, 43, 231]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(65)) {
+          const subjectdata = [1, 2, 9, 43, 280]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(66)) {
+          const subjectdata = [1, 2, 9, 43, 282]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(67)) {
+          const subjectdata = [1, 2, 9, 43, 285]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(68)) {
+          const subjectdata = [1, 2, 9, 43, 286]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(79)) {
+          const subjectdata = [1, 2, 9, 43, 284]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(80)) {
+          const subjectdata = [1, 2, 9, 43, 281]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(81)) {
+          const subjectdata = [1, 2, 9, 43, 287]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else if (needata.includes(90)) {
+          const subjectdata = [1, 2, 9, 43, 236]
+          this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
+        } else {
+          this.$refs.editable.insertAt({ }, index)
+        }
+      }
     },
     getTypes() {
       // 部门列表数据
@@ -540,6 +620,11 @@ export default {
       }
       const parms = JSON.stringify(Data)
       const EnterDetail = this.$refs.editable.getRecords()
+      // row.subjectName = needata.subjectName
+      // row.subjectCode = needata.subjectNumber
+      for (const i in EnterDetail) {
+        EnterDetail[i].subjectCode = EnterDetail[i].subjectFinance[EnterDetail[i].subjectFinance.length - 1]
+      }
       console.log('EnterDetail', EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({

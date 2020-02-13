@@ -9,6 +9,7 @@ export default {
     nwow: 'NWOW后台管理',
     CheckSet: '质检明细设置',
     home: '首页',
+    home2: '首页',
     map: '地图',
     carlocation: '车辆管理',
     AddSupplierAdjust: '新建供应商调价单',
@@ -330,7 +331,9 @@ export default {
     CostInstallmanage: '费用设置管理',
     categorymanage: '费用类别管理',
     SubjectFinance: '往来科目',
+    SubjectFinance2: '往来科目',
     countlist: '库存查询',
+    countlist2: '库存查询',
     SearchInventoryAlarmRules: '货物流转报警规则列表',
     AddInventoryAlarm: '新增货物流转报警规则',
     InventoryAlarmList: '货物流转报警查询',
@@ -388,6 +391,7 @@ export default {
     AccessComponentlist: '维修零件领用单列表',
     AddAccessComponent: '新建维修零件领用单',
     AccountBalance: '科目余额表',
+    AccountBalance2: '科目余额表',
     Verification: '核销单',
     AddVerification: '新建核销单',
     VerificationList: '核销单列表',
@@ -397,7 +401,9 @@ export default {
     collectAndPay: '收付款汇总',
     collectAndPayDetail: '收付款明细',
     NewAccessoriesOut: '新建配件出库单',
-    AccountManagement: '账户管理'
+    AccountManagement: '账户管理',
+    AccountManagement2: '账户管理',
+    expensesSummary: '支出单汇总'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -464,6 +470,7 @@ export default {
     existQuantity: '现有数量'
   },
   saleBillList: {
+    actualMoney: '实际销售金额',
     freeMoney: '质保金额',
     serviceMoney: '非质保金额',
     freeQuantity: '质保数量',
@@ -1012,7 +1019,7 @@ export default {
     birthday: '生日',
     source: '客户来源',
     source2: '经销商来源',
-    newold: '新老客户',
+    newold: '是否本店客户',
     customertype: '经销商类型',
     customertype2: '客户类型',
     customername: '客户姓名',
@@ -1513,7 +1520,6 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
-
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',

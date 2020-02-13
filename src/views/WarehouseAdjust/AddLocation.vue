@@ -80,9 +80,10 @@ export default {
       repositorycontrol: false,
       // 货位单信息数据
       personalForm: {
-        createPersonId: this.$store.getters.userId
+        createPersonId: this.$store.getters.userId,
+        repositoryId: this.$store.getters.repositoryId
       },
-      repositoryId: '',
+      repositoryId: this.$store.getters.repositoryName,
       // 货位单规则数据
       personalrules: {
         locationCode: [
@@ -157,9 +158,9 @@ export default {
     restAllForm() {
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
-        repositoryId: ''
+        repositoryId: this.$store.getters.repositoryId
       }
-      this.repositoryId = ''
+      this.repositoryId = this.$store.getters.repositoryName
     },
     // 取消操作
     handlecancel() {

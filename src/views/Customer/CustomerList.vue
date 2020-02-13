@@ -80,8 +80,8 @@
         <el-table-column :label="$t('Customer.id')" :resizable="false" prop="id" fixed="left" align="center" width="60">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
-            <detail-list :detailcontrol.sync="detailvisible" :detailid.sync="detailid"/>
           </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detailid.sync="detailid"/>
         </el-table-column>
         <el-table-column :label="$t('Customer.customername')" :resizable="false" prop="customerName" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -182,8 +182,8 @@ export default {
     },
     filterno(status) {
       const statusMap = {
-        1: '老客户',
-        2: '新客户'
+        1: '本店客户',
+        2: '非本店客户'
       }
       return statusMap[status]
     }

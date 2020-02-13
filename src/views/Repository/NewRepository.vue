@@ -647,6 +647,14 @@ export default {
     },
     // 保存操作
     handlesave() {
+      if (this.regionId.length === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择正确区域',
+          offset: 100
+        })
+        return false
+      }
       this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
       var pattern = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d)|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d))$)/
       // console.log(pattern.test(this.RepositoryForm.phone))
@@ -699,6 +707,14 @@ export default {
     },
     // 继续录入
     handleentry() {
+      if (this.regionId.length === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择正确区域',
+          offset: 100
+        })
+        return false
+      }
       this.RepositoryForm.regionId = this.regionId[this.regionId.length - 1]
       this.$refs.RepositoryForm.validate((valid) => {
         if (valid) {

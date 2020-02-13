@@ -2,6 +2,9 @@
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
     <el-card class="box-card" style="margin-top: 15px">
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-input v-model="getemplist.title" :placeholder="$t('WarehouseAdjust.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
@@ -147,12 +150,13 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import MyDelivery from './components/MyDelivery'
 import DetailList from './components/DetailList'
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'Enterlist',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyDelivery, Pagination, MyDialog },
+  components: { DetailList, MyDelivery, Pagination, MyDialog, MyRepository },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -174,6 +178,8 @@ export default {
   },
   data() {
     return {
+      repositoryId: '',
+      repositorycontrol: false,
       // 更多搜索条件问题
       visible2: false,
       // 审核传参
@@ -227,10 +233,24 @@ export default {
     _that = this
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    // 清空搜索仓库选择
+    clearFilter() {
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 && row.receiptStat === 2) {
         return true
       }
     },

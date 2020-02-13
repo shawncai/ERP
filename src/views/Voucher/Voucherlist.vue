@@ -70,6 +70,25 @@
       <el-button v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 86px" @click="handleswitch">{{ $t('otherlanguage.zh') }}</el-button>
       <!-- 结转损益操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-sort" type="primary" @click="handleswitchtojz">{{ $t('otherlanguage.jzsy') }}</el-button>
+      <!-- 结转损益选择日期 -->
+      <el-dialog :visible.sync="categoryVisible" title="结转月份" class="normal" width="600px" center>
+        <el-form ref="addCategoryForm" :model="voucherparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+          <el-form-item :label="$t('otherlanguage.rq')" label-width="100px">
+            <el-date-picker
+              v-model="voucherparms.date"
+              :picker-options="pickerOptions1"
+              type="month"
+              value-format="yyyy-MM"
+              style="width: 100%"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlecheck()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="categoryVisible = false">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+      <!-- 结转损益选择日期结束 -->
+
       <el-button v-permission="['266-373-1']" v-waves class="filter-item" icon="el-icon-rank" type="success" style="width: 120px" @click="handleMyReceipt1">结转库房支出</el-button>
     </el-card>
 
@@ -77,9 +96,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :span-method="arraySpanMethod"
+        :height="tableHeight"
         border
         fit
         highlight-current-row
@@ -259,6 +280,14 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() > Date.now()
+        }
+      },
+      voucherparms: {},
+      categoryVisible: false,
+      tableHeight: 50,
       switchparms: 1,
       receiptVisible99: false,
       // 结算方式数据
@@ -330,6 +359,9 @@ export default {
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 100
+    }, 100)
   },
   methods: {
     handleMyReceipt1(row) {
@@ -349,22 +381,50 @@ export default {
         })
       })
     },
-    async handleswitchtojz(row) {
-      this.$confirm('请确认结转损益', '确认', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
-        type: 'warning'
-      }).then(() => {
-        endProfit(row.id).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: '结转损益成功!'
-            })
-            this.getlist()
-          }
+    handlecheck() {
+      if (this.voucherparms.date === '' || this.voucherparms.date === null || this.voucherparms.date === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '清先选择结转月份',
+          offset: 100
         })
+        return false
+      }
+      endProfit(this.voucherparms.date).then(res => {
+        if (res.data.ret === 200) {
+          this.$message({
+            type: 'success',
+            message: '结转损益成功!'
+          })
+          this.categoryVisible = false
+          this.getlist()
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: '出错了',
+            offset: 100
+          })
+          this.categoryVisible = false
+        }
       })
+    },
+    handleswitchtojz() {
+      this.categoryVisible = true
+      // this.$confirm('请确认结转损益', '确认', {
+      //   distinguishCancelAndClose: true,
+      //   confirmButtonText: '确认',
+      //   type: 'warning'
+      // }).then(() => {
+      //   endProfit().then(res => {
+      //     if (res.data.ret === 200) {
+      //       this.$message({
+      //         type: 'success',
+      //         message: '结转损益成功!'
+      //       })
+      //       this.getlist()
+      //     }
+      //   })
+      // })
       // console.log(this.moreaction)
       // const arrowdata = this.moreaction
       // if (this.moreaction.length === 0) {

@@ -9,6 +9,7 @@ export default {
     nwow: 'NWOW back stage management',
     CheckSet: 'quality inspection detail settings',
     home: 'home',
+    home2: 'home',
     map: 'map',
     carlocation: 'tracking',
     AddSupplierAdjust: 'price-adjustment form',
@@ -312,6 +313,9 @@ export default {
     Coupon: 'voucher',
     AddCoupon: 'new voucher',
     CouponList: 'voucher list',
+    CouponProvideList: '优惠发放记录',
+    CouponUseList: '优惠券使用记录',
+    AddCouponProvide: '优惠券发放',
     Package: 'package',
     AddPackage: 'new package',
     PackageList: 'package list',
@@ -327,7 +331,9 @@ export default {
     CostInstallmanage: 'expenses settings management',
     categorymanage: 'expenses category management',
     SubjectFinance: 'corresponding subject',
+    SubjectFinance2: 'corresponding subject',
     countlist: 'stocks search',
+    countlist2: 'stocks search',
     SearchInventoryAlarmRules: 'alarm list',
     AddInventoryAlarm: 'new alarm rules',
     InventoryAlarmList: 'alarm search',
@@ -379,13 +385,25 @@ export default {
     installmentAnalyze: 'installment receivable  analysis',
     Voucher: '凭证管理',
     Newvoucher: '新建凭证',
+    Newvoucher2: '新建凭证',
     Voucherlist: '凭证列表',
     AccessComponent: '维修零件领用单',
     AccessComponentlist: 'claim list',
     AddAccessComponent: 'parts claim form',
     AccountBalance: '科目余额表',
-    NewAccessoriesOut: '新建配件出库单',
-    AccountManagement: '账户管理'
+    AccountBalance2: '科目余额表',
+    Verification: '核销单',
+    AddVerification: '新建核销单',
+    VerificationList: '核销单列表',
+    Memorandum: '备忘录',
+    AddMemorandum: '新建备忘录',
+    MemorandumList: '备忘录列表',
+    collectAndPay: '收付款汇总',
+    collectAndPayDetail: '收付款明细',
+    NewAccessoriesOut: 'Spare parts sales from',
+    AccountManagement: '账户管理',
+    AccountManagement2: '账户管理',
+    expensesSummary: '支出单汇总'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -452,6 +470,12 @@ export default {
     existQuantity: 'existing quantity'
   },
   saleBillList: {
+    actualMoney: '实际销售金额',
+    freeMoney: '质保金额',
+    serviceMoney: '非质保金额',
+    freeQuantity: '质保数量',
+    serviceQuantity: '非质保数量',
+    repair: '维修',
     saleType: 'sales mode',
     repositoryName: 'warehouse name',
     productCode: 'product ID coding',
@@ -465,7 +489,9 @@ export default {
     total: 'amount',
     costMoney: 'cost',
     grossProfit: 'gross profit',
-    grossProfitRate: 'gross profit rate'
+    grossProfitRate: 'gross profit rate',
+    quantity: '数量',
+    color: '颜色'
   },
   shouldPayCount: {
     supplierId: 'supplier ID coding',
@@ -980,6 +1006,8 @@ export default {
     middlename: 'middle name',
     lastname: 'last name',
     phone: 'mobile no.',
+    phone12: '客户电话2',
+    phone13: '客户电话3',
     gender: 'gender',
     countryid: 'country',
     provinceid: 'province',
@@ -1056,6 +1084,7 @@ export default {
     supplierGroup: 'new grouping',
     createTime: 'profiling date',
     countyrId: 'edit country',
+    provinceId: '修改省',
     cityId: 'edit city',
     groupName: 'group name',
     createId: 'flier',
@@ -1443,6 +1472,7 @@ export default {
     storageMoveDate: 'Stock out date'
   },
   StockAlarm: {
+    color: '颜色',
     searchRepositoryId: 'warehouse',
     code: 'product coding',
     productName: 'product name',
@@ -1454,7 +1484,8 @@ export default {
     upStock: 'maximum stocks',
     onStock: 'current stocks',
     safeStock: 'safety stocks',
-    flag: 'alarm type'
+    flag: 'alarm type',
+    salePrice: '销售价格'
   },
   BuildUp: {
     title: 'assemble form subject',
@@ -1881,6 +1912,7 @@ export default {
     summary: 'Summary'
   },
   Invoice: {
+    fph: '发票号',
     sourceType: 'business form type',
     sourceNumber: 'business form  no.',
     invoiceNumber: 'invoice no.',
@@ -2044,7 +2076,8 @@ export default {
     heji10: 'freebies amount',
     heji11: 'other expenses',
     profit: 'profit',
-    ProfitMargin: 'profit rate'
+    ProfitMargin: 'profit rate',
+    invoiceNumber: '发票号'
   },
   SaleOrder: {
     title: 'subject',
@@ -2349,6 +2382,7 @@ export default {
     salecontrat: 'Sales contract'
   },
   InstallmentList: {
+    color: '颜色',
     isChange: 'change terms',
     afterCount: 'changed',
     afterRate: 'interest rate after change terms',
@@ -2475,6 +2509,7 @@ export default {
     receiptAccount: 'account name',
     receiptAccountNumber: 'account no.',
     receiptPersonId: 'collector',
+    receiptRepositoryId: '收款门店',
     receiptDate: 'collection date',
     totalLackMoney: 'balance',
     remark: 'remarks',
@@ -2609,6 +2644,7 @@ export default {
     iseffective: 'enabled status'
   },
   public: {
+    plgx: '更新',
     detail: 'detail',
     businessStatus: 'order status',
     rate: 'exchange rate',
@@ -2673,6 +2709,7 @@ export default {
     repositoryId: 'warehouse/branch'
   },
   repair: {
+    // 线下任务
     Redispatch: 'ReDispatch',
     yfpug: 'assigned',
     ygyjs: 'accepted',
@@ -2988,6 +3025,8 @@ export default {
     evaluation: 'evaluation'
   },
   Hmodule: {
+    hhd: '换货单',
+    ggxh: '规格型号',
     cilent: 'click to upload',
     cancel: 'cancel',
     sure: 'confirm',
@@ -3054,8 +3093,10 @@ export default {
   },
   updates: {
     gz: 'trace',
+    wly: '无来源',
     ckmx: 'Out of stock detail',
     shmx: 'recovery detail',
+    sncode: 'sn编码',
     zxsyj: 'total sales amount',
     zhzye: 'total account balance',
     byszc: 'this month payment balance',
@@ -3599,6 +3640,7 @@ export default {
     wlly: 'material source',
     roleid: 'role',
 
+    // 新加的 新加的 新加的
     kssj: 'start time',
     jssj: 'end time',
     scsl: 'production qty.',
@@ -3834,6 +3876,15 @@ export default {
     pj: 'accessories',
     jgj: 'fastener',
     dc: 'battery',
+    djylfj: '点击预览下载附件',
+    fph: '发票号',
+    bcskje: '本次预收金额',
+    yskdk: '预收款抵扣',
+    buyIntention: '购买意向',
+    spmx: '商品明细',
+    bsckmx: '报损出库明细',
+    bsrkmx: '报损入库明细',
+    rksl: '入库数量',
     newvoucher: '凭证',
     md: 'branch',
     qy: 'area',
@@ -3896,5 +3947,67 @@ export default {
     asds: 'co-maker info.',
     oijn: 'collection',
     pkj: 'follow up'
+  },
+  Verification: {
+    jbr: '经办人',
+    hxrq: '核销日期',
+    qqq: '应结算金额',
+    www: '已结算金额',
+    eee: '核销金额'
+  },
+  MemorandumList: {
+    time: '提醒时间',
+    content: '提醒内容',
+    per: '提醒人',
+    stat: '状态',
+    createTime: '创建时间'
+  },
+  collectAndPay: {
+    time: '时间',
+    saleOut: '销售出库',
+    stockRetreat: '采购退货',
+    collectMoney: '收款',
+    income: '收入',
+    repaireOut: '维修出库',
+    advanceCollect: '预收',
+    totalCollect: '收款合计',
+    saleReturn: '销售退货',
+    payment: '付款单',
+    outlay: '支出单',
+    totalPay: '总支出',
+    balance: '余额',
+    payModeName: '结算方式',
+    type: '优惠券类型',
+    effectiveTime: '有效期',
+    effectiveType: '适用类别',
+    isRepeat: '是否可以叠加',
+    number: '发行量',
+    send: '已发放数量',
+    left: '剩余数量',
+    usedNumber: '已使用数量',
+    couponName: '优惠券名称',
+    repositoryName: '门店名称',
+    couponNumber: '优惠券码',
+    customerName: '客户姓名',
+    useDate: '使用时间',
+    actualUseMoney: '实际抵扣金额',
+    leftMoney: '剩余金额',
+    number2: '数量',
+    ffxx: '发放信息',
+    couponNumbers: '优惠券码',
+    couponSupport2: '优惠劵抵用金额',
+    couponSupportOld: '旧优惠劵抵用金额'
+  },
+  collectAndPayDetail: {
+    name: '名称',
+    sl: '回收数量',
+    cgck: '采购仓库',
+    fjf: '附加费',
+    cbj: '成本价',
+    fx: '方向',
+    transferReceipt: '门店收到公司转账',
+    transferExpense: '门店转给公司',
+    lrqcsj: '录入期初数据',
+    ygssmdm: '员工所属门店'
   }
 }

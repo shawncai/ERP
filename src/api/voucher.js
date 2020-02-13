@@ -2,6 +2,9 @@ import request from '@/utils/request'
 
 export function endProfit(query) {
   var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('date', query) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/voucher/endProfit',
     method: 'post',

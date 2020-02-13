@@ -126,10 +126,10 @@ export const asyncRouterMap = [
     path: '/home',
     component: Layout,
     redirect: 'noredirect',
-    name: 'home',
+    name: 'home2',
     alwaysShow: true,
     meta: {
-      title: 'home',
+      title: 'home2',
       icon: 'shouye',
       type: 1
     },
@@ -532,7 +532,7 @@ export const asyncRouterMap = [
       title: 'Supplier',
       icon: 'gongyinshang',
       type: 10,
-      roles: ['1-22-23-1', '1-22-24-4', '1-22-25-1', '1-22-26-4', '1-22-27-13', '1-22-28-4', '1-22-29-1', '1-22-30-4', '131-151-1', '131-152-4']
+      roles: ['1-22-23-1', '1-22-24-4', '1-22-255-4', '1-22-25-1', '1-22-26-4', '1-22-27-13', '1-22-28-4', '1-22-29-1', '1-22-30-4']
     },
     children: [
       {
@@ -551,13 +551,13 @@ export const asyncRouterMap = [
         path: 'AddSupplierAdjust',
         component: () => import('@/views/SupplierAdjust/AddSupplierAdjust'),
         name: 'AddSupplierAdjust',
-        meta: { title: 'AddSupplierAdjust', noCache: false, roles: ['131-151-1'] }
+        meta: { title: 'AddSupplierAdjust', noCache: false, roles: ['1-22-255-1'] }
       },
       {
         path: 'SupplierAdjustList',
         component: () => import('@/views/SupplierAdjust/SupplierAdjustList'),
         name: 'SupplierAdjustList',
-        meta: { title: 'SupplierAdjustList', noCache: false, roles: ['131-152-4'] }
+        meta: { title: 'SupplierAdjustList', noCache: false, roles: ['1-22-255-4'] }
       },
       {
         path: 'SupplierCategory',
@@ -668,14 +668,14 @@ export const asyncRouterMap = [
       title: 'BasicSettings',
       icon: 'shezhi',
       type: 10,
-      roles: ['1-39-40-1', '1-39-41-1', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1', '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1']
+      roles: ['1-39-40-1', '1-39-41-1', '1-39-378-4', '1-39-377-4', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1', '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1']
     },
     children: [
       {
         path: 'Dept',
         component: () => import('@/views/BasicSettings/Dept'),
         name: 'Dept',
-        meta: { title: 'Dept', noCache: true }
+        meta: { title: 'Dept', noCache: true, roles: ['1-39-378-4'] }
       },
       {
         path: 'NumberingRules',
@@ -741,7 +741,7 @@ export const asyncRouterMap = [
         path: 'Regional',
         component: () => import('@/views/BasicSettings/Regional'),
         name: 'Regional',
-        meta: { title: 'Regional', noCache: true }
+        meta: { title: 'Regional', noCache: true, roles: ['1-39-377-4'] }
       }
     ]
   },
@@ -793,7 +793,7 @@ export const asyncRouterMap = [
         path: 'ProduceEnter',
         component: () => import('@/views/Stockenter/ProduceEnter'),
         name: 'ProduceEnter',
-        meta: { title: 'ProduceEnter', noCache: false }
+        meta: { title: 'ProduceEnter', noCache: false, roles: ['131-132-135-1'] }
       },
       {
         path: 'ProduceEnterList',
@@ -1012,10 +1012,10 @@ export const asyncRouterMap = [
     path: '/countlist',
     component: Layout,
     redirect: 'noredirect',
-    name: 'countlist',
+    name: 'countlist2',
     alwaysShow: true,
     meta: {
-      title: 'countlist',
+      title: 'countlist2',
       icon: 'yujing',
       type: 4,
       roles: ['131-154-4']
@@ -1783,10 +1783,10 @@ export const asyncRouterMap = [
     path: '/SubjectFinance',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Invoice',
+    name: 'SubjectFinance2',
     alwaysShow: true,
     meta: {
-      title: 'SubjectFinance',
+      title: 'SubjectFinance2',
       icon: 'fapiao',
       type: 11,
       roles: ['266-267-4']
@@ -2037,7 +2037,7 @@ export const asyncRouterMap = [
       title: 'Repair',
       icon: 'xiaoshouhetong',
       type: 3,
-      roles: ['54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1', '54-67-272-4']
+      roles: ['54-67-68-4', '54-67-74-4', '54-67-71-4', '54-67-76-4', '54-67-81-4', '54-67-82-1', '54-67-272-4', '54-67-376-4']
     },
     children: [
       {
@@ -2050,7 +2050,7 @@ export const asyncRouterMap = [
         path: 'offlineTask',
         component: () => import('@/views/Repair/offlineTask'),
         name: 'offlineTask',
-        meta: { title: 'offlineTask', noCache: true }
+        meta: { title: 'offlineTask', noCache: true, roles: ['54-67-272-4'] }
       },
       {
         path: 'selfCheck',
@@ -2062,7 +2062,7 @@ export const asyncRouterMap = [
         path: 'blackList',
         component: () => import('@/views/Repair/blackList'),
         name: 'blackList',
-        meta: { title: 'blackList', noCache: true }
+        meta: { title: 'blackList', noCache: true, roles: ['54-67-376-4'] }
       },
       {
         path: 'lost',
@@ -3108,7 +3108,7 @@ export const asyncRouterMap = [
       title: 'Financecount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-314-328-4', '311-314-329-4']
+      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '314-375-4']
     },
     children: [
       {
@@ -3134,6 +3134,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Financecount/collectAndPayDetail'),
         name: 'collectAndPayDetail',
         meta: { title: 'collectAndPayDetail', noCache: false, roles: ['311-314-368-4'] }
+      },
+      {
+        path: 'expensesSummary',
+        component: () => import('@/views/Financecount/expensesSummary'),
+        name: 'expensesSummary',
+        meta: { title: 'expensesSummary', noCache: false, roles: ['311-314-375-4'] }
       }
     ]
   },
@@ -3340,10 +3346,10 @@ export const asyncRouterMap = [
     path: '/AccountBalance',
     component: Layout,
     redirect: 'noredirect',
-    name: 'AccountBalance',
+    name: 'AccountBalance2',
     alwaysShow: true,
     meta: {
-      title: 'AccountBalance',
+      title: 'AccountBalance2',
       icon: 'kemuyue',
       type: 11,
       roles: ['266-372-4']
@@ -3382,10 +3388,10 @@ export const asyncRouterMap = [
     path: '/AccountManagement',
     component: Layout,
     redirect: 'noredirect',
-    name: 'AccountManagement',
+    name: 'AccountManagement2',
     alwaysShow: true,
     meta: {
-      title: 'AccountManagement',
+      title: 'AccountManagement2',
       icon: 'kemuyue',
       type: 11,
       roles: ['266-374-4']
