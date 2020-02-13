@@ -268,8 +268,17 @@ export default {
     },
     // 物品选择添加
     handleAddTo() {
-      this.productVisible = false
-      this.$emit('mater', this.moreaction)
+      if (this.moreaction.salePrice === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '该商品销售价格为0, 不允许分期',
+          offset: 100
+        })
+        return false
+      } else {
+        this.$emit('mater', this.moreaction)
+        this.productVisible = false
+      }
     }
   }
 }

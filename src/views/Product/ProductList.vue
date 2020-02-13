@@ -102,7 +102,6 @@
         :key="tableKey"
         :data="list"
         :row-key="getRowKeys"
-        :height="tableHeight"
         border
         fit
         highlight-current-row

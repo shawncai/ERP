@@ -405,6 +405,9 @@ export default {
       searchtransfer(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          // const detaildata = res.data.data.content.list.map(item => {
+          //   return item.approvalUseVos
+          // })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

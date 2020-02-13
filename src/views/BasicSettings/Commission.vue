@@ -130,7 +130,7 @@ export default {
           { required: true, message: '请选择职位', trigger: 'change' }
         ],
         productCategoryId: [
-          { required: true, validator: validatePass, trigger: 'change' }
+          { required: true, message: '请选择物品分类', trigger: 'change' }
         ],
         commissionType: [
           { required: true, message: '请选择供应商分组', trigger: 'change' }

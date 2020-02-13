@@ -357,7 +357,7 @@ export default {
     },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.id
+      this.getemplist.saleRepositoryId = val.id
     },
     // 出库人focus事件触发
     handlechooseAccept() {
