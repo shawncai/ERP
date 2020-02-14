@@ -6,7 +6,7 @@
 
       <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-popover
         v-model="visible2"
