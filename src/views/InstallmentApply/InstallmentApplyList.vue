@@ -26,7 +26,7 @@
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
         <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
-        <el-input v-model="saleRepositoryId" :placeholder="$t('collectAndPay.saleRepository')" style="width: 40%;float: left;margin-left: 53px;margin-top: 10px;" @focus="handlechooseRep"/>
+        <el-input v-model="saleRepositoryId" :placeholder="$t('collectAndPay.saleRepository')" style="width: 40%;float: left;margin-left: 53px;margin-top: 10px;" clearable @focus="handlechooseRep" @clear="clearid"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <!--<el-date-picker-->
         <!--v-model="date"-->
@@ -359,6 +359,11 @@ export default {
     _that = this
   },
   methods: {
+    // 清楚id
+    clearid() {
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
+    },
     // 新建客户报告
     handleAddreport() {
       if (this.moreaction.length === 0) {
