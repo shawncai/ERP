@@ -3092,6 +3092,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    jldwzbh: '计量单位组编号',
     gz: '跟踪',
     wly: '无来源',
     ckmx: '出库明细',
