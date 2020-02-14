@@ -1360,6 +1360,9 @@ export default {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }
+        if (Data[key] === 'judgeStat' || Data[key] === 'receiptStat') {
+          delete Data[key]
+        }
       }
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
