@@ -341,6 +341,12 @@ export default {
               message: '确认成功!'
             })
             this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       })
