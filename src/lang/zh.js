@@ -86,7 +86,7 @@ export default {
     Enterlist: '期初库存列表',
     AddLocation: '添加货位',
     Dept: '部门列表',
-    detaillist: '物品分类',
+    Detaillist: '物品分类',
     Locationlist: '货位列表',
     ProduceEnter: '新建生产完成入库单',
     ProduceEnterList: '生产完成入库列表',

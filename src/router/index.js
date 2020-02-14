@@ -75,7 +75,7 @@ export const constantRouterMap = [
         path: 'home',
         component: () => import('@/views/home/WorkDesk'),
         name: 'home',
-        meta: { title: 'home', icon: 'shouye', noCache: true }
+        meta: { title: 'home', icon: 'shouye', noCache: false }
       }
     ]
   }
@@ -101,7 +101,7 @@ export const asyncRouterMap = [
         path: 'map',
         component: () => import('@/views/home/index'),
         name: 'map',
-        meta: { title: 'map', noCache: true }
+        meta: { title: 'map', noCache: false }
       }
     ]
   },
@@ -118,7 +118,7 @@ export const asyncRouterMap = [
         path: 'carlocation',
         component: () => import('@/views/carlocation/index'),
         name: 'carlocation',
-        meta: { title: 'carlocation', noCache: true }
+        meta: { title: 'carlocation', noCache: false }
       }
     ]
   },
@@ -138,38 +138,38 @@ export const asyncRouterMap = [
         path: 'WorkDesk',
         component: () => import('@/views/home/WorkDesk'),
         name: 'WorkDesk',
-        meta: { title: 'WorkDesk', noCache: true }
+        meta: { title: 'WorkDesk', noCache: false }
       },
       {
         path: 'MyPrepare',
         component: () => import('@/views/home/MyPrepare'),
         name: 'MyPrepare',
-        meta: { title: 'MyPrepare', noCache: true },
+        meta: { title: 'MyPrepare', noCache: false },
         hidden: true
       },
       {
         path: 'SaleMange',
         component: () => import('@/views/home/SaleMange'),
         name: 'SaleMange',
-        meta: { title: 'SaleMange', noCache: true }
+        meta: { title: 'SaleMange', noCache: false }
       },
       {
         path: 'DriveRes',
         component: () => import('@/views/home/DriveRes'),
         name: 'DriveRes',
-        meta: { title: 'DriveRes', noCache: true }
+        meta: { title: 'DriveRes', noCache: false }
       },
       {
         path: 'InventoryMange',
         component: () => import('@/views/home/InventoryMange'),
         name: 'InventoryMange',
-        meta: { title: 'InventoryMange', noCache: true }
+        meta: { title: 'InventoryMange', noCache: false }
       },
       {
         path: 'StockMange',
         component: () => import('@/views/home/StockMange'),
         name: 'StockMange',
-        meta: { title: 'StockMange', noCache: true }
+        meta: { title: 'StockMange', noCache: false }
       }
     ]
   },
@@ -624,10 +624,10 @@ export const asyncRouterMap = [
         meta: { title: 'ProductCategory', noCache: false, roles: ['1-31-38-1', '1-31-38-2', '1-31-38-3', '1-31-38-4', '1-31-38-5', '1-31-38-6', '1-31-38-7', '1-31-38-8', '1-31-38-9'] }
       },
       {
-        path: 'detaillist',
+        path: 'Detaillist',
         component: () => import('@/views/Product/detaillist'),
-        name: 'detaillist',
-        meta: { title: 'detaillist', noCache: false, roles: ['1-31-37-1'] }
+        name: 'Detaillist',
+        meta: { title: 'Detaillist', noCache: false, roles: ['1-31-37-1'] }
       }
     ]
   },
@@ -675,7 +675,7 @@ export const asyncRouterMap = [
         path: 'Dept',
         component: () => import('@/views/BasicSettings/Dept'),
         name: 'Dept',
-        meta: { title: 'Dept', noCache: true, roles: ['1-39-378-4'] }
+        meta: { title: 'Dept', noCache: false, roles: ['1-39-378-4'] }
       },
       {
         path: 'NumberingRules',
@@ -741,7 +741,7 @@ export const asyncRouterMap = [
         path: 'Regional',
         component: () => import('@/views/BasicSettings/Regional'),
         name: 'Regional',
-        meta: { title: 'Regional', noCache: true, roles: ['1-39-377-4'] }
+        meta: { title: 'Regional', noCache: false, roles: ['1-39-377-4'] }
       }
     ]
   },
@@ -870,7 +870,7 @@ export const asyncRouterMap = [
       {
         path: 'moverepostiryList',
         component: () => import('@/views/Storagemove/moverepostirylist'),
-        name: 'moverepostirylist',
+        name: 'Moverepostirylist',
         meta: { title: 'moverepostirylist', noCache: false, roles: ['131-141-359-4'] }
       },
       {
@@ -882,7 +882,7 @@ export const asyncRouterMap = [
       {
         path: 'difflist',
         component: () => import('@/views/Storagemovediff/difflist'),
-        name: 'difflist',
+        name: 'Difflist',
         meta: { title: 'difflist', noCache: false, roles: ['131-141-360-4'] }
       }
       // {
@@ -895,7 +895,7 @@ export const asyncRouterMap = [
       //   path: 'MoveApplicationList',
       //   component: () => import('@/views/Storagemove/MoveApplicationList'),
       //   name: 'MoveApplicationList',
-      //   meta: { title: 'MoveApplicationList', noCache: true }
+      //   meta: { title: 'MoveApplicationList', noCache: false }
       // }
     ]
   },
@@ -1024,7 +1024,7 @@ export const asyncRouterMap = [
       {
         path: 'index',
         component: () => import('@/views/countlist/index'),
-        name: 'countlist',
+        name: 'Countlist',
         meta: { title: 'countlist', noCache: false, roles: ['131-154-4', '131-154-6', '131-154-7'] }
       }
     ]
@@ -1235,8 +1235,8 @@ export const asyncRouterMap = [
       {
         path: 'endmonth',
         component: () => import('@/views/WarehouseAdjust/endmonth'),
-        name: 'endmonth',
-        meta: { title: 'endmonth', noCache: true }
+        name: 'Endmonth',
+        meta: { title: 'endmonth', noCache: false }
       }
     ]
   },
@@ -1728,7 +1728,7 @@ export const asyncRouterMap = [
         path: 'InventoryCategoryList',
         component: () => import('@/views/InventoryCategory/InventoryCategoryList'),
         name: 'InventoryCategoryList',
-        meta: { title: 'InventoryCategoryList', noCache: true }
+        meta: { title: 'InventoryCategoryList', noCache: false }
       }
     ]
   },
@@ -1749,7 +1749,7 @@ export const asyncRouterMap = [
         path: 'StockCategoryList',
         component: () => import('@/views/StockCategory/StockCategoryList'),
         name: 'StockCategoryList',
-        meta: { title: 'StockCategoryList', noCache: true }
+        meta: { title: 'StockCategoryList', noCache: false }
       }
     ]
   },
@@ -1769,13 +1769,13 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/CostInstall/index'),
         name: 'CostInstall',
-        meta: { title: 'CostInstallmanage', noCache: true }
+        meta: { title: 'CostInstallmanage', noCache: false }
       },
       {
         path: 'categorymanage',
         component: () => import('@/views/CostInstall/categorymanage'),
         name: 'categorymanage',
-        meta: { title: 'categorymanage', noCache: true }
+        meta: { title: 'categorymanage', noCache: false }
       }
     ]
   },
@@ -2023,7 +2023,7 @@ export const asyncRouterMap = [
   //       path: 'AccessToolsList',
   //       component: () => import('@/views/AccessTools/AccessToolsList'),
   //       name: 'AccessToolsList',
-  //       meta: { title: 'AccessToolsList', noCache: true }
+  //       meta: { title: 'AccessToolsList', noCache: false }
   //     }
   //   ]
   // },
@@ -2050,24 +2050,24 @@ export const asyncRouterMap = [
         path: 'offlineTask',
         component: () => import('@/views/Repair/offlineTask'),
         name: 'offlineTask',
-        meta: { title: 'offlineTask', noCache: true, roles: ['54-67-272-4'] }
+        meta: { title: 'offlineTask', noCache: false, roles: ['54-67-272-4'] }
       },
       {
         path: 'selfCheck',
         component: () => import('@/views/Repair/selfCheck'),
-        name: 'selfCheck',
+        name: 'SelfCheck',
         meta: { title: 'selfCheck', noCache: false, roles: ['54-67-74-4'] }
       },
       {
         path: 'blackList',
         component: () => import('@/views/Repair/blackList'),
-        name: 'blackList',
-        meta: { title: 'blackList', noCache: true, roles: ['54-67-376-4'] }
+        name: 'BlackList',
+        meta: { title: 'blackList', noCache: false, roles: ['54-67-376-4'] }
       },
       {
         path: 'lost',
         component: () => import('@/views/Repair/lost'),
-        name: 'lost',
+        name: 'Lost',
         meta: { title: 'lost', noCache: false, roles: ['54-67-71-4'] }
       },
       {
@@ -2511,7 +2511,7 @@ export const asyncRouterMap = [
   //       path: 'SendcarList',
   //       component: () => import('@/views/LogisticsCar/SendcarList'),
   //       name: 'SendcarList',
-  //       meta: { title: 'SendcarList', noCache: true }
+  //       meta: { title: 'SendcarList', noCache: false }
   //     }
   //   ]
   // },
@@ -2537,7 +2537,7 @@ export const asyncRouterMap = [
   //       path: 'ReturncarList',
   //       component: () => import('@/views/LogisticsCar/ReturncarList'),
   //       name: 'ReturncarList',
-  //       meta: { title: 'ReturncarList', noCache: true }
+  //       meta: { title: 'ReturncarList', noCache: false }
   //     }
   //   ]
   // },
@@ -2654,7 +2654,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/InstallmentList/index'),
         name: 'InstallmentList',
-        meta: { title: 'InstallmentList', noCache: true }
+        meta: { title: 'InstallmentList', noCache: false }
       }
     ]
   },
@@ -2699,7 +2699,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/OverdueList/index'),
         name: 'OverdueList',
-        meta: { title: 'OverdueList', noCache: true }
+        meta: { title: 'OverdueList', noCache: false }
       }
     ]
   },
@@ -2770,13 +2770,13 @@ export const asyncRouterMap = [
       {
         path: 'overdueFineRules',
         component: () => import('@/views/Installmentrate/overdueFineRules'),
-        name: 'overdueFineRules',
+        name: 'OverdueFineRules',
         meta: { title: 'overdueFineRules', noCache: false, roles: ['200-250-252-1', '200-250-252-2', '200-250-252-3', '200-250-252-4', '200-250-252-5', '200-250-252-6', '200-250-252-7'] }
       },
       {
         path: 'rewardRules',
         component: () => import('@/views/Installmentrate/rewardRules'),
-        name: 'rewardRules',
+        name: 'RewardRules',
         meta: { title: 'rewardRules', noCache: false, roles: ['200-250-253-1', '200-250-253-2', '200-250-253-3', '200-250-253-4', '200-250-253-5', '200-250-253-6', '200-250-253-7'] }
       }
     ]
@@ -3046,55 +3046,55 @@ export const asyncRouterMap = [
       //   path: 'saleBillDay',
       //   component: () => import('@/views/SaleReport/saleBillDay'),
       //   name: 'saleBillDay',
-      //   meta: { title: 'saleBillDay', noCache: true }
+      //   meta: { title: 'saleBillDay', noCache: false }
       // },
       // {
       //   path: 'saleReceipt',
       //   component: () => import('@/views/SaleReport/saleReceipt'),
       //   name: 'saleReceipt',
-      //   meta: { title: 'saleReceipt', noCache: true }
+      //   meta: { title: 'saleReceipt', noCache: false }
       // },
       // {
       //   path: 'saleFlow',
       //   component: () => import('@/views/SaleReport/saleFlow'),
       //   name: 'saleFlow',
-      //   meta: { title: 'saleFlow', noCache: true }
+      //   meta: { title: 'saleFlow', noCache: false }
       // },
       // {
       //   path: 'unsalableProduct',
       //   component: () => import('@/views/SaleReport/unsalableProduct'),
       //   name: 'unsalableProduct',
-      //   meta: { title: 'unsalableProduct', noCache: true }
+      //   meta: { title: 'unsalableProduct', noCache: false }
       // },
       // {
       //   path: 'empCommission',
       //   component: () => import('@/views/SaleReport/empCommission'),
       //   name: 'empCommission',
-      //   meta: { title: 'empCommission', noCache: true }
+      //   meta: { title: 'empCommission', noCache: false }
       // },
       // {
       //   path: 'supplierSale',
       //   component: () => import('@/views/SaleReport/supplierSale'),
       //   name: 'supplierSale',
-      //   meta: { title: 'supplierSale', noCache: true }
+      //   meta: { title: 'supplierSale', noCache: false }
       // },
       // {
       //   path: 'saleFluid',
       //   component: () => import('@/views/SaleReport/saleFluid'),
       //   name: 'saleFluid',
-      //   meta: { title: 'saleFluid', noCache: true }
+      //   meta: { title: 'saleFluid', noCache: false }
       // },
       // {
       //   path: 'saleGiftList',
       //   component: () => import('@/views/SaleReport/saleGiftList'),
       //   name: 'saleGiftList',
-      //   meta: { title: 'saleGiftList', noCache: true }
+      //   meta: { title: 'saleGiftList', noCache: false }
       // },
       // {
       //   path: 'giftDetailList',
       //   component: () => import('@/views/SaleReport/giftDetailList'),
       //   name: 'giftDetailList',
-      //   meta: { title: 'giftDetailList', noCache: true }
+      //   meta: { title: 'giftDetailList', noCache: false }
       // }
     ]
   },
@@ -3269,7 +3269,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCount/supplierPunishmentCountDetail'),
         hidden: true,
         name: 'supplierPunishmentCountDetail',
-        meta: { title: 'supplierPunishmentCountDetail', noCache: true }
+        meta: { title: 'supplierPunishmentCountDetail', noCache: false }
       },
       {
         path: 'productStockFluid',
@@ -3304,7 +3304,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/Chat/index'),
         name: 'Chat',
-        meta: { title: 'Chat', noCache: true }
+        meta: { title: 'Chat', noCache: false }
       }
     ]
   },
@@ -3326,7 +3326,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/Voucher/Newvoucher'),
         name: 'Newvoucher',
         hidden: true,
-        meta: { title: 'Newvoucher', noCache: true }
+        meta: { title: 'Newvoucher', noCache: false }
       },
       {
         path: 'Newvoucher2',
@@ -3359,7 +3359,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/AccountBalance/index'),
         name: 'AccountBalance',
-        meta: { title: 'AccountBalance', noCache: true }
+        meta: { title: 'AccountBalance', noCache: false }
       }
     ]
   },
@@ -3401,7 +3401,7 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/AccountManagement/index'),
         name: 'AccountManagement',
-        meta: { title: 'AccountManagement', noCache: true }
+        meta: { title: 'AccountManagement', noCache: false }
       }
     ]
   },
@@ -3427,7 +3427,7 @@ export const asyncRouterMap = [
   //       path: 'GroupBuyRulesList',
   //       component: () => import('@/views/GroupBuyRules/GroupBuyRulesList'),
   //       name: 'GroupBuyRulesList',
-  //       meta: { title: 'GroupBuyRulesList', noCache: true }
+  //       meta: { title: 'GroupBuyRulesList', noCache: false }
   //     }
   //   ]
   // },

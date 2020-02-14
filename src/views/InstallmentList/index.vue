@@ -325,7 +325,7 @@ import MyAgent from './components/MyAgent'
 
 var _that
 export default {
-  name: 'Index',
+  name: 'InstallmentList',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {

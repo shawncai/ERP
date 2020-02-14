@@ -142,7 +142,7 @@ import printJS from 'print-js'
 
 var _that
 export default {
-  name: 'StockAlarmList',
+  name: 'Countlist',
   directives: { waves, permission, permission2 },
   components: { Pagination, MyRepository, MyAccept, MyCreate, MyRepository2 },
   filters: {

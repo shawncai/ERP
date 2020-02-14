@@ -92,7 +92,7 @@ import { createclassfy, detaillist, updateeclassfy, deleteeclassfy } from '@/api
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  name: 'AddInitialenter',
+  name: 'Detaillist',
   data() {
     return {
       nodata: false,

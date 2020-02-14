@@ -649,7 +649,7 @@
   ]
   var _that
 export default {
-    name: 'Sample',
+    name: 'offlineTask',
     components: { Pagination, MyCustomer, MyRepository },
     directives: { waves, permission, permission2 },
     filters: {
@@ -820,7 +820,7 @@ export default {
       // this.getAllStaff()
       this.getAllStores()
     },
-  
+
   mounted() {
       const repositoryid = this.$store.getters.repositoryId
       const regionid = this.$store.getters.regionId
@@ -922,7 +922,7 @@ export default {
       this.form.customerId = val.id
       this.customerId = val.customerName
       this.form.customerName = val.customerName
-    },  
+    },
     chooseCustomer() {
       this.$forceUpdate()
       this.customercontrol = true

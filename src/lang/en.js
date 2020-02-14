@@ -86,7 +86,7 @@ export default {
     Enterlist: 'inventory list',
     AddLocation: 'add  cargo location',
     Dept: 'department list',
-    detaillist: 'product classification',
+    Detaillist: 'product classification',
     Locationlist: 'cargo location list',
     ProduceEnter: 'new production',
     ProduceEnterList: 'production list',
