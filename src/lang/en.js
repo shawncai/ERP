@@ -3092,6 +3092,7 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    jldwzbh: 'No',
     gz: 'trace',
     wly: '无来源',
     ckmx: 'Out of stock detail',

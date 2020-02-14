@@ -817,7 +817,7 @@ export default {
       this.getinstalllist()
       this.initemplist()
       // this.getAllStaff()
-      // this.getAllStores()
+      this.getAllStores()
     },
   
   mounted() {
