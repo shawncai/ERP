@@ -579,6 +579,9 @@ export default {
       this.editVisible = this.editcontrol
       // this.getTypes()
       this.getuploadurl()
+      this.getTypes()
+      this.getways()
+      this.getratelist()
     },
     editdata() {
       this.personalForm = this.editdata
@@ -602,9 +605,7 @@ export default {
     }
   },
   created() {
-    this.getTypes()
-    this.getways()
-    this.getratelist()
+
   },
   beforeCreate() {
     _that = this

@@ -568,7 +568,7 @@ import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
-import MyEmp from './components/MyEmp'
+import MyEmp from './components/MyEmp2'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail3'
 import { searchCategory } from '@/api/Supplier'
@@ -2178,12 +2178,18 @@ export default {
     },
     // 销售员回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.personalForm.salePersonId = val.id
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.roleId = val.postName
-      this.personalForm.roleId = val.postId
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.salePersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.salePersonId = salepersonnames.join(',')
+      // this.saleRepositoryId = val.repositoryName
+      // this.personalForm.saleRepositoryId = val.repositoryId
+      // this.roleId = val.postName
+      // this.personalForm.roleId = val.postId
     },
     // 清空记录
     restAllForm() {

@@ -342,6 +342,12 @@ export default {
               message: '确认成功!'
             })
             this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       })
@@ -518,8 +524,8 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        // console.log(index)
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

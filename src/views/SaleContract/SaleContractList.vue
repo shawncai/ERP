@@ -151,6 +151,7 @@
 
 <script>
 import { searchsaleContract, deletesaleContract, updatesaleContract2 } from '@/api/SaleContract'
+import { searchsaleOut } from '@/api/SaleOut'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -295,9 +296,25 @@ export default {
           return false
         }
       }
-      console.log(this.moreaction)
-      this.$store.dispatch('getnewsaleoutdata', this.moreaction[0])
-      this.$router.push('/SaleOut/AddSaleOut')
+      const parms = {
+        pageNum: 1,
+        pageSize: 10,
+        sourceNumber: this.moreaction[0].number,
+        repositoryId: 0,
+        regionIds: null
+      }
+      searchsaleOut(parms).then(res => {
+        if (res.data.data.content.totalCount === 0) {
+          this.$store.dispatch('getnewsaleoutdata', this.moreaction[0])
+          this.$router.push('/SaleOut/AddSaleOut')
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: '该合同已生成出库单',
+            offset: 100
+          })
+        }
+      })
     },
     checkPermission,
     // 不让勾选

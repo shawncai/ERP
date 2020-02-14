@@ -229,7 +229,9 @@ export default {
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -271,7 +273,9 @@ export default {
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           console.log(res.data.data.content.list)
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
