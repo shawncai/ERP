@@ -465,6 +465,14 @@ export default {
       })
       const parms2 = JSON.stringify(EnterDetail)
       const parms = JSON.stringify(this.personalForm)
+      for (const key in parms) {
+        if (parms[key] === '' || parms[key] === undefined || parms[key] === null) {
+          delete parms[key]
+        }
+        if (key === 'judgeStat') {
+          delete parms[key]
+        }
+      }
       updateadjust(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({

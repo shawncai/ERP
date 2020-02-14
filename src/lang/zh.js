@@ -3997,7 +3997,9 @@ export default {
     couponNumbers: '优惠券码',
     couponSupport2: '优惠劵抵用金额',
     couponSupportOld: '旧优惠劵抵用金额',
-    isfree: '是否质保'
+    isfree: '是否质保',
+    saleRepository: '销售门店',
+    lsbc: '临时保存'
   },
   collectAndPayDetail: {
     name: '名称',

@@ -177,7 +177,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
-  name: 'EmpCategory',
+  name: 'RepCategory',
   directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {

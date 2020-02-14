@@ -99,6 +99,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -200,6 +201,128 @@ export default {
           this.depts = res.data.data.content
         }
       })
+    },
+    handlesave2() {
+      const EnterDetail = this.$refs.editable.getRecords()
+      let ll = 1
+      console.log('nowlistdata', EnterDetail)
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          ll = 2
+        }
+      })
+      console.log('ll', ll)
+      if (ll === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      if (EnterDetail.length === 0) {
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '明细表不能为空',
+        //   offset: 100
+        // })
+        // return false
+      }
+      let l = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.enterQuantity === 0) {
+          l = 2
+        }
+      })
+      console.log('l', l)
+      if (l === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '入库数量不能为0',
+          offset: 100
+        })
+        return false
+      }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+          delete elem.basicQuantity
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+          delete elem.enterQuantity
+        }
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+          delete elem.locationId
+        }
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          delete elem.price
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+          delete elem.remarks
+        }
+        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+          delete elem.totalMoney
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+          delete elem.typeId
+        }
+        return elem
+      })
+      const parms = JSON.stringify(EnterDetail)
+      this.personalForm.judgeStat = 4
+      const parms2 = JSON.stringify(this.personalForm)
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      addinitialenter(parms2, parms, this.repositoryId, this.regionId).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'save successful',
+            type: 'success',
+            offset: 100
+          })
+          this.restAllForm()
+          this.$refs.editable.clear()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.data.msg,
+            offset: 100
+          })
+        }
+      })
+      //   } else {
+      //     this.$notify.error({
+      //       title: 'wrong',
+      //       message: 'Information is incomplete',
+      //       offset: 100
+      //     })
+      //     return false
+      //   }
+      // })
     },
     // 保存操作
     handlesave() {

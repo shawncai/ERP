@@ -2149,6 +2149,7 @@ export default {
             return false
           }
           if (this.personalForm.isFree === 1) {
+            console.log('進入了2')
             this.personalForm.taxMoney = 0
             this.personalForm.includeTaxMoney = 0
             this.personalForm.money = 0
@@ -2161,6 +2162,8 @@ export default {
               elem.money = 0
               elem.taxprice = 0
               elem.includeTaxMoney = 0
+              elem.includeTaxCostMoney = 0
+              elem.salePrice = 0
             })
           }
           const parms2 = JSON.stringify(EnterDetail)

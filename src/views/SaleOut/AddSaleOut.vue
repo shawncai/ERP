@@ -516,6 +516,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -2495,6 +2496,282 @@ export default {
             offset: 100
           })
           return false
+        }
+      })
+    },
+    // 保存操作
+    handlesave2() {
+      if (this.personalForm.sourceType === '5') {
+        if (this.personalForm.saleType === '2') {
+          this.$notify.error({
+            title: 'wrong',
+            message: '无来源时销售类别不能是分期',
+            offset: 100
+          })
+          return false
+        }
+      }
+      if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+        this.personalForm.couponSupportOld = 0
+      }
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      // 整车出库时相关编码必填
+      let m = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+            m = 2
+          }
+        }
+        if (re === '05') {
+          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+            m = 3
+          }
+        }
+      })
+      if (m === 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '电池出库时相关编码必填',
+          offset: 100
+        })
+        return false
+      }
+      if (m === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '整车出库时相关编码必填',
+          offset: 100
+        })
+        return false
+      }
+
+      // 保存时同样商品不能有同一个批次
+      let i = 0
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        EnterDetail.map(function(elem2) {
+          return elem2
+        }).forEach(function(elem2) {
+          if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+            const re = elem2.productCode.slice(0, 2)
+            // 去除整车
+            if (re !== '01') {
+              i++
+            }
+          }
+        })
+      })
+      console.log(i)
+      if (i > EnterDetail.length) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '同样商品不能有同一个批次',
+          offset: 100
+        })
+        return false
+      }
+      // 批次货位不能为空
+      let j = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '批次货位不能为空',
+          offset: 100
+        })
+        return false
+      }
+      const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+      // if (EnterDetail.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '明细表不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          delete elem.category
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+        }
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
+        }
+        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+          delete elem.costPrice
+        }
+        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+          delete elem.costMoney
+        }
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
+        }
+        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+          delete elem.includeTaxCostMoney
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          elem.discountRate = 0
+        }
+        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          elem.discountRate = elem.discountRate / 100
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          elem.discountMoney = 0
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        return elem
+      })
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          delete elem.category
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          elem.money = 0
+        }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          elem.quantity = 0
+        }
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
+      const parms3 = JSON.stringify(EnterDetail2)
+      console.log('EnterDetail2', EnterDetail2)
+      let couponNumbers = ''
+      for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+        if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+          couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+        }
+      }
+      console.log('couponNumbers', couponNumbers)
+      couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+      console.log('couponNumbers', couponNumbers)
+      this.personalForm.couponNumbers = couponNumbers
+      // eslint-disable-next-line use-isnan
+      if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '本次收款金额不能为空',
+        //   offset: 100
+        // })
+        // return false
+        this.personalForm.receivableMoney = 0
+      }
+      this.personalForm.judgeStat = 4
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+        // if (key === 'judgeStat') {
+        //   delete Data[key]
+        // }
+      }
+      const parms = JSON.stringify(Data)
+      createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'save successful',
+            type: 'success',
+            offset: 100
+          })
+          this.restAllForm()
+          this.$refs.editable.clear()
+          this.$refs.editable2.clear()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+          this.$refs.personalForm2.clearValidate()
+          this.$refs.personalForm2.resetFields()
+          this.$refs.personalForm3.clearValidate()
+          this.$refs.personalForm3.resetFields()
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.data.msg,
+            offset: 100
+          })
         }
       })
     },

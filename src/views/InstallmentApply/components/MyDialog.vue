@@ -854,9 +854,11 @@ export default {
       this.handlechange2(this.personalForm.provinceId)
       this.handlechangeworkProvince(this.personalForm.workProvinceId)
       this.handlechangesuretyProvince(this.personalForm.suretyProvinceId)
-      this.productForm = this.personalForm.installmentApplyDetailVos[0]
-      this.typeName = this.personalForm.installmentApplyDetailVos[0].productType
-      this.categoryName = this.personalForm.installmentApplyDetailVos[0].productCategory
+      if (this.personalForm.installmentApplyDetailVos !== null && this.personalForm.installmentApplyDetailVos.length > 0) {
+        this.productForm = this.personalForm.installmentApplyDetailVos[0]
+        this.typeName = this.personalForm.installmentApplyDetailVos[0].productType
+        this.categoryName = this.personalForm.installmentApplyDetailVos[0].productCategory
+      }
       const lis = {}
       lis.consultancyName = this.personalForm.consultancyNameOne
       lis.consultancyPhone = this.personalForm.consultancyPhoneOne

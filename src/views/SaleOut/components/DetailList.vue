@@ -482,7 +482,8 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('Hmodule.shbtg')
+        3: _that.$t('Hmodule.shbtg'),
+        4: _that.$t('collectAndPay.lsbc')
       }
       return statusMap[status]
     },

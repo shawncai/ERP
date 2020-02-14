@@ -591,6 +591,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave3()">{{ $t('collectAndPay.lsbc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="peopleVisible" title="添加征询人" class="normal" width="450px" center>
@@ -1378,6 +1379,100 @@ export default {
       this.IsbatteryCode = false
       this.IstotalMoney = false
       this.IsSalesaleRepositoryId = false
+    },
+    handlesave3() {
+      console.log(this.personalForm)
+      if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '请选择商品',
+        //   offset: 100
+        // })
+        // return false
+      }
+      const nowlistdata = this.$refs.editable.getRecords()
+      if (nowlistdata.length === 0) {
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '请添加征询人',
+        //   offset: 100
+        // })
+        // return false
+      } else {
+        if (nowlistdata.length > 0) {
+          this.personalForm.consultancyNameOne = nowlistdata[0].consultancyName
+          this.personalForm.consultancyPhoneOne = nowlistdata[0].consultancyPhone
+          this.personalForm.consultancyAddressOne = nowlistdata[0].consultancyAddress
+        }
+        if (nowlistdata.length > 1) {
+          this.personalForm.consultancyNameTwo = nowlistdata[1].consultancyName
+          this.personalForm.consultancyPhoneTwo = nowlistdata[1].consultancyPhone
+          this.personalForm.consultancyAddressTwo = nowlistdata[1].consultancyAddress
+        }
+      }
+      const Data2 = this.productForm
+      for (const key in Data2) {
+        if (Data2[key] === '' || Data2[key] === undefined || Data2[key] === null) {
+          delete Data2[key]
+        }
+      }
+      const parms2 = JSON.stringify(Data2)
+      this.personalForm.judgeStat = 4
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+      }
+      const parms = JSON.stringify(Data)
+      this.isclick = true
+      // this.$refs.personalForm.validate((valid) => {
+      //   if (valid) {
+      this.$refs.upload.submit()
+      addinstallmentapply(parms, parms2, this.personalForm).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'save successful',
+            type: 'success',
+            offset: 100
+          })
+          this.isclick = false
+          this.restAllForm()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+          this.$refs.personalForm2.clearValidate()
+          this.$refs.personalForm2.resetFields()
+          this.$refs.personalForm3.clearValidate()
+          this.$refs.personalForm3.resetFields()
+          this.$refs.personalForm4.clearValidate()
+          this.$refs.personalForm4.resetFields()
+          this.$refs.personalForm5.clearValidate()
+          this.$refs.personalForm5.resetFields()
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.data.msg,
+            offset: 100
+          })
+          this.isclick = false
+        }
+      })
+      //   } else {
+      //     this.$notify.error({
+      //       title: 'wrong',
+      //       message: 'Information is incomplete',
+      //       offset: 100
+      //     })
+      //     this.isclick = false
+      //     return false
+      //   }
+      // })
+
+      setTimeout(() => {
+        this.isclick = false
+      }, 5000)
     },
     // 保存操作
     handlesave() {
