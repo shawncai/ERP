@@ -758,17 +758,21 @@ export default {
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log('index', index)
-        console.log('this.$store.getters.userId', this.$store.getters.userId)
-        console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          if (row.isInvestigation === 2) {
-            return true
+        if (approvalUse[approvalUse.length - 1].stepHandler) {
+          const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+          console.log('index', index)
+          console.log('this.$store.getters.userId', this.$store.getters.userId)
+          console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
+          if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+            if (row.isInvestigation === 2) {
+              return true
+            } else {
+              return false
+            }
+          // return true
           } else {
             return false
           }
-          // return true
         } else {
           return false
         }

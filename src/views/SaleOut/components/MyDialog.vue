@@ -64,7 +64,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
-                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="switchsaletype">
                   <el-option value="1" label="现金" />
                   <el-option value="2" label="分期" />
                 </el-select>
@@ -340,7 +340,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
@@ -496,8 +496,8 @@ import { updatesaleOut } from '@/api/SaleOut'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
-import MyEmp from './MyEmp'
-import MyDelivery from './MyDelivery'
+import MyEmp from './MyEmp2'
+import MyDelivery from './MyDelivery2'
 import MyDetail from './MyDetail'
 import MyApply from './MyApply'
 import MySupplier from './MySupplier'
@@ -737,10 +737,33 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
-      this.chooseSourceType()
+      // this.chooseSourceType()
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.personalForm.sourceType === '5' || this.personalForm.sourceType === undefined) {
+        this.Isproduct = false
+        this.IsSourceNumber = true
+        this.personalForm.saleType = '1'
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
+      } else if (this.personalForm.sourceType === '6') {
+        this.IsSourceNumber = true
+        this.Isproduct = true
+        this.personalForm.saleType = '1'
+      } else if (this.personalForm.sourceType === '2') {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        this.personalForm.saleType = '2'
+      } else {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        this.personalForm.saleType = '1'
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
+      }
       this.personalForm.couponMoney = this.personalForm.couponSupport
       console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
       if (this.personalForm.couponNumbers === '' || this.personalForm.couponNumbers === null || this.personalForm.couponNumbers === undefined) {
@@ -852,6 +875,24 @@ export default {
     _that = this
   },
   methods: {
+    switchsaletype(val) {
+      console.log('val', val)
+      if (val === '1' && this.personalForm.sourceType === '2') {
+        this.$notify.error({
+          title: 'wrong',
+          message: '该单据为分期',
+          offset: 100
+        })
+        this.personalForm.saleType = '2'
+      } else {
+        this.$notify.error({
+          title: 'wrong',
+          message: '该单据为现金',
+          offset: 100
+        })
+        this.personalForm.saleType = '1'
+      }
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports2', this.personalForm2.couponSupports)
       const parms2 = JSON.stringify(this.personalForm2.couponSupports)
@@ -1100,6 +1141,11 @@ export default {
           }
         })
       }
+    },
+    isEdit4(row) {
+      console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '05') { return true } else { return false }
     },
     isEdit3(row) {
       console.log('222', row)
@@ -1353,24 +1399,34 @@ export default {
       })
     },
     chooseSourceType(val) {
+      this.$refs.editable.clear()
+      this.receivableMoney = ''
+      this.personalForm.ridMoney = ''
+      this.personalForm.ridBikeMoney = ''
       console.log(val)
-      if (val === '5' || val === '4') {
-        this.isEdit = true
-      } else {
-        this.isEdit = false
-      }
+      console.log('this.list2', this.list2)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
-        if (this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null && this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
-        }
+        this.personalForm.saleType = '1'
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
+      } else if (val === '6') {
+        this.IsSourceNumber = true
+        this.Isproduct = true
+        this.personalForm.saleType = '1'
+      } else if (val === '2') {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        this.personalForm.saleType = '2'
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
-        if (this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null && this.$refs.editable.getRecords().length !== 0) {
-          this.$refs.editable.clear()
-        }
+        this.personalForm.saleType = '1'
+        // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
+        //   this.$refs.editable.clear()
+        // }
       }
     },
     // 出库仓库focus事件触发
@@ -1406,8 +1462,16 @@ export default {
       this.deliverycontrol = true
     },
     deliveryName(val) {
-      this.transferPersonId = val.personName
-      this.personalForm.transferPersonId = val.id
+      // this.transferPersonId = val.personName
+      // this.personalForm.transferPersonId = val.id
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.transferPersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.transferPersonId = salepersonnames.join(',')
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -1861,12 +1925,18 @@ export default {
     },
     // 销售员回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.personalForm.salePersonId = val.id
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.roleId = val.postName
-      this.personalForm.roleId = val.postId
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.salePersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.salePersonId = salepersonnames.join(',')
+      // this.saleRepositoryId = val.repositoryName
+      // this.personalForm.saleRepositoryId = val.repositoryId
+      // this.roleId = val.postName
+      // this.personalForm.roleId = val.postId
     },
     // 清空记录
     restAllForm() {
@@ -1929,11 +1999,24 @@ export default {
           }).forEach(function(elem) {
             const re = elem.productCode.slice(0, 2)
             if (re === '01') {
-              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
                 m = 2
               }
             }
+            if (re === '05') {
+              if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                m = 3
+              }
+            }
           })
+          if (m === 3) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '电池出库时相关编码必填',
+              offset: 100
+            })
+            return false
+          }
           if (m === 2) {
             this.$notify.error({
               title: 'wrong',

@@ -590,7 +590,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="isclick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="peopleVisible" title="添加征询人" class="normal" width="450px" center>
@@ -615,7 +615,7 @@
               </el-col>
             </el-row>
             <div class="buttons" style="margin-left: 27%;margin-top: 20px">
-              <el-button :loading="isclick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
+              <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>
               <el-button type="danger" @click="handlecance2()">{{ $t('Hmodule.cancel') }}</el-button>
             </div>
           </el-form>
@@ -1410,6 +1410,7 @@ export default {
           this.personalForm.consultancyAddressTwo = nowlistdata[1].consultancyAddress
         }
       }
+      this.isclick = true
       const Data2 = this.productForm
       for (const key in Data2) {
         if (Data2[key] === '' || Data2[key] === undefined || Data2[key] === null) {
@@ -1424,7 +1425,6 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      this.isclick = true
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.upload.submit()
@@ -1468,10 +1468,6 @@ export default {
           return false
         }
       })
-
-      setTimeout(() => {
-        this.isclick = false
-      }, 5000)
     },
     // 取消操作
     handlecancel() {

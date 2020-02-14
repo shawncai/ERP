@@ -76,7 +76,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="switchsaletype">
                     <el-option value="1" label="现金" />
                     <el-option value="2" label="分期" />
                   </el-select>
@@ -560,8 +560,8 @@ import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
-import MyEmp from './components/MyEmp'
-import MyDelivery from '../DailyAdjust/components/MyDelivery'
+import MyEmp from './components/MyEmp2'
+import MyDelivery from './components/MyDelivery2'
 import MyDetail from './components/MyDetail'
 import { searchCategory } from '@/api/Supplier'
 import MyApply from './components/MyApply'
@@ -906,6 +906,24 @@ export default {
     _that = this
   },
   methods: {
+    switchsaletype(val) {
+      console.log('val', val)
+      if (val === '1' && this.personalForm.sourceType === '2') {
+        this.$notify.error({
+          title: 'wrong',
+          message: '该单据为分期',
+          offset: 100
+        })
+        this.personalForm.saleType = '2'
+      } else {
+        this.$notify.error({
+          title: 'wrong',
+          message: '该单据为现金',
+          offset: 100
+        })
+        this.personalForm.saleType = '1'
+      }
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
       const parms2 = JSON.stringify(this.personalForm.couponSupports)
@@ -960,6 +978,7 @@ export default {
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
         this.personalForm.sourceType = '2'
+        this.personalForm.saleType = '2'
         console.log('this.$store.getters.newsaleoutdatacontract', this.$store.getters.newsaleoutdata)
         this.installappley(this.$store.getters.newsaleoutdata)
         this.getReceivableMoney()
@@ -1574,15 +1593,22 @@ export default {
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
+        this.personalForm.saleType = '1'
         // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
         //   this.$refs.editable.clear()
         // }
       } else if (val === '6') {
         this.IsSourceNumber = true
         this.Isproduct = true
+        this.personalForm.saleType = '1'
+      } else if (val === '2') {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        this.personalForm.saleType = '2'
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
+        this.personalForm.saleType = '1'
         // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
         //   this.$refs.editable.clear()
         // }
@@ -1621,8 +1647,16 @@ export default {
       this.deliverycontrol = true
     },
     deliveryName(val) {
-      this.transferPersonId = val.personName
-      this.personalForm.transferPersonId = val.id
+      // this.transferPersonId = val.personName
+      // this.personalForm.transferPersonId = val.id
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.transferPersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.transferPersonId = salepersonnames.join(',')
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -2167,12 +2201,18 @@ export default {
     },
     // 销售员回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.personalForm.salePersonId = val.id
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.roleId = val.postName
-      this.personalForm.roleId = val.postId
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.salePersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.salePersonId = salepersonnames.join(',')
+      // this.saleRepositoryId = val.repositoryName
+      // this.personalForm.saleRepositoryId = val.repositoryId
+      // this.roleId = val.postName
+      // this.personalForm.roleId = val.postId
     },
     // 清空记录
     restAllForm() {
@@ -2188,7 +2228,7 @@ export default {
         sourceType: '',
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
-        salePersonId: this.$store.getters.userId,
+        salePersonId: ',' + this.$store.getters.userId + ',',
         isInvoice: 1,
         couponSupportOld: 0,
         receivableMoney: ''
