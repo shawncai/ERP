@@ -2207,9 +2207,16 @@ export default {
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
+        receivableMoney: 0,
+        receiveMoney: 0,
         isInvoice: 1,
         couponSupportOld: 0,
-        receivableMoney: ''
+        // receivableMoney: '',
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ]
       }
       this.receivableMoney = ''
       this.customerId = null

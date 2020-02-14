@@ -3996,7 +3996,8 @@ export default {
     ffxx: '发放信息',
     couponNumbers: '优惠券码',
     couponSupport2: '优惠劵抵用金额',
-    couponSupportOld: '旧优惠劵抵用金额'
+    couponSupportOld: '旧优惠劵抵用金额',
+    isfree: '是否质保'
   },
   collectAndPayDetail: {
     name: '名称',
