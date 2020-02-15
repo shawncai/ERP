@@ -3129,12 +3129,12 @@ export const asyncRouterMap = [
         name: 'collectAndPay',
         meta: { title: 'collectAndPay', noCache: false, roles: ['311-314-367-4'] }
       },
-      {
-        path: 'collectAndPayDetail',
-        component: () => import('@/views/Financecount/collectAndPayDetail'),
-        name: 'collectAndPayDetail',
-        meta: { title: 'collectAndPayDetail', noCache: false, roles: ['311-314-368-4'] }
-      },
+      // {
+      //   path: 'collectAndPayDetail',
+      //   component: () => import('@/views/Financecount/collectAndPayDetail'),
+      //   name: 'collectAndPayDetail',
+      //   meta: { title: 'collectAndPayDetail', noCache: false, roles: ['311-314-368-4'] }
+      // },
       {
         path: 'expensesSummary',
         component: () => import('@/views/Financecount/expensesSummary'),
