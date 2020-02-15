@@ -385,16 +385,16 @@ export default {
       console.log(this.voucherparms)
       if (this.voucherparms.date === '' || this.voucherparms.date === null || this.voucherparms.date === undefined) {
         this.$notify.error({
-          title: '请先选择日期',
-          message: '请先选择日期',
+          title: this.$t('prompt.qxxzrq'),
+          message: this.$t('prompt.qxxzrq'),
           offset: 100
         })
         return false
       }
       if (this.voucherparms.repositoryId === '' && this.voucherparms.regionId === '') {
         this.$notify.error({
-          title: '请选择门店或区域',
-          message: '请选择门店或区域',
+          title: this.$t('prompt.qxxzmdhqy'),
+          message: this.$t('prompt.qxxzmdhqy'),
           offset: 100
         })
         return false
@@ -489,9 +489,9 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请反审批', '反审批', {
+      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '反审批',
+        confirmButtonText: this.$t('prompt.fsp'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 0
@@ -501,12 +501,12 @@ export default {
             if (res.data.data.result === false) {
               this.$message({
                 type: 'error',
-                message: '反审批失败!'
+                message: this.$t('prompt.fspsb')
               })
             } else {
               this.$message({
                 type: 'success',
-                message: '反审批成功!'
+                message: this.$t('prompt.fspcg')
               })
             }
             this.getlist()
@@ -526,9 +526,9 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$confirm('请反结单', '反结单', {
+      this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '反结单',
+        confirmButtonText: this.$t('prompt.fjd'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 2
@@ -537,7 +537,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '反结单成功!'
+              message: this.$t('prompt.fjdcg')
             })
             this.getlist()
           }
@@ -556,9 +556,9 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$confirm('请结单', '结单', {
+      this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '结单',
+        confirmButtonText: this.$t('prompt.jd'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 3
@@ -567,7 +567,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '结单成功!'
+              message: this.$t('prompt.jdcg')
             })
             this.getlist()
           }
@@ -743,10 +743,10 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请审核', '审核', {
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 2
@@ -755,7 +755,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '审核成功!'
+              message: this.$t('prompt.shcg')
             })
             this.getlist()
           }
@@ -768,7 +768,7 @@ export default {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
-                message: '审核成功!'
+                message: this.$t('prompt.shcg')
               })
               this.getlist()
             }
@@ -794,14 +794,14 @@ export default {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deleteincome(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -809,7 +809,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -817,7 +817,7 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
@@ -825,14 +825,14 @@ export default {
     // 单条删除
     handleDelete(row) {
       this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deleteincome(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -840,7 +840,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -848,7 +848,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },

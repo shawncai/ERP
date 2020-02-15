@@ -28,8 +28,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                    <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="零售"/>
+                    <el-option :label="$t('prompt.jxs')" value="1"/>
+                    <el-option :label="$t('prompt.ls')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -609,7 +609,7 @@ export default {
             if (row.quantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.qsrzqdsjh'),
                 offset: 100
               })
               row.quantity = 1
@@ -635,7 +635,7 @@ export default {
             if (row.quantity > res.data.data.content[0].quantity) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.ckslcgpcsl'),
                 offset: 100
               })
               row.quantity = 1
@@ -707,7 +707,7 @@ export default {
       if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择仓库',
+          message: this.$t('prompt.sqslcg'),
           offset: 100
         })
         return false
@@ -720,7 +720,7 @@ export default {
         if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -746,7 +746,7 @@ export default {
       if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择仓库',
+          message: this.$t('prompt.sqslcg'),
           offset: 100
         })
         return false

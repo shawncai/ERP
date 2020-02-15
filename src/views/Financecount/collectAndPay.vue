@@ -459,7 +459,7 @@ export default {
       if (this.getemplist.type === '1' && (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0)) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择日期',
+          message: this.$t('prompt.qxxzrq'),
           offset: 100
         })
         return false

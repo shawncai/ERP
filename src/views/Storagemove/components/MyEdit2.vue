@@ -157,7 +157,7 @@
     </el-card>
     <!-- 调拨出库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbckmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -182,8 +182,8 @@
           <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" />
           <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" />
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <el-editable-column prop="price" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px" />
+          <el-editable-column :label="$t('prompt.dbcbj')" prop="price" align="center" width="150px"/>
+          <el-editable-column :label="$t('prompt.dbje')" prop="totalMoney" align="center" width="150px" />
           <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
@@ -194,7 +194,7 @@
     </el-card>
     <!-- 调拨入库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbrkmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable3"
@@ -230,8 +230,8 @@
           <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" />
           <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" />
           <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
-          <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px"/>
+          <el-editable-column :label="$t('prompt.dbcbj')" prop="movePrice" align="center" width="150px"/>
+          <el-editable-column :label="$t('prompt.dbje')" prop="totalMoney" align="center" width="150px"/>
           <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | inFilter }}</p>
@@ -601,7 +601,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -663,7 +663,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

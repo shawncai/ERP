@@ -149,8 +149,8 @@ export default {
     newauthority() {
       console.log('this.operations', this.operations)
       this.$confirm('所修改的角色需重新登录才能生效, 是否继续?', this.$t('prompt.ts'), {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         updaterole(this.checkroleId, this.operations, this.getemplist.rolename).then(res => {

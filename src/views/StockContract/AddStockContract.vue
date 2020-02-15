@@ -653,7 +653,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -687,7 +687,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -709,7 +709,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -781,7 +781,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false

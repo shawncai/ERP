@@ -219,6 +219,18 @@ export default {
   beforeCreate() {
     _that = this
   },
+  // beforeRouteLeave(to, from, next) {
+  //   // 设置下一个路由的 meta
+  //   if (to.name === 'OutFactoryList') {
+  //     console.log('233333333')
+  //     console.log('to', to)
+  //     to.meta.noCache = false // B 跳转到 A 时，让 A 缓存，即不刷新
+  //     next()
+  //   } else {
+  //     // to.meta.noCache = true // B 跳转到 A 时，让 A 缓存，即不刷新
+  //     next()
+  //   }
+  // },
   methods: {
     getnationlist() {
       // 国籍列表
@@ -319,6 +331,7 @@ export default {
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
+              this.$router.push('/OutFactory/OutFactoryList')
             } else {
               this.$notify.error({
                 title: 'wrong',

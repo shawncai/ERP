@@ -765,7 +765,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -805,7 +805,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false
@@ -948,7 +948,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false
@@ -956,8 +956,8 @@ export default {
           this.$refs.editable.validate().then(valid => {
             if (this.arrivalNumber > this.allNumber) {
               this.$confirm('到货数量小于采购数量, 是否继续保存?', this.$t('prompt.ts'), {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+                confirmButtonText: this.$t('prompt.qd'),
+                cancelButtonText: this.$t('prompt.qx'),
                 type: 'warning'
               }).then(() => {
                 createstockArrival(parms, parms2, this.personalForm).then(res => {

@@ -13,8 +13,8 @@
         width="500"
         trigger="click">
         <el-select v-model="getemplist.customerType" :placeholder="$t('SaleContract.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option value="1" label="经销商"/>
-          <el-option value="2" label="零售"/>
+          <el-option :label="$t('prompt.jxs')" value="1"/>
+          <el-option :label="$t('prompt.ls')" value="2"/>
         </el-select>
         <el-input v-model="customerName" :placeholder="$t('SaleContract.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
         <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
@@ -275,14 +275,14 @@ export default {
       if (this.moreaction.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择单据',
+          message: this.$t('prompt.qxzdj'),
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
           title: 'wrong',
-          message: '请不要选择多个单据',
+          message: this.$t('prompt.qbyxzdgdj'),
           offset: 100
         })
         return false
@@ -290,7 +290,7 @@ export default {
         if (this.moreaction[0].judgeStat === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: '请先审核单据',
+            message: this.$t('prompt.qxshdj'),
             offset: 100
           })
           return false
@@ -310,7 +310,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '该合同已生成出库单',
+            message: this.$t('prompt.ghtyscckd'),
             offset: 100
           })
         }
@@ -476,10 +476,10 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请审核', '审核', {
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 2
@@ -488,7 +488,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '审核成功!'
+              message: this.$t('prompt.shcg')
             })
             this.getlist()
           }
@@ -501,7 +501,7 @@ export default {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
-                message: '审核成功!'
+                message: this.$t('prompt.shcg')
               })
               this.getlist()
             }
@@ -522,14 +522,14 @@ export default {
       const ids = deleteids.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deletesaleContract(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -537,7 +537,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -545,7 +545,7 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
@@ -553,14 +553,14 @@ export default {
     // 单条删除
     handleDelete(row) {
       this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deletesaleContract(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -568,7 +568,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -576,7 +576,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },

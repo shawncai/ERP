@@ -147,7 +147,7 @@
     </el-card>
     <!-- 调拨出库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbckmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -184,7 +184,7 @@
     </el-card>
     <!-- 调拨入库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbrkmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable3"
@@ -578,7 +578,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -640,7 +640,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

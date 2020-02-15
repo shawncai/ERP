@@ -131,15 +131,15 @@
         <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.isInvestigation | InvestigationFilter }}</span> -->
-            <span v-if="scope.row.isInvestigation === 2">已调查</span>
-            <span v-else>未调查</span>
+            <span v-if="scope.row.isInvestigation === 2">{{ $t('prompt.ydc') }}</span>
+            <span v-else>{{ $t('prompt.wdc') }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" :formatter="getisInvestigation" prop="isInvestigation" align="center" min-width="150"/> -->
         <el-table-column :label="$t('InstallmentApply.investigationDetail')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.isInvestigation === 2" class="link-type" @click="handlerdetail(scope.row)">{{ scope.row.InvestigationResult | resultFilter }}</span>
-            <span v-else>无</span>
+            <span v-else>{{ $t('prompt.wu') }}</span>
           </template>
           <detail-list2 :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm2"/>
         </el-table-column>
@@ -163,11 +163,11 @@
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step4" title="分期申请"/>
-              <el-step :status="step5" title="分期调查"/>
-              <el-step :status="step6" title="销售合同"/>
-              <el-step :status="step7" title="销售出库"/>
-              <el-step :status="step8" title="完成"/>
+              <el-step :status="step4" :title="$t('prompt.fqsq')"/>
+              <el-step :status="step5" :title="$t('prompt.fqdc')"/>
+              <el-step :status="step6" :title="$t('prompt.xsht')"/>
+              <el-step :status="step7" :title="$t('prompt.xsck')"/>
+              <el-step :status="step8" :title="$t('prompt.wc')"/>
             </el-steps>
           </el-form-item>
         </el-form>
@@ -260,8 +260,8 @@ export default {
     },
     resultFilter(status) {
       const statusMap = {
-        1: '通过',
-        2: '不通过'
+        1: _that.$t('prompt.tg'),
+        2: _that.$t('prompt.btg')
       }
       return statusMap[status]
     }
@@ -369,14 +369,14 @@ export default {
       if (this.moreaction.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择单据',
+          message: this.$t('prompt.qxzdj'),
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
           title: 'wrong',
-          message: '请不要选择多个单据',
+          message: this.$t('prompt.qbyxzdgdj'),
           offset: 100
         })
         return false
@@ -407,14 +407,14 @@ export default {
       if (this.moreaction.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择单据',
+          message: this.$t('prompt.qxzdj'),
           offset: 100
         })
         return false
       } else if (this.moreaction.length > 1) {
         this.$notify.error({
           title: 'wrong',
-          message: '请不要选择多个单据',
+          message: this.$t('prompt.qbyxzdgdj'),
           offset: 100
         })
         return false
@@ -422,7 +422,7 @@ export default {
         if (this.moreaction[0].judgeStat === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: '请先审核单据',
+            message: this.$t('prompt.qxshdj'),
             offset: 100
           })
           return false
@@ -430,7 +430,7 @@ export default {
         if (this.moreaction[0].judgeStat === 1) {
           this.$notify.error({
             title: 'wrong',
-            message: '该单据正在审核中',
+            message: this.$t('prompt.gdjzss'),
             offset: 100
           })
           return false
@@ -438,7 +438,7 @@ export default {
         if (this.moreaction[0].judgeStat === 3) {
           this.$notify.error({
             title: 'wrong',
-            message: '该单据未通过审核',
+            message: this.$t('prompt.gdjwtgsh'),
             offset: 100
           })
           return false
@@ -446,7 +446,7 @@ export default {
         if (this.moreaction[0].isInvestigation !== 2) {
           this.$notify.error({
             title: 'wrong',
-            message: '该单据尚未调查',
+            message: this.$t('prompt.gdjswdc'),
             offset: 100
           })
           return false
@@ -804,10 +804,10 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请审核', '审核', {
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 2
@@ -816,7 +816,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '审核成功!'
+              message: this.$t('prompt.shcg')
             })
             this.getlist()
           }
@@ -829,7 +829,7 @@ export default {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
-                message: '审核成功!'
+                message: this.$t('prompt.shcg')
               })
               this.getlist()
             }
@@ -847,14 +847,14 @@ export default {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deleteapply(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -862,7 +862,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -870,7 +870,7 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
@@ -878,14 +878,14 @@ export default {
     // 单条删除
     handleDelete(row) {
       this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deleteapply(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -893,7 +893,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -901,7 +901,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },
