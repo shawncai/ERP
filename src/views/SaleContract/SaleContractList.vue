@@ -521,7 +521,7 @@ export default {
       })
       const ids = deleteids.map(item => item.id).join()
       if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -552,7 +552,7 @@ export default {
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

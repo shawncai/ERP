@@ -4010,5 +4010,36 @@ export default {
     transferExpense: '门店转给公司',
     lrqcsj: '录入期初数据',
     ygssmdm: '员工所属门店'
+  },
+  prompt: {
+    lx1: '类型1',
+    lx2: '类型2',
+    sjhbnwk: '手机号为空',
+    qsrzqdsjh: '请输入正确手机号码',
+    qsrzh: '请输入账号',
+    zhycz: '账号已存在',
+    qzqshurmmchangdu: '请正确输入密码长度',
+    mmcdyadyli: '密码长度要大于6个字符',
+    qsrxs: '请输入姓氏',
+    qsrm: '请输入名',
+    qxzxb: '请选择性别',
+    qxzgzqy: '请选择工作地区',
+    qsrzqyxh: '请输入正确邮箱号',
+    qsrdz: '请输入地址',
+    qxzs: '请选择省',
+    qxzs2: '请选择市',
+    qxzbm: '请选择部门',
+    qxzqy: '请选择区域',
+    qxzmd: '请选择门店',
+    dlzhycz: '登陆账号已存在',
+    zz: '在职',
+    lz: '离职',
+    nan: '男',
+    nv: '女',
+    czcg: '操作成功',
+    scts: '此操作将永久删除该文件, 是否继续?',
+    ts: '提示',
+    qd: '确定'
   }
+
 }

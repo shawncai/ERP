@@ -361,7 +361,7 @@ export default {
       // this.reviewParms = {}
       // this.reviewParms.id = row.id
       // this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$prompt('请输入附加费', '提示', {
+      this.$prompt('请输入附加费', this.$t('prompt.ts'), {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputPattern: /^[0-9]+(.[0-9]{2})?$/,
@@ -569,7 +569,7 @@ export default {
     handleCommand(command) {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -600,7 +600,7 @@ export default {
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

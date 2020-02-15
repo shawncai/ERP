@@ -276,8 +276,8 @@ export default {
       update(this.personalForm2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -299,8 +299,8 @@ export default {
       update(this.personalForm2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -479,7 +479,7 @@ export default {
     handleCommand(command) {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -510,7 +510,7 @@ export default {
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -588,7 +588,7 @@ export default {
     },
     // 删除分组
     handleDeleteGroup(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

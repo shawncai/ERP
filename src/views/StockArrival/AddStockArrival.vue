@@ -955,7 +955,7 @@ export default {
           }
           this.$refs.editable.validate().then(valid => {
             if (this.arrivalNumber > this.allNumber) {
-              this.$confirm('到货数量小于采购数量, 是否继续保存?', '提示', {
+              this.$confirm('到货数量小于采购数量, 是否继续保存?', this.$t('prompt.ts'), {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

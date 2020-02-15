@@ -59,8 +59,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.certificatetype')" style="width: 100%;">
                   <el-select v-model="personalForm.certificatetype" style="margin-left: 18px;width: 200px">
-                    <el-option label="类型1" value="1"/>
-                    <el-option label="类型2" value="2"/>
+                    <el-option :label="$t('prompt.lx1')" value="1"/>
+                    <el-option :label="$t('prompt.lx2')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -238,12 +238,12 @@ export default {
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('手机号不能为空'))
+        return callback(new Error(_that.$t('prompt.sjhbnwk')))
       }
       setTimeout(() => {
         console.log(String(value).length)
         if (String(value).length !== 11) {
-          callback(new Error('请输入正确手机号码'))
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()
         }
@@ -257,12 +257,12 @@ export default {
         }).then(res => {
           if (res.data.ret === 200) {
             if (value === '' || value === undefined || value === null) {
-              callback(new Error('请输入账号'))
+              callback(new Error(_that.$t('prompt.qsrzh')))
             } else {
               callback()
             }
           } else {
-            callback(new Error('账号已存在'))
+            callback(new Error(_that.$t('prompt.zhycz')))
           }
         })
       }, 2000)
@@ -321,27 +321,27 @@ export default {
       // 个人信息规则数据
       personalrules: {
         passwd: [
-          { required: true, message: '请正确输入密码长度', trigger: 'blur' },
-          { min: 6, max: 100, message: '密码长度要大于6个字符', trigger: 'blur' }
+          { required: true, message: _that.$t('prompt.qzqshurmmchangdu'), trigger: 'blur' },
+          { min: 6, max: 100, message: _that.$t('prompt.mmcdyadyli'), trigger: 'blur' }
         ],
         account: [
           { required: true, validator: chenckrepeat, trigger: 'change' }
         ],
         firstname: [
-          { required: true, message: '请输入姓氏', trigger: 'blur' }
+          { required: true, message: _that.$t('prompt.qsrxs'), trigger: 'blur' }
         ],
         lastname: [
-          { required: true, message: '请输入名', trigger: 'blur' }
+          { required: true, message: _that.$t('prompt.qsrm'), trigger: 'blur' }
         ],
         gender: [
-          { required: true, message: '请选择性别', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzxb'), trigger: 'change' }
         ],
         country: [
-          { required: true, message: '请选择工作地区', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzgzqy'), trigger: 'change' }
         ],
         email: [
-          { required: true, type: 'email', message: '请输入正确邮箱号', trigger: 'blur' },
-          { min: 1, message: '请输入正确邮箱号', trigger: 'blur' }
+          { required: true, type: 'email', message: _that.$t('prompt.qsrzqyxh'), trigger: 'blur' },
+          { min: 1, message: _that.$t('prompt.qsrzqyxh'), trigger: 'blur' }
         ]
       },
       // 联系信息数据
@@ -354,13 +354,13 @@ export default {
       // 联系信息规则数据
       connectrules: {
         address: [
-          { required: true, message: '请输入地址', trigger: 'blur' }
+          { required: true, message: _that.$t('prompt.qsrdz'), trigger: 'blur' }
         ],
         provinceid: [
-          { required: true, message: '请选择省', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzs'), trigger: 'change' }
         ],
         cityid: [
-          { required: true, message: '请选择市', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzs2'), trigger: 'change' }
         ],
         phone: [
           { required: true, validator: checkphone, trigger: 'change' }
@@ -377,13 +377,13 @@ export default {
       // 公司信息规则数据
       companyrules: {
         deptid: [
-          { required: true, message: '请选择部门', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzbm'), trigger: 'change' }
         ],
         regionid: [
-          { required: true, message: '请选择区域', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzqy'), trigger: 'change' }
         ],
         repositoryid: [
-          { required: true, message: '请选择门店', trigger: 'change' }
+          { required: true, message: _that.$t('prompt.qxzmd'), trigger: 'change' }
         ]
       }
     }
@@ -600,7 +600,7 @@ export default {
                     } else if (res.data.msg === 'account isExist') {
                       this.$notify.error({
                         title: 'wrong',
-                        message: '登陆账号已存在',
+                        message: this.$t('prompt.dlzhycz'),
                         offset: 100
                       })
                     } else {
@@ -710,7 +710,7 @@ export default {
                     } else if (res.data.msg === 'account isExist') {
                       this.$notify.error({
                         title: 'wrong',
-                        message: '登陆账号已存在',
+                        message: this.$t('prompt.dlzhycz'),
                         offset: 100
                       })
                     } else {

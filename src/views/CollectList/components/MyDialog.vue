@@ -568,7 +568,7 @@ export default {
       if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {
-            this.$confirm('存在申请未通过!', '提示', {
+            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
               confirmButtonText: '确定',
               type: 'error',
               showClose: false,
@@ -587,7 +587,7 @@ export default {
               })
             })
           } else if (res.data.data.content === 3) {
-            this.$confirm('存在分期未还完!', '提示', {
+            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
               confirmButtonText: '确定',
               type: 'error',
               showClose: false,

@@ -933,8 +933,8 @@ export default {
           editproduct(this.personalForm).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '操作成功',
-                message: '操作成功',
+                title: this.$t('prompt.czcg'),
+                message: this.$t('prompt.czcg'),
                 type: 'success',
                 duration: 1000,
                 offset: 100
