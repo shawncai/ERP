@@ -597,7 +597,7 @@ export const asyncRouterMap = [
         path: 'ProductList',
         component: () => import('@/views/Product/ProductList'),
         name: 'ProductList',
-        meta: { title: 'ProductList', noCache: false, roles: ['1-31-33-1', '1-31-33-2', '1-31-33-3', '1-31-33-4', '1-31-33-5', '1-31-33-6', '1-31-33-7', '1-31-33-14', '1-31-33-15'] }
+        meta: { title: 'ProductList', noCache: true, roles: ['1-31-33-1', '1-31-33-2', '1-31-33-3', '1-31-33-4', '1-31-33-5', '1-31-33-6', '1-31-33-7', '1-31-33-14', '1-31-33-15'] }
       },
       {
         path: 'ManyProduct',

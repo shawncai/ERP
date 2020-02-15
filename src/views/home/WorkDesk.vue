@@ -112,7 +112,7 @@
               </el-row>
             </div>
           </div>
-        </el-col>
+        </el-col>receiptVisible2
         <!--        库存预警-->
         <el-col :span="9">
           <div style="width: 100%; height: 400px;background: red;" >

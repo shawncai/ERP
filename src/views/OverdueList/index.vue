@@ -24,8 +24,9 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <el-input v-model="getemplist.address" placeholder="地址" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
-        <el-input v-model.number="getemplist.overdueMonth" type="number" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+        <el-input v-model="getemplist.address" :placeholder="$t('tongyo.dz')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.suretyName" :placeholder="$t('tongyo.dbrxm')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model.number="getemplist.overdueMonth" :placeholder="$t('tongyo.yqsc')" type="number" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <template slot="append">月</template>
         </el-input>
         <!--              <el-input-number v-model="getemplist.overdueMonth" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>-->
@@ -102,6 +103,11 @@
           <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.address }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('tongyo.dbrxm')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.suretyName }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.productCode')" :resizable="false" align="center" min-width="150">

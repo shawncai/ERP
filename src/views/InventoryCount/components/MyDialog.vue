@@ -687,14 +687,14 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
-      if (rest.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
+      // if (rest.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '明细表不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -749,8 +749,10 @@ export default {
         }
       }
       const parms1 = JSON.stringify(Data)
-      const parms2 = JSON.stringify(rest)
-
+      let parms2 = ''
+      if (rest.length !== 0) {
+        parms2 = JSON.stringify(rest)
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {

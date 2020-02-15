@@ -4043,6 +4043,12 @@ export default {
     scts: '此操作将永久删除该文件, 是否继续?',
     ts: '提示',
     qd: '确定'
+  },
+  tongyo: {
+    dbrxm: '担保人姓名',
+    dz: '地址',
+    yqsc: '逾期时长',
+    xscklb: '销售出库列表'
   }
 
 }

@@ -9,7 +9,20 @@
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
       </el-select>
 
-      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
+      <el-cascader
+        :options="regions"
+        :props="props"
+        v-model="getemplist.region"
+        :show-all-levels="false"
+        :placeholder="$t('Hmodule.xzqy')"
+        change-on-select
+        filterable
+        clearable
+        style="margin-left: 18px;width: 200px"
+        @change="handlechange4"
+      />
+
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-select v-model="getemplist.saleType" :placeholder="$t('saleBillList.saleType')" :value="getemplist.saleType" clearable class="filter-item" @keyup.enter.native="handleFilter">
@@ -78,7 +91,11 @@
           fixed="left"
           prop="productCode"
           width="200"
-          align="center"/>
+          align="center">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleReceipt2(scope.row)">{{ scope.row.productCode }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('saleBillList.color')"
           fixed="left"
@@ -154,17 +171,64 @@
       <!-- 列表结束 -->
       <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
+    <el-dialog :visible.sync="receiptVisible2" :title="$t('tongyo.xscklb')" class="normal" width="900px" center>
+      <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+        <el-form-item label-width="100px;" style="    width: 800px;">
+          <div style="width: 100%; height: 395px;overflow: hidden;background: white;" >
+            <el-table
+              v-loading="listLoading"
+              :key="tableKey"
+              :data="list2"
+              height="390"
+              style="width: 100%;">
+              <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.number }}</span>
+                </template>
+                <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+              </el-table-column>
+              <el-table-column :label="$t('SaleOut.saleRepositoryId')" :resizable="false" fixed="left" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.saleRepositoryName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('saleBillList.quantity')" :resizable="false" fixed="left" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.outQuantity }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('SaleOut.customerName')" :resizable="false" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.customerName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('SaleOut.outPersonId')" :resizable="false" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.confirmPersonName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('SaleOut.outDate')" :resizable="false" align="center" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.outDate }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { saleBillList } from '@/api/count'
+import { saleBillList, saleBillListDetail } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import { regionlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
@@ -214,6 +278,11 @@ export default {
   },
   data() {
     return {
+      props: {
+        value: 'id',
+        label: 'regionName',
+        children: 'regionListVos'
+      },
       categoryId: '',
       first: '',
       second: false,
@@ -227,6 +296,7 @@ export default {
       step7: '',
       step8: '',
       types: [],
+      regions: [],
       repositoryId: '',
       handlePersonId: '',
       receiptVisible: false,
@@ -269,6 +339,7 @@ export default {
       downloadLoading: false,
       // 表格数据
       list: [],
+      list2: [],
       // 表格数据条数
       total: 0,
       // 表格识别
@@ -283,6 +354,7 @@ export default {
       personalForm: {},
       // 修改控制组件数据
       editVisible: false,
+      receiptVisible2: false,
       // 开始时间到结束时间
       date: []
     }
@@ -295,6 +367,19 @@ export default {
     _that = this
   },
   methods: {
+    handleReceipt2(row) {
+      this.getemplist.productCode = row.productCode
+      saleBillListDetail(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list2 = res.data.data.content
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+      this.receiptVisible2 = true
+      console.log('row', row)
+    },
     // 总计
     getSummaries2(param) {
       const { columns, data } = param
@@ -325,7 +410,67 @@ export default {
       })
       return sums
     },
+    handlechange4(val) {
+      console.log(val)
+      const finalid = val[val.length - 1]
+      console.log(finalid)
+      this.getemplist.regionId = finalid
+      // searchRepository(finalid).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.repositories = res.data.data.content.list
+      //   } else {
+      //     console.log('区域选择门店')
+      //   }
+      // })
+    },
+    // findPathByLeafId(leafId, nodes, path) {
+    //   if (path === undefined) {
+    //     path = []
+    //   }
+    //   for (var i = 0; i < nodes.length; i++) {
+    //     var tmpPath = path.concat()
+    //     tmpPath.push(nodes[i].id)
+    //     if (leafId === nodes[i].id) {
+    //       return tmpPath
+    //     }
+    //     if (nodes[i].regionListVos) {
+    //       var findResult = this.findPathByLeafId(leafId, nodes[i].regionListVos, tmpPath)
+    //       if (findResult) {
+    //         return findResult
+    //       }
+    //     }
+    //   }
+    // },
+    // getarrs() {
+    //   console.log('222', 222)
+    //   console.log('北京市朝阳区爱谁谁')
+    //   console.log('this.personalForm', this.getemplist)
+    //   console.log('this.regions', this.regions)
+    //   const needata = this.findPathByLeafId(this.getemplist.region, this.regions)
+    //   console.log('needata', needata)
+    //   this.getemplist.regionId = needata
+    //   const finalid = needata[needata.length - 1]
+    //   console.log(finalid)
+    //   this.region = finalid
+    // },
+    tranKTree(arr) {
+      if (!arr || !arr.length) return
+      return arr.map(item => ({
+        id: item.id,
+        regionName: item.regionName,
+        regionListVos: this.tranKTree(item.regionListVos)
+      }))
+    },
     gettype() {
+      regionlist().then(res => {
+        if (res.data.ret === 200) {
+          this.regions = this.tranKTree(res.data.data.content)
+          // this.getarrs()
+        } else {
+          console.log('区域列表出错')
+        }
+      })
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
@@ -386,15 +531,32 @@ export default {
     // 搜索
     handleFilter() {
       console.log(this.date)
-      if (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === '' || this.date.length === 0) {
+      if (this.date.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择门店和日期开始搜索',
+          message: '请选择日期开始搜索',
           offset: 100
         })
         return false
       }
-
+      console.log('this.getemplist.repositoryId', this.getemplist.repositoryId)
+      console.log('this.getemplist.regionId', this.getemplist.regionId)
+      if ((this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined) && (this.getemplist.regionId === '' || this.getemplist.regionId === null || this.getemplist.regionId === undefined)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择区域或者门店开始搜索',
+          offset: 100
+        })
+        return false
+      }
+      if ((this.getemplist.repositoryId !== '' && this.getemplist.repositoryId !== null && this.getemplist.repositoryId !== undefined) && (this.getemplist.regionId !== '' && this.getemplist.regionId !== null && this.getemplist.regionId !== undefined)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '区域，门店选择其一',
+          offset: 100
+        })
+        return false
+      }
       this.getemplist.beginTime = this.date[0] + ' 00:00:00'
       this.getemplist.endTime = this.date[1] + ' 23:59:59'
       console.log(this.getemplist)

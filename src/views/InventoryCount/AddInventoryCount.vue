@@ -550,6 +550,14 @@ export default {
         this.personalForm.endTime = this.Time[1]
       }
       const EnterDetail = this.$refs.editable.getRecords()
+      // if (EnterDetail.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '明细表不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -604,7 +612,10 @@ export default {
         }
       }
       const parms1 = JSON.stringify(Data)
-      const parms2 = JSON.stringify(EnterDetail)
+      let parms2 = ''
+      if (EnterDetail.length !== 0) {
+        parms2 = JSON.stringify(EnterDetail)
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {

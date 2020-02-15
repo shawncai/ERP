@@ -607,8 +607,38 @@ export function searchSaleReport(query) {
   })
 }
 
+export function saleBillListDetail(query) {
+  var params = new URLSearchParams()
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.saleType !== '' && query.saleType !== null && query.saleType !== undefined) {
+    params.append('saleType', query.saleType) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/SaleReport/saleBillListDetail',
+    method: 'post',
+    data: params
+  })
+}
+
 export function saleBillList(query) {
   var params = new URLSearchParams()
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
   }
