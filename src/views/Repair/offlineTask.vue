@@ -849,7 +849,7 @@ export default {
       console.log('取消',row);
       this.$confirm('确认取消?', 'tips', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
+        confirmButtonText: this.$t('prompt.qd'),
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {

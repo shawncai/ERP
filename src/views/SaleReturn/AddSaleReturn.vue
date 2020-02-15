@@ -30,8 +30,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width:200px" @change="clearCustomer">
-                    <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="零售"/>
+                    <el-option :label="$t('prompt.jxs')" value="1"/>
+                    <el-option :label="$t('prompt.ls')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -704,7 +704,7 @@ export default {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -946,7 +946,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -1011,7 +1011,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false

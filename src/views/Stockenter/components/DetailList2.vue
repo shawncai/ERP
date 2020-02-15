@@ -355,7 +355,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -381,7 +381,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -442,7 +442,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

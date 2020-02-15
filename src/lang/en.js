@@ -475,7 +475,7 @@ export default {
     serviceMoney: '非质保金额',
     freeQuantity: '质保数量',
     serviceQuantity: '非质保数量',
-    repair: '维修',
+    repair: 'repair',
     saleType: 'sales mode',
     repositoryName: 'warehouse name',
     productCode: 'product ID coding',
@@ -490,8 +490,8 @@ export default {
     costMoney: 'cost',
     grossProfit: 'gross profit',
     grossProfitRate: 'gross profit rate',
-    quantity: '数量',
-    color: '颜色'
+    quantity: 'quantity',
+    color: 'color'
   },
   shouldPayCount: {
     supplierId: 'supplier ID coding',
@@ -1006,8 +1006,8 @@ export default {
     middlename: 'middle name',
     lastname: 'last name',
     phone: 'mobile no.',
-    phone12: '客户电话2',
-    phone13: '客户电话3',
+    phone12: 'mobile no. 2',
+    phone13: 'mobile no. 3',
     gender: 'gender',
     countryid: 'country',
     provinceid: 'province',
@@ -1472,7 +1472,7 @@ export default {
     storageMoveDate: 'Stock out date'
   },
   StockAlarm: {
-    color: '颜色',
+    color: 'color',
     searchRepositoryId: 'warehouse',
     code: 'product coding',
     productName: 'product name',
@@ -1485,7 +1485,7 @@ export default {
     onStock: 'current stocks',
     safeStock: 'safety stocks',
     flag: 'alarm type',
-    salePrice: '销售价格'
+    salePrice: 'salePrice'
   },
   BuildUp: {
     title: 'assemble form subject',
@@ -2077,7 +2077,7 @@ export default {
     heji11: 'other expenses',
     profit: 'profit',
     ProfitMargin: 'profit rate',
-    invoiceNumber: '发票号'
+    invoiceNumber: 'invoiceNumber'
   },
   SaleOrder: {
     title: 'subject',
@@ -2644,7 +2644,7 @@ export default {
     iseffective: 'enabled status'
   },
   public: {
-    plgx: '更新',
+    plgx: 'Update',
     detail: 'detail',
     businessStatus: 'order status',
     rate: 'exchange rate',
@@ -3094,10 +3094,10 @@ export default {
   updates: {
     jldwzbh: 'No',
     gz: 'trace',
-    wly: '无来源',
+    wly: 'no source',
     ckmx: 'Out of stock detail',
     shmx: 'recovery detail',
-    sncode: 'sn编码',
+    sncode: 'sncode',
     zxsyj: 'total sales amount',
     zhzye: 'total account balance',
     byszc: 'this month payment balance',

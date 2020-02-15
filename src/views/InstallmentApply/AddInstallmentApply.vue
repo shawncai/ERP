@@ -35,9 +35,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.liveStauts')" style="width: 100%;">
                   <el-select v-model="personalForm.liveStauts" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="和亲戚一起居住"/>
-                    <el-option value="2" label="租房"/>
-                    <el-option value="3" label="自有住房"/>
+                    <el-option :label="$t('prompt.hqqyqz')" value="1"/>
+                    <el-option :label="$t('prompt.zf')" value="2"/>
+                    <el-option :label="$t('prompt.zyzf')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -91,8 +91,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.gender')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.gender" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">男</el-radio>
-                    <el-radio :label="2">女</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('prompt.nan') }}</el-radio>
+                    <el-radio :label="2">{{ $t('prompt.nv') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -108,8 +108,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.marriageStat')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.marriageStat" style="margin-left: 18px;width: 200px" @change="changepanel">
-                    <el-radio :label="1" style="width: 100px">未婚</el-radio>
-                    <el-radio :label="2">已婚</el-radio>
+                    <el-radio :label="1" style="width: 100px">{{ $t('prompt.wh') }}</el-radio>
+                    <el-radio :label="2">{{ $t('prompt.yh') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -302,9 +302,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.liveStauts')" :required="personalForm.marriageStat === 2" style="width: 100%;">
                   <el-select v-model="personalForm.mateLiveStauts" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="和亲戚一起居住"/>
-                    <el-option value="2" label="租房"/>
-                    <el-option value="3" label="自有住房"/>
+                    <el-option :label="$t('prompt.hqqyqz')" value="1"/>
+                    <el-option :label="$t('prompt.zf')" value="2"/>
+                    <el-option :label="$t('prompt.zyzf')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -332,8 +332,8 @@
                   <el-col :span="6">
                     <el-form-item :label="$t('InstallmentApply.workType')" style="width: 100%;">
                       <el-select v-model="personalForm.workType" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
-                        <el-option value="1" label="被雇佣"/>
-                        <el-option value="2" label="自由职业"/>
+                        <el-option :label="$t('prompt.bgy')" value="1"/>
+                        <el-option :label="$t('prompt.zyzy')" value="2"/>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -355,7 +355,7 @@
                   <el-col :span="6">
                     <el-form-item :label="$t('InstallmentApply.workTime')" prop="workTime" style="width: 100%;">
                       <el-input v-model.number="personalForm.workTime" style="margin-left: 18px;width: 200px">
-                        <template slot="append">月</template>
+                        <template slot="append">{{ $t('prompt.yue') }}</template>
                       </el-input>
                     </el-form-item>
                   </el-col>
@@ -408,8 +408,8 @@
                   <el-col :span="6">
                     <el-form-item :label="$t('InstallmentApply.workType')" style="width: 100%;">
                       <el-select v-model="personalForm.mateWorkType" value="personalForm.liveStauts" style="margin-left: 18px;width: 200px" @change="change()">
-                        <el-option value="1" label="被雇佣"/>
-                        <el-option value="2" label="自由职业"/>
+                        <el-option :label="$t('prompt.bgy')" value="1"/>
+                        <el-option :label="$t('prompt.zyzy')" value="2"/>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -431,7 +431,7 @@
                   <el-col :span="6">
                     <el-form-item :label="$t('InstallmentApply.workTime')" style="width: 100%;">
                       <el-input v-model="personalForm.mateWorkTime" style="margin-left: 18px;width: 200px">
-                        <template slot="append">月</template>
+                        <template slot="append">{{ $t('prompt.yue') }}</template>
                       </el-input>
                     </el-form-item>
                   </el-col>
@@ -555,8 +555,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
                   <el-select v-model="personalForm.suretyCertificateType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="身份证"/>
-                    <el-option value="2" label="其他"/>
+                    <el-option :label="$t('prompt.sfz')" value="1"/>
+                    <el-option :label="$t('prompt.qt')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -1136,7 +1136,7 @@ export default {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {
             this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
-              confirmButtonText: '确定',
+              confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
               closeOnClickModal: false,
@@ -1150,12 +1150,12 @@ export default {
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除'
+                message: this.$t('prompt.yqxsc')
               })
             })
           } else if (res.data.data.content === 3) {
             this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
-              confirmButtonText: '确定',
+              confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
               closeOnClickModal: false,
@@ -1169,7 +1169,7 @@ export default {
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除'
+                message: this.$t('prompt.yqxsc')
               })
             })
           }

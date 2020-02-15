@@ -306,7 +306,7 @@ export default {
         if (this.personalForm.accessRepositoryId === undefined || this.personalForm.accessRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -319,7 +319,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -339,7 +339,7 @@ export default {
           if (val[i].toolsCode === nowlistdata[j].toolsCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -554,7 +554,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -577,7 +577,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -775,7 +775,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }

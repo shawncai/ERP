@@ -465,7 +465,7 @@ export default {
         if (this.personalForm.handleRepositoryId === undefined || this.personalForm.handleRepositoryId === '' || this.personalForm.handleRepositoryId === null) {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -478,7 +478,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -493,7 +493,7 @@ export default {
       if (this.handleRepositoryId === null || this.handleRepositoryId === '' || this.handleRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -711,7 +711,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -734,7 +734,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -862,7 +862,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false
@@ -992,7 +992,7 @@ export default {
               } else {
                 this.$notify.error({
                   title: 'wrong',
-                  message: '出错了',
+                  message: 'wrong',
                   offset: 100
                 })
               }

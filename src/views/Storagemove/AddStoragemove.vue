@@ -9,12 +9,12 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:180px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                  <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
+                  <el-input v-model="applyPersonId" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
               </el-col>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
@@ -33,13 +33,13 @@
               <!-- 普通调拨时仓库逻辑 开始-->
               <el-col v-show="ismovetype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
+                  <el-input v-model="moveInRepository" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
               </el-col>
               <el-col v-show="ismovetype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                  <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
+                  <el-input v-model="moveOutRepository" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" :personform="personalForm" @repositoryname="repositoryname"/>
               </el-col>
@@ -47,13 +47,13 @@
               <!-- 退货调拨时仓库逻辑 开始-->
               <el-col v-show="isreturntype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep2"/>
+                  <el-input v-model="moveInRepository" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep2"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol2" @depotname="depotname2"/>
               </el-col>
               <el-col v-show="isreturntype" :span="8">
                 <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                  <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep2"/>
+                  <el-input v-model="moveOutRepository" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep2"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol2" :personform="personalForm" @repositoryname="repositoryname2"/>
               </el-col>
@@ -63,7 +63,7 @@
                   <el-date-picker
                     v-model="personalForm.requestArrivalDate"
                     type="date"
-                    placeholder="选择要求到货日期"
+
                     value-format="yyyy-MM-dd"
                     style="margin-left: 8px;width: 180px"/>
                 </el-form-item>
@@ -73,14 +73,14 @@
                   <el-date-picker
                     v-model="personalForm.moveOutDate"
                     type="date"
-                    placeholder="选择要求出货日期"
+
                     value-format="yyyy-MM-dd"
                     style="margin-left: 8px;width: 180px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                  <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
+                  <el-input v-model="personalForm.moveReason" style="margin-left: 18px;width:180px" clearable/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
@@ -96,8 +96,8 @@
               </el-col>               -->
               <el-col :span="8">
                 <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                  <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 180px" disabled >
-                    <el-option value="1" label="调拨申请"/>
+                  <el-select v-model="personalForm.businessStat" style="margin-left: 18px;width: 180px" disabled >
+                    <el-option :label="$t('prompt.dbsq')" value="1"/>
                     <el-option value="2" label="调拨出库"/>
                     <el-option value="3" label="调拨入库"/>
                     <el-option value="4" label="调拨完成"/>
@@ -192,7 +192,7 @@
       </el-card>
       <!-- 调拨出库明细 -->
       <!-- <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbckmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -279,7 +279,7 @@
       </el-card> -->
       <!-- 调拨入库明细 -->
       <!-- <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">调拨入库明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbrkmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -664,7 +664,7 @@ export default {
       if (row.applyQuantity > row.existStock) {
         this.$notify.error({
           title: 'wrong',
-          message: '申请数量超过库存数量',
+          message: this.$t('prompt.sqslcg'),
           offset: 100
         })
         row.applyQuantity = 1
@@ -713,7 +713,7 @@ export default {
         if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.qxxzck'),
             offset: 100
           })
           return false
@@ -726,7 +726,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -773,7 +773,7 @@ export default {
       if (this.moveOutRepository === null || this.moveOutRepository === '' || this.moveOutRepository === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -852,7 +852,7 @@ export default {
       // if (j === 2) {
       //   this.$notify.error({
       //     title: 'wrong',
-      //     message: '批次货位不能为空',
+      //     message: this.$t('prompt.pchwbnwk'),
       //     offset: 100
       //   })
       //   return false
@@ -862,7 +862,7 @@ export default {
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false

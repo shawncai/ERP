@@ -184,7 +184,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
@@ -198,7 +198,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
@@ -214,7 +214,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
@@ -239,7 +239,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
