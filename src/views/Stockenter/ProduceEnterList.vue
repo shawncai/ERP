@@ -162,7 +162,7 @@ import DetailList2 from './components/DetailList2'
 
 var _that
 export default {
-  name: 'Enterlist',
+  name: 'ProduceEnterList',
   directives: { waves, permission, permission2 },
   components: { DetailList2, Pagination, MyEdit, MyRepository, MyAccept, MyCreate },
   filters: {

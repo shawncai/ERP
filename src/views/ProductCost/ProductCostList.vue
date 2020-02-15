@@ -143,7 +143,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
-  name: 'CheckReportList',
+  name: 'ProductCostList',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {

@@ -3,7 +3,7 @@
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.title" :placeholder="$t('InventoryCount.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- <el-input v-model="getemplist.sourceNumber" :placeholder="$t('InventoryCount.sourceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
       <el-input v-model="getemplist.countNumber" :placeholder="$t('InventoryCount.countNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="handlePersonId" :placeholder="$t('InventoryCount.handlePersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechoose"/>
       <my-create :createcontrol.sync="createcontrol" @createname="createname"/>

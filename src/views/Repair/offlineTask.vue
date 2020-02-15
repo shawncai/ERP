@@ -2,8 +2,9 @@
   <div class="tab-container">
     <div class="filter-container">
       <el-select v-model="storesid" :placeholder="$t('employee.store')" clearable class="filter-item" style="width: 200px" filterable @keyup.enter.native="handleFilter">
-        <el-option v-for="(item, index) in storelist" :key="index" :label="item.name" :value="item.id"/>
+        <el-option v-for="(item, index) in storelist" :key="index" :label="item.repositoryName" :value="item.id"/>
       </el-select>
+      <el-input v-model="listQuery.code" :placeholder="$t('repair.ddbh')" class="filter-item" style="width: 200px" clearable @keyup.enter.native="handleFilter"/>
       <div class="filter-item">
         <el-date-picker
           v-model="twotime"
@@ -37,7 +38,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.employeeName }}</span>
@@ -119,7 +120,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.employeeName }}</span>
@@ -380,7 +381,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.code }}</span>
               </template>
-            </el-table-column>cnpm install node-sass@latest
+            </el-table-column>
             <el-table-column :label="$t('repair.ygxm')" :resizable="false" prop="personName" width="90px" align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.employeeName }}</span>
@@ -648,7 +649,7 @@
   ]
   var _that
 export default {
-    name: 'Sample',
+    name: 'offlineTask',
     components: { Pagination, MyCustomer, MyRepository },
     directives: { waves, permission, permission2 },
     filters: {
@@ -817,9 +818,9 @@ export default {
       this.getinstalllist()
       this.initemplist()
       // this.getAllStaff()
-      // this.getAllStores()
+      this.getAllStores()
     },
-  
+
   mounted() {
       const repositoryid = this.$store.getters.repositoryId
       const regionid = this.$store.getters.regionId
@@ -921,7 +922,7 @@ export default {
       this.form.customerId = val.id
       this.customerId = val.customerName
       this.form.customerName = val.customerName
-    },  
+    },
     chooseCustomer() {
       this.$forceUpdate()
       this.customercontrol = true

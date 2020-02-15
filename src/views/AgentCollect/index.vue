@@ -153,7 +153,7 @@ import MyRepository from '../StockRetreat/components/MyRepository'
 
 var _that
 export default {
-  name: 'Index',
+  name: 'AgentCollect',
   directives: { waves, permission },
   components: { MyRepository, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {

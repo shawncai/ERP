@@ -170,7 +170,7 @@ import DetailList from './components/DetailList'
 
 var _that
 export default {
-  name: 'OtherStockOutList',
+  name: 'Difflist',
   directives: { waves, permission, permission2 },
   components: { DetailList, Pagination, MyDialog, MyRepository, MyAccept, MyCreate },
   filters: {

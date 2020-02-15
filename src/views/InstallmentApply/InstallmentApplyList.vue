@@ -26,6 +26,8 @@
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
         <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
+        <el-input v-model="saleRepositoryId" :placeholder="$t('collectAndPay.saleRepository')" style="width: 40%;float: left;margin-left: 53px;margin-top: 10px;" clearable @focus="handlechooseRep" @clear="clearid"/>
+        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <!--<el-date-picker-->
         <!--v-model="date"-->
         <!--type="daterange"-->
@@ -144,10 +146,10 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
             <el-button v-show="scope.row.inquirePersonId !== null && scope.row.judgeStat === 0" size="mini" type="primary" @click="handleDispatch2(scope.row)">{{ $t('otherlanguage.zcfp') }}</el-button>
-            <el-button v-show="scope.row.inquirePersonId === null" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-            <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="scope.row.inquirePersonId === null && scope.row.judgeStat !== 4" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
+            <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['200-201-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['200-201-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
@@ -210,19 +212,21 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import DetailList2 from './components/DetailList2'
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'InstallmentApplyList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, DetailList2 },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, DetailList2, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('Hmodule.shbtg')
+        3: _that.$t('Hmodule.shbtg'),
+        4: _that.$t('collectAndPay.lsbc')
       }
       return statusMap[status]
     },
@@ -264,6 +268,7 @@ export default {
   },
   data() {
     return {
+      saleRepositoryId: '',
       step1: '',
       step2: '',
       step3: '',
@@ -286,6 +291,7 @@ export default {
       stockControl: false,
       // 回显客户
       customerName: '',
+      repositorycontrol: false,
       // 控制客户
       customercontrol: false,
       agentcontrol: false,
@@ -353,6 +359,11 @@ export default {
     _that = this
   },
   methods: {
+    // 清楚id
+    clearid() {
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
+    },
     // 新建客户报告
     handleAddreport() {
       if (this.moreaction.length === 0) {
@@ -928,8 +939,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.saleRepositoryId = val.repositoryName
+      this.getemplist.saleRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

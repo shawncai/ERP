@@ -6,7 +6,7 @@
 
       <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-popover
         v-model="visible2"
@@ -248,7 +248,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
-  name: 'Index',
+  name: 'OverdueList',
   directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {

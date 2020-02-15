@@ -180,7 +180,7 @@ import MyCenter from '../CheckFail/components/MyCenter'
 
 var _that
 export default {
-  name: 'Index',
+  name: 'ProduceRequire',
   directives: { waves, permission },
   components: { MyCenter, Pagination },
   filters: {

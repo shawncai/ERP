@@ -131,10 +131,10 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['54-55-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
-            <el-button v-permission2="['54-55-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission2="['54-55-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-55-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission2="['54-55-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['54-55-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['54-55-49']" v-waves v-show="scope.row.judgeStat === 2&&scope.row.isDeliver === 1&&scope.row.customerType ==='1' " class="filter-item" type="primary" style="width: 82px" @click="handleReceipt(scope.row)"><span style="margin-left: -15px;">生成配送单</span></el-button>
             <el-button v-permission="['54-55-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
           </template>
@@ -186,7 +186,8 @@ export default {
         0: _that.$t('updates.wsh'),
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
-        3: _that.$t('Hmodule.shbtg')
+        3: _that.$t('Hmodule.shbtg'),
+        4: _that.$t('collectAndPay.lsbc')
       }
       return statusMap[status]
     },

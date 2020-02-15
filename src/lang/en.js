@@ -86,7 +86,7 @@ export default {
     Enterlist: 'inventory list',
     AddLocation: 'add  cargo location',
     Dept: 'department list',
-    detaillist: 'product classification',
+    Detaillist: 'product classification',
     Locationlist: 'cargo location list',
     ProduceEnter: 'new production',
     ProduceEnterList: 'production list',
@@ -3092,6 +3092,7 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    jldwzbh: 'No',
     gz: 'trace',
     wly: '无来源',
     ckmx: 'Out of stock detail',

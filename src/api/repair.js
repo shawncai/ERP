@@ -303,18 +303,24 @@ export function stafflist(repositoryid, regionid) {
 // 线下任务列表
 export function gettaskofflinelist(query) {
   var params = new URLSearchParams()
-  params.append('result', query.result) // 你要传给后台的参数值 key/value
-  params.append('code', query.code) // 你要传给后台的参数值 key/value
-  params.append('employeeid', query.employeeid) // 你要传给后台的参数值 key/value
-  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
-  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
-  params.append('regionid', query.regionid) // 你要传给后台的参数值 key/value
-  params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  if (query.result !== '' && query.result !== null && query.result !== undefined) {
+    params.append('result', query.result) // 你要传给后台的参数值 key/value
+  }
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.employeeid !== '' && query.employeeid !== null && query.employeeid !== undefined) {
+    params.append('employeeId', query.employeeid) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  params.append('regionIds', query.regionid) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query.repositoryid) // 你要传给后台的参数值 key/value
   if (query.begintime !== '' && query.begintime !== null && query.begintime !== undefined) {
-    params.append('begintime', query.begintime) // 你要传给后台的参数值 key/value
+    params.append('beginTime', query.begintime) // 你要传给后台的参数值 key/value
   }
   if (query.endtime !== '' && query.endtime !== null && query.endtime !== undefined) {
-    params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
+    params.append('endTime', query.endtime) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/taskoffline/gettaskofflinelist',
