@@ -240,7 +240,7 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId2: this.$store.getters.repositoryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: 2
+        regionId: this.$store.getters.regionId
       },
       // 日常调整单规则数据
       personalrules: {
