@@ -83,7 +83,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.email')" prop="email" style="width: 100%;">
+              <el-form-item :label="$t('InstallmentApply.email')" style="width: 100%;">
                 <el-input v-model="personalForm.email" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -1357,6 +1357,18 @@ export default {
       }
       const parms2 = JSON.stringify(Data2)
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      if (this.personalForm.email !== null && this.personalForm.email !== undefined && this.personalForm.email !== '') {
+        var email2 = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+        const flag = email2.test(this.personalForm.email)
+        if (!flag) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '请输入正确的邮箱地址',
+            offset: 100
+          })
+          return false
+        }
+      }
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
