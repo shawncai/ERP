@@ -1,15 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-
-      <el-select v-model="getemplist.productCategory" :placeholder="$t('updates.fle')" :value="getemplist.productCategory" clearable class="filter-item" @keyup.enter.native="handleFilter">
-        <el-option :label="$t('otherlanguage.zc')" value="1"/>
-        <el-option :label="$t('otherlanguage.pj')" value="2"/>
-        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-        <el-option :label="$t('otherlanguage.dc')" value="5"/>
-      </el-select>
-
-      <el-cascader
+      <!-- <el-cascader
         :options="regions"
         :props="props"
         v-model="getemplist.region"
@@ -20,15 +12,22 @@
         clearable
         class="filter-item"
         @change="handlechange4"
-      />
+      /> -->
 
-      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
+      <el-input v-model="saleRepositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-select v-model="getemplist.saleType" :placeholder="$t('saleBillList.saleType')" :value="getemplist.saleType" clearable class="filter-item" @keyup.enter.native="handleFilter">
         <el-option value="1" label="现金销售"/>
         <el-option value="2" label="分期销售"/>
       </el-select>
+      <el-select v-model="getemplist.productCategory" :placeholder="$t('updates.fle')" :value="getemplist.productCategory" clearable class="filter-item" @keyup.enter.native="handleFilter">
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+      </el-select>
+
       <el-date-picker
         v-model="date"
         :default-time="['00:00:00', '23:59:59']"
@@ -37,30 +36,89 @@
         unlink-panels
         value-format="yyyy-MM-dd"
         style="width: 250px"/>
-      <el-select v-model="getemplist.productType" :placeholder="$t('Hmodule.qxzggxh')" class="filter-item" clearable>
-        <el-option
-          v-for="(item, index) in types"
-          :key="index"
-          :label="item.categoryName"
-          :value="item.id"
-        />
-      </el-select>
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        trigger="click">
+        <el-select v-model="getemplist.judgeStat" :placeholder="$t('tongyo.judgeStat')" :value="getemplist.judgeStat" clearable class="filter-item" @keyup.enter.native="handleFilter">
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
+        </el-select>
 
-      <!-- <el-col :span="4" style="margin-left: 56px">
-            <el-form-item :label="$t('updates.cjh')">
-              <el-input v-model="getemplist.carCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 46px">
-            <el-form-item :label="$t('updates.djbha')">
-              <el-input v-model="getemplist.motorCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 26px">
-            <el-form-item :label="$t('updates.dcbm')">
-              <el-input v-model="getemplist.batteryCode" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col> -->
+        <el-select v-model="getemplist.receiptStat" :placeholder="$t('tongyo.receiptStat')" :value="getemplist.receiptStat" clearable class="filter-item" @keyup.enter.native="handleFilter">
+          <el-option :label="$t('updates.zd')" value="1"/>
+          <el-option :label="$t('updates.zx')" value="2"/>
+          <el-option :label="$t('updates.jd')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.outNumber" :placeholder="$t('tongyo.outNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.quantityType" :placeholder="$t('tongyo.quantityType')" :value="getemplist.quantityType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.quantity" :placeholder="$t('tongyo.quantity')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.thisType" :placeholder="$t('tongyo.thisType')" :value="getemplist.thisType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.thisMoney" :placeholder="$t('tongyo.thisMoney')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.firstType" :placeholder="$t('tongyo.firstType')" :value="getemplist.firstType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.firstMoney" :placeholder="$t('tongyo.firstMoney')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.paidType" :placeholder="$t('tongyo.paidType')" :value="getemplist.paidType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.paidMoney" :placeholder="$t('tongyo.paidMoney')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-select v-model="getemplist.unPaidType" :placeholder="$t('tongyo.unPaidType')" :value="getemplist.unPaidType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.unPaidMoney" :placeholder="$t('tongyo.unPaidMoney')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.shouldType" :placeholder="$t('tongyo.shouldType')" :value="getemplist.shouldType" clearable class="filter-item">
+          <el-option :label="$t('tongyo.dy')" value="1"/>
+          <el-option :label="$t('tongyo.dengy')" value="2"/>
+          <el-option :label="$t('tongyo.xiaoyu')" value="3"/>
+        </el-select>
+        <el-input v-model="getemplist.shouldMoney" :placeholder="$t('tongyo.shouldMoney')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-input v-model="createPersonId" :placeholder="$t('tongyo.createPersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+        <my-emp :control.sync="stockControl" @stockName="stockName"/>
+
+        <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('tongyo.invoiceNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-select v-model="getemplist.invoiceType" :placeholder="$t('tongyo.invoiceType')" :value="getemplist.invoiceType" clearable class="filter-item" @keyup.enter.native="handleFilter">
+          <el-option
+            v-for="(item, index) in invoiceTypes"
+            :value="item.id"
+            :key="index"
+            :label="item.categoryName"
+          />
+        </el-select>
+
+        <el-input v-model="getemplist.summary" :placeholder="$t('tongyo.summary')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+        <el-input v-model="getemplist.carCode" :placeholder="$t('tongyo.carCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.motorCode" :placeholder="$t('tongyo.motorCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.batteryCode" :placeholder="$t('tongyo.batteryCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
 
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -75,11 +133,6 @@
         border
         show-summary
         style="width: 100%">
-        <!--        <el-table-column-->
-        <!--          :label="$t('saleBillList.repositoryName')"-->
-        <!--          prop="repositoryName"-->
-        <!--          width="200"-->
-        <!--          align="center"/>-->
         <el-table-column
           :label="$t('saleBillList.productName')"
           fixed="left"
@@ -102,74 +155,7 @@
           prop="color"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('saleBillList.saleout')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="outActualMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.quantity')"
-            prop="outQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column :label="$t('saleBillList.salereurn')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.money')"
-            prop="returnActualMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.quantity')"
-            prop="returnQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-
-        <el-table-column :label="$t('saleBillList.repair')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.serviceMoney')"
-            prop="serviceMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.serviceQuantity')"
-            prop="serviceQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.freeQuantity')"
-            prop="serviceQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.freeMoney')"
-            prop="serviceQuantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-
-        <el-table-column :label="$t('saleBillList.actualsale')" align="center">
-          <el-table-column
-            :label="$t('saleBillList.actualMoney')"
-            prop="money"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('saleBillList.quantity')"
-            prop="quantity"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <!-- <el-table-column
-          :label="$t('stockBillCount.retreatrate')"
-          prop="arrivedQuantity"
-          width="200"
-          align="center"/> -->
       </el-table>
-      <!-- 列表结束 -->
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
     <el-dialog :visible.sync="receiptVisible2" :title="$t('tongyo.xscklb')" class="normal" width="900px" center>
       <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
@@ -221,14 +207,15 @@
 </template>
 
 <script>
+import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchEmpCategory2 } from '@/api/Product'
-import { getregionlistbyreid } from '@/api/public'
-import { saleBillList, saleBillListDetail } from '@/api/count'
+import { saleDetailCount2, saleBillListDetail } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import { regionlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
@@ -240,7 +227,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'SaleBillList',
+  name: 'SaleDetailCount',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
@@ -278,6 +265,18 @@ export default {
   },
   data() {
     return {
+      // 更多搜索条件问题
+      visible2: false,
+      // 开票类别获取参数
+      invoicetypeparms: {
+        type: 4,
+        pagenum: 1,
+        pagesize: 99999
+      },
+      invoiceTypes: [],
+      saleRepositoryId: '',
+      stockControl: false,
+      createPersonId: '',
       props: {
         value: 'id',
         label: 'regionName',
@@ -323,16 +322,12 @@ export default {
       treecontrol: false,
       detailvisible: false,
       repositorycontrol: false,
-      // 更多搜索条件问题
-      visible2: false,
       // 供应商回显
       supplierId: '',
       // 供应商控制框
       empcontrol: false,
       // 采购人回显
       stockPersonId: '',
-      // 采购人控制框
-      stockControl: false,
       // 批量操作
       moreaction: '',
       // 加载操作控制
@@ -348,7 +343,8 @@ export default {
       listLoading: false,
       // 采购申请查询加展示参数
       getemplist: {
-        repositoryId: ''
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},
@@ -367,6 +363,20 @@ export default {
     _that = this
   },
   methods: {
+    // 清空搜索条件
+    restFilter() {
+      this.createPersonId = ''
+      this.getemplist.createPersonId = ''
+    },
+    // 申请人focus事件
+    handlechooseStock() {
+      this.stockControl = true
+    },
+    // 申请人回显
+    stockName(val) {
+      this.createPersonId = val.personName
+      this.getemplist.createPersonId = val.id
+    },
     handleReceipt2(row) {
       this.getemplist.productCode = row.productCode
       saleBillListDetail(this.getemplist).then(res => {
@@ -463,9 +473,7 @@ export default {
       }))
     },
     gettype() {
-      const param = {}
-      param.regionIds = this.$store.getters.regionId
-      getregionlistbyreid(param).then(res => {
+      regionlist().then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
           // this.getarrs()
@@ -476,6 +484,12 @@ export default {
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
+        }
+      })
+      // 开票类型数据
+      searchSaleCategory(this.invoicetypeparms).then(res => {
+        if (res.data.ret === 200) {
+          this.invoiceTypes = res.data.data.content.list
         }
       })
     },
@@ -508,7 +522,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      saleBillList(this.getemplist).then(res => {
+      saleDetailCount2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
         }
@@ -517,14 +531,9 @@ export default {
         }, 0.5 * 100)
       })
     },
-    // 清空搜索条件
-    restFilter() {
-      this.productCategory = ''
-      this.getemplist.productCategory = ''
-    },
     restFilter2() {
-      this.repositoryId = ''
-      this.getemplist.repositoryId = ''
+      this.saleRepositoryId = ''
+      this.getemplist.saleRepositoryId = ''
     },
     restFilter3() {
       this.handlePersonId = ''
@@ -543,7 +552,7 @@ export default {
       }
       console.log('this.getemplist.repositoryId', this.getemplist.repositoryId)
       console.log('this.getemplist.regionId', this.getemplist.regionId)
-      if ((this.getemplist.repositoryId === '' || this.getemplist.repositoryId === null || this.getemplist.repositoryId === undefined) && (this.getemplist.regionId === '' || this.getemplist.regionId === null || this.getemplist.regionId === undefined)) {
+      if ((this.getemplist.saleRepositoryId === '' || this.getemplist.saleRepositoryId === null || this.getemplist.saleRepositoryId === undefined) && (this.getemplist.regionId === '' || this.getemplist.regionId === null || this.getemplist.regionId === undefined)) {
         this.$notify.error({
           title: 'wrong',
           message: '请选择区域或者门店开始搜索',
@@ -551,7 +560,7 @@ export default {
         })
         return false
       }
-      if ((this.getemplist.repositoryId !== '' && this.getemplist.repositoryId !== null && this.getemplist.repositoryId !== undefined) && (this.getemplist.regionId !== '' && this.getemplist.regionId !== null && this.getemplist.regionId !== undefined)) {
+      if ((this.getemplist.saleRepositoryId !== '' && this.getemplist.saleRepositoryId !== null && this.getemplist.saleRepositoryId !== undefined) && (this.getemplist.regionId !== '' && this.getemplist.regionId !== null && this.getemplist.regionId !== undefined)) {
         this.$notify.error({
           title: 'wrong',
           message: '区域，门店选择其一',
@@ -563,7 +572,7 @@ export default {
       this.getemplist.endTime = this.date[1] + ' 23:59:59'
       console.log(this.getemplist)
       this.listLoading = true
-      saleBillList(this.getemplist).then(res => {
+      saleDetailCount2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
         } else {
@@ -580,8 +589,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.repositoryId = val.repositoryName
-      this.getemplist.repositoryId = val.id
+      this.saleRepositoryId = val.repositoryName
+      this.getemplist.saleRepositoryId = val.id
     }
   }
 }

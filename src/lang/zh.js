@@ -403,7 +403,8 @@ export default {
     NewAccessoriesOut: '新建配件出库单',
     AccountManagement: '账户管理',
     AccountManagement2: '账户管理',
-    expensesSummary: '支出单汇总'
+    expensesSummary: '支出单汇总',
+    saleDetailCount: '销售明细统计'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4138,7 +4139,35 @@ export default {
     dbrxm: '担保人姓名',
     dz: '地址',
     yqsc: '逾期时长',
-    xscklb: '销售出库列表'
+    xscklb: '销售出库列表',
+    judgeStat: '审核状态',
+    receiptStat: '制单状态',
+    outNumber: '销售单号',
+    quantityType: '数量范围',
+    dy: '大于',
+    dengy: '等于',
+    xiaoyu: '小于',
+    quantity: '数量',
+    thisType: '本次收款金额范围',
+    thisMoney: '本次收款',
+    firstType: '首付款范围',
+    firstMoney: '首付款',
+    paidMoney: '分期已付金额',
+    paidType: '分期已付金额范围',
+    unPaidMoney: '分期未付金额',
+    unPaidType: '分期未付金额范围',
+    createPersonId: '制单人',
+    saleRepositoryId: '门店',
+    invoiceNumber: '发票号',
+    invoiceType: '发票类型',
+    summary: '备注',
+    carCode: '车辆编码',
+    motorCode: '电机编码',
+    batteryCode: '电池编码',
+    shouldMoney: '应付金额',
+    shouldType: '应付金额范围',
+    beginTime: '开始时间',
+    endTime: '结束时间'
   }
 
 }
