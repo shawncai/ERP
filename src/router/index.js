@@ -3014,7 +3014,7 @@ export const asyncRouterMap = [
       title: 'SaleReport',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-313-324-4', '311-313-325-4', '311-313-326-4', '311-313-327-4']
+      roles: ['311-313-324-4', '311-313-325-4', '311-313-326-4', '311-313-327-4', '311-313-379-4']
     },
     children: [
       {
@@ -3040,6 +3040,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleReport/saleBillList'),
         name: 'saleBillList',
         meta: { title: 'saleBillList', noCache: false, roles: ['311-313-327-4'] }
+      },
+      {
+        path: 'saleDetailCount',
+        component: () => import('@/views/SaleReport/saleDetailCount'),
+        name: 'saleDetailCount',
+        meta: { title: 'saleDetailCount', noCache: false, roles: ['311-313-379-4'] }
       }
       // ,
       // {
@@ -3108,7 +3114,7 @@ export const asyncRouterMap = [
       title: 'Financecount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '314-375-4']
+      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '311-314-375-4']
     },
     children: [
       {

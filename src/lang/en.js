@@ -403,7 +403,8 @@ export default {
     NewAccessoriesOut: 'Spare parts sales from',
     AccountManagement: '账户管理',
     AccountManagement2: '账户管理',
-    expensesSummary: '支出单汇总'
+    expensesSummary: '支出单汇总',
+    saleDetailCount: '销售明细统计'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
