@@ -1131,7 +1131,7 @@ export default {
     },
     // 通过手机号判断是否有申请的资格
     haveAccess() {
-      console.log(this.personalForm.applyPhone)
+      console.log('applyPhone=========>', this.personalForm.applyPhone)
       if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {

@@ -348,19 +348,23 @@
                 <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" >
                   <template slot="edit" slot-scope="scope">
                     <el-input-number
+                      v-if="scope.row.planTarget === 7"
                       :precision="2"
                       :disabled="scope.row.isdisable3"
                       v-model="scope.row.actualQuantity"
                     />
+                    <span v-else>{{ scope.row.actualQuantity }}</span>
                   </template>
                 </el-editable-column>
                 <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" >
                   <template slot="edit" slot-scope="scope">
                     <el-input-number
+                      v-if="scope.row.planTarget === 7"
                       :precision="2"
                       :disabled="scope.row.isdisable3"
                       v-model="scope.row.actualMoney"
                     />
+                    <span v-else>{{ scope.row.actualMoney }}</span>
                   </template>
                 </el-editable-column>
               </el-editable>

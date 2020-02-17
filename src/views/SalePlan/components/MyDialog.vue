@@ -12,7 +12,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planCategory')" prop="" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.planCategory')" prop="planCategory" style="width: 100%;">
                 <el-select
                   v-model="personalForm.planCategory"
                   style="margin-left: 18px;width: 200px">
@@ -22,7 +22,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.planType')" prop="" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
                 <el-select
                   v-model="personalForm.planType"
                   style="margin-left: 18px;width: 200px">
@@ -90,7 +90,7 @@
                 </el-form-item>
             </el-col> -->
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.beginTime')" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.beginTime')" prop="beginTime" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.beginTime"
                   type="date"
@@ -100,7 +100,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SalePlan.endTime')" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.endTime')" prop="endTime" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.endTime"
                   :picker-options="pickerOptions1"
@@ -110,7 +110,7 @@
               </el-form-item>
             </el-col>
             <el-col v-if="personalForm.planCategory === '2'" :span="12" >
-              <el-form-item :label="$t('SalePlan.regionId')" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.regionId')" prop="regionId" style="width: 100%;">
                 <el-cascader
                   :options="regions"
                   :props="reprops"
@@ -125,7 +125,7 @@
               </el-form-item>
             </el-col>
             <el-col v-if="personalForm.planCategory === '1'" :span="12">
-              <el-form-item :label="$t('SalePlan.repositoryid')" style="width: 100%;">
+              <el-form-item :label="$t('SalePlan.repositoryid')" prop="repositoryid" style="width: 100%;">
                 <el-input v-model="repositoryid" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-form-item>
@@ -365,25 +365,38 @@ export default {
       // 控制商品列表窗口
       control: false,
       // 销售订单规则数据
+      // 销售订单规则数据
       personalrules: {
-        customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
-        ],
-        customerName: [
-          { required: true, validator: validatePass, trigger: 'focus' }
-        ],
-        returnDate: [
-          { required: true, message: '请选择退货日期', trigger: 'change' }
-        ],
-        currency: [
-          { required: true, message: '请选择币种', trigger: 'change' }
-        ],
-        sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
-        ],
-        closeStatusId: [
-          { required: true, message: '请选择结算状态', trigger: 'change' }
-        ]
+        planCategory: [{
+          required: true,
+          message: '请选择计划类别',
+          trigger: 'change'
+        }],
+        planType: [{
+          required: true,
+          message: '请选择计划类型',
+          trigger: 'change'
+        }],
+        beginTime: [{
+          required: true,
+          validator: '请选择开始时间',
+          trigger: 'focus'
+        }],
+        endTime: [{
+          required: true,
+          message: '请选择结束时间',
+          trigger: 'change'
+        }],
+        regionId: [{
+          required: true,
+          message: '请选择区域',
+          trigger: 'change'
+        }],
+        repositoryid: [{
+          required: true,
+          message: '请选择仓库',
+          trigger: 'change'
+        }]
       },
       // 订单明细数据
       list2: [],
