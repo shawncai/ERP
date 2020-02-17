@@ -791,7 +791,7 @@ export default {
           { required: true, validator: validatePass4, trigger: 'blur' }
         ],
         installmentDays: [
-          { required: true, message: '请输入第一期收款天数', trigger: 'blur' }
+          { required: true, message: '请输入每月还款日期', trigger: 'blur' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
