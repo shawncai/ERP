@@ -927,8 +927,38 @@ export default {
       }
     },
     installappley(val) {
+      console.log('源单数据', val)
+      const date = new Date()
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.applyPersonName
+      this.personalForm.customerPhone = val.applyCellPhone
+      this.personalForm.saleType = '2'
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
+      this.personalForm.dayOfMonth = val.installmentDays
+      this.personalForm.firstMoney = val.firstMoney
+      this.personalForm.totalMoney = val.totalMoney
+      let byear = 0
+      let bmonth = 0
+      let eyear = 0
+      let emonth = 0
+      if (date.getMonth() + 2 >= 12) {
+        byear = date.getFullYear() + 1
+        bmonth = date.getMonth() - 10
+      } else {
+        byear = date.getFullYear()
+        bmonth = date.getMonth() + 2
+      }
+      if (bmonth + val.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(val.installmentCount / 12) + 1
+        emonth = bmonth + val.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(val.installmentCount / 12)
+        emonth = bmonth + val.installmentCount % 12
+      }
+      this.personalForm.installmentBegintime = `${byear}-${bmonth}`
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      this.personalForm.eachMoney = ((val.totalMoney) / val.installmentCount).toFixed(2)
     },
     // 更新类型
     updatecountry() {

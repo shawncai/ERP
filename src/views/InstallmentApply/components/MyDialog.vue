@@ -83,7 +83,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.email')" prop="email" style="width: 100%;">
+              <el-form-item :label="$t('InstallmentApply.email')" style="width: 100%;">
                 <el-input v-model="personalForm.email" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -172,7 +172,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="width: 100%;">
-                <el-input-number v-model="personalForm.installmentDays" :controls="false" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="28.00" :controls="false" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -636,6 +636,19 @@ export default {
         callback()
       }
     }
+    const validatePass12 = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('担保人手机号不能为空'))
+      }
+      setTimeout(() => {
+        console.log(String(value).length)
+        if (String(value).length !== 11) {
+          callback(new Error('请输入担保人正确手机号码'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     const validatePass6 = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('手机号不能为空'))
@@ -793,7 +806,7 @@ export default {
           { required: true, message: '请输入担保人姓名', trigger: 'blur' }
         ],
         suretyPhone: [
-          { required: true, message: '请输入担保人电话', trigger: 'blur' }
+          { required: true, validator: validatePass12, trigger: 'blur' }
         ],
         relationship: [
           { required: true, message: '请选择担保人关系', trigger: 'blur' }
@@ -1357,6 +1370,18 @@ export default {
       }
       const parms2 = JSON.stringify(Data2)
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      if (this.personalForm.email !== null && this.personalForm.email !== undefined && this.personalForm.email !== '') {
+        var email2 = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+        const flag = email2.test(this.personalForm.email)
+        if (!flag) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '请输入正确的邮箱地址',
+            offset: 100
+          })
+          return false
+        }
+      }
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

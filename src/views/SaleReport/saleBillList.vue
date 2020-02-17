@@ -222,13 +222,13 @@
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
+import { getregionlistbyreid } from '@/api/public'
 import { saleBillList, saleBillListDetail } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
-import { regionlist } from '@/api/public'
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
@@ -463,7 +463,9 @@ export default {
       }))
     },
     gettype() {
-      regionlist().then(res => {
+      const param = {}
+      param.regionIds = this.$store.getters.regionId
+      getregionlistbyreid(param).then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
           // this.getarrs()

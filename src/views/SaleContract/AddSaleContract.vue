@@ -18,7 +18,6 @@
                     <el-option :label="$t('prompt.xsjh')" value="1" />
                     <el-option :label="$t('prompt.fqsq')" value="2" />
                     <el-option :label="$t('prompt.wly')" value="3" />
-
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -1177,6 +1176,9 @@ export default {
     installappley(val) {
       console.log('源单数据', val)
       const date = new Date()
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.applyPersonName
+      this.personalForm.customerPhone = val.applyCellPhone
       this.personalForm.saleType = '2'
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
