@@ -155,7 +155,10 @@ export default {
       listLoading: true
     }
   },
-
+  activated() {
+    this.getlist()
+    this.getlist2()
+  },
   mounted() {
     this.getlist()
     this.getlist2()

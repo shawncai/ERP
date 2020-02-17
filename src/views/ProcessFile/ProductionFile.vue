@@ -158,7 +158,9 @@ export default {
       date: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

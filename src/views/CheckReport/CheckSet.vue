@@ -331,7 +331,10 @@ export default {
       }
     }
   },
-
+  activated() {
+    this.getlist2()
+    this.getlist()
+  },
   mounted() {
     this.getlist2()
     this.getlist()

@@ -265,7 +265,9 @@ export default {
       picPaths: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

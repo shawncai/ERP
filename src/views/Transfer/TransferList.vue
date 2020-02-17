@@ -301,7 +301,9 @@ export default {
       treedata: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.getreginons()

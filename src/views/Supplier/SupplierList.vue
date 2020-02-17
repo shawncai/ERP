@@ -261,7 +261,9 @@ export default {
       detailvisible: false
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

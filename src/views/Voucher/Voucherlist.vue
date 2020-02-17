@@ -357,6 +357,9 @@ export default {
   beforeCreate() {
     _that = this
   },
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     setTimeout(() => {

@@ -395,7 +395,9 @@ export default {
       edtiForm: {}
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.handlechange4()

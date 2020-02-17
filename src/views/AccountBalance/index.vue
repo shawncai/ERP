@@ -256,7 +256,9 @@ export default {
       categoryVisible2: false
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getdatatime()
     this.getlist()

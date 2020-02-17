@@ -132,6 +132,9 @@ export default {
       calendarTypeOptions
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getList()
   },

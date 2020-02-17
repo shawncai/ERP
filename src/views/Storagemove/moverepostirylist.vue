@@ -273,7 +273,9 @@ export default {
       }
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     // this.getlist2()
     this.getlist()

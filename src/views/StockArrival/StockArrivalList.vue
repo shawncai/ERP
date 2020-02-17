@@ -286,7 +286,9 @@ export default {
       receiptVisible: false
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

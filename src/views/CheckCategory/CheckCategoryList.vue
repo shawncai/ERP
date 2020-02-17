@@ -228,7 +228,9 @@ export default {
       }
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

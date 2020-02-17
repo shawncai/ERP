@@ -240,7 +240,9 @@ export default {
       // 列表结束 -------------------------
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

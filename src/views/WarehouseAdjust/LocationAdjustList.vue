@@ -231,7 +231,9 @@ export default {
       deliverycontrol: false
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

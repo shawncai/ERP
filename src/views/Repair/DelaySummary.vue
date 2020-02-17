@@ -152,6 +152,9 @@ export default {
       centerDialogVisible: false
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getList()
     this.getAllStaff()
