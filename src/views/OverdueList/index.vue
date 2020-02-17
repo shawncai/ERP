@@ -374,7 +374,9 @@ export default {
       processData: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

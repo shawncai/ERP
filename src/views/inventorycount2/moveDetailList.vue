@@ -223,7 +223,9 @@ export default {
       date: null
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.changeName()

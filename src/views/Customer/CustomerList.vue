@@ -291,7 +291,9 @@ export default {
       repositories: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.getCategory()

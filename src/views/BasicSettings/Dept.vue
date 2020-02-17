@@ -178,7 +178,9 @@ export default {
       editDeptform: {}
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

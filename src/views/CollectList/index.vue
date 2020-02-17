@@ -304,6 +304,9 @@ export default {
       formLabelWidth: '120px'
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getlist()
   },

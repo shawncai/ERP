@@ -351,7 +351,9 @@ export default {
       form: {}
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

@@ -164,7 +164,9 @@ export default {
       // 列表结束 -------------------------
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getdeptlist()
     this.getlist()

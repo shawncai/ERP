@@ -1157,6 +1157,9 @@ export default {
       }
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getinstalllist()
     this.getAllStores()

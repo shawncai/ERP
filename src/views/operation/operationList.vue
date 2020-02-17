@@ -126,7 +126,9 @@ export default {
       listLoading: true
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

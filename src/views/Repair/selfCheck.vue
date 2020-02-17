@@ -126,6 +126,9 @@ export default {
       this.$refs.tree2.filter(val)
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getList()
   },

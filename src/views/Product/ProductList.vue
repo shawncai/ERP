@@ -297,7 +297,9 @@ export default {
       editVisible: false
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     setTimeout(() => {

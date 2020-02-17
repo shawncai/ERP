@@ -619,7 +619,9 @@ export default {
       // 修改弹窗中的数据结束
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

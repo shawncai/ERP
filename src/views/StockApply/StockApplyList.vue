@@ -292,7 +292,9 @@ export default {
       step8: ''
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

@@ -261,6 +261,9 @@ export default {
       date: []
     }
   },
+  activated() {
+    this.getlist()
+  },
   created() {
     this.getlist()
   },

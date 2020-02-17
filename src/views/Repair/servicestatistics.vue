@@ -117,6 +117,9 @@ export default {
         twotime: ''
       }
     },
+  activated() {
+    this.getlist()
+  },
     created() {
       this.getList()
     },

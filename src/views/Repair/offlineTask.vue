@@ -814,6 +814,9 @@ export default {
         centerDialogVisible: false
       }
     },
+  activated() {
+    this.getinstalllist()
+  },
     created() {
       this.getinstalllist()
       this.initemplist()
