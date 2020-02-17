@@ -404,7 +404,8 @@ export default {
     AccountManagement: '账户管理',
     AccountManagement2: '账户管理',
     expensesSummary: '支出单汇总',
-    saleDetailCount: '销售明细统计'
+    saleDetailCount: '销售明细统计',
+    profitCount: '利润统计表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4167,7 +4168,25 @@ export default {
     shouldMoney: '应付金额',
     shouldType: '应付金额范围',
     beginTime: '开始时间',
-    endTime: '结束时间'
+    endTime: '结束时间',
+    receiptDate: '出库日期',
+    includeTaxMoney: '出库金额',
+    fistMoney: '首付',
+    customerName: '客户姓名',
+    profit: '利润',
+    totalIncome: '总收入',
+    beginQuantity: '起始库存',
+    enterQuantity: '入库数量',
+    outQuantity: '出库数量',
+    retreatQuantity: '退货数量',
+    endQuantity: '结余数量',
+    beginMoney: '起始金额',
+    enterMoney: '入库金额',
+    outMoney: '出库金额',
+    retreatMoney: '退货金额',
+    endMoney: '结余金额',
+    repositoryName: '门店'
+
   }
 
 }
