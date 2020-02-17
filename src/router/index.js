@@ -3114,7 +3114,7 @@ export const asyncRouterMap = [
       title: 'Financecount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '311-314-375-4']
+      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '311-314-375-4', '311-313-380-4']
     },
     children: [
       {
@@ -3146,6 +3146,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/Financecount/expensesSummary'),
         name: 'expensesSummary',
         meta: { title: 'expensesSummary', noCache: false, roles: ['311-314-375-4'] }
+      },
+      {
+        path: 'profitCount',
+        component: () => import('@/views/Financecount/profitCount'),
+        name: 'profitCount',
+        meta: { title: 'profitCount', noCache: false, roles: ['311-313-380-4'] }
       }
     ]
   },

@@ -1,94 +1,110 @@
 import request from '@/utils/request'
 
+// 利润表接口
+export function profitCount(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.date !== '' && query.date !== null && query.date !== undefined) {
+    params.append('date', query.date) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/SaleReport/profitCount',
+    method: 'post',
+    data: params
+  })
+}
+
 // 销售明细表
 export function saleDetailCount2(query) {
   var params = new URLSearchParams()
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
-    params.append('judgeStat ', query.judgeStat) // 你要传给后台的参数值 key/value
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }
   if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
     params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
   }
   if (query.saleType !== '' && query.saleType !== null && query.saleType !== undefined) {
-    params.append('saleType ', query.saleType) // 你要传给后台的参数值 key/value
+    params.append('saleType', query.saleType) // 你要传给后台的参数值 key/value
   }
   if (query.productCategory !== '' && query.productCategory !== null && query.productCategory !== undefined) {
-    params.append('productCategory ', query.productCategory) // 你要传给后台的参数值 key/value
+    params.append('productCategory', query.productCategory) // 你要传给后台的参数值 key/value
   }
   if (query.outNumber !== '' && query.outNumber !== null && query.outNumber !== undefined) {
-    params.append('outNumber ', query.outNumber) // 你要传给后台的参数值 key/value
+    params.append('outNumber', query.outNumber) // 你要传给后台的参数值 key/value
   }
   if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
-    params.append('customerName ', query.customerName) // 你要传给后台的参数值 key/value
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
   }
   if (query.quantity !== '' && query.quantity !== null && query.quantity !== undefined) {
-    params.append('quantity ', query.quantity) // 你要传给后台的参数值 key/value
+    params.append('quantity', query.quantity) // 你要传给后台的参数值 key/value
   }
   if (query.quantityType !== '' && query.quantityType !== null && query.quantityType !== undefined) {
-    params.append('quantityType ', query.quantityType) // 你要传给后台的参数值 key/value
+    params.append('quantityType', query.quantityType) // 你要传给后台的参数值 key/value
   }
   if (query.thisMoney !== '' && query.thisMoney !== null && query.thisMoney !== undefined) {
-    params.append('thisMoney ', query.thisMoney) // 你要传给后台的参数值 key/value
+    params.append('thisMoney', query.thisMoney) // 你要传给后台的参数值 key/value
   }
   if (query.thisType !== '' && query.thisType !== null && query.thisType !== undefined) {
-    params.append('thisType ', query.thisType) // 你要传给后台的参数值 key/value
+    params.append('thisType', query.thisType) // 你要传给后台的参数值 key/value
   }
   if (query.firstMoney !== '' && query.firstMoney !== null && query.firstMoney !== undefined) {
-    params.append('firstMoney ', query.firstMoney) // 你要传给后台的参数值 key/value
+    params.append('firstMoney', query.firstMoney) // 你要传给后台的参数值 key/value
   }
   if (query.firstType !== '' && query.firstType !== null && query.firstType !== undefined) {
-    params.append('firstType ', query.firstType) // 你要传给后台的参数值 key/value
+    params.append('firstType', query.firstType) // 你要传给后台的参数值 key/value
   }
   if (query.paidMoney !== '' && query.paidMoney !== null && query.paidMoney !== undefined) {
-    params.append('paidMoney ', query.paidMoney) // 你要传给后台的参数值 key/value
+    params.append('paidMoney', query.paidMoney) // 你要传给后台的参数值 key/value
   }
   if (query.paidType !== '' && query.paidType !== null && query.paidType !== undefined) {
-    params.append('paidType ', query.paidType) // 你要传给后台的参数值 key/value
+    params.append('paidType', query.paidType) // 你要传给后台的参数值 key/value
   }
   if (query.unPaidMoney !== '' && query.unPaidMoney !== null && query.unPaidMoney !== undefined) {
-    params.append('unPaidMoney ', query.unPaidMoney) // 你要传给后台的参数值 key/value
+    params.append('unPaidMoney', query.unPaidMoney) // 你要传给后台的参数值 key/value
   }
   if (query.unPaidType !== '' && query.unPaidType !== null && query.unPaidType !== undefined) {
-    params.append('unPaidType ', query.unPaidType) // 你要传给后台的参数值 key/value
+    params.append('unPaidType', query.unPaidType) // 你要传给后台的参数值 key/value
   }
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
-    params.append('createPersonId ', query.createPersonId) // 你要传给后台的参数值 key/value
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
   if (query.saleRepositoryId !== '' && query.saleRepositoryId !== null && query.saleRepositoryId !== undefined) {
-    params.append('saleRepositoryId ', query.saleRepositoryId) // 你要传给后台的参数值 key/value
+    params.append('saleRepositoryId', query.saleRepositoryId) // 你要传给后台的参数值 key/value
   }
   if (query.invoiceNumber !== '' && query.invoiceNumber !== null && query.invoiceNumber !== undefined) {
-    params.append('invoiceNumber ', query.invoiceNumber) // 你要传给后台的参数值 key/value
+    params.append('invoiceNumber', query.invoiceNumber) // 你要传给后台的参数值 key/value
   }
   if (query.summary !== '' && query.summary !== null && query.summary !== undefined) {
-    params.append('summary ', query.summary) // 你要传给后台的参数值 key/value
+    params.append('summary', query.summary) // 你要传给后台的参数值 key/value
   }
   if (query.carCode !== '' && query.carCode !== null && query.carCode !== undefined) {
-    params.append('carCode ', query.carCode) // 你要传给后台的参数值 key/value
+    params.append('carCode', query.carCode) // 你要传给后台的参数值 key/value
   }
   if (query.motorCode !== '' && query.motorCode !== null && query.motorCode !== undefined) {
-    params.append('motorCode ', query.motorCode) // 你要传给后台的参数值 key/value
+    params.append('motorCode', query.motorCode) // 你要传给后台的参数值 key/value
   }
   if (query.batteryCode !== '' && query.batteryCode !== null && query.batteryCode !== undefined) {
-    params.append('batteryCode ', query.batteryCode) // 你要传给后台的参数值 key/value
+    params.append('batteryCode', query.batteryCode) // 你要传给后台的参数值 key/value
   }
   if (query.shouldMoney !== '' && query.shouldMoney !== null && query.shouldMoney !== undefined) {
-    params.append('shouldMoney ', query.shouldMoney) // 你要传给后台的参数值 key/value
+    params.append('shouldMoney', query.shouldMoney) // 你要传给后台的参数值 key/value
   }
   if (query.shouldType !== '' && query.shouldType !== null && query.shouldType !== undefined) {
-    params.append('shouldType ', query.shouldType) // 你要传给后台的参数值 key/value
+    params.append('shouldType', query.shouldType) // 你要传给后台的参数值 key/value
   }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
-    params.append('beginTime ', query.beginTime) // 你要传给后台的参数值 key/value
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
   }
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
-    params.append('endTime ', query.endTime) // 你要传给后台的参数值 key/value
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId ', query.repositoryId) // 你要传给后台的参数值 key/value
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
-    params.append('regionIds ', query.regionIds) // 你要传给后台的参数值 key/value
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/SaleReport/saleDetailCount',

@@ -175,8 +175,8 @@ export default {
     saleTypeFilter(sta) {
       const statusMap = {
 
-        1: '现金',
-        2: '分期'
+        1: _that.$t('prompt.xj'),
+        2: _that.$t('prompt.fq')
 
       }
       return statusMap[sta]
