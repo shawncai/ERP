@@ -174,7 +174,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'ExpensesSummary',
+  name: 'ProfitCount',
   directives: { waves, permission, permission2 },
   components: {
     MyDialog,

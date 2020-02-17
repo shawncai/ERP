@@ -174,6 +174,11 @@
           width="200"
           align="center"/>
         <el-table-column
+          :label="$t('tongyo.discountMoney')"
+          prop="discountMoney"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('tongyo.fistMoney')"
           prop="firstMoney"
           width="200"

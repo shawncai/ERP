@@ -3042,10 +3042,10 @@ export const asyncRouterMap = [
         meta: { title: 'saleBillList', noCache: false, roles: ['311-313-327-4'] }
       },
       {
-        path: 'saleDetailCount',
+        path: 'SaleDetailCount',
         component: () => import('@/views/SaleReport/saleDetailCount'),
-        name: 'saleDetailCount',
-        meta: { title: 'saleDetailCount', noCache: false, roles: ['311-313-379-4'] }
+        name: 'SaleDetailCount',
+        meta: { title: 'SaleDetailCount', noCache: false, roles: ['311-313-379-4'] }
       }
       // ,
       // {
@@ -3148,10 +3148,10 @@ export const asyncRouterMap = [
         meta: { title: 'expensesSummary', noCache: false, roles: ['311-314-375-4'] }
       },
       {
-        path: 'profitCount',
+        path: 'ProfitCount',
         component: () => import('@/views/Financecount/profitCount'),
-        name: 'profitCount',
-        meta: { title: 'profitCount', noCache: false, roles: ['311-313-380-4'] }
+        name: 'ProfitCount',
+        meta: { title: 'ProfitCount', noCache: false, roles: ['311-313-380-4'] }
       }
     ]
   },

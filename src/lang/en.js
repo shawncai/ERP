@@ -404,8 +404,8 @@ export default {
     AccountManagement: 'account management',
     AccountManagement2: 'account management',
     expensesSummary: 'expenses form summary',
-    saleDetailCount: 'sale detail count',
-    profitCount: 'profit count'
+    SaleDetailCount: 'sale detail count',
+    ProfitCount: 'profit count'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -4185,6 +4185,7 @@ export default {
     outMoney: 'outMoney',
     retreatMoney: 'retreatMoney',
     endMoney: 'endMoney',
-    repositoryName: 'repository'
+    repositoryName: 'repository',
+    discountMoney: 'discountMoney'
   }
 }

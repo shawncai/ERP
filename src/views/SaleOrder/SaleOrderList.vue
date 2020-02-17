@@ -16,9 +16,9 @@
           <el-option value="1" label="经销商"/>
           <el-option value="2" label="零售"/>
         </el-select>
-        <el-input v-model="customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
-        <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-        <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable/>
+        <!-- <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+        <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/> -->
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -39,7 +39,7 @@
           end-placeholder="销售日期"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
-        <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <!-- <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -452,11 +452,6 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
-        this.getemplist.customerType = 2
-      } else {
-        this.getemplist.customerType = null
-      }
       searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

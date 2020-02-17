@@ -404,8 +404,8 @@ export default {
     AccountManagement: '账户管理',
     AccountManagement2: '账户管理',
     expensesSummary: '支出单汇总',
-    saleDetailCount: '销售明细统计',
-    profitCount: '利润统计表'
+    SaleDetailCount: '销售明细统计',
+    ProfitCount: '利润统计表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4185,8 +4185,8 @@ export default {
     outMoney: '出库金额',
     retreatMoney: '退货金额',
     endMoney: '结余金额',
-    repositoryName: '门店'
-
+    repositoryName: '门店',
+    discountMoney: '折扣金额'
   }
 
 }
