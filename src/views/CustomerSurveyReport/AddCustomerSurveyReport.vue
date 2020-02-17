@@ -15,7 +15,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="2" label="分期申请" />
+                    <el-option :label="$t('prompt.fqsq')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -81,34 +81,34 @@
               <el-col :span="24">
                 <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="width: 100%;">
                   <el-radio-group v-model="personalForm.liveStatus">
-                    <el-radio label="1">自有住房</el-radio>
-                    <el-radio label="2">租房</el-radio>
-                    <el-radio label="3">和亲戚住</el-radio>
+                    <el-radio label="1">{{ $t('prompt.zyzf') }}</el-radio>
+                    <el-radio label="2">{{ $t('prompt.zf') }}</el-radio>
+                    <el-radio label="3">{{ $t('prompt.hqqyqz') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="24">
                 <el-form-item :label="$t('CustomerSurveyReport.liveType')" prop="title" style="width: 100%;">
                   <el-radio-group v-model="personalForm.liveType">
-                    <el-radio label="1">旧的</el-radio>
-                    <el-radio label="2">新建筑</el-radio>
-                    <el-radio label="3">高档公寓</el-radio>
-                    <el-radio label="4">小隔间</el-radio>
-                    <el-radio label="5">普通公寓</el-radio>
-                    <el-radio label="6">双层楼建筑</el-radio>
-                    <el-radio label="7">低成本住房</el-radio>
+                    <el-radio label="1"> {{ $t('prompt.jiude') }}</el-radio>
+                    <el-radio label="2"> {{ $t('prompt.xjianz') }}</el-radio>
+                    <el-radio label="3"> {{ $t('prompt.gdgy') }}</el-radio>
+                    <el-radio label="4"> {{ $t('prompt.xgj') }}</el-radio>
+                    <el-radio label="5"> {{ $t('prompt.ptgy') }}</el-radio>
+                    <el-radio label="6"> {{ $t('prompt.scljz') }}</el-radio>
+                    <el-radio label="7">{{ $t('prompt.dcbzf') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="24">
                 <el-form-item :label="$t('CustomerSurveyReport.personalProperty')" prop="title" style="width: 100%;">
                   <el-checkbox-group v-model="personalProperty">
-                    <el-checkbox label="1">电视</el-checkbox>
-                    <el-checkbox label="2">家庭影院</el-checkbox>
-                    <el-checkbox label="3">冰箱</el-checkbox>
-                    <el-checkbox label="4">洗衣机</el-checkbox>
-                    <el-checkbox label="5">空调</el-checkbox>
-                    <el-checkbox label="6">电脑</el-checkbox>
+                    <el-checkbox label="1"> {{ $t('prompt.ds') }}</el-checkbox>
+                    <el-checkbox label="2"> {{ $t('prompt.jtyy') }}</el-checkbox>
+                    <el-checkbox label="3">{{ $t('prompt.bx') }}</el-checkbox>
+                    <el-checkbox label="4">{{ $t('prompt.xyj') }}</el-checkbox>
+                    <el-checkbox label="5">{{ $t('prompt.kt') }}</el-checkbox>
+                    <el-checkbox label="6">{{ $t('prompt.dn') }}</el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-col>
@@ -144,8 +144,7 @@
                     :autosize="{ minRows: 3}"
                     v-model="personalForm.reason"
                     type="textarea"
-                    style="width:300px;"
-                    placeholder="请输入内容"/>
+                    style="width:300px;"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -685,7 +684,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -708,7 +707,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -798,7 +797,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false

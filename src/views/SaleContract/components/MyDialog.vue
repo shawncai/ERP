@@ -14,9 +14,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                  <el-option value="1" label="销售机会" />
-                  <el-option value="2" label="分期申请" />
-                  <el-option value="3" label="无来源" />
+                  <el-option :label="$t('prompt.xsjh')" value="1" />
+                  <el-option :label="$t('prompt.fqsq')" value="2" />
+                  <el-option :label="$t('prompt.wly')" value="3" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -30,8 +30,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                  <el-option value="1" label="经销商"/>
-                  <el-option value="2" label="零售"/>
+                  <el-option :label="$t('prompt.jxs')" value="1"/>
+                  <el-option :label="$t('prompt.ls')" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -50,8 +50,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
                 <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="现金" />
-                  <el-option value="2" label="分期" />
+                  <el-option :label="$t('prompt.xj')" value="1" />
+                  <el-option :label="$t('prompt.fq')" value="2" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -892,7 +892,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -915,7 +915,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -927,8 +927,38 @@ export default {
       }
     },
     installappley(val) {
+      console.log('源单数据', val)
+      const date = new Date()
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.applyPersonName
+      this.personalForm.customerPhone = val.applyCellPhone
+      this.personalForm.saleType = '2'
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
+      this.personalForm.dayOfMonth = val.installmentDays
+      this.personalForm.firstMoney = val.firstMoney
+      this.personalForm.totalMoney = val.totalMoney
+      let byear = 0
+      let bmonth = 0
+      let eyear = 0
+      let emonth = 0
+      if (date.getMonth() + 2 >= 12) {
+        byear = date.getFullYear() + 1
+        bmonth = date.getMonth() - 10
+      } else {
+        byear = date.getFullYear()
+        bmonth = date.getMonth() + 2
+      }
+      if (bmonth + val.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(val.installmentCount / 12) + 1
+        emonth = bmonth + val.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(val.installmentCount / 12)
+        emonth = bmonth + val.installmentCount % 12
+      }
+      this.personalForm.installmentBegintime = `${byear}-${bmonth}`
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      this.personalForm.eachMoney = ((val.totalMoney) / val.installmentCount).toFixed(2)
     },
     // 更新类型
     updatecountry() {
@@ -1017,7 +1047,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -1061,7 +1091,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false
@@ -1145,8 +1175,8 @@ export default {
           updatesaleContract(parms, parms2, this.needarr).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
-                title: '操作成功',
-                message: '操作成功',
+                title: this.$t('prompt.czcg'),
+                message: this.$t('prompt.czcg'),
                 type: 'success',
                 duration: 1000,
                 offset: 100
@@ -1159,7 +1189,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }

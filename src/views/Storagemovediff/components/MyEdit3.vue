@@ -149,7 +149,7 @@
     </el-card>
     <!-- 调拨出库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">调拨出库明细</h2>
+      <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbckmx') }}</h2>
       <div class="container">
         <el-editable
           ref="editable2"
@@ -470,7 +470,7 @@ export default {
       if (m === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '整车出库时相关编码必填',
+          message: this.$t('prompt.zcckytbm'),
           offset: 100
         })
         return false
@@ -583,7 +583,7 @@ export default {
         if (this.personalForm.moveOutRepository === undefined || this.personalForm.moveOutRepository === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -596,7 +596,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -640,7 +640,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -665,7 +665,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -723,8 +723,8 @@ export default {
       updateStoragemove3(parm, parms2, parms3).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -735,7 +735,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

@@ -290,7 +290,7 @@ export default {
       if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -443,7 +443,7 @@ export default {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -710,7 +710,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -745,7 +745,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -777,7 +777,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -808,7 +808,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -848,7 +848,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -868,7 +868,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false

@@ -269,7 +269,9 @@ export default {
       date: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },
@@ -447,8 +449,8 @@ export default {
       this.reviewParms.providePersonId = this.$store.getters.userId
       this.$confirm('请确认', '确认', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
-        // cancelButtonText: '不通过',
+        confirmButtonText: this.$t('prompt.qd'),
+        // cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         // this.reviewParms.judgeStat = 2
@@ -457,7 +459,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '审核成功!'
+              message: this.$t('prompt.shcg')
             })
             this.getlist()
           }
@@ -470,7 +472,7 @@ export default {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
-                message: '审核成功!'
+                message: this.$t('prompt.shcg')
               })
               this.getlist()
             }
@@ -486,7 +488,7 @@ export default {
       this.$confirm('请归还', '归还', {
         distinguishCancelAndClose: true,
         confirmButtonText: '归还',
-        // cancelButtonText: '不通过',
+        // cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         // this.reviewParms.judgeStat = 2
@@ -525,15 +527,15 @@ export default {
     handleCommand(command) {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deleteAccessTools(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -541,7 +543,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -549,22 +551,22 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deleteAccessTools(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -572,7 +574,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -580,7 +582,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },

@@ -397,7 +397,7 @@ export default {
         if (this.personalForm.recyclingRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -654,7 +654,7 @@ export default {
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false

@@ -94,7 +94,7 @@ const calendarTypeOptions = [
 
 var _that
 export default {
-  name: 'Sample',
+  name: 'BlackList',
   components: { Pagination },
   directives: { waves, permission, permission2 },
   filters: {
@@ -131,6 +131,9 @@ export default {
       centerDialogVisible: false,
       calendarTypeOptions
     }
+  },
+  activated() {
+    this.getlist()
   },
   created() {
     this.getList()

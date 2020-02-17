@@ -16,9 +16,9 @@
           <el-option value="1" label="经销商"/>
           <el-option value="2" label="零售"/>
         </el-select>
-        <el-input v-model="customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
-        <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-        <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable/>
+        <!-- <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+        <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/> -->
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -39,7 +39,7 @@
           end-placeholder="销售日期"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
-        <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <!-- <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -137,10 +137,10 @@
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['54-57-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
-            <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
-            <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
-            <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
-            <el-button v-permission="['54-57-25']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 97px" @click="handleMyReceipt4(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.rrr') }}</span></el-button>
+            <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2&&scope.row.flag===1" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
+            <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
+            <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
+            <el-button v-permission="['54-57-25']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 97px" @click="handleMyReceipt4(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.rrr') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -289,7 +289,9 @@ export default {
       date: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },
@@ -450,11 +452,6 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
-        this.getemplist.customerType = 2
-      } else {
-        this.getemplist.customerType = null
-      }
       searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -532,10 +529,10 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm('请审核', '审核', {
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: '通过',
-        cancelButtonText: '不通过',
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 2
@@ -544,7 +541,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '审核成功!'
+              message: this.$t('prompt.shcg')
             })
             this.getlist()
           }
@@ -557,7 +554,7 @@ export default {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
-                message: '审核成功!'
+                message: this.$t('prompt.shcg')
               })
               this.getlist()
             }
@@ -574,15 +571,15 @@ export default {
     handleCommand(command) {
       const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deletesaleOrder(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -590,7 +587,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -598,22 +595,22 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deletesaleOrder(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -621,7 +618,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -629,7 +626,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },

@@ -15,9 +15,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="销售机会" />
-                    <el-option value="2" label="分期申请" />
-                    <el-option value="3" label="无来源" />
+                    <el-option :label="$t('prompt.xsjh')" value="1" />
+                    <el-option :label="$t('prompt.fqsq')" value="2" />
+                    <el-option :label="$t('prompt.wly')" value="3" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -31,8 +31,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                    <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="零售"/>
+                    <el-option :label="$t('prompt.jxs')" value="1"/>
+                    <el-option :label="$t('prompt.ls')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -51,8 +51,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金" />
-                    <el-option value="2" label="分期" />
+                    <el-option :label="$t('prompt.xj')" value="1" />
+                    <el-option :label="$t('prompt.fq')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -843,7 +843,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
@@ -855,7 +855,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }
@@ -1135,7 +1135,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -1163,7 +1163,7 @@ export default {
           if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -1176,6 +1176,9 @@ export default {
     installappley(val) {
       console.log('源单数据', val)
       const date = new Date()
+      this.personalForm.customerId = val.customerId
+      this.customerId = val.applyPersonName
+      this.personalForm.customerPhone = val.applyCellPhone
       this.personalForm.saleType = '2'
       this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.installmentCount = val.installmentCount
@@ -1278,7 +1281,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -1330,7 +1333,7 @@ export default {
       if (EnterDetail2.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false

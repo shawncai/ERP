@@ -649,7 +649,7 @@
   ]
   var _that
 export default {
-    name: 'Sample',
+    name: 'offlineTask',
     components: { Pagination, MyCustomer, MyRepository },
     directives: { waves, permission, permission2 },
     filters: {
@@ -814,13 +814,16 @@ export default {
         centerDialogVisible: false
       }
     },
+  activated() {
+    this.getinstalllist()
+  },
     created() {
       this.getinstalllist()
       this.initemplist()
       // this.getAllStaff()
       this.getAllStores()
     },
-  
+
   mounted() {
       const repositoryid = this.$store.getters.repositoryId
       const regionid = this.$store.getters.regionId
@@ -849,7 +852,7 @@ export default {
       console.log('取消',row);
       this.$confirm('确认取消?', 'tips', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
+        confirmButtonText: this.$t('prompt.qd'),
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
@@ -922,7 +925,7 @@ export default {
       this.form.customerId = val.id
       this.customerId = val.customerName
       this.form.customerName = val.customerName
-    },  
+    },
     chooseCustomer() {
       this.$forceUpdate()
       this.customercontrol = true

@@ -117,6 +117,9 @@ export default {
         twotime: ''
       }
     },
+  activated() {
+    this.getlist()
+  },
     created() {
       this.getList()
     },
@@ -138,7 +141,7 @@ export default {
           console.log(res.data.data.content)
           if (res.data.data.content !== true) {
             this.$alert('该账号在其他设备登录', '登出', {
-              confirmButtonText: '确定',
+              confirmButtonText: this.$t('prompt.qd'),
               callback: action => {
                 location.reload() // 为了重新实例化vue-router对象 避免bug
               }

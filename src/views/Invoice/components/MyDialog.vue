@@ -347,7 +347,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -388,8 +388,8 @@ export default {
       updateinvoice(parms).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -401,7 +401,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

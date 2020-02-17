@@ -249,7 +249,9 @@ export default {
       date: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getdatatime()
     this.getlist()

@@ -243,7 +243,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -291,8 +291,8 @@ export default {
       updatematerials(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -307,7 +307,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

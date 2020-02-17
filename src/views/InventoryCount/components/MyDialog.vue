@@ -498,7 +498,7 @@ export default {
         if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -511,7 +511,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -687,14 +687,14 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
-      if (rest.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '明细表不能为空',
-          offset: 100
-        })
-        return false
-      }
+      // if (rest.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '明细表不能为空',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -749,8 +749,10 @@ export default {
         }
       }
       const parms1 = JSON.stringify(Data)
-      const parms2 = JSON.stringify(rest)
-
+      let parms2 = ''
+      if (rest.length !== 0) {
+        parms2 = JSON.stringify(rest)
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
@@ -758,8 +760,8 @@ export default {
               updatecount(parms1, parms2).then(res => {
                 if (res.data.ret === 200) {
                   this.$notify({
-                    title: '操作成功',
-                    message: '操作成功',
+                    title: this.$t('prompt.czcg'),
+                    message: this.$t('prompt.czcg'),
                     type: 'success',
                     duration: 1000,
                     offset: 100
@@ -772,7 +774,7 @@ export default {
                 } else {
                   this.$notify.error({
                     title: 'wrong',
-                    message: '出错了',
+                    message: 'wrong',
                     offset: 100
                   })
                 }

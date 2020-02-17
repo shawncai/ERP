@@ -793,7 +793,7 @@
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Description2')">
             <el-input v-model="form.detail" style="width: 300px"/>
           </el-form-item>
-          
+
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">{{ $t('repair.cancel') }}</el-button>
@@ -853,7 +853,7 @@ const xiala = [
 ]
 var _that
 export default {
-  name: 'InstallOrder',
+  name: 'RepairList',
   directives: { waves, permission, permission2 },
   components: { Pagination, MyCustomer, MyFault, MyEmp },
   filters: {
@@ -1156,6 +1156,9 @@ export default {
         children: 'children'
       }
     }
+  },
+  activated() {
+    this.getlist()
   },
   created() {
     this.getinstalllist()

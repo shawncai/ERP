@@ -568,8 +568,8 @@ export default {
       if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {
-            this.$confirm('存在申请未通过!', '提示', {
-              confirmButtonText: '确定',
+            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
               closeOnClickModal: false,
@@ -583,12 +583,12 @@ export default {
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除'
+                message: this.$t('prompt.yqxsc')
               })
             })
           } else if (res.data.data.content === 3) {
-            this.$confirm('存在分期未还完!', '提示', {
-              confirmButtonText: '确定',
+            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
               closeOnClickModal: false,
@@ -602,7 +602,7 @@ export default {
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除'
+                message: this.$t('prompt.yqxsc')
               })
             })
           }

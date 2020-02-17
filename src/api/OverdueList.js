@@ -3,6 +3,9 @@ import request from '@/utils/request'
 // 分期列表
 export function installmentlist(query) {
   var params = new URLSearchParams()
+  if (query.suretyName !== '' && query.suretyName !== null && query.suretyName !== undefined) {
+    params.append('suretyName', query.suretyName) // 你要传给后台的参数值 key/value
+  }
   if (query.installmentId !== '' && query.installmentId !== null && query.installmentId !== undefined) {
     params.append('installmentId', query.installmentId) // 你要传给后台的参数值 key/value
   }

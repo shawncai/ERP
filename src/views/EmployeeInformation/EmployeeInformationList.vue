@@ -15,8 +15,8 @@
         width="500"
         trigger="click">
         <el-select v-model="getemplist.stat" :value="getemplist.stat" :placeholder="$t('NewEmployeeInformation.status')" style="width: 40%;float: left;margin-left: 20px" clearable>
-          <el-option label="在职" value="1"/>
-          <el-option label="离职" value="2"/>
+          <el-option :label="$t('prompt.zz')" value="1"/>
+          <el-option :label="$t('prompt.lz')" value="2"/>
         </el-select>
         <el-select v-model="getemplist.regionid" :value="getemplist.regionid" :placeholder="$t('NewEmployeeInformation.regionid')" style="width: 40%;float: right;margin-right: 20px" clearable>
           <el-option
@@ -205,15 +205,15 @@ export default {
   filters: {
     genderFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: _that.$t('prompt.nan'),
+        2: _that.$t('prompt.nv')
       }
       return statusMap[status]
     },
     statFilter(status) {
       const statusMap = {
-        1: '在职',
-        2: '离职'
+        1: _that.$t('prompt.zz'),
+        2: _that.$t('prompt.lz')
       }
       return statusMap[status]
     }
@@ -221,7 +221,7 @@ export default {
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('手机号不能为空'))
+        return callback(new Error(_that.$t('prompt.sjhbnwk')))
       } else {
         callback()
       }
@@ -395,7 +395,9 @@ export default {
       edtiForm: {}
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.handlechange4()
@@ -580,8 +582,8 @@ export default {
         startorendemp(ids, 2).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
-              title: '操作成功',
-              message: '操作成功',
+              title: this.$t('prompt.czcg'),
+              message: this.$t('prompt.czcg'),
               type: 'success',
               duration: 1000,
               offset: 100
@@ -592,15 +594,15 @@ export default {
           }
         })
       } else if (command === 'delete') {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+          confirmButtonText: this.$t('prompt.qd'),
+          cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
           deleteemp(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
-                title: '删除成功',
+                title: this.$t('prompt.sccg'),
                 type: 'success',
                 offset: 100
               })
@@ -608,7 +610,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: '出错了',
+                message: 'wrong',
                 offset: 100
               })
             }
@@ -616,22 +618,22 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('prompt.yqxsc')
           })
         })
       }
     },
     // 单条删除
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+        confirmButtonText: this.$t('prompt.qd'),
+        cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
         deleteemp(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
-              title: '删除成功',
+              title: this.$t('prompt.sccg'),
               type: 'success',
               offset: 100
             })
@@ -639,7 +641,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: '出错了',
+              message: 'wrong',
               offset: 100
             })
           }
@@ -647,7 +649,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('prompt.yqxsc')
         })
       })
     },
@@ -656,8 +658,8 @@ export default {
       startorendemp(row.id, 2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -673,8 +675,8 @@ export default {
       startorendemp(row.id, 1).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             duration: 1000,
             type: 'success',
             offset: 100

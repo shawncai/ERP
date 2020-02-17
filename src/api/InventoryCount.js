@@ -83,7 +83,9 @@ export function deletecountdetail(query) {
 // 添加库存盘点单据
 export function addinventorycount(query, query2, repositoryId, regionId) {
   var params = new URLSearchParams()
-  params.append('inventoryCountDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('inventoryCountDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
   params.append('inventoryCountJson', query) // 你要传给后台的参数值 key/value
   if (repositoryId !== '' && repositoryId !== null && repositoryId !== undefined) {
     params.append('repositoryId', repositoryId) // 你要传给后台的参数值 key/value
@@ -101,7 +103,9 @@ export function addinventorycount(query, query2, repositoryId, regionId) {
 // 修改盘点单
 export function updatecount(query, query2) {
   var params = new URLSearchParams()
-  params.append('inventoryCountDetailJson', query2) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('inventoryCountDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
   params.append('inventoryCountJson', query) // 你要传给后台的参数值 key/value
   return request({
     url: '/inventorycount/updatecount',

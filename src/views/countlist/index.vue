@@ -142,7 +142,7 @@ import printJS from 'print-js'
 
 var _that
 export default {
-  name: 'StockAlarmList',
+  name: 'Countlist',
   directives: { waves, permission, permission2 },
   components: { Pagination, MyRepository, MyAccept, MyCreate, MyRepository2 },
   filters: {
@@ -192,7 +192,9 @@ export default {
       listLoading: true
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
     this.getdatatime()
@@ -252,7 +254,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
           // this.restFilter()
@@ -391,7 +393,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
           // this.restFilter()

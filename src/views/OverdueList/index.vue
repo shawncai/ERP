@@ -6,7 +6,7 @@
 
       <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-popover
         v-model="visible2"
@@ -24,8 +24,9 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <el-input v-model="getemplist.address" placeholder="地址" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
-        <el-input v-model.number="getemplist.overdueMonth" type="number" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+        <el-input v-model="getemplist.address" :placeholder="$t('tongyo.dz')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.suretyName" :placeholder="$t('tongyo.dbrxm')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model.number="getemplist.overdueMonth" :placeholder="$t('tongyo.yqsc')" type="number" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <template slot="append">月</template>
         </el-input>
         <!--              <el-input-number v-model="getemplist.overdueMonth" placeholder="逾期时长" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>-->
@@ -102,6 +103,11 @@
           <el-table-column :label="$t('InstallmentList.address')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.address }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('tongyo.dbrxm')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.suretyName }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.productCode')" :resizable="false" align="center" min-width="150">
@@ -248,7 +254,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 
 var _that
 export default {
-  name: 'Index',
+  name: 'OverdueList',
   directives: { waves, permission, permission2 },
   components: { Pagination },
   filters: {
@@ -368,7 +374,9 @@ export default {
       processData: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },
@@ -412,7 +420,7 @@ export default {
       this.reviewParms.installmentId = row.id
       this.$confirm('转催收', '确认转催收', {
         distinguishCancelAndClose: true,
-        confirmButtonText: '确认',
+        confirmButtonText: this.$t('prompt.qd'),
         type: 'warning'
       }).then(() => {
         const parms = this.reviewParms
@@ -594,10 +602,10 @@ export default {
     // handleReview(row) {
     //   this.reviewParms.id = row.id
     //   this.reviewParms.judgePersonId = this.$store.getters.userId
-    //   this.$confirm('请审核', '审核', {
+    //   this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
     //     distinguishCancelAndClose: true,
-    //     confirmButtonText: '通过',
-    //     cancelButtonText: '不通过',
+    //     confirmButtonText: this.$t('prompt.tg'),
+    //     cancelButtonText: this.$t('prompt.btg'),
     //     type: 'warning'
     //   }).then(() => {
     //     this.reviewParms.judgeStat = 2
@@ -606,7 +614,7 @@ export default {
     //       if (res.data.ret === 200) {
     //         this.$message({
     //           type: 'success',
-    //           message: '审核成功!'
+    //           message: this.$t('prompt.shcg')
     //         })
     //         this.getlist()
     //       }
@@ -619,7 +627,7 @@ export default {
     //         if (res.data.ret === 200) {
     //           this.$message({
     //             type: 'success',
-    //             message: '审核成功!'
+    //             message: this.$t('prompt.shcg')
     //           })
     //           this.getlist()
     //         }
@@ -636,15 +644,15 @@ export default {
     // handleCommand(command) {
     //   const ids = this.moreaction.map(item => item.id).join()
     //   if (command === 'delete') {
-    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
+    //     this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+    //       confirmButtonText: this.$t('prompt.qd'),
+    //       cancelButtonText: this.$t('prompt.qx'),
     //       type: 'warning'
     //     }).then(() => {
     //       deleteapply(ids).then(res => {
     //         if (res.data.ret === 200) {
     //           this.$notify({
-    //             title: '删除成功',
+    //             title: this.$t('prompt.sccg'),
     //             type: 'success',
     //             offset: 100
     //           })
@@ -652,7 +660,7 @@ export default {
     //         } else {
     //           this.$notify.error({
     //             title: 'wrong',
-    //             message: '出错了',
+    //             message: 'wrong',
     //             offset: 100
     //           })
     //         }
@@ -660,22 +668,22 @@ export default {
     //     }).catch(() => {
     //       this.$message({
     //         type: 'info',
-    //         message: '已取消删除'
+    //         message: this.$t('prompt.yqxsc')
     //       })
     //     })
     //   }
     // },
     // // 单条删除
     // handleDelete(row) {
-    //   this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
+    //   this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
+    //     confirmButtonText: this.$t('prompt.qd'),
+    //     cancelButtonText: this.$t('prompt.qx'),
     //     type: 'warning'
     //   }).then(() => {
     //     deleteapply(row.id).then(res => {
     //       if (res.data.ret === 200) {
     //         this.$notify({
-    //           title: '删除成功',
+    //           title: this.$t('prompt.sccg'),
     //           type: 'success',
     //           offset: 100
     //         })
@@ -683,7 +691,7 @@ export default {
     //       } else {
     //         this.$notify.error({
     //           title: 'wrong',
-    //           message: '出错了',
+    //           message: 'wrong',
     //           offset: 100
     //         })
     //       }
@@ -691,7 +699,7 @@ export default {
     //   }).catch(() => {
     //     this.$message({
     //       type: 'info',
-    //       message: '已取消删除'
+    //       message: this.$t('prompt.yqxsc')
     //     })
     //   })
     // },

@@ -149,7 +149,7 @@ import DetailList from './components/DetailList' // Secondary package based on e
 
 var _that
 export default {
-  name: 'Index',
+  name: 'StockRequire',
   directives: { waves, permission, permission2 },
   components: { DetailList, MyDetail, MyTree, Pagination },
   filters: {
@@ -200,7 +200,9 @@ export default {
       date: []
     }
   },
-
+  activated() {
+    this.getlist()
+  },
   mounted() {
     this.getlist()
   },

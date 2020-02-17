@@ -317,7 +317,7 @@ export default {
         if (this.personalForm.outRepositoryId === undefined || this.personalForm.outRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -330,7 +330,7 @@ export default {
             } else if (res.data.data.content.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '该仓库没有该商品',
+                message: this.$t('prompt.gckmygsp'),
                 offset: 100
               })
               this.locationlist = []
@@ -416,7 +416,7 @@ export default {
             if (row.outQuantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.qsrzqdsjh'),
                 offset: 100
               })
               row.outQuantity = 1
@@ -442,7 +442,7 @@ export default {
             if (row.outQuantity > res.data.data.content[0].outQuantity) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.ckslcgpcsl'),
                 offset: 100
               })
               row.outQuantity = 1
@@ -506,7 +506,7 @@ export default {
       if (this.outRepositoryId === null || this.outRepositoryId === '' || this.outRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -521,7 +521,7 @@ export default {
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
-              message: '物品已添加',
+              message: this.$t('prompt.wpytj'),
               offset: 100
             })
             return false
@@ -578,7 +578,7 @@ export default {
       if (j === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '批次货位不能为空',
+          message: this.$t('prompt.pchwbnwk'),
           offset: 100
         })
         return false
@@ -593,7 +593,7 @@ export default {
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '明细表不能为空',
+          message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
         return false
@@ -647,8 +647,8 @@ export default {
       updateotherout(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
-            title: '操作成功',
-            message: '操作成功',
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
             type: 'success',
             duration: 1000,
             offset: 100
@@ -661,7 +661,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: '出错了',
+            message: 'wrong',
             offset: 100
           })
         }

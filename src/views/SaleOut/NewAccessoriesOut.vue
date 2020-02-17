@@ -37,8 +37,8 @@
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
                   <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                    <el-option value="1" label="经销商"/>
-                    <el-option value="2" label="零售"/>
+                    <el-option :label="$t('prompt.jxs')" value="1"/>
+                    <el-option :label="$t('prompt.ls')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col> -->
@@ -62,9 +62,9 @@
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="width: 100%;">
                   <el-select v-model="personalForm.outType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="销售出库"/>
-                    <el-option value="2" label="换货出库"/>
-                    <el-option value="3" label="以旧换新"/>
+                    <el-option :label="$t('prompt.xsck')" value="1"/>
+                    <el-option :label="$t('prompt.hhck')" value="2"/>
+                    <el-option :label="$t('prompt.yjhx')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col> -->
@@ -77,8 +77,8 @@
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
                   <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="现金" />
-                    <el-option value="2" label="分期" />
+                    <el-option :label="$t('prompt.xj')" value="1" />
+                    <el-option :label="$t('prompt.fq')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -386,7 +386,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <el-input v-if="isEdit3(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -1203,9 +1203,12 @@ export default {
       if (re === '05') { return true } else { return false }
     },
     isEdit3(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
-      if (re === '01') { return false } else { return true }
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit2(row) {
       console.log('222', row)
@@ -1271,7 +1274,7 @@ export default {
             if (row.quantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前仓库可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.qsrzqdsjh'),
                 offset: 100
               })
               row.quantity = 1
@@ -1297,7 +1300,7 @@ export default {
             if (row.quantity > res.data.data.content[0].quantity) {
               this.$notify.error({
                 title: 'wrong',
-                message: '出库数量超出了当前批次可用存量，请输入正确出库数量!',
+                message: this.$t('prompt.ckslcgpcsl'),
                 offset: 100
               })
               row.quantity = 1
@@ -1324,7 +1327,7 @@ export default {
       if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -1505,7 +1508,7 @@ export default {
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
-            message: '请先选择仓库',
+            message: this.$t('prompt.sqslcg'),
             offset: 100
           })
           return false
@@ -1861,7 +1864,7 @@ export default {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -1975,7 +1978,7 @@ export default {
         //   if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
         //     this.$notify.error({
         //       title: 'wrong',
-        //       message: '物品已添加',
+        //       message: this.$t('prompt.wpytj'),
         //       offset: 100
         //     })
         //     return false
@@ -2087,7 +2090,7 @@ export default {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -2123,7 +2126,7 @@ export default {
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择出库仓库',
+          message: this.$t('prompt.qxxzckck'),
           offset: 100
         })
         return false
@@ -2137,7 +2140,7 @@ export default {
         //   if (val[i].productCode === nowlistdata[j].productCode) {
         //     this.$notify.error({
         //       title: 'wrong',
-        //       message: '物品已添加',
+        //       message: this.$t('prompt.wpytj'),
         //       offset: 100
         //     })
         //     return false
@@ -2260,7 +2263,7 @@ export default {
       if (m === 3) {
         this.$notify.error({
           title: 'wrong',
-          message: '电池出库时相关编码必填',
+          message: this.$t('prompt.dcckytbm'),
           offset: 100
         })
         return false
@@ -2268,7 +2271,7 @@ export default {
       if (m === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '整车出库时相关编码必填',
+          message: this.$t('prompt.zcckytbm'),
           offset: 100
         })
         return false
@@ -2312,7 +2315,7 @@ export default {
       if (j === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '批次货位不能为空',
+          message: this.$t('prompt.pchwbnwk'),
           offset: 100
         })
         return false
@@ -2321,7 +2324,7 @@ export default {
       if (EnterDetail.length === 0) {
         // this.$notify.error({
         //   title: 'wrong',
-        //   message: '明细表不能为空',
+        //   message: this.$t('prompt.mxbbnwk'),
         //   offset: 100
         // })
         // return false
@@ -2496,7 +2499,7 @@ export default {
           }).forEach(function(elem) {
             const re = elem.productCode.slice(0, 2)
             if (re === '01') {
-              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
                 m = 2
               }
             }
@@ -2509,7 +2512,7 @@ export default {
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',
-              message: '电池出库时相关编码必填',
+              message: this.$t('prompt.dcckytbm'),
               offset: 100
             })
             return false
@@ -2517,7 +2520,7 @@ export default {
           if (m === 2) {
             this.$notify.error({
               title: 'wrong',
-              message: '整车出库时相关编码必填',
+              message: this.$t('prompt.zcckytbm'),
               offset: 100
             })
             return false
@@ -2561,7 +2564,7 @@ export default {
           if (j === 2) {
             this.$notify.error({
               title: 'wrong',
-              message: '批次货位不能为空',
+              message: this.$t('prompt.pchwbnwk'),
               offset: 100
             })
             return false
@@ -2570,7 +2573,7 @@ export default {
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: '明细表不能为空',
+              message: this.$t('prompt.mxbbnwk'),
               offset: 100
             })
             return false

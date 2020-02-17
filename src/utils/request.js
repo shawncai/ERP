@@ -57,7 +57,7 @@ service.interceptors.response.use(
   //       // import { Message, MessageBox } from 'element-ui'
   //       MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
   //         confirmButtonText: '重新登录',
-  //         cancelButtonText: '取消',
+  //         cancelButtonText: this.$t('prompt.qx'),
   //         type: 'warning'
   //       }).then(() => {
   //         store.dispatch('FedLogOut').then(() => {
