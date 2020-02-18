@@ -4186,7 +4186,11 @@ export default {
     retreatMoney: '退货金额',
     endMoney: '结余金额',
     repositoryName: '门店',
-    discountMoney: '折扣金额'
+    discountMoney: '折扣金额',
+    zdz: '制单中',
+    zxz: '执行中',
+    js: '结束',
+    pf: '批发'
   }
 
 }

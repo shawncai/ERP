@@ -156,9 +156,10 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.contractStat')" style="width: 100%;">
                   <el-select v-model="personalForm.contractStat" clearable style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="制单中"/>
-                    <el-option value="2" label="执行中"/>
-                    <el-option value="3" label="结束"/>
+                    <el-option :label="$t('tongyo.zdz')" value="1"/>
+                    <el-option :label="$t('tongyo.zxz')" value="2"/>
+                    <el-option :label="$t('tongyo.js')" value="3"/>
+
                   </el-select>
                 </el-form-item>
               </el-col>
