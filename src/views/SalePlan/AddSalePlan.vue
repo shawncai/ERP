@@ -295,6 +295,54 @@ export default {
         callback()
       }
     }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择计划类别'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择计划类型'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择开始时间'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择结束时间'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择区域'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass7 = (rule, value, callback) => {
+      console.log(value)
+      if (this.repositoryid === '' || this.repositoryid === undefined || this.repositoryid === null) {
+        callback(new Error('请选择仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions0: {
         disabledDate: (time) => {
@@ -433,32 +481,32 @@ export default {
       personalrules: {
         planCategory: [{
           required: true,
-          message: '请选择计划类别',
+          validator: validatePass2,
           trigger: 'change'
         }],
         planType: [{
           required: true,
-          message: '请选择计划类型',
+          validator: validatePass3,
           trigger: 'change'
         }],
         beginTime: [{
           required: true,
-          validator: '请选择开始时间',
-          trigger: 'focus'
+          validator: validatePass4,
+          trigger: 'change'
         }],
         endTime: [{
           required: true,
-          message: '请选择结束时间',
+          validator: validatePass5,
           trigger: 'change'
         }],
         regionId: [{
           required: true,
-          message: '请选择区域',
+          validator: validatePass6,
           trigger: 'change'
         }],
         repositoryid: [{
           required: true,
-          message: '请选择仓库',
+          validator: validatePass7,
           trigger: 'change'
         }]
       },
@@ -1096,30 +1144,6 @@ export default {
         console.log(err)
       })
     },
-    handleItemChange(val) {
-      console.log('门店', val)
-      this.getPosition(val)
-      console.log('this.addCategoryForm.regionId', this.addCategoryForm.regionId)
-      console.log('this.provinceList', this.provinceList)
-      setTimeout(() => {
-        this.addCategoryForm.labelName = this.$refs.mycascader.currentLabels.join('/')
-        this.editCategoryForm.labelName = this.$refs.mycascader.currentLabels.join('/')
-        console.log('this.$refs.mycascader', this.$refs.mycascader.currentLabels.length)
-      }, 0)
-
-      const finalid = val[val.length - 1]
-      searchregionName(finalid).then(res => {
-        console.log('123', res)
-      })
-      searchRepository(finalid).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.repositories = res.data.data.content.list
-        } else {
-          console.log('区域选择门店')
-        }
-      })
-    },
     handleItemChange_edit(val) {
       console.log('门店', val)
       this.getPosition(val)
@@ -1355,42 +1379,45 @@ export default {
           return false
         }
       }
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      if (Data.regionId) {
-        const regionId_length = Data.planRegionId.length
-        if (regionId_length === 0) {
-          Data.planRegionId = ''
-        } else {
-          Data.planRegionId = Data.planRegionId[regionId_length - 1]
-        }
-      }
-      console.log('Data==============>', Data)
-      console.log('EnterDetail==============>', EnterDetail)
-      if (Data.planCategory === '2') {
-        delete Data.planRepositoryId
-      } else if (Data.planCategory === '1') {
-        delete Data.planRegionId
-      }
-      Data.planType = Number(Data.planType)
-      Data.planCategory = Number(Data.planCategory)
-      for (let i = 0; i < EnterDetail.length; i++) {
-        for (const key in EnterDetail[i]) {
-          console.log('key===============>', EnterDetail[i][key])
-          if (EnterDetail[i][key] === '' || EnterDetail[i][key] === undefined || EnterDetail[i][key] === null) {
-            console.log('执行')
-            delete EnterDetail[i][key]
-          }
-        }
-      }
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          const parms2 = JSON.stringify(EnterDetail)
+          const Data = this.personalForm
+          console.log('Data.regionId=============>', Data.regionId)
+          console.log('Data==============>', Data)
+          console.log('EnterDetail==============>', EnterDetail)
+          if (Data.planCategory === '2') {
+            delete Data.planRepositoryId
+            const regionId_length = Data.planRegionId.length
+            if (regionId_length === 0) {
+              Data.planRegionId = ''
+            } else {
+              Data.planRegionId = Data.planRegionId[regionId_length - 1]
+            }
+          } else if (Data.planCategory === '1') {
+            delete Data.planRegionId
+          }
+          if (Data.planType) {
+            Data.planType = Number(Data.planType)
+          }
+          if (Data.planCategory) {
+            Data.planCategory = Number(Data.planCategory)
+          }
+          for (let i = 0; i < EnterDetail.length; i++) {
+            for (const key in EnterDetail[i]) {
+              console.log('key===============>', EnterDetail[i][key])
+              if (EnterDetail[i][key] === '' || EnterDetail[i][key] === undefined || EnterDetail[i][key] === null) {
+                console.log('执行')
+                delete EnterDetail[i][key]
+              }
+            }
+          }
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
           addsaleplan(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
