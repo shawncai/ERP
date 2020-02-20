@@ -3864,6 +3864,7 @@ export default {
     landline: 'landline'
   },
   otherlanguage: {
+    xhp: 'consumption',
     zzmx: 'transfer detail',
     zzlx: 'transfer type',
     xjzh: 'new account',

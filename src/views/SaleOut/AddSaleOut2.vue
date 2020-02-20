@@ -17,6 +17,7 @@
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
@@ -25,12 +26,12 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
-                    <el-option value="1" label="销售订单"/>
-                    <el-option value="2" label="销售合同"/>
-                    <el-option value="3" label="预售单"/>
-                    <el-option value="4" label="销售机会"/>
-                    <el-option value="5" label="无来源"/>
-                    <el-option value="6" label="二手回车单"/>
+                    <el-option :label="$t('prompt.xsdd')" value="1"/>
+                    <el-option :label="$t('prompt.xsht')" value="2"/>
+                    <el-option :label="$t('prompt.ysd')" value="3"/>
+                    <el-option :label="$t('prompt.xsjh')" value="4"/>
+                    <el-option :label="$t('prompt.wly')" value="5"/>
+                    <el-option :label="$t('prompt.eshsd')" value="6"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -86,7 +87,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="switchsaletype">
                     <el-option :label="$t('prompt.xj')" value="1" />
                     <el-option :label="$t('prompt.fq')" value="2" />
                   </el-select>
@@ -275,7 +276,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -383,7 +384,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+                <el-input v-if="isEdit3(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
@@ -399,7 +400,7 @@
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
           <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -425,7 +426,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -526,6 +527,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -570,8 +572,8 @@ import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
-import MyEmp from './components/MyEmp'
-import MyDelivery from '../DailyAdjust/components/MyDelivery'
+import MyEmp from './components/MyEmp2'
+import MyDelivery from './components/MyDelivery2'
 import MyDetail from './components/MyDetail'
 import { searchCategory } from '@/api/Supplier'
 import MyApply from './components/MyApply'
@@ -660,11 +662,6 @@ export default {
       }
     }
     return {
-      pickerOptions1: {
-        disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
-        }
-      },
       pickerOptions2: {
         disabledDate: (time) => {
           var date = new Date()
@@ -673,8 +670,14 @@ export default {
           return time.getTime() > lastDay || time.getTime() < firstDay
         }
       },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
       // 赠品选择控制
       packagecontrol: false,
+      packagerepository: '',
       productnumber: '',
       // 判断权限
       isshow: false,
@@ -924,6 +927,24 @@ export default {
     _that = this
   },
   methods: {
+    switchsaletype(val) {
+      console.log('val', val)
+      if (val === '1' && this.personalForm.sourceType === '2') {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.gdjwfq'),
+          offset: 100
+        })
+        this.personalForm.saleType = '2'
+      } else {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.gdjwxj'),
+          offset: 100
+        })
+        this.personalForm.saleType = '1'
+      }
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
       const parms2 = JSON.stringify(this.personalForm.couponSupports)
@@ -971,6 +992,7 @@ export default {
         })
       } else {
         this.productnumber = this.moreaction[0].productCode
+        this.packagerepository = this.personalForm.saleRepositoryId
         this.packagecontrol = true
       }
     },
@@ -978,6 +1000,7 @@ export default {
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
         this.personalForm.sourceType = '2'
+        this.personalForm.saleType = '2'
         console.log('this.$store.getters.newsaleoutdatacontract', this.$store.getters.newsaleoutdata)
         this.installappley(this.$store.getters.newsaleoutdata)
         this.getReceivableMoney()
@@ -1210,9 +1233,12 @@ export default {
       if (re === '05') { return true } else { return false }
     },
     isEdit3(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
-      if (re === '01') { return false } else { return true }
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit2(row) {
       console.log('222', row)
@@ -1592,15 +1618,22 @@ export default {
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
+        this.personalForm.saleType = '1'
         // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
         //   this.$refs.editable.clear()
         // }
       } else if (val === '6') {
         this.IsSourceNumber = true
         this.Isproduct = true
+        this.personalForm.saleType = '1'
+      } else if (val === '2') {
+        this.Isproduct = true
+        this.IsSourceNumber = false
+        this.personalForm.saleType = '2'
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
+        this.personalForm.saleType = '1'
         // if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
         //   this.$refs.editable.clear()
         // }
@@ -1639,8 +1672,16 @@ export default {
       this.deliverycontrol = true
     },
     deliveryName(val) {
-      this.transferPersonId = val.personName
-      this.personalForm.transferPersonId = val.id
+      // this.transferPersonId = val.personName
+      // this.personalForm.transferPersonId = val.id
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.transferPersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.transferPersonId = salepersonnames.join(',')
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -2185,12 +2226,18 @@ export default {
     },
     // 销售员回显
     stockName(val) {
-      this.salePersonId = val.personName
-      this.personalForm.salePersonId = val.id
-      this.saleRepositoryId = val.repositoryName
-      this.personalForm.saleRepositoryId = val.repositoryId
-      this.roleId = val.postName
-      this.personalForm.roleId = val.postId
+      const salepersonids = val.map(item => {
+        return item.id
+      })
+      this.personalForm.salePersonId = salepersonids.join(',')
+      const salepersonnames = val.map(item => {
+        return item.personName
+      })
+      this.salePersonId = salepersonnames.join(',')
+      // this.saleRepositoryId = val.repositoryName
+      // this.personalForm.saleRepositoryId = val.repositoryId
+      // this.roleId = val.postName
+      // this.personalForm.roleId = val.postId
     },
     // 清空记录
     restAllForm() {
@@ -2239,7 +2286,7 @@ export default {
             if (this.personalForm.saleType === '2') {
               this.$notify.error({
                 title: 'wrong',
-                message: this.$t('prompt.ckslcgpcsl'),
+                message: this.$t('prompt.wlyxslbwfq'),
                 offset: 100
               })
               return false
@@ -2282,6 +2329,7 @@ export default {
             })
             return false
           }
+
           // 保存时同样商品不能有同一个批次
           let i = 0
           EnterDetail.map(function(elem) {
@@ -2460,7 +2508,8 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
-          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
+          // eslint-disable-next-line use-isnan
+          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
             this.$notify.error({
               title: 'wrong',
               message: '本次收款金额不能为空',
@@ -2511,6 +2560,282 @@ export default {
             offset: 100
           })
           return false
+        }
+      })
+    },
+    // 保存操作
+    handlesave2() {
+      if (this.personalForm.sourceType === '5') {
+        if (this.personalForm.saleType === '2') {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.ckslcgpcsl'),
+            offset: 100
+          })
+          return false
+        }
+      }
+      if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+        this.personalForm.couponSupportOld = 0
+      }
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      // 整车出库时相关编码必填
+      let m = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+            m = 2
+          }
+        }
+        if (re === '05') {
+          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+            m = 3
+          }
+        }
+      })
+      if (m === 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.dcckytbm'),
+          offset: 100
+        })
+        return false
+      }
+      if (m === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.zcckytbm'),
+          offset: 100
+        })
+        return false
+      }
+
+      // 保存时同样商品不能有同一个批次
+      let i = 0
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        EnterDetail.map(function(elem2) {
+          return elem2
+        }).forEach(function(elem2) {
+          if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+            const re = elem2.productCode.slice(0, 2)
+            // 去除整车
+            if (re !== '01') {
+              i++
+            }
+          }
+        })
+      })
+      console.log(i)
+      if (i > EnterDetail.length) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '同样商品不能有同一个批次',
+          offset: 100
+        })
+        return false
+      }
+      // 批次货位不能为空
+      let j = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        return false
+      }
+      const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+      // if (EnterDetail.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.mxbbnwk'),
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          delete elem.category
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+          delete elem.kpiGrade
+        }
+        if (elem.point === null || elem.point === '' || elem.point === undefined) {
+          delete elem.point
+        }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          delete elem.quantity
+        }
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
+        }
+        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+          delete elem.costPrice
+        }
+        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+          delete elem.costMoney
+        }
+        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          delete elem.includeTaxMoney
+        }
+        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          delete elem.taxRate
+        }
+        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          elem.taxRate = elem.taxRate / 100
+        }
+        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          delete elem.taxMoney
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          delete elem.money
+        }
+        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+          delete elem.includeTaxCostMoney
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          elem.discountRate = 0
+        }
+        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          elem.discountRate = elem.discountRate / 100
+        }
+        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          elem.discountMoney = 0
+        }
+        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+          delete elem.carCode
+        }
+        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+          delete elem.motorCode
+        }
+        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+          delete elem.batteryCode
+        }
+        return elem
+      })
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.category === null || elem.category === '' || elem.category === undefined) {
+          delete elem.category
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          elem.money = 0
+        }
+        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+          elem.quantity = 0
+        }
+        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+          delete elem.salePrice
+        }
+        return elem
+      })
+      const parms2 = JSON.stringify(EnterDetail)
+      const parms3 = JSON.stringify(EnterDetail2)
+      console.log('EnterDetail2', EnterDetail2)
+      let couponNumbers = ''
+      for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+        if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+          couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+        }
+      }
+      console.log('couponNumbers', couponNumbers)
+      couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+      console.log('couponNumbers', couponNumbers)
+      this.personalForm.couponNumbers = couponNumbers
+      // eslint-disable-next-line use-isnan
+      if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '本次收款金额不能为空',
+        //   offset: 100
+        // })
+        // return false
+        this.personalForm.receivableMoney = 0
+      }
+      this.personalForm.judgeStat = 4
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+        // if (key === 'judgeStat') {
+        //   delete Data[key]
+        // }
+      }
+      const parms = JSON.stringify(Data)
+      createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'save successful',
+            type: 'success',
+            offset: 100
+          })
+          this.restAllForm()
+          this.$refs.editable.clear()
+          this.$refs.editable2.clear()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
+          this.$refs.personalForm2.clearValidate()
+          this.$refs.personalForm2.resetFields()
+          this.$refs.personalForm3.clearValidate()
+          this.$refs.personalForm3.resetFields()
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.data.msg,
+            offset: 100
+          })
         }
       })
     },

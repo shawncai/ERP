@@ -557,7 +557,7 @@ export default {
     // 调拨出库单
     handleconfirm(row) {
       this.ischeck = true
-      this.handleEdit(row.data)
+      // this.handleEdit(row.data)
       console.log(row.data.id)
       const EnterDetail = this.deepClone(row.data)
       let m = 1
@@ -594,14 +594,34 @@ export default {
         this.ischeck = false
         return false
       }
-      confirmStoragemove(row.data.id).then(res => {
+      console.log(row)
+      const query = JSON.stringify(EnterDetail)
+      const that = this
+      editStoragemove(query).then(res => {
         console.log(res)
-        row.data.stat = 2
-        this.ischeck = false
+        if (res.data.ret === 200) {
+          confirmStoragemove(row.data.id).then(res => {
+            // console.log(res)
+            // row.data.stat = 2
+            // this.ischeck = false
+            if (res.data.ret === 200) {
+              row.data.stat = 2
+              that.ischeck = false
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.data.msg,
+            offset: 100
+          })
+          this.ischeck = false
+        }
       })
-      setTimeout(() => {
-        this.ischeck = false
-      }, 5000)
+
+      // setTimeout(() => {
+      //   this.ischeck = false
+      // }, 5000)
     },
     // 货位
     getLocationData(row) {

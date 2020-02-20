@@ -27,6 +27,7 @@
           <el-option :label="$t('otherlanguage.zc')" value="1"/>
           <el-option :label="$t('otherlanguage.pj')" value="2"/>
           <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+          <el-option :label="$t('otherlanguage.xhp')" value="4"/>
           <el-option :label="$t('otherlanguage.dc')" value="5"/>
         </el-select>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
@@ -73,6 +74,7 @@
               <el-option :label="$t('otherlanguage.zc')" value="1"/>
               <el-option :label="$t('otherlanguage.pj')" value="2"/>
               <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+              <el-option :label="$t('otherlanguage.xhp')" value="4"/>
               <el-option :label="$t('otherlanguage.dc')" value="5"/>
             </el-select>
           </el-form-item>

@@ -3864,6 +3864,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xhp: '消耗品',
     zzmx: '转账明细',
     zzlx: '转账类型',
     xjzh: '新建账户',

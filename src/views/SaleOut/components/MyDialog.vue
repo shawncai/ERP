@@ -1990,6 +1990,25 @@ export default {
       delete this.personalForm.isDeliver
       delete this.personalForm.payType
       delete this.personalForm.currency
+      const EnterDetailgift = this.$refs.editable2.getRecords()
+      // 批次货位不能为空
+      let j = 1
+      EnterDetailgift.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           if (this.personalForm.sourceType === '5') {

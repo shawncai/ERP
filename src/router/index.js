@@ -1510,33 +1510,33 @@ export const asyncRouterMap = [
       }
     ]
   },
-  {
-    path: '/StockContract',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'StockContract',
-    alwaysShow: true,
-    meta: {
-      title: 'StockContract',
-      icon: 'caigouhetong',
-      type: 2,
-      roles: ['104-112-4', '104-113-1']
-    },
-    children: [
-      {
-        path: 'AddStockContract',
-        component: () => import('@/views/StockContract/AddStockContract'),
-        name: 'AddStockContract',
-        meta: { title: 'AddStockContract', noCache: false, roles: ['104-113-1'] }
-      },
-      {
-        path: 'StockContractList',
-        component: () => import('@/views/StockContract/StockContractList'),
-        name: 'StockContractList',
-        meta: { title: 'StockContractList', noCache: false, roles: ['104-112-1', '104-112-2', '104-112-3', '104-112-4', '104-112-5', '104-112-6', '104-112-7', '104-112-18', '104-112-16', '104-112-17', '104-112-43'] }
-      }
-    ]
-  },
+  // {
+  //   path: '/StockContract',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'StockContract',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: 'StockContract',
+  //     icon: 'caigouhetong',
+  //     type: 2,
+  //     roles: ['104-112-4', '104-113-1']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'AddStockContract',
+  //       component: () => import('@/views/StockContract/AddStockContract'),
+  //       name: 'AddStockContract',
+  //       meta: { title: 'AddStockContract', noCache: false, roles: ['104-113-1'] }
+  //     },
+  //     {
+  //       path: 'StockContractList',
+  //       component: () => import('@/views/StockContract/StockContractList'),
+  //       name: 'StockContractList',
+  //       meta: { title: 'StockContractList', noCache: false, roles: ['104-112-1', '104-112-2', '104-112-3', '104-112-4', '104-112-5', '104-112-6', '104-112-7', '104-112-18', '104-112-16', '104-112-17', '104-112-43'] }
+  //     }
+  //   ]
+  // },
   {
     path: '/StockOrder',
     component: Layout,
