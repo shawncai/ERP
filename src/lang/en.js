@@ -4186,6 +4186,10 @@ export default {
     retreatMoney: 'retreatMoney',
     endMoney: 'endMoney',
     repositoryName: 'repository',
-    discountMoney: 'discountMoney'
+    discountMoney: 'discountMoney',
+    zdz: 'Manufacturing',
+    zxz: 'In progress',
+    js: 'end',
+    pf: 'wholesale'
   }
 }
