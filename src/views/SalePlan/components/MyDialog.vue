@@ -224,7 +224,7 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+    <el-card :body-style="{ padding: '10px' }" class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 50px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
