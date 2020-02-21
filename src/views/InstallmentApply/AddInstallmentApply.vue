@@ -47,8 +47,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.applyCellPhone')" prop="applyCellPhone" style="width: 100%;">
-                  <el-input v-model="personalForm.applyCellPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                <el-form-item :label="$t('InstallmentApply.applyCellPhone')" style="width: 100%;">
+                  <el-input v-model="personalForm.applyCellPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable @blur ="haveAccess2"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -310,7 +310,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.matePhone')" :required="personalForm.marriageStat === 2" style="width: 100%;">
-                  <el-input v-model="personalForm.matePhone" style="margin-left: 18px;width: 200px" clearable/>
+                  <el-input v-model="personalForm.matePhone" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess3"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -605,7 +605,7 @@
               </el-col>
               <el-col :span="24">
                 <el-form-item :label="$t('InstallmentApply.consultancyPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.consultancyPhone" style="margin-left: 18px;width: 200px" clearable @blur="haveAccess"/>
+                  <el-input v-model="personalForm.consultancyPhone" style="margin-left: 18px;width: 200px" clearable/>
                   <!-- <el-input-number v-model="personalForm.consultancyPhone" :controls="false" style="margin-left: 18px;width: 200px" clearable/> -->
                 </el-form-item>
               </el-col>
@@ -1143,7 +1143,104 @@ export default {
       this.personalForm.saleRepositoryId = val.id
     },
     // 通过手机号判断是否有申请的资格
-    haveAccess() {
+    haveAccess3(val) {
+      console.log('val', val)
+      console.log('consultancyPhone=========>', this.personalForm.matePhone)
+      if (this.personalForm.matePhone !== null && this.personalForm.matePhone !== '' && this.personalForm.matePhone !== undefined) {
+        existList(this.personalForm.matePhone).then(res => {
+          if (res.data.data.content === 2) {
+            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
+              type: 'error',
+              showClose: false,
+              closeOnClickModal: false,
+              showCancelButton: false,
+              closeOnPressEscape: false
+            }).then(() => {
+              this.$router.go(-1)
+              const view = { path: '/InstallmentApply/AddInstallmentApply', name: 'AddInstallmentApply', fullPath: '/InstallmentApply/AddInstallmentApply', title: 'AddInstallmentApply' }
+              this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: this.$t('prompt.yqxsc')
+              })
+            })
+          } else if (res.data.data.content === 3) {
+            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
+              type: 'error',
+              showClose: false,
+              closeOnClickModal: false,
+              showCancelButton: false,
+              closeOnPressEscape: false
+            }).then(() => {
+              this.$router.go(-1)
+              const view = { path: '/InstallmentApply/AddInstallmentApply', name: 'AddInstallmentApply', fullPath: '/InstallmentApply/AddInstallmentApply', title: 'AddInstallmentApply' }
+              this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: this.$t('prompt.yqxsc')
+              })
+            })
+          }
+        })
+      }
+    },
+    // 通过手机号判断是否有申请的资格
+    haveAccess2(val) {
+      console.log('val', val)
+      console.log('applyCellPhone=========>', this.personalForm.applyCellPhone)
+      if (this.personalForm.applyCellPhone !== null && this.personalForm.applyCellPhone !== '' && this.personalForm.applyCellPhone !== undefined) {
+        existList(this.personalForm.applyCellPhone).then(res => {
+          if (res.data.data.content === 2) {
+            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
+              type: 'error',
+              showClose: false,
+              closeOnClickModal: false,
+              showCancelButton: false,
+              closeOnPressEscape: false
+            }).then(() => {
+              this.$router.go(-1)
+              const view = { path: '/InstallmentApply/AddInstallmentApply', name: 'AddInstallmentApply', fullPath: '/InstallmentApply/AddInstallmentApply', title: 'AddInstallmentApply' }
+              this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: this.$t('prompt.yqxsc')
+              })
+            })
+          } else if (res.data.data.content === 3) {
+            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+              confirmButtonText: this.$t('prompt.qd'),
+              type: 'error',
+              showClose: false,
+              closeOnClickModal: false,
+              showCancelButton: false,
+              closeOnPressEscape: false
+            }).then(() => {
+              this.$router.go(-1)
+              const view = { path: '/InstallmentApply/AddInstallmentApply', name: 'AddInstallmentApply', fullPath: '/InstallmentApply/AddInstallmentApply', title: 'AddInstallmentApply' }
+              this.$store.dispatch('delView', view).then(({ visitedViews }) => {
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: this.$t('prompt.yqxsc')
+              })
+            })
+          }
+        })
+      }
+    },
+    // 通过手机号判断是否有申请的资格
+    haveAccess(val) {
+      console.log('val', val)
       console.log('applyPhone=========>', this.personalForm.applyPhone)
       if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
