@@ -6,13 +6,13 @@
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+      <!-- <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
-      </el-select>
+      </el-select> -->
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         v-model="visible2"
@@ -46,12 +46,14 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -90,6 +92,11 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('otherlanguage.kcsl')" :resizable="false" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.salePrice }}</span>
@@ -120,11 +127,12 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
 import MyTree from '../../Product/components/MyTree' // Secondary package based on el-pagination
+// eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
@@ -147,9 +155,15 @@ export default {
       type: Object,
       default: null
     }
+
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
+      select_orderId: [],
+      select_order_number: [],
       query: this.personalform,
       // 供应商回显
       supplierid: '',
@@ -180,7 +194,7 @@ export default {
         productid: '',
         code: '',
         productname: '',
-        categoryid: '',
+        categoryid: '1',
         typeid: '',
         isactive: '',
         Productid: '',
@@ -199,6 +213,9 @@ export default {
       this.query = this.personalform
     }
   },
+  created() {
+    this.getlist()
+  },
   beforeCreate() {
     _that = this
   },
@@ -206,10 +223,13 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      // this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.moveOutRepository
+      console.log(this.personalform)
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -234,10 +254,12 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      // this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.moveOutRepository
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
@@ -246,8 +268,17 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -276,24 +307,35 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
+      console.log('personalform', this.personalform)
+      const moveoutid = this.personalform.id
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,
-          locationId: '',
           color: item.color,
-          typeId: item.typeId,
+          type: item.typeId,
+          typeName: item.productType,
+          // applyQuantity: '',
+          enterQuantity: 0,
+          // taxRate: 0,
           unit: item.stockMeasu,
-          enterPrice: item.costPrice,
-          productType: item.productType,
-          salePrice: item.salePrice,
-          newSalePrice: '',
-          newTradePrice: '',
-          newMemberPrice: '',
-          tradePrice: item.tradePrice,
-          memberPrice: item.memberPrice,
-          typeIdname: item.productType
+          // unitName: item.stockMeasu,
+          // actualEnterQuantity: 0,
+          // basicQuantity: 0,
+          // enterPrice: item.costPrice,
+          // productType: item.productType,
+          // totalMoney: 0,
+          // enterMoney: 0,
+          // price: item.costPrice,
+          movePrice: item.costPrice,
+          totalMoney: item.costPrice,
+          // batch: item.batch,
+          moveQuantity: 1,
+          existStock: item.existStock,
+          moveMoney: 0,
+          stat: 1,
+          moveId: moveoutid
         }
       })
       console.log(productDetail)

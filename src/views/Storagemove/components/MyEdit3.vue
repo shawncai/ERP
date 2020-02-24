@@ -113,7 +113,7 @@
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div> -->
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
       <div class="container">
         <el-editable
           ref="editable"
@@ -160,18 +160,24 @@
     <!-- 调拨出库明细 -->
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">{{ $t('prompt.dbckmx') }}</h2>
+      <div class="buttons" style="margin-top: 58px;padding-bottom: 30px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button :loading="deleteloding" type="danger" @click="deleteoutdetail">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
       <div class="container">
         <el-editable
           ref="editable2"
           :data.sync="list3"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
+
           class="click-table1"
           stripe
           border
           size="medium"
           style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column :selectable="selectInit" type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
@@ -195,13 +201,14 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
                 :controls="true"
                 :min="1.00"
                 v-model="scope.row.moveQuantity"
+                :disabled="iscars(scope.row)"
                 @change="queryStock(scope.row)"
               />
             </template>
@@ -264,12 +271,12 @@
 
 <script>
 // import { locationlist } from '@/api/WarehouseAdjust'
-import { updateStoragemove3, confirmStoragemove, editStoragemove, updateStoragemove2 } from '@/api/Storagemove'
+import { updateStoragemove3, confirmStoragemove, editStoragemove, updateStoragemove2, updateOutDetail } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
-import { batchlist, getlocation, vehicleInfo } from '@/api/public'
+import { batchlist, getlocation, vehicleInfo, getAllBatch } from '@/api/public'
 import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
-import MyDetail from './MyDetail'
+import MyDetail from './MyDetail3'
 import MyCreate from './MyCreate'
 import MyDepot from './MyDepot'
 var _that
@@ -296,6 +303,8 @@ export default {
   },
   data() {
     return {
+      deleteloding: false,
+      chuandishuju: '',
       ischeck: false,
       // 单据id
       id: '',
@@ -380,7 +389,7 @@ export default {
         console.log(123123123123)
         console.log(this.personalForm.businessStat)
         if (this.personalForm.businessStat === '2' || this.personalForm.businessStat === 2) {
-          console.log('监听开始')
+          // console.log('监听开始')
           const reviewParms = {}
           reviewParms.id = this.id
           reviewParms.confirmOutPersonId = this.$store.getters.userId
@@ -392,10 +401,10 @@ export default {
               count++
               this.list3.confirmNumber = count
             }
-            console.log('监听', this.list3)
+            // console.log('监听', this.list3)
           }
           if (this.list3.confirmNumber === this.list3.length) {
-            console.log('监听变化')
+            // console.log('监听变化')
             const parms = JSON.stringify(reviewParms)
             updateStoragemove2(parms).then(res => {
               console.log(res)
@@ -416,6 +425,100 @@ export default {
     _that = this
   },
   methods: {
+    // 不让勾选
+    selectInit(row, index) {
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' && row.stat === 1) { return true } else { return false }
+    },
+    iscars(row) {
+      const re = row.productCode.slice(0, 2)
+      if (re === '01' && row.stat === 1) { return false } else { return true }
+    },
+    deleteoutdetail() {
+      this.deleteloding = true
+      this.$refs.editable2.removeSelecteds()
+      const nowlistdata = this.$refs.editable2.getRecords()
+      const editoutproduct = JSON.stringify(nowlistdata)
+      updateOutDetail(this.personalForm.id, editoutproduct).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: this.$t('prompt.sccg'),
+            message: this.$t('prompt.sccg'),
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+        }
+        this.deleteloding = false
+      })
+    },
+    queryStock(row) {
+      console.log('row', row)
+      const searchparms = {
+        productCode: row.productCode,
+        batch: row.batch,
+        locationId: row.locationId,
+        repositoryId: this.personalForm.moveOutRepository
+      }
+      getAllBatch(searchparms).then(res => {
+        if (res.data.ret === 200) {
+          if (row.moveQuantity > res.data.data.content[0].quantity) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('prompt.ckslcgpcsl'),
+              offset: 100
+            })
+            row.moveQuantity = res.data.data.content[0].quantity
+            return false
+          }
+        }
+      })
+    },
+    // 调拨单事件
+    // 新增调拨单明细
+    handleAddproduct() {
+      // this.chuandishuju = this.personalForm
+      this.control = true
+    },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
+    productdetail(val) {
+      console.log('val====', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      console.log('nowlistdata', nowlistdata)
+      // const newarr = Object.assign([], val, nowlistdata)
+      const newarr = [...nowlistdata, ...val]
+      console.log('newarr', newarr)
+      const needarr = this.uniqueArray(newarr, 'productCode')
+      console.log('needarr', needarr)
+      const editoutproduct = JSON.stringify(needarr)
+      updateOutDetail(this.personalForm.id, editoutproduct).then(res => {
+        if (res.data.ret === 200) {
+          this.$refs.editable2.clear()
+          const listdata = res.data.data.content
+          // this.list3 = res.data.data.content
+          for (const i in listdata) {
+            this.$refs.editable2.insert(listdata[i])
+          }
+        }
+      })
+    },
+
     getInfo(row) {
       console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
@@ -522,7 +625,7 @@ export default {
     },
     // 判断整车
     isEdit2(row) {
-      console.log('222', row)
+      // console.log('222', row)
       if (row.stat === 2) {
         return false
       }
@@ -535,7 +638,7 @@ export default {
     },
     // 判断整车或者电池
     isEdit4(row) {
-      console.log('222', row)
+      // console.log('222', row)
       if (row.stat === 2) {
         return false
       }
@@ -770,28 +873,7 @@ export default {
         })
       }
     },
-    // 调拨单事件
-    // 新增调拨单明细
-    handleAddproduct() {
-      this.control = true
-    },
-    productdetail(val) {
-      console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
-      }
-    },
+
     // 调拨金额计算
     getSize(row) {
       row.totalMoney = (row.movePrice + row.price) * row.moveQuantity

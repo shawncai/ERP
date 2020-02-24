@@ -405,7 +405,9 @@ export default {
     AccountManagement2: 'account management',
     expensesSummary: 'expenses form summary',
     SaleDetailCount: 'sale detail count',
-    ProfitCount: 'profit count'
+    ProfitCount: 'profit count',
+    AddDiscountsetting: 'AddDiscountsetting',
+    Discountsetting: 'Discountsetting'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -4191,6 +4193,8 @@ export default {
     zdz: 'Manufacturing',
     zxz: 'In progress',
     js: 'end',
-    pf: 'wholesale'
+    pf: 'wholesale',
+    zdzke: 'most discountmoney',
+    zdzkl: 'most discountrate'
   }
 }

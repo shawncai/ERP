@@ -1,5 +1,86 @@
 import request from '@/utils/request'
 
+// 修改折扣设置
+export function updateSaleCategory(query) {
+  var params = new URLSearchParams()
+  if (query.discountMoney !== '' && query.discountMoney !== null && query.discountMoney !== undefined) {
+    params.append('discountMoney', query.discountMoney) // 你要传给后台的参数值 key/value
+  }
+  if (query.discountRate !== '' && query.discountRate !== null && query.discountRate !== undefined) {
+    params.append('discountRate', query.discountRate) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/roleDiscount/updateSaleCategory',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除折扣设置
+export function delateRoleDiscount(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('ids', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/roleDiscount/delateRoleDiscount',
+    method: 'post',
+    data: params
+  })
+}
+
+// 搜索折扣设置
+export function searchRoleDiscount(query) {
+  var params = new URLSearchParams()
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('roleId', query.roleId) // 你要传给后台的参数值 key/value
+  }
+  if (query.category !== '' && query.category !== null && query.category !== undefined) {
+    params.append('category', query.category) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/roleDiscount/searchRoleDiscount',
+    method: 'post',
+    data: params
+  })
+}
+
+// 新建折扣设置
+export function addRoleDiscount(query) {
+  var params = new URLSearchParams()
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('roleId', query.roleId) // 你要传给后台的参数值 key/value
+  }
+  if (query.category !== '' && query.category !== null && query.category !== undefined) {
+    params.append('category', query.category) // 你要传给后台的参数值 key/value
+  }
+  if (query.discountMoney !== '' && query.discountMoney !== null && query.discountMoney !== undefined) {
+    params.append('discountMoney', query.discountMoney) // 你要传给后台的参数值 key/value
+  }
+  if (query.discountRate !== '' && query.discountRate !== null && query.discountRate !== undefined) {
+    params.append('discountRate', query.discountRate) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/roleDiscount/addRoleDiscount',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询编码规则分类属性
 export function searchcategory() {
   return request({

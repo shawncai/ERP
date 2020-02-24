@@ -668,9 +668,21 @@ export const asyncRouterMap = [
       title: 'BasicSettings',
       icon: 'shezhi',
       type: 10,
-      roles: ['1-39-40-1', '1-39-41-1', '1-39-378-4', '1-39-377-4', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1', '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1']
+      roles: ['54-381-4', '1-39-40-1', '1-39-41-1', '1-39-378-4', '1-39-377-4', '1-39-41-4', '1-39-42-4', '1-39-43-1', '1-39-44-1', '1-39-45-4', '1-39-46-1', '1-39-47-4', '1-39-48-1', '1-39-49-1', '1-39-50-4', '1-39-51-1', '1-39-52-1']
     },
     children: [
+      {
+        path: 'Discountsetting',
+        component: () => import('@/views/BasicSettings/Discountsetting'),
+        name: 'Discountsetting',
+        meta: { title: 'Discountsetting', noCache: false, roles: ['54-381-4'] }
+      },
+      {
+        path: 'AddDiscountsetting',
+        component: () => import('@/views/BasicSettings/AddDiscountsetting'),
+        name: 'AddDiscountsetting',
+        meta: { title: 'AddDiscountsetting', noCache: false, roles: ['54-381-1'] }
+      },
       {
         path: 'Dept',
         component: () => import('@/views/BasicSettings/Dept'),

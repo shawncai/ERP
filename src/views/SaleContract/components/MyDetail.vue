@@ -292,6 +292,7 @@ export default {
           orderedQuantity: 0,
           categoryName: item.category,
           discount: 0,
+          discountMoney: 0,
           performanceScore: item.kpiGrade,
           productScore: item.point
         }

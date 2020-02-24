@@ -405,7 +405,9 @@ export default {
     AccountManagement2: '账户管理',
     expensesSummary: '支出单汇总',
     SaleDetailCount: '销售明细统计',
-    ProfitCount: '利润统计表'
+    ProfitCount: '利润统计表',
+    AddDiscountsetting: '新建折扣设置',
+    Discountsetting: '折扣设置列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4191,7 +4193,9 @@ export default {
     zdz: '制单中',
     zxz: '执行中',
     js: '结束',
-    pf: '批发'
+    pf: '批发',
+    zdzke: '最大折扣额',
+    zdzkl: '最大折扣率',
+    cgzdzke: '超过最大折扣额'
   }
-
 }
