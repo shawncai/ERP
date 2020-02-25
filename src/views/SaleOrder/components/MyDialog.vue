@@ -14,8 +14,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
-                  <el-option value="1" label="无来源" />
-                  <el-option value="2" label="销售机会" />
+                  <el-option :label="$t('prompt.wly')" value="1" />
+                  <el-option :label="$t('prompt.xsjh')" value="2" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -28,8 +28,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                  <el-option value="1" label="经销商"/>
-                  <el-option value="2" label="零售"/>
+                  <el-option :label="$t('prompt.jxs')" value="1"/>
+                  <el-option :label="$t('prompt.ls')" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -97,8 +97,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.saleType')" style="width: 100%;">
                 <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="零售" />
-                  <el-option value="2" label="批发" />
+                  <el-option :label="$t('updates.ls')" value="1" />
+                  <el-option :label="$t('tongyo.pf')" value="2" />
                 </el-select>
               </el-form-item>
             </el-col>

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="repositoryVisible" :repositorycontrol="repositorycontrol" :close-on-press-escape="false" top="10px" title="选择仓库" append-to-body @close="$emit('update:repositorycontrol', false)">
+  <el-dialog :visible.sync="repositoryVisible" :repositorycontrol="repositorycontrol" :close-on-press-escape="false" top="10px" title="选择门店" append-to-body @close="$emit('update:repositorycontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.id" :placeholder="$t('Repository.id')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -37,18 +37,24 @@
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </div>
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
       :key="tableKey"
+      :row-key="getRowKeys"
       :data="list"
       border
       fit
       highlight-current-row
       style="width: 100%;"
-      @current-change="handleCurrentChange">
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        :reserve-selection="true"
+        type="selection"
+        width="55"
+        align="center"/>
       <el-table-column :label="$t('Repository.id')" :resizable="false" prop="id" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
@@ -119,10 +125,15 @@ export default {
   },
   data() {
     return {
-      // 转化数据
-      choosedata: '',
+      getRowKeys(row) {
+        return row.id
+      },
+      select_orderId: [],
+      select_order_number: [],
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
+      // 转化数据
+      choosedata: '',
       // 类型列表
       types: [],
       // 国家列表
@@ -217,12 +228,6 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           this.repositoryVisible = true
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'wrong',
-            offset: 100
-          })
         }
       })
     },
@@ -242,12 +247,36 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
-      this.$emit('repositoryname', this.choosedata)
+      console.log(this.moreaction)
+      const repossitoryData = this.moreaction.map(function(item) {
+        return {
+          repositoryName: item.repositoryName,
+          categoryName: item.categoryName,
+          managerName: item.managerName,
+          id: item.id
+        }
+      })
+      const repossitoryIds = this.moreaction.map(function(item) {
+        return item.id
+      })
+      this.$emit('repossitoryData', repossitoryData)
+      this.$emit('repossitoryIds', repossitoryIds)
       this.repositoryVisible = false
     },
     // 选择仓库数据时的操作
-    handleCurrentChange(val) {
-      this.choosedata = val
+    // 批量操作
+    handleSelectionChange(val) {
+      // this.moreaction = val
+      this.moreaction = val
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (val) {
+        val.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
     }
   }
 }

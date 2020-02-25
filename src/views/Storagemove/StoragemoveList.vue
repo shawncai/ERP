@@ -766,10 +766,11 @@ export default {
     isReview(row) {
       const userepository = this.$store.getters.repositoryId
       console.log(this.$store.getters.userId)
+      console.log('userepository', userepository)
       if (row.moveType === 1) {
         console.log('row', row)
         console.log('row.modifyStat', row.modifyStat)
-        if (row.modifyStat === 1 && row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
           console.log(1233444444)
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')

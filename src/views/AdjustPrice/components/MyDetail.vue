@@ -10,6 +10,7 @@
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
@@ -119,7 +120,7 @@
 </template>
 
 <script>
-import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
+import { productlist, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -205,8 +206,8 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
-      chooseProduct(this.getemplist).then(res => {
+      // this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
+      productlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -233,8 +234,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
-      chooseProduct(this.getemplist).then(res => {
+      // this.getemplist.searchRepositoryId = this.query.adjustRepositoryId
+      productlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

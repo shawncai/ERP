@@ -1,5 +1,21 @@
 import request from '@/utils/request'
 
+// 确认出库时修改
+export function updateOutDetail(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('moveId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/storagemove/updateOutDetail',
+    method: 'post',
+    data: params
+  })
+}
+
 // 添加调拨单
 export function createstoragemove(query, query2, query3) {
   var params = new URLSearchParams()

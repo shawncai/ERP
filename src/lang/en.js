@@ -405,7 +405,9 @@ export default {
     AccountManagement2: 'account management',
     expensesSummary: 'expenses form summary',
     SaleDetailCount: 'sale detail count',
-    ProfitCount: 'profit count'
+    ProfitCount: 'profit count',
+    AddDiscountsetting: 'AddDiscountsetting',
+    Discountsetting: 'Discountsetting'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -3864,6 +3866,7 @@ export default {
     landline: 'landline'
   },
   otherlanguage: {
+    xhp: 'consumption',
     zzmx: 'transfer detail',
     zzlx: 'transfer type',
     xjzh: 'new account',
@@ -4186,6 +4189,12 @@ export default {
     retreatMoney: 'retreatMoney',
     endMoney: 'endMoney',
     repositoryName: 'repository',
-    discountMoney: 'discountMoney'
+    discountMoney: 'discountMoney',
+    zdz: 'Manufacturing',
+    zxz: 'In progress',
+    js: 'end',
+    pf: 'wholesale',
+    zdzke: 'most discountmoney',
+    zdzkl: 'most discountrate'
   }
 }

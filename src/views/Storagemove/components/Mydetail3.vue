@@ -1,16 +1,18 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :supp="supp" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+      <!-- <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
-      </el-select>
+      </el-select> -->
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         v-model="visible2"
@@ -44,12 +46,14 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -88,9 +92,19 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('otherlanguage.kcsl')" :resizable="false" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.salePrice }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.purchasePrice }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
@@ -113,7 +127,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -137,15 +151,22 @@ export default {
       type: Boolean,
       default: false
     },
-    supp: {
-      type: Number,
+    personalform: {
+      type: Object,
       default: null
     }
+
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
+      select_orderId: [],
+      select_order_number: [],
+      query: this.personalform,
       // 供应商回显
-      supplierId: '',
+      supplierid: '',
       // 供货商控制
       empcontrol: false,
       // 规格型号数据
@@ -173,11 +194,10 @@ export default {
         productid: '',
         code: '',
         productname: '',
-        categoryid: '',
+        categoryid: '1',
         typeid: '',
         isactive: '',
         Productid: '',
-        supplierid: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -189,10 +209,8 @@ export default {
       console.log(this.control)
       this.getlist()
     },
-    supp() {
-      this.getemplist.supplierid = this.supp
-      this.getlist()
-      console.log('123123123123123', this.supp)
+    personalform() {
+      this.query = this.personalform
     }
   },
   created() {
@@ -205,9 +223,13 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.moveOutRepository
+      console.log(this.personalform)
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -226,22 +248,37 @@ export default {
       this.getemplist.categoryid = ''
     },
     restFilter2() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.supplierid = ''
+      this.getemplist.supplierid = ''
     },
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.personalform.moveOutRepository
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
+          // this.restFilter()
+        } else {
+          // this.restFilter()
         }
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -250,8 +287,8 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
-      this.supplierId = val.supplierName
-      this.getemplist.supplierId = val.id
+      this.supplierid = val.supplierName
+      this.getemplist.supplierid = val.id
     },
     // 物品分类focus
     treechoose() {
@@ -270,28 +307,35 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
+      console.log('personalform', this.personalform)
+      const moveoutid = this.personalform.id
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
-          unit: item.caigouMeasu,
           color: item.color,
-          plannedQuantity: 0,
-          planDeliveryDate: '',
-          applicationReason: '',
-          sourceNumber: '',
-          sourceSerialNumber: '',
-          price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
-          remark: 0,
-          orderedQuantity: 0,
-          returnQuantity: 0,
-          actualArrivalQuantity: 0,
-          discountRate: 0
+          type: item.typeId,
+          typeName: item.productType,
+          // applyQuantity: '',
+          enterQuantity: 0,
+          // taxRate: 0,
+          unit: item.stockMeasu,
+          // unitName: item.stockMeasu,
+          // actualEnterQuantity: 0,
+          // basicQuantity: 0,
+          // enterPrice: item.costPrice,
+          // productType: item.productType,
+          // totalMoney: 0,
+          // enterMoney: 0,
+          // price: item.costPrice,
+          movePrice: item.costPrice,
+          totalMoney: item.costPrice,
+          // batch: item.batch,
+          moveQuantity: 1,
+          existStock: item.existStock,
+          moveMoney: 0,
+          stat: 1,
+          moveId: moveoutid
         }
       })
       console.log(productDetail)

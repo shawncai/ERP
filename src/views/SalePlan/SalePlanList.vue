@@ -288,6 +288,7 @@
               circle
               @click="handleDelete(scope.row)"
             />
+            <el-button v-permission="['54-61-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -713,6 +714,38 @@ export default {
         }
       }
     },
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fsp'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleplan2(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: this.$t('prompt.fspsb')
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: this.$t('prompt.fspcg')
+              })
+            }
+            this.getlist()
+          }
+        })
+      }).catch(action => {
+        // console.log('action========>', action)
+      }
+      )
+    },
     // 审批操作
     handleReview(row) {
       this.reviewParms = {}
@@ -752,6 +785,13 @@ export default {
             })
           }
         })
+    },
+    // 反审批权限
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
     },
     // 批量操作
     handleSelectionChange(val) {

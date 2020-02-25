@@ -29,12 +29,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('AdjustPrice.adjustRepositoryId')" prop="adjustRepositoryId" style="width: 100%;">
                   <el-input v-model="adjustRepositoryId" placeholder="请选择调价仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('AdjustPrice.adjustDate')" prop="adjustDate" style="width: 100%;">
                   <el-date-picker
@@ -75,6 +75,33 @@
               </el-col>
             </el-row>
           </el-form>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" >{{ $t('AdjustPrice.adjustRepositoryId') }}</h2>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddRep">选择门店</el-button>
+          <my-repository :repositorycontrol.sync="repositorycontrol" @repossitoryData="repossitoryData" @repossitoryIds="repossitoryIds"/>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <!-- <el-checkbox v-model="checkAll" style="margin-left: 20px" @change="handleCheckAllChange">全部门店</el-checkbox> -->
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('updates.mdmc')" prop="repositoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.mdlx')" prop="categoryName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.fzr')" prop="managerName" align="center" min-width="150px"/>
+          </el-editable>
         </div>
       </el-card>
       <!--调价单明细-->
@@ -147,7 +174,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="issave" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -191,6 +218,9 @@ export default {
       }
     }
     return {
+      issave: false,
+      allrepos: [],
+      list3: [],
       // 调价原因
       reasonlist: [],
       // 调价参数
@@ -254,15 +284,6 @@ export default {
       locationlist: [],
       // 调价单明细列表规则
       validRules: {
-        newSalePrice: [
-          { required: true, message: '请填写价格', trigger: 'focus' }
-        ],
-        newTradePrice: [
-          { required: true, message: '请填写价格', trigger: 'focus' }
-        ],
-        newMemberPrice: [
-          { required: true, message: '请填写价格', trigger: 'focus' }
-        ]
       },
       pickerOptions1: {}
     }
@@ -276,6 +297,56 @@ export default {
     _that = this
   },
   methods: {
+    // 选择门店
+    handleAddRep() {
+      this.repositorycontrol = true
+    },
+    repossitoryIds(val) {
+      console.log(val)
+      this.allrepos = val
+      // this.personalForm.suitRepositorys = ',' + val.join(',') + ','
+    },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
+    // 加载门店
+    repossitoryData(val) {
+      // const nowlistdata = this.$refs.editable2.getRecords()
+      // for (let i = 0; i < val.length; i++) {
+      //   for (let j = 0; j < nowlistdata.length; j++) {
+      //     if (val[i].id === nowlistdata[j].id) {
+      //       this.$notify.error({
+      //         title: 'wrong',
+      //         message: '门店已添加',
+      //         offset: 100
+      //       })
+      //       return false
+      //     }
+      //   }
+      //   this.$refs.editable2.insert(val[i])
+      // }
+
+      console.log('val====', val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+      const newarr = Object.assign([], val, nowlistdata)
+      const needarr = this.uniqueArray(newarr, 'id')
+      console.log('needarr', needarr)
+      this.list3 = needarr
+    },
     // 限制生效日期
     test() {
       this.pickerOptions1.disabledDate = (time) => {
@@ -455,34 +526,41 @@ export default {
           delete Data[key]
         }
       }
-      const parms = JSON.stringify(Data)
-      const parms2 = JSON.stringify(EnterDetail)
-      const parm3 = this.personalForm
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
-              addadjustprice(parms, parms2, parm3).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
+              this.issave = true
+              for (const i in this.allrepos) {
+                Data.adjustRepositoryId = this.allrepos[i]
+                const parms = JSON.stringify(Data)
+                const parms2 = JSON.stringify(EnterDetail)
+                const parm3 = this.personalForm
+                addadjustprice(parms, parms2, parm3).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.editable2.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.issave = false
+                })
+              }
             }
           }).catch(valid => {
             this.$notify.error({

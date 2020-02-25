@@ -780,17 +780,46 @@ export default {
       }
       this.control = true
     },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
       console.log('val====', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      console.log('nowlistdata=====', nowlistdata)
-      if (nowlistdata.length === 0) {
-        this.list2 = val
-      } else {
-        const newarr = Object.assign([], val, nowlistdata)
-        console.log('newarr===', newarr)
-        this.list2 = newarr
-      }
+      const newarr = Object.assign([], val, nowlistdata)
+      const needarr = this.uniqueArray(newarr, 'productCode')
+      console.log('needarr', needarr)
+      this.list2 = needarr
+      // for (let i = 0; i < val.length; i++) {
+      //   for (let j = 0; j < nowlistdata.length; j++) {
+      //     if (val[i].productCode === nowlistdata[j].productCode) {
+      //       break
+      //     }
+      //   }
+      //   this.$refs.editable.insert(val[i])
+      // }
+      // console.log('nowlistdata=====', nowlistdata)
+      // if (nowlistdata.length === 0) {
+      //   this.list2 = val
+      // } else {
+      //   const newarr = Object.assign([], val, nowlistdata)
+      //   console.log('newarr===', newarr)
+      //   this.list2 = newarr
+      // }
     },
     // 调拨金额计算
     getSize(row) {

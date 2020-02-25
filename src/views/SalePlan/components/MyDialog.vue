@@ -224,7 +224,7 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
+    <el-card :body-style="{ padding: '10px' }" class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 50px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -264,6 +264,54 @@ export default {
       console.log(value)
       if (value === '') {
         callback(new Error('请选择'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择计划类别'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass3 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择计划类型'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择开始时间'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择结束时间'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(value)
+      if (value === '' || value === undefined || value === null) {
+        callback(new Error('请选择区域'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass7 = (rule, value, callback) => {
+      console.log(value)
+      if (this.repositoryid === '' || this.repositoryid === undefined || this.repositoryid === null) {
+        callback(new Error('请选择仓库'))
       } else {
         callback()
       }
@@ -369,32 +417,32 @@ export default {
       personalrules: {
         planCategory: [{
           required: true,
-          message: '请选择计划类别',
+          validator: validatePass2,
           trigger: 'change'
         }],
         planType: [{
           required: true,
-          message: '请选择计划类型',
+          validator: validatePass3,
           trigger: 'change'
         }],
         beginTime: [{
           required: true,
-          validator: '请选择开始时间',
-          trigger: 'focus'
+          validator: validatePass4,
+          trigger: 'change'
         }],
         endTime: [{
           required: true,
-          message: '请选择结束时间',
+          validator: validatePass5,
           trigger: 'change'
         }],
         regionId: [{
           required: true,
-          message: '请选择区域',
+          validator: validatePass6,
           trigger: 'change'
         }],
         repositoryid: [{
           required: true,
-          message: '请选择仓库',
+          validator: validatePass7,
           trigger: 'change'
         }]
       },
@@ -1031,25 +1079,53 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updatesaleplan(parms, parms2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: this.$t('prompt.czcg'),
-            message: this.$t('prompt.czcg'),
-            type: 'success',
-            duration: 1000,
-            offset: 100
+      this.$refs.personalForm.validate((valid) => {
+        if (valid) {
+          if (Data.planCategory === '2') {
+            delete Data.planRepositoryId
+            const regionId_length = Data.planRegionId.length
+            if (regionId_length === 0) {
+              Data.planRegionId = ''
+            } else {
+              Data.planRegionId = Data.planRegionId[regionId_length - 1]
+            }
+          } else if (Data.planCategory === '1') {
+            delete Data.planRegionId
+          }
+          if (Data.planType) {
+            Data.planType = Number(Data.planType)
+          }
+          if (Data.planCategory) {
+            Data.planCategory = Number(Data.planCategory)
+          }
+          updatesaleplan(parms, parms2).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: this.$t('prompt.czcg'),
+                message: this.$t('prompt.czcg'),
+                type: 'success',
+                duration: 1000,
+                offset: 100
+              })
+              this.$emit('rest', true)
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.editVisible = false
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'wrong',
+                offset: 100
+              })
+            }
           })
-          this.$emit('rest', true)
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.editVisible = false
         } else {
           this.$notify.error({
             title: 'wrong',
-            message: 'wrong',
+            message: 'Information is incomplete',
             offset: 100
           })
+          return false
         }
       })
     },

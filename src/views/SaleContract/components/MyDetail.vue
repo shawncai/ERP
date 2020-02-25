@@ -10,6 +10,7 @@
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
@@ -291,6 +292,7 @@ export default {
           orderedQuantity: 0,
           categoryName: item.category,
           discount: 0,
+          discountMoney: 0,
           performanceScore: item.kpiGrade,
           productScore: item.point
         }

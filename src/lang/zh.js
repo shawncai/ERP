@@ -405,7 +405,9 @@ export default {
     AccountManagement2: '账户管理',
     expensesSummary: '支出单汇总',
     SaleDetailCount: '销售明细统计',
-    ProfitCount: '利润统计表'
+    ProfitCount: '利润统计表',
+    AddDiscountsetting: '新建折扣设置',
+    Discountsetting: '折扣设置列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3864,6 +3866,7 @@ export default {
     landline: '座机号'
   },
   otherlanguage: {
+    xhp: '消耗品',
     zzmx: '转账明细',
     zzlx: '转账类型',
     xjzh: '新建账户',
@@ -4186,7 +4189,13 @@ export default {
     retreatMoney: '退货金额',
     endMoney: '结余金额',
     repositoryName: '门店',
-    discountMoney: '折扣金额'
+    discountMoney: '折扣金额',
+    zdz: '制单中',
+    zxz: '执行中',
+    js: '结束',
+    pf: '批发',
+    zdzke: '最大折扣额',
+    zdzkl: '最大折扣率',
+    cgzdzke: '超过最大折扣额'
   }
-
 }

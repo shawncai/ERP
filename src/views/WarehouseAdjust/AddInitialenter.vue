@@ -528,7 +528,7 @@ export default {
       if (this.enterRepositoryId === null || this.enterRepositoryId === '' || this.enterRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
+          message: this.$t('prompt.qxxzck'),
           offset: 100
         })
         return false

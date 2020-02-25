@@ -333,6 +333,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discountRate"
+                disabled
                 @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
@@ -342,7 +343,7 @@
                 :precision="2"
                 :controls="false"
                 v-model="scope.row.discountMoney"
-                @change="getdiscountMoney(scope.row)"/>
+                @change="getdiscountMoney(scope.row, $event, scope)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -507,6 +508,7 @@
 </template>
 
 <script>
+import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
@@ -1162,17 +1164,17 @@ export default {
       }
     },
     isEdit4(row) {
-      console.log('222', row)
+      // console.log('222', row)
       const re = row.productCode.slice(0, 2)
       if (re === '05') { return true } else { return false }
     },
     isEdit3(row) {
-      console.log('222', row)
+      // console.log('222', row)
       const re = row.productCode.slice(0, 2)
       if (re === '01') { return false } else { return true }
     },
     isEdit2(row) {
-      console.log('222', row)
+      // console.log('222', row)
       const re = row.productCode.slice(0, 2)
       // if (re === '01') {
       //   row.quantity = 1
@@ -1278,11 +1280,11 @@ export default {
         })
       }
 
-      if (row.discountRate === 0) {
-        row.discountMoney = 0
-      } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
-      }
+      // if (row.discountRate === 0) {
+      //   row.discountMoney = 0
+      // } else {
+      //   row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+      // }
     },
     // 重置一下下拉
     change() {
@@ -1318,7 +1320,7 @@ export default {
       if (row.batch === null || row.batch === '' || row.batch === undefined) {
         const parms3 = row.productCode
         batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.data.data.content.length > 0) {
             row.batch = res.data.data.content[0]
           }
@@ -1336,12 +1338,12 @@ export default {
       // 默认货位
       getlocation(this.personalForm.saleRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
-          console.log('res', res)
+          // console.log('res', res)
           if (res.data.data.content.length !== 0) {
             row.location = res.data.data.content[0].locationCode
             row.locationName = res.data.data.content[0].locationCode
             row.locationId = res.data.data.content[0].id
-            console.log('row.location', row.location)
+            // console.log('row.location', row.location)
           } else {
             row.location = null
             row.locationName = null
@@ -1608,7 +1610,7 @@ export default {
     // 计算含税金额
     getincludeTaxMoney(row) {
       row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
-      row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+      // row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
@@ -1617,9 +1619,9 @@ export default {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
       }
       if (row.discountRate === 0) {
-        row.discountMoney = 0
+        // row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+        // row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
     },
     // 计算税额
@@ -1629,22 +1631,87 @@ export default {
     },
     // 通过折扣计算折扣额
     getdiscountRate(row) {
-      if (row.discountRate === 0) {
-        row.discountMoney = 0
-      } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
-      }
+      // if (row.discountRate === 0) {
+      //   row.discountMoney = 0
+      // } else {
+      //   row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+      // }
     },
     // 通过折扣额计算折扣
-    getdiscountMoney(row) {
-      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        if (row.includeTaxCostMoney !== 0) {
-          row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
-        } else {
-          row.discountRate = 0
+    getdiscountMoney(row, val, scope) {
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') {
+        const discountparms = {
+          typeId: row.type,
+          roleId: this.$store.getters.roleId,
+          category: 1,
+          pageNum: 1,
+          pageSize: 1
         }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              console.log(123)
+            } else {
+              const isoverdiscount = val / row.quantity
+              console.log('isoverdiscount', isoverdiscount)
+              if (res.data.data.content.list[0].discountMoney < isoverdiscount) {
+                row.discountMoney = 0
+                row.discountRate = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              }
+            }
+          }
+          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+          }
+        })
+      } else {
+        const discountparms = {
+          roleId: this.$store.getters.roleId,
+          category: 2,
+          pageNum: 1,
+          pageSize: 1
+        }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              console.log('233')
+            } else {
+              console.log('res222', res)
+              const isoverdiscount = res.data.data.content.list[0].discountRate * row.includeTaxCostMoney
+              console.log('isoverdiscount', isoverdiscount)
+              if (isoverdiscount < val) {
+                row.discountMoney = 0
+                row.discountRate = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              }
+            }
+          }
+          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+          }
+        })
       }
     },
+    // // 通过折扣额计算折扣
+    // getdiscountMoney(row) {
+    //   if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+    //     if (row.includeTaxCostMoney !== 0) {
+    //       row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+    //     } else {
+    //       row.discountRate = 0
+    //     }
+    //   }
+    // },
     // 计算金额
     getMoney(row) {
       row.money = (row.quantity * row.salePrice).toFixed(2)
@@ -1990,6 +2057,25 @@ export default {
       delete this.personalForm.isDeliver
       delete this.personalForm.payType
       delete this.personalForm.currency
+      const EnterDetailgift = this.$refs.editable2.getRecords()
+      // 批次货位不能为空
+      let j = 1
+      EnterDetailgift.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+          j = 2
+        }
+      })
+      console.log(j)
+      if (j === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        return false
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           if (this.personalForm.sourceType === '5') {
