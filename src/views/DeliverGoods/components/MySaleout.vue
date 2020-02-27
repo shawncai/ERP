@@ -432,7 +432,6 @@ export default {
           salePrice: item.salePrice,
           costPrice: 0,
           costMonney: 0,
-          deliverQuantity: item.applyQuantity,
           deliverMoney: item.money,
           outRepositoryId: outRepositoryId,
           outRepositoryName: outRepositoryName,
@@ -455,7 +454,9 @@ export default {
           locationName: item.locationName,
           includeTaxCostMoney: 0,
           includeTaxMoney: 0,
-          stat: 0
+          stat: 0,
+          deliverQuantity: item.quantity,
+          price: item.salePrice
         }
       })
       this.$emit('saleOutDetail', saleOutDetail)
