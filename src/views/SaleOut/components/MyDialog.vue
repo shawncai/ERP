@@ -859,9 +859,9 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           // console.log(typeof (this.list2[i].taxprice))
-          num += this.list2[i].quantity
+          num += Number(this.list2[i].quantity)
           num2 += Number(this.list2[i].discountMoney)
-          num1 += this.list2[i].includeTaxCostMoney
+          num1 += Number(this.list2[i].includeTaxCostMoney)
         }
         this.heji1 = num
         this.heji3 = num1

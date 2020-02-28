@@ -149,7 +149,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible" title="采购进程" class="normal" width="600px" center>
+      <el-dialog :visible.sync="receiptVisible" title="销售进程" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">

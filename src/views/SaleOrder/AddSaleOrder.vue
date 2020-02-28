@@ -1047,6 +1047,7 @@ export default {
         backMoney: '0.00',
         sendType: '2',
         transDate: null,
+        sourceType: '1',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId
       }

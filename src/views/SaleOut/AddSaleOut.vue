@@ -848,9 +848,10 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           console.log(this.list2[i].productCode)
-          num += this.list2[i].quantity
+          num += Number(this.list2[i].quantity)
+          console.log('num', num)
           num2 += Number(this.list2[i].discountMoney)
-          num1 += this.list2[i].includeTaxCostMoney
+          num1 += Number(this.list2[i].includeTaxCostMoney)
           productlist(this.list2[i].productCode).then(res => {
             if (res.data.ret === 200) {
               console.log(res.data.data.content.list[0].isBatch)
@@ -1485,7 +1486,9 @@ export default {
         // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
         // console.log('顾客电话', this.personalForm.customerPhone)
-        this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        if (this.$store.getters.empcontract.saleType !== null && this.$store.getters.empcontract.saleType !== undefined && this.$store.getters.empcontract.saleType !== '') {
+          this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        }
         this.personalForm.payMode = this.$store.getters.empcontract.payMode
         this.personalForm.invoiceType = this.$store.getters.empcontract.invoiceType
         this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
