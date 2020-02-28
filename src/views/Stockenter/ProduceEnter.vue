@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -340,7 +340,7 @@ export default {
     },
     // 从销售订单过来数据
     productDetail(val) {
-      console.log(val)
+      console.log('val', val)
       this.$refs.editable.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {

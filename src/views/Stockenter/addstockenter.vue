@@ -8,7 +8,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" placeholder="请输入入库单主题" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>

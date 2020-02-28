@@ -335,6 +335,7 @@ export default {
       this.employeeVisible = false
       console.log('choosedata', this.choosedata)
       const producedata = this.choosedata.produceTaskDetailVos
+      console.log('producedata', producedata)
 
       const num = this.choosedata
       const productDetail = producedata.map(function(item) {
@@ -353,9 +354,9 @@ export default {
           sourceSerialNumber: item.id
         }
       })
-      const list = await Promise.all(producedata.map(function(item) {
-        return productlist(item.productCode)
-      }))
+      // const list = await Promise.all(producedata.map(function(item) {
+      //   return productlist(item.productCode)
+      // }))
       // console.log('list', list[0].data.data.content.list)
       // console.log('productDetail', productDetail)
       // 在外部把数据加到数组里面去
