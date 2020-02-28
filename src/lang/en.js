@@ -4195,6 +4195,14 @@ export default {
     js: 'end',
     pf: 'wholesale',
     zdzke: 'most discountmoney',
-    zdzkl: 'most discountrate'
+    zdzkl: 'most discountrate',
+    cgzdzke: 'Exceed the maximum discount',
+    gdjwjd: 'The document is open',
+    gdjyscpz: 'The document has been generated',
+    xsckscpzcg: 'Sales voucher generated voucher successfully',
+    xscbscpzcg: 'Cost of sales document generated successfully',
+    xsthscpzcg: 'Sales returns generate voucher successfully',
+    scpzcg: 'Generate credentials successfully',
+    gdjwshtg: 'The document has not been approved'
   }
 }

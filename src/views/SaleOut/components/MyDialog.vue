@@ -1651,7 +1651,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log(123)
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               const isoverdiscount = val / row.quantity
               console.log('isoverdiscount', isoverdiscount)
@@ -1680,7 +1686,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log('233')
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.includeTaxCostMoney

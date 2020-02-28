@@ -4196,6 +4196,13 @@ export default {
     pf: '批发',
     zdzke: '最大折扣额',
     zdzkl: '最大折扣率',
-    cgzdzke: '超过最大折扣额'
+    cgzdzke: '超过最大折扣额',
+    gdjwjd: '该单据未结单',
+    gdjyscpz: '该单据已经生成凭证',
+    xsckscpzcg: '销售出库生成凭证成功',
+    xscbscpzcg: '销售成本生成凭证成功',
+    xsthscpzcg: '销售退货生成凭证成功',
+    scpzcg: '生成凭证成功',
+    gdjwshtg: '该单据未审核通过'
   }
 }
