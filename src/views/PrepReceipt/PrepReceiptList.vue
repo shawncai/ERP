@@ -37,14 +37,15 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
+      <!-- <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['266-98-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
+      <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" class="filter-item" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
       <!-- 表格导出操作 -->
       <el-button v-permission="['266-98-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
@@ -157,6 +158,7 @@
 </template>
 
 <script>
+import { voucherlist, addAdvanceVoucher } from '@/api/voucher'
 import { searchprepReceipt, updateprepReceipt2, deleteprepReceipt } from '@/api/PrepReceipt'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -211,6 +213,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading2: false,
       receiptVisible99: false,
       // 结算方式数据
       colseTypes: [],
@@ -284,6 +287,65 @@ export default {
     _that = this
   },
   methods: {
+    // 生成凭证
+    handlevoucherparms() {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxzdj'),
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction.length > 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qbyxzdgdj'),
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction[0].receiptStat !== 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.gdjwjd'),
+          offset: 100
+        })
+        return false
+      }
+      this.downloadLoading2 = true
+      console.log('this.moreaction', this.moreaction)
+      const voucherparms = {
+        sourceNumber: this.moreaction[0].number,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      const voucherids = this.moreaction[0].id
+      const that = this
+      voucherlist(voucherparms).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.length !== 0) {
+            that.$notify.error({
+              title: 'wrong',
+              message: that.$t('tongyo.gdjyscpz'),
+              offset: 100
+            })
+            return false
+          } else {
+            addAdvanceVoucher(voucherids).then(res => {
+              if (res.data.ret === 200) {
+                that.$message({
+                  type: 'success',
+                  message: that.$t('tongyo.scpzcg')
+                })
+                this.downloadLoading2 = false
+              }
+            })
+            this.downloadLoading2 = false
+          }
+        }
+        this.downloadLoading2 = false
+      })
+    },
+
     // 附件操作
     check(row) {
       console.log(row)
