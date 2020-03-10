@@ -168,7 +168,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         enterRepositoryId: this.$store.getters.repositoryId,
         enterDeptId: this.$store.getters.deptId,
-        countryId: 1
+        countryId: this.$store.getters.useCountry
       },
       repositoryId: this.$store.getters.repositoryId,
       regionId: this.$store.getters.regionId,
@@ -453,7 +453,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         enterRepositoryId: this.$store.getters.repositoryId,
         enterDeptId: this.$store.getters.deptId,
-        countryId: 1
+        countryId: this.$store.getters.useCountry
       }
       this.enterRepositoryId = this.$store.getters.repositoryName
       this.enterPersonId = this.$store.getters.name

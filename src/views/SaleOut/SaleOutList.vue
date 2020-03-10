@@ -145,6 +145,8 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="returncontrol" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog3 :editcontrol.sync="batteryreturn" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -163,6 +165,8 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
+import MyDialog2 from './components/MyDialog2'
+import MyDialog3 from './components/MyDialog3'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyAccept from './components/MyAccept'
@@ -172,7 +176,7 @@ var _that
 export default {
   name: 'SaleOutList',
   directives: { waves, permission, permission2 },
-  components: { MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog3, MyDialog2, MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     saleTypeFilter(sta) {
       const statusMap = {
@@ -217,6 +221,8 @@ export default {
   },
   data() {
     return {
+      batteryreturn: false,
+      returncontrol: false,
       downloadLoading2: false,
       // 回显仓库
       saleRepositoryId: '',
@@ -558,7 +564,13 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editVisible = true
+      if (row.isFree === 1 && row.useMonth === null && row.useType === null) {
+        this.returncontrol = true
+      } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
+        this.batteryreturn = true
+      } else {
+        this.editVisible = true
+      }
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
       if (row.currency !== null) {

@@ -89,12 +89,27 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
                   <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('tongyo.useType')" prop="useType" style="width: 100%;">
+                  <el-select v-model="personalForm.useType" style="margin-left: 18px;width: 200px" @change="getReceivableMoney">
+                    <el-option :label="$t('tongyo.jy')" value="1"/>
+                    <el-option :label="$t('tongyo.yy')" value="2"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('tongyo.useMonth')" prop="useMonth" style="width: 100%;">
+                  <el-select v-model="personalForm.useMonth" style="margin-left: 18px;width: 200px" @change="getReceivableMoney">
+                    <el-option v-for="(item, index) in diffpricelist" :key="index" :value="item.useMonth" :label="item.useMonth"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -160,6 +175,7 @@
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
+                  disabled
                   @change="queryStock(scope.row)"
                 />
                 <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
@@ -227,6 +243,7 @@
                   :controls="false"
                   :min="0"
                   v-model="scope.row.discountMoney"
+                  disabled
                   @change="getdiscountMoney(scope.row, $event, scope)"/>
               </template>
             </el-editable-column>
@@ -255,7 +272,7 @@
       </el-card>
 
       <!--  退货入库 -->
-      <el-card v-show="personalForm.isFree === 1" class="box-card" style="margin-top: 15px">
+      <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name">{{ $t('tongyo.zbthd') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddreturnproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -299,6 +316,7 @@
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
+                  disabled
                   @change="returnquanty(scope.row)"
                 />
                 <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
@@ -379,7 +397,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { batteryList2 } from '@/api/DiffPrice'
+import { batteryList2, searchDiffPrice } from '@/api/DiffPrice'
 import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
@@ -390,7 +408,7 @@ import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
-import MyDetail from './components/MyDetail3'
+import MyDetail from './components/BatteryOut'
 import { searchCategory } from '@/api/Supplier'
 import MyApply from './components/MyApply'
 import MySupplier from '../Product/components/MySupplier'
@@ -404,7 +422,7 @@ import MyAdvance from './components/MyAdvance'
 import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
-import MyReturn from './components/MyReturn'
+import MyReturn from './components/BatteryReturn'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
 import MyPackage from './components/MyPackage'
@@ -484,6 +502,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      diffpricelist: [],
       control2: false,
       // 退货入库数据
       returnlist: [],
@@ -584,7 +603,7 @@ export default {
             couponSupport: 0
           }
         ],
-        title: 'Accessories',
+        title: 'Battery replacement',
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -613,6 +632,12 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        useType: [
+          { required: true, message: _that.$t('tongyo.qxzdcsylx'), trigger: 'change' }
+        ],
+        useMonth: [
+          { required: true, message: _that.$t('tongyo.qxzdcsysc'), trigger: 'change' }
+        ],
         saleType: [
           { required: true, validator: validatePass8, trigger: 'change' }
         ],
@@ -662,7 +687,11 @@ export default {
       // 可否提交
       ableSubmission: true,
       // 批次列表
-      batchlist: []
+      batchlist: [],
+      getemplist: {
+        pagenum: 1,
+        pagesize: 999999
+      }
     }
   },
   watch: {
@@ -727,6 +756,7 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
+    this.getdiffprice()
   },
 
   mounted() {
@@ -742,12 +772,131 @@ export default {
     _that = this
   },
   methods: {
+    getdiffprice() {
+      searchDiffPrice(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.diffpricelist = res.data.data.content.list
+        }
+      })
+    },
     sum(arr) {
       if (arr.length === 0) {
         return 0
       } else {
         // eslint-disable-next-line no-eval
         return eval(arr.join('+'))
+      }
+    },
+    async  judgequantity() {
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
+      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+      console.log('controlcategorysdetail', controlcategorysdetail)
+      const outproduct = this.$refs.editable.getRecords()
+      console.log('outproduct', outproduct)
+      if (this.returnlist.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.zbthmxbnwk'),
+          offset: 100
+        })
+        return false
+      }
+      const returnproduct = this.$refs.editable2.getRecords()
+      const controlpro = []
+      const chargepro = []
+      const motopro = []
+      for (const i in outproduct) {
+        if (controlcategorysdetail.includes(outproduct[i].category)) {
+          controlpro.push(outproduct[i])
+        } else if (chargecategorysdetail.includes(outproduct[i].category)) {
+          chargepro.push(outproduct[i])
+        } else if (motocategorys.includes(outproduct[i].category)) {
+          motopro.push(outproduct[i])
+        }
+      }
+      const controlproquantity = controlpro.map(item => {
+        return item.quantity
+      })
+      const allcontrolproquantity = this.sum(controlproquantity)
+      console.log('allcontrolproquantity', allcontrolproquantity)
+      const chargeproquantity = chargepro.map(item => {
+        return item.quantity
+      })
+      const allchargeproquantity = this.sum(chargeproquantity)
+      console.log('allchargeproquantity', allchargeproquantity)
+      const motoproquantity = motopro.map(item => {
+        return item.quantity
+      })
+      const allmotoproquantity = this.sum(motoproquantity)
+      console.log('allmotoproquantity', allmotoproquantity)
+
+      console.log('controlpro', controlpro)
+      console.log('chargepro', chargepro)
+      console.log('motopro', motopro)
+      const returncontrolpro = []
+      const returnchargepro = []
+      const returnmotopro = []
+      for (const i in returnproduct) {
+        if (controlcategorysdetail.includes(outproduct[i].category)) {
+          returncontrolpro.push(outproduct[i])
+        } else if (chargecategorysdetail.includes(outproduct[i].category)) {
+          returnchargepro.push(outproduct[i])
+        } else if (motocategorys.includes(outproduct[i].category)) {
+          returnmotopro.push(outproduct[i])
+        }
+      }
+      const returncontrolproquantity = returncontrolpro.map(item => {
+        return item.quantity
+      })
+      const allreturncontrolproquantity = this.sum(returncontrolproquantity)
+      console.log('allreturncontrolproquantity', allreturncontrolproquantity)
+      const returnchargeproquantity = returnchargepro.map(item => {
+        return item.quantity
+      })
+      const allreturnchargeproquantity = this.sum(returnchargeproquantity)
+      console.log('allreturnchargeproquantity', allreturnchargeproquantity)
+      const returnmotoproquantity = returnmotopro.map(item => {
+        return item.quantity
+      })
+      const allreturnmotoproquantity = this.sum(returnmotoproquantity)
+      console.log('allreturnmotoproquantity', allreturnmotoproquantity)
+
+      if (allcontrolproquantity !== allreturncontrolproquantity) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.kzqthslyckslbf'),
+          offset: 100
+        })
+        return false
+      }
+
+      if (allreturnchargeproquantity !== allchargeproquantity) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.cdqthslyckslbf'),
+          offset: 100
+        })
+        return false
+      }
+
+      if (allreturnmotoproquantity !== allmotoproquantity) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.djthslyckslbf'),
+          offset: 100
+        })
+        return false
       }
     },
     returnquanty(row) {
@@ -782,16 +931,11 @@ export default {
     productdetail2(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable2.getRecords()
+      this.$refs.editable2.clear()
 
-      console.log(nowlistdata)
-      var ret4 = val.findIndex((value, index, arr) => {
-        return value.productCode === this.personalForm.productCode
-      })
-
-      console.log(ret4)
-      this.returnlist = val.filter(item => {
-        return item.productCode !== this.personalForm.productCode
-      })
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable2.insert(val[i])
+      }
     },
     handleAddreturnproduct() {
       console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
@@ -1020,79 +1164,42 @@ export default {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
-        console.log('this.heji3', this.heji3)
-        console.log('this.heji4', this.heji4)
-        console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+      if (this.list2.length === 0) {
+        this.$set(this.personalForm, 'receivableMoney', 0)
         // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        console.log('123', 123)
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
-        console.log('是否是销售合同带入过来')
-        console.log('234', 234)
-        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', 0)
       } else {
-        console.log('456', 456)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
+        const allbattery = this.$refs.editable.getRecords()
+        console.log('allbattery', allbattery)
+        console.log('this.diffpricelist', this.diffpricelist)
+        const filtertypes = this.diffpricelist.filter(item => {
+          return item.useType === Number(this.personalForm.useType)
+        })
+        console.log('filtertypes', filtertypes)
+        const filtermonth = filtertypes.filter(item => {
+          return item.useMonth === Number(this.personalForm.useMonth)
+        })
+        console.log('filtermonth', filtermonth)
+        const filterfinally = filtermonth.filter(item => {
+          return item.categoryId === allbattery[0].category
+        })
+        console.log('filterfinally', filterfinally)
+        // this.diffpricelist
+        if (filterfinally.length !== 0) {
+          let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'receivableMoney', needmoney)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        } else {
+          this.$set(this.personalForm, 'receivableMoney', 0)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', 0)
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
-
-      // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
-      //   console.log(198283774747)
-      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney))
-      // }
-
-      // if (this.personalForm.advanceMoney) {
-      //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
-      // }
-
-      // if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
-      //   console.log(12333333333)
-      //   this.personalForm.receivableMoney = this.receivableMoney
-      //   return (this.receivableMoney - Number(this.personalForm.couponSupport))
-      // } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
-      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
-      //   return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      // } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
-      //   console.log('this.heji3 - this.heji4 - this.personalForm.ridMoney', this.heji3 - this.heji4 - this.personalForm.ridMoney)
-      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
-      //   return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
-      // } else {
-      //   if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
-      //     console.log('this.heji3 - this.heji4', this.heji3 - this.heji4)
-      //     this.personalForm.receivableMoney = this.heji3 - this.heji4
-      //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
-      //   }
-      // }
     },
     isEdit5(row) {
       console.log('222', row)
@@ -2074,8 +2181,9 @@ export default {
       }
       this.control = true
     },
-    async productdetail(val) {
+    productdetail(val) {
       console.log('val', val)
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable.insert(val[i])
@@ -2174,7 +2282,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        title: 'Accessories',
+        title: 'Battery replacement',
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -2466,179 +2574,75 @@ export default {
     },
     // 保存操作
     async handlesave() {
-      console.log('this.returnlist', this.returnlist)
-      if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
-        console.log('this.$refs.editable2', this.$refs.editable2.getRecords())
-        this.$refs.editable2.clear()
+      const needbatterycategorys = await batteryList2(1118).then(res => {
+        return res.data.data.content
+      })
+      const battery1 = needbatterycategorys[0].productClassfyVos
+      const battery2 = needbatterycategorys[1].productClassfyVos
+      const batterycategorys = [...battery1, ...battery2]
+      const batterycategorysdetail = batterycategorys.map(item => {
+        return item.id
+      })
+      console.log('batterycategorysdetail', batterycategorysdetail)
+      const outproduct = this.$refs.editable.getRecords()
+      console.log('outproduct', outproduct)
+      if (this.returnlist.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.zbthmxbnwk'),
+          offset: 100
+        })
+        return false
       }
-      if (this.personalForm.isFree === 1) {
-        const controlcategorys = await batteryList2(8).then(res => {
-          return res.data.data.content
-        })
-        const controlcategorysdetail = controlcategorys.map(item => {
-          return item.id
-        })
-        const chargecategorys = await batteryList2(14).then(res => {
-          return res.data.data.content
-        })
-        const chargecategorysdetail = chargecategorys.map(item => {
-          return item.id
-        })
-        const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
-        const needbatterycategorys = await batteryList2(1118).then(res => {
-          return res.data.data.content
-        })
-        const battery1 = needbatterycategorys[0].productClassfyVos
-        const battery2 = needbatterycategorys[1].productClassfyVos
-        const batterycategorys = [...battery1, ...battery2]
-        const batterycategorysdetail = batterycategorys.map(item => {
-          return item.id
-        })
-        console.log('controlcategorysdetail', controlcategorysdetail)
-        const outproduct = this.$refs.editable.getRecords()
-        console.log('outproduct', outproduct)
-        if (this.returnlist.length === 0) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.zbthmxbnwk'),
-            offset: 100
-          })
-          return false
-        }
-        const returnproduct = this.$refs.editable2.getRecords()
-        const controlpro = []
-        const chargepro = []
-        const motopro = []
-        const batterypro = []
-        for (const i in outproduct) {
-          if (controlcategorysdetail.includes(outproduct[i].category)) {
-            controlpro.push(outproduct[i])
-          } else if (chargecategorysdetail.includes(outproduct[i].category)) {
-            chargepro.push(outproduct[i])
-          } else if (motocategorys.includes(outproduct[i].category)) {
-            motopro.push(outproduct[i])
-          } else if (batterycategorys.includes(outproduct[i].category)) {
-            batterypro.push(outproduct[i])
-          }
-        }
-        const controlproquantity = controlpro.map(item => {
-          return item.quantity
-        })
-        const allcontrolproquantity = this.sum(controlproquantity)
-        console.log('allcontrolproquantity', allcontrolproquantity)
-        const chargeproquantity = chargepro.map(item => {
-          return item.quantity
-        })
-        const allchargeproquantity = this.sum(chargeproquantity)
-        console.log('allchargeproquantity', allchargeproquantity)
-        const motoproquantity = motopro.map(item => {
-          return item.quantity
-        })
-        const allmotoproquantity = this.sum(motoproquantity)
-        console.log('allmotoproquantity', allmotoproquantity)
-
-        const batteryproquantity = batterypro.map(item => {
-          return item.quantity
-        })
-        const allbatteryproquantity = this.sum(batteryproquantity)
-        console.log('allbatteryproquantity', allbatteryproquantity)
-
-        console.log('controlpro', controlpro)
-        console.log('chargepro', chargepro)
-        console.log('motopro', motopro)
-        console.log('batterypro', batterypro)
-        const returncontrolpro = []
-        const returnchargepro = []
-        const returnmotopro = []
-        const returnbatterypro = []
-        for (const i in returnproduct) {
-          if (controlcategorysdetail.includes(returnproduct[i].category)) {
-            returncontrolpro.push(returnproduct[i])
-          } else if (chargecategorysdetail.includes(returnproduct[i].category)) {
-            returnchargepro.push(returnproduct[i])
-          } else if (motocategorys.includes(returnproduct[i].category)) {
-            returnmotopro.push(returnproduct[i])
-          } else if (batterycategorys.includes(returnproduct[i].category)) {
-            returnbatterypro.push(returnproduct[i])
-          }
-        }
-
-        console.log('returncontrolpro', returncontrolpro)
-        console.log('returnchargepro', returnchargepro)
-        console.log('returnmotopro', returnmotopro)
-        console.log('returnbatterypro', returnbatterypro)
-        const returncontrolproquantity = returncontrolpro.map(item => {
-          return item.quantity
-        })
-        const allreturncontrolproquantity = this.sum(returncontrolproquantity)
-        console.log('allreturncontrolproquantity', allreturncontrolproquantity)
-        const returnchargeproquantity = returnchargepro.map(item => {
-          return item.quantity
-        })
-        const allreturnchargeproquantity = this.sum(returnchargeproquantity)
-        console.log('allreturnchargeproquantity', allreturnchargeproquantity)
-        const returnmotoproquantity = returnmotopro.map(item => {
-          return item.quantity
-        })
-        const allreturnmotoproquantity = this.sum(returnmotoproquantity)
-        console.log('allreturnmotoproquantity', allreturnmotoproquantity)
-
-        const returnbatteryproquantity = returnbatterypro.map(item => {
-          return item.quantity
-        })
-        const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
-        console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
-
-        if (allbatteryproquantity !== allreturnbatteryproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.dcthslyckslbfh'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allcontrolproquantity !== allreturncontrolproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.kzqthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allreturnchargeproquantity !== allchargeproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.cdqthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allreturnmotoproquantity !== allmotoproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.djthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-        let z = 1
-        for (const j in returnproduct) {
-          if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
-            z = 2
-          }
-        }
-        if (z === 2) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('prompt.pchwbnwk'),
-            offset: 100
-          })
-          return false
+      const returnproduct = this.$refs.editable2.getRecords()
+      const batterypro = []
+      for (const i in outproduct) {
+        if (batterycategorys.includes(outproduct[i].category)) {
+          batterypro.push(outproduct[i])
         }
       }
+
+      const batteryproquantity = batterypro.map(item => {
+        return item.quantity
+      })
+      const allbatteryproquantity = this.sum(batteryproquantity)
+      console.log('allbatteryproquantity', allbatteryproquantity)
+      console.log('batterypro', batterypro)
+      const returnbatterypro = []
+      for (const i in returnproduct) {
+        if (batterycategorys.includes(returnproduct[i].category)) {
+          returnbatterypro.push(returnproduct[i])
+        }
+      }
+      const returnbatteryproquantity = returnbatterypro.map(item => {
+        return item.quantity
+      })
+      const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
+      console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
+
+      if (allbatteryproquantity !== allreturnbatteryproquantity) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.dcthslyckslbfh'),
+          offset: 100
+        })
+        return false
+      }
+      let z = 1
+      for (const j in returnproduct) {
+        if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
+          z = 2
+        }
+      }
+      if (z === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        return false
+      }
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
@@ -2759,7 +2763,7 @@ export default {
               delete elem.point
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
+              elem.quantity = 1
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
               delete elem.salePrice
@@ -2836,7 +2840,7 @@ export default {
               delete elem.remarks
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              elem.quantity = 0
+              elem.quantity = 1
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
               delete elem.salePrice

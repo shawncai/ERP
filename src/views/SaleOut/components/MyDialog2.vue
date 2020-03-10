@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number + $t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" disabled @change="chooseSourceType">
                   <el-option :label="$t('prompt.xsdd')" value="1"/>
                   <el-option :label="$t('prompt.xsht')" value="2"/>
                   <el-option :label="$t('prompt.ysd')" value="3"/>
@@ -215,13 +215,13 @@
                 </el-radio-group>
               </el-form-item>
             </el-col> -->
-            <!--
+
             <el-col :span="12">
               <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
                 <span>{{ personalForm.isFree | isFreeTypeFilter }}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('tongyo.useType')" style="width: 100%;">
                 <span>{{ personalForm.useType | useTypeFilter }}</span>
               </el-form-item>
@@ -384,75 +384,8 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card v-if="showreturn === false" class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
-      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
-        <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
-        <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
-        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-      </div>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          :summary-method="getSummaries2"
-          class="click-table1"
-          stripe
-          border
-          size="medium"
-          style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.xh')" width="55" align="center" type="index" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150">
-            <template slot-scope="scope">
-              <p>{{ getLocationData(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
-            <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                <el-option
-                  v-for="(item, index) in batchlist"
-                  :key="index"
-                  :value="item"
-                  :label="item"/>
-              </el-select>
-              <span v-else>{{ scope.row.batch }}</span>
-            </template>
-          </el-editable-column>
-          <!--          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="170px"/>-->
-          <!--          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>-->
-          <!--          <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150px"/>-->
-          <!--          <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>-->
-          <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
-          <!--          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>-->
-          <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
-            <template slot="edit" slot-scope="scope">
-              <el-input-number
-                :precision="2"
-                :controls="false"
-                :value="scope.row.quantity"
-              />
-            </template>
-          </el-editable-column>
-        </el-editable>
-      </div>
-    </el-card>
-
     <!--  退货入库 -->
-    <el-card v-if="showreturn" class="box-card" style="margin-top: 15px">
+    <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">{{ $t('tongyo.zbthd') }}</h2>
       <div class="buttons" style="margin-top: 58px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddreturnproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -953,8 +886,10 @@ export default {
       this.outPersonId = this.personalForm.outPersonName
       this.customerPhone = this.personalForm.customerPhone
       this.updatebatch()
-      // this.getlocations()
-      // this.getdiffprice()
+      this.getlocations()
+      if (this.personalForm.useMonth !== null & this.personalForm.useMonth !== undefined && this.personalForm.useMonth !== '') {
+        this.getdiffprice()
+      }
     },
     // 监听明细表计算合计
     list2: {
@@ -2294,27 +2229,198 @@ export default {
     },
     // 修改和取消按钮
     // 修改按钮
-    handleEditok() {
-      const EnterDetailgift = this.$refs.editable2.getRecords()
-      // 批次货位不能为空
-      let j = 1
-      EnterDetailgift.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-          j = 2
-        }
-      })
-      console.log(j)
-      if (j === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.pchwbnwk'),
-          offset: 100
+    async  handleEditok() {
+      if (this.personalForm.isFree === 1) {
+        const controlcategorys = await batteryList2(8).then(res => {
+          return res.data.data.content
         })
-        return false
-      }
+        const controlcategorysdetail = controlcategorys.map(item => {
+          return item.id
+        })
+        const chargecategorys = await batteryList2(14).then(res => {
+          return res.data.data.content
+        })
+        const chargecategorysdetail = chargecategorys.map(item => {
+          return item.id
+        })
+        const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+        const needbatterycategorys = await batteryList2(1118).then(res => {
+          return res.data.data.content
+        })
+        const battery1 = needbatterycategorys[0].productClassfyVos
+        const battery2 = needbatterycategorys[1].productClassfyVos
+        const batterycategorys = [...battery1, ...battery2]
+        const batterycategorysdetail = batterycategorys.map(item => {
+          return item.id
+        })
+        console.log('controlcategorysdetail', controlcategorysdetail)
+        const outproduct = this.$refs.editable.getRecords()
+        console.log('outproduct', outproduct)
+        if (this.returnlist.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.zbthmxbnwk'),
+            offset: 100
+          })
+          return false
+        }
+        const returnproduct = this.$refs.editable3.getRecords()
+        const controlpro = []
+        const chargepro = []
+        const motopro = []
+        const batterypro = []
+        for (const i in outproduct) {
+          if (controlcategorysdetail.includes(outproduct[i].category)) {
+            controlpro.push(outproduct[i])
+          } else if (chargecategorysdetail.includes(outproduct[i].category)) {
+            chargepro.push(outproduct[i])
+          } else if (motocategorys.includes(outproduct[i].category)) {
+            motopro.push(outproduct[i])
+          } else if (batterycategorys.includes(outproduct[i].category)) {
+            batterypro.push(outproduct[i])
+          }
+        }
+        const controlproquantity = controlpro.map(item => {
+          return item.quantity
+        })
+        const allcontrolproquantity = this.sum(controlproquantity)
+        console.log('allcontrolproquantity', allcontrolproquantity)
+        const chargeproquantity = chargepro.map(item => {
+          return item.quantity
+        })
+        const allchargeproquantity = this.sum(chargeproquantity)
+        console.log('allchargeproquantity', allchargeproquantity)
+        const motoproquantity = motopro.map(item => {
+          return item.quantity
+        })
+        const allmotoproquantity = this.sum(motoproquantity)
+        console.log('allmotoproquantity', allmotoproquantity)
 
+        const batteryproquantity = batterypro.map(item => {
+          return item.quantity
+        })
+        const allbatteryproquantity = this.sum(batteryproquantity)
+        console.log('allbatteryproquantity', allbatteryproquantity)
+
+        console.log('controlpro', controlpro)
+        console.log('chargepro', chargepro)
+        console.log('motopro', motopro)
+        console.log('batterypro', batterypro)
+        const returncontrolpro = []
+        const returnchargepro = []
+        const returnmotopro = []
+        const returnbatterypro = []
+        for (const i in returnproduct) {
+          if (controlcategorysdetail.includes(returnproduct[i].category)) {
+            returncontrolpro.push(returnproduct[i])
+          } else if (chargecategorysdetail.includes(returnproduct[i].category)) {
+            returnchargepro.push(returnproduct[i])
+          } else if (motocategorys.includes(returnproduct[i].category)) {
+            returnmotopro.push(returnproduct[i])
+          } else if (batterycategorys.includes(returnproduct[i].category)) {
+            returnbatterypro.push(returnproduct[i])
+          }
+        }
+
+        console.log('returncontrolpro', returncontrolpro)
+        console.log('returnchargepro', returnchargepro)
+        console.log('returnmotopro', returnmotopro)
+        console.log('returnbatterypro', returnbatterypro)
+        const returncontrolproquantity = returncontrolpro.map(item => {
+          return item.quantity
+        })
+        const allreturncontrolproquantity = this.sum(returncontrolproquantity)
+        console.log('allreturncontrolproquantity', allreturncontrolproquantity)
+        const returnchargeproquantity = returnchargepro.map(item => {
+          return item.quantity
+        })
+        const allreturnchargeproquantity = this.sum(returnchargeproquantity)
+        console.log('allreturnchargeproquantity', allreturnchargeproquantity)
+        const returnmotoproquantity = returnmotopro.map(item => {
+          return item.quantity
+        })
+        const allreturnmotoproquantity = this.sum(returnmotoproquantity)
+        console.log('allreturnmotoproquantity', allreturnmotoproquantity)
+
+        const returnbatteryproquantity = returnbatterypro.map(item => {
+          return item.quantity
+        })
+        const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
+        console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
+
+        if (allbatteryproquantity !== allreturnbatteryproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.dcthslyckslbfh'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allcontrolproquantity !== allreturncontrolproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.kzqthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allreturnchargeproquantity !== allchargeproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.cdqthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allreturnmotoproquantity !== allmotoproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.djthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+        let z = 1
+        for (const j in returnproduct) {
+          if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
+            z = 2
+          }
+        }
+        if (z === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          return false
+        }
+      }
+      if (this.personalForm.saleOutGiftVos.length === 0) {
+        const EnterDetailgift = []
+      } else {
+        const EnterDetailgift = this.$refs.editable2.getRecords()
+        // 批次货位不能为空
+        let j = 1
+        EnterDetailgift.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+            j = 2
+          }
+        })
+        console.log(j)
+        if (j === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          return false
+        }
+      }
       delete this.personalForm.saleOutRetreatVos
       delete this.personalForm.saleOutDetailVos
       delete this.personalForm.approvalUseVos
@@ -2437,7 +2543,6 @@ export default {
             })
             return false
           }
-          const EnterDetail2 = this.$refs.editable2.getRecords()
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -2523,42 +2628,8 @@ export default {
             }
             return elem
           })
-          EnterDetail2.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-              delete elem.batch
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.category === null || elem.category === '' || elem.category === undefined) {
-              delete elem.category
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            return elem
-          })
-          const parms3 = JSON.stringify(EnterDetail2)
+
+          const parms3 = ''
           let couponNumbers = ''
           for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
             if (this.personalForm2.couponSupports[i].couponSupport !== 0 && this.personalForm2.couponSupports[i].couponSupport !== '') {
@@ -2606,7 +2677,10 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2).then(res => {
+          const returndata = this.$refs.editable3.getRecords()
+          const parms4 = JSON.stringify(returndata)
+          console.log('parms4', parms4)
+          updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2, parms4).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: this.$t('prompt.czcg'),
@@ -2617,7 +2691,7 @@ export default {
               })
               this.$emit('rest', true)
               this.$refs.editable.clear()
-              this.$refs.editable2.clear()
+              // this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()

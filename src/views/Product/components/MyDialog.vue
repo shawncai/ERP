@@ -23,7 +23,14 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
-                <el-input v-model="personalForm.productType" style="margin-left: 18px;width: 200px" placeholder="" disabled/>
+                <el-select v-model="personalForm.typeId" :disabled="Iscategoryid === '04' ||Iscategoryid === '03' || Iscategoryid === ''" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable>
+                  <el-option
+                    v-for="(item, index) in types"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -390,6 +397,8 @@ export default {
       }
     }
     return {
+      isshow: false,
+      Iscategoryid: '',
       unitGroupIds: [],
       // 计量单位数据
       measurements: [],
@@ -546,24 +555,27 @@ export default {
       console.log(this.personalForm)
       this.buyerId = this.editdata.buyerName
       console.log(this.editdata)
-      this.getcategorys()
-      this.choosesource()
-      this.checkunitGroupIds2()
+
       this.personalForm.producemeasurement = this.personalForm.produceMeasurement
       this.personalForm.caigoumeasurement = this.personalForm.caigouMeasurement
       this.personalForm.salemeasurement = this.personalForm.saleMeasurement
       this.personalForm.stockmeasurement = this.personalForm.stockMeasurement
-      console.log('111', this.personalForm.stockmeasurement)
-      console.log('222', this.personalForm.unitGroupId)
+      this.Iscategoryid = this.personalForm.code.slice(0, 2)
+
+      console.log('this.Iscategoryid', this.Iscategoryid)
+      // this.typeid = this.personalForm.typeId
       if (this.personalForm.unitGroupId === null) {
         this.con = true
       } else {
         this.con = false
       }
+      this.getcategorys()
+      this.choosesource()
+      this.checkunitGroupIds2()
     }
   },
   created() {
-    this.getcategorys()
+    // this.getcategorys()
   },
   beforeCreate() {
     _that = this

@@ -230,7 +230,9 @@ export default {
       this.listLoading = true
       countlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
           this.total = res.data.data.content.totalCount
           this.listLoading = false
         }
@@ -249,7 +251,9 @@ export default {
       this.getemplist.pageNum = 1
       countlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
@@ -333,7 +337,10 @@ export default {
           // this.list = res.data.data.content.list
           // this.total = res.data.data.content.totalCount
           // this.restFilter()
-          const tabeldata = this.cutnull(res.data.data.content.list)
+          const nozerodata = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
+          const tabeldata = this.cutnull(nozerodata)
           if (res.data.data.content.list.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -355,7 +362,7 @@ export default {
                 { field: 'onStock', displayName: 'stocks intransit', columnSize: `100px` },
                 { field: 'ableStock', displayName: 'available stocks', columnSize: `100px` },
                 { field: 'safeStock', displayName: 'safe stocks', columnSize: `100px` },
-                { field: 'locationName', displayName: 'location', columnSize: `100px` }
+                { field: 'locationCode', displayName: 'location', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
                     <div class="custom-p"></div>

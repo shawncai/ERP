@@ -9,13 +9,13 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px" clearable >
-                    <el-option value="1" label="无来源"/>
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" clearable >
+                    <el-option :label="$t('prompt.wly')" value="1"/>
                   </el-select>
                 </el-form-item>
               </el-col>

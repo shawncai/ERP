@@ -286,7 +286,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  v-if="isEdit3(scope.row)"
+                  v-if="isEdit5(scope.row)"
                   :precision="2"
                   :controls="false"
                   :min="1.00"
@@ -1210,6 +1210,12 @@ export default {
       //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
       //   }
       // }
+    },
+    isEdit5(row) {
+      // console.log('222', row)
+      // const re = row.productCode.slice(0, 2)
+      // if (re === '01' || (re !== '01' && this.personalForm.sourceType === '5')) { return false } else { return true }
+      return false
     },
     isEdit4(row) {
       console.log('222', row)
@@ -2310,6 +2316,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '2',
+        couponMoney: 0,
         sendType: '2',
         sendDate: null,
         outDate: null,
@@ -2334,6 +2341,7 @@ export default {
       this.saleRepositoryId = this.$store.getters.repositoryName
       this.transferPersonId = null
       this.outPersonId = null
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {
@@ -2494,31 +2502,31 @@ export default {
               delete elem.point
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
+              elem.quantity = 0
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
+              elem.salePrice = 0
             }
             if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
+              elem.costPrice = 0
             }
             if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
+              elem.costMoney = 0
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
               delete elem.includeTaxMoney
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
+              elem.taxRate = 0
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
               elem.taxRate = elem.taxRate / 100
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
+              elem.taxMoney = 0
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
+              elem.money = 0
             }
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
               delete elem.includeTaxCostMoney

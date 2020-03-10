@@ -1897,6 +1897,12 @@ export const asyncRouterMap = [
         meta: { title: 'NewAccessoriesOut', noCache: false, roles: ['54-56-1'] }
       },
       {
+        path: 'NewBatteryOut',
+        component: () => import('@/views/SaleOut/NewBatteryOut'),
+        name: 'NewBatteryOut',
+        meta: { title: 'NewBatteryOut', noCache: false, roles: ['54-56-1'] }
+      },
+      {
         path: 'AddSaleOut2',
         component: () => import('@/views/SaleOut/AddSaleOut2'),
         name: 'AddSaleOut2',
@@ -3426,6 +3432,27 @@ export const asyncRouterMap = [
         component: () => import('@/views/AccountManagement/index'),
         name: 'AccountManagement',
         meta: { title: 'AccountManagement', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/DiffPrice',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'DiffPrice',
+    alwaysShow: true,
+    meta: {
+      title: 'DiffPrice',
+      icon: 'shuxing',
+      type: 3,
+      roles: ['54-382-1', '54-382-2', '54-382-3', '54-382-4']
+    },
+    children: [
+      {
+        path: 'DiffPrice',
+        component: () => import('@/views/diffPrice/diffPricelist'),
+        name: 'DiffPrice',
+        meta: { title: 'DiffPrice', noCache: false }
       }
     ]
   },

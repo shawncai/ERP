@@ -407,7 +407,9 @@ export default {
     SaleDetailCount: '销售明细统计',
     ProfitCount: '利润统计表',
     AddDiscountsetting: '新建折扣设置',
-    Discountsetting: '折扣设置列表'
+    Discountsetting: '折扣设置列表',
+    DiffPrice: '电池差异价格设置',
+    NewBatteryOut: '新建电池置换'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4203,6 +4205,31 @@ export default {
     xscbscpzcg: '销售成本生成凭证成功',
     xsthscpzcg: '销售退货生成凭证成功',
     scpzcg: '生成凭证成功',
-    gdjwshtg: '该单据未审核通过'
+    gdjwshtg: '该单据未审核通过',
+    mdjh: '门店计划',
+    qyjh: '区域计划',
+    njh: '年计划',
+    jjh: '季计划',
+    yjh: '月计划',
+    zjh: '周计划',
+    rjh: '日计划',
+    jy: '家用',
+    yy: '营运',
+    tjzcx: '添加支出项',
+    dcsylb: '电池使用类别',
+    dcfl: '电池分类',
+    sydsy: '使用多少月',
+    zdsj: '折多少价格',
+    zbthd: '退货明细',
+    qxxzcknr: '请先选择出库数据',
+    kzqthslyckslbf: '控制器退回数量与出库数量不符合',
+    cdqthslyckslbf: '充电器退回数量与出库数量不符合',
+    djthslyckslbf: '电机退回数量与出库数量不符合',
+    zbthmxbnwk: '质保退货明细不能为空',
+    dcthslyckslbfh: '电池退回数量与出库数量不符合',
+    useType: '电池使用类型',
+    useMonth: '电池使用时长',
+    qxzdcsylx: '请选择电池使用类型',
+    qxzdcsysc: '请选择电池使用时长'
   }
 }

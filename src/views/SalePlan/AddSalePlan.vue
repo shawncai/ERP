@@ -24,8 +24,8 @@
                   <el-select
                     v-model="personalForm.planCategory"
                     style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="门店计划" />
-                    <el-option value="2" label="区域计划" />
+                    <el-option :label="$t('tongyo.mdjh')" value="1" />
+                    <el-option :label="$t('tongyo.qyjh')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -35,11 +35,11 @@
                     v-model="personalForm.planType"
                     style="margin-left: 18px;width: 200px"
                     @change="listenplanType">
-                    <el-option value="1" label="年计划" />
-                    <el-option value="2" label="季计划" />
-                    <el-option value="3" label="月计划" />
-                    <el-option value="4" label="周计划" />
-                    <el-option value="5" label="日计划" />
+                    <el-option :label="$t('tongyo.njh')" value="1" />
+                    <el-option :label="$t('tongyo.jjh')" value="2" />
+                    <el-option :label="$t('tongyo.yjh')" value="3" />
+                    <el-option :label="$t('tongyo.zjh')" value="4" />
+                    <el-option :label="$t('tongyo.rjh')" value="5" />
                   </el-select>
                 </el-form-item>
               </el-col>

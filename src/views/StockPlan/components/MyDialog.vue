@@ -48,9 +48,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockPlan.sourceType')" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                  <el-option value="1" label="采购申请" />
-                  <el-option value="2" label="采购需求" />
-                  <el-option value="3" label="无来源" />
+                  <el-option :label="$t('route.StockApply')" value="1" />
+                  <el-option :label="$t('route.StockRequire')" value="2" />
+                  <el-option :label="$t('AccessMaterials.Nosource')" value="3" />
                 </el-select>
               </el-form-item>
             </el-col>

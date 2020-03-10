@@ -14,7 +14,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="clearnumber">
-                  <el-option value="1" label="销售出库单"/>
+                  <el-option :label="$t('route.SaleOut')" value="1" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -27,8 +27,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.customerType')" prop="customerType" style="width: 100%;">
                 <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearrequire">
-                  <el-option value="1" label="经销商"/>
-                  <el-option value="2" label="零售"/>
+                  <el-option :label="$t('prompt.jxs')" value="1"/>
+                  <el-option :label="$t('prompt.ls')" value="2"/>
                 </el-select>
               </el-form-item>
             </el-col>

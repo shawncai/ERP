@@ -577,7 +577,7 @@ export default {
       this.listLoading = true
       saleDetailCount2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content
         } else {
           // this.restFilter()
         }

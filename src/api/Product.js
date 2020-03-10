@@ -523,6 +523,9 @@ export function deleteproduct(query, query2) {
 // 修改商品
 export function editproduct(query) {
   var params = new URLSearchParams()
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeid', query.typeId) // 你要传给后台的参数值 key/value
+  }
   if (query.caigoumeasurement !== '' && query.caigoumeasurement !== null && query.caigoumeasurement !== undefined) {
     params.append('caigoumeasurement', query.caigoumeasurement) // 你要传给后台的参数值 key/value
   }
