@@ -178,6 +178,7 @@ export default {
     AddStockContract: '新建采购合同',
     StockContractList: '采购合同列表',
     StockOrder: '采购订单',
+    ManyAddStockOrder: '批量新建采购订货单',
     AddStockOrder: '新建采购订货单',
     StockOrderList: '采购订货单列表',
     StockArrival: '采购到货',

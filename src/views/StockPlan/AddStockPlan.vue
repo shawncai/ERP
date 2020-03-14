@@ -528,7 +528,7 @@ export default {
     },
     // 转化单价
     basicPrice(row) {
-      return (row.basicPrice).toFixed(2)
+      return (row.basicPrice)
     },
     // 总计
     getSummaries(param) {

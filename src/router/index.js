@@ -1569,6 +1569,12 @@ export const asyncRouterMap = [
         meta: { title: 'AddStockOrder', noCache: false, roles: ['104-115-1'] }
       },
       {
+        path: 'ManyAddStockOrder',
+        component: () => import('@/views/StockOrder/ManyAddStockOrder'),
+        name: 'ManyAddStockOrder',
+        meta: { title: 'ManyAddStockOrder', noCache: false, roles: ['104-115-1'] }
+      },
+      {
         path: 'StockOrderList',
         component: () => import('@/views/StockOrder/StockOrderList'),
         name: 'StockOrderList',

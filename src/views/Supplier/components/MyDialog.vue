@@ -225,7 +225,13 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
+          <!--          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" label="供货比列(%)" prop="proportion" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input v-model="scope.row.proportion" @focus="handlechoose2(scope)"/>
+              <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
+            </template>
+          </el-editable-column>
           <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
         </el-editable>
@@ -324,17 +330,47 @@
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
+    <el-dialog :visible.sync="proporcontrol" :close-on-press-escape="false" append-to-body title="供货比例" class="normal" width="608px" center>
+      <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
+        <el-form-item label-width="100px;" style="width: 550px;">
+          <div style="width: 100%; height: 427px;overflow: hidden;background: white;" >
+            <el-table
+              v-loading="listLoading"
+              :key="tableKey"
+              :data="list"
+              height="390"
+              style="width: 100%;">
+              <el-table-column :resizable="false" label="供应商" min-width="150">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.supplierName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column :resizable="false" label="供货比例(%)" min-width="150">
+                <template slot-scope="scope">
+                  <el-input-number v-model="scope.row.proportion" :precision="0" :controls="false" :step="1" :min="0" style="width: 150px"/>
+                  <!--                  <span>{{ scope.row.proportion }}</span>-->
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button v-waves type="success" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </el-dialog>
 </template>
 
 <script>
 import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion, getRegion } from '@/api/public'
-import { searchCategory, searchGroup, update } from '@/api/Supplier'
+import { searchCategory, searchGroup, update, supplierDetail, updateSupplierDetail } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
+import waves from '@/directive/waves'
+import { forEach } from '../../../../../../OA前台代码/nwow_oa/src/lib/util' // Waves directive
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
+  directives: { waves },
   components: { MyDetail, MyEmp },
   props: {
     editcontrol: {
@@ -348,6 +384,10 @@ export default {
   },
   data() {
     return {
+      tableKey: 0,
+      listLoading: true,
+      proporcontrol: false,
+      procode: null,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -415,6 +455,7 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
+      list: [],
       // 商品明细数据
       list2: [],
       // 商品明细列表规则
@@ -449,6 +490,51 @@ export default {
     _that = this
   },
   methods: {
+    handleConfirm() {
+      console.log('this.list', this.list)
+      let num = 0
+      for (let i = 0; i < this.list.length; i++) {
+        num += this.list[i].proportion
+      }
+      if (num === 100) {
+        this.proporcontrol = false
+        const parms2 = JSON.stringify(this.list)
+        updateSupplierDetail(parms2).then(res => {
+          console.log(res)
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: 'successful',
+              message: 'save successful',
+              type: 'success',
+              offset: 100
+            })
+            this.$emit('rest', true)
+            this.editVisible = false
+          }
+        })
+      } else {
+        this.$notify.error({
+          title: 'wrong',
+          message: '比例之和应为100',
+          offset: 100
+        })
+      }
+    },
+    handlechoose2(scope) {
+      this.listLoading = true
+      this.proporcontrol = true
+      // this.kongscope = scope
+      this.procode = scope.row.productCode
+      supplierDetail(this.procode).then(res => {
+        console.log(res)
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content
+        }
+      })
+      setTimeout(() => {
+        this.listLoading = false
+      }, 0.5 * 100)
+    },
     // 采购申请明细来源
     handleAddproduct() {
       this.control = true
@@ -744,5 +830,22 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>
