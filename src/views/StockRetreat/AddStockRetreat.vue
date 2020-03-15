@@ -630,7 +630,11 @@ export default {
       return sums
     },
     getdiscountMoney(row) {
-      row.discountMoney = row.discountRate * row.retreatQuantity * (1 - row.discountRate / 100)
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = row.includeTaxPrice * row.retreatQuantity * (row.discountRate / 100)
+      }
       return row.discountMoney
     },
     // 计算税额
@@ -697,8 +701,10 @@ export default {
       this.arrivalcontrol = true
     },
     arrival(val) {
+      console.log('val', val)
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
+        console.log('val', val[i])
         val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
@@ -895,7 +901,7 @@ export default {
               delete elem.discountRate
             }
             if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
+              elem.discountRate = elem.discountRate
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
               delete elem.money

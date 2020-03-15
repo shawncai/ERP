@@ -75,8 +75,8 @@ export default {
     },
     isEffectiveFilter(status) {
       const statusMap = {
-        0: _that.$t('otherlanguage.qyong'),
-        1: _that.$t('otherlanguage.tingyong')
+        1: _that.$t('otherlanguage.qyong'),
+        2: _that.$t('otherlanguage.tingyong')
       }
       return statusMap[status]
     },

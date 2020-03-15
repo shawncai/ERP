@@ -730,7 +730,7 @@ export default {
               delete elem.taxRate
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = (elem.taxRate).toFixed(2)
+              elem.taxRate = (elem.taxRate / 100).toFixed(2)
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               delete elem.discountRate

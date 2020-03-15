@@ -369,12 +369,12 @@ export default {
           remark: item.remark,
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate * 100,
+          taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,
           discountMoney: item.discountMoney,
-          discountRate: item.discountRate * 100,
+          discountRate: item.discountRate,
           orderNumber: item.orderNumber,
           unqualifyQuantity: item.unqualifyQuantity
         }
