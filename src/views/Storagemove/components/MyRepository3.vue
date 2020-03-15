@@ -42,6 +42,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -122,6 +123,10 @@ export default {
     repositorycontrol: {
       type: Boolean,
       default: false
+    },
+    checkdata: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -180,6 +185,8 @@ export default {
   watch: {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
+    },
+    checkdata() {
       this.getlist()
     }
   },
@@ -189,16 +196,17 @@ export default {
   methods: {
     // 批量操作
     handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.id)
-          }
-        })
-      }
+      console.log('rows', rows)
+      this.moreaction = [...rows, ...this.checkdata.repositories]
+      // this.select_order_number = this.moreaction.length
+      // this.select_orderId = []
+      // if (rows) {
+      //   rows.forEach(row => {
+      //     if (row) {
+      //       this.select_orderId.push(row.id)
+      //     }
+      //   })
+      // }
     },
     getlist() {
       // 国家列表
@@ -213,6 +221,14 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          console.log('this.checkdata', this.checkdata)
+          for (const i in this.list) {
+            for (const j in this.checkdata.repositories) {
+              if (this.list[i].id === this.checkdata.repositories[j].id) {
+                this.$refs.multipleTable.toggleRowSelection(this.list[i], true)
+              }
+            }
+          }
         }
         setTimeout(() => {
           this.listLoading = false
@@ -269,6 +285,7 @@ export default {
     handleConfirm() {
       this.$emit('repositoryname', this.moreaction)
       this.repositoryVisible = false
+      this.$refs.multipleTable.clearSelection()
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {

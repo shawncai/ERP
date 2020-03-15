@@ -293,10 +293,12 @@ export default {
     },
     handlerep() {
       this.repositorycontrol2 = true
+      // console.log('this.editCategoryForm', this.editCategoryForm)
       this.editpropdata = this.editCategoryForm
     },
     repositoryname2(val) {
       console.log(val)
+
       const name = []
       const id = []
       for (const i in val) {
@@ -304,6 +306,7 @@ export default {
         id.push(val[i].id)
       }
       console.log(name, id)
+
       this.editCategoryForm.name = name.join(',')
       this.editCategoryForm.repositoryIds = id.join(',')
       console.log(this.addCategoryForm)
