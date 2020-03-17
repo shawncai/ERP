@@ -674,9 +674,16 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
+      let mk = 0
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          mk = 1
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          mk = 2
+        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -697,6 +704,22 @@ export default {
         }
         return elem
       })
+      if (mk === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中价格必填',
+          offset: 100
+        })
+        return false
+      }
+      if (mk === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中折扣必填',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
       saveRegion(this.perregions, this.personalForm.regionId)
@@ -796,10 +819,17 @@ export default {
     },
     // 继续录入
     handleentry() {
+      let mk = 0
       const EnterDetail = this.$refs.editable.getRecords()
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          mk = 1
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          mk = 2
+        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -820,6 +850,22 @@ export default {
         }
         return elem
       })
+      if (mk === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中价格必填',
+          offset: 100
+        })
+        return false
+      }
+      if (mk === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中折扣必填',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       this.personalForm.regionId = this.perregions[this.perregions.length - 1]
       this.$refs.personalForm.validate((valid) => {
