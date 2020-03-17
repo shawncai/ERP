@@ -542,9 +542,13 @@ export default {
               })
               return false
             }
+            let mk = 0
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
+              if (elem.newPrice === null || elem.newPrice === '' || elem.newPrice === undefined) {
+                mk = 1
+              }
               if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
                 delete elem.productCode
               }
@@ -604,6 +608,14 @@ export default {
               }
               return elem
             })
+            if (mk === 1) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '商品明细中价格必填',
+                offset: 100
+              })
+              return false
+            }
             const parms2 = JSON.stringify(EnterDetail)
             const Data = this.personalForm
             for (const key in Data) {
