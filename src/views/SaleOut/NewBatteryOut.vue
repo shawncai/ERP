@@ -323,6 +323,12 @@
                 <span v-else>{{ scope.row.quantity }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit3(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
@@ -2633,11 +2639,25 @@ export default {
         if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
           z = 2
         }
+        const re = returnproduct[j].productCode.slice(0, 2)
+        if (re === '05') {
+          if (returnproduct[j].batteryCode === null || returnproduct[j].batteryCode === undefined || returnproduct[j].batteryCode === '') {
+            z = 3
+          }
+        }
       }
       if (z === 2) {
         this.$notify.error({
           title: 'wrong',
           message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (z === 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.dcckytbm'),
           offset: 100
         })
         return false
@@ -2766,31 +2786,31 @@ export default {
               elem.quantity = 1
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
+              elem.salePrice = 0
             }
             if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
+              elem.costPrice = 0
             }
             if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
+              elem.costMoney = 0
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
+              elem.includeTaxMoney = 0
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
+              elem.taxRate = 0
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
               elem.taxRate = elem.taxRate / 100
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
+              elem.taxMoney = 0
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
+              elem.money = 0
             }
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
+              elem.includeTaxCostMoney = 0
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               elem.discountRate = 0
@@ -2843,7 +2863,7 @@ export default {
               elem.quantity = 1
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
+              elem.salePrice = 0
             }
             return elem
           })

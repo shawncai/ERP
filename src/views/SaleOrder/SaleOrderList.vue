@@ -451,6 +451,14 @@ export default {
     },
     // 搜索
     handleFilter() {
+      console.log('this.date', this.date)
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {

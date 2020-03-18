@@ -42,6 +42,12 @@ export function saleopportunitylist(query) {
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
   if (query.isUse !== '' && query.isUse !== null && query.isUse !== undefined) {
     params.append('isUse', query.isUse) // 你要传给后台的参数值 key/value
   }

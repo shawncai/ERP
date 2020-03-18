@@ -4230,6 +4230,8 @@ export default {
     useType: 'Battery use type',
     useMonth: 'Battery life',
     qxzdcsylx: 'Please select the type of battery used',
-    qxzdcsysc: 'Please select the battery life'
+    qxzdcsysc: 'Please select the battery life',
+    chargeCode: 'chargeCode',
+    controlCode: 'controlCode'
   }
 }

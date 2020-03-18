@@ -380,6 +380,18 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+              <span v-else>{{ scope.row.chargeCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+              <span v-else>{{ scope.row.controlCode }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -433,6 +445,12 @@
               />
               <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
               <span v-else>{{ scope.row.quantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit6(scope.row)" v-model="scope.row.batteryCode" clearable/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
@@ -644,6 +662,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      controlcategorysdetail: [],
+      chargecategorysdetail: [],
       diffpricelist: [],
       showreturn: false,
       control2: false,
@@ -1322,6 +1342,32 @@ export default {
           }
         })
       }
+    },
+    isEdit8(row) {
+      console.log('row', row)
+      if (this.controlcategorysdetail.includes(row.category)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isEdit7(row) {
+      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
+      if (this.chargecategorysdetail.includes(row.category)) {
+        console.log('trueistrue')
+        return true
+      } else {
+        console.log('falsefalse')
+        return false
+      }
+    },
+    isEdit6(row) {
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit5(row) {
       console.log('222', row)
@@ -2185,6 +2231,22 @@ export default {
           this.payModes = res.data.data.content.list
         }
       })
+
+      batteryList2(14).then(res => {
+        if (res.data.ret === 200) {
+          this.chargecategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
+
+      batteryList2(8).then(res => {
+        if (res.data.ret === 200) {
+          this.controlcategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
     },
     // 销售人员focus事件
     handlechooseStock() {
@@ -2230,29 +2292,41 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     async  handleEditok() {
-      if (this.personalForm.isFree === 1) {
-        const controlcategorys = await batteryList2(8).then(res => {
-          return res.data.data.content
-        })
-        const controlcategorysdetail = controlcategorys.map(item => {
-          return item.id
-        })
-        const chargecategorys = await batteryList2(14).then(res => {
-          return res.data.data.content
-        })
-        const chargecategorysdetail = chargecategorys.map(item => {
-          return item.id
-        })
-        const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
-        const needbatterycategorys = await batteryList2(1118).then(res => {
-          return res.data.data.content
-        })
-        const battery1 = needbatterycategorys[0].productClassfyVos
-        const battery2 = needbatterycategorys[1].productClassfyVos
-        const batterycategorys = [...battery1, ...battery2]
-        const batterycategorysdetail = batterycategorys.map(item => {
-          return item.id
-        })
+      if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
+        console.log('this.$refs.editable2', this.$refs.editable2.getRecords())
+        this.$refs.editable2.clear()
+      }
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
+      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+      const needbatterycategorys = await batteryList2(1118).then(res => {
+        return res.data.data.content
+      })
+      const battery1 = needbatterycategorys[0].productClassfyVos
+      const battery2 = needbatterycategorys[1].productClassfyVos
+      const batterycategorys = [...battery1, ...battery2]
+      const batterycategorysdetail = batterycategorys.map(item => {
+        return item.id
+      })
+      const firsttabledata = this.$refs.editable.getRecords()
+      let changedata = 0
+      const allcategorys = [...controlcategorysdetail, ...chargecategorysdetail, ...motocategorys, ...batterycategorysdetail]
+      for (const i in firsttabledata) {
+        if (allcategorys.includes(firsttabledata[i].category)) {
+          changedata = 1
+        }
+      }
+      if (this.personalForm.isFree === 1 && changedata === 1) {
         console.log('controlcategorysdetail', controlcategorysdetail)
         const outproduct = this.$refs.editable.getRecords()
         console.log('outproduct', outproduct)
@@ -2388,11 +2462,47 @@ export default {
           if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
             z = 2
           }
+          const re = returnproduct[j].productCode.slice(0, 2)
+          if (re === '05') {
+            if (returnproduct[j].batteryCode === null || returnproduct[j].batteryCode === undefined || returnproduct[j].batteryCode === '') {
+              z = 3
+            }
+          }
+          if (controlcategorysdetail.includes(returnproduct[j].category) && (returnproduct[j].controlCode === null || returnproduct[j].controlCode === undefined || returnproduct[j].controlCode === '')) {
+            z = 4
+          }
+          if (chargecategorysdetail.includes(returnproduct[j].category) && (returnproduct[j].chargeCode === null || returnproduct[j].chargeCode === undefined || returnproduct[j].chargeCode === '')) {
+            z = 5
+          }
+        }
+        if (z === 5) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.cdqbmwtx'),
+            offset: 100
+          })
+          return false
+        }
+        if (z === 4) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.kzqbmwtx'),
+            offset: 100
+          })
+          return false
         }
         if (z === 2) {
           this.$notify.error({
             title: 'wrong',
             message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          return false
+        }
+        if (z === 3) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.dcckytbm'),
             offset: 100
           })
           return false
@@ -2474,7 +2584,29 @@ export default {
                 m = 3
               }
             }
+            if (controlcategorysdetail.includes(elem.category) && (elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '')) {
+              m = 4
+            }
+            if (chargecategorysdetail.includes(elem.category) && (elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '')) {
+              m = 5
+            }
           })
+          if (m === 5) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.cdqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
+          if (m === 4) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.kzqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',
