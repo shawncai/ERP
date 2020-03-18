@@ -292,7 +292,7 @@ export default {
         reviewParms.judgeStat = 0
         const parms = JSON.stringify(reviewParms)
         console.log(reviewParms, reviewParms.judgeStat, reviewParms.judgePersonId)
-        updatestockenter3(reviewParms, reviewParms.judgePersonId, reviewParms.judgeStat).then(res => {
+        updatestockenter3(reviewParms, reviewParms.judgeStat, reviewParms.judgePersonId).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({

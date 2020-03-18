@@ -101,7 +101,7 @@
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  @change="changeDate2"/>
+                  @change="changeDate2(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
@@ -312,6 +312,25 @@ export default {
     _that = this
   },
   methods: {
+    copydate(row) {
+      if (row.requireDate === '' || row.requireDate === null || row.requireDate === undefined) {
+        return false
+      }
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].temp = i
+      }
+      for (let i = row.temp; i < this.list2.length; i++) {
+        console.log(this.list2[i].requireDate)
+        if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+          console.log(111)
+          continue
+        } else {
+          console.log(222)
+          this.list2[i].requireDate = row.requireDate
+        }
+      }
+      console.log(row)
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -445,7 +464,27 @@ export default {
       return objClone
     },
     // 两表联动
-    async changeDate2() {
+    async changeDate2(row) {
+      console.log('row', row)
+      // 新加
+      if (row !== '' && row !== null && row !== undefined) {
+        if (row.requireDate !== '' && row.requireDate !== null && row.requireDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+              console.log(111)
+            } else {
+              console.log(222)
+              this.list2[i].requireDate = row.requireDate
+            }
+          }
+          console.log(row)
+        }
+      }
+      // 新加截止
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []

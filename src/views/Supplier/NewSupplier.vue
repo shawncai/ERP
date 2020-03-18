@@ -575,19 +575,23 @@ export default {
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
+        let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
+            m = 2
+            // this.$notify.error({
+            //   title: 'wrong',
+            //   message: this.$t('prompt.wpytj'),
+            //   offset: 100
+            // })
+            // return false
           }
         }
         val[i].discountRate = 0
         val[i].price = val[i].purchasePrice
-        this.$refs.editable.insert(val[i])
+        if (m === 1) {
+          this.$refs.editable.insert(val[i])
+        }
       }
     },
     // 国籍列表

@@ -46,12 +46,14 @@
       v-loading="listLoading"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -147,7 +149,12 @@ export default {
   },
   data() {
     return {
+      getRowKeys(row) {
+        return row.code
+      },
       // 供应商回显
+      select_orderId: [],
+      select_order_number: [],
       supplierid: '',
       // 供货商控制
       empcontrol: false,
@@ -240,8 +247,17 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      this.moreaction = rows
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {
