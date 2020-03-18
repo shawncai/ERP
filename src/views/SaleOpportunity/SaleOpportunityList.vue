@@ -30,15 +30,15 @@
         <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
         <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
         <!--</el-select>-->
-        <!--<el-date-picker-->
-        <!--v-model="date"-->
-        <!--type="daterange"-->
-        <!--range-separator="-"-->
-        <!--unlink-panels-->
-        <!--start-placeholder="销售日期"-->
-        <!--end-placeholder="销售日期"-->
-        <!--value-format="yyyy-MM-dd"-->
-        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="销售日期"
+          end-placeholder="销售日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -462,6 +462,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       saleopportunitylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {

@@ -435,6 +435,12 @@
               <span v-else>{{ scope.row.quantity }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit6(scope.row)" v-model="scope.row.batteryCode" clearable/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>
@@ -1319,6 +1325,14 @@ export default {
           }
         })
       }
+    },
+    isEdit6(row) {
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit5(row) {
       console.log('222', row)

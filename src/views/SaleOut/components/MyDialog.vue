@@ -380,6 +380,18 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+              <span v-else>{{ scope.row.chargeCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+              <span v-else>{{ scope.row.controlCode }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -500,6 +512,12 @@
               />
               <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
               <span v-else>{{ scope.row.quantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit6(scope.row)" v-model="scope.row.batteryCode" clearable/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
@@ -711,6 +729,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      controlcategorysdetail: [],
+      chargecategorysdetail: [],
       diffpricelist: [],
       showreturn: false,
       control2: false,
@@ -1387,6 +1407,32 @@ export default {
           }
         })
       }
+    },
+    isEdit8(row) {
+      console.log('row', row)
+      if (this.controlcategorysdetail.includes(row.category)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isEdit7(row) {
+      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
+      if (this.chargecategorysdetail.includes(row.category)) {
+        console.log('trueistrue')
+        return true
+      } else {
+        console.log('falsefalse')
+        return false
+      }
+    },
+    isEdit6(row) {
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit5(row) {
       console.log('222', row)
@@ -2250,6 +2296,22 @@ export default {
           this.payModes = res.data.data.content.list
         }
       })
+
+      batteryList2(14).then(res => {
+        if (res.data.ret === 200) {
+          this.chargecategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
+
+      batteryList2(8).then(res => {
+        if (res.data.ret === 200) {
+          this.controlcategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
     },
     // 销售人员focus事件
     handlechooseStock() {
@@ -2294,7 +2356,19 @@ export default {
     },
     // 修改和取消按钮
     // 修改按钮
-    handleEditok() {
+    async handleEditok() {
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
       const EnterDetailgift = this.$refs.editable2.getRecords()
       // 批次货位不能为空
       let j = 1
@@ -2368,7 +2442,29 @@ export default {
                 m = 3
               }
             }
+            if (controlcategorysdetail.includes(elem.category) && (elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '')) {
+              m = 4
+            }
+            if (chargecategorysdetail.includes(elem.category) && (elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '')) {
+              m = 5
+            }
           })
+          if (m === 5) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.cdqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
+          if (m === 4) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.kzqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',

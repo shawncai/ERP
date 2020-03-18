@@ -212,6 +212,9 @@
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
+
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
           </el-editable>
         </div>
@@ -267,6 +270,9 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
             <el-editable-column :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.djbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>

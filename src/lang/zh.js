@@ -4231,6 +4231,10 @@ export default {
     useType: '电池使用类型',
     useMonth: '电池使用时长',
     qxzdcsylx: '请选择电池使用类型',
-    qxzdcsysc: '请选择电池使用时长'
+    qxzdcsysc: '请选择电池使用时长',
+    chargeCode: '充电器编码',
+    controlCode: '控制器编码',
+    kzqbmwtx: '控制器编码未填写',
+    cdqbmwtx: '充电器编码未填写'
   }
 }

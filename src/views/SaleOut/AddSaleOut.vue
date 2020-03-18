@@ -2514,7 +2514,7 @@ export default {
               elem.costMoney = 0
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
+              elem.includeTaxMoney = 0
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
               elem.taxRate = 0
@@ -2529,7 +2529,7 @@ export default {
               elem.money = 0
             }
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
+              elem.includeTaxCostMoney = 0
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               elem.discountRate = 0

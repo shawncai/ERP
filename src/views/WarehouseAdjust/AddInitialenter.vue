@@ -377,13 +377,13 @@ export default {
           delete elem.unit
         }
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+          elem.basicQuantity = 1
         }
         if (elem.color === null || elem.color === '' || elem.color === undefined) {
           delete elem.color
         }
         if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
+          elem.enterQuantity = 1
         }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
