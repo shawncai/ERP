@@ -30,6 +30,15 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="Start"
+          end-placeholder="End"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -518,6 +527,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date === null || this.date === undefined || this.date === '') {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else {
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
+      }
       this.getemplist.pageNum = 1
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
