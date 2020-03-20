@@ -208,14 +208,15 @@
           style="width: 100%">
           <el-editable-column type="selection" fixed min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" fixed min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('updates.jyxm')" prop="checkItem" fixed align="center" width="200px"/>
-          <el-editable-column :label="$t('updates.jynr')" prop="checkContent" fixed align="center" width="200px"/>
-          <el-editable-column :label="$t('updates.jygj')" prop="checkTools" fixed align="center" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ybs')" prop="checkQuantity" align="center" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgsl')" prop="passQuantity" align="center" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bhgsl')" prop="failedQuantity" align="center" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" :label="$t('updates.jyjg')" prop="chectResult" align="center" width="200px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dxjl')" prop="remarks" align="center" width="200px"/>
+          <el-editable-column :label="$t('updates.jyxm')" prop="checkItem" fixed align="center" min-width="200px"/>
+          <el-editable-column :label="$t('updates.jynr')" prop="checkContent" fixed align="center" min-width="200px"/>
+          <!--          <el-editable-column :label="$t('updates.jygj')" prop="checkTools" fixed align="center" width="200px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ybs')" prop="checkQuantity" align="center" min-width="200px"/>
+          <!--          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.hgsl')" prop="passQuantity" align="center" width="200px"/>-->
+          <!--          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bhgsl')" prop="failedQuantity" align="center" width="200px"/>-->
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.jyjg')" prop="remarks" align="center" min-width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect',options: results ,type: 'visible'}" :label="$t('updates.dxjl')" prop="chectResult" align="center" min-width="200px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('tongyo.bnyy')" prop="failedReason" align="center" min-width="200px"/>
         </el-editable>
       </div>
     </el-card>
@@ -230,6 +231,7 @@
 
 <script>
 import { updatecheckreport } from '@/api/CheckReport'
+import { searchCheckCategory } from '@/api/CheckCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
@@ -265,6 +267,15 @@ export default {
       }
     }
     return {
+      // 退货原因
+      getemplist: {
+        categoryname: '',
+        type: '2',
+        iseffective: '1',
+        pagenum: 1,
+        pagesize: 99999
+      },
+      unqualify: [],
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
       // 选择的数据
       choosedata: [],
@@ -493,6 +504,18 @@ export default {
       }
     },
     getTypes() {
+      searchCheckCategory(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content.list
+          // this.unqualify =res.data.data.content.list
+          this.unqualify = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.categoryName
+            }
+          })
+        }
+      })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -663,6 +686,7 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(EnterDetail)
+      delete this.personalForm.judgeStat
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

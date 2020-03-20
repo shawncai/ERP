@@ -205,7 +205,7 @@ export default {
       if (this.personalForm.produceRepositoryId === '' || this.personalForm.produceRepositoryId === null || this.personalForm.produceRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
+          message: this.$t('prompt.qxxzck'),
           offset: 100
         })
         return false
