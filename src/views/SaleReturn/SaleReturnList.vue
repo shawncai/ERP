@@ -80,7 +80,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -449,14 +448,14 @@ export default {
       })
     },
     checkPermission,
-    // 不让勾选
-    selectInit(row, index) {
-      if (row.judgeStat !== 0) {
-        return false
-      } else {
-        return true
-      }
-    },
+    // // 不让勾选
+    // selectInit(row, index) {
+    //   if (row.judgeStat !== 0) {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
     // 选择客户类型时清理客户名称
     clearCustomer() {
       this.getemplist.customerId = ''

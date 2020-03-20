@@ -129,8 +129,10 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :data="list"
         :summary-method="getSummaries2"
+        :height="tableHeight"
         border
         show-summary
         style="width: 100%">
@@ -273,6 +275,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       // 更多搜索条件问题
       visible2: false,
       // 开票类别获取参数
@@ -366,6 +369,9 @@ export default {
 
   mounted() {
     this.gettype()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this

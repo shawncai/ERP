@@ -23,8 +23,10 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        ref="table"
         :data="list"
         :summary-method="getSummaries2"
+        :height="tableHeight"
         border
         show-summary
         style="width: 100%">
@@ -168,6 +170,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
       categoryId: '',
       first: '',
       second: false,
@@ -249,6 +252,9 @@ export default {
   mounted() {
     this.getlist()
     this.changeName()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this
