@@ -280,19 +280,36 @@ export default {
   },
   methods: {
     getitemList() {
-      const parms = {
-        subjectId: 137
-      }
-      itemList(parms).then(res => {
-        if (res.data.ret === 200) {
-          this.accountcodes = res.data.data.content.map(item => {
-            return {
-              itemName: item.itemCode + ' ' + item.itemName,
-              itemCode: item.itemCode
-            }
-          })
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId === 0) {
+        const parms = {
+          subjectId: 138
         }
-      })
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      } else {
+        const parms = {
+          subjectId: 137
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      }
     },
     switchtreedata(val) {
       for (const i in val) {

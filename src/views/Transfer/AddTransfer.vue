@@ -9,7 +9,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
-                  <el-select v-model="personalForm.direction" style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.direction" disabled style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="门店"/>
                     <el-option value="2" label="公司"/>
                   </el-select>
@@ -52,8 +52,8 @@
                   <el-date-picker
                     v-model="personalForm.transferDate"
                     :picker-options="pickerOptions1"
-                    type="date"
-                    value-format="yyyy-MM-dd"
+                    type="datetime"
+                    value-format="yyyy-MM-dd HH:mm:ss"
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
@@ -156,7 +156,7 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElSelect ', type: 'visible', options: 'options'}" :label="$t('Voucher.md')" prop="setcarst" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.repositoryId" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="min-width: 180px">
                   <el-option
@@ -168,7 +168,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
+            <!-- <el-editable-column v-if="showaccounts" :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-cascader
                   v-model="scope.row.subjectFinance"
@@ -177,6 +177,17 @@
                   :show-all-levels="false"
                   filterable
                   @change="test(scope.row,$event)"/>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.subjectCode" :value="scope.row.subjectCode" :placeholder="$t('updates.kmmc')" filterable style="width: 100%;" @change="test2(scope.row,$event)">
+                  <el-option
+                    v-for="(item, index) in accountcodes"
+                    :key="index"
+                    :value="item.itemCode"
+                    :label="item.itemName"/>
+                </el-select>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
@@ -195,7 +206,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { searchAccount } from '@/api/AccountManagement'
-import { subjectList } from '@/api/SubjectFinance'
+import { subjectList, itemList } from '@/api/SubjectFinance'
 import { createtransfer } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -223,6 +234,8 @@ export default {
       }
     }
     return {
+      accountcodes: [],
+      showaccounts: false,
       accounts: [],
       accountsparm: {
         pageNum: 1,
@@ -279,7 +292,6 @@ export default {
         regionId: this.$store.getters.regionId,
         handlePersonId: this.$store.getters.userId,
         currency: '1',
-        direction: '1',
         transferType: '1'
       },
       // 收入单规则数据
@@ -309,11 +321,76 @@ export default {
     this.getTypes()
     this.gettree()
     this.handlechange4()
+    this.judgedirction()
+    this.getaccounts2()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    test2(row, val) {
+      console.log(row, val)
+      const accountsname = this.accountcodes.find(item => {
+        return item.itemCode === val
+      })
+      console.log('accountsname', accountsname)
+      row.subjectName = accountsname.itemName
+      // row.subjectCode = needata.subjectNumber
+    },
+    async getaccounts2() {
+      if (this.$store.getters.repositoryId === 0) {
+        const parms = {
+          subjectId: 102
+        }
+        const account1 = await itemList(parms).then(res => {
+          return res.data.data.content
+        })
+
+        const parms2 = {
+          subjectId: 44
+        }
+        const account2 = await itemList(parms2).then(res => {
+          return res.data.data.content
+        })
+
+        const parms3 = {
+          subjectId: 43
+        }
+        const account3 = await itemList(parms3).then(res => {
+          return res.data.data.content
+        })
+        const allaccounts = [...account1, ...account2, ...account3]
+        this.accountcodes = allaccounts.map(item => {
+          return {
+            itemName: item.itemCode + ' ' + item.itemName,
+            itemCode: item.itemCode
+          }
+        })
+      } else {
+        const parms = {
+          subjectId: 44
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      }
+    },
+    judgedirction() {
+      if (this.$store.getters.repositoryId === 0) {
+        this.personalForm.direction = '1'
+        this.showaccounts = true
+      } else {
+        this.personalForm.direction = '2'
+        this.showaccounts = false
+      }
+    },
     switchtreedata(val) {
       for (const i in val) {
         if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
@@ -557,8 +634,11 @@ export default {
       if (strDate >= 0 && strDate <= 9) {
         strDate = '0' + strDate
       }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.transferDate = currentdate
+      var hours = date.getHours()
+      var minutes = date.getMinutes()
+      var seconds = date.getSeconds()
+      var currentdate = year + seperator1 + month + seperator1 + strDate + ' ' + hours + minutes + seconds
+      // this.personalForm.transferDate = currentdate
     },
     // 门店focus事件触发
     handlechooseRep() {
@@ -602,13 +682,13 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        direction: '1',
         transferType: '1'
       }
       this.handlePersonId = this.$store.getters.name
       this.personalForm.handlePersonId = null
       this.incomeRepositoryId = null
       this.personalForm.incomeRepositoryId = null
+      this.judgedirction()
     },
     // 保存操作
     handlesave() {
@@ -622,9 +702,9 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       // row.subjectName = needata.subjectName
       // row.subjectCode = needata.subjectNumber
-      for (const i in EnterDetail) {
-        EnterDetail[i].subjectCode = EnterDetail[i].subjectFinance[EnterDetail[i].subjectFinance.length - 1]
-      }
+      // for (const i in EnterDetail) {
+      //   EnterDetail[i].subjectCode = EnterDetail[i].subjectFinance[EnterDetail[i].subjectFinance.length - 1]
+      // }
       console.log('EnterDetail', EnterDetail)
       if (EnterDetail.length === 0) {
         this.$notify.error({

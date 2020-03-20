@@ -177,6 +177,23 @@ export default {
     _that = this
   },
   methods: {
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     // 父件focus事件
     handlemater() {
       this.matercontrol = true
@@ -208,16 +225,19 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = filterdata
 
-      console.log(nowlistdata)
-      var ret4 = val.findIndex((value, index, arr) => {
-        return value.productCode === this.personalForm.productCode
-      })
+      // console.log(nowlistdata)
+      // var ret4 = val.findIndex((value, index, arr) => {
+      //   return value.productCode === this.personalForm.productCode
+      // })
 
-      console.log(ret4)
-      this.list2 = val.filter(item => {
-        return item.productCode !== this.personalForm.productCode
-      })
+      // console.log(ret4)
+      // this.list2 = val.filter(item => {
+      //   return item.productCode !== this.personalForm.productCode
+      // })
     },
     // 清空记录
     restAllForm() {
