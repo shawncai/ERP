@@ -180,6 +180,9 @@ export function voucherlist(query) {
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
+  if (query.subjectCode !== '' && query.subjectCode !== null && query.subjectCode !== undefined) {
+    params.append('subjectCode', query.subjectCode) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/voucher/voucherlist',
     method: 'post',
