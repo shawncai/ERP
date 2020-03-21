@@ -887,12 +887,12 @@ export default {
         payDate: null,
         invoiceType: '1'
       }
-      this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null
       this.handlePersonId = this.$store.getters.name
       this.ourContractorId = null
       this.acceptPersonId = null
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {

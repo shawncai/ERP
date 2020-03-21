@@ -174,9 +174,9 @@ export default {
     },
     currencyFilter(status) {
       const statusMap = {
-        1: 'PHP',
+        1: 'RMB',
         2: 'USD',
-        3: 'RMB'
+        3: 'PHP'
       }
       return statusMap[status]
     }

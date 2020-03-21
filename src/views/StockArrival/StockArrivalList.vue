@@ -100,6 +100,11 @@
             <span>{{ scope.row.stockTypeName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.presentdata }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
@@ -497,6 +502,14 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (const j in this.list) {
+            const newarr = []
+            for (const i in this.list[j].stockArrivalDetailVos) {
+              newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
+            }
+            this.list[j].presentdata = newarr.join('      ||     ')
+          }
+          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -538,6 +551,13 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (const j in this.list) {
+            const newarr = []
+            for (const i in this.list[j].stockArrivalDetailVos) {
+              newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
+            }
+            this.list[j].presentdata = newarr.join('      ||     ')
+          }
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
