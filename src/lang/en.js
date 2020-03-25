@@ -1938,6 +1938,7 @@ export default {
     settleStat: 'Settlement type'
   },
   ShouldPayList: {
+    payDate: 'payDate',
     invoiceNumber: 'invoice no.',
     invoiceType: 'invoice type',
     sourceNumber: 'sources',

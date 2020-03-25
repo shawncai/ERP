@@ -1939,6 +1939,7 @@ export default {
     settleStat: '结算方式'
   },
   ShouldPayList: {
+    payDate: '付款日期',
     invoiceNumber: '发票号',
     invoiceType: '发票类别',
     sourceNumber: '源单编码',
