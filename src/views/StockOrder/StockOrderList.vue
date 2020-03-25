@@ -172,6 +172,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('updates.dhrq')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.arrivalDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>

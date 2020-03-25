@@ -170,6 +170,9 @@ export function create(query, query2) {
 // 供应商列表
 export function search(query) {
   var params = new URLSearchParams()
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }

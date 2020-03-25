@@ -1213,9 +1213,9 @@ export default {
     },
     isEdit5(row) {
       // console.log('222', row)
-      // const re = row.productCode.slice(0, 2)
-      // if (re === '01' || (re !== '01' && this.personalForm.sourceType === '5')) { return false } else { return true }
-      return false
+      const re = row.productCode.slice(0, 2)
+      if (re !== '05' && re !== '01' && this.personalForm.sourceType === '1') { return true } else { return false }
+      // return false
     },
     isEdit4(row) {
       console.log('222', row)

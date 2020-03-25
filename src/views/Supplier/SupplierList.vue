@@ -43,7 +43,7 @@
             :label="item.groupName"
             :value="item.id"/>
         </el-select>
-        <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -113,6 +113,11 @@
         <el-table-column :label="$t('Supplier.supplierName')" :resizable="false" fixed="left" prop="supplierName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.ktgspmx')" :resizable="false" fixed="left" prop="productName" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Supplier.supplierShortName')" :resizable="false" prop="supplierShortName" align="center" width="150">
