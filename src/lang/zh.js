@@ -1102,6 +1102,7 @@ export default {
     orderquantity: '订单数量合计'
   },
   Product: {
+    numberId: '序号',
     unitGroupId: '计量单位组',
     stockCircle: '采购周期',
     produceAbility: '生产能力',
@@ -3101,6 +3102,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    sfgouxuanqubqx: '是否勾选全部权限',
     jldwzbh: '计量单位组编号',
     gz: '跟踪',
     wly: '无来源',

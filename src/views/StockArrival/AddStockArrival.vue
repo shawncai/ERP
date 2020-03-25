@@ -864,7 +864,7 @@ export default {
               delete elem.stockQuantity
             }
             if (elem.arrivalQuantity === null || elem.arrivalQuantity === '' || elem.arrivalQuantity === undefined) {
-              delete elem.arrivalQuantity
+              elem.arrivalQuantity = 0
             }
             if (elem.giveDate === null || elem.giveDate === '' || elem.giveDate === undefined) {
               delete elem.giveDate

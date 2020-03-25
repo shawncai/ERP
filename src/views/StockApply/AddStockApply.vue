@@ -657,7 +657,7 @@ export default {
         })
         return false
       }
-      EnterDetail.map(function(elem) {
+      EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
@@ -692,7 +692,7 @@ export default {
         }
         return elem
       })
-      const parms2 = JSON.stringify(EnterDetail)
+      const parms2 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

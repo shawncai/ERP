@@ -14,6 +14,7 @@
         <el-option label="长度等级" value="8"/>
         <el-option label="表面处理" value="9"/>
         <el-option label="性能等级" value="10"/>
+        <el-option label="序号" value="11"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" class="filter-item" clearable>
         <el-option label="on duty" value="1"/>
@@ -50,6 +51,7 @@
               <el-option label="长度等级" value="8"/>
               <el-option label="表面处理" value="9"/>
               <el-option label="性能等级" value="10"/>
+              <el-option label="序号" value="11"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -140,6 +142,7 @@
                 <el-option label="长度等级" value="8"/>
                 <el-option label="表面处理" value="9"/>
                 <el-option label="性能等级" value="10"/>
+                <el-option label="序号" value="11"/>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -190,7 +193,8 @@ export default {
         7: '直径规格',
         8: '长度等级',
         9: '表面处理',
-        10: '性能等级'
+        10: '性能等级',
+        11: '序号'
       }
       return statusMap[status]
     },
@@ -368,6 +372,11 @@ export default {
         if (reg.test(this.addCategoryForm.code) === false) {
           this.addCategoryForm.code = ''
         }
+      } else if (this.addCategoryForm.type === '11') {
+        const reg = /^[A-Z0-9]{2}$/
+        if (reg.test(this.addCategoryForm.code) === false) {
+          this.addCategoryForm.code = ''
+        }
       }
     },
     chooseType(val) {
@@ -398,6 +407,9 @@ export default {
         this.tishi = true
       } else if (val === '10') {
         this.weishu = '2位性能等级'
+        this.tishi = true
+      } else if (val === '11') {
+        this.weishu = '2位序号'
         this.tishi = true
       }
     },

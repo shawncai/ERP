@@ -178,6 +178,7 @@ export default {
     AddStockContract: 'new purchase contract',
     StockContractList: 'purchase contract list',
     StockOrder: 'purchase order',
+    ManyAddStockOrder: 'Create new purchase order in batch',
     AddStockOrder: 'new purchase order',
     StockOrderList: 'purchase order list',
     StockArrival: 'purchase arrival',
@@ -1101,6 +1102,7 @@ export default {
     orderquantity: 'order quantity'
   },
   Product: {
+    numberId: 'numberId',
     unitGroupId: 'unit group',
     stockCircle: 'purchase cycle',
     produceAbility: 'production capacity',
@@ -3100,6 +3102,7 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    sfgouxuanqubqx: 'Whether to check all permissions',
     jldwzbh: 'No',
     gz: 'trace',
     wly: 'no source',
@@ -4234,6 +4237,9 @@ export default {
     qxzdcsylx: 'Please select the type of battery used',
     qxzdcsysc: 'Please select the battery life',
     chargeCode: 'chargeCode',
-    controlCode: 'controlCode'
+    controlCode: 'controlCode',
+    kzqbmwtx: 'Controller code is not filled',
+    cdqbmwtx: 'Charger code is not filled',
+    bnyy: 'Bad reasons'
   }
 }

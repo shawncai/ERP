@@ -19,6 +19,9 @@
             <el-col v-show="IsEait" :span="2">
               <el-button class="filter-item" type="warning" style="width: 86px" @click="setCurrent()">{{ $t('public.cancel') }}</el-button>
             </el-col>
+            <el-col v-show="IsEait" :span="2" style="padding-top: 10px">
+              <el-checkbox v-model="changeall" style="width: 86px" @change="handlechangeall">{{ $t('updates.sfgouxuanqubqx') }}</el-checkbox>
+            </el-col>
           </el-form>
         </el-row>
         <el-row :gutter="20">
@@ -103,6 +106,8 @@ export default {
   name: 'Getauthority',
   data() {
     return {
+      selectroles: '',
+      changeall: false,
       IsEait: false,
       isShow: false,
       checkAll: false,
@@ -140,6 +145,16 @@ export default {
     _that = this
   },
   methods: {
+    handlechangeall(val) {
+      this.operations = []
+      console.log('list', this.list)
+      console.log('this.selectroles', this.selectroles)
+      if (val === true) {
+        this.operations = this.list[0].authority.split(',')
+      } else {
+        this.operations = []
+      }
+    },
     setCurrent() {
       this.$refs.singleTable.setCurrentRow()
       this.IsEait = false
@@ -185,6 +200,8 @@ export default {
       if (!val.roleName) {
         return
       }
+      this.changeall = false
+      this.selectroles = val
       this.operations = []
       this.IsEait = true
       console.log('val.roleName', val.roleName)
@@ -194,8 +211,8 @@ export default {
       if (val.id !== null && val.id !== undefined && val.id !== '') {
         this.checkroleId = val.id
       }
-      if (val.authority !== null && val.authority !== undefined && val.authority !== '') {
-        this.operations = val.authority.split(',')
+      if (this.selectroles.authority !== null && this.selectroles.authority !== undefined && this.selectroles.authority !== '') {
+        this.operations = this.selectroles.authority.split(',')
       }
       if (val.authority === null) {
         this.operations = []

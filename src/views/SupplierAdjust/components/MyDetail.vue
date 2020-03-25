@@ -1,122 +1,53 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :supp="supp" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierId" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter2"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
-        <el-option :label="$t('otherlanguage.zc')" value="1"/>
-        <el-option :label="$t('otherlanguage.pj')" value="2"/>
-        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-        <el-option :label="$t('otherlanguage.xhp')" value="4"/>
-        <el-option :label="$t('otherlanguage.dc')" value="5"/>
-      </el-select>
-      <!-- 更多搜索条件下拉栏 -->
-      <el-popover
-        v-model="visible2"
-        placement="bottom"
-        width="500"
-        trigger="click">
-        <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" clearable style="width: 40%;float: left;margin-left: 20px">
-          <el-option
-            v-for="(item, index) in types"
-            :key="index"
-            :label="item.categoryName"
-            :value="item.id"
-          />
-        </el-select>
-        <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option :label="$t('Hmodule.s1')" value="1"/>
-          <el-option :label="$t('Hmodule.x2')" value="2"/>
-        </el-select>
-        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
-        </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-      </el-popover>
-      <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-      <!-- 新建操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <!-- 列表开始 -->
-    <el-table
-      v-loading="listLoading"
-      :key="tableKey"
-      :data="list"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"/>
-      <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
-        <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.productName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.category }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.productType }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.color }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.kpiGrade }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.point }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.salePrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.purchasePrice }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.createid')" :resizable="false" prop="createName" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Product.createTime')" :resizable="false" prop="createTime" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createTime }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 列表结束 -->
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" />
-    <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
-    </span>
-  </el-dialog>
+      <!-- 列表开始 -->
+      <el-table
+        v-loading="listLoading"
+        :key="tableKey"
+        :data="list"
+        border
+        fit
+        highlight-current-row
+        style="width: 100%;"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"
+          align="center"/>
+        <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.productCode }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productTypeName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.cgdyj')" :resizable="false" prop="price" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.price }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 列表结束 -->
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" /> -->
+      <span slot="footer" class="dialog-footer">
+        <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
+      </span>
+  </div></el-dialog>
 </template>
 
 <script>
@@ -144,9 +75,11 @@ export default {
       type: Boolean,
       default: false
     },
-    supp: {
-      type: Number,
-      default: null
+    datalist: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -168,13 +101,13 @@ export default {
       // 批量操作
       moreaction: '',
       // 表格数据
-      list: [],
+      list: this.datalist,
       // 表格数据条数
       total: 0,
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       // 物品列表查询加展示参数
       getemplist: {
         productid: '',
@@ -184,7 +117,6 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
-        supplierId: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -194,16 +126,13 @@ export default {
     control() {
       this.productVisible = this.control
       console.log(this.control)
-      this.getlist()
     },
-    supp() {
-      this.getemplist.supplierId = this.supp
-      this.getlist()
-      console.log(this.supp)
+    datalist() {
+      this.list = this.datalist
     }
   },
   created() {
-    this.getlist()
+    // this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -281,28 +210,7 @@ export default {
     handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
-      const productDetail = this.moreaction.map(function(item) {
-        return {
-          productCode: item.code,
-          productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
-          unit: item.caigouMeasu,
-          color: item.color,
-          plannedQuantity: 0,
-          planDeliveryDate: '',
-          applicationReason: '',
-          sourceNumber: '',
-          sourceSerialNumber: '',
-          price: item.purchasePrice,
-          includeTaxPrice: item.purchasePrice,
-          remark: 0,
-          orderedQuantity: 0,
-          returnQuantity: 0,
-          actualArrivalQuantity: 0
-        }
-      })
+      const productDetail = this.moreaction
       console.log(productDetail)
       this.$emit('product', productDetail)
     }

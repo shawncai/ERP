@@ -22,6 +22,21 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('Product.numberId')" style="width: 100%;">
+                <el-select ref="clear3" v-model="personalForm.numberId" disabled placeholder="请选择序号" style="margin-left: 18px;width: 200px">
+                  <el-option
+                    v-for="(item, index) in numberIds"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item"
+                  />
+                  <template>
+                    <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
+                  </template>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
                 <el-select v-model="personalForm.typeId" :disabled="Iscategoryid === '04' ||Iscategoryid === '03' || Iscategoryid === ''" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable>
                   <el-option
@@ -397,6 +412,7 @@ export default {
       }
     }
     return {
+      numberIds: [],
       isshow: false,
       Iscategoryid: '',
       unitGroupIds: [],
@@ -839,6 +855,12 @@ export default {
       searchEmpCategory2(10).then(res => {
         if (res.data.ret === 200) {
           this.performanceLevels = res.data.data.content.list
+        }
+      })
+      // 序号
+      searchEmpCategory2(11).then(res => {
+        if (res.data.ret === 200) {
+          this.numberIds = res.data.data.content.list
         }
       })
       // 计量单位
