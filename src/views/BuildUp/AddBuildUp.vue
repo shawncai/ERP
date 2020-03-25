@@ -13,6 +13,21 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="clearinput">
+                    <el-option :label="$t('prompt.xsdd')" value="1"/>
+                    <el-option :label="$t('RequirePlan.producePlanNumber')" value="2"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" >
+                <el-form-item :label="$t('StockArrival.sourceNumber')" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
+                </el-form-item>
+              </el-col>
+              <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder" @saleorderdetail2="saleorderdetail2"/>
+              <produce-plan :procontrol.sync="producecontrol" @allinfo="allinfo" @produce="produce"/>
+              <el-col :span="6">
                 <el-form-item :label="$t('BuildUp.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                   <el-input v-model="handlePersonId" placeholder="请选择经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                 </el-form-item>
@@ -254,10 +269,12 @@ import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyBulid from './components/MyBulid'
+import MyOrder from './components/MyOrder'
+import ProducePlan from './components/ProducePlan'
 var _that
 export default {
   name: 'AddBuildUp',
-  components: { MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
+  components: { ProducePlan, MyOrder, MyBulid, MyRepository, MyDetail, MyCreate, MyAccept, MyMaterials },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.personalForm.handlePersonId === undefined || this.personalForm.handlePersonId === null || this.personalForm.handlePersonId === '') {
@@ -274,6 +291,8 @@ export default {
       }
     }
     return {
+      producecontrol: false,
+      ordercontrol: false,
       // 部门数据
       depts: [],
       // 经办人回显
@@ -342,6 +361,43 @@ export default {
     _that = this
   },
   methods: {
+    allinfo(val) {
+      this.personalForm.sourceNumber = val.planNumber
+    },
+    produce(val) {
+      this.$refs.editable2.clear()
+      for (const i in val) {
+        this.$refs.editable2.insert(val[i])
+      }
+      this.setbeforeproduct()
+    },
+    clearinput() {
+      this.$refs.editable.clear()
+      this.$refs.editable2.clear()
+      this.personalForm.sourceNumber = ''
+    },
+    saleorderdetail2(val) {
+      console.log('val33333==', val)
+    },
+    saleOrder(val) {
+      this.personalForm.sourceNumber = val.number
+    },
+    saleOrderDetail(val) {
+      // console.log('val', val)
+
+      this.$refs.editable2.clear()
+      for (const i in val) {
+        this.$refs.editable2.insert(val[i])
+      }
+      this.setbeforeproduct()
+    },
+    chooseNumber() {
+      if (this.personalForm.sourceType === '1') {
+        this.ordercontrol = true
+      } else if (this.personalForm.sourceType === '2') {
+        this.producecontrol = true
+      }
+    },
     getLocationData(row) {
       // 默认批次
       if (row.batch === null || row.batch === '' || row.batch === undefined) {

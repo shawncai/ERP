@@ -338,7 +338,7 @@ export default {
           color: item.color,
           basicQuantity: item.applyQuantity,
           planDeliveryDate: item.requireDate,
-          planQuantity: item.planQuantity,
+          planQuantity: item.applyQuantity,
           applyReason: item.applyReason,
           sourceNumber: number,
           supplierId: '',

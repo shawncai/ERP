@@ -1,66 +1,27 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :close-on-press-escape="false" top="10px" title="选择销售订单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('StockOrder.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('SaleOrder.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.orderNumber" placeholder="采购单号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.number" placeholder="订单单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-input v-model="stockPersonId" :placeholder="$t('StockOrder.stockPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
+              <el-select v-model="getemplist.sendType" :value="getemplist.sendType" clearable @keyup.enter.native="handleFilter">
+                <el-option value="1" label="已发货"/>
+                <el-option value="2" label="未发货"/>
+              </el-select>
             </el-form-item>
-            <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
           <!--更多搜索条件-->
-          <el-col :span="3" style="margin-left: 30px">
-            <el-popover
-              v-model="visible2"
-              placement="bottom"
-              width="500"
-              trigger="click">
-              <el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" clearable style="width: 40%;float: left;margin-left: 20px">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
-              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-              <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-                <el-option :label="$t('updates.zd')" value="1"/>
-                <el-option :label="$t('updates.zx')" value="2"/>
-                <el-option :label="$t('updates.jd')" value="3"/>
-              </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-                <el-option :label="$t('updates.wsh')" value="0"/>
-                <el-option :label="$t('updates.shz')" value="1"/>
-                <el-option :label="$t('updates.shtg')" value="2"/>
-                <el-option :label="$t('updates.shptg')" value="3"/>
-              </el-select>
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="询价日期"
-                end-placeholder="询价日期"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
-              <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-              </div>
-              <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-            </el-popover>
-          </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <!-- 搜索按钮 -->
             <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -81,53 +42,40 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          width="55"/>
+        @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.orderNumber }}</span>
+            <span>{{ scope.row.number }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockTypeId | stockTypeFilter }}</span>
+            <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.transDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+            <span>{{ scope.row.transDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.stockPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.heji6')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockPersonName }}</span>
+            <span>{{ scope.row.allIncludeTaxDiscountMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.sendType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.sendType | sendTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleOrder.backMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockOrder.allTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allTaxMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockOrder.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+            <span>{{ scope.row.backMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -150,19 +98,16 @@
 </template>
 
 <script>
-import { stockorderlist } from '@/api/StockOrder'
+import { searchsaleOrder } from '@/api/SaleOrder'
 import { getdeptlist } from '@/api/BasicSettings'
+import { materialslist2 } from '@/api/MaterialsList'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
-import MyEmp from './MyEmp'
-import DetailList from './DetailList'
-import MyDialog from './MyDialog'
-import MySupplier from './MySupplier'
 var _that
 export default {
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -187,13 +132,10 @@ export default {
       }
       return statusMap[status]
     },
-    sourceTypeFilter(status) {
+    sendTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgjhd'),
-        3: _that.$t('updates.cgxjd'),
-        4: _that.$t('updates.cght'),
-        5: _that.$t('Hmodule.Nosource')
+        1: '已发货',
+        2: '未发货'
       }
       return statusMap[status]
     }
@@ -202,16 +144,17 @@ export default {
     ordercontrol: {
       type: Boolean,
       default: false
-    },
-    supp: {
-      type: Number,
-      default: null
     }
   },
   data() {
     return {
       // 选择框控制
       employeeVisible: this.ordercontrol,
+      // 回显客户
+      customerName: '',
+      // 控制客户
+      customercontrol: false,
+      agentcontrol: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -254,12 +197,10 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 50,
-        judgeStat: 2,
-        receiptStat: 2,
+        pageSize: 10,
+        judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
-        supplierId: this.supp,
         isActive: 1
       },
       // 传给组件的数据
@@ -274,23 +215,32 @@ export default {
     ordercontrol() {
       this.employeeVisible = this.ordercontrol
       this.getlist()
-    },
-    supp() {
-      this.getemplist.supplierId = this.supp
-      this.getlist()
-      console.log(this.supp)
     }
-  },
-  created() {
-    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    // 多选
-    handleSelectionChange(val) {
-      this.moreaction = val
+    // 选择客户类型时清理客户名称
+    clearCustomer() {
+      this.getemplist.customerId = ''
+      this.customerName = ''
+    },
+    // 选择客户focus
+    chooseCustomer() {
+      if (this.getemplist.customerType === '1') {
+        this.agentcontrol = true
+      } else if (this.getemplist.customerType === '2') {
+        this.customercontrol = true
+      }
+    },
+    customerdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.customerName
+    },
+    agentdata(val) {
+      this.getemplist.customerId = val.id
+      this.customerName = val.agentName
     },
     // 更新采购类型
     updatecountry() {
@@ -299,7 +249,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockorderlist(this.getemplist).then(res => {
+      searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -323,8 +273,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.customerName = ''
+      this.getemplist.customerId = ''
     },
     restFilter2() {
       this.stockPersonId = ''
@@ -333,7 +283,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stockorderlist(this.getemplist).then(res => {
+      searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -364,57 +314,47 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/StockOrder/AddStockOrder')
+      this.$router.push('/SaleOrder/AddSaleOrder')
+    },
+    // 选择主生产计划数据时的操作
+    handleCurrentChange(val) {
+      this.choosedata = val
+      console.log('tczjx', val)
     },
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      console.log(this.moreaction)
-      // const orderdata = this.choosedata.stockOrderDetailVos
-      const orderdata = []
-      // const number = this.choosedata.orderNumber
-      for (let i = 0; i < this.moreaction.length; i++) {
-        for (let j = 0; j < this.moreaction[i].stockOrderDetailVos.length; j++) {
-          this.moreaction[i].stockOrderDetailVos[j].sourceNumber = this.moreaction[i].orderNumber
-          orderdata.push(this.moreaction[i].stockOrderDetailVos[j])
-        }
-      }
-      const orderDetail = orderdata.map(function(item) {
+      const saleOrderdata = this.choosedata.saleOrderDetailVos
+      const OrderNumber = this.choosedata.number
+      const saleOrderDetail = saleOrderdata.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
-          unit: item.unit,
+          locationId: '',
           color: item.color,
-          stockQuantity: (Number(item.stockQuantity)).toFixed(2),
-          arrivalQuantity: (Number(item.stockQuantity) - Number(item.arrivalQuantity) + Number(item.returnQuantity)).toFixed(2),
-          allarrivalQuantity: item.arrivalQuantity,
-          returnQuantity: item.returnQuantity,
-          giveDate: item.deliveryDate,
-          price: (Number(item.price)).toFixed(2),
-          includeTaxPrice: item.includeTaxPrice,
-          taxRate: (Number(item.taxRate)).toFixed(2),
-          money: item.money,
-          includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.tax,
-          discountRate: (Number(item.discountRate)).toFixed(2),
-          discountMoney: (Number(item.discountMoney)).toFixed(2),
-          remark: item.remarks,
-          sourceNumber: item.sourceNumber,
-          sourceSerialNumber: item.id,
-          hadStorageQuantity: 0,
-          reportCheckingQuantity: 0,
-          actualCheckingQuantity: 0,
-          qualifyQuantity: 0,
-          unqualifyQuantity: 0
+          typeId: item.productType,
+          enterQuantity: 0,
+          taxRate: 0,
+          unit: item.unit,
+          actualEnterQuantity: 0,
+          quantity: 1,
+          enterPrice: item.costPrice,
+          productType: item.productType,
+          totalMoney: 0,
+          enterMoney: 0,
+          price: item.costPrice,
+          typeIdname: item.productTypeName
         }
       })
-      console.log(orderDetail)
-      this.$emit('order', orderDetail)
-      this.$emit('allOrderinfo', this.moreaction[0])
+      console.log(58520, saleOrderDetail)
+      const productDetail3 = await Promise.all(saleOrderDetail.map(function(item) {
+        return materialslist2(item.productCode)
+      }))
+      console.log('productDetail3', productDetail3)
+      this.$emit('saleOrderDetail', saleOrderDetail)
+      this.$emit('saleOrder', this.choosedata)
+      this.$emit('saleorderdetail2', productDetail3)
     }
     // 仓库管理员选择结束
   }

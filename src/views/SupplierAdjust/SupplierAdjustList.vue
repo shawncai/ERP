@@ -5,6 +5,8 @@
       <el-input v-model="getemplist.number" :placeholder="$t('updates.bgdbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="applyPersonId" :placeholder="$t('SupplierAdjust.applyPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
+      <el-input v-model="supplierId" placeholder="供应商" class="filter-item" clearable @focus="handlechoose" @clear="restFilter"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>

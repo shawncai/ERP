@@ -43,7 +43,7 @@
               <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
                   <el-option value="1" label="无来源" />
-                  <el-option value="2" label="销售订单" />
+                  <!-- <el-option value="2" label="销售订单" /> -->
                 </el-select>
               </el-form-item>
             </el-col>
@@ -67,8 +67,8 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-        <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
-        <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
+        <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
+        <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/> -->
         <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">

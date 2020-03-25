@@ -1809,6 +1809,7 @@ export default {
     allIncludeTaxMoney: 'Total amount w/ vat'
   },
   StockArrival: {
+    presentdata: 'Purchase details',
     sourceNumber: 'sources',
     title: 'purchase arrival form subject',
     number: 'purchase arrival form no.',

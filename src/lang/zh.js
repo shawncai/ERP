@@ -1810,6 +1810,7 @@ export default {
     allIncludeTaxMoney: '含税金额合计'
   },
   StockArrival: {
+    presentdata: '采购明细',
     sourceNumber: '源单编号',
     title: '采购到货单主题',
     number: '采购到货单编号',

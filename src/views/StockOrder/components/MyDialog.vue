@@ -84,12 +84,12 @@
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('StockOrder.signPersonId')" style="width: 100%;">
                 <el-input v-model="signPersonId" :disabled="IsSignPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseDelivery"/>
               </el-form-item>
               <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-            </el-col>
+            </el-col> -->
             <el-col :span="12">
               <el-form-item :label="$t('StockOrder.deliveryMode')" style="width: 100%;">
                 <el-select v-model="personalForm.deliveryMode" :disabled="IsDeliveryMode" clearable style="margin-left: 18px;width: 200px">
