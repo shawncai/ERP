@@ -43,6 +43,7 @@
             :label="item.groupName"
             :value="item.id"/>
         </el-select>
+        <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
