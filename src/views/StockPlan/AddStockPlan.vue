@@ -392,9 +392,9 @@ export default {
       list3: [],
       // 采购计划单明细列表规则
       validRules: {
-        supplierName: [
-          { required: true, validator: validatePass5, trigger: 'focus' }
-        ],
+        // supplierName: [
+        //   { required: true, validator: validatePass5, trigger: 'focus' }
+        // ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }
         ],

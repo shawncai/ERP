@@ -582,6 +582,7 @@ export default {
                   this.getlist()
                   this.$refs.addCategoryForm.clearValidate()
                   this.$refs.addCategoryForm.resetFields()
+                  this.$refs.editable.clear()
                   this.restAddCategoryForm()
                   this.categoryVisible = false
                 } else {
