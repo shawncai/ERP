@@ -86,7 +86,7 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @selection-change="handleSelectionChange">
+        @current-change="handleCurrentChange">>
         <el-table-column
           type="selection"
           width="55"
@@ -321,54 +321,50 @@ export default {
       this.$router.push('/StockApply/AddStockApply')
     },
     // 选择主生产计划数据时的操作
-    handleSelectionChange(val) {
+    handleCurrentChange(val) {
       this.choosedata = val
     },
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      console.log('this.choosedata', this.choosedata)
-      const neednewarr = this.choosedata.map(item => {
-        return item.stockApplyDetailVos
-      })
-      const applydata = [].concat.apply([], neednewarr)
-      console.log('applydata', applydata)
-      // for(let i in applydata) {
-      //   for (let j in this.choosedata) {
-      //     if
-      //   }
-      // }
-      // const applydata = this.choosedata.stockApplyDetailVos
-      // const number = this.choosedata.applyNumber
-      // console.log('1111122222', applydata)
-      // const applyDetail = applydata.map(function(item) {
-      //   return {
-      //     applyQuantity: item.applyQuantity,
-      //     productCode: item.productCode,
-      //     productName: item.productName,
-      //     productType: item.productType,
-      //     typeId: item.typeId,
-      //     unit: item.unit,
-      //     color: item.color,
-      //     basicQuantity: item.applyQuantity,
-      //     planDeliveryDate: item.requireDate,
-      //     planQuantity: item.applyQuantity,
-      //     applyReason: item.applyReason,
-      //     sourceNumber: number,
-      //     supplierId: '',
-      //     supplierName: '',
-      //     basicPrice: 0,
-      //     planMoney: '0.00',
-      //     orderQuantity: '0.00',
-      //     requireQuantity: item.applyQuantity,
-      //     requireDate: item.requireDate,
-      //     sourceSerialNumber: item.id
-      //   }
+      // console.log('this.choosedata', this.choosedata)
+      // const neednewarr = this.choosedata.map(item => {
+      //   return item.stockApplyDetailVos
       // })
-      // console.log('22222333333', applyDetail[0].planQuantity)
-      // this.$emit('apply', applyDetail)
-      // this.$emit('apply2', applyDetail)
-      // this.$emit('allinfo', this.choosedata)
+      // const applydata = [].concat.apply([], neednewarr)
+      // console.log('applydata', applydata)
+      console.log(this.choosedata)
+      const applydata = this.choosedata.stockApplyDetailVos
+      const number = this.choosedata.applyNumber
+      console.log('1111122222', applydata)
+      const applyDetail = applydata.map(function(item) {
+        return {
+          applyQuantity: item.applyQuantity,
+          productCode: item.productCode,
+          productName: item.productName,
+          productType: item.productType,
+          typeId: item.typeId,
+          unit: item.unit,
+          color: item.color,
+          basicQuantity: item.applyQuantity,
+          planDeliveryDate: item.requireDate,
+          planQuantity: item.applyQuantity,
+          applyReason: item.applyReason,
+          sourceNumber: number,
+          supplierId: '',
+          supplierName: '',
+          basicPrice: 0,
+          planMoney: '0.00',
+          orderQuantity: '0.00',
+          requireQuantity: item.applyQuantity,
+          requireDate: item.requireDate,
+          sourceSerialNumber: item.id
+        }
+      })
+      console.log('22222333333', applyDetail[0].planQuantity)
+      this.$emit('apply', applyDetail)
+      this.$emit('apply2', applyDetail)
+      this.$emit('allinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }

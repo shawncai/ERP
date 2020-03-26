@@ -133,6 +133,12 @@ export function createnewproduct(query) {
   if (query.unitGroupId !== '' && query.unitGroupId !== null && query.unitGroupId !== undefined) {
     params.append('unitGroupId', query.unitGroupId) // 你要传给后台的参数值 key/value
   }
+  if (query.numberId !== '' && query.numberId !== null && query.numberId !== undefined) {
+    params.append('numberId', query.numberId) // 你要传给后台的参数值 key/value
+  }
+  if (query.numberCode !== '' && query.numberCode !== null && query.numberCode !== undefined) {
+    params.append('numberCode', query.numberCode) // 你要传给后台的参数值 key/value
+  }
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }

@@ -35,8 +35,8 @@
           type="daterange"
           range-separator="-"
           unlink-panels
-          start-placeholder="询价日期"
-          end-placeholder="询价日期"
+          start-placeholder="创建日期"
+          end-placeholder="创建日期"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
@@ -618,6 +618,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {

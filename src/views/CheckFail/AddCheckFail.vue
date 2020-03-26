@@ -99,7 +99,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReason" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReasonId" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -508,6 +508,8 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+      console.log('parms', parms)
+      console.log('parms2', parms2)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {
