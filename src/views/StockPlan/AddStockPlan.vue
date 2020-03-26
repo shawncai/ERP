@@ -594,7 +594,7 @@ export default {
         const result = newArr.findIndex(ol => { return el.planDeliveryDate === ol.planDeliveryDate && el.productCode === ol.productCode && el.supplierId === ol.supplierId })
         console.log('result', result)
         if (result !== -1) {
-          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined && el.supplierId !== null && el.supplierId !== '' && el.supplierId !== undefined) {
+          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined) {
             newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
             newArr[result].planMoney = newArr[result].basicPrice * newArr[result].planQuantity
             console.log(newArr[result].planMoney)

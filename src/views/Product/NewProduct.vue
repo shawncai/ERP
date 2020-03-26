@@ -624,6 +624,7 @@ export default {
         detailpicid: [],
         memberprice: '',
         versionId: '',
+        numberId: '',
         diameterId: '',
         lengthLevelId: '',
         faceId: '',
@@ -667,6 +668,9 @@ export default {
         ],
         versionId: [
           { message: '请选择版本', trigger: 'change' }
+        ],
+        numberId: [
+          { message: '请选择序号', trigger: 'change' }
         ],
         colorId: [
         ],
@@ -812,15 +816,24 @@ export default {
       this.workCenterId = val.workCenterName
       this.personalForm.workCenterId = val.id
     },
-    'personalForm.disposeId'(val) {
+    'personalForm.versionId'(val) {
       this.$nextTick(() => {
         console.log(val)
         if (val !== 34) {
           this.$refs.personalForm.validateField('versionId')
-          this.personalForm.versionId = ''// 政府机构级别,
+          // this.personalForm.versionId = ''// 政府机构级别,
         }
       })
     },
+    // 'personalForm.numberId'(val) {
+    //   this.$nextTick(() => {
+    //     console.log(val)
+    //     if (val !== 34) {
+    //       this.$refs.personalForm.validateField('numberId')
+    //       // this.personalForm.numberId = ''// 政府机构级别,
+    //     }
+    //   })
+    // },
     // 'personalForm.categoryid'(val) {
     //   this.$nextTick(() => {
     //     console.log(val)

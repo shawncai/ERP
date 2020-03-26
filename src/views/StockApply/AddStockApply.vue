@@ -673,10 +673,10 @@ export default {
           delete elem.unit
         }
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+          elem.basicQuantity = 0
         }
         if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
-          delete elem.requireQuantity
+          elem.requireQuantity = 0
         }
         if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
           delete elem.applyQuantity
@@ -688,7 +688,7 @@ export default {
           delete elem.applyReason
         }
         if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
-          delete elem.planQuantity
+          elem.planQuantity = 0
         }
         return elem
       })
