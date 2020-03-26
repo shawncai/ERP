@@ -525,6 +525,7 @@ export default {
         for (let i = 0; i < this.list2.length; i++) {
           this.list2[i].quantity2 = this.list2[i].quantity
           this.list2[i].sourceNumber = this.$store.getters.empcontract.number
+          this.list2[i].taxRate = this.list2[i].taxRate2
         }
         this.$store.dispatch('getempcontract', '')
       }

@@ -356,6 +356,12 @@ export default {
       stockInvoiceList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          // for (let i = 0; i < this.list.length; i++) {
+          //   for (let j = 0; j < this.list[i].stockInvoiceDetailVos.length; j++) {
+          //     console.log('this.list[i].stockInvoiceDetailVos[j]', this.list[i].stockInvoiceDetailVos[j])
+          //     this.list[i].stockInvoiceDetailVos[j].taxRate2 = this.list[i].stockInvoiceDetailVos[j].taxRate * 100
+          //   }
+          // }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

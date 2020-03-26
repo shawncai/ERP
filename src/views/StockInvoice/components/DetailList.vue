@@ -103,7 +103,7 @@
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate2" align="center" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px"/>
