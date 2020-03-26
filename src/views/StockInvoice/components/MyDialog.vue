@@ -220,6 +220,45 @@
           <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
+      <el-card class="box-card" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
+                  <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
+                  <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
+                  <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
+                  <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
+                  <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
+                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -479,7 +518,8 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              console.log(prev)
+              return prev
             }
           }, 0)
           sums[index] += ''
@@ -493,15 +533,15 @@ export default {
       sums[5] = ''
       sums[6] = ''
       sums[10] = ''
-      sums[15] = ''
+      sums[14] = ''
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      this.allMoney = sums[11]
+      this.allTaxMoney = sums[13]
+      this.allIncludeTaxMoney = sums[12]
+      this.allDiscountMoney = sums[15]
+      this.allMoneyMoveDiscount = sums[12] - sums[15]
       return sums
     },
     // 通过折扣额计算折扣

@@ -114,40 +114,45 @@
           </el-editable>
         </div>
       </el-card>
-      <!--      <el-card class="box-card" shadow="never" style="margin-top: 10px">-->
-      <!--        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>-->
-      <!--        <div class="container" style="margin-top: 37px">-->
-      <!--          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">-->
-      <!--            <el-row>-->
-      <!--              <el-col :span="12">-->
-      <!--                <el-form-item :label="$t('updates.thslzj')" style="width: 100%;">-->
-      <!--                  <span>{{ personalForm.allQuantity }}</span>-->
-      <!--                </el-form-item>-->
-      <!--              </el-col>-->
-      <!--              <el-col :span="12">-->
-      <!--                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">-->
-      <!--                  <span>{{ personalForm.allMoney }}</span>-->
-      <!--                </el-form-item>-->
-      <!--              </el-col>-->
-      <!--              <el-col :span="12">-->
-      <!--                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">-->
-      <!--                  <span>{{ personalForm.allTaxMoney }}</span>-->
-      <!--                </el-form-item>-->
-      <!--              </el-col>-->
-      <!--              <el-col :span="12">-->
-      <!--                <el-form-item label="抵应付账款" style="width: 100%;">-->
-      <!--                  <span>{{ personalForm.allMoney }}</span>-->
-      <!--                </el-form-item>-->
-      <!--              </el-col>-->
-      <!--              <el-col :span="12">-->
-      <!--                <el-form-item label="应退货款合计" style="width: 100%;">-->
-      <!--                  <span>{{ personalForm.allRetreatMoney }}</span>-->
-      <!--                </el-form-item>-->
-      <!--              </el-col>-->
-      <!--            </el-row>-->
-      <!--          </el-form>-->
-      <!--        </div>-->
-      <!--      </el-card>-->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOrder.heji1')" style="width: 100%;">
+                  <span>{{ personalForm.allQuantity }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
+                  <span>{{ personalForm.allMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
+                  <span>{{ personalForm.allTaxMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
+                  <span>{{ personalForm.allIncludeTaxMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
+                  <span>{{ personalForm.allDiscountMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
+                  <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
