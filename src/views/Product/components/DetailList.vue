@@ -35,6 +35,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('Product.numberId')" style="width: 100%;">
+                  {{ personalForm.numberId }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Product.typeid')" style="width: 100%;">
                   {{ personalForm.productType }}
                 </el-form-item>

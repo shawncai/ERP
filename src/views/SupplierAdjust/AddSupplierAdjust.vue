@@ -53,6 +53,8 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.tzdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -146,6 +148,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      datalist: [],
       // 带入的供应商
       supp: null,
       // 控制币种是否可以编辑
@@ -408,6 +411,7 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.datalist = val.supplierDetailVos
       this.$refs.editable.clear()
       for (let i = 0; i < val.supplierDetailVos.length; i++) {
         val.supplierDetailVos[i].id = ''
@@ -454,6 +458,7 @@ export default {
         })
         return false
       }
+      // this.supp = this.personalForm.supplierId
       this.control = true
     },
     productdetail(val) {

@@ -1406,7 +1406,7 @@ export default {
                 delete elem.price
               }
               if (elem.stockQuantity === null || elem.stockQuantity === '' || elem.stockQuantity === undefined) {
-                delete elem.stockQuantity
+                elem.stockQuantity = 1
               }
               if (elem.deliveryDate === null || elem.deliveryDate === '' || elem.deliveryDate === undefined) {
                 delete elem.deliveryDate
@@ -1421,31 +1421,31 @@ export default {
                 delete elem.sourceSerialNumber
               }
               if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-                delete elem.includeTaxPrice
+                elem.includeTaxPrice = 0
               }
-              // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              //   delete elem.taxRate
-              // }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                elem.taxRate = 0
+              }
               if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
                 elem.taxRate = elem.taxRate / 100
               }
-              // if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              //   delete elem.discountRate
-              // }
+              if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+                elem.discountRate = 0
+              }
               if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
                 elem.discountRate = elem.discountRate / 100
               }
               if (elem.money === null || elem.money === '' || elem.money === undefined) {
-                delete elem.money
+                elem.money = 0
               }
               if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-                delete elem.includeTaxMoney
+                elem.includeTaxMoney = 0
               }
               if (elem.tax === null || elem.tax === '' || elem.tax === undefined) {
-                delete elem.tax
+                elem.tax = 0
               }
               if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-                delete elem.discountMoney
+                elem.discountMoney = 0
               }
               return elem
             })

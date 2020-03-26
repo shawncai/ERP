@@ -24,6 +24,22 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Product.numberId')" :rules="Iscategoryid === '04' || Iscategoryid === '01' || Iscategoryid === '03' || Iscategoryid === '05' || Iscategoryid === '' ? personalrules.numberId:[{ required: true, message: '请选择序号', trigger: 'change' }]" prop="numberId" style="width: 100%;">
+                  <el-select ref="clear3" v-model="numberId" :disabled="Iscategoryid === '04' || Iscategoryid === '01' || Iscategoryid === '03' || Iscategoryid === '05' || Iscategoryid === ''" value-key="id" placeholder="请选择序号" style="margin-left: 18px;width: 200px" @change="numberid($event)" @focus="updatecate">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in numberIds"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item"
+                    />
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Product.typeid')" :rules="Iscategoryid === '04' || Iscategoryid === '03' || Iscategoryid === '' ? personalrules.typeid:[{ required: true, message: '请选择车辆型号', trigger: 'change' }]" prop="typeid" style="width: 100%;">
                   <el-select ref="clear" v-model="typeid" :disabled="Iscategoryid === '04' ||Iscategoryid === '03' || Iscategoryid === ''" value-key="id" style="margin-left: 18px;width: 200px" placeholder="请选择车辆型号" clearable @change="type($event)" @focus="updatecate">
                     <el-option v-show="false" label="" value=""/>
@@ -39,6 +55,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('Product.disposeId')" :rules="Iscategoryid === '04' || Iscategoryid === '03' || Iscategoryid === '' || Iscategoryid === '02' || Iscategoryid === '05' ? personalrules.disposeId:[{ required: true, message: '请选择配置', trigger: 'change' }]" prop="disposeId" style="width: 100%;">
                   <el-select ref="clear2" v-model="disposeId" :disabled="Iscategoryid === '04' || Iscategoryid === '03' || Iscategoryid === '' || Iscategoryid === '02' || Iscategoryid === '05'" value-key="id" placeholder="请选择配置" style="margin-left: 18px;width: 200px" @change="dispose($event)" @focus="updatecate">
@@ -486,6 +503,8 @@ export default {
       }, 1000)
     }
     return {
+      numberIds: [],
+      numberId: '',
       // 是否显示添加按钮
       isshow: false,
       // 控制生产能力是否可输入
@@ -696,6 +715,11 @@ export default {
     _that = this
   },
   methods: {
+    numberid(val) {
+      this.personalForm.numberId = val.id
+      this.personalForm.numberCode = val.code
+      console.log(this.$refs.personalForm)
+    },
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-31-38-1')
@@ -912,6 +936,12 @@ export default {
           this.performanceLevels = res.data.data.content.list
         }
       })
+      // 序号
+      searchEmpCategory2(11).then(res => {
+        if (res.data.ret === 200) {
+          this.numberIds = res.data.data.content.list
+        }
+      })
       // 计量单位
       searchMea().then(res => {
         if (res.data.ret === 200) {
@@ -1036,6 +1066,7 @@ export default {
         detailpicid: [],
         memberprice: '',
         versionId: '',
+        numberId: '',
         diameterId: '',
         lengthLevelId: '',
         faceId: '',
@@ -1045,6 +1076,7 @@ export default {
         typeid: '',
         createid: this.$store.getters.userId
       }
+      this.numberId = ''
       this.supplierid = ''
       // 车辆型号回显
       this.typeid = ''

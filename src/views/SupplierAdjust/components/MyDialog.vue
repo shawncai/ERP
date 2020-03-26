@@ -52,6 +52,8 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订货单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -155,6 +157,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      datalist: [],
       // 带入的供应商
       supp: null,
       // 控制币种是否可以编辑
@@ -790,6 +793,7 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata2 = this.supplierIdDetail
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
         for (let j = 0; j < nowlistdata.length; j++) {
@@ -800,6 +804,16 @@ export default {
               offset: 100
             })
             return false
+          }
+        }
+        console.log('nowlistdata2', nowlistdata2)
+        console.log('val', val)
+        for (let p = 0; p < nowlistdata2.length; p++) {
+          if (val[i].productCode === nowlistdata2[p].productCode) {
+            console.log('success')
+            val[i].discountRate = nowlistdata2[p].discountRate
+            val[i].price = nowlistdata2[p].price
+            val[i].includeTaxPrice = nowlistdata2[p].includeTaxPrice
           }
         }
         this.$refs.editable.insert(val[i])
