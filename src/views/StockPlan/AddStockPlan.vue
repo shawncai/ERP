@@ -245,6 +245,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { getStockInfoByProduct } from '@/api/Supplier'
 // import { materialslist2 } from '@/api/MaterialsList'
 import { countlist } from '@/api/public'
 import { addstockplan } from '@/api/StockPlan'

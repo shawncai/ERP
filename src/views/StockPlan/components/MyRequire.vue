@@ -295,7 +295,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
+      console.log('123', this.choosedata)
       const requiredata = this.choosedata
       const requireDetail = requiredata.map(function(item) {
         return {
