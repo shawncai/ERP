@@ -511,9 +511,10 @@ export default {
       }))
       const processdata = needdata.data.data.content.list
       this.total = needdata.data.data.content.totalCount
+      console.log('processdata', processdata)
       const lists = await Promise.all(processdata.map((item) => {
         return stockorderlist2({
-          sourceNumber: item.sourceNumber,
+          sourceNumber: item.planNumber,
           regionIds
         })
       }))
