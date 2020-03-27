@@ -364,6 +364,7 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
+      this.personalForm.payAccount = val.account
       this.stockPersonId = val.buyerName
       this.personalForm.stockPersonId = val.buyerId
       this.personalForm.settleMode = val.paymentId

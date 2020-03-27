@@ -561,6 +561,13 @@ export default {
         val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
+      if (val.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '质检不通过的物品才能退货',
+          offset: 100
+        })
+      }
     },
     allarrivalinfo(val) {
       this.personalForm.sourceNumber = val.number

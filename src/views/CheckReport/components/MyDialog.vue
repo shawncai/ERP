@@ -689,6 +689,9 @@ export default {
       delete this.personalForm.judgeStat
       const Data = this.personalForm
       for (const key in Data) {
+        if (key === 'createDate') {
+          delete Data[key]
+        }
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }

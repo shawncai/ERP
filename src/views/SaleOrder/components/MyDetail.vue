@@ -199,6 +199,7 @@ export default {
     },
     personalform() {
       this.query = this.personalform
+      console.log('this.query', this.query)
     }
   },
   created() {

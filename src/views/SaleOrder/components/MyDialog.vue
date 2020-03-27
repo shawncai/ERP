@@ -181,8 +181,8 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ddmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <el-button :disabled="Isproduct" @click="chooseType">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -477,6 +477,7 @@ export default {
       editVisible: this.editcontrol,
       // 修改信息数据
       personalForm: this.editdata,
+      saleRepositoryId: '',
       // 合计信息
       heji1: '',
       heji2: '',
@@ -566,6 +567,7 @@ export default {
       this.list2 = this.personalForm.saleOrderDetailVos
       this.list3 = this.personalForm.saleOrderCostDetails
       this.changeRate()
+      this.chooseSource2(this.personalForm.sourceType)
       // this.chooseSource(this.personalForm.sourceType)
     }
   },
@@ -576,6 +578,19 @@ export default {
     _that = this
   },
   methods: {
+    // 无来源添加商品
+    chooseType() {
+      if (this.saleRepositoryName === null || this.saleRepositoryName === '' || this.saleRepositoryName === undefined) {
+        this.saleRepositoryId = this.saleRepositoryName
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
+      this.control = true
+    },
     isEdit2(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -662,15 +677,27 @@ export default {
       }
     },
     // 控制源单类型
+    chooseSource2(val) {
+      if (val === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+      } else if (val === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+      }
+    },
+    // 控制源单类型
     chooseSource(val) {
       if (val === '2') {
         this.Isproduct = true
         this.IsNumber = false
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
       } else if (val === '1') {
         this.Isproduct = false
         this.IsNumber = true
         this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
       }
     },
     // 从源单中添加商品
@@ -810,6 +837,9 @@ export default {
             return false
           }
         }
+        val[i].quantity = 1
+        val[i].alreadyOutQuantity = 0
+        val[i].retreatQuantity = 0
         this.$refs.editable.insert(val[i])
       }
     },

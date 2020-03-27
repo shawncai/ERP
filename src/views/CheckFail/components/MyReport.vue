@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :reportcontrol="reportcontrol" :close-on-press-escape="false" top="10px" title="选择质检申请单" append-to-body width="1100px" @close="$emit('update:reportcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :reportcontrol="reportcontrol" :close-on-press-escape="false" top="10px" title="选择质检报告" append-to-body width="1100px" @close="$emit('update:reportcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -254,6 +254,7 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
+        checkResult: 2,
         pageNum: 1,
         pageSize: 10,
         judgeStat: 2,
@@ -287,22 +288,22 @@ export default {
       this.listLoading = true
       checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const processArr = res.data.data.content.list
-          for (let i = 0; i < processArr.length; i++) {
-            processArr[i].isOk = 0
-            for (let j = 0; j < processArr[i].checkReportDetailVos.length; j++) {
-              if (processArr[i].checkReportDetailVos[j].chectResult === 1) {
-                processArr[i].isOk++
-              }
-            }
-            console.log(i, processArr[i].isOk)
-          }
-          for (let i = 0; i < processArr.length; i++) {
-            if (processArr[i].isOk === processArr[i].checkReportDetailVos.length) {
-              processArr.splice(i, 1)
-              i--
-            }
-          }
+          // const processArr = res.data.data.content.list
+          // for (let i = 0; i < processArr.length; i++) {
+          //   processArr[i].isOk = 0
+          //   for (let j = 0; j < processArr[i].checkReportDetailVos.length; j++) {
+          //     if (processArr[i].checkReportDetailVos[j].chectResult === 1) {
+          //       processArr[i].isOk++
+          //     }
+          //   }
+          //   console.log(i, processArr[i].isOk)
+          // }
+          // for (let i = 0; i < processArr.length; i++) {
+          //   if (processArr[i].isOk === processArr[i].checkReportDetailVos.length) {
+          //     processArr.splice(i, 1)
+          //     i--
+          //   }
+          // }
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }
