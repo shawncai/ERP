@@ -638,6 +638,7 @@ export default {
         })
         return false
       }
+      let mm = 1
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -679,9 +680,18 @@ export default {
         }
         if (elem.supplierId === null || elem.supplierId === '' || elem.supplierId === undefined) {
           delete elem.supplierId
+          mm = 2
         }
         return elem
       })
+      if (mm === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择供应商',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
