@@ -1291,13 +1291,18 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        stockRepositoryId: this.$store.getters.repositoryId,
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '5'
+        sourceType: '5',
+        currency: '1',
+        orderDate: null,
+        deptId: this.$store.getters.deptId,
+        exchangeRate: '1.0000'
       }
       this.personalForm.orderDate = new Date()
       this.supplierId = null
