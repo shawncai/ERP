@@ -14,6 +14,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('StockArrival.sourceType')" prop="sourceType" style="width: 100%;">
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" >
+                    <el-option value="1" label="采购订单" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                  <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @allOrderinfo="allOrderinfo2"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.payDate')" prop="payDate" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.payDate"
@@ -121,6 +134,7 @@ export default {
     //   }
     // }
     return {
+      supp: null,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -169,6 +183,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        sourceType: '1',
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -325,13 +340,25 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.ordercontrol = true
+      if (this.supp === '' || this.supp === undefined || this.supp === null) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择供应商',
+          offset: 100
+        })
+        return false
+      } else {
+        this.ordercontrol = true
+      }
     },
     order(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
       }
+    },
+    allOrderinfo2(val) {
+      this.personalForm.sourceNumber = val.orderNumber
     },
     allOrderinfo(val) {
       this.personalForm.supplierId = val.supplierId
@@ -362,6 +389,7 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.personalForm.payAccount = val.account

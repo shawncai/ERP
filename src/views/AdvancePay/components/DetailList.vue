@@ -12,6 +12,16 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
+                <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceType" style="width: 100%;">
+                <span>{{ personalForm.sourceNumber }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.payDate')" prop="payDate" style="width: 100%;">
                 <span>{{ personalForm.payDate }}</span>
               </el-form-item>
@@ -120,6 +130,16 @@
                 {{ personalForm.modifyDate }}
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('accessComponent.ppp')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.confirmPersonName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('accessComponent.ooo')" prop="applyDate" style="width: 100%;">
+                {{ personalForm.confirmDate }}
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -148,10 +168,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgjhd'),
-        3: _that.$t('updates.cgxjd'),
-        4: _that.$t('Hmodule.Nosource')
+        1: _that.$t('updates.cgdd')
       }
       return statusMap[status]
     },
