@@ -297,6 +297,11 @@
                   <el-input v-model="personalForm.account" placeholder="请输入账号" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('prompt.yfkbl') + '%'" style="width: 100%;">
+                  <el-input-number v-model="personalForm.proportion" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px" />
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -441,6 +446,7 @@ export default {
       perregions: [],
       // 供应商信息数据
       personalForm: {
+        proportion: 0,
         // 建档人id
         createId: this.$store.getters.userId,
         supplierName: '',

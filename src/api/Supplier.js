@@ -57,6 +57,9 @@ export function searchCategory(query) {
 // 新建供应商
 export function create(query, query2) {
   var params = new URLSearchParams()
+  if (query.proportion !== '' && query.proportion !== null && query.proportion !== undefined) {
+    params.append('proportion', query.proportion) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
   }
@@ -222,6 +225,9 @@ export function search(query) {
 // 修改供应商
 export function update(query, query2) {
   var params = new URLSearchParams()
+  if (query.proportion !== '' && query.proportion !== null && query.proportion !== undefined) {
+    params.append('proportion', query.proportion) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
   }
