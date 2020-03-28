@@ -449,9 +449,14 @@ export default {
           for (let i = 0; i < this.list.length; i++) {
             let regionsName = ''
             const regions = this.list[i].regions
-            if (regions != null) {
+            console.log('regions', regions)
+            if (regions !== null) {
               for (let j = 0; j < regions.length; j++) {
-                regionsName = regionsName + regions[j].regionName
+                if (regions[j] !== null) {
+                  regionsName = regionsName + regions[j].regionName
+                } else {
+                  regionsName = ''
+                }
               }
             }
             this.list[i].regionsName = regionsName

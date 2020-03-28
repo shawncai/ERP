@@ -97,7 +97,7 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReasonId" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReasonId" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: modes, type: 'visible'}" :label="$t('updates.czfs')" prop="handleMode" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bl')" prop="rate" align="center" min-width="150px"/>
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import { searchCheckCategory } from '@/api/CheckCategory'
 import { updatecheckfail } from '@/api/CheckFail'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
@@ -151,6 +152,16 @@ export default {
       }
     }
     return {
+      // 退货原因
+      getemplist: {
+        categoryname: '',
+        type: '2',
+        iseffective: '1',
+        pagenum: 1,
+        pagesize: 99999
+      },
+      // 不合格下拉
+      unqualify: [],
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -263,7 +274,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
-      this.list2 = this.personalForm.checkFailHandleDetails
+      this.list2 = this.personalForm.checkFailHandleDetailVos
     }
   },
   created() {
@@ -328,6 +339,19 @@ export default {
             return {
               'value': item.id,
               'label': item.deptName
+            }
+          })
+        }
+      })
+
+      searchCheckCategory(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content.list
+          // this.unqualify =res.data.data.content.list
+          this.unqualify = res.data.data.content.list.map(function(item) {
+            return {
+              'value': item.id,
+              'label': item.categoryName
             }
           })
         }

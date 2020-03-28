@@ -73,6 +73,7 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+
         border
         fit
         highlight-current-row
@@ -102,7 +103,7 @@
         </el-table-column>
         <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.presentdata }}</span>
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
@@ -240,6 +241,8 @@ export default {
   },
   data() {
     return {
+      spanArr: [],
+      pos: '',
       step1: '',
       step2: '',
       step3: '',
@@ -310,6 +313,105 @@ export default {
     _that = this
   },
   methods: {
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].stockArrivalId === data[i - 1].stockArrivalId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      // console.log('this.spanArr', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex === 0) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 1) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 2) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 3) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 5) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 6) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 7) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 8) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 9) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 10) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 11) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 12) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 13) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 14) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 15) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     contorlstep1(val) {
       if (val === 0) {
         this.step1 = 'wait'
@@ -388,7 +490,7 @@ export default {
     },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
+      // console.log(row)
       if (row.judgeStat === 2) {
         return true
       }
@@ -425,7 +527,7 @@ export default {
     },
     // 判断反结单按钮
     isReview3(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat === 3) {
         return true
       }
@@ -455,7 +557,7 @@ export default {
     },
     // 判断结单按钮
     isReview2(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
         return true
       }
@@ -501,6 +603,37 @@ export default {
       this.listLoading = true
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          // const needlist = res.data.data.content.list
+          // const newarr = res.data.data.content.list.map(item => {
+          //   return item.stockArrivalDetailVos
+          // })
+          // const newarr2 = [].concat.apply([], newarr)
+          // for (const i in needlist) {
+          //   for (const j in newarr2) {
+          //     if (needlist[i].id === newarr2[j].stockArrivalId) {
+          //       newarr2[j].number = needlist[i].number
+          //       newarr2[j].title = needlist[i].title
+          //       newarr2[j].stockTypeName = needlist[i].stockTypeName
+          //       newarr2[j].sourceType = needlist[i].sourceType
+          //       newarr2[j].stockPersonName = needlist[i].stockPersonName
+          //       newarr2[j].supplierName = needlist[i].supplierName
+          //       newarr2[j].allMoney = needlist[i].allMoney
+          //       newarr2[j].allTaxMoney = needlist[i].allTaxMoney
+          //       newarr2[j].id = needlist[i].id
+          //       newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+          //       newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
+          //       newarr2[j].judgeStat = needlist[i].judgeStat
+          //       newarr2[j].receiptStat = needlist[i].receiptStat
+          //       newarr2[j].stockArrivalDetailVos = needlist[i].stockArrivalDetailVos
+          //       newarr2[j].approvalUseVos = needlist[i].approvalUseVos
+          //       newarr2[j].settleModeName = needlist[i].settleModeName
+          //       newarr2[j].supplierId = needlist[i].supplierId
+          //     }
+          //   }
+          // }
+          // this.list = newarr2
+          // this.getSpanArr(this.list)
+
           this.list = res.data.data.content.list
           for (const j in this.list) {
             const newarr = []
@@ -509,7 +642,6 @@ export default {
             }
             this.list[j].presentdata = newarr.join('      ||     ')
           }
-          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -614,8 +746,8 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

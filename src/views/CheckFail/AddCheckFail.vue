@@ -65,9 +65,14 @@
                   <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
                   <el-input v-model="personalForm.typeId" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
+                  <el-input v-model="typeName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -153,6 +158,7 @@ export default {
       }
     }
     return {
+      typeName: '',
       // 不合格下拉
       unqualify: [],
       // 控制质检报告单
@@ -440,7 +446,8 @@ export default {
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
-      this.personalForm.typeId = val.productType
+      this.personalForm.typeId = val.typeId
+      this.typeName = val.productType
       this.personalForm.failedQuantity = val.failedQuantity
     },
     // 质检申请单明细来源为无来源时

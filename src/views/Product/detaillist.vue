@@ -48,7 +48,7 @@
       </el-card>
       <el-card class="box-card" style="float: left;width: 65%; height: 800px;margin-left: 15px">
         <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" label-position="right" status-icon class="demo-ruleForm" label-width="200px" style="margin-left: 30px;width: 100%">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" label-position="right" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;width: 100%">
             <el-row>
               <el-col :span="24" style="margin-top: 20px">
                 <el-form-item :label="$t('Product.name')" prop="name">
@@ -260,7 +260,7 @@ export default {
       console.log('data', data)
       this.nodata = false
       const ceshidigui = this.recursion(node)
-      if (node.parent.data.code === '01' || (data.level === 4 && ceshidigui.code === '02') || (data.level === 3 && ceshidigui.code === '03')) {
+      if (node.parent.data.code === '01' || (data.level === 4 && ceshidigui.code === '02') || (data.level === 3 && ceshidigui.code === '03') || (data.level === 4 && ceshidigui.code === '06') || (data.level === 4 && ceshidigui.code === '07')) {
         this.tishi = false
         this.nodata = true
         return false

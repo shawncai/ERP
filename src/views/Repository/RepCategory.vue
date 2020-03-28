@@ -33,6 +33,7 @@
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm2.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="仓库类型" value="1"/>
+              <el-option label="仓库类别" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item label="类别" label-width="100px" prop="parentId">
@@ -66,6 +67,7 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
+              <el-option label="仓库类型" value="1"/>
               <el-option label="仓库类别" value="2"/>
             </el-select>
           </el-form-item>

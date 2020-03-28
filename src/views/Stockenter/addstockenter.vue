@@ -455,6 +455,7 @@ export default {
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
+
         this.allarrivalinfo(this.$store.getters.empcontract)
         for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
           this.$store.getters.empcontract.stockArrivalDetailVos[i].productType = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName
