@@ -150,6 +150,7 @@
 import { stockrequirelist } from '@/api/StockRequire'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
+import { getStockInfoByProduct } from '@/api/Supplier'
 import MyTree from '../../Product/components/MyTree'
 import MyDetail from '../../StockRequire/components/MyDetail'
 // eslint-disable-next-line no-unused-vars
@@ -293,7 +294,7 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
       console.log('123', this.choosedata)
       const requiredata = this.choosedata
@@ -306,7 +307,6 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: item.requireQuantity,
-          planQuantity: item.requireQuantity,
           planDeliveryDate: item.requireDate,
           applyReason: '',
           sourceNumber: item.materialsRequireNumber,
@@ -319,11 +319,32 @@ export default {
           requireDate: item.requireDate,
           sourceSerialNumber: item.id,
           requireQuantity: item.requireQuantity,
-          planedQuantity: item.planedQuantity
+          planedQuantity: item.planedQuantity,
+          planQuantity: item.requireQuantity - item.planedQuantity
         }
       })
-      this.$emit('require', requireDetail)
-      this.$emit('require2', requireDetail)
+      const list = await Promise.all(requireDetail.map(function(item) {
+        return getStockInfoByProduct(item.productCode, item.planQuantity).then(res => {
+          for (let i = 0; i < res.data.data.content.length; i++) {
+            res.data.data.content[i].sourceNumber = item.sourceNumber
+          }
+          return res.data.data.content
+        })
+      }))
+      const list2 = []
+      for (let i = 0; i < list.length; i++) {
+        for (let m = 0; m < list[i].length; m++) {
+          list[i][m].basicPrice = list[i][m].price
+          list[i][m].requireQuantity = list[i][m].quantity
+          list[i][m].planQuantity = list[i][m].quantity
+          list[i][m].basicQuantity = list[i][m].quantity
+          list2.push(list[i][m])
+        }
+      }
+      console.log('list', list)
+      console.log('list2', list2)
+      this.$emit('require', list2)
+      this.$emit('require2', list2)
     }
     // 仓库管理员选择结束
   }
