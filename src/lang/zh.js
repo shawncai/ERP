@@ -4144,7 +4144,8 @@ export default {
     bx: '冰箱',
     xyj: '洗衣机',
     kt: '空调',
-    dn: '电脑'
+    dn: '电脑',
+    yfkbl: '预付款比列'
   },
   tongyo: {
     dbrxm: '担保人姓名',
