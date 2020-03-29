@@ -254,14 +254,27 @@
               prop="payThis"
               align="center"
               min-width="170px"
-            />
+            >
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  v-model="scope.row.payThis"
+                  @change="handlepaythis(scope.row)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column
               :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
               :label="$t('updates.dkyfk')"
               prop="advanceMoney"
               align="center"
               min-width="170px"
-            />
+            >  <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.advanceMoney"
+                @change="handlechange(scope.row)"/>
+            </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -352,11 +365,11 @@ export default {
     const validatePass5 = (rule, value, callback) => {
       console.log('value', value)
       if (value === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '本次支付金额未填写',
-          offset: 100
-        })
+        // this.$notify.error({
+        //   title: 'wrong',
+        //   message: '本次支付金额未填写',
+        //   offset: 100
+        // })
       } else {
         callback()
       }
@@ -477,12 +490,26 @@ export default {
   created() {
     this.getTypes()
     this.getways()
-    this.getdatatime()
+    // this.getdatatime()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    handlepaythis(row) {
+      console.log(row)
+      const judgemoney = Number(row.payThis) + Number(row.advanceMoney)
+      console.log(judgemoney)
+      if (judgemoney > row.shouldMoney) {
+        console.log(123)
+        this.$notify.error({
+          title: 'wrong',
+          message: '本次支付金额超过最大范围',
+          offset: 100
+        })
+        row.payThis = 0
+      }
+    },
     getdatatime() {
       // 默认显示今天
       var date = new Date()
@@ -632,6 +659,9 @@ export default {
         }
       })
     },
+    handlechange(row) {
+      row.payThis = row.shouldMoney - row.advanceMoney
+    },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
@@ -648,9 +678,11 @@ export default {
       shouldPayList(val.id).then(res => {
         if (res.data.ret === 200) {
           this.$refs.editable.clear()
+          console.log('res', res.data.data.content)
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
             detailList[i].shouldPayId = detailList[i].id
+            detailList[i].payThis = detailList[i].shouldMoney
             this.$refs.editable.insert(detailList[i])
           }
         }

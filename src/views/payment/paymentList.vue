@@ -17,7 +17,16 @@
         trigger="click">
         <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter" @focus="handlechoose"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="付款日期"
+          end-placeholder="付款日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+        <!-- <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
@@ -27,7 +36,7 @@
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
-        </el-select>
+        </el-select> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -358,6 +367,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       paymentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
