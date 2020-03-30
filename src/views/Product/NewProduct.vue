@@ -410,7 +410,7 @@
                 :on-success="handlepicsuccess"
                 :data="picidsData"
                 :auto-upload="false"
-                :action="`${$upload}/erp/upload/uploadpic`"
+                :action="`${uploadapi}/upload/uploadpic`"
                 list-type="picture-card">
                 <i class="el-icon-plus"/>
               </el-upload>
@@ -427,7 +427,7 @@
                 :on-success="handledetailpicsuccess"
                 :data="detailpicData"
                 :auto-upload="false"
-                :action="`${$upload}/erp/upload/uploadpic`"
+                :action="`${uploadapi}/upload/uploadpic`"
                 list-type="picture-card">
                 <i class="el-icon-plus"/>
               </el-upload>
@@ -503,6 +503,7 @@ export default {
       }, 1000)
     }
     return {
+      uploadapi: this.$store.getters.uploadApi,
       numberIds: [],
       numberId: '',
       // 是否显示添加按钮
@@ -714,6 +715,7 @@ export default {
     this.getcategorys()
     // this.getunitlist()
     this.jungleshow()
+    console.log('this.$store.getters.uploadApi', this.$upload)
   },
   beforeCreate() {
     _that = this

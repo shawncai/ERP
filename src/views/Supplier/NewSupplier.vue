@@ -576,14 +576,35 @@ export default {
     handleAddproduct() {
       this.control = true
     },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
       console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        console.log(val[i].price)
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+
+      for (let i = 0; i < filterdata.length; i++) {
+        console.log(filterdata[i].price)
         let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
+          if (filterdata[i].productCode === nowlistdata[j].productCode) {
             m = 2
             // this.$notify.error({
             //   title: 'wrong',
@@ -593,10 +614,10 @@ export default {
             // return false
           }
         }
-        val[i].discountRate = 0
-        val[i].price = val[i].purchasePrice
+        filterdata[i].discountRate = 0
+        filterdata[i].price = filterdata[i].purchasePrice
         if (m === 1) {
-          this.$refs.editable.insert(val[i])
+          this.$refs.editable.insert(filterdata[i])
         }
       }
     },

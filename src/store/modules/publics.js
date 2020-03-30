@@ -10,9 +10,13 @@ const publics = {
     newinstallpaydata: '',
     setchoosedata: '',
     myflagApproval: '',
-    printdata: ''
+    printdata: '',
+    uploadApi: ''
   },
   mutations: {
+    set_uploadApi: (state, uploadApi) => {
+      state.uploadApi = uploadApi
+    },
     set_printdata: (state, printdata) => {
       state.printdata = printdata
     },
@@ -48,6 +52,9 @@ const publics = {
     }
   },
   actions: {
+    getuploadApi({ commit }, uploadApi) {
+      commit('set_uploadApi', uploadApi)
+    },
     getprintdata({ commit }, printdata) {
       commit('set_printdata', printdata)
     },

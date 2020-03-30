@@ -576,7 +576,7 @@
           <el-upload
             ref="upload"
             :auto-upload="false"
-            :action="`${$upload}/erp/upload/uploadpic`"
+            :action="`${uploadapi}/upload/uploadpic`"
             :data="paperData"
             :on-success="handlepicsuccess"
             class="upload-demo"
@@ -727,6 +727,7 @@ export default {
     //   }
     // }
     return {
+      uploadapi: this.$store.getters.uploadApi,
       isclick: false,
       // 上传图片
       pickerOptions1: {
