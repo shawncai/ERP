@@ -256,10 +256,11 @@ export default {
       getemplist: {
         checkResult: 2,
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 50,
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds
+        regionIds: this.$store.getters.regionIds,
+        isActive: 1
       },
       // 传给组件的数据
       personalForm: {},

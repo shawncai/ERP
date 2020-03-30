@@ -40,6 +40,7 @@
         <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 88%">
           <el-option label="china" value="1"/>
           <el-option label="philippines" value="2"/>
+          <el-option label="Thailand" value="3"/>
         </el-select>
       </el-form-item>
 
@@ -102,6 +103,7 @@ export default {
   },
   created() {
     // window.addEventListener('hashchange', this.afterQRScan)
+    // console.log('process.env.BASE_API', process.env.BASE_API)
   },
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)
@@ -123,6 +125,9 @@ export default {
       }
       if (this.loginForm.country === '2') {
         this.$store.dispatch('getuseCountry', 2)
+      }
+      if (this.loginForm.country === '3') {
+        this.$store.dispatch('getuseCountry', 3)
       }
       this.loading = true
       loginByUsername(this.loginForm.username, this.loginForm.password)

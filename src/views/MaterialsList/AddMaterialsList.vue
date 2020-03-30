@@ -222,17 +222,38 @@ export default {
       this.control = true
       this.checklist = this.$refs.editable.getRecords()
     },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
       console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
+
+      // console.log(nowlistdata)
+      // var ret4 = val.findIndex((value, index, arr) => {
+      //   return value.productCode === this.personalForm.productCode
+      // })
+
+      // console.log(ret4)
       const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
 
-      console.log(nowlistdata)
-      var ret4 = val.findIndex((value, index, arr) => {
-        return value.productCode === this.personalForm.productCode
-      })
-
-      console.log(ret4)
-      this.list2 = val.filter(item => {
+      this.list2 = filterdata.filter(item => {
         return item.productCode !== this.personalForm.productCode
       })
 

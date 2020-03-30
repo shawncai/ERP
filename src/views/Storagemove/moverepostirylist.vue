@@ -138,12 +138,36 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-dialog :visible.sync="editcategoryVisible" title="修改人员仓库配置" class="normal" width="600px" center>
-        <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
+        <!-- <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('Storagemove.repostiryName')" label-width="100px" prop="repostiryName">
             <el-input v-model="editCategoryForm.name" type="textarea" style="width:300px" @focus="handlerep"/>
           </el-form-item>
-          <my-repository2 :repositorycontrol.sync="repositorycontrol2" :checkdata.sync="editpropdata" @repositoryname="repositoryname2"/>
-        </el-form>
+          </el-form> -->
+        <el-card class="box-card" style="margin-top: 15px" shadow="never">
+          <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
+          <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+            <el-button @click="handlerep">{{ $t('updates.tj') }}</el-button>
+            <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
+            <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          </div>
+          <div class="container">
+            <el-editable
+              ref="editable2"
+              :data.sync="list3"
+              :edit-config="{ showIcon: true, showStatus: true}"
+              class="click-table1"
+              stripe
+              border
+              size="medium"
+              style="width: 100%">
+              <el-editable-column type="selection" width="55" align="center" fixed="left"/>
+              <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+              <el-editable-column :label="$t('updates.mdmc')" prop="repositoryName" align="center" min-width="150px"/>
+              <el-editable-column :label="$t('StockInvoice.address')" prop="address" align="center" min-width="150px"/>
+            </el-editable>
+          </div>
+        </el-card>
+
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
           <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -200,6 +224,7 @@ export default {
       }
     }
     return {
+      list3: [],
       editpropdata: {},
       allpersonsids: [],
       emoloyeeName: '',
@@ -296,20 +321,41 @@ export default {
       // console.log('this.editCategoryForm', this.editCategoryForm)
       this.editpropdata = this.editCategoryForm
     },
-    repositoryname2(val) {
-      console.log(val)
-
-      const name = []
-      const id = []
-      for (const i in val) {
-        name.push(val[i].repositoryName)
-        id.push(val[i].id)
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
       }
-      console.log(name, id)
+      return result
+    },
+    repositoryname2(val) {
+      const nowlistdata = this.$refs.editable2.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'id')
+      this.list3 = filterdata
+      // console.log(val)
 
-      this.editCategoryForm.name = name.join(',')
-      this.editCategoryForm.repositoryIds = id.join(',')
-      console.log(this.addCategoryForm)
+      // const name = []
+      // const id = []
+      // for (const i in val) {
+      //   name.push(val[i].repositoryName)
+      //   id.push(val[i].id)
+      // }
+      // console.log(name, id)
+
+      // this.editCategoryForm.name = name.join(',')
+      // this.editCategoryForm.repositoryIds = id.join(',')
+      // console.log(this.addCategoryForm)
     },
     handleaccept() {
       this.accetpcontrol = true
@@ -486,7 +532,8 @@ export default {
         name.push(row.repositories[i].repositoryName)
       }
       this.editCategoryForm = Object.assign({}, row)
-      this.editCategoryForm.name = name.join(',')
+      // this.editCategoryForm.name = name.join(',')
+      this.list3 = this.editCategoryForm.repositories
     },
     // 取消修改
     handleNo() {
@@ -494,31 +541,31 @@ export default {
     },
     // 确认修改
     handleOk() {
-      this.$refs.editCategoryForm.validate((valid) => {
-        if (valid) {
-          editmoverepository(this.editCategoryForm).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: '修改成功',
-                type: 'success',
-                offset: 100
-              })
-              this.getlist()
-              this.$refs.editCategoryForm.clearValidate()
-              this.$refs.editCategoryForm.resetFields()
-              this.editcategoryVisible = false
-            } else {
-              console.log('列表出错')
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
+      const val = this.$refs.editable2.getRecords()
+      const name = []
+      const id = []
+      for (const i in val) {
+        name.push(val[i].repositoryName)
+        id.push(val[i].id)
+      }
+      console.log(name, id)
+
+      this.editCategoryForm.name = name.join(',')
+      this.editCategoryForm.repositoryIds = id.join(',')
+      editmoverepository(this.editCategoryForm).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: '修改成功',
+            type: 'success',
             offset: 100
           })
-          return false
+          this.getlist()
+          // this.$refs.editCategoryForm.clearValidate()
+          // this.$refs.editCategoryForm.resetFields()
+          this.editcategoryVisible = false
+        } else {
+          console.log('列表出错')
         }
       })
     },

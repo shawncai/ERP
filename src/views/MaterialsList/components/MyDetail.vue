@@ -374,7 +374,7 @@ export default {
 
       const productDetail2 = [...newarr, ...add]
       console.log('productDetail2', productDetail2)
-
+      this.$refs.multipleTable.clearSelection()
       this.$emit('product', productDetail2)
 
       // this.$refs.multipleTable.clearSelection()

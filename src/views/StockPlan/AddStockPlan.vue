@@ -128,8 +128,8 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
-                <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
               </template>
+                <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
             </el-editable-column>
             <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
