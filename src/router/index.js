@@ -824,19 +824,20 @@ export const asyncRouterMap = [
         component: () => import('@/views/Stockenter/OtherEnterList'),
         name: 'OtherEnterList',
         meta: { title: 'OtherEnterList', noCache: false, roles: ['131-132-137-1', '131-132-137-2', '131-132-137-3', '131-132-137-4', '131-132-137-5', '131-132-137-6', '131-132-137-7', '131-132-137-18', '131-132-137-16', '131-132-137-17'] }
-      },
-      {
-        path: 'AddOutSourceEnter',
-        component: () => import('@/views/OutSourceEnter/AddOutSourceEnter'),
-        name: 'AddOutSourceEnter',
-        meta: { title: 'AddOutSourceEnter', noCache: false, roles: ['131-132-383-1'] }
-      },
-      {
-        path: 'OutSourceEnterList',
-        component: () => import('@/views/OutSourceEnter/OutSourceEnterList'),
-        name: 'OutSourceEnterList',
-        meta: { title: 'OutSourceEnterList', noCache: false, roles: ['131-132-383-1', '131-132-383-2', '131-132-383-3', '131-132-383-4', '131-132-383-5', '131-132-383-6', '131-132-383-7', '131-132-383-18', '131-132-383-16', '131-132-383-17'] }
       }
+      // ,
+      // {
+      //   path: 'AddOutSourceEnter',
+      //   component: () => import('@/views/OutSourceEnter/AddOutSourceEnter'),
+      //   name: 'AddOutSourceEnter',
+      //   meta: { title: 'AddOutSourceEnter', noCache: false, roles: ['131-132-383-1'] }
+      // },
+      // {
+      //   path: 'OutSourceEnterList',
+      //   component: () => import('@/views/OutSourceEnter/OutSourceEnterList'),
+      //   name: 'OutSourceEnterList',
+      //   meta: { title: 'OutSourceEnterList', noCache: false, roles: ['131-132-383-1', '131-132-383-2', '131-132-383-3', '131-132-383-4', '131-132-383-5', '131-132-383-6', '131-132-383-7', '131-132-383-18', '131-132-383-16', '131-132-383-17'] }
+      // }
     ]
   },
   {
