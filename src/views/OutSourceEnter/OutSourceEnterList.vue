@@ -21,9 +21,9 @@
         <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
         <el-input v-model="enterRepositoryId" :placeholder="$t('Stockenter.enterRepositoryId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter4"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-        <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter3"/>
+        <!--        <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter3"/>-->
         <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-        <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter"/>
+        <!--        <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter"/>-->
         <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
         <el-date-picker
           v-model="date"
