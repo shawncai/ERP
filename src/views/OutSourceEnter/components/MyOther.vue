@@ -19,6 +19,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
+                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
                 <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseDelivery"/>
               </el-form-item>
@@ -121,7 +126,7 @@
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+          <!--          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
         </el-editable>
       </div>
     </el-card>

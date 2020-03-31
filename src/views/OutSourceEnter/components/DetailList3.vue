@@ -65,19 +65,19 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px" disabled>
-                    <el-radio :label="1" >全新</el-radio>
-                    <el-radio :label="2">二手车</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" disabled/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">-->
+              <!--                  <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px" disabled>-->
+              <!--                    <el-radio :label="1" >全新</el-radio>-->
+              <!--                    <el-radio :label="2">二手车</el-radio>-->
+              <!--                  </el-radio-group>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;;width: 150px">
                   <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" disabled/>
@@ -116,7 +116,7 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />
+            <!--            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />-->
           </el-editable>
         </div>
       </el-card>

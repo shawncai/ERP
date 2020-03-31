@@ -24,6 +24,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
+              <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
+                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
                 <el-select v-model="personalForm.processType" placeholder="请选择加工类别" style="margin-left: 18px;width: 150px" clearable >
                   <el-option value="1" label="加工1"/>
@@ -337,6 +342,14 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
+      if (this.enterRepositoryId === null || this.enterRepositoryId === '' || this.enterRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {

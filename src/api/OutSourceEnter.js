@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
 // 添加委外入库
-export function addOutsourceEnter(query, query2, query3, query4) {
+export function addOutsourceEnter(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('outsourceEnterJson', query) // 你要传给后台的参数值 key/value
   params.append('outsourceEnterDetailJson', query2) // 你要传给后台的参数值 key/value
-  if (query4.repositoryId !== '' && query4.repositoryId !== null && query4.repositoryId !== undefined) {
-    params.append('repositoryId', query4.repositoryId) // 你要传给后台的参数值 key/value
+  if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
+    params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
   }
-  if (query4.regionId !== '' && query4.regionId !== null && query4.regionId !== undefined) {
-    params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
+  if (query3.regionId !== '' && query3.regionId !== null && query3.regionId !== undefined) {
+    params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/outsourceEnter/addOutsourceEnter',

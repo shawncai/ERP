@@ -304,6 +304,7 @@ export default {
       const list = await Promise.all(productDetail.map(function(item) {
         const param = {}
         param.productCode = item.productCode
+        param.isEffective = 1
         return search(param).then(res => {
           if (res.data.data.content.list.length === 0) {
             item.proportion = 100

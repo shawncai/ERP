@@ -20,6 +20,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
+                  <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
                   <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseDelivery"/>
                 </el-form-item>
@@ -54,19 +59,19 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.newOrOld" style="margin-left: 18px;width: 200px">
-                    <el-radio :label="1" style="width: 100px">全新</el-radio>
-                    <el-radio :label="2">二手车</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">-->
+              <!--                  <el-radio-group v-model="personalForm.newOrOld" style="margin-left: 18px;width: 200px">-->
+              <!--                    <el-radio :label="1" style="width: 100px">全新</el-radio>-->
+              <!--                    <el-radio :label="2">二手车</el-radio>-->
+              <!--                  </el-radio-group>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
                   <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
@@ -124,7 +129,7 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
           </el-editable>
         </div>
       </el-card>
@@ -170,7 +175,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getlocation, locationlist, countlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
-import { addotherenter } from '@/api/Stockenter'
+import { addOutsourceEnter } from '@/api/OutsourceEnter'
 import MyRepository from './components/MyRepository'
 import MyDelivery from './components/MyDelivery'
 import MyAccept from './components/MyAccept'
@@ -178,7 +183,7 @@ import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 var _that
 export default {
-  name: 'AddOtherenter',
+  name: 'AddOutSourceEnter',
   components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery },
   data() {
     const validatePass1 = (rule, value, callback) => {
@@ -243,7 +248,7 @@ export default {
         regionId: this.$store.getters.regionId,
         sourceType: '1',
         newOrOld: 1,
-        acceptPersonId: this.$store.getters.name,
+        acceptPersonId: this.$store.getters.userId,
         enterDeptId: this.$store.getters.deptId
       },
       validRules: {
@@ -402,6 +407,14 @@ export default {
     // 入库单事件
     // 新增入库单明细
     handleAddproduct() {
+      if (this.enterRepositoryId === null || this.enterRepositoryId === '' || this.enterRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -526,7 +539,17 @@ export default {
           this.$refs.editable.validate().then(valid => {
             if (valid) {
               console.log('newOrOld', this.personalForm.newOrOld)
-              addotherenter(this.personalForm, parms).then(res => {
+              const Data = this.personalForm
+              for (const key in Data) {
+                if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                  delete Data[key]
+                }
+                // if (key === 'judgeStat') {
+                //   delete Data[key]
+                // }
+              }
+              const parmss = JSON.stringify(Data)
+              addOutsourceEnter(parmss, parms, this.personalForm).then(res => {
                 console.log(res)
                 if (res.data.ret === 200) {
                   this.$notify({

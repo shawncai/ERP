@@ -50,15 +50,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['131-132-137-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['131-132-383-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['131-132-137-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['131-132-383-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['131-132-137-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['131-132-383-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['131-132-137-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['131-132-383-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
@@ -135,12 +135,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission="['131-132-137-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
+            <el-button v-permission="['131-132-383-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button v-permission="['131-132-137-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['131-132-137-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['131-132-137-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission="['131-132-137-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['131-132-383-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['131-132-383-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['131-132-383-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['131-132-383-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -155,7 +155,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { otherenterlist, deleteotherenter, updateotherenter5 } from '@/api/Stockenter'
+import { outsourceEnterlist, deleteOutsourceEnter, updateOutsourceEnter2 } from '@/api/OutsourceEnter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -170,7 +170,7 @@ import DetailList3 from './components/DetailList3'
 
 var _that
 export default {
-  name: 'OtherEnterList',
+  name: 'OutSourceEnterList',
   directives: { waves, permission, permission2 },
   components: { DetailList3, Pagination, MyOther, MyRepository, MyAccept, MyCreate, MyDelivery },
   filters: {
@@ -278,7 +278,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 0
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+        updateOutsourceEnter2(parms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -315,7 +315,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+        updateOutsourceEnter2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -345,7 +345,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 3
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+        updateOutsourceEnter2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -412,7 +412,7 @@ export default {
     getlist() {
       // 入库列表数据
       this.listLoading = true
-      otherenterlist(this.getemplist).then(res => {
+      outsourceEnterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -451,7 +451,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      otherenterlist(this.getemplist).then(res => {
+      outsourceEnterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -501,7 +501,7 @@ export default {
         cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
-        updateotherenter5(row, 2, this.$store.getters.userId).then(res => {
+        updateOutsourceEnter2(row, 2, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -512,7 +512,7 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          updateotherenter5(row, 1, this.$store.getters.userId).then(res => {
+          updateOutsourceEnter2(row, 1, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',
@@ -538,7 +538,7 @@ export default {
           cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
         }).then(() => {
-          deleteotherenter(ids, this.$store.getters.userId).then(res => {
+          deleteOutsourceEnter(ids, this.$store.getters.userId).then(res => {
             if (res.data.ret === 200 || res.data.ret === 100) {
               this.$notify({
                 title: this.$t('prompt.sccg'),
@@ -569,7 +569,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        deleteotherenter(row.id, this.$store.getters.userId).then(res => {
+        deleteOutsourceEnter(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: this.$t('prompt.sccg'),
@@ -594,7 +594,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Stockenter/AddOtherenter')
+      this.$router.push('/Stockenter/AddOutSourceEnter')
     },
     // 导出
     handleExport() {
