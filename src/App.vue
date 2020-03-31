@@ -17,4 +17,7 @@ export default{
   .el-table__body tr.current-row>td {
     background-color: #efefef;
   }
+  .el-table--small td, .el-table--small th {
+    padding: 4px 0 !important;
+  }
 </style>

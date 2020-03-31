@@ -1,5 +1,9 @@
 export default {
   route: {
+    AddOutSourceOut: '新增委外出库单',
+    OutSourceOutList: '委外出库单列表',
+    AddOutSourceEnter: '新增委外入库单',
+    OutSourceEnterList: '委外入库单列表',
     Stockcount: '采购统计',
     stockOrderCount: '采购订单汇总表',
     dashboard: '首页',
@@ -4242,5 +4246,8 @@ export default {
     kzqbmwtx: '控制器编码未填写',
     cdqbmwtx: '充电器编码未填写',
     bnyy: '不良原因'
+  },
+  OutSource: {
+    outFactoryName: '往来单位'
   }
 }

@@ -44,17 +44,14 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
-      ref="multipleTable"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
-        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -124,7 +121,6 @@
 
 <script>
 import { productlist, searchEmpCategory2 } from '@/api/Product'
-import { search } from '@/api/Supplier'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -147,16 +143,15 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
-      getRowKeys(row) {
-        return row.code
-      },
       // 供应商回显
-      select_orderId: [],
-      select_order_number: [],
       supplierid: '',
       // 供货商控制
       empcontrol: false,
@@ -249,17 +244,8 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(rows) {
-      this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.code)
-          }
-        })
-      }
+    handleSelectionChange(val) {
+      this.moreaction = val
     },
     // 供应商输入框focus事件触发
     handlechoose() {
@@ -286,34 +272,30 @@ export default {
       this.productVisible = false
     },
     // 物品选择添加
-    async handleAddTo() {
+    handleAddTo() {
       this.productVisible = false
       console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
           productName: item.productName,
-          productType: item.productType,
-          type: item.typeId,
-          unit: item.stockMeasu,
+          locationId: '',
           color: item.color,
-          proportion: 0,
-          purchasePrice: item.purchasePrice
+          typeId: item.typeId,
+          enterQuantity: 0,
+          taxRate: 0,
+          unit: item.stockMeasu,
+          actualEnterQuantity: 0,
+          basicQuantity: 0,
+          enterPrice: item.costPrice,
+          productType: item.productType,
+          totalMoney: 0,
+          enterMoney: 0,
+          price: item.costPrice,
+          typeIdname: item.productType
         }
       })
-      const list = await Promise.all(productDetail.map(function(item) {
-        const param = {}
-        param.productCode = item.productCode
-        param.isEffective = 1
-        return search(param).then(res => {
-          if (res.data.data.content.list.length === 0) {
-            item.proportion = 100
-          }
-          return res.data.data.content
-        })
-      }))
       console.log(productDetail)
-      this.$refs.multipleTable.clearSelection()
       this.$emit('product', productDetail)
     }
   }

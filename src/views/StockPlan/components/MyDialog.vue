@@ -476,6 +476,7 @@ export default {
     },
     // 供货商输入框focus事件触发
     handlechoose(scope) {
+      console.log('123', 123)
       this.empcontrol = true
       this.kongscope = scope
       this.procode = scope.row.productCode
