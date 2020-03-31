@@ -280,7 +280,7 @@ export default {
       this.deliveryPersonId = this.personalForm.deliveryPersonName
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
-      this.list2 = this.personalForm.stockEnterDetailVos
+      this.list2 = this.personalForm.outsourceEnterDetailVos
       this.getlocation()
     }
   },

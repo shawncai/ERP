@@ -267,7 +267,7 @@ export default {
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.enterPersonId = this.personalForm.enterPersonName
-      this.list2 = this.personalForm.otherEnterDetailVos
+      this.list2 = this.personalForm.outsourceEnterDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
