@@ -140,7 +140,7 @@
 <script>
 import { locationlist, getlocation } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
-import { updateotherenter } from '@/api/Stockenter'
+import { updateOutsourceEnter } from '@/api/OutsourceEnter'
 import MyRepository from './MyRepository'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
@@ -246,7 +246,7 @@ export default {
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.enterPersonId = this.personalForm.enterPersonName
-      this.list2 = this.personalForm.otherEnterDetailVos
+      this.list2 = this.personalForm.outsourceEnterDetailVos
       this.getlocation()
     }
   },
@@ -446,7 +446,17 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(rest)
-      updateotherenter(this.personalForm, parms2).then(res => {
+      const Data = this.personalForm
+      for (const key in Data) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+        // if (key === 'judgeStat') {
+        //   delete Data[key]
+        // }
+      }
+      const parmss = JSON.stringify(Data)
+      updateOutsourceEnter(parmss, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),

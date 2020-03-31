@@ -358,7 +358,7 @@ export default {
       this.deliveryPersonId = this.personalForm.deliveryPersonName
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
-      this.list2 = this.personalForm.stockEnterDetailVos
+      this.list2 = this.personalForm.outsourceEnterDetailVos
       console.log('list2', this.list2)
       let num = 0
       for (const i in this.list2) {
