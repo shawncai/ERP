@@ -18,6 +18,6 @@ export default{
     background-color: #efefef;
   }
   .el-table--small td, .el-table--small th {
-    padding: 4px 0 !important;
+    padding: 1px 0 !important;
   }
 </style>

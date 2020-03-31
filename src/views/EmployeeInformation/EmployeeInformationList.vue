@@ -64,7 +64,7 @@
       <!-- 搜索按钮 -->
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
-    <el-card :body-style="	{ padding: '6px' }" class="box-card" style="margin-top: 5px" shadow="never">
+    <el-card :body-style="	{ padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
         <el-button v-waves size="small" class="filter-item2" type="primary">
@@ -75,15 +75,15 @@
           <el-dropdown-item v-permission="['1-2-4-2']" :disabled="selected" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button v-permission="['1-2-4-10']" v-waves size="small" class="filter-item" type="primary" style="width: 110px" @click="handleContract">{{ $t('public.contract') }}</el-button>
+      <el-button v-permission="['1-2-4-10']" v-waves size="small" class="filter-item2" type="primary" style="width: 110px" @click="handleContract">{{ $t('public.contract') }}</el-button>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-2-4-6']" v-waves :loading="downloadLoading" size="small" class="filter-item" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-2-4-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-2-4-7']" v-waves size="small" class="filter-item" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-2-4-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-2-4-1']" v-waves size="small" class="filter-item" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-2-4-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <el-table
         v-loading="listLoading"
         ref="table"
@@ -95,10 +95,11 @@
         size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          min-width="40"
+          min-width="30"
           fixed="left"
           align="center"/>
         <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" min-width="50">
@@ -400,13 +401,13 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.handlechange4()
-    setTimeout(() => {
-      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
-    }, 100)
   },
   beforeCreate() {
     _that = this
@@ -573,10 +574,13 @@ export default {
         }
       })
     },
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
-      console.log(this.moreaction.length)
+      // console.log(this.moreaction.length)
       if (this.moreaction.length === 0) {
         this.selected = true
       } else {
@@ -785,7 +789,7 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin-left:30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
@@ -798,7 +802,11 @@ export default {
   }
   .filter-item2{
     width: 180px;
-    margin-left: 10px;
+    margin-left: 5px;
     padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>
