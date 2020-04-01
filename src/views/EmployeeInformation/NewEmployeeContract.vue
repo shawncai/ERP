@@ -774,10 +774,9 @@ export default {
       font-size: 18px;
       color: #373e4f;
       margin-bottom: -20px;
-      margin-top: 30px;
     }
     .container{
-      margin-top: 2%;
+      margin-top: 5px;
       border: 1px solid #eceff6;
     }
 </style>
