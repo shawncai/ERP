@@ -117,10 +117,15 @@
             </template>
           </el-editable-column>          <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
-            <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
-              <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('updates.gys')" prop="supplierId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.supplierId" :value="scope.row.supplierId" filterable style="width: 100%;" @visible-change="updatesupp($event,scope)" @change="changeDate2($event,scope)">
+                <el-option
+                  v-for="item in suppliers"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.supplierName"/>
+              </el-select>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
@@ -196,6 +201,7 @@
 <script>
 import { updatestockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
+import { search2 } from '@/api/Supplier'
 // import { productlist } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './MyEmp'
@@ -244,6 +250,7 @@ export default {
       }
     }
     return {
+      suppliers: [],
       zzz: 123,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -348,6 +355,34 @@ export default {
     _that = this
   },
   methods: {
+    async changeDate2(event, scope) {
+      console.log('event', event)
+      const param = {}
+      param.id = scope.row.supplierId
+      // eslint-disable-next-line no-return-assign
+      const a = this.suppliers.find(item => item.id = event)
+      console.log('this.suppliers', this.suppliers)
+      scope.row.supplierName = a.supplierName
+      console.log('scope.row', scope.row)
+      // scope.row.productCode
+      this.changeDate()
+    },
+    updatesupp(event, scope) {
+      if (event === true) {
+        console.log(scope.row.productCode)
+        const param = {}
+        param.productCode = scope.row.productCode
+        param.isEffective = 1
+        param.pagenum = 1
+        param.pagesize = 9999
+        search2(param).then(res => {
+          if (res.data.ret === 200) {
+            this.suppliers = res.data.data.content.list
+          }
+        })
+        console.log('this.location', this.suppliers)
+      }
+    },
     planQuantity(row) {
       return (row.planQuantity).toFixed(2)
     },
@@ -537,9 +572,10 @@ export default {
     },
     allinfo(val) {
       console.log(val)
-      this.personalForm.planDate = val.applyDate
+      // this.personalForm.planDate = val.applyDate
     },
     apply(val) {
+      this.getTypes()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
       }
@@ -551,6 +587,7 @@ export default {
     },
     // 采购需求数据
     requiredata(val) {
+      this.getTypes()
       console.log(val)
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
@@ -574,6 +611,14 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.pagenum = 1
+      param.pagesize = 9999
+      search2(param).then(res => {
+        if (res.data.ret === 200) {
+          this.suppliers = res.data.data.content.list
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {

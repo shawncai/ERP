@@ -125,10 +125,21 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
-              <template slot="edit" slot-scope="scope">
-                <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
-                <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
+            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">-->
+            <!--              <template slot="edit" slot-scope="scope">-->
+            <!--                <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>-->
+            <!--                <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>-->
+            <!--              </template>-->
+            <!--            </el-editable-column>-->
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('updates.gys')" prop="supplierId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.supplierId" :value="scope.row.supplierId" filterable style="width: 100%;" @visible-change="updatesupp($event,scope)" @change="changeDate2($event,scope)">
+                  <el-option
+                    v-for="item in suppliers"
+                    :key="item.id"
+                    :value="item.id"
+                    :label="item.supplierName"/>
+                </el-select>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
@@ -247,6 +258,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getStockInfoByProduct } from '@/api/Supplier'
 // import { materialslist2 } from '@/api/MaterialsList'
+import { search2 } from '@/api/Supplier'
 import { countlist } from '@/api/public'
 import { addstockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -310,6 +322,7 @@ export default {
       }
     }
     return {
+      suppliers: [],
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -393,9 +406,6 @@ export default {
       list3: [],
       // 采购计划单明细列表规则
       validRules: {
-        // supplierName: [
-        //   { required: true, validator: validatePass5, trigger: 'focus' }
-        // ],
         planQuantity: [
           { required: true, message: '请输入计划数量', trigger: 'blur' }
         ],
@@ -425,6 +435,34 @@ export default {
     _that = this
   },
   methods: {
+    async changeDate2(event, scope) {
+      console.log('event', event)
+      const param = {}
+      param.id = scope.row.supplierId
+      // eslint-disable-next-line no-return-assign
+      const a = this.suppliers.find(item => item.id = event)
+      console.log('this.suppliers', this.suppliers)
+      scope.row.supplierName = a.supplierName
+      console.log('scope.row', scope.row)
+      // scope.row.productCode
+      this.changeDate()
+    },
+    updatesupp(event, scope) {
+      if (event === true) {
+        console.log(scope.row.productCode)
+        const param = {}
+        param.productCode = scope.row.productCode
+        param.isEffective = 1
+        param.pagenum = 1
+        param.pagesize = 9999
+        search2(param).then(res => {
+          if (res.data.ret === 200) {
+            this.suppliers = res.data.data.content.list
+          }
+        })
+        console.log('this.location', this.suppliers)
+      }
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -586,6 +624,7 @@ export default {
     },
     // 两表联动
     changeDate() {
+      console.log('ooooo')
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []
@@ -760,9 +799,9 @@ export default {
     },
     allinfo(val) {
       console.log(val)
-      this.personalForm.planDate = val.applyDate
-      this.personalForm.stockType = val.stockType
-      this.personalForm.stockDeptId = val.applyDeptId
+      // this.personalForm.planDate = val.applyDate
+      // this.personalForm.stockType = val.stockType
+      // this.personalForm.stockDeptId = val.applyDeptId
     },
     async apply(val) {
       console.log('val', val)
@@ -785,35 +824,19 @@ export default {
       //     this.$refs.editable.insert(val[i])
       //   }
       // }
-
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
       }
     },
     async apply2(val) {
-      // for (let i = 0; i < val.length; i++) {
-      //   if (val[i].productCode.substring(0, 2) === '01') {
-      //     console.log('01')
-      //     const list = await materialslist2(val[i].productCode)
-      //     console.log('list', list.data.data.content.list[0].materialsListDetailVos)
-      //     const list2 = list.data.data.content.list[0].materialsListDetailVos
-      //     for (let j = 0; j < list2.length; j++) {
-      //       list2[j].basicPrice = 0
-      //       list2[j].planQuantity = 0
-      //       console.log(list2[j])
-      //       this.$refs.editable2.insert(list2[j])
-      //     }
-      //   } else {
-      //     this.$refs.editable2.insert(val[i])
-      //   }
-      // }
-
+      this.getTypes()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable2.insert(val[i])
       }
     },
     // 采购需求数据
     requiredata(val) {
+      this.getTypes()
       console.log(val)
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
@@ -838,6 +861,14 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.pagenum = 1
+      param.pagesize = 9999
+      search2(param).then(res => {
+        if (res.data.ret === 200) {
+          this.suppliers = res.data.data.content.list
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {
@@ -887,6 +918,7 @@ export default {
     handlesave() {
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+      console.log('EnterDetail2', EnterDetail2)
       let mm = 1
       if (EnterDetail.length === 0) {
         this.$notify.error({
