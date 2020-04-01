@@ -13,14 +13,21 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" clearable >
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" @change="chooseSource" >
                   <el-option value="1" label="无来源"/>
+                  <el-option value="2" label="外包单"/>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
+              <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 150" @focus="openoppo"/>
+                <out-source :outsourcecontrol.sync="outsourcecontrol" @outSourceDetail="outSourceDetail" @outSource="outSource"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
-                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:200px" clearable/>
+                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -185,9 +192,10 @@ import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+import OutSource from './OutSource'
 var _that
 export default {
-  components: { MyRepository, MyCreate, MyAccept, MyDetail },
+  components: { MyRepository, MyCreate, MyAccept, MyDetail, OutSource },
   props: {
     editcontrol: {
       type: Boolean,
@@ -254,6 +262,8 @@ export default {
       // 出库单明细数据
       list2: [],
       // 出库明细中货位发送参数
+      IsNumber: true,
+      outsourcecontrol: false,
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
@@ -272,6 +282,13 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.personalForm.sourceType === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+      } else if (this.personalForm.sourceType === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+      }
       this.outPersonId = this.personalForm.outPersonName
       this.outRepositoryId = this.personalForm.outRepositoryName
       console.log('this.personalForm.outsourceOutDetailVos', this.personalForm.outsourceOutDetailVos)
@@ -310,6 +327,45 @@ export default {
     _that = this
   },
   methods: {
+    outSourceDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    outSource(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+    },
+    // 控制源单类型
+    chooseSource(val) {
+      if (val === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+      } else if (val === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+      }
+    },
+    openoppo() {
+      if (this.outRepositoryId === null || this.outRepositoryId === '' || this.outRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
+      console.log(this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '2') {
+        this.outsourcecontrol = true
+      }
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {

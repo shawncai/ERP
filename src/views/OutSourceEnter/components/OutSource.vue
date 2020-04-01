@@ -321,8 +321,8 @@ export default {
           typeId: item.type,
           type: item.type,
           typeName: item.typeName,
-          productType: item.productType,
-          typeIdname: item.productType,
+          productType: item.typeName,
+          typeIdname: item.typeName,
           color: item.color,
           kpiGrade: '0.00',
           point: '0.00',
@@ -337,6 +337,8 @@ export default {
           sourceNumber: OrderNumber,
           sourceSerialNumber: item.id,
           quantity: item.quantity,
+          enterPrice: 0,
+          enterMoney: 0,
           alreadyOutQuantity: item.alreadyOutQuantity
         }
       })

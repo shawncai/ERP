@@ -12,10 +12,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px">
-                  <el-option :label="$t('prompt.wly')" value="1"/>
+              <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" @change="chooseSource" >
+                  <el-option value="1" label="无来源"/>
+                  <el-option value="2" label="外包单"/>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 150px" @focus="openoppo"/>
+                <out-source :outsourcecontrol.sync="outsourcecontrol" @outSourceDetail="outSourceDetail" @outSource="outSource"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -146,9 +153,10 @@ import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+import OutSource from './OutSource'
 var _that
 export default {
-  components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery },
+  components: { MyRepository, MyDetail, MyCreate, MyAccept, MyDelivery, OutSource },
   props: {
     editcontrol: {
       type: Boolean,
@@ -177,6 +185,8 @@ export default {
       }
     }
     return {
+      IsNumber: true,
+      outsourcecontrol: false,
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据
@@ -242,6 +252,13 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.personalForm.sourceType === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+      } else if (this.personalForm.sourceType === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+      }
       this.deliveryPersonId = this.personalForm.deliveryPersonName
       this.acceptPersonId = this.personalForm.acceptPersonName
       this.enterRepositoryId = this.personalForm.enterRepositoryName
@@ -258,6 +275,45 @@ export default {
     _that = this
   },
   methods: {
+    outSourceDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    outSource(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+    },
+    // 控制源单类型
+    chooseSource(val) {
+      if (val === '2') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+      } else if (val === '1') {
+        this.Isproduct = false
+        this.IsNumber = true
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+      }
+    },
+    openoppo() {
+      if (this.enterRepositoryId === null || this.enterRepositoryId === '' || this.enterRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
+      console.log(this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '2') {
+        this.outsourcecontrol = true
+      }
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
