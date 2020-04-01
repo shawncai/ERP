@@ -598,7 +598,6 @@ export default {
         }
         if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
           delete elem.batch
-          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -638,7 +637,7 @@ export default {
       if (i === 4) {
         this.$notify.error({
           title: 'wrong',
-          message: '商品货位和批次不能为空',
+          message: '商品货位不能为空',
           offset: 100
         })
         return false
