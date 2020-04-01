@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('updates.xgqtrkd')" class="edit" width="1010px" top="10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="$t('OutSource.xgss')" class="edit" width="1010px" top="10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
-                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:200px" clearable/>
+                <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -63,14 +63,14 @@
                 <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">
-                <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px">
-                  <el-radio :label="1" >全新</el-radio>
-                  <el-radio :label="2">二手车</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
+            <!--            <el-col :span="12">-->
+            <!--              <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">-->
+            <!--                <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px">-->
+            <!--                  <el-radio :label="1" >全新</el-radio>-->
+            <!--                  <el-radio :label="2">二手车</el-radio>-->
+            <!--                </el-radio-group>-->
+            <!--              </el-form-item>-->
+            <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
                 <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:150px" clearable/>

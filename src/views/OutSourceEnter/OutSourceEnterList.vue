@@ -495,13 +495,18 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.tg'),
         cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
-        updateOutsourceEnter2(row, 2, this.$store.getters.userId).then(res => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateOutsourceEnter2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -512,7 +517,9 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          updateOutsourceEnter2(row, 1, this.$store.getters.userId).then(res => {
+          this.reviewParms.judgeStat = 3
+          const parms = JSON.stringify(this.reviewParms)
+          updateOutsourceEnter2(parms).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 type: 'success',

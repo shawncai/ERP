@@ -4248,6 +4248,8 @@ export default {
     bnyy: '不良原因'
   },
   OutSource: {
-    outFactoryName: '往来单位'
+    outFactoryName: '往来单位',
+    xgss: '修改委外入库单',
+    xgsss: '修改委外出库单'
   }
 }
