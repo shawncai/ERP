@@ -2,10 +2,10 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--个人信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.grxx') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('updates.grxx') }}</div>
+        <div class="container" style="margin-top: 30px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
@@ -48,7 +48,7 @@
                   <el-input v-model="personalForm.email" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 75px">
                 <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
                   <el-radio-group v-model="personalForm.gender" style="margin-left: 18px;width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('NewEmployeeInformation.male') }}</el-radio>
@@ -85,10 +85,10 @@
         </div>
       </el-card>
       <!--联系信息111-->
-      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <el-card class="box-card" shadow="never" style="margin-top: 5px">
         <h2 ref="lianxi" class="form-name">{{ $t('updates.lxxx') }}</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="connectForm" :model="connectForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="connectForm" :model="connectForm" :rules="connectrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
@@ -127,10 +127,10 @@
         </div>
       </el-card>
       <!--公司信息-->
-      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <el-card class="box-card" shadow="never" style="margin-top: 5px">
         <h2 class="form-name">{{ $t('updates.gsxx') }}</h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="companyForm" :model="companyForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="companyForm" :model="companyForm" :rules="companyrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
@@ -200,7 +200,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 15px">
+      <el-card class="box-card" shadow="never" style="margin-top: 5px">
         <h2 class="form-name">{{ $t('updates.jsxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-row>
@@ -783,13 +783,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

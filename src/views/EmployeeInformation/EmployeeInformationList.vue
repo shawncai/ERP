@@ -231,7 +231,7 @@ export default {
       }
     }
     return {
-      tableHeight: 50,
+      tableHeight: 200,
       // 判断是否能点击
       selected: true,
       // 详情传递id
@@ -408,6 +408,14 @@ export default {
   mounted() {
     this.getlist()
     this.handlechange4()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
+  },
+  created() {
+    // setTimeout(() => {
+    //   this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    // }, 100)
   },
   beforeCreate() {
     _that = this
