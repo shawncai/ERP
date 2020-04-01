@@ -55,14 +55,14 @@ export function searchstockArrival(query) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+    params.append('repositoryId', 0) // 你要传给后台的参数值 key/value
   }
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
-  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
-    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
-  }
+  // if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+  //   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  // }
   if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
     params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
   }
