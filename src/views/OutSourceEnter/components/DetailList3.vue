@@ -32,6 +32,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('OutSource.outFactoryName')" style="width: 100%;">
+                  <el-input v-model="personalForm.outFactoryName" style="margin-left: 18px;width:150px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item label="国家" style="width: 100%;">
                   <el-input v-model="personalForm.countryName" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
