@@ -17,6 +17,7 @@
                   <el-option value="1" label="工艺BOM"/>
                   <el-option value="2" label="设计BOM"/>
                   <el-option value="3" label="制造BOM"/>
+                  <el-option value="4" label="采购BOM"/>
                 </el-select>
               </el-form-item>
             </el-col>

@@ -1465,6 +1465,8 @@ export default {
               }
             }
             const parms = JSON.stringify(Data)
+            // console.log('parms', Data)
+            // console.log('parms2', EnterDetail)
             addstockorder(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

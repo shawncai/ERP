@@ -343,6 +343,14 @@ export default {
       }
       console.log('list', list)
       console.log('list2', list2)
+      for (const i in list2) {
+        for (const j in requireDetail) {
+          if (list2[i].productCode === requireDetail[j].productCode) {
+            list2[i].sourceSerialNumber = requireDetail[j].sourceSerialNumber
+            list2[i].stockRequireId = requireDetail[j].stockRequireId
+          }
+        }
+      }
       this.$emit('require', list2)
       this.$emit('require2', list2)
     }
