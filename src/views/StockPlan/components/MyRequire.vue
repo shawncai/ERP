@@ -206,7 +206,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds
+        regionIds: this.$store.getters.regionIds,
+        isActive: 1
       },
       // 传给组件的数据
       personalForm: {},
@@ -348,6 +349,7 @@ export default {
           if (list2[i].productCode === requireDetail[j].productCode) {
             list2[i].sourceSerialNumber = requireDetail[j].sourceSerialNumber
             list2[i].stockRequireId = requireDetail[j].stockRequireId
+            list2[i].orderQuantity = requireDetail[j].orderQuantity
           }
         }
       }

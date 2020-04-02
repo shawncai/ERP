@@ -27,6 +27,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="arrivalRepositoryId" style="width: 100%;">
+                  <el-input v-model="arrivalRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.sourceNumber')" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="IsSourceNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
@@ -288,10 +294,12 @@ import MyPlan from './MyPlan'
 import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyOrder from './MyOrder'
+import MyRepository from './MyRepository'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyRepository },
   props: {
     editcontrol: {
       type: Boolean,
@@ -326,7 +334,17 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.arrivalRepositoryId)
+      if (this.arrivalRepositoryId === undefined || this.arrivalRepositoryId === null || this.arrivalRepositoryId === '') {
+        callback(new Error('请选择采购仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      arrivalRepositoryId: '',
       IsCurrency: false,
       // 控制是否可以从源单选择
       IsSourceNumber: false,
@@ -392,6 +410,9 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        arrivalRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
@@ -430,6 +451,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.arrivalRepositoryId = this.personalForm.arrivalRepositoryName
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.acceptPersonId = this.personalForm.acceptPersonName
@@ -447,6 +469,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.arrivalRepositoryId = val.repositoryName
+      this.personalForm.arrivalRepositoryId = val.id
+    },
     // 处理汇率
     changeRate() {
       console.log(123)

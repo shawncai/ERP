@@ -65,6 +65,12 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="planRepositoryId" style="width: 100%;">
+                  <el-input v-model="planRepositoryId" placeholder="请选择采购仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -270,10 +276,12 @@ import MyDetail from './components/MyDetail'
 import MyApply from './components/MyApply'
 import MySupplier from './components/MySupplier'
 import MyRequire from './components/MyRequire'
+import MyRepository from './components/MyRepository'
+
 var _that
 export default {
   name: 'AddStockPlan',
-  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyRepository },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.planPersonId)
@@ -321,7 +329,17 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.planRepositoryId)
+      if (this.planRepositoryId === undefined || this.planRepositoryId === null || this.planRepositoryId === '') {
+        callback(new Error('请选择采购仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      planRepositoryId: this.$store.getters.repositoryName,
       suppliers: [],
       pickerOptions1: {
         disabledDate: (time) => {
@@ -374,6 +392,7 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
+        planRepositoryId: this.$store.getters.repositoryId,
         sourceType: '3',
         totalQuantity: '',
         allMoney: '',
@@ -381,6 +400,9 @@ export default {
       },
       // 采购计划单规则数据
       personalrules: {
+        planRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         stockType: [
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
@@ -435,6 +457,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.planRepositoryId = val.repositoryName
+      this.personalForm.planRepositoryId = val.id
+    },
     async changeDate2(event, scope) {
       console.log('event', event)
       const param = {}

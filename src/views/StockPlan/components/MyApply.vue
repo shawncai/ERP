@@ -388,6 +388,15 @@ export default {
           list2.push(list[i][m])
         }
       }
+      for (const i in list2) {
+        for (const j in applyDetail) {
+          if (list2[i].productCode === applyDetail[j].productCode) {
+            list2[i].sourceSerialNumber = applyDetail[j].sourceSerialNumber
+            list2[i].stockRequireId = applyDetail[j].stockRequireId
+            list2[i].orderQuantity = applyDetail[j].orderQuantity
+          }
+        }
+      }
       console.log('22222333333', list2)
       this.$emit('apply', list2)
       this.$emit('apply2', list2)

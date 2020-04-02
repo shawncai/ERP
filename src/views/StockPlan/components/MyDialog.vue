@@ -63,6 +63,12 @@
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="planRepositoryId" style="width: 100%;">
+                <el-input v-model="planRepositoryId" placeholder="请选择采购仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -210,10 +216,11 @@ import MyDetail from './MyDetail'
 import MyApply from './MyApply'
 import MySupplier from './MySupplier'
 import MyRequire from './MyRequire'
+import MyRepository from './MyRepository'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyRepository },
   props: {
     editcontrol: {
       type: Boolean,
@@ -249,7 +256,17 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.planRepositoryId)
+      if (this.planRepositoryId === undefined || this.planRepositoryId === null || this.planRepositoryId === '') {
+        callback(new Error('请选择采购仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      planRepositoryId: '',
       suppliers: [],
       zzz: 123,
       pickerOptions1: {
@@ -301,6 +318,9 @@ export default {
       control: false,
       // 采购计划单规则数据
       personalrules: {
+        planRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         stockType: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
         ],
@@ -343,6 +363,7 @@ export default {
       this.personalForm = this.editdata
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
+      this.planRepositoryId = this.personalForm.planRepositoryName
       this.list2 = this.personalForm.stockPlanDetailVos
       this.list3 = this.personalForm.stockPlanDetailVos
       this.getdatatime()
@@ -355,6 +376,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.planRepositoryId = val.repositoryName
+      this.personalForm.planRepositoryId = val.id
+    },
     async changeDate2(event, scope) {
       console.log('event', event)
       const param = {}

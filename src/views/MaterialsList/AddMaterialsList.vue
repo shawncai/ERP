@@ -200,7 +200,7 @@ export default {
       this.matercontrol = true
     },
     mater(val) {
-      isExist(val.code).then(res => {
+      isExist(val.code, this.personalForm.bomTypeId).then(res => {
         if (res.data.data.content === false) {
           this.personalForm.productName = val.productName
           this.personalForm.unit = val.purMeasu
