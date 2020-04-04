@@ -618,12 +618,12 @@ export default {
     },
     // 审批操作
     handleReview(row) {
-      // const loading = this.$loading({
-      //   lock: true,
-      //   text: 'Loading',
-      //   spinner: 'el-icon-loading',
-      //   background: 'rgba(0, 0, 0, 0.7)'
-      // })
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -644,76 +644,80 @@ export default {
               message: this.$t('prompt.shcg')
             })
             this.getlist()
-            // for (const j in row.stockPlanDetailVos) {
-            //   let orderQuantity = 0
-            //   if (row.stockPlanDetailVos[j].orderQuantity === null) {
-            //     orderQuantity = 0
-            //   } else {
-            //     orderQuantity = row.stockPlanDetailVos[j].orderQuantity
-            //   }
-            //   const stockorderparms1 = {
-            //     stockRepositoryId: 8,
-            //     stockPersonId: row.planPersonId,
-            //     createPersonId: row.planPersonId,
-            //     countryId: this.$store.getters.countryId,
-            //     repositoryId: this.$store.getters.repositoryId,
-            //     regionId: this.$store.getters.regionId,
-            //     isVat: 1,
-            //     sourceType: '2',
-            //     currency: '1',
-            //     orderDate: this.todaytime,
-            //     deptId: this.$store.getters.deptId,
-            //     exchangeRate: '1.0000',
-            //     supplierId: row.stockPlanDetailVos[j].supplierId,
-            //     stockTypeId: row.stockType
-            //   }
+            for (const j in row.stockPlanDetailVos) {
+              let orderQuantity = 0
+              if (row.stockPlanDetailVos[j].orderQuantity === null) {
+                orderQuantity = 0
+              } else {
+                orderQuantity = row.stockPlanDetailVos[j].orderQuantity
+              }
+              const arr = []
+              const stockorderparms1 = {
+                title: '自动生成采购订单',
+                stockRepositoryId: 8,
+                stockPersonId: row.planPersonId,
+                createPersonId: row.planPersonId,
+                countryId: this.$store.getters.countryId,
+                repositoryId: this.$store.getters.repositoryId,
+                regionId: this.$store.getters.regionId,
+                isVat: 1,
+                settleMode: 4,
+                sourceType: '2',
+                currency: '1',
+                orderDate: this.todaytime,
+                deptId: this.$store.getters.deptId,
+                exchangeRate: '1.0000',
+                supplierId: row.stockPlanDetailVos[j].supplierId,
+                stockTypeId: row.stockType
+              }
 
-            //   const stockorderparms2 = {
-            //     productCode: row.stockPlanDetailVos[j].productCode,
-            //     productName: row.stockPlanDetailVos[j].productName,
-            //     productType: row.stockPlanDetailVos[j].productType,
-            //     typeName: row.stockPlanDetailVos[j].productType,
-            //     type: row.stockPlanDetailVos[j].typeId,
-            //     color: row.stockPlanDetailVos[j].color,
-            //     unit: row.stockPlanDetailVos[j].unit,
-            //     planQuantity: row.stockPlanDetailVos[j].planQuantity,
-            //     orderQuantity: orderQuantity,
-            //     deliveryDate: row.stockPlanDetailVos[j].planDeliveryDate,
-            //     applicationReason: row.stockPlanDetailVos[j].applyReason,
-            //     sourceNumber: row.planNumber,
-            //     sourceSerialNumber: row.stockPlanDetailVos[j].id,
-            //     remark: 0,
-            //     discountRate: 0,
-            //     discountMoney: 0,
-            //     arrivalQuantity: 0,
-            //     price: row.stockPlanDetailVos[j].basicPrice,
-            //     includeTaxPrice: row.stockPlanDetailVos[j].basicPrice,
-            //     supplierId: row.stockPlanDetailVos[j].supplierId,
-            //     returnQuantity: 0,
-            //     tax: 0,
-            //     actualArrivalQuantity: 0,
-            //     stockQuantity: row.stockPlanDetailVos[j].planQuantity,
-            //     taxRate: 0,
-            //     money: Number(row.stockPlanDetailVos[j].planQuantity) * Number(row.stockPlanDetailVos[j].basicPrice),
-            //     includeTaxMoney: Number(row.stockPlanDetailVos[j].planQuantity) * Number(row.stockPlanDetailVos[j].basicPrice),
-            //     typeId: row.stockPlanDetailVos[j].typeId
-            //   }
-            //   const orderparms = JSON.stringify(stockorderparms1)
-            //   const parms2 = JSON.stringify(stockorderparms2)
-            //   addstockorder(orderparms, parms2, stockorderparms1).then(res => {
-            //     if (res.data.ret === 200) {
-            //       loading.close()
-            //       this.$notify({
-            //         title: 'successful',
-            //         message: 'save successful',
-            //         type: 'success',
-            //         offset: 100
-            //       })
-            //     }
-            //   })
-            // }
+              const stockorderparms2 = {
+                productCode: row.stockPlanDetailVos[j].productCode,
+                productName: row.stockPlanDetailVos[j].productName,
+                productType: row.stockPlanDetailVos[j].productType,
+                typeName: row.stockPlanDetailVos[j].productType,
+                type: row.stockPlanDetailVos[j].typeId,
+                color: row.stockPlanDetailVos[j].color,
+                unit: row.stockPlanDetailVos[j].unit,
+                planQuantity: row.stockPlanDetailVos[j].planQuantity,
+                orderQuantity: orderQuantity,
+                deliveryDate: row.stockPlanDetailVos[j].planDeliveryDate,
+                applicationReason: row.stockPlanDetailVos[j].applyReason,
+                sourceNumber: row.planNumber,
+                sourceSerialNumber: row.stockPlanDetailVos[j].id,
+                remark: 0,
+                discountRate: 0,
+                discountMoney: 0,
+                arrivalQuantity: 0,
+                price: row.stockPlanDetailVos[j].basicPrice,
+                includeTaxPrice: row.stockPlanDetailVos[j].basicPrice,
+                supplierId: row.stockPlanDetailVos[j].supplierId,
+                returnQuantity: 0,
+                tax: 0,
+                actualArrivalQuantity: 0,
+                stockQuantity: row.stockPlanDetailVos[j].planQuantity,
+                taxRate: 0,
+                money: Number(row.stockPlanDetailVos[j].planQuantity) * Number(row.stockPlanDetailVos[j].basicPrice),
+                includeTaxMoney: Number(row.stockPlanDetailVos[j].planQuantity) * Number(row.stockPlanDetailVos[j].basicPrice),
+                typeId: row.stockPlanDetailVos[j].typeId
+              }
+              const orderparms = JSON.stringify(stockorderparms1)
+              arr.push(stockorderparms2)
+              const parms2 = JSON.stringify(arr)
+              addstockorder(orderparms, parms2, stockorderparms1).then(res => {
+                if (res.data.ret === 200) {
+                  loading.close()
+                  this.$notify({
+                    title: 'successful',
+                    message: 'save successful',
+                    type: 'success',
+                    offset: 100
+                  })
+                }
+              })
+            }
           } else {
-            // loading.close()
+            loading.close()
           }
         })
       }).catch(action => {

@@ -173,12 +173,12 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
@@ -408,13 +408,14 @@ export default {
       }
     }
     return {
-      repositorycontrol: false,
-      stockRepositoryId: this.$store.getters.repositoryName,
+
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      repositorycontrol: false,
+      stockRepositoryId: '',
       // 控制采购类型，采购部门是否可以编辑
       isedit: false,
       priceabled: false,
@@ -493,7 +494,7 @@ export default {
       supplierIdDetail: [],
       // 采购申请单信息数据
       personalForm: {
-        stockRepositoryId: this.$store.getters.repositoryId,
+        stockRepositoryId: '',
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -1304,7 +1305,7 @@ export default {
         deptId: this.$store.getters.deptId,
         exchangeRate: '1.0000'
       }
-      this.personalForm.orderDate = new Date()
+      this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
@@ -1339,8 +1340,8 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            console.log('123')
             const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            const mainParms = this.deepClone(this.personalForm)
             if (EnterDetail.length === 0) {
               this.$notify.error({
                 title: 'wrong',
@@ -1350,7 +1351,6 @@ export default {
               return false
             }
             let ll = 1
-            console.log('ll', ll)
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -1358,7 +1358,6 @@ export default {
                 ll = 2
               }
             })
-            console.log('ll', ll)
             if (ll === 2) {
               this.$notify.error({
                 title: 'wrong',
@@ -1455,7 +1454,7 @@ export default {
               return elem
             })
             const parms2 = JSON.stringify(EnterDetail)
-            const Data = this.personalForm
+            const Data = mainParms
             for (const key in Data) {
               if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
                 delete Data[key]
@@ -1465,8 +1464,8 @@ export default {
               }
             }
             const parms = JSON.stringify(Data)
-            // console.log('parms', Data)
-            // console.log('parms2', EnterDetail)
+            console.log('parms', Data)
+            console.log('parms2', EnterDetail)
             addstockorder(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

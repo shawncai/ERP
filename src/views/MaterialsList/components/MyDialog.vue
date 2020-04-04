@@ -53,7 +53,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="width: 100%;">
-                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
+                <el-input v-model="personalForm.productName" disabled style="margin-left: 18px;width: 200px" @focus="handlemater"/>
               </el-form-item>
             </el-col>
             <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>

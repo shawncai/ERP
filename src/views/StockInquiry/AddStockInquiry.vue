@@ -97,7 +97,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('uodates.cgxjdmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgxjdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
@@ -121,12 +121,12 @@
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.jhsl')" prop="plannedQuantity" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
@@ -390,6 +390,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        deptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -773,6 +774,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        deptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -782,6 +784,7 @@ export default {
         inquiryDate: null,
         sourceType: '3'
       }
+      this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null
     },

@@ -223,6 +223,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
+        handleDate: null,
         sourceType: '1',
         handlePersonId: this.$store.getters.userId
       },
@@ -479,9 +480,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        handleDate: null,
+        handlePersonId: this.$store.getters.userId
       }
-      this.handlePersonId = null
+      this.getdatatime()
       this.supplierId = null
       this.workCenterId = null
       this.produceManagerId = null

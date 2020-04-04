@@ -99,12 +99,12 @@
             size="medium"
             style="width: 100%"
             @selection-change="deleteChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed="left" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cgjhj')" prop="basicPrice" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -386,6 +386,7 @@ export default {
       control: false,
       // 采购计划单信息数据
       personalForm: {
+        stockDeptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
         stockPersonId: this.$store.getters.userId,
         planPersonId: this.$store.getters.userId,
@@ -934,13 +935,16 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        stockDeptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         stockPersonId: this.$store.getters.userId,
-        planPersonId: this.$store.getters.userId
+        planPersonId: this.$store.getters.userId,
+        planDate: null
       }
+      this.getdatatime()
       this.planPersonId = this.$store.getters.userName
       this.stockPersonId = this.$store.getters.name
     },
