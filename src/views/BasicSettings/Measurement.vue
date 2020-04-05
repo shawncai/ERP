@@ -1,22 +1,25 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.categoryname" :placeholder="$t('BasicSettings.categoryname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.type" :placeholder="$t('BasicSettings.type2')" class="filter-item" clearable >
+      <el-input v-model="getemplist.categoryname" :placeholder="$t('BasicSettings.categoryname')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.type" :placeholder="$t('BasicSettings.type2')" size="small" class="filter-item" clearable >
         <el-option :label="$t('updates.shuli')" value="1" />
         <el-option value="2" label="体积" />
         <el-option value="3" label="重量" />
       </el-select>
-      <el-select v-model="getemplist.iseffective" :placeholder="$t('BasicSettings.iseffective3')" class="filter-item" clearable >
+      <el-select v-model="getemplist.iseffective" :placeholder="$t('BasicSettings.iseffective3')" size="small" class="filter-item" clearable >
         <el-option :label="$t('updates.qy')" value="1" />
         <el-option value="2" label="禁用" />
       </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    </el-card>
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" size="small" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -24,11 +27,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-39-47-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-39-47-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-39-47-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-39-47-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-39-47-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-39-47-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" title="新建计量单位" class="normal" width="600px">
         <el-form :model="Numberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
@@ -57,17 +60,22 @@
         </div>
       </el-dialog>
       <!--新建结束-->
-    </div>
-    <div class="app-container">
+    </el-card>
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -112,37 +120,38 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" :title="$t('updates.xgjldw')" class="normal" width="600px">
-        <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-          <el-form-item label-width="120px" label="计量单位类别">
-            <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
-              <el-option :label="$t('updates.shuli')" value="1"/>
-              <el-option label="体积" value="2"/>
-              <el-option label="重量" value="3"/>
-              <el-option label="长度" value="4"/>
-              <el-option label="面积" value="5"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('updates.jldwmc')" label-width="120px">
-            <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
-          <!-- <el-form-item label-width="120px" :label="$t('updates.qyzt')">
+    </el-card>
+    <!-- 列表结束 -->
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+    <!--修改开始=================================================-->
+    <el-dialog :visible.sync="editNumberingVisible" :title="$t('updates.xgjldw')" class="normal" width="600px">
+      <el-form :model="editNumberingform" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
+        <el-form-item label-width="120px" label="计量单位类别">
+          <el-select v-model="editNumberingform.type" placeholder="请选择计量单位类别" disabled>
+            <el-option :label="$t('updates.shuli')" value="1"/>
+            <el-option label="体积" value="2"/>
+            <el-option label="重量" value="3"/>
+            <el-option label="长度" value="4"/>
+            <el-option label="面积" value="5"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('updates.jldwmc')" label-width="120px">
+          <el-input v-model="editNumberingform.categoryName" placeholder="请输入计量单位名称" autocomplete="off" style="width: 200px"/>
+        </el-form-item>
+        <!-- <el-form-item label-width="120px" :label="$t('updates.qyzt')">
             <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
               <el-option :label="$t('updates.qy')" value="1"/>
               <el-option label="禁用" value="2"/>
             </el-select>
           </el-form-item> -->
-        </el-form>
-        <div slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
-        </div>
-      </el-dialog>
-      <!--修改结束=================================================-->
-    </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button @click="editNumberingVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
+      </div>
+    </el-dialog>
+    <!--修改结束=================================================-->
+
   </div>
 </template>
 
@@ -181,6 +190,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       personalForm2: {},
       // 修改数据集合
       editNumberingform: {},
@@ -223,14 +233,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)
@@ -481,7 +500,7 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
+.normal >>> .el-dialog__header {
     padding: 20px 20px 10px;
     background: #fff;
     position: static;
@@ -507,14 +526,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

@@ -1,17 +1,21 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
       <!-- 搜索条件栏目 -->
       <!-- <el-input v-model="productCategoryId" placeholder="请选择物品分类" class="filter-item" style="width: 150px" @focus="treechoose"/> -->
-      <el-select v-model="getemplist.commissionType" placeholder="请选择提成类型" class="filter-item" clearable >
+      <el-select v-model="getemplist.commissionType" size="small" placeholder="请选择提成类型" class="filter-item" clearable >
         <el-option value="1" label="提成比例" />
         <el-option value="2" label="固定金额" />
       </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    </el-card>
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" size="small" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -19,59 +23,66 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-39-277-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-39-277-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-39-277-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-39-277-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-39-277-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-permission="['1-39-277-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+
+    </el-card>
+
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" fixed="left" prop="id" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.roleId')" :resizable="false" fixed="left" prop="ruleName" align="center" width="200">
+        <el-table-column :label="$t('BasicSettings.roleId')" :resizable="false" fixed="left" prop="ruleName" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.postName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="type" align="center" width="200">
+        <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="type" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.productCategoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.commissionCategory')" :resizable="false" align="center" width="200">
+        <el-table-column :label="$t('BasicSettings.commissionCategory')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.commissionCategory | commissionCategoryFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.commissionType')" :resizable="false" prop="dateType" align="center" width="200">
+        <el-table-column :label="$t('BasicSettings.commissionType')" :resizable="false" prop="dateType" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.commissionType | commissionTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.commissionValue')" :resizable="false" prop="length" align="center" width="200">
+        <el-table-column :label="$t('BasicSettings.commissionValue')" :resizable="false" prop="length" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.commissionValue }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.countyrId')" :resizable="false" prop="isEffective" align="center" width="200">
+        <el-table-column :label="$t('public.countyrId')" :resizable="false" prop="isEffective" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.countryName }}</span>
           </template>
@@ -83,62 +94,63 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
-        <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('BasicSettings.roleId')" prop="roleId" style="width: 40%;margin-top:1%">
-            <el-select v-model="editNumberingform.roleId" style="width: 150px;">
-              <el-option
-                v-for="(item, index) in roleIds"
-                :key="index"
-                :label="item.roleName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Product.categoryid')" prop="productCategoryId" style="width: 40%;">
-            <el-select v-model="getemplist.productCategoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 150px" clearable>
-              <el-option :label="$t('otherlanguage.zc')" value="1"/>
-              <el-option :label="$t('otherlanguage.pj')" value="2"/>
-              <el-option :label="$t('otherlanguage.jgj')" value="3"/>
-              <el-option :label="$t('otherlanguage.xhp')" value="4"/>
-              <el-option :label="$t('otherlanguage.dc')" value="5"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 100%;margin-top:1%">
-            <el-radio-group v-model="editNumberingform.commissionCategory">
-              <el-radio :label="1">{{ $t('updates.lrtc') }}</el-radio>
-              <el-radio :label="2">{{ $t('updates.xssrtc') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 100%;margin-top:1%">
-            <el-radio-group v-model="editNumberingform.commissionType">
-              <el-radio :label="1">{{ $t('updates.tcbl') }}</el-radio>
-              <el-radio :label="2">{{ $t('updates.gdje') }}</el-radio>
-              <!-- <el-radio :label="3">绩效分</el-radio> -->
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('BasicSettings.commissionValue')" prop="commissionValue" style="150px;margin-top:1%">
-            <el-input v-model="editNumberingform.commissionValue" placeholder="请输入提成" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('public.countyrId')" prop="countryId" style="150px;margin-top: 1%">
-            <el-select v-model="editNumberingform.countryId" placeholder="国家" style="width: 100%;">
-              <el-option
-                v-for="(item, index) in nations"
-                :key="index"
-                :label="item.name"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
-        </div>
-      </el-dialog>
-      <!--修改结束=================================================-->
-    </div>
+    </el-card>
+    <!-- 列表结束 -->
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+    <!--修改开始=================================================-->
+    <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
+      <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
+        <el-form-item :label="$t('BasicSettings.roleId')" prop="roleId" style="width: 40%;margin-top:1%">
+          <el-select v-model="editNumberingform.roleId" style="width: 150px;">
+            <el-option
+              v-for="(item, index) in roleIds"
+              :key="index"
+              :label="item.roleName"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('Product.categoryid')" prop="productCategoryId" style="width: 40%;">
+          <el-select v-model="getemplist.productCategoryId" :placeholder="$t('Hmodule.wpfl')" style="width: 150px" clearable>
+            <el-option :label="$t('otherlanguage.zc')" value="1"/>
+            <el-option :label="$t('otherlanguage.pj')" value="2"/>
+            <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+            <el-option :label="$t('otherlanguage.xhp')" value="4"/>
+            <el-option :label="$t('otherlanguage.dc')" value="5"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('BasicSettings.commissionCategory')" prop="commissionType" style="width: 100%;margin-top:1%">
+          <el-radio-group v-model="editNumberingform.commissionCategory">
+            <el-radio :label="1">{{ $t('updates.lrtc') }}</el-radio>
+            <el-radio :label="2">{{ $t('updates.xssrtc') }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('BasicSettings.commissionType')" prop="commissionType" style="width: 100%;margin-top:1%">
+          <el-radio-group v-model="editNumberingform.commissionType">
+            <el-radio :label="1">{{ $t('updates.tcbl') }}</el-radio>
+            <el-radio :label="2">{{ $t('updates.gdje') }}</el-radio>
+            <!-- <el-radio :label="3">绩效分</el-radio> -->
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('BasicSettings.commissionValue')" prop="commissionValue" style="150px;margin-top:1%">
+          <el-input v-model="editNumberingform.commissionValue" placeholder="请输入提成" clearable/>
+        </el-form-item>
+        <el-form-item :label="$t('public.countyrId')" prop="countryId" style="150px;margin-top: 1%">
+          <el-select v-model="editNumberingform.countryId" placeholder="国家" style="width: 100%;">
+            <el-option
+              v-for="(item, index) in nations"
+              :key="index"
+              :label="item.name"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button @click="editNumberingVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
+      </div>
+    </el-dialog>
+    <!--修改结束=================================================-->
+
   </div>
 </template>
 
@@ -176,6 +188,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 单据类型
       categorys: [],
       // 修改数据集合
@@ -251,14 +264,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     tree(val) {
       console.log(val)
       this.productCategoryId = val.categoryName
@@ -572,25 +594,33 @@ export default {
 </style>
 
 <style rel="stylesheet/css" scoped>
-  .el-dialog--center >>> el-dialog__body{
-    /*padding: 10px 20px 10px;*/
-    padding: 0px 25px 30px;
+  .app-container >>> .el-table .cell {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 24px;
+    word-break: keep-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
-  .normal >>> .el-dialog__header {
-    /*padding: 10px 20px 10px;*/
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
+  .ERP-container {
+    margin-left:10px;
   }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
+  .filter-container{
+    padding: 20px;
+    padding-left: 0px;
+  }
+  .filter-item{
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

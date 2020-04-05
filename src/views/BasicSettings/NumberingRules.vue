@@ -1,20 +1,24 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.ruleName" :placeholder="$t('BasicSettings.ruleName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" placeholder="请选择单据类型" class="filter-item" style="width: 10%" filterable clearable>
+      <el-input v-model="getemplist.ruleName" :placeholder="$t('BasicSettings.ruleName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.type" :value="getemplist.type" placeholder="请选择单据类型" size="small" class="filter-item" style="width: 10%" filterable clearable>
         <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
       </el-select>
-      <el-select v-model="getemplist.iseffective" placeholder="请选择状态" class="filter-item" clearable >
+      <el-select v-model="getemplist.iseffective" placeholder="请选择状态" size="small" class="filter-item" clearable >
         <el-option value="1" label="active" />
         <el-option value="2" label="dead" />
       </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 批量操作 -->
+    </el-card>
+
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" type="primary">
+        <el-button v-waves class="filter-item" size="small" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -22,11 +26,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-39-41-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-39-41-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-39-41-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-39-41-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-39-41-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-39-41-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <!--新建列表开始-->
       <el-dialog :visible.sync="addNumberingVisible" append-to-body width="600px" class="normal" title="新建编号规则" >
         <el-form ref="Numberingform" :model="Numberingform" :rules="NumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
@@ -64,69 +68,74 @@
         </div>
       </el-dialog>
       <!--新建结束-->
-    </div>
-    <div class="app-container">
+    </el-card>
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.id')" :resizable="false" fixed="left" prop="id" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.ruleName')" :resizable="false" fixed="left" prop="ruleName" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.ruleName')" :resizable="false" fixed="left" prop="ruleName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.ruleName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.type')" :resizable="false" prop="type" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.type')" :resizable="false" prop="type" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.typeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.prefix')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.prefix')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.prefix }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.dateType')" :resizable="false" prop="dateType" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.dateType')" :resizable="false" prop="dateType" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.dateType | DateFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.length')" :resizable="false" prop="length" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.length')" :resizable="false" prop="length" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.length }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.iseffective')" :resizable="false" prop="isEffective" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.iseffective')" :resizable="false" prop="isEffective" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.isEffective | genderFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="250">
+        <!-- <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.createPersonName }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('BasicSettings.createTime')" :resizable="false" prop="createTime" align="center" width="150">
+        </el-table-column> -->
+        <el-table-column :label="$t('BasicSettings.createTime')" :resizable="false" prop="createTime" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('BasicSettings.personName')" :resizable="false" prop="createTime" align="center" width="150">
+        <el-table-column :label="$t('BasicSettings.personName')" :resizable="false" prop="createTime" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createPersonName }}</span>
           </template>
@@ -140,41 +149,42 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
-        <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
-          <el-form-item label-width="120px" label="编号规则名称" prop="ruleName">
-            <el-input v-model="editNumberingform.ruleName" placeholder="请输入编号规则名称" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
-          <el-form-item label-width="120px" label="编号前缀" prop="prefix">
-            <el-input v-model="editNumberingform.prefix" placeholder="请输入编号前缀" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
-          <el-form-item label-width="120px" label="日期类型">
-            <el-radio-group v-model="editNumberingform.dateType">
-              <el-radio :label="1">年</el-radio>
-              <el-radio :label="2">年月</el-radio>
-              <el-radio :label="3">年月日</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label-width="120px" label="流水号长度" prop="length">
-            <el-input v-model="editNumberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
-          </el-form-item>
-          <el-form-item :label="$t('updates.qyzt')" label-width="120px">
-            <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
-              <el-option label="on duty" value="1"/>
-              <el-option label="closed" value="2"/>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button @click="editNumberingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
-        </div>
-      </el-dialog>
-      <!--修改结束=================================================-->
-    </div>
+    </el-card>
+    <!-- 列表结束 -->
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+    <!--修改开始=================================================-->
+    <el-dialog :visible.sync="editNumberingVisible" title="修改编号规则" append-to-body width="600px" class="normal">
+      <el-form ref="editNumberingform" :model="editNumberingform" :rules="editNumberingformRule" label-width="120px" style="margin: 0 auto; width: 400px">
+        <el-form-item label-width="120px" label="编号规则名称" prop="ruleName">
+          <el-input v-model="editNumberingform.ruleName" placeholder="请输入编号规则名称" autocomplete="off" style="width: 200px"/>
+        </el-form-item>
+        <el-form-item label-width="120px" label="编号前缀" prop="prefix">
+          <el-input v-model="editNumberingform.prefix" placeholder="请输入编号前缀" autocomplete="off" style="width: 200px"/>
+        </el-form-item>
+        <el-form-item label-width="120px" label="日期类型">
+          <el-radio-group v-model="editNumberingform.dateType">
+            <el-radio :label="1">年</el-radio>
+            <el-radio :label="2">年月</el-radio>
+            <el-radio :label="3">年月日</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label-width="120px" label="流水号长度" prop="length">
+          <el-input v-model="editNumberingform.length" placeholder="请输入流水号长度" autocomplete="off" style="width: 200px"/>
+        </el-form-item>
+        <el-form-item :label="$t('updates.qyzt')" label-width="120px">
+          <el-select v-model="editNumberingform.isEffective" placeholder="请选择启用状态">
+            <el-option label="on duty" value="1"/>
+            <el-option label="closed" value="2"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button @click="editNumberingVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleEditOk">{{ $t('public.edit') }}</el-button>
+      </div>
+    </el-dialog>
+    <!--修改结束=================================================-->
+
   </div>
 </template>
 
@@ -210,6 +220,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 单据类型
       categorys: [],
       // 修改数据集合
@@ -281,14 +292,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)
@@ -563,38 +583,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
   }
-</style>
-
-<style rel="stylesheet/css" scoped>
-  .el-dialog--center >>> el-dialog__body{
-    /*padding: 10px 20px 10px;*/
-    padding: 0px 25px 30px;
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
   }
-  .normal >>> .el-dialog__header {
-    /*padding: 10px 20px 10px;*/
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

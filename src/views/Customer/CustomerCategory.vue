@@ -540,6 +540,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

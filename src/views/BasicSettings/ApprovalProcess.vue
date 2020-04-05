@@ -1,17 +1,19 @@
 <template>
   <div class="ERP-container">
-    <div class="filter-container">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
       <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.process_name" :placeholder="$t('BasicSettings.process_name')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.is_effective" :value="getemplist.is_effective" placeholder="请选择状态" class="filter-item" clearable>
+      <el-input v-model="getemplist.process_name" :placeholder="$t('BasicSettings.process_name')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.is_effective" :value="getemplist.is_effective" placeholder="请选择状态" size="small" class="filter-item" clearable>
         <el-option label="active" value="1"/>
         <el-option label="dead" value="2"/>
       </el-select>
-      <el-select v-model="getemplist.type" :value="getemplist.type" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
+      <el-select v-model="getemplist.type" :value="getemplist.type" size="small" filterable placeholder="请选择单据类型" style="width: 150px" class="filter-item" clearable>
         <el-option v-for="(item, index) in categorys" :key="index" :value="item.id" :label="item.categoryName"/>
       </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="small" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    </el-card>
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <!--      <el-dropdown @command="handleCommand">-->
       <!--        <el-button v-waves class="filter-item" type="primary">-->
@@ -22,22 +24,26 @@
       <!--        </el-dropdown-menu>-->
       <!--      </el-dropdown>-->
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-39-45-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-39-45-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-39-45-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-39-45-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-39-45-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </div>
-    <div class="app-container">
+      <el-button v-permission="['1-39-45-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+    </el-card>
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -69,12 +75,12 @@
             <span>{{ scope.row.isMessage | isMessageFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="120">
+        <el-table-column :label="$t('UnitGroup.createPersonName')" :resizable="false" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" align="center" width="170">
+        <el-table-column :label="$t('UnitGroup.createDate')" :resizable="false" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
@@ -88,13 +94,14 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <!--修改结束=================================================-->
-    </div>
+    </el-card>
+    <!-- 列表结束 -->
+    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+    <!--修改开始=================================================-->
+    <my-dialog :control.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+    <!--修改结束=================================================-->
   </div>
+
 </template>
 
 <script>
@@ -130,6 +137,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       detailvisible: false,
       personalForm2: {},
       // 单据类型数据
@@ -161,14 +169,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 详情操作
     handleDetail(row) {
       console.log(row)
@@ -377,7 +394,7 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .app-container >>> .el-table .cell {
+   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     line-height: 24px;
@@ -386,14 +403,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>
