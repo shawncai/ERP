@@ -166,8 +166,9 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             :summary-method="getSummaries"
-            class="click-table1"
             show-summary
+            class="click-table1"
+
             stripe
             border
             size="medium"
@@ -186,7 +187,7 @@
                   :precision="2"
                   :min="1.00"
                   v-model="scope.row.stockQuantity"
-                  @change="changenumber(scope.row)"
+                  @change="changenumber(scope.row, scope)"
                   @keyup.enter.native="test(scope.row)"/>
               </template>
             </el-editable-column>
@@ -195,7 +196,7 @@
                 <el-date-picker
                   v-model="scope.row.deliveryDate"
                   value-format="yyyy-MM-dd"
-                  @change="copydate(scope.row)"/>
+                  @change="copydate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
@@ -582,40 +583,61 @@ export default {
       this.stockRepositoryId = val.repositoryName
       this.personalForm.stockRepositoryId = val.id
     },
-    changenumber(row) {
-      if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
-        return false
-      }
-      let re = 1
-      for (let i = 0; i < this.list2.length; i++) {
-        if (this.list2[i].stockQuantity !== 1) {
-          re++
+    changenumber(row, scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.stockQuantity !== '' && scope.row.stockQuantity !== null && scope.row.stockQuantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].stockQuantity !== null && this.list2[i].stockQuantity !== '' && this.list2[i].stockQuantity !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].stockQuantity = scope.row.stockQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].stockQuantity = scope.row.stockQuantity
+            }
+          }
+          console.log(scope.row)
         }
       }
-      if (re === 2) {
-        for (let i = 0; i < this.list2.length; i++) {
-          this.list2[i].stockQuantity = row.stockQuantity
-        }
-      }
+      // if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
+      //   return false
+      // }
+      // let re = 1
+      // for (let i = 0; i < this.list2.length; i++) {
+      //   if (this.list2[i].stockQuantity !== 1) {
+      //     re++
+      //   }
+      // }
+      // if (re === 2) {
+      //   for (let i = 0; i < this.list2.length; i++) {
+      //     this.list2[i].stockQuantity = row.stockQuantity
+      //   }
+      // }
     },
-    copydate(row) {
-      if (row.deliveryDate === '' || row.deliveryDate === null || row.deliveryDate === undefined) {
-        return false
-      }
-      for (let i = 0; i < this.list2.length; i++) {
-        this.list2[i].temp = i
-      }
-      for (let i = row.temp; i < this.list2.length; i++) {
-        console.log(this.list2[i].deliveryDate)
-        if (this.list2[i].deliveryDate !== null && this.list2[i].deliveryDate !== '' && this.list2[i].deliveryDate !== undefined) {
-          console.log(111)
-          continue
-        } else {
-          console.log(222)
-          this.list2[i].deliveryDate = row.deliveryDate
+    copydate(row, scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.deliveryDate !== '' && scope.row.deliveryDate !== null && scope.row.deliveryDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].deliveryDate !== null && this.list2[i].deliveryDate !== '' && this.list2[i].deliveryDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].deliveryDate = scope.row.deliveryDate
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].deliveryDate = scope.row.deliveryDate
+            }
+          }
+          console.log(scope.row)
         }
       }
-      console.log(row)
     },
     // 处理汇率
     changeRate() {

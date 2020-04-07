@@ -1,6 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.number" :placeholder="$t('updates.stockrequrenumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
@@ -108,6 +109,11 @@
         <el-table-column :label="$t('StockRequire.shouldStockQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldStockQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockRequire.planedQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planedQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockRequire.stockAdvanceday')" :resizable="false" align="center" min-width="150">

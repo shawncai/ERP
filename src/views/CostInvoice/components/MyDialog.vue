@@ -95,6 +95,23 @@
                 </el-select>
               </el-form-item>
             </el-col>
+
+            <el-col :span="12">
+              <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                <el-input v-model="personalForm.currencyRate" style="margin-left: 18px;width:200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 100%;">
+                <el-select v-model="personalForm.countryId" placeholder="请选择国家" style="margin-left: 18px;width:200px">
+                  <el-option
+                    v-for="(item, index) in nations"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -153,6 +170,7 @@
 </template>
 
 <script>
+import { countlist, getcountrylist } from '@/api/public'
 import { searchCostInstall } from '@/api/CostInstall'
 import { itemList } from '@/api/SubjectFinance'
 import { updatecostinvoice } from '@/api/CostInvoice'
@@ -203,6 +221,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 国家列表
+      nations: [],
       // 结算方式
       settleModes: [],
       // 支付方式
@@ -485,6 +505,13 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      getcountrylist().then(res => {
+        if (res.data.ret === 200) {
+          this.nations = res.data.data.content
+        } else {
+          console.log('国籍列表出错')
+        }
+      })
       const param = {}
       param.subjectId = 1
       itemList(param).then(res => {

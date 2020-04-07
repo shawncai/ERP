@@ -1528,6 +1528,7 @@ export default {
     heji2: 'Total adjusted amount'
   },
   MaterialsList: {
+    parentcolor: 'parentcolor',
     bomNumber: 'BOM code',
     parentBomNumber: 'parent BOM',
     bomTypeId: 'BOM  type',
@@ -1723,6 +1724,7 @@ export default {
     applyNumber: 'Bill no.'
   },
   StockRequire: {
+    planedQuantity: 'planedQuantity',
     categoryId: 'material category',
     productName: 'material name',
     isPlan: 'generate purchase plan or not',
@@ -3035,6 +3037,11 @@ export default {
     evaluation: 'evaluation'
   },
   Hmodule: {
+    jghmx: 'Details after processing',
+    yclmx: 'Details of raw materials',
+    enterQuantity: 'enterQuantity',
+    outQuantity: 'outQuantity',
+    damageQuantity: 'damageQuantity',
     hhd: 'swap form',
     ggxh: 'specification',
     cilent: 'click to upload',
@@ -3102,6 +3109,7 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    stockrequrenumber: 'stock requrenumber',
     sfgouxuanqubqx: 'Whether to check all permissions',
     jldwzbh: 'No',
     gz: 'trace',
@@ -4240,6 +4248,7 @@ export default {
     controlCode: 'controlCode',
     kzqbmwtx: 'Controller code is not filled',
     cdqbmwtx: 'Charger code is not filled',
-    bnyy: 'Bad reasons'
+    bnyy: 'Bad reasons',
+    zbyy: 'Warranty reasons'
   }
 }

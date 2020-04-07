@@ -76,11 +76,7 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTypeName(scope.row) }}</p>
-              </template>
-            </el-editable-column>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.mxqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.yjhsl')" prop="planQuantity" align="center" min-width="150px">
@@ -199,7 +195,6 @@ export default {
     },
     // 应计划数量取整
     getPlanQuantity(row) {
-      console.log(row)
       searchMea(row.unit).then(res => {
         if (res.data.data.content[0].type === 1) {
           row.planQuantity = Math.ceil(row.planQuantity)
@@ -208,7 +203,6 @@ export default {
       return row.planQuantity
     },
     getSourceName(row) {
-      console.log('row', row)
       if (row.materialsSource === 1) {
         return '库存'
       }
@@ -217,6 +211,9 @@ export default {
       }
       if (row.materialsSource === 3) {
         return '采购'
+      }
+      if (row.materialsSource === 4) {
+        return '外加工'
       }
     },
 
@@ -285,6 +282,7 @@ export default {
               id: item.id,
               productCode: item.productCode,
               productName: item.productName,
+              productType: item.productType,
               typeId: item.typeId,
               unit: item.unit,
               requireQuantity: item.requireQuantity,

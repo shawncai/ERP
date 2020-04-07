@@ -3,6 +3,9 @@ import request from '@/utils/request'
 // 采购需求列表
 export function stockrequirelist(query) {
   var params = new URLSearchParams()
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
   if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
     params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
   }

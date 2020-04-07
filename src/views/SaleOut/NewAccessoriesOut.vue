@@ -97,6 +97,22 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col v-if="personalForm.isFree === 1" :span="6">
+                <el-form-item :label="$t('tongyo.zbyy')" style="width: 100%;">
+                  <el-select ref="clear2" v-model="personalForm.freeReason" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in reasons"
+                      :value="item.id"
+                      :key="index"
+                      :label="item.categoryName"
+                    />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -514,6 +530,12 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      reasonsparms: {
+        type: 7,
+        pagenum: 1,
+        pagesize: 99999
+      },
+      reasons: [],
       controlcategorysdetail: [],
       chargecategorysdetail: [],
       control2: false,
@@ -2183,6 +2205,12 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      // 质保原因数据
+      searchSaleCategory(this.reasonsparms).then(res => {
+        if (res.data.ret === 200) {
+          this.reasons = res.data.data.content.list
+        }
+      })
       // 开票类型数据
       searchSaleCategory(this.invoicetypeparms).then(res => {
         if (res.data.ret === 200) {

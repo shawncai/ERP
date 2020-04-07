@@ -123,10 +123,10 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed="left" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.jhsl')" prop="plannedQuantity" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
@@ -134,7 +134,8 @@
                   :disabled="IsPlannedQuantity"
                   :precision="2"
                   :min="1"
-                  v-model="scope.row.plannedQuantity"/>
+                  v-model="scope.row.plannedQuantity"
+                  @change="planquantity(scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" :label="$t('updates.jhrq')" prop="planDeliveryDate" align="center" min-width="170px">
@@ -143,7 +144,8 @@
                   v-model="scope.row.planDeliveryDate"
                   :disabled="IsPlannedQuantity"
                   type="date"
-                  value-format="yyyy-MM-dd"/>
+                  value-format="yyyy-MM-dd"
+                  @change="plandelivery(scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
@@ -167,7 +169,8 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.taxRate"
-                  @input="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"
+                  @change="taxrate(scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -454,6 +457,69 @@ export default {
     _that = this
   },
   methods: {
+    taxrate(scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.taxRate !== '' && scope.row.taxRate !== null && scope.row.taxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].taxRate !== null && this.list2[i].taxRate !== '' && this.list2[i].taxRate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].taxRate = scope.row.taxRate
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].taxRate = scope.row.taxRate
+            }
+          }
+          console.log(scope.row)
+        }
+      }
+    },
+    plandelivery(scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.planDeliveryDate !== '' && scope.row.planDeliveryDate !== null && scope.row.planDeliveryDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].planDeliveryDate !== null && this.list2[i].planDeliveryDate !== '' && this.list2[i].planDeliveryDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+            }
+          }
+          console.log(scope.row)
+        }
+      }
+    },
+    planquantity(scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.plannedQuantity !== '' && scope.row.plannedQuantity !== null && scope.row.plannedQuantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].plannedQuantity !== null && this.list2[i].plannedQuantity !== '' && this.list2[i].plannedQuantity !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].plannedQuantity = scope.row.plannedQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].plannedQuantity = scope.row.plannedQuantity
+            }
+          }
+          console.log(scope.row)
+        }
+      }
+    },
     // 处理汇率
     changeRate() {
       console.log(123)

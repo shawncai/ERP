@@ -96,6 +96,22 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <el-input v-model="personalForm.currencyRate" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="width: 100%;">
+                  <el-select v-model="personalForm.countryId" placeholder="请选择国家" style="margin-left: 18px;width:200px">
+                    <el-option
+                      v-for="(item, index) in nations"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -188,7 +204,7 @@
 import '@/directive/noMoreClick/index.js'
 import { searchCostInstall } from '@/api/CostInstall'
 import { itemList } from '@/api/SubjectFinance'
-import { countlist } from '@/api/public'
+import { countlist, getcountrylist } from '@/api/public'
 import { addCostInvoice } from '@/api/CostInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -238,6 +254,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      // 国家列表
+      nations: [],
       // 回显仓库
       retreatRepositoryId: '',
       // 控制仓库
@@ -303,7 +321,8 @@ export default {
         deptId: this.$store.getters.deptId,
         isInclude: 2,
         currency: '1',
-        retreatDate: null
+        retreatDate: null,
+        currencyRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -593,6 +612,13 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      getcountrylist().then(res => {
+        if (res.data.ret === 200) {
+          this.nations = res.data.data.content
+        } else {
+          console.log('国籍列表出错')
+        }
+      })
       const param = {}
       param.subjectId = 1
       itemList(param).then(res => {

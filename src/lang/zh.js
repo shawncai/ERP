@@ -1532,6 +1532,7 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
+    parentcolor: '父件颜色',
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',
@@ -1727,6 +1728,7 @@ export default {
     applyNumber: '单据编号'
   },
   StockRequire: {
+    planedQuantity: '已计划数量',
     categoryId: '物料分类',
     productName: '物品名称',
     isPlan: '是否已生成采购计划',
@@ -3039,6 +3041,11 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    jghmx: '加工后明细',
+    yclmx: '原材料明细',
+    enterQuantity: '已入库数量',
+    outQuantity: '已出库数量',
+    damageQuantity: '损坏数量',
     hhd: '换货单',
     ggxh: '规格型号',
     cilent: '点击上传',
@@ -3106,6 +3113,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    stockrequrenumber: '采购需求编号',
     sfgouxuanqubqx: '是否勾选全部权限',
     jldwzbh: '计量单位组编号',
     gz: '跟踪',
@@ -4245,7 +4253,8 @@ export default {
     controlCode: '控制器编码',
     kzqbmwtx: '控制器编码未填写',
     cdqbmwtx: '充电器编码未填写',
-    bnyy: '不良原因'
+    bnyy: '不良原因',
+    zbyy: '质保原因'
   },
   OutSource: {
     outFactoryName: '往来单位',

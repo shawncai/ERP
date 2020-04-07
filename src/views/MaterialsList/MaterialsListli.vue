@@ -74,6 +74,11 @@
             <span>{{ scope.row.productCode }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('MaterialsList.parentcolor')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('MaterialsList.bomTypeId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.bomTypeId | bomTypeIdFliter }}</span>

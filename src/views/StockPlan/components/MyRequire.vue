@@ -117,6 +117,11 @@
             <span>{{ scope.row.inventoryQuantity }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockRequire.planedQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planedQuantity }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockRequire.shouldStockQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldStockQuantity }}</span>
@@ -321,7 +326,7 @@ export default {
           sourceSerialNumber: item.id,
           requireQuantity: item.requireQuantity,
           planedQuantity: item.planedQuantity,
-          planQuantity: item.requireQuantity - item.planedQuantity
+          planQuantity: item.shouldStockQuantity - item.planedQuantity
         }
       })
       const list = await Promise.all(requireDetail.map(function(item) {
@@ -337,24 +342,27 @@ export default {
         for (let m = 0; m < list[i].length; m++) {
           list[i][m].basicPrice = list[i][m].price
           list[i][m].requireQuantity = list[i][m].quantity
-          list[i][m].planQuantity = list[i][m].quantity
+          // list[i][m].planQuantity = list[i][m].quantity
           list[i][m].basicQuantity = list[i][m].quantity
           list2.push(list[i][m])
         }
       }
-      console.log('list', list)
-      console.log('list2', list2)
+      const list3 = []
       for (const i in list2) {
         for (const j in requireDetail) {
           if (list2[i].productCode === requireDetail[j].productCode) {
             list2[i].sourceSerialNumber = requireDetail[j].sourceSerialNumber
             list2[i].stockRequireId = requireDetail[j].stockRequireId
             list2[i].orderQuantity = requireDetail[j].orderQuantity
+            list2[i].planQuantity = requireDetail[j].planQuantity
+            list3.push(list2[i])
           }
         }
       }
-      this.$emit('require', list2)
-      this.$emit('require2', list2)
+      console.log('list3', list3)
+      console.log('requireDetail', requireDetail)
+      this.$emit('require', list3)
+      this.$emit('require2', list3)
     }
     // 仓库管理员选择结束
   }

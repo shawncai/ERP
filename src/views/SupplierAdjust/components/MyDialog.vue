@@ -97,7 +97,7 @@ import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
 import { searchsupplier } from '@/api/public'
 import MyEmp from './MyEmp'
-import MyDetail from './MyDetail'
+import MyDetail from './MyDetail2'
 import MySupplier from './MySupplier'
 import MyApply from './MyApply'
 import MyPlan from './MyPlan'
@@ -284,6 +284,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.datalist = this.personalForm.supplierId
       this.applyPersonId = this.personalForm.applyPersonName
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
@@ -756,6 +757,7 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.datalist = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.supp = val.id

@@ -126,7 +126,7 @@
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  @change="changeDate"/>
+                  @change="changeDate(scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
@@ -654,7 +654,27 @@ export default {
       return objClone
     },
     // 两表联动
-    changeDate() {
+    changeDate(scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.planDeliveryDate !== '' && scope.row.planDeliveryDate !== null && scope.row.planDeliveryDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].planDeliveryDate !== null && this.list2[i].planDeliveryDate !== '' && this.list2[i].planDeliveryDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+            }
+          }
+          console.log(scope.row)
+        }
+      }
+
       console.log('ooooo')
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())

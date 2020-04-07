@@ -9,6 +9,7 @@
         <el-option label="开票类型" value="4"/>
         <el-option label="机会类型" value="5"/>
         <el-option label="机会来源" value="6"/>
+        <el-option label="质保原因" value="7"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :placeholder="$t('updates.qyzt')" :value="getemplist.iseffective" class="filter-item" clearable @keyup.enter.native="handleFilter">
         <el-option label="on duty" value="1"/>
@@ -42,6 +43,7 @@
               <el-option label="开票类型" value="4"/>
               <el-option label="机会类型" value="5"/>
               <el-option label="机会来源" value="6"/>
+              <el-option label="质保原因" value="7"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -118,6 +120,7 @@
               <el-option label="开票类型" value="4"/>
               <el-option label="机会类型" value="5"/>
               <el-option label="机会来源" value="6"/>
+              <el-option label="质保原因" value="7"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -162,7 +165,8 @@ export default {
         3: '结算方式',
         4: '开票类型',
         5: '机会类型',
-        6: '机会来源'
+        6: '机会来源',
+        7: '质保原因'
       }
       return statusMap[status]
     },
