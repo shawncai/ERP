@@ -281,7 +281,7 @@ export default {
           type: item.productTypeId,
           unit: item.unit,
           productType: item.productType,
-          quantity: 0,
+          quantity: 1,
           money: 0,
           totalMoney: 0,
           enterQuantity: 0,
@@ -302,7 +302,7 @@ export default {
           unit: item.unit,
           quantity: item.quantity,
           batch: '',
-          enterQuantity: 0,
+          outQuantity: 0,
           damageQuantity: 0,
           productType: item.productType
         }

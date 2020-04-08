@@ -665,20 +665,11 @@ export default {
         }
       })
       this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(2)
-      if (this.personalForm.checkQuantity < 3) {
-        this.personalForm.sampleQuantity = 1
-      }
-      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
-        this.personalForm.sampleQuantity = 3
-      }
-      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+      if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
       }
-      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
-        this.personalForm.sampleQuantity = 8
-      }
-      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
-        this.personalForm.sampleQuantity = 12
+      if (Number(this.personalForm.checkQuantity) >= 101) {
+        this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
       }
       // 增加明细
       this.adddetail(val.productCode)
@@ -694,20 +685,11 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
       this.personalForm.checkQuantity = val.arrivalQuantity - val.reportCheckingQuantity
-      if (this.personalForm.checkQuantity < 3) {
-        this.personalForm.sampleQuantity = 1
-      }
-      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
-        this.personalForm.sampleQuantity = 3
-      }
-      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+      if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
       }
-      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
-        this.personalForm.sampleQuantity = 8
-      }
-      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
-        this.personalForm.sampleQuantity = 12
+      if (Number(this.personalForm.checkQuantity) >= 101) {
+        this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
       }
       this.typeId = val.typeName
       this.personalForm.sourceSerialNumber = val.id
@@ -724,20 +706,11 @@ export default {
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
       this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
-      if (this.personalForm.checkQuantity < 3) {
-        this.personalForm.sampleQuantity = 1
-      }
-      if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
-        this.personalForm.sampleQuantity = 3
-      }
-      if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+      if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
       }
-      if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
-        this.personalForm.sampleQuantity = 8
-      }
-      if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
-        this.personalForm.sampleQuantity = 12
+      if (Number(this.personalForm.checkQuantity) >= 101) {
+        this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
       }
       // 增加明细
       this.adddetail(val.productCode)
@@ -837,17 +810,11 @@ export default {
       } else if (this.personalForm.checkMode === '1') {
         console.log('111')
         this.IsSampleQuantity = false
-        if (this.personalForm.checkQuantity >= 3 && this.personalForm.checkQuantity <= 100) {
-          this.personalForm.sampleQuantity = 3
-        }
-        if (this.personalForm.checkQuantity >= 101 && this.personalForm.checkQuantity <= 500) {
+        if (Number(this.personalForm.checkQuantity) <= 100) {
           this.personalForm.sampleQuantity = 5
         }
-        if (this.personalForm.checkQuantity >= 501 && this.personalForm.checkQuantity <= 1200) {
-          this.personalForm.sampleQuantity = 8
-        }
-        if (this.personalForm.checkQuantity >= 1201 && this.personalForm.checkQuantity <= 3200) {
-          this.personalForm.sampleQuantity = 12
+        if (Number(this.personalForm.checkQuantity) >= 101) {
+          this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
         }
       }
       this.personalForm.passQuantity = ''

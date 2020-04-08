@@ -35,6 +35,9 @@
               placement="bottom"
               width="500"
               trigger="click">
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter4"/>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -158,11 +161,13 @@ import Pagination from '@/components/Pagination'
 import { getStockInfoByProduct } from '@/api/Supplier'
 import MyTree from '../../Product/components/MyTree'
 import MyDetail from '../../StockRequire/components/MyDetail'
+import MySupplier from './MySupplier'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
-  components: { MyDetail, MyTree, Pagination },
+  components: { MyDetail, MyTree, Pagination, MySupplier },
   filters: {
     isPlanedFilter(status) {
       const statusMap = {
@@ -180,6 +185,8 @@ export default {
   },
   data() {
     return {
+      supplierId: '',
+      empcontrol: false,
       // 选择框控制
       employeeVisible: this.requirecontrol,
       // 选择数据
@@ -232,6 +239,16 @@ export default {
     _that = this
   },
   methods: {
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
+    },
     // 物料名称focus
     handleAddproduct() {
       this.control = true
@@ -274,6 +291,10 @@ export default {
     restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
+    },
+    restFilter4() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 搜索
     handleFilter() {

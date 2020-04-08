@@ -242,7 +242,7 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,

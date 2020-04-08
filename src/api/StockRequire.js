@@ -24,6 +24,9 @@ export function stockrequirelist(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }

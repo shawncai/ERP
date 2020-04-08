@@ -104,7 +104,7 @@
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
           <my-materials :materialcontrol.sync="control" @product4="productdetail4" @detailproduct="detailproduct"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button> -->
         </div>
         <div class="container">
           <el-editable
@@ -156,7 +156,8 @@
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/> -->
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -330,7 +331,24 @@ export default {
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
       const alldata = [...val, ...nowlistdata]
-      this.list3 = alldata
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      alldata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      this.list3 = newArr
     },
     // 清空记录
     restAllForm() {

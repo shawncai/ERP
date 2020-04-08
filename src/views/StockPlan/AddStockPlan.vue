@@ -957,15 +957,19 @@ export default {
       this.personalForm = {
         stockDeptId: this.$store.getters.deptId,
         createPersonId: this.$store.getters.userId,
+        stockPersonId: this.$store.getters.userId,
+        planPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        stockPersonId: this.$store.getters.userId,
-        planPersonId: this.$store.getters.userId,
+        planRepositoryId: this.$store.getters.repositoryId,
+        sourceType: '3',
+        totalQuantity: '',
+        allMoney: '',
         planDate: null
       }
       this.getdatatime()
-      this.planPersonId = this.$store.getters.userName
+      this.planPersonId = this.$store.getters.name
       this.stockPersonId = this.$store.getters.name
     },
     // 保存操作

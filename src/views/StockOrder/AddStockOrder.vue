@@ -165,10 +165,7 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
-            show-summary
             class="click-table1"
-
             stripe
             border
             size="medium"
@@ -558,6 +555,33 @@ export default {
       // 批量操作
       moreaction: []
     }
+  },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        console.log('list2', this.list2)
+        let num1 = 0
+        let num2 = 0
+        let num3 = 0
+        let num4 = 0
+        let num5 = 0
+        for (const i in this.list2) {
+          num1 += Number(this.list2[i].stockQuantity)
+          num2 += Number(this.list2[i].money)
+          num3 += Number(this.list2[i].tax)
+          num4 += Number(this.list2[i].includeTaxMoney)
+          num5 += Number(this.list2[i].discountMoney)
+        }
+        this.allNumber = num1
+        this.allMoney = num2
+        this.allTaxMoney = num3
+        this.allIncludeTaxMoney = num4
+        this.allDiscountMoney = num5
+        this.allMoneyMoveDiscount = num4 - num5
+      },
+      deep: true
+    }
+
   },
   created() {
     this.getTypes()
