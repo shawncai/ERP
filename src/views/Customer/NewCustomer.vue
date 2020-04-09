@@ -1,60 +1,81 @@
 <template>
   <div class="ERP-container">
-    <div class="app-container">
+    <div class="app-container" style="padding-right: 0">
       <!--零售客户-->
-      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container">
-        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('Customer.firstname')" prop="firstname" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.firstname" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.middlename')" prop="middlename" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.middlename" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.lastname')" prop="lastname" style="width: 40%">
-            <el-input v-model="customerForm.lastname" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.phone')" style="width: 40%">
-            <el-input v-model.number="customerForm.phone" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.phone12')" style="width: 40%">
-            <el-input v-model.number="customerForm.phone2" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.phone13')" style="width: 40%">
-            <el-input v-model.number="customerForm.phone3" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('updates2.landline')" style="width: 40%">
-            <el-input v-model="customerForm.landline" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 40%;margin-top:1%">
-            <el-radio-group v-model="customerForm.gender" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">{{ $t('public.male') }}</el-radio>
-              <el-radio :label="2">{{ $t('public.female') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <!--<el-form-item :label="$t('Customer.customertype2')" style="width: 40%;margin-top: 1%">-->
-          <!--<el-select v-model="customerForm.customertype" :value="customerForm.customertype" placeholder="请选择客户类型" style="width: 100%;">-->
-          <!--<el-option-->
-          <!--v-for="(item, index) in customertypes"-->
-          <!--:key="index"-->
-          <!--:value="item.id"-->
-          <!--:label="item.categoryName"/>-->
-          <!--</el-select>-->
-          <!--</el-form-item>-->
-          <el-form-item :label="$t('Customer.level')" style="width: 40%;margin-top: 1%">
-            <el-select ref="clear" v-model="customerForm.level" :value="customerForm.level" style="width: 100%;">
-              <el-option v-show="false" label="" value=""/>
-              <el-option
-                v-for="(item, index) in levels"
-                :key="index"
-                :value="item.id"
-                :label="item.categoryName"/>
-              <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
-              </template>
-            </el-select>
-          </el-form-item>
-          <!-- <el-form-item :label="$t('Customer.source')" style="width: 40%;margin-top: 1%">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.firstname')" prop="firstname" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerForm.firstname" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.middlename')" prop="middlename" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerForm.middlename" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.lastname')" prop="lastname" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerForm.lastname" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.phone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model.number="customerForm.phone" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.phone12')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model.number="customerForm.phone2" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.phone13')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model.number="customerForm.phone3" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates2.landline')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerForm.landline" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('Customer.gender')" prop="gender" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="customerForm.gender" style="width: 200px">
+                    <el-radio :label="1" style="width: 50%">{{ $t('public.male') }}</el-radio>
+                    <el-radio :label="2">{{ $t('public.female') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <!--<el-form-item :label="$t('Customer.customertype2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
+                <!--<el-select v-model="customerForm.customertype" :value="customerForm.customertype" placeholder="请选择客户类型" style="width: 100%;">-->
+                <!--<el-option-->
+                <!--v-for="(item, index) in customertypes"-->
+                <!--:key="index"-->
+                <!--:value="item.id"-->
+                <!--:label="item.categoryName"/>-->
+                <!--</el-select>-->
+                <!--</el-form-item>-->
+                <el-form-item :label="$t('Customer.level')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear" v-model="customerForm.level" :value="customerForm.level" style="width: 200px">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in levels"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <!-- <el-form-item :label="$t('Customer.source')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
             <el-select ref="clear2" v-model="customerForm.source" :value="customerForm.source" placeholder="请选择客户来源" style="width: 100%;">
               <el-option v-show="false" label="" value=""/>
               <el-option
@@ -67,62 +88,77 @@
               </template>
             </el-select>
           </el-form-item> -->
-          <el-form-item :label="$t('Customer.newold')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.newold" :value="customerForm.newold" :placeholder="$t('updates.qxz')" style="width: 100%;">
-              <el-option label="本店客户" value="1"/>
-              <el-option label="非本店客户" value="2"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('public.countyrId')" prop="countryid" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.countryid" style="width: 100%;" @change ="handlechange">
-              <el-option
-                v-for="(item, index) in nations"
-                :key="index"
-                :label="item.name"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.provinceid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.provinceid" style="width: 100%;" filterable @change="handlechange2">
-              <el-option
-                v-for="(item, index) in provinces"
-                :key="index"
-                :label="item.name"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.cityid')" style="width: 40%;margin-top: 1%">
-            <el-select v-model="customerForm.cityid" filterable style="width: 100%;">
-              <el-option
-                v-for="(item, index) in cities"
-                :key="index"
-                :label="item.name"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.address')" prop="address" style="width: 40%;margin-top:1%">
-            <el-input v-model="customerForm.address" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.birthday')" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="customerForm.birthday"
-              :placeholder="$t('updates.xzsr')"
-              type="date"
-              value-format="yyyy-MM-dd"
-              clearable
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('Customer.repositoryid')" prop="repositoryid" style="width: 40%;margin-top:1%">
-            <el-select v-model="customerForm.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable style="width: 100%;">
-              <el-option
-                v-for="(item, index) in repositories"
-                :key="index"
-                :label="item.repositoryName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
+                <el-form-item :label="$t('Customer.newold')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="customerForm.newold" :value="customerForm.newold" :placeholder="$t('updates.qxz')" style="width: 200px">
+                    <el-option label="本店客户" value="1"/>
+                    <el-option label="非本店客户" value="2"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.countyrId')" prop="countryid" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="customerForm.countryid" style="width: 200px" @change ="handlechange">
+                    <el-option
+                      v-for="(item, index) in nations"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.provinceid')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="customerForm.provinceid" style="width: 200px" filterable @change="handlechange2">
+                    <el-option
+                      v-for="(item, index) in provinces"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.cityid')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="customerForm.cityid" filterable style="width: 200px">
+                    <el-option
+                      v-for="(item, index) in cities"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.address')" prop="address" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerForm.address" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.birthday')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="customerForm.birthday"
+                    :placeholder="$t('updates.xzsr')"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    clearable
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.repositoryid')" prop="repositoryid" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="customerForm.repositoryid" :placeholder="$t('Hmodule.xzmd')" filterable style="width: 200px">
+                    <el-option
+                      v-for="(item, index) in repositories"
+                      :key="index"
+                      :label="item.repositoryName"
+                      :value="item.id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click v-permission="['1-14-15-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -424,17 +460,20 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin:0px 30px;
+   .ERP-container{
+    margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 30px;
     }
     .container{
-      margin-top: 2%;
-      border: 1px solid #eceff6;
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
     }
   }
 </style>

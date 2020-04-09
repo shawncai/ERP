@@ -1,5 +1,96 @@
 import request from '@/utils/request'
 
+// 预收款凭证
+export function addAdvanceVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('advanceId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addAdvanceVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 收车凭证
+export function addRecoverVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('recoverId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addRecoverVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分期改期凭证
+export function addChangeCountVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('changeId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addChangeCountVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售换货凭证
+export function addExchangeVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('exchangeId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addExchangeVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售退货凭证
+export function addReturnVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('returnId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addReturnVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售成本生成凭证
+export function addSaleCostVouche(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('outId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addSaleCostVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售出库生成凭证
+export function addSaleVoucher(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('outId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/addSaleVoucher',
+    method: 'post',
+    data: params
+  })
+}
+
 export function endProfit(query) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
@@ -59,6 +150,9 @@ export function addvoucher(query, query2, query3) {
 // 凭证列表
 export function voucherlist(query) {
   var params = new URLSearchParams()
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
   if (query.voucherId !== '' && query.voucherId !== null && query.voucherId !== undefined) {
     params.append('voucherId', query.voucherId) // 你要传给后台的参数值 key/value
   }
@@ -85,6 +179,9 @@ export function voucherlist(query) {
   }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.subjectCode !== '' && query.subjectCode !== null && query.subjectCode !== undefined) {
+    params.append('subjectCode', query.subjectCode) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/voucher/voucherlist',

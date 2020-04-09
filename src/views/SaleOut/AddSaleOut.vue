@@ -286,7 +286,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  v-if="isEdit3(scope.row)"
+                  v-if="isEdit5(scope.row)"
                   :precision="2"
                   :controls="false"
                   :min="1.00"
@@ -848,9 +848,10 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           console.log(this.list2[i].productCode)
-          num += this.list2[i].quantity
+          num += Number(this.list2[i].quantity)
+          console.log('num', num)
           num2 += Number(this.list2[i].discountMoney)
-          num1 += this.list2[i].includeTaxCostMoney
+          num1 += Number(this.list2[i].includeTaxCostMoney)
           productlist(this.list2[i].productCode).then(res => {
             if (res.data.ret === 200) {
               console.log(res.data.data.content.list[0].isBatch)
@@ -1210,6 +1211,12 @@ export default {
       //   }
       // }
     },
+    isEdit5(row) {
+      // console.log('222', row)
+      const re = row.productCode.slice(0, 2)
+      if (re !== '05' && re !== '01' && this.personalForm.sourceType !== '2') { return true } else { return false }
+      // return false
+    },
     isEdit4(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -1485,7 +1492,9 @@ export default {
         // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
         // console.log('顾客电话', this.personalForm.customerPhone)
-        this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        if (this.$store.getters.empcontract.saleType !== null && this.$store.getters.empcontract.saleType !== undefined && this.$store.getters.empcontract.saleType !== '') {
+          this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
+        }
         this.personalForm.payMode = this.$store.getters.empcontract.payMode
         this.personalForm.invoiceType = this.$store.getters.empcontract.invoiceType
         this.personalForm.salePersonId = this.$store.getters.empcontract.salePersonId
@@ -1825,7 +1834,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log(123)
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               const isoverdiscount = val / row.quantity
               console.log('isoverdiscount', isoverdiscount)
@@ -1854,7 +1869,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log('233')
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
@@ -2295,6 +2316,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '2',
+        couponMoney: 0,
         sendType: '2',
         sendDate: null,
         outDate: null,
@@ -2319,6 +2341,7 @@ export default {
       this.saleRepositoryId = this.$store.getters.repositoryName
       this.transferPersonId = null
       this.outPersonId = null
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {
@@ -2479,34 +2502,34 @@ export default {
               delete elem.point
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
+              elem.quantity = 0
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
+              elem.salePrice = 0
             }
             if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
+              elem.costPrice = 0
             }
             if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
+              elem.costMoney = 0
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
+              elem.includeTaxMoney = 0
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
+              elem.taxRate = 0
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
               elem.taxRate = elem.taxRate / 100
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
+              elem.taxMoney = 0
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
+              elem.money = 0
             }
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
+              elem.includeTaxCostMoney = 0
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               elem.discountRate = 0
@@ -2771,25 +2794,25 @@ export default {
           delete elem.costPrice
         }
         if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          delete elem.costMoney
+          elem.costMoney = 0
         }
         if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
+          elem.includeTaxMoney = 0
         }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
+          elem.taxRate = 0
         }
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
           elem.taxRate = elem.taxRate / 100
         }
         if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
+          elem.taxMoney = 0
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
+          elem.money = 0
         }
         if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          delete elem.includeTaxCostMoney
+          elem.includeTaxCostMoney = 0
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           elem.discountRate = 0

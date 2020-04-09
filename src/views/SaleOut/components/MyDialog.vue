@@ -207,14 +207,30 @@
               </el-form-item>
               <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
                 <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px" disabled>
                   <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                   <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
+            </el-col> -->
+            <!--
+            <el-col :span="12">
+              <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
+                <span>{{ personalForm.isFree | isFreeTypeFilter }}</span>
+              </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('tongyo.useType')" style="width: 100%;">
+                <span>{{ personalForm.useType | useTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('tongyo.useMonth')" style="width: 100%;">
+                <span>{{ personalForm.useMonth }}</span>
+              </el-form-item>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -275,7 +291,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                v-if="isEdit3(scope.row)"
+                v-if="isEdit5(scope.row)"
                 :precision="2"
                 :controls="false"
                 :min="1.00"
@@ -364,11 +380,23 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+              <span v-else>{{ scope.row.chargeCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+              <span v-else>{{ scope.row.controlCode }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card v-if="showreturn === false" class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
@@ -434,6 +462,69 @@
         </el-editable>
       </div>
     </el-card>
+
+    <!--  退货入库 -->
+    <el-card v-if="showreturn" class="box-card" style="margin-top: 15px">
+      <h2 ref="fuzhu" class="form-name">{{ $t('tongyo.zbthd') }}</h2>
+      <div class="buttons" style="margin-top: 58px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddreturnproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button type="danger" @click="$refs.editable3.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <my-return :control.sync="control2" @product="productdetail2"/>
+      <div class="container">
+        <el-editable
+          ref="editable3"
+          :data.sync="returnlist"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column label="编号" width="55" align="center" type="index"/>
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="200px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productTypeName" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+          <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-if="isEdit5(scope.row)"
+                :controls="false"
+                :min="1.00"
+                v-model="scope.row.quantity"
+                @change="returnquanty(scope.row)"
+              />
+              <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+              <span v-else>{{ scope.row.quantity }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit6(scope.row)" v-model="scope.row.batteryCode" clearable/>
+              <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
+
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
@@ -508,6 +599,7 @@
 </template>
 
 <script>
+import { batteryList2, searchDiffPrice } from '@/api/DiffPrice'
 import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
@@ -534,11 +626,28 @@ import MyOpportunity from './MyOpportunity'
 import MyDetail2 from './MyDetail2'
 import MyPackage from './MyPackage'
 import MyContract from './MyContract'
+import MyReturn from './MyReturn'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'MyDialog',
-  components: { MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  filters: {
+    isFreeTypeFilter(sta) {
+      const statusMap = {
+        1: 'yes',
+        2: 'no'
+      }
+      return statusMap[sta]
+    },
+    useTypeFilter(sta) {
+      const statusMap = {
+        1: _that.$t('tongyo.jy'),
+        2: _that.$t('tongyo.yy')
+      }
+      return statusMap[sta]
+    }
+  },
+  components: { MyReturn, MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -620,6 +729,14 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      controlcategorysdetail: [],
+      chargecategorysdetail: [],
+      diffpricelist: [],
+      showreturn: false,
+      control2: false,
+      // 退货入库数据
+      returnlist: [],
+
       moreaction: '',
       // 赠品选择控制
       packagecontrol: false,
@@ -762,6 +879,11 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      if (this.personalForm.saleOutRetreatVos.length === 0) {
+        this.showreturn = false
+      } else {
+        this.showreturn = true
+      }
       if (this.personalForm.sourceType === '5' || this.personalForm.sourceType === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
@@ -840,6 +962,7 @@ export default {
         }
       }
       this.list3 = this.personalForm.saleOutGiftVos
+      this.returnlist = this.personalForm.saleOutRetreatVos
       // for (const i in this.list2) {
       //   this.list3[i].location = this.list3[i].locationName
       // }
@@ -850,6 +973,8 @@ export default {
       this.outPersonId = this.personalForm.outPersonName
       this.customerPhone = this.personalForm.customerPhone
       this.updatebatch()
+      // this.getlocations()
+      // this.getdiffprice()
     },
     // 监听明细表计算合计
     list2: {
@@ -859,9 +984,9 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           // console.log(typeof (this.list2[i].taxprice))
-          num += this.list2[i].quantity
+          num += Number(this.list2[i].quantity)
           num2 += Number(this.list2[i].discountMoney)
-          num1 += this.list2[i].includeTaxCostMoney
+          num1 += Number(this.list2[i].includeTaxCostMoney)
         }
         this.heji1 = num
         this.heji3 = num1
@@ -896,6 +1021,94 @@ export default {
     _that = this
   },
   methods: {
+    getdiffprice() {
+      searchDiffPrice(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.diffpricelist = res.data.data.content.list
+        }
+      })
+    },
+    getlocations() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
+    sum(arr) {
+      if (arr.length === 0) {
+        return 0
+      } else {
+        // eslint-disable-next-line no-eval
+        return eval(arr.join('+'))
+      }
+    },
+    returnquanty(row) {
+
+    },
+    updatebatchreturnpro(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.saleRepositoryId)
+        if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.sqslcg'),
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.saleRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.saleRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    productdetail2(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable3.getRecords()
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.returnlist = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
+    },
+    handleAddreturnproduct() {
+      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
+      const outproduct = this.$refs.editable.getRecords()
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzck'),
+          offset: 100
+        })
+        return false
+      } else if (outproduct.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.qxxzcknr'),
+          offset: 100
+        })
+        return false
+      } else {
+        this.control2 = true
+      }
+    },
+
     switchsaletype(val) {
       console.log('val', val)
       if (val === '1' && this.personalForm.sourceType === '2') {
@@ -941,6 +1154,7 @@ export default {
     },
     getReceivableMoney() {
       console.log('666', 666)
+      console.log('this.personfomr', this.personalForm)
       if (!this.personalForm.pointSupport) {
         this.personalForm.pointSupport = 0
       }
@@ -963,7 +1177,7 @@ export default {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+      if ((this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') && this.personalForm.useMonth === null) {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
@@ -975,6 +1189,37 @@ export default {
         this.$set(this.personalForm, 'receivableMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+      } else if (this.personalForm.useMonth !== null) {
+        const allbattery = this.$refs.editable.getRecords()
+        console.log('allbattery', allbattery)
+        console.log('this.diffpricelist', this.diffpricelist)
+        const filtertypes = this.diffpricelist.filter(item => {
+          return item.useType === Number(this.personalForm.useType)
+        })
+        console.log('filtertypes', filtertypes)
+        const filtermonth = filtertypes.filter(item => {
+          return item.useMonth === Number(this.personalForm.useMonth)
+        })
+        console.log('filtermonth', filtermonth)
+        const filterfinally = filtermonth.filter(item => {
+          return item.categoryId === allbattery[0].category
+        })
+        console.log('filterfinally', filterfinally)
+        // this.diffpricelist
+        if (filterfinally.length !== 0) {
+          let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'receivableMoney', needmoney)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        } else {
+          this.$set(this.personalForm, 'receivableMoney', 0)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', 0)
+        }
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('123', 123)
         let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
@@ -1162,6 +1407,36 @@ export default {
           }
         })
       }
+    },
+    isEdit8(row) {
+      console.log('row', row)
+      if (this.controlcategorysdetail.includes(row.category)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isEdit7(row) {
+      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
+      if (this.chargecategorysdetail.includes(row.category)) {
+        console.log('trueistrue')
+        return true
+      } else {
+        console.log('falsefalse')
+        return false
+      }
+    },
+    isEdit6(row) {
+      const re = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re === '01' || re === '05') { return true } else { return false }
+    },
+    isEdit5(row) {
+      const re = row.productCode.slice(0, 2)
+      if (re !== '05' && re !== '01' && this.personalForm.sourceType !== '2') { return true } else { return false }
     },
     isEdit4(row) {
       // console.log('222', row)
@@ -1651,7 +1926,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log(123)
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               const isoverdiscount = val / row.quantity
               console.log('isoverdiscount', isoverdiscount)
@@ -1680,7 +1961,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log('233')
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.includeTaxCostMoney
@@ -2004,6 +2291,22 @@ export default {
           this.payModes = res.data.data.content.list
         }
       })
+
+      batteryList2(14).then(res => {
+        if (res.data.ret === 200) {
+          this.chargecategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
+
+      batteryList2(8).then(res => {
+        if (res.data.ret === 200) {
+          this.controlcategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
     },
     // 销售人员focus事件
     handlechooseStock() {
@@ -2048,15 +2351,19 @@ export default {
     },
     // 修改和取消按钮
     // 修改按钮
-    handleEditok() {
-      delete this.personalForm.saleOutDetailVos
-      delete this.personalForm.approvalUseVos
-      delete this.personalForm.saleOutGiftVos
-      delete this.personalForm.judgeStat
-      delete this.personalForm.receiptStat
-      delete this.personalForm.isDeliver
-      delete this.personalForm.payType
-      delete this.personalForm.currency
+    async handleEditok() {
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
       const EnterDetailgift = this.$refs.editable2.getRecords()
       // 批次货位不能为空
       let j = 1
@@ -2076,6 +2383,17 @@ export default {
         })
         return false
       }
+
+      delete this.personalForm.saleOutRetreatVos
+      delete this.personalForm.saleOutDetailVos
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.saleOutGiftVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.isDeliver
+      delete this.personalForm.payType
+      delete this.personalForm.currency
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           if (this.personalForm.sourceType === '5') {
@@ -2119,7 +2437,29 @@ export default {
                 m = 3
               }
             }
+            if (controlcategorysdetail.includes(elem.category) && (elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '')) {
+              m = 4
+            }
+            if (chargecategorysdetail.includes(elem.category) && (elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '')) {
+              m = 5
+            }
           })
+          if (m === 5) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.cdqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
+          if (m === 4) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.kzqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',
@@ -2393,12 +2733,12 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
-      this.$refs.editable2.clear()
-      this.$refs.personalForm.clearValidate()
-      this.$refs.personalForm.resetFields()
-      this.$refs.personalForm2.clearValidate()
-      this.$refs.personalForm2.resetFields()
+      // this.$refs.editable.clear()
+      // this.$refs.editable2.clear()
+      // this.$refs.personalForm.clearValidate()
+      // this.$refs.personalForm.resetFields()
+      // this.$refs.personalForm2.clearValidate()
+      // this.$refs.personalForm2.resetFields()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

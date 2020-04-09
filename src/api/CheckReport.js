@@ -25,6 +25,9 @@ export function addqualitycheck(query, query2, query3) {
 // 质检报告单列表
 export function checkreportlist(query) {
   var params = new URLSearchParams()
+  if (query.checkResult !== '' && query.checkResult !== null && query.checkResult !== undefined) {
+    params.append('checkResult', query.checkResult) // 你要传给后台的参数值 key/value
+  }
   if (query.reportNumber !== '' && query.reportNumber !== null && query.reportNumber !== undefined) {
     params.append('reportNumber', query.reportNumber) // 你要传给后台的参数值 key/value
   }
@@ -69,6 +72,9 @@ export function checkreportlist(query) {
   }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
   }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value

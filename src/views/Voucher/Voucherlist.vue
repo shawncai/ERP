@@ -145,7 +145,7 @@
         </el-table-column>
         <el-table-column :label="$t('Voucher.kjkm')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.subjectName }}</span>
+            <span class="link-type" @click="handleDetailsubject(scope.row)">{{ scope.row.subjectName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Voucher.bb')" :resizable="false" align="center" min-width="150">
@@ -199,6 +199,85 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
+      <el-dialog :visible.sync="samecodevisible" title="科目代码" class="normal" width="80%" center>
+        <el-table
+          :data="samedata"
+          :span-method="arraySpanMethod2"
+          border>
+          <el-table-column :label="$t('Voucher.rq')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.createDate }}</span>
+            </template>
+            <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.pzzh')" :resizable="false" fixed="left" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.voucherNo }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.qy')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.regionName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.md')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.repositoryName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.zy')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.summary }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.kmdm')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.subjectCode }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.kjkm')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.subjectName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.bb')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.currency | currencyFilter }}</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column :label="$t('Voucher.hl')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.rate }}</span>
+          </template>
+        </el-table-column> -->
+          <!-- <el-table-column :label="$t('Voucher.ybje')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.primevalMoney }}</span>
+          </template>
+        </el-table-column> -->
+          <el-table-column :label="$t('Voucher.jfje')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.debitMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.dfje')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.creditMoney }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.zdr')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.createPersonName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('Voucher.ywzt')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.voucherStat | voucherStatFilter }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
       <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
@@ -280,6 +359,9 @@ export default {
   },
   data() {
     return {
+      spanArr2: [],
+      samecodevisible: false,
+      samedata: [],
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() > Date.now()
@@ -367,6 +449,82 @@ export default {
     }, 100)
   },
   methods: {
+    getSpanArr2(data) {
+      this.spanArr2 = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr2.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].voucherId === data[i - 1].voucherId) {
+            this.spanArr2[this.pos] += 1
+            this.spanArr2.push(0)
+          } else {
+            this.spanArr2.push(1)
+            this.pos = i
+          }
+        }
+      }
+    },
+    handleDetailsubject(row) {
+      console.log('row', row)
+      const serachparms = {
+        subjectCode: row.subjectCode,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      voucherlist(serachparms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res)
+          const resarr = res.data.data.content
+          const arrlistz = resarr.map(item => {
+            return item.voucherDetails
+          })
+          const arrlist = [].concat.apply([], arrlistz)
+
+          const arrlist2 = [].concat.apply([], arrlist)
+
+          for (const i in resarr) {
+            for (const j in arrlist2) {
+              if (resarr[i].id === arrlist2[j].voucherId) {
+                arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
+                arrlist2[j].voucherStat = resarr[i].voucherStat
+                arrlist2[j].voucherNo = resarr[i].voucherNo
+                arrlist2[j].createDate = resarr[i].createDate
+                arrlist2[j].createPersonName = resarr[i].createPersonName
+              }
+            }
+          }
+          // console.log('arrlist2=====', arrlist2)
+          // this.list = arrlist2
+          if (this.switchparms === 1) {
+            this.samedata = arrlist2.filter(item => {
+              return (item.total === 1 || item.total === 3)
+            })
+            this.switchparms = 2
+            console.log('this.samedata', this.samedata)
+          } else if (this.switchparms === 2) {
+            this.samedata = arrlist2.filter(item => {
+              return (item.total === 2 || item.total === 3)
+            })
+            this.switchparms = 1
+            for (const i in this.samedata) {
+              this.samedata[i].currency = 1
+              if (this.samedata[i].creditMoney === null) {
+                this.samedata[i].creditMoney = 0
+              }
+              if (this.samedata[i].debitMoney === null) {
+                this.samedata[i].debitMoney = 0
+              }
+            }
+            console.log('this.list', this.samedata)
+          }
+          this.getSpanArr2(this.samedata)
+          this.samecodevisible = true
+        }
+      })
+    },
     handleMyReceipt1(row) {
       this.$confirm('请确认结转库房支出', '确认', {
         distinguishCancelAndClose: true,
@@ -479,6 +637,46 @@ export default {
             this.spanArr.push(1)
             this.pos = i
           }
+        }
+      }
+    },
+    arraySpanMethod2({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr2[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex === 0) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 1) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 2) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 11) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 12) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 13) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 15) {
+        return {
+          rowspan: _row,
+          colspan: _col
         }
       }
     },

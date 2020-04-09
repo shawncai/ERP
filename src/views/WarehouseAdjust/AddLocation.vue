@@ -2,44 +2,44 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.locationCode')" prop="locationCode" style="width: 100%;">
-                  <el-input v-model="personalForm.locationCode" placeholder="请输入货位编号" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('WarehouseAdjust.locationCode')" prop="locationCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.locationCode" placeholder="请输入货位编号" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.locationName')" prop="locationName" style="width: 100%;">
-                  <el-input v-model="personalForm.locationName" placeholder="请输入货位名称" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('WarehouseAdjust.locationName')" prop="locationName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.locationName" placeholder="请输入货位名称" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.length')" prop="length" style="width: 100%;">
-                  <el-input v-model="personalForm.length" placeholder="请输入货位长" style="margin-left: 18px;width:200px" clearable>
+                <el-form-item :label="$t('WarehouseAdjust.length')" prop="length" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.length" placeholder="请输入货位长" style="width: 200px" clearable>
                     <template slot="append">M</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.width')" prop="width" style="width: 100%;">
-                  <el-input v-model="personalForm.width" placeholder="请输入货位宽" style="margin-left: 18px;width:200px" clearable>
+                <el-form-item :label="$t('WarehouseAdjust.width')" prop="width" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.width" placeholder="请输入货位宽" style="width: 200px" clearable>
                     <template slot="append">M</template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.height')" prop="height" style="width: 100%;">
-                  <el-input v-model="personalForm.height" placeholder="请输入货位高" style="margin-left: 18px;width:200px" clearable>
+                <el-form-item :label="$t('WarehouseAdjust.height')" prop="height" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.height" placeholder="请输入货位高" style="width: 200px" clearable>
                     <template slot="append">M</template>
                 </el-input></el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.repositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('WarehouseAdjust.repositoryId')" prop="repositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="width: 200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
               </el-col>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/><br>
@@ -209,13 +209,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

@@ -1,17 +1,17 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.fllb')" class="filter-item" clearable @keyup.enter.native="handleFilter">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+      <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.fllb')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter">
         <el-option label="合同属性" value="1"/>
         <el-option label="职位类别" value="2"/>
         <el-option label="合同类别" value="3"/>
       </el-select>
-      <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('updates.qyzt')" class="filter-item" clearable @keyup.enter.native="handleFilter">
+      <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('updates.qyzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter">
         <el-option :label="$t('updates.qy')" value="1"/>
         <el-option :label="$t('updates.ty')" value="2"/>
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
       <!-- <el-row :gutter="10">
         <el-col :span="5"/>
@@ -23,10 +23,10 @@
       <!-- </el-col>
       </el-row> -->
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves size="small" class="filter-item2" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -34,11 +34,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-2-8-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-2-8-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-2-8-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-2-8-7']" v-waves icon="el-icon-printer" size="small" class="filter-item2" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-2-8-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-2-8-1']" v-waves icon="el-icon-plus" type="success" size="small" class="filter-item2" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
@@ -65,16 +65,20 @@
       </el-dialog>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -171,6 +175,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 批量删除参数
       moreaction: [],
       // 新增窗口
@@ -235,14 +240,24 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
+
     checkPermission,
     getlist() {
       // 员工列表数据
@@ -490,15 +505,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    padding: 10px 0;
     width: 180px;
-    margin-left: 20px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

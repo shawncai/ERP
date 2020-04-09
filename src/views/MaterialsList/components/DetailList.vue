@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: 63px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
+        <button class="print" style="font-size: 13px;background: white;" @click="handleExport">{{ $t('public.export') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -168,7 +169,8 @@ export default {
       const statusMap = {
         1: '工艺BOM',
         2: '设计BOM',
-        3: '制造BOM'
+        3: '制造BOM',
+        4: '采购BOM'
       }
       return statusMap[status]
     },
@@ -230,6 +232,25 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    handleExport() {
+      const arr = this.cutnull(this.list2)
+      console.log('arr', arr)
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['子件', '子件名称', '规格', '单位', '数量']
+        const filterVal = ['productCode', 'productName', 'productType', 'unit', 'quantity']
+        const data = this.formatJson(filterVal, arr)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '父件为' + this.personalForm.productName + '物料清单表'
+        })
+      })
+    },
     handlecancel() {
       this.editVisible = false
     },

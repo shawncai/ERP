@@ -104,7 +104,7 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.zcmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button @click="insertEvent(-1)">添加支出项</el-button>
+        <el-button @click="insertEvent(-1)">{{ $t('tongyo.tjzcx') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -121,7 +121,7 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="setcarst" align="center" min-width="150px">
+          <!-- <el-editable-column :edit-render="{name: 'ElCascader', type: 'visible'}" :label="$t('updates.kmmc')" prop="setcarst" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-cascader
                 v-model="scope.row.setcarst"
@@ -130,6 +130,17 @@
                 :show-all-levels="false"
                 filterable
                 @change="test(scope.row,$event)"/>
+            </template>
+          </el-editable-column> -->
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.subjectCode" :value="scope.row.subjectCode" :placeholder="$t('updates.kmmc')" filterable style="width: 100%;" @change="test(scope.row,$event)">
+                <el-option
+                  v-for="(item, index) in accountcodes"
+                  :key="index"
+                  :value="item.itemCode"
+                  :label="item.itemName"/>
+              </el-select>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
@@ -149,7 +160,7 @@
 import { searchAccount } from '@/api/AccountManagement'
 import { updateexpenses } from '@/api/Expenses'
 import { regionlist } from '@/api/public'
-import { subjectList } from '@/api/SubjectFinance'
+import { subjectList, itemList } from '@/api/SubjectFinance'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
@@ -184,6 +195,7 @@ export default {
       }
     }
     return {
+      accountcodes: [],
       accounts: [],
       accountsparm: {
         pageNum: 1,
@@ -257,6 +269,7 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.getitemList()
     },
     editdata() {
       this.personalForm = this.editdata
@@ -275,6 +288,38 @@ export default {
     _that = this
   },
   methods: {
+    getitemList() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId === 0) {
+        const parms = {
+          subjectId: 138
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      } else {
+        const parms = {
+          subjectId: 137
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      }
+    },
     getaccounts() {
       searchAccount(this.accountsparm).then(res => {
         if (res.data.ret === 200) {
@@ -363,12 +408,12 @@ export default {
     },
     test(row, val) {
       console.log(row, val)
-      const finid = val[val.length - 1]
-      const needata = this.findtreedata(this.treedata, finid)
-      console.log('needata', needata)
-      row.subjectName = needata.subjectName
-      row.subjectCode = needata.subjectNumber
-      console.log('this.treedata', this.treedata)
+      const accountsname = this.accountcodes.find(item => {
+        return item.itemCode === val
+      })
+      console.log('accountsname', accountsname)
+      row.subjectName = accountsname.itemName
+      // row.subjectCode = needata.subjectNumber
     },
     gettree() {
       console.log(123)

@@ -27,10 +27,12 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :data="list"
         :cell-style="myTable"
         :header-cell-style="myytablehead"
         :summary-method="getSummaries2"
+        :height="tableHeight"
         show-summary
         border
         style="width: 100%">
@@ -107,7 +109,11 @@
           :label="$t('collectAndPayDetail.transferExpense')"
           prop="transferExpense"
           width="240"
-          align="center"/>
+          align="center">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail2(scope.row)">{{ scope.row.transferExpense }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('collectAndPay.totalPay')"
           prop="totalPay"
@@ -122,7 +128,11 @@
           :label="$t('collectAndPayDetail.transferReceipt')"
           prop="transferReceipt"
           width="240"
-          align="center"/>
+          align="center">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.transferReceipt }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('collectAndPay.outlay')"
           prop="outlay"
@@ -137,10 +147,54 @@
       <!-- 列表结束 -->
       <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
+    <el-dialog :visible.sync="paydetail" title="收付款明细" class="normal" width="70%">
+      <el-table
+        :data="paydata"
+        border
+        style="width: 100%">
+        <el-table-column :label="$t('Transfer.transferDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transferDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Transfer.title')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Transfer.transferTicket')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transferTicket }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Transfer.transferMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allmoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Transfer.handlePersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.handlePersonName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('Transfer.transferInAccount')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transferInAccount }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Transfer.transferInBank')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transferInBank }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { searchtransfer } from '@/api/Transfer'
 import { searchStockCategory } from '@/api/StockCategory'
 import { collectAndPay } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
@@ -197,6 +251,13 @@ export default {
   },
   data() {
     return {
+      tableHeight: 50,
+      detailparms: {
+        pageNum: 1,
+        pageSize: 99999
+      },
+      paydata: [],
+      paydetail: false,
       // 加载表格
       listLoading: true,
       categoryId: '',
@@ -276,11 +337,86 @@ export default {
   mounted() {
     this.getdatatime()
     this.changeName()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    handleDetail2(row) {
+      console.log('row', row.id)
+      this.detailparms.repositoryId = row.id
+      this.detailparms.regionIds = this.$store.getters.regionIds
+      if (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0) {
+        this.detailparms.beginTime = ''
+        this.detailparms.endTime = ''
+      } else {
+        this.detailparms.beginTime = this.date[0] + ' 00:00:00'
+        this.detailparms.endTime = this.date[1] + ' 23:59:59'
+      }
+      searchtransfer(this.detailparms).then(res => {
+        if (res.data.ret === 200) {
+          this.paydata = res.data.data.content.list.filter(item => {
+            return item.direction === 2
+          })
+          for (const i in this.paydata) {
+            this.paydata[i].allmoney = 0
+            for (const j in this.paydata[i].transferDetailVos) {
+              this.paydata[i].allmoney += this.paydata[i].transferDetailVos[j].money
+            }
+          }
+          console.log('this.paydata', this.paydata)
+          // const paydatadetail = res.data.data.content.list.map(item => {
+          //   return item.transferDetailVos
+          // })
+          // const arrdetail = [].concat.apply([], paydatadetail)
+          // let allmoney = 0
+          // for (const i in arrdetail) {
+          //   allmoney += arrdetail[i].money
+          // }
+          // console.log('allmoney', allmoney)
+          this.paydetail = true
+        }
+      })
+    },
+    handleDetail(row) {
+      console.log('row', row.id)
+      this.detailparms.repositoryId = row.id
+      this.detailparms.regionIds = this.$store.getters.regionIds
+      if (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0) {
+        this.detailparms.beginTime = ''
+        this.detailparms.endTime = ''
+      } else {
+        this.detailparms.beginTime = this.date[0] + ' 00:00:00'
+        this.detailparms.endTime = this.date[1] + ' 23:59:59'
+      }
+      searchtransfer(this.detailparms).then(res => {
+        if (res.data.ret === 200) {
+          this.paydata = res.data.data.content.list.filter(item => {
+            return item.direction === 1
+          })
+          for (const i in this.paydata) {
+            this.paydata[i].allmoney = 0
+            for (const j in this.paydata[i].transferDetailVos) {
+              this.paydata[i].allmoney += this.paydata[i].transferDetailVos[j].money
+            }
+          }
+          console.log('this.paydata', this.paydata)
+          // const paydatadetail = res.data.data.content.list.map(item => {
+          //   return item.transferDetailVos
+          // })
+          // const arrdetail = [].concat.apply([], paydatadetail)
+          // let allmoney = 0
+          // for (const i in arrdetail) {
+          //   allmoney += arrdetail[i].money
+          // }
+          // console.log('allmoney', allmoney)
+          this.paydetail = true
+        }
+      })
+    },
     // 总计
     getSummaries2(param) {
       const { columns, data } = param
@@ -578,12 +714,12 @@ export default {
         this.getlist()
       }
     },
-    // 详情操作
-    handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-    },
+    // // 详情操作
+    // handleDetail(row) {
+    //   console.log(row)
+    //   this.detailvisible = true
+    //   this.personalForm = Object.assign({}, row)
+    // },
     // 判断审核按钮
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {

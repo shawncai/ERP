@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Expenses.expensesRepositoryId')" style="width: 100%;">
-                  <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                  <el-input v-model="expensesRepositoryId" style="margin-left: 18px;width: 200px" disabled @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
@@ -105,7 +105,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zcmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="insertEvent(-1)">添加支出项</el-button>
+          <el-button @click="insertEvent(-1)">{{ $t('tongyo.tjzcx') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -122,7 +122,7 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
+            <!-- <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('updates.kmmc')" prop="subjectFinance" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-cascader
                   v-model="scope.row.subjectFinance"
@@ -131,6 +131,17 @@
                   :show-all-levels="false"
                   filterable
                   @change="test(scope.row,$event)"/>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.subjectCode" :value="scope.row.subjectCode" :placeholder="$t('updates.kmmc')" filterable style="width: 100%;" @change="test(scope.row,$event)">
+                  <el-option
+                    v-for="(item, index) in accountcodes"
+                    :key="index"
+                    :value="item.itemCode"
+                    :label="item.itemName"/>
+                </el-select>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
@@ -148,7 +159,7 @@
 
 <script>
 import { searchAccount } from '@/api/AccountManagement'
-import { subjectList } from '@/api/SubjectFinance'
+import { subjectList, itemList } from '@/api/SubjectFinance'
 import '@/directive/noMoreClick/index.js'
 import { createexpenses } from '@/api/Expenses'
 import { searchCategory } from '@/api/Supplier'
@@ -177,6 +188,7 @@ export default {
       }
     }
     return {
+      accountcodes: [],
       accounts: [],
       accountsparm: {
         pageNum: 1,
@@ -261,11 +273,44 @@ export default {
     this.getdatatime()
     this.getTypes()
     this.gettree()
+    this.getitemList()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getitemList() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId === 0) {
+        const parms = {
+          subjectId: 138
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      } else {
+        const parms = {
+          subjectId: 137
+        }
+        itemList(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.accountcodes = res.data.data.content.map(item => {
+              return {
+                itemName: item.itemCode + ' ' + item.itemName,
+                itemCode: item.itemCode
+              }
+            })
+          }
+        })
+      }
+    },
     switchtreedata(val) {
       for (const i in val) {
         if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
@@ -341,12 +386,12 @@ export default {
     },
     test(row, val) {
       console.log(row, val)
-      const finid = val[val.length - 1]
-      const needata = this.findtreedata(this.treedata, finid)
-      console.log('needata', needata)
-      row.subjectName = needata.subjectName
-      row.subjectCode = needata.subjectNumber
-      console.log('this.treedata', this.treedata)
+      const accountsname = this.accountcodes.find(item => {
+        return item.itemCode === val
+      })
+      console.log('accountsname', accountsname)
+      row.subjectName = accountsname.itemName
+      // row.subjectCode = needata.subjectNumber
     },
     gettree() {
       console.log(123)
@@ -477,12 +522,11 @@ export default {
       //   repositoryId: this.$store.getters.repositoryId,
       //   regionId: this.$store.getters.regionId,
       //   currency: '1',
-      //   handlePersonId: this.$store.getters.userId
+      //   handlePersonId: this.$store.getters.userId,
+      //   expensesRegionId: this.$store.getters.regionId
       // }
+      // // eslint-disable-next-line no-sequences
       // this.handlePersonId = this.$store.getters.name,
-      // this.personalForm.handlePersonId = null
-      // this.expensesRepositoryId = null
-      // this.personalForm.expensesRepositoryId = null
     },
     // 保存操作
     handlesave() {

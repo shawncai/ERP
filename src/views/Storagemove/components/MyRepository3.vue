@@ -42,6 +42,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -189,16 +190,17 @@ export default {
   methods: {
     // 批量操作
     handleSelectionChange(rows) {
+      console.log('rows', rows)
       this.moreaction = rows
-      this.select_order_number = this.moreaction.length
-      this.select_orderId = []
-      if (rows) {
-        rows.forEach(row => {
-          if (row) {
-            this.select_orderId.push(row.id)
-          }
-        })
-      }
+      // this.select_order_number = this.moreaction.length
+      // this.select_orderId = []
+      // if (rows) {
+      //   rows.forEach(row => {
+      //     if (row) {
+      //       this.select_orderId.push(row.id)
+      //     }
+      //   })
+      // }
     },
     getlist() {
       // 国家列表
@@ -269,6 +271,7 @@ export default {
     handleConfirm() {
       this.$emit('repositoryname', this.moreaction)
       this.repositoryVisible = false
+      this.$refs.multipleTable.clearSelection()
     },
     // 选择仓库数据时的操作
     handleCurrentChange(val) {

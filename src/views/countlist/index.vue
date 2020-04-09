@@ -43,39 +43,44 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :summary-method="getSummaries2"
+        :height="tableHeight"
+        show-summary
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="55"
+          min-width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockAlarm.code')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('StockAlarm.code')" :resizable="false" prop="code" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.code }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockAlarm.productName')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('StockAlarm.productName')" :resizable="false" prop="productName" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockAlarm.typeName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockAlarm.typeName')" :resizable="false" prop="typeName" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.typeName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('inventoryCollect.color')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('inventoryCollect.color')" :resizable="false" prop="color" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.color }}</span>
           </template>
@@ -85,12 +90,12 @@
             <span>{{ scope.row.stockMeasurement }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockAlarm.salePrice')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('StockAlarm.salePrice')" :resizable="false" prop="salePrice" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.salePrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('countlist.ableStock')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('countlist.ableStock')" :resizable="false" prop="ableStock" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.ableStock }}</span>
           </template>
@@ -100,17 +105,17 @@
             <span>{{ scope.row.locationCode }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('countlist.existStock')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('countlist.existStock')" :resizable="false" prop="existStock" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.existStock }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('countlist.onStock')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('countlist.onStock')" :resizable="false" prop="onStock" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.onStock }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('countlist.safeStock')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('countlist.safeStock')" :resizable="false" prop="safeStock" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.safeStock }}</span>
           </template>
@@ -122,7 +127,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
     </el-card>
   </div>
 </template>
@@ -157,6 +162,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       types: [],
       todaydate: null,
       repositorycontrol2: false,
@@ -172,7 +178,7 @@ export default {
       // 预警列表传参数据
       getemplist: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 999999999,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds
@@ -195,16 +201,64 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.getdatatime()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-
+    // 总计
+    getSummaries2(param) {
+      console.log(param)
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        if (index === 1) {
+          sums[index] = ''
+          return
+        }
+        if (index === 2) {
+          sums[index] = ''
+          return
+        }
+        if (index === 3) {
+          sums[index] = ''
+          return
+        }
+        if (index === 5) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     // 清空搜索仓库选择
     clearFilter() {
       console.log(123)
@@ -230,7 +284,9 @@ export default {
       this.listLoading = true
       countlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
           this.total = res.data.data.content.totalCount
           this.listLoading = false
         }
@@ -249,7 +305,9 @@ export default {
       this.getemplist.pageNum = 1
       countlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
@@ -333,7 +391,10 @@ export default {
           // this.list = res.data.data.content.list
           // this.total = res.data.data.content.totalCount
           // this.restFilter()
-          const tabeldata = this.cutnull(res.data.data.content.list)
+          const nozerodata = res.data.data.content.list.filter(item => {
+            return item.existStock !== 0
+          })
+          const tabeldata = this.cutnull(nozerodata)
           if (res.data.data.content.list.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -355,7 +416,7 @@ export default {
                 { field: 'onStock', displayName: 'stocks intransit', columnSize: `100px` },
                 { field: 'ableStock', displayName: 'available stocks', columnSize: `100px` },
                 { field: 'safeStock', displayName: 'safe stocks', columnSize: `100px` },
-                { field: 'locationName', displayName: 'location', columnSize: `100px` }
+                { field: 'locationCode', displayName: 'location', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
                     <div class="custom-p"></div>

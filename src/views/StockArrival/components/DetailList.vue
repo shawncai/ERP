@@ -29,6 +29,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="arrivalRepositoryId" style="width: 100%;">
+                  <span>{{ personalForm.arrivalRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.stockPersonId')" prop="stockPersonId" style="width: 100%;">
                   <span>{{ personalForm.stockPersonName }}</span>
                 </el-form-item>
@@ -89,7 +94,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购合同明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购到货单明细</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -639,8 +644,8 @@ export default {
           { field: 'productName', displayName: '物料名称', columnSize: `50px` },
           { field: 'typeName', displayName: '规格型号', columnSize: `100px` },
           { field: 'unit', displayName: '单位', columnSize: `100px` },
-          { field: 'stockQuantity', displayName: '到货数量', columnSize: `100px` },
-          { field: 'arrivalQuantity', displayName: '合格数量', columnSize: `100px` },
+          { field: 'arrivalQuantity', displayName: '到货数量', columnSize: `100px` },
+          { field: 'qualifyQuantity', displayName: '合格数量', columnSize: `100px` },
           { field: 'remark', displayName: '备注', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">

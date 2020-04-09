@@ -866,9 +866,9 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           console.log(this.list2[i].productCode)
-          num += this.list2[i].quantity
+          num += Number(this.list2[i].quantity)
           num2 += Number(this.list2[i].discountMoney)
-          num1 += this.list2[i].includeTaxCostMoney
+          num1 += Number(this.list2[i].includeTaxCostMoney)
           productlist(this.list2[i].productCode).then(res => {
             if (res.data.ret === 200) {
               console.log(res.data.data.content.list[0].isBatch)
@@ -1843,7 +1843,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log(123)
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               const isoverdiscount = val / row.quantity
               console.log('isoverdiscount', isoverdiscount)
@@ -1872,7 +1878,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log('233')
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.money

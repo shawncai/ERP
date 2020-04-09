@@ -1,6 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.number" :placeholder="$t('updates.stockrequrenumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
@@ -19,6 +20,9 @@
         placement="bottom"
         width="500"
         trigger="click">
+        <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter4"/>
+        <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -110,6 +114,11 @@
             <span>{{ scope.row.shouldStockQuantity }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockRequire.planedQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planedQuantity }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockRequire.stockAdvanceday')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockAdvanceday }}</span>
@@ -120,16 +129,16 @@
             <span>{{ scope.row.requireDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockRequire.isPlan')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.isPlaned | isPlanedFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成采购计划单</span></el-button>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column :label="$t('StockRequire.isPlan')" :resizable="false" align="center" min-width="150">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.isPlaned | isPlanedFilter }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <el-button type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成采购计划单</span></el-button>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -147,12 +156,13 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyTree from '../Product/components/MyTree'
 import MyDetail from './components/MyDetail'
 import DetailList from './components/DetailList' // Secondary package based on el-pagination
+import MySupplier from './components/MySupplier'
 
 var _that
 export default {
   name: 'StockRequire',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyDetail, MyTree, Pagination },
+  components: { DetailList, MyDetail, MyTree, Pagination, MySupplier },
   filters: {
     isPlanedFilter(status) {
       const statusMap = {
@@ -164,6 +174,8 @@ export default {
   },
   data() {
     return {
+      supplierId: '',
+      empcontrol: false,
       // 物料名称控制
       control: false,
       // 物品分类回显
@@ -211,6 +223,16 @@ export default {
     _that = this
   },
   methods: {
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
+    },
     // 批量生成
     handleNumbers() {
       this.$store.dispatch('getempcontract', this.moreaction)
@@ -266,6 +288,10 @@ export default {
     restFilter3() {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
+    },
+    restFilter4() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 搜索
     handleFilter() {

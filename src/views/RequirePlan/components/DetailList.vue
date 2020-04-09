@@ -140,7 +140,8 @@ export default {
       const statusMap = {
         1: '库存',
         2: '生产',
-        3: '采购'
+        3: '采购',
+        4: '外加工'
       }
       return statusMap[status]
     },

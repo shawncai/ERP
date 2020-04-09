@@ -56,7 +56,7 @@ export function updateInventoryCategory(query) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/inventoryCategory/delateCategory',
+    url: '/inventoryCategory/updateEmpCategory',
     method: 'post',
     data: params
   })
@@ -72,7 +72,7 @@ export function delateInventoryCategory(query, query2) {
     params.append('operatorId', query2) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/inventoryCategory/updateEmpCategory',
+    url: '/inventoryCategory/delateCategory',
     method: 'post',
     data: params
   })

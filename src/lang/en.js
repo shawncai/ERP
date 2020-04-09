@@ -178,6 +178,7 @@ export default {
     AddStockContract: 'new purchase contract',
     StockContractList: 'purchase contract list',
     StockOrder: 'purchase order',
+    ManyAddStockOrder: 'Create new purchase order in batch',
     AddStockOrder: 'new purchase order',
     StockOrderList: 'purchase order list',
     StockArrival: 'purchase arrival',
@@ -313,9 +314,9 @@ export default {
     Coupon: 'voucher',
     AddCoupon: 'new voucher',
     CouponList: 'voucher list',
-    CouponProvideList: '优惠发放记录',
-    CouponUseList: '优惠券使用记录',
-    AddCouponProvide: '优惠券发放',
+    CouponProvideList: 'CouponProvideList',
+    CouponUseList: 'CouponUseList',
+    AddCouponProvide: 'AddCouponProvide',
     Package: 'package',
     AddPackage: 'new package',
     PackageList: 'package list',
@@ -407,7 +408,9 @@ export default {
     SaleDetailCount: 'sale detail count',
     ProfitCount: 'profit count',
     AddDiscountsetting: 'AddDiscountsetting',
-    Discountsetting: 'Discountsetting'
+    Discountsetting: 'Discountsetting',
+    DiffPrice: 'DiffPrice',
+    NewBatteryOut: 'NewBatteryOut'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -1099,6 +1102,7 @@ export default {
     orderquantity: 'order quantity'
   },
   Product: {
+    numberId: 'numberId',
     unitGroupId: 'unit group',
     stockCircle: 'purchase cycle',
     produceAbility: 'production capacity',
@@ -1524,6 +1528,7 @@ export default {
     heji2: 'Total adjusted amount'
   },
   MaterialsList: {
+    parentcolor: 'parentcolor',
     bomNumber: 'BOM code',
     parentBomNumber: 'parent BOM',
     bomTypeId: 'BOM  type',
@@ -1719,6 +1724,7 @@ export default {
     applyNumber: 'Bill no.'
   },
   StockRequire: {
+    planedQuantity: 'planedQuantity',
     categoryId: 'material category',
     productName: 'material name',
     isPlan: 'generate purchase plan or not',
@@ -1807,6 +1813,7 @@ export default {
     allIncludeTaxMoney: 'Total amount w/ vat'
   },
   StockArrival: {
+    presentdata: 'Purchase details',
     sourceNumber: 'sources',
     title: 'purchase arrival form subject',
     number: 'purchase arrival form no.',
@@ -1935,6 +1942,7 @@ export default {
     settleStat: 'Settlement type'
   },
   ShouldPayList: {
+    payDate: 'payDate',
     invoiceNumber: 'invoice no.',
     invoiceType: 'invoice type',
     sourceNumber: 'sources',
@@ -3029,6 +3037,11 @@ export default {
     evaluation: 'evaluation'
   },
   Hmodule: {
+    jghmx: 'Details after processing',
+    yclmx: 'Details of raw materials',
+    enterQuantity: 'enterQuantity',
+    outQuantity: 'outQuantity',
+    damageQuantity: 'damageQuantity',
     hhd: 'swap form',
     ggxh: 'specification',
     cilent: 'click to upload',
@@ -3096,6 +3109,8 @@ export default {
     qsrmm: 'please input password'
   },
   updates: {
+    stockrequrenumber: 'stock requrenumber',
+    sfgouxuanqubqx: 'Whether to check all permissions',
     jldwzbh: 'No',
     gz: 'trace',
     wly: 'no source',
@@ -4195,6 +4210,45 @@ export default {
     js: 'end',
     pf: 'wholesale',
     zdzke: 'most discountmoney',
-    zdzkl: 'most discountrate'
+    zdzkl: 'most discountrate',
+    cgzdzke: 'Exceed the maximum discount',
+    gdjwjd: 'The document is open',
+    gdjyscpz: 'The document has been generated',
+    xsckscpzcg: 'Sales voucher generated voucher successfully',
+    xscbscpzcg: 'Cost of sales document generated successfully',
+    xsthscpzcg: 'Sales returns generate voucher successfully',
+    scpzcg: 'Generate credentials successfully',
+    gdjwshtg: 'The document has not been approved',
+    mdjh: 'Store plan',
+    qyjh: 'Regional plan',
+    njh: 'Yearly plan',
+    jjh: 'Quarter plan',
+    yjh: 'Monthly plan',
+    zjh: 'Weekly plan',
+    rjh: 'Day plan',
+    jy: 'Home',
+    yy: 'Operation',
+    tjzcx: 'Add Expense Item',
+    dcsylb: 'Battery use category',
+    dcfl: 'Battery classification',
+    sydsy: 'How many months to use',
+    zdsj: 'How much to discount',
+    zbthd: 'return details',
+    qxxzcknr: 'Please select out data first',
+    kzqthslyckslbf: 'The returned quantity of the controller does not match the quantity of out of stock',
+    cdqthslyckslbf: 'The returned quantity of the chargers does not match the quantity of out of stock',
+    djthslyckslbf: 'The returned quantity of the motors does not match the quantity of out of stock',
+    zbthmxbnwk: 'Warranty return details cannot be empty',
+    dcthslyckslbfh: 'The returned quantity of the batterys does not match the quantity of out of stock',
+    useType: 'Battery use type',
+    useMonth: 'Battery life',
+    qxzdcsylx: 'Please select the type of battery used',
+    qxzdcsysc: 'Please select the battery life',
+    chargeCode: 'chargeCode',
+    controlCode: 'controlCode',
+    kzqbmwtx: 'Controller code is not filled',
+    cdqbmwtx: 'Charger code is not filled',
+    bnyy: 'Bad reasons',
+    zbyy: 'Warranty reasons'
   }
 }

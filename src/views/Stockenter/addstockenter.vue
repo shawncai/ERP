@@ -9,45 +9,46 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" placeholder="请输入入库单主题" clearable style="margin-left: 18px;width: 200px"/>
+                  <el-input v-model="personalForm.title" clearable style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="采购到货单" />
-                    <el-option value="2" label="采购订单" />
+                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
+
+                    <el-option :label="$t('updates.cgdhd')" value="1" />
+                    <el-option :label="$t('updates.cgdd')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                  <el-input v-model="enterRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="源单编号" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
+                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
                 <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                 <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%;">
-                  <el-input v-model="supplierId" :disabled="IssupplierId" placeholder="请选择供应商" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                  <el-input v-model="supplierId" :disabled="IssupplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                 </el-form-item>
                 <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.stockPersonId')" style="width: 100%;">
-                  <el-input v-model="stockPersonId" placeholder="请选择采购员" clearable style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                  <el-input v-model="stockPersonId" clearable style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.stockDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.stockDeptId" placeholder="请选择采购部门" style="margin-left: 18px;width: 200px" @focus="updatedept" @change="change()">
+                  <el-select v-model="personalForm.stockDeptId" style="margin-left: 18px;width: 200px" @focus="updatedept" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -58,19 +59,19 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.deliveryPersonId')" style="width: 100%;">
-                  <el-input v-model="deliveryPersonId" placeholder="请选择交货人" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
+                  <el-input v-model="deliveryPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%;">
-                  <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
+                  <el-input v-model="acceptPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterDeptId" placeholder="请选择入库部门" clearable style="margin-left: 18px;width: 200px" @focus="updatedept">
+                  <el-select v-model="personalForm.enterDeptId" clearable style="margin-left: 18px;width: 200px" @focus="updatedept">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -454,6 +455,7 @@ export default {
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
+
         this.allarrivalinfo(this.$store.getters.empcontract)
         for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
           this.$store.getters.empcontract.stockArrivalDetailVos[i].productType = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName
@@ -596,7 +598,6 @@ export default {
         }
         if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
           delete elem.batch
-          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
@@ -636,7 +637,7 @@ export default {
       if (i === 4) {
         this.$notify.error({
           title: 'wrong',
-          message: '商品货位和批次不能为空',
+          message: '商品货位不能为空',
           offset: 100
         })
         return false

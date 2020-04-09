@@ -7,41 +7,12 @@
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
-                    <el-option value="1" label="销售订单"/>
-                    <el-option value="2" label="销售合同"/>
-                    <el-option value="3" label="预售单"/>
-                    <el-option value="4" label="销售机会"/>
-                    <el-option value="5" label="无来源"/>
-                    <el-option value="6" label="二手回车单"/>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col v-if="personalForm.sourceType === '6'" :span="6" >
-                <el-form-item :label="$t('SaleOut.ershouNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
-                </el-form-item>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
-                    <el-option :label="$t('prompt.jxs')" value="1"/>
-                    <el-option :label="$t('prompt.ls')" value="2"/>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
+
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="width: 100%;">
                   <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
@@ -54,124 +25,19 @@
                   <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerAccount" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="width: 100%;">
-                  <el-select v-model="personalForm.outType" style="margin-left: 18px;width: 200px">
-                    <el-option :label="$t('prompt.xsck')" value="1"/>
-                    <el-option :label="$t('prompt.hhck')" value="2"/>
-                    <el-option :label="$t('prompt.yjhx')" value="3"/>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
+
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.salePersonId')" prop="salePersonId" style="width: 100%;">
                   <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
-                    <el-option :label="$t('prompt.xj')" value="1" />
-                    <el-option :label="$t('prompt.fq')" value="2" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.sendDate')" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.sendDate"
-                    :picker-options="pickerOptions1"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
-                    <el-option v-show="false" label="" value=""/>
-                    <el-option
-                      v-for="(item, index) in colseTypes"
-                      :value="item.id"
-                      :key="index"
-                      :label="item.categoryName"/>
-                    <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
-                    </template>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceType')" style="width: 100%;">
-                  <el-select ref="clear2" v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
-                    <el-option v-show="false" label="" value=""/>
-                    <el-option
-                      v-for="(item, index) in invoiceTypes"
-                      :value="item.id"
-                      :key="index"
-                      :label="item.categoryName"
-                    />
-                    <template>
-                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
-                    </template>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                  <el-select ref="clear3" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
-                    <el-option v-show="false" label="" value=""/>
-                    <el-option
-                      v-for="(item, index) in payModes"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                    <template>
-                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat3">{{ $t('updates.create') }}</el-button>
-                    </template>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
-                  <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
-                </el-form-item>
-                <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="width:100%;">
                   <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.address')" style="width: 100%;">
-                  <el-input v-model="personalForm.address" style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outPersonId')" style="width: 100%;">
-                  <el-input v-model="outPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
-                </el-form-item>
-                <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.outDate"
-                    :picker-options="pickerOptions1"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
-                </el-form-item>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="width: 100%;">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
@@ -182,11 +48,7 @@
                   <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
-                  <el-input v-model="personalForm.couponSupport" style="margin-left: 18px;width: 200px" type="number"/>
-                </el-form-item>
-              </el-col> -->
+
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                   <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
@@ -235,6 +97,22 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col v-if="personalForm.isFree === 1" :span="6">
+                <el-form-item :label="$t('tongyo.zbyy')" style="width: 100%;">
+                  <el-select ref="clear2" v-model="personalForm.freeReason" style="margin-left: 18px;width: 200px" @change="change">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in reasons"
+                      :value="item.id"
+                      :key="index"
+                      :label="item.categoryName"
+                    />
+                    <template>
+                      <el-button v-if="isshow2" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -243,14 +121,8 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-          <!-- <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
-          <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
-          <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
-          <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
-          <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/> -->
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
@@ -299,7 +171,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  v-if="isEdit3(scope.row)"
+                  v-if="isEdit5(scope.row)"
                   :precision="2"
                   :controls="false"
                   :min="1.00"
@@ -332,6 +204,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
+                  :min="0.00"
                   :controls="false"
                   v-model="scope.row.taxRate"
                   @input="gettaxRate(scope.row)"/>
@@ -391,72 +264,97 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+                <span v-else>{{ scope.row.chargeCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+                <span v-else>{{ scope.row.controlCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
-      <!-- <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
-          <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
-          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+
+      <!--  退货入库 -->
+      <el-card v-show="personalForm.isFree === 1" class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">{{ $t('tongyo.zbthd') }}</h2>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddreturnproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
+        <my-return :control.sync="control2" @product="productdetail2"/>
         <div class="container">
           <el-editable
             ref="editable2"
-            :data.sync="list3"
+            :data.sync="returnlist"
             :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            :summary-method="getSummaries2"
             class="click-table1"
             stripe
             border
             size="medium"
             style="width: 100%">
-            <el-editable-column type="selection" width="55" align="center" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.xh')" width="55" align="center" type="index" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed="left"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <p>{{ getLocationData(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
-              <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
                   <el-option
-                    v-for="(item, index) in batchlist"
+                    v-for="(item, index) in locationlist"
                     :key="index"
-                    :value="item"
-                    :label="item"/>
+                    :value="item.id"
+                    :label="item.locationCode"/>
                 </el-select>
-                <span v-else>{{ scope.row.batch }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="200px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="quantity" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  v-if="isEdit5(scope.row)"
                   :controls="false"
-                  :value="scope.row.quantity"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="returnquanty(scope.row)"
                 />
+                <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
+                <span v-else>{{ scope.row.quantity }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit3(scope.row)" v-model="scope.row.batteryCode" clearable/>
+                <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+                <span v-else>{{ scope.row.chargeCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+                <span v-else>{{ scope.row.controlCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
-      </el-card> -->
+      </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
@@ -467,11 +365,6 @@
                   <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
                   <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
@@ -482,36 +375,6 @@
                   <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji5')" style="width: 100%;">
-                  <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji6')" style="width: 100%;">
-                  <el-input v-model="heji6" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji7')" style="width: 100%;">
-                  <el-input v-model="heji7" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
-                  <el-input v-model="heji8" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col> -->
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
-                  <el-input v-model="heji9" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji10')" style="width: 100%;">
-                  <el-input v-model="heji10" style="margin-left: 18px;width: 200px" disabled/>
-                </el-form-item>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
                   <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
@@ -524,7 +387,7 @@
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button>
+        <!-- <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button> -->
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -562,6 +425,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { batteryList2 } from '@/api/DiffPrice'
 import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
@@ -586,13 +450,14 @@ import MyAdvance from './components/MyAdvance'
 import MyPresale from './components/MyPresale'
 import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
+import MyReturn from './components/MyReturn'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
 import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'NewAccessoriesOut',
-  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
+  components: { MyReturn, MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -665,6 +530,18 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      reasonsparms: {
+        type: 7,
+        pagenum: 1,
+        pagesize: 99999
+      },
+      reasons: [],
+      controlcategorysdetail: [],
+      chargecategorysdetail: [],
+      control2: false,
+      // 退货入库数据
+      returnlist: [],
+
       // 赠品选择控制
       packagecontrol: false,
       productnumber: '',
@@ -761,7 +638,7 @@ export default {
             couponSupport: 0
           }
         ],
-        title: '配件',
+        title: 'Accessories',
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -919,6 +796,78 @@ export default {
     _that = this
   },
   methods: {
+    sum(arr) {
+      if (arr.length === 0) {
+        return 0
+      } else {
+        // eslint-disable-next-line no-eval
+        return eval(arr.join('+'))
+      }
+    },
+    returnquanty(row) {
+
+    },
+    updatebatchreturnpro(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.saleRepositoryId)
+        if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.sqslcg'),
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.saleRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.saleRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
+    productdetail2(val) {
+      console.log(val)
+      const nowlistdata = this.$refs.editable2.getRecords()
+
+      console.log(nowlistdata)
+      var ret4 = val.findIndex((value, index, arr) => {
+        return value.productCode === this.personalForm.productCode
+      })
+
+      console.log(ret4)
+      this.returnlist = val.filter(item => {
+        return item.productCode !== this.personalForm.productCode
+      })
+    },
+    handleAddreturnproduct() {
+      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
+      const outproduct = this.$refs.editable.getRecords()
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzck'),
+          offset: 100
+        })
+        return false
+      } else if (outproduct.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.qxxzcknr'),
+          offset: 100
+        })
+        return false
+      } else {
+        this.control2 = true
+      }
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
       const parms2 = JSON.stringify(this.personalForm.couponSupports)
@@ -1199,8 +1148,29 @@ export default {
       //   }
       // }
     },
+    isEdit8(row) {
+      console.log('row', row)
+      if (this.controlcategorysdetail.includes(row.category)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isEdit7(row) {
+      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
+      if (this.chargecategorysdetail.includes(row.category)) {
+        console.log('trueistrue')
+        return true
+      } else {
+        console.log('falsefalse')
+        return false
+      }
+    },
+    isEdit5(row) {
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') { return false } else { return true }
+    },
     isEdit4(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
       if (re === '05') { return true } else { return false }
     },
@@ -1276,7 +1246,7 @@ export default {
             if (row.quantity > res.data.data.content.list[0].ableStock) {
               this.$notify.error({
                 title: 'wrong',
-                message: this.$t('prompt.qsrzqdsjh'),
+                message: this.$t('prompt.ckslgykcsl'),
                 offset: 100
               })
               row.quantity = 1
@@ -1550,7 +1520,7 @@ export default {
       if (row.batch === null || row.batch === '' || row.batch === undefined) {
         const parms3 = row.productCode
         batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.data.data.content.length > 0) {
             row.batch = res.data.data.content[0]
           }
@@ -1568,11 +1538,9 @@ export default {
       // 默认货位
       getlocation(this.personalForm.saleRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
-          console.log('res', res)
           if (res.data.data.content.length !== 0) {
             row.location = res.data.data.content[0].locationCode
             row.locationId = res.data.data.content[0].id
-            console.log('row.locationId', row.locationId)
           } else {
             row.location = null
             row.locationId = null
@@ -1799,7 +1767,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log(123)
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               const isoverdiscount = val / row.quantity
               console.log('isoverdiscount', isoverdiscount)
@@ -1828,7 +1802,13 @@ export default {
         searchRoleDiscount(discountparms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list.length === 0) {
-              console.log('233')
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
             } else {
               console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
@@ -2166,6 +2146,7 @@ export default {
     },
     async productdetail(val) {
       console.log('val', val)
+      this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable.insert(val[i])
@@ -2224,6 +2205,12 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      // 质保原因数据
+      searchSaleCategory(this.reasonsparms).then(res => {
+        if (res.data.ret === 200) {
+          this.reasons = res.data.data.content.list
+        }
+      })
       // 开票类型数据
       searchSaleCategory(this.invoicetypeparms).then(res => {
         if (res.data.ret === 200) {
@@ -2239,6 +2226,21 @@ export default {
       searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           this.payModes = res.data.data.content.list
+        }
+      })
+      batteryList2(14).then(res => {
+        if (res.data.ret === 200) {
+          this.chargecategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
+
+      batteryList2(8).then(res => {
+        if (res.data.ret === 200) {
+          this.controlcategorysdetail = res.data.data.content.map(item => {
+            return item.id
+          })
         }
       })
     },
@@ -2264,7 +2266,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
-        title: '配件',
+        title: 'Accessories',
         salePersonId: this.$store.getters.userId,
         address: '',
         createPersonId: this.$store.getters.userId,
@@ -2276,6 +2278,7 @@ export default {
         saleType: '1',
         sourceType: '5',
         otherMoney: '0',
+        couponMoney: 0,
         couponSupport: 0,
         outType: '1',
         saleRepositoryId: this.$store.getters.repositoryId,
@@ -2284,8 +2287,8 @@ export default {
         ridBikeMoney: 0,
         advanceMoney: 0,
         receiveMoney: 0,
-        receivableMoney: 0,
         isInvoice: 1,
+        isFree: 2,
         couponSupportOld: 0,
         couponSupports: [
           {
@@ -2298,6 +2301,7 @@ export default {
       this.saleRepositoryId = this.$store.getters.repositoryName
       this.transferPersonId = null
       this.outPersonId = null
+      this.getdatatime()
     },
     // 深拷贝
     deepClone(obj) {
@@ -2305,6 +2309,7 @@ export default {
       const objClone = JSON.parse(_obj)
       return objClone
     },
+    // 临时保存
     handlesave2() {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
@@ -2424,34 +2429,34 @@ export default {
           delete elem.point
         }
         if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          delete elem.quantity
+          elem.quantity = 0
         }
         if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
+          elem.salePrice = 0
         }
         if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          delete elem.costPrice
+          elem.costPrice = 0
         }
         if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          delete elem.costMoney
+          elem.costMoney = 0
         }
         if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
           delete elem.includeTaxMoney
         }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          delete elem.taxRate
+          elem.taxRate = 0
         }
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
           elem.taxRate = elem.taxRate / 100
         }
         if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          delete elem.taxMoney
+          elem.taxMoney = 0
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
+          elem.money = 0
         }
         if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          delete elem.includeTaxCostMoney
+          elem.includeTaxCostMoney = 0
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           elem.discountRate = 0
@@ -2540,8 +2545,8 @@ export default {
           this.$refs.personalForm.resetFields()
           this.$refs.personalForm2.clearValidate()
           this.$refs.personalForm2.resetFields()
-          this.$refs.personalForm3.clearValidate()
-          this.$refs.personalForm3.resetFields()
+          // this.$refs.personalForm3.clearValidate()
+          // this.$refs.personalForm3.resetFields()
         } else {
           this.$notify.error({
             title: 'wrong',
@@ -2552,7 +2557,228 @@ export default {
       })
     },
     // 保存操作
-    handlesave() {
+    async handlesave() {
+      console.log('this.returnlist', this.returnlist)
+      if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
+        console.log('this.$refs.editable2', this.$refs.editable2.getRecords())
+        this.$refs.editable2.clear()
+      }
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
+      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+      const needbatterycategorys = await batteryList2(1118).then(res => {
+        return res.data.data.content
+      })
+      const battery1 = needbatterycategorys[0].productClassfyVos
+      const battery2 = needbatterycategorys[1].productClassfyVos
+      const batterycategorys = [...battery1, ...battery2]
+      const batterycategorysdetail = batterycategorys.map(item => {
+        return item.id
+      })
+      const firsttabledata = this.$refs.editable.getRecords()
+      let changedata = 0
+      const allcategorys = [...controlcategorysdetail, ...chargecategorysdetail, ...motocategorys, ...batterycategorysdetail]
+      for (const i in firsttabledata) {
+        if (allcategorys.includes(firsttabledata[i].category)) {
+          changedata = 1
+        }
+      }
+      console.log('firsttabledata', firsttabledata)
+      console.log('allcategorys', allcategorys)
+      console.log('changedata', changedata)
+      if (this.personalForm.isFree === 1 && changedata === 1) {
+        console.log('controlcategorysdetail', controlcategorysdetail)
+        const outproduct = this.$refs.editable.getRecords()
+        console.log('outproduct', outproduct)
+        if (this.returnlist.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.zbthmxbnwk'),
+            offset: 100
+          })
+          return false
+        }
+        const returnproduct = this.$refs.editable2.getRecords()
+        const controlpro = []
+        const chargepro = []
+        const motopro = []
+        const batterypro = []
+        for (const i in outproduct) {
+          if (controlcategorysdetail.includes(outproduct[i].category)) {
+            controlpro.push(outproduct[i])
+          } else if (chargecategorysdetail.includes(outproduct[i].category)) {
+            chargepro.push(outproduct[i])
+          } else if (motocategorys.includes(outproduct[i].category)) {
+            motopro.push(outproduct[i])
+          } else if (batterycategorys.includes(outproduct[i].category)) {
+            batterypro.push(outproduct[i])
+          }
+        }
+        const controlproquantity = controlpro.map(item => {
+          return item.quantity
+        })
+        const allcontrolproquantity = this.sum(controlproquantity)
+        console.log('allcontrolproquantity', allcontrolproquantity)
+        const chargeproquantity = chargepro.map(item => {
+          return item.quantity
+        })
+        const allchargeproquantity = this.sum(chargeproquantity)
+        console.log('allchargeproquantity', allchargeproquantity)
+        const motoproquantity = motopro.map(item => {
+          return item.quantity
+        })
+        const allmotoproquantity = this.sum(motoproquantity)
+        console.log('allmotoproquantity', allmotoproquantity)
+
+        const batteryproquantity = batterypro.map(item => {
+          return item.quantity
+        })
+        const allbatteryproquantity = this.sum(batteryproquantity)
+        console.log('allbatteryproquantity', allbatteryproquantity)
+
+        console.log('controlpro', controlpro)
+        console.log('chargepro', chargepro)
+        console.log('motopro', motopro)
+        console.log('batterypro', batterypro)
+        const returncontrolpro = []
+        const returnchargepro = []
+        const returnmotopro = []
+        const returnbatterypro = []
+        for (const i in returnproduct) {
+          if (controlcategorysdetail.includes(returnproduct[i].category)) {
+            returncontrolpro.push(returnproduct[i])
+          } else if (chargecategorysdetail.includes(returnproduct[i].category)) {
+            returnchargepro.push(returnproduct[i])
+          } else if (motocategorys.includes(returnproduct[i].category)) {
+            returnmotopro.push(returnproduct[i])
+          } else if (batterycategorys.includes(returnproduct[i].category)) {
+            returnbatterypro.push(returnproduct[i])
+          }
+        }
+
+        console.log('returncontrolpro', returncontrolpro)
+        console.log('returnchargepro', returnchargepro)
+        console.log('returnmotopro', returnmotopro)
+        console.log('returnbatterypro', returnbatterypro)
+        const returncontrolproquantity = returncontrolpro.map(item => {
+          return item.quantity
+        })
+        const allreturncontrolproquantity = this.sum(returncontrolproquantity)
+        console.log('allreturncontrolproquantity', allreturncontrolproquantity)
+        const returnchargeproquantity = returnchargepro.map(item => {
+          return item.quantity
+        })
+        const allreturnchargeproquantity = this.sum(returnchargeproquantity)
+        console.log('allreturnchargeproquantity', allreturnchargeproquantity)
+        const returnmotoproquantity = returnmotopro.map(item => {
+          return item.quantity
+        })
+        const allreturnmotoproquantity = this.sum(returnmotoproquantity)
+        console.log('allreturnmotoproquantity', allreturnmotoproquantity)
+
+        const returnbatteryproquantity = returnbatterypro.map(item => {
+          return item.quantity
+        })
+        const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
+        console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
+
+        if (allbatteryproquantity !== allreturnbatteryproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.dcthslyckslbfh'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allcontrolproquantity !== allreturncontrolproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.kzqthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allreturnchargeproquantity !== allchargeproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.cdqthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+
+        if (allreturnmotoproquantity !== allmotoproquantity) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.djthslyckslbf'),
+            offset: 100
+          })
+          return false
+        }
+        let z = 1
+        for (const j in returnproduct) {
+          if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
+            z = 2
+          }
+          const re = returnproduct[j].productCode.slice(0, 2)
+          if (re === '05') {
+            if (returnproduct[j].batteryCode === null || returnproduct[j].batteryCode === undefined || returnproduct[j].batteryCode === '') {
+              z = 3
+            }
+          }
+          if (controlcategorysdetail.includes(returnproduct[j].category) && (returnproduct[j].controlCode === null || returnproduct[j].controlCode === undefined || returnproduct[j].controlCode === '')) {
+            z = 4
+          }
+          if (chargecategorysdetail.includes(returnproduct[j].category) && (returnproduct[j].chargeCode === null || returnproduct[j].chargeCode === undefined || returnproduct[j].chargeCode === '')) {
+            z = 5
+          }
+        }
+
+        if (z === 5) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.cdqbmwtx'),
+            offset: 100
+          })
+          return false
+        }
+        if (z === 4) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.kzqbmwtx'),
+            offset: 100
+          })
+          return false
+        }
+        if (z === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          return false
+        }
+        if (z === 3) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.dcckytbm'),
+            offset: 100
+          })
+          return false
+        }
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
@@ -2575,7 +2801,29 @@ export default {
                 m = 3
               }
             }
+            if (controlcategorysdetail.includes(elem.category) && (elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '')) {
+              m = 4
+            }
+            if (chargecategorysdetail.includes(elem.category) && (elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '')) {
+              m = 5
+            }
           })
+          if (m === 5) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.cdqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
+          if (m === 4) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.kzqbmwtx'),
+              offset: 100
+            })
+            return false
+          }
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',
@@ -2636,7 +2884,7 @@ export default {
             })
             return false
           }
-          //   const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+          const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -2673,34 +2921,34 @@ export default {
               delete elem.point
             }
             if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
+              elem.quantity = 1
             }
             if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
+              elem.salePrice = 0
             }
             if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
+              elem.costPrice = 0
             }
             if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
+              elem.costMoney = 0
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
+              elem.includeTaxMoney = 0
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
+              elem.taxRate = 0
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
               elem.taxRate = elem.taxRate / 100
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
+              elem.taxMoney = 0
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
+              elem.money = 0
             }
             if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
+              elem.includeTaxCostMoney = 0
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               elem.discountRate = 0
@@ -2722,41 +2970,41 @@ export default {
             }
             return elem
           })
-          //   EnterDetail2.map(function(elem) {
-          //     return elem
-          //   }).forEach(function(elem) {
-          //     if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-          //       delete elem.batch
-          //     }
-          //     if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          //       delete elem.productName
-          //     }
-          //     if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          //       delete elem.productCode
-          //     }
-          //     if (elem.category === null || elem.category === '' || elem.category === undefined) {
-          //       delete elem.category
-          //     }
-          //     if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          //       delete elem.unit
-          //     }
-          //     if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          //       delete elem.color
-          //     }
-          //     if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          //       delete elem.type
-          //     }
-          //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          //       delete elem.money
-          //     }
-          //     if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          //       delete elem.quantity
-          //     }
-          //     if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          //       delete elem.salePrice
-          //     }
-          //     return elem
-          //   })
+          EnterDetail2.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+              delete elem.batch
+            }
+            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              delete elem.productName
+            }
+            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+              delete elem.productCode
+            }
+            if (elem.category === null || elem.category === '' || elem.category === undefined) {
+              delete elem.category
+            }
+            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              delete elem.unit
+            }
+            if (elem.color === null || elem.color === '' || elem.color === undefined) {
+              delete elem.color
+            }
+            if (elem.type === null || elem.type === '' || elem.type === undefined) {
+              delete elem.type
+            }
+            if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+              delete elem.remarks
+            }
+            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+              elem.quantity = 0
+            }
+            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+              elem.salePrice = 0
+            }
+            return elem
+          })
           const parms3 = ''
           let couponNumbers = ''
           for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
@@ -2796,6 +3044,7 @@ export default {
             })
           }
           const parms2 = JSON.stringify(EnterDetail)
+          const parms6 = JSON.stringify(EnterDetail2)
           const Data = this.personalForm
           for (const key in Data) {
             if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -2806,7 +3055,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2, parms6).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -2817,13 +3066,13 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
-              //   this.$refs.editable2.clear()
+              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
+              // this.$refs.personalForm3.clearValidate()
+              // this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
                 title: 'wrong',

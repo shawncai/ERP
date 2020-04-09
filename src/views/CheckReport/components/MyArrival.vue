@@ -243,11 +243,11 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
-        isActive: 1
+        isActive: 2
       },
       // 传给组件的数据
       personalForm: {},
@@ -327,8 +327,23 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          console.log(res.data.data.content.list)
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            for (let j = 0; j < res.data.data.content.list[i].stockArrivalDetailVos.length; j++) {
+              if (res.data.data.content.list[i].stockArrivalDetailVos[j].arrivalQuantity - res.data.data.content.list[i].stockArrivalDetailVos[j].actualCheckingQuantity === 0) {
+                res.data.data.content.list[i].stockArrivalDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < res.data.data.content.list.length; i++) {
+            if (res.data.data.content.list[i].stockArrivalDetailVos.length === 0) {
+              res.data.data.content.list.splice(i, 1)
+              i--
+            }
+          }
+          console.log()
           this.total = res.data.data.content.totalCount
-          // this.restFilter()
         } else {
           // this.restFilter()
         }

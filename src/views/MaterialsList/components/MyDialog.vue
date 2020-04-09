@@ -17,6 +17,7 @@
                   <el-option value="1" label="工艺BOM"/>
                   <el-option value="2" label="设计BOM"/>
                   <el-option value="3" label="制造BOM"/>
+                  <el-option value="4" label="采购BOM"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -52,7 +53,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="width: 100%;">
-                <el-input v-model="personalForm.productName" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
+                <el-input v-model="personalForm.productName" disabled style="margin-left: 18px;width: 200px" @focus="handlemater"/>
               </el-form-item>
             </el-col>
             <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
@@ -177,6 +178,23 @@ export default {
     _that = this
   },
   methods: {
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     // 父件focus事件
     handlemater() {
       this.matercontrol = true
@@ -208,16 +226,19 @@ export default {
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = filterdata
 
-      console.log(nowlistdata)
-      var ret4 = val.findIndex((value, index, arr) => {
-        return value.productCode === this.personalForm.productCode
-      })
+      // console.log(nowlistdata)
+      // var ret4 = val.findIndex((value, index, arr) => {
+      //   return value.productCode === this.personalForm.productCode
+      // })
 
-      console.log(ret4)
-      this.list2 = val.filter(item => {
-        return item.productCode !== this.personalForm.productCode
-      })
+      // console.log(ret4)
+      // this.list2 = val.filter(item => {
+      //   return item.productCode !== this.personalForm.productCode
+      // })
     },
     // 清空记录
     restAllForm() {

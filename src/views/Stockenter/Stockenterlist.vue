@@ -10,17 +10,19 @@
         placement="bottom"
         width="500"
         trigger="click">
-        <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px" @focus="updatedept">
+        <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+        <el-input v-model="supplierId" placeholder="请选择供应商" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @clear="restFilter4" @keyup.enter.native="handleFilter" @focus="handlechooseSupplier"/>
+        <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+        <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" @clear="restFilter3" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
+        <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+        <el-select v-model="getemplist.enterDeptId" placeholder="请选择入库部门" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 28px" @focus="updatedept">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="enterRepositoryId" placeholder="请选择入库仓库" class="filter-item" clearable style="width: 40%;float: left;margin-left: 20px" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-        <el-input v-model="acceptPersonId" :placeholder="$t('Stockenter.acceptPersonId')" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" @clear="restFilter3" @keyup.enter.native="handleFilter" @focus="handlechooseAccept"/>
-        <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -173,7 +175,7 @@ var _that
 export default {
   name: 'Stockenterlist',
   directives: { waves, permission, permission2 },
-  components: { DetailList, Pagination, MyDialog, MyRepository, MySupplier, MyEmp, MyDelivery, MyAccept, MyDetail },
+  components: { DetailList, Pagination, MyDialog, MySupplier, MyRepository, MyEmp, MyDelivery, MyAccept, MyDetail },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -195,6 +197,7 @@ export default {
   },
   data() {
     return {
+      empcontrol: false,
       // 详情组件数据
       detailvisible: false,
       // 更多搜索条件问题
@@ -254,6 +257,9 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseSupplier() {
+      this.empcontrol = true
+    },
     handleMyReceipt1(row) {
       this.$confirm('请确认生成凭证', '确认', {
         distinguishCancelAndClose: true,
@@ -292,7 +298,7 @@ export default {
         reviewParms.judgeStat = 0
         const parms = JSON.stringify(reviewParms)
         console.log(reviewParms, reviewParms.judgeStat, reviewParms.judgePersonId)
-        updatestockenter3(reviewParms, reviewParms.judgePersonId, reviewParms.judgeStat).then(res => {
+        updatestockenter3(reviewParms, reviewParms.judgeStat, reviewParms.judgePersonId).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -482,6 +488,10 @@ export default {
       this.deliveryPersonId = ''
       this.getemplist.deliveryPersonId = ''
     },
+    restFilter4() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+    },
     restFilter3() {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
@@ -661,6 +671,11 @@ export default {
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
+    },
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
     },
     repositoryname(val) {
       console.log(val)

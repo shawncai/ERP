@@ -27,15 +27,16 @@
         <el-input v-model="getemplist.carCode" :placeholder="$t('updates.cjbm')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <el-input v-model="getemplist.motorCode" :placeholder="$t('updates.djbm')" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <el-input v-model="getemplist.batteryCode" :placeholder="$t('updates.dcbm')" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
-        <!--<el-date-picker-->
-        <!--v-model="date"-->
-        <!--type="daterange"-->
-        <!--range-separator="-"-->
-        <!--unlink-panels-->
-        <!--start-placeholder="销售日期"-->
-        <!--end-placeholder="销售日期"-->
-        <!--value-format="yyyy-MM-dd"-->
-        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="销售日期"
+          end-placeholder="销售日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -47,7 +48,7 @@
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
+      <!-- <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
@@ -55,7 +56,9 @@
           <el-dropdown-item v-permission="['54-55-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
           <el-dropdown-item v-permission="['54-55-2']" style="text-align: left" command="review"><svg-icon icon-class="shengchanxuqiu" style="width: 40px"/>{{ $t('public.review') }}</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
+      <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" class="filter-item" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
+
       <!-- 表格导出操作 -->
       <el-button v-permission="['54-55-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
@@ -77,7 +80,6 @@
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -144,12 +146,15 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="returncontrol" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog3 :editcontrol.sync="batteryreturn" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
 </template>
 
 <script>
+import { voucherlist, addSaleVoucher, addSaleCostVouche } from '@/api/voucher'
 import { searchsaleOut, deletesaleOut, updatesaleOut2 } from '@/api/SaleOut'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -161,6 +166,8 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
+import MyDialog2 from './components/MyDialog2'
+import MyDialog3 from './components/MyDialog3'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyAccept from './components/MyAccept'
@@ -170,7 +177,7 @@ var _that
 export default {
   name: 'SaleOutList',
   directives: { waves, permission, permission2 },
-  components: { MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog3, MyDialog2, MyRepository, MyAccept, MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     saleTypeFilter(sta) {
       const statusMap = {
@@ -215,6 +222,9 @@ export default {
   },
   data() {
     return {
+      batteryreturn: false,
+      returncontrol: false,
+      downloadLoading2: false,
       // 回显仓库
       saleRepositoryId: '',
       // 控制仓库
@@ -292,6 +302,74 @@ export default {
     _that = this
   },
   methods: {
+    // 生成凭证
+    handlevoucherparms() {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxzdj'),
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction.length > 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qbyxzdgdj'),
+          offset: 100
+        })
+        return false
+      } else if (this.moreaction[0].receiptStat !== 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.gdjwjd'),
+          offset: 100
+        })
+        return false
+      }
+      this.downloadLoading2 = true
+      console.log('this.moreaction', this.moreaction)
+      const voucherparms = {
+        sourceNumber: this.moreaction[0].number,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+
+      const voucherids = this.moreaction[0].id
+      const that = this
+      voucherlist(voucherparms).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.length !== 0) {
+            that.$notify.error({
+              title: 'wrong',
+              message: that.$t('tongyo.gdjyscpz'),
+              offset: 100
+            })
+            return false
+          } else {
+            addSaleVoucher(voucherids).then(res => {
+              if (res.data.ret === 200) {
+                that.$message({
+                  type: 'success',
+                  message: that.$t('tongyo.xsckscpzcg')
+                })
+
+                addSaleCostVouche(voucherids).then(res => {
+                  if (res.data.ret === 200) {
+                    that.$message({
+                      type: 'success',
+                      message: that.$t('tongyo.xscbscpzcg')
+                    })
+                  }
+                })
+                this.downloadLoading2 = false
+              }
+            })
+            this.downloadLoading2 = false
+          }
+        }
+        this.downloadLoading2 = false
+      })
+    },
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
@@ -321,7 +399,7 @@ export default {
       }
     },
     isReview4(row) {
-      console.log(row)
+      // console.log(row)
       if (row.judgeStat === 2 && row.confirmPersonId === null) {
         return true
       }
@@ -449,6 +527,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       if (this.getemplist.customerName !== null && this.getemplist.customerName !== undefined && this.getemplist.customerName !== '') {
         this.getemplist.customerType = 2
@@ -487,7 +572,13 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      this.editVisible = true
+      if (row.isFree === 1 && row.useMonth === null && row.useType === null) {
+        this.returncontrol = true
+      } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
+        this.batteryreturn = true
+      } else {
+        this.editVisible = true
+      }
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)
       if (row.currency !== null) {
@@ -526,8 +617,8 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

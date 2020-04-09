@@ -98,22 +98,20 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.wbdmx') }}</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('Hmodule.jghmx') }}</h2>
         <div class="buttons" style="margin-top: 58px">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
+          <my-materials :materialcontrol.sync="control" @product4="productdetail4" @detailproduct="detailproduct"/>
+          <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button> -->
         </div>
         <div class="container">
           <el-editable
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
-            :summary-method="getSummaries"
-            :edit-rules="validRules"
-            show-summary
+
             class="click-table1"
             stripe
             border
@@ -126,12 +124,48 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+      <!--子件信息-->
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name">{{ $t('Hmodule.yclmx') }}</h2>
+        <!-- <div class="buttons" style="margin-top: 58px">
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" @product="productdetail"/>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div> -->
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries"
+            :edit-rules="validRules"
+            class="click-table1"
+            show-summary
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" width="85" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/> -->
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('Hmodule.outQuantity')" prop="outQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -147,13 +181,14 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { createoutFactory } from '@/api/OutSourcing'
+import MyMaterials from './components/MyMaterials'
 import MyDelivery from './components/MyDelivery'
 import MyFactory from './components/MyFactory'
 import MyDetail from './components/MyDetail'
 var _that
 export default {
   name: 'AddOutSourcing',
-  components: { MyDetail, MyFactory, MyDelivery },
+  components: { MyDetail, MyFactory, MyDelivery, MyMaterials },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -164,6 +199,7 @@ export default {
       }
     }
     return {
+      list3: [],
       // 合计
       heji: 0,
       // 外包工厂回显
@@ -268,21 +304,51 @@ export default {
     handleAddproduct() {
       this.control = true
     },
-    productdetail(val) {
-      const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
           }
         }
-        this.$refs.editable.insert(val[i])
+        if (!repeat) {
+          result.push(item)
+        }
       }
+      return result
+    },
+    productdetail4(val) {
+      console.log('val', val)
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = filterdata
+    },
+    detailproduct(val) {
+      const nowlistdata = this.$refs.editable2.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      alldata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      this.list3 = newArr
     },
     // 清空记录
     restAllForm() {

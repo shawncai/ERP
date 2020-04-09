@@ -100,10 +100,13 @@ export function deletematerials(query, query2) {
 }
 
 // 判断重复
-export function isExist(query) {
+export function isExist(query, query2) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
     params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('bomType', query2) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/materialslist/isExist',

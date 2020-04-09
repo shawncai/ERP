@@ -65,9 +65,14 @@
                   <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
                   <el-input v-model="personalForm.typeId" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
+                  <el-input v-model="typeName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -99,7 +104,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReason" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect', options: unqualify, type: 'visible'}" :label="$t('updates.bhgyy')" prop="failedReasonId" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -153,6 +158,7 @@ export default {
       }
     }
     return {
+      typeName: '',
       // 不合格下拉
       unqualify: [],
       // 控制质检报告单
@@ -217,6 +223,7 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
+        handleDate: null,
         sourceType: '1',
         handlePersonId: this.$store.getters.userId
       },
@@ -440,7 +447,8 @@ export default {
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
-      this.personalForm.typeId = val.productType
+      this.personalForm.typeId = val.typeId
+      this.typeName = val.productType
       this.personalForm.failedQuantity = val.failedQuantity
     },
     // 质检申请单明细来源为无来源时
@@ -472,9 +480,11 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        isVat: 1
+        isVat: 1,
+        handleDate: null,
+        handlePersonId: this.$store.getters.userId
       }
-      this.handlePersonId = null
+      this.getdatatime()
       this.supplierId = null
       this.workCenterId = null
       this.produceManagerId = null
@@ -508,6 +518,8 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+      console.log('parms', parms)
+      console.log('parms2', parms2)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate((valid) => {

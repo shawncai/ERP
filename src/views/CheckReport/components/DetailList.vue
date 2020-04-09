@@ -167,16 +167,17 @@
           <el-editable-column :label="$t('Hmodule.xh')" fixed min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('updates.jyxm')" prop="checkItemName" fixed align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jynr')" prop="checkContent" fixed align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jygj')" prop="checkTools" fixed align="center" min-width="150px"/>
+          <!--          <el-editable-column :label="$t('updates.jygj')" prop="checkTools" fixed align="center" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.ybs')" prop="checkQuantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.hgsl')" prop="passQuantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.bhgsl')" prop="failedQuantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jyjg')" prop="checkResult" align="center" min-width="150px">
+          <!--          <el-editable-column :label="$t('updates.hgsl')" prop="passQuantity" align="center" min-width="150px"/>-->
+          <!--          <el-editable-column :label="$t('updates.bhgsl')" prop="failedQuantity" align="center" min-width="150px"/>-->
+          <el-editable-column :label="$t('updates.jyjg')" prop="remarks" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.dxjl')" prop="checkResult" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.chectResult | chectResultFilter }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.dxjl')" prop="remarks" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('tongyo.bnyy')" prop="failedReasonName" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

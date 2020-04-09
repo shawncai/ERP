@@ -13,6 +13,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('StockArrival.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" >
+                  <el-option value="1" label="采购订单" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @allOrderinfo="allOrderinfo2"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.payDate')" prop="payDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.payDate"
@@ -37,7 +50,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('AdvancePay.settleMode')" prop="settleMode" style="width: 100%;">
+              <el-form-item :label="$t('AdvancePay.settleMode')" style="width: 100%;">
                 <el-select v-model="personalForm.settleMode" clearable style="margin-left: 18px;width: 200px">
                   <el-option
                     v-for="(item, index) in paymentIds"
@@ -148,6 +161,7 @@ export default {
       empcontrol: false,
       // 部门数据
       depts: [],
+      supp: null,
       // 类别数据
       types: [],
       // 类别获取参数
@@ -192,6 +206,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.supplierId = this.personalForm.supplierName
+      this.supp = this.personalForm.supplierId
       this.stockPersonId = this.personalForm.stockPersonName
     }
   },
@@ -203,6 +218,21 @@ export default {
     _that = this
   },
   methods: {
+    handleAddSouce() {
+      if (this.supp === '' || this.supp === undefined || this.supp === null) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择供应商',
+          offset: 100
+        })
+        return false
+      } else {
+        this.ordercontrol = true
+      }
+    },
+    allOrderinfo2(val) {
+      this.personalForm.sourceNumber = val.orderNumber
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -277,10 +307,6 @@ export default {
         this.$refs.editable.clear()
       }
     },
-    // 从源单中添加商品
-    handleAddSouce() {
-      this.ordercontrol = true
-    },
     order(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
@@ -316,8 +342,10 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.supp = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
+      this.personalForm.payAccount = val.account
       this.stockPersonId = val.stockPersonName
       this.personalForm.stockPersonId = val.stockPersonId
       this.personalForm.deptId = val.deptId

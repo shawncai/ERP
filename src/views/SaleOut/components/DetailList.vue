@@ -155,12 +155,25 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isFree" style="margin-left: 18px;width: 200px" disabled>
-                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
-                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
-                  </el-radio-group>
+                  <span>{{ personalForm.isFree | isFreeTypeFilter }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('tongyo.zbyy')" style="width: 100%;">
+                  <span>{{ personalForm.freeReasonName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('tongyo.useType')" style="width: 100%;">
+                  <span>{{ personalForm.useType | useTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('tongyo.useMonth')" style="width: 100%;">
+                  <span>{{ personalForm.useMonth }}</span>
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -204,6 +217,9 @@
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
+
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
           </el-editable>
         </div>
@@ -235,6 +251,38 @@
           </el-editable>
         </div>
       </el-card>
+
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">{{ $t('tongyo.zbthd') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable3"
+            :data.sync="returnlist"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <!-- <el-editable-column type="selection" width="55" align="center"/> -->
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" width="200px"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="200px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.wpfl')" prop="productCategoryName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productTypeName" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
+            <el-editable-column :label="$t('updates.rksl')" prop="quantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.djbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
+            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+
       <!--审核状态-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
@@ -422,6 +470,13 @@ import { productlist } from '@/api/public'
 var _that
 export default {
   filters: {
+    useTypeFilter(sta) {
+      const statusMap = {
+        1: _that.$t('tongyo.jy'),
+        2: _that.$t('tongyo.yy')
+      }
+      return statusMap[sta]
+    },
     isFreeTypeFilter(sta) {
       const statusMap = {
         1: 'yes',
@@ -515,6 +570,8 @@ export default {
   },
   data() {
     return {
+      // 退货入库数据
+      returnlist: [],
       huishou: '',
       yushou: '',
       // 合计数据
@@ -541,6 +598,7 @@ export default {
       console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
       this.list2 = this.personalForm.saleOutDetailVos
       this.list3 = this.personalForm.saleOutGiftVos
+      this.returnlist = this.personalForm.saleOutRetreatVos
       for (const i in this.list2) {
         this.list2[i].categoryName = this.list2[i].productCategoryName
         this.list2[i].typeName = this.list2[i].productTypeName

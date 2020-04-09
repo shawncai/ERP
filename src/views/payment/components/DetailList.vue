@@ -227,6 +227,16 @@
                   {{ personalForm.modifyDate }}
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('accessComponent.ppp')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.confirmPersonName }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('accessComponent.ooo')" prop="applyDate" style="width: 100%;">
+                  {{ personalForm.confirmDate }}
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>

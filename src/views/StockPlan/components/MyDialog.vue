@@ -48,9 +48,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockPlan.sourceType')" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                  <el-option value="1" label="采购申请" />
-                  <el-option value="2" label="采购需求" />
-                  <el-option value="3" label="无来源" />
+                  <el-option :label="$t('route.StockApply')" value="1" />
+                  <el-option :label="$t('route.StockRequire')" value="2" />
+                  <el-option :label="$t('AccessMaterials.Nosource')" value="3" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -62,6 +62,12 @@
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
               </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="planRepositoryId" style="width: 100%;">
+                <el-input v-model="planRepositoryId" placeholder="请选择采购仓库" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
           </el-row>
         </el-form>
@@ -117,10 +123,15 @@
             </template>
           </el-editable-column>          <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px">
-            <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.supplierName" @focus="handlechoose(scope)"/>
-              <my-supplier :control.sync="empcontrol" :procode="procode" @supplierName="personName(scope, $event)"/>
+          <el-editable-column :edit-render="{type: 'default'}" :label="$t('updates.gys')" prop="supplierId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.supplierId" :value="scope.row.supplierId" filterable style="width: 100%;" @visible-change="updatesupp($event,scope)" @change="changeDate2($event,scope)">
+                <el-option
+                  v-for="item in suppliers"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.supplierName"/>
+              </el-select>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
@@ -196,6 +207,7 @@
 <script>
 import { updatestockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
+import { search2 } from '@/api/Supplier'
 // import { productlist } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './MyEmp'
@@ -204,10 +216,11 @@ import MyDetail from './MyDetail'
 import MyApply from './MyApply'
 import MySupplier from './MySupplier'
 import MyRequire from './MyRequire'
+import MyRepository from './MyRepository'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyRepository },
   props: {
     editcontrol: {
       type: Boolean,
@@ -243,7 +256,18 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.planRepositoryId)
+      if (this.planRepositoryId === undefined || this.planRepositoryId === null || this.planRepositoryId === '') {
+        callback(new Error('请选择采购仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      planRepositoryId: '',
+      suppliers: [],
       zzz: 123,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -294,6 +318,9 @@ export default {
       control: false,
       // 采购计划单规则数据
       personalrules: {
+        planRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         stockType: [
           { required: true, message: '请选择采购类别', trigger: 'change' }
         ],
@@ -336,6 +363,7 @@ export default {
       this.personalForm = this.editdata
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
+      this.planRepositoryId = this.personalForm.planRepositoryName
       this.list2 = this.personalForm.stockPlanDetailVos
       this.list3 = this.personalForm.stockPlanDetailVos
       this.getdatatime()
@@ -348,6 +376,42 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.planRepositoryId = val.repositoryName
+      this.personalForm.planRepositoryId = val.id
+    },
+    async changeDate2(event, scope) {
+      console.log('event', event)
+      const param = {}
+      param.id = scope.row.supplierId
+      // eslint-disable-next-line no-return-assign
+      const a = this.suppliers.find(item => item.id = event)
+      console.log('this.suppliers', this.suppliers)
+      scope.row.supplierName = a.supplierName
+      console.log('scope.row', scope.row)
+      // scope.row.productCode
+      this.changeDate()
+    },
+    updatesupp(event, scope) {
+      if (event === true) {
+        console.log(scope.row.productCode)
+        const param = {}
+        param.productCode = scope.row.productCode
+        param.isEffective = 1
+        param.pagenum = 1
+        param.pagesize = 9999
+        search2(param).then(res => {
+          if (res.data.ret === 200) {
+            this.suppliers = res.data.data.content.list
+          }
+        })
+        console.log('this.location', this.suppliers)
+      }
+    },
     planQuantity(row) {
       return (row.planQuantity).toFixed(2)
     },
@@ -437,7 +501,7 @@ export default {
         const result = newArr.findIndex(ol => { return el.planDeliveryDate === ol.planDeliveryDate && el.productCode === ol.productCode && el.supplierId === ol.supplierId })
         console.log('result', result)
         if (result !== -1) {
-          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined && el.supplierId !== null && el.supplierId !== '' && el.supplierId !== undefined) {
+          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined) {
             newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
           } else {
             newArr.push(el)
@@ -476,6 +540,7 @@ export default {
     },
     // 供货商输入框focus事件触发
     handlechoose(scope) {
+      console.log('123', 123)
       this.empcontrol = true
       this.kongscope = scope
       this.procode = scope.row.productCode
@@ -536,9 +601,10 @@ export default {
     },
     allinfo(val) {
       console.log(val)
-      this.personalForm.planDate = val.applyDate
+      // this.personalForm.planDate = val.applyDate
     },
     apply(val) {
+      this.getTypes()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable.insert(val[i])
       }
@@ -550,15 +616,14 @@ export default {
     },
     // 采购需求数据
     requiredata(val) {
+      this.getTypes()
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable.insert(val[i])
       }
     },
     requiredata2(val) {
       for (let i = 0; i < val.length; i++) {
-        val[i].planQuantity = val[i].requireQuantity - val[i].planedQuantity
         this.$refs.editable2.insert(val[i])
       }
     },
@@ -575,6 +640,14 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      const param = {}
+      param.pagenum = 1
+      param.pagesize = 9999
+      search2(param).then(res => {
+        if (res.data.ret === 200) {
+          this.suppliers = res.data.data.content.list
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {
@@ -621,6 +694,8 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -636,6 +711,7 @@ export default {
         })
         return false
       }
+      let mm = 1
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -677,9 +753,18 @@ export default {
         }
         if (elem.supplierId === null || elem.supplierId === '' || elem.supplierId === undefined) {
           delete elem.supplierId
+          mm = 2
         }
         return elem
       })
+      if (mm === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择供应商',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {

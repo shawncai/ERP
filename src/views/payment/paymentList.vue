@@ -17,7 +17,16 @@
         trigger="click">
         <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter" @focus="handlechoose"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="付款日期"
+          end-placeholder="付款日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
+        <!-- <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
@@ -27,7 +36,7 @@
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
-        </el-select>
+        </el-select> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -125,6 +134,7 @@
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-126-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -275,6 +285,33 @@ export default {
     _that = this
   },
   methods: {
+    handleEdit2(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.confirmPersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.sfqrhwyck'), this.$t('prompt.qd'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.qd'),
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updatepayment2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.qrcg')
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      })
+    },
     // 附件操作
     check(row) {
       console.log(row)
@@ -330,6 +367,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       paymentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {

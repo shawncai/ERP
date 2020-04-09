@@ -84,12 +84,12 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.signPersonId')" prop="signPersonId" style="width: 100%;">
                   <el-input v-model="signPersonId" :disabled="IsSignPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.deliveryMode')" style="width: 100%;">
                   <el-select v-model="personalForm.deliveryMode" :disabled="IsDeliveryMode" clearable style="margin-left: 18px;width: 200px" @change="change()">
@@ -165,20 +165,18 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
@@ -186,7 +184,7 @@
                   :precision="2"
                   :min="1.00"
                   v-model="scope.row.stockQuantity"
-                  @change="changenumber(scope.row)"
+                  @change="changenumber(scope.row, scope)"
                   @keyup.enter.native="test(scope.row)"/>
               </template>
             </el-editable-column>
@@ -195,7 +193,7 @@
                 <el-date-picker
                   v-model="scope.row.deliveryDate"
                   value-format="yyyy-MM-dd"
-                  @change="copydate(scope.row)"/>
+                  @change="copydate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
@@ -408,13 +406,14 @@ export default {
       }
     }
     return {
-      repositorycontrol: false,
-      stockRepositoryId: this.$store.getters.repositoryName,
+
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      repositorycontrol: false,
+      stockRepositoryId: '',
       // 控制采购类型，采购部门是否可以编辑
       isedit: false,
       priceabled: false,
@@ -493,7 +492,7 @@ export default {
       supplierIdDetail: [],
       // 采购申请单信息数据
       personalForm: {
-        stockRepositoryId: this.$store.getters.repositoryId,
+        stockRepositoryId: '',
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -557,6 +556,33 @@ export default {
       moreaction: []
     }
   },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        console.log('list2', this.list2)
+        let num1 = 0
+        let num2 = 0
+        let num3 = 0
+        let num4 = 0
+        let num5 = 0
+        for (const i in this.list2) {
+          num1 += Number(this.list2[i].stockQuantity)
+          num2 += Number(this.list2[i].money)
+          num3 += Number(this.list2[i].tax)
+          num4 += Number(this.list2[i].includeTaxMoney)
+          num5 += Number(this.list2[i].discountMoney)
+        }
+        this.allNumber = num1
+        this.allMoney = num2
+        this.allTaxMoney = num3
+        this.allIncludeTaxMoney = num4
+        this.allDiscountMoney = num5
+        this.allMoneyMoveDiscount = num4 - num5
+      },
+      deep: true
+    }
+
+  },
   created() {
     this.getTypes()
     this.getways()
@@ -581,40 +607,61 @@ export default {
       this.stockRepositoryId = val.repositoryName
       this.personalForm.stockRepositoryId = val.id
     },
-    changenumber(row) {
-      if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
-        return false
-      }
-      let re = 1
-      for (let i = 0; i < this.list2.length; i++) {
-        if (this.list2[i].stockQuantity !== 1) {
-          re++
+    changenumber(row, scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.stockQuantity !== '' && scope.row.stockQuantity !== null && scope.row.stockQuantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].stockQuantity !== null && this.list2[i].stockQuantity !== '' && this.list2[i].stockQuantity !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].stockQuantity = scope.row.stockQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].stockQuantity = scope.row.stockQuantity
+            }
+          }
+          console.log(scope.row)
         }
       }
-      if (re === 2) {
-        for (let i = 0; i < this.list2.length; i++) {
-          this.list2[i].stockQuantity = row.stockQuantity
-        }
-      }
+      // if (row.stockQuantity === 1 || row.stockQuantity === '' || row.stockQuantity === null || row.stockQuantity === undefined) {
+      //   return false
+      // }
+      // let re = 1
+      // for (let i = 0; i < this.list2.length; i++) {
+      //   if (this.list2[i].stockQuantity !== 1) {
+      //     re++
+      //   }
+      // }
+      // if (re === 2) {
+      //   for (let i = 0; i < this.list2.length; i++) {
+      //     this.list2[i].stockQuantity = row.stockQuantity
+      //   }
+      // }
     },
-    copydate(row) {
-      if (row.deliveryDate === '' || row.deliveryDate === null || row.deliveryDate === undefined) {
-        return false
-      }
-      for (let i = 0; i < this.list2.length; i++) {
-        this.list2[i].temp = i
-      }
-      for (let i = row.temp; i < this.list2.length; i++) {
-        console.log(this.list2[i].deliveryDate)
-        if (this.list2[i].deliveryDate !== null && this.list2[i].deliveryDate !== '' && this.list2[i].deliveryDate !== undefined) {
-          console.log(111)
-          continue
-        } else {
-          console.log(222)
-          this.list2[i].deliveryDate = row.deliveryDate
+    copydate(row, scope) {
+      if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
+        if (scope.row.deliveryDate !== '' && scope.row.deliveryDate !== null && scope.row.deliveryDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = scope.row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].deliveryDate !== null && this.list2[i].deliveryDate !== '' && this.list2[i].deliveryDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].deliveryDate = scope.row.deliveryDate
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].deliveryDate = scope.row.deliveryDate
+            }
+          }
+          console.log(scope.row)
         }
       }
-      console.log(row)
     },
     // 处理汇率
     changeRate() {
@@ -1291,15 +1338,20 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        stockRepositoryId: this.$store.getters.repositoryId,
         stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        sourceType: '5'
+        sourceType: '5',
+        currency: '1',
+        orderDate: null,
+        deptId: this.$store.getters.deptId,
+        exchangeRate: '1.0000'
       }
-      this.personalForm.orderDate = new Date()
+      this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
@@ -1334,8 +1386,8 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            console.log('123')
             const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            const mainParms = this.deepClone(this.personalForm)
             if (EnterDetail.length === 0) {
               this.$notify.error({
                 title: 'wrong',
@@ -1345,7 +1397,6 @@ export default {
               return false
             }
             let ll = 1
-            console.log('ll', ll)
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -1353,7 +1404,6 @@ export default {
                 ll = 2
               }
             })
-            console.log('ll', ll)
             if (ll === 2) {
               this.$notify.error({
                 title: 'wrong',
@@ -1406,7 +1456,7 @@ export default {
                 delete elem.price
               }
               if (elem.stockQuantity === null || elem.stockQuantity === '' || elem.stockQuantity === undefined) {
-                delete elem.stockQuantity
+                elem.stockQuantity = 1
               }
               if (elem.deliveryDate === null || elem.deliveryDate === '' || elem.deliveryDate === undefined) {
                 delete elem.deliveryDate
@@ -1421,36 +1471,36 @@ export default {
                 delete elem.sourceSerialNumber
               }
               if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-                delete elem.includeTaxPrice
+                elem.includeTaxPrice = 0
               }
-              // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              //   delete elem.taxRate
-              // }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                elem.taxRate = 0
+              }
               if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
                 elem.taxRate = elem.taxRate / 100
               }
-              // if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              //   delete elem.discountRate
-              // }
+              if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+                elem.discountRate = 0
+              }
               if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
                 elem.discountRate = elem.discountRate / 100
               }
               if (elem.money === null || elem.money === '' || elem.money === undefined) {
-                delete elem.money
+                elem.money = 0
               }
               if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-                delete elem.includeTaxMoney
+                elem.includeTaxMoney = 0
               }
               if (elem.tax === null || elem.tax === '' || elem.tax === undefined) {
-                delete elem.tax
+                elem.tax = 0
               }
               if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-                delete elem.discountMoney
+                elem.discountMoney = 0
               }
               return elem
             })
             const parms2 = JSON.stringify(EnterDetail)
-            const Data = this.personalForm
+            const Data = mainParms
             for (const key in Data) {
               if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
                 delete Data[key]
@@ -1460,6 +1510,8 @@ export default {
               }
             }
             const parms = JSON.stringify(Data)
+            console.log('parms', Data)
+            console.log('parms2', EnterDetail)
             addstockorder(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

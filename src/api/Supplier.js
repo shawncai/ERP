@@ -1,5 +1,44 @@
 import request from '@/utils/request'
 
+export function getStockInfoByProduct(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('quantity', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'supplierStock/getStockInfoByProduct',
+    method: 'post',
+    data: params
+  })
+}
+
+export function supplierDetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'supplierStock/supplierDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateSupplierDetail(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('supplierDetailJson', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: 'supplierStock/updateSupplierDetail',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询分类属性
 export function searchCategory(query) {
   var params = new URLSearchParams()
@@ -18,6 +57,9 @@ export function searchCategory(query) {
 // 新建供应商
 export function create(query, query2) {
   var params = new URLSearchParams()
+  if (query.proportion !== '' && query.proportion !== null && query.proportion !== undefined) {
+    params.append('proportion', query.proportion) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
   }
@@ -131,6 +173,12 @@ export function create(query, query2) {
 // 供应商列表
 export function search(query) {
   var params = new URLSearchParams()
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
@@ -177,9 +225,67 @@ export function search(query) {
   })
 }
 
+// 供应商列表
+export function search2(query) {
+  var params = new URLSearchParams()
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settleMode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
+    params.append('deliveryMode', query.deliveryMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
+    params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('payMode', query.payMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.groupId !== '' && query.groupId !== null && query.groupId !== undefined) {
+    params.append('groupId', query.groupId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
+  if (query.pagenum !== '' && query.pagenum !== null && query.pagenum !== undefined) {
+    params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pagesize !== '' && query.pagesize !== null && query.pagesize !== undefined) {
+    params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  }
+  if (query.isRole !== '' && query.isRole !== null && query.isRole !== undefined) {
+    params.append('isRole', query.isRole) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/supplier/search2',
+    method: 'post',
+    data: params
+  })
+}
+
 // 修改供应商
 export function update(query, query2) {
   var params = new URLSearchParams()
+  if (query.proportion !== '' && query.proportion !== null && query.proportion !== undefined) {
+    params.append('proportion', query.proportion) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
     params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
   }

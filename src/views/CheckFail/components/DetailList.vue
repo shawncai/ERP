@@ -252,7 +252,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.checkFailHandleDetails
+      this.list2 = this.personalForm.checkFailHandleDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

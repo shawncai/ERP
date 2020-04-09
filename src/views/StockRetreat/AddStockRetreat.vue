@@ -177,20 +177,18 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :summary-method="getSummaries"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
@@ -467,6 +465,33 @@ export default {
       moreaction: []
     }
   },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        console.log('list2', this.list2)
+        let num1 = 0
+        let num2 = 0
+        let num3 = 0
+        let num4 = 0
+        let num5 = 0
+        for (const i in this.list2) {
+          num1 += Number(this.list2[i].retreatQuantity)
+          num2 += Number(this.list2[i].money)
+          num3 += Number(this.list2[i].taxMoney)
+          num4 += Number(this.list2[i].includeTaxMoney)
+          num5 += Number(this.list2[i].discountMoney)
+        }
+        this.allNumber = num1
+        this.allMoney = num2
+        this.allTaxMoney = num3
+        this.allIncludeTaxMoney = num4
+        this.allDiscountMoney = num5
+        this.allMoneyMoveDiscount = num4 - num5
+      },
+      deep: true
+    }
+
+  },
   created() {
     this.getTypes()
     this.getways()
@@ -630,7 +655,11 @@ export default {
       return sums
     },
     getdiscountMoney(row) {
-      row.discountMoney = row.discountRate * row.retreatQuantity * (1 - row.discountRate / 100)
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = row.includeTaxPrice * row.retreatQuantity * (row.discountRate / 100)
+      }
       return row.discountMoney
     },
     // 计算税额
@@ -697,10 +726,19 @@ export default {
       this.arrivalcontrol = true
     },
     arrival(val) {
+      console.log('val', val)
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
+        console.log('val', val[i])
         val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
+      }
+      if (val.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '质检不通过的物品才能退货',
+          offset: 100
+        })
       }
     },
     allarrivalinfo(val) {
@@ -822,8 +860,10 @@ export default {
         regionId: this.$store.getters.regionId,
         deptId: this.$store.getters.deptId,
         stockPersonId: this.$store.getters.userId,
+        retreatDate: null,
         isVat: 1
       }
+      this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
@@ -895,7 +935,7 @@ export default {
               delete elem.discountRate
             }
             if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
+              elem.discountRate = elem.discountRate
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
               delete elem.money

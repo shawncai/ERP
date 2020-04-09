@@ -561,6 +561,13 @@ export default {
         val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
         this.$refs.editable.insert(val[i])
       }
+      if (val.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '质检不通过的物品才能退货',
+          offset: 100
+        })
+      }
     },
     allarrivalinfo(val) {
       this.personalForm.sourceNumber = val.number
@@ -674,6 +681,8 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -730,7 +739,7 @@ export default {
               delete elem.taxRate
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = (elem.taxRate).toFixed(2)
+              elem.taxRate = (elem.taxRate / 100).toFixed(2)
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               delete elem.discountRate

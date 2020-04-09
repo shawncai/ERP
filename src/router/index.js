@@ -824,6 +824,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/Stockenter/OtherEnterList'),
         name: 'OtherEnterList',
         meta: { title: 'OtherEnterList', noCache: false, roles: ['131-132-137-1', '131-132-137-2', '131-132-137-3', '131-132-137-4', '131-132-137-5', '131-132-137-6', '131-132-137-7', '131-132-137-18', '131-132-137-16', '131-132-137-17'] }
+      },
+      {
+        path: 'AddOutSourceEnter',
+        component: () => import('@/views/OutSourceEnter/AddOutSourceEnter'),
+        name: 'AddOutSourceEnter',
+        meta: { title: 'AddOutSourceEnter', noCache: false, roles: ['131-132-383-1'] }
+      },
+      {
+        path: 'OutSourceEnterList',
+        component: () => import('@/views/OutSourceEnter/OutSourceEnterList'),
+        name: 'OutSourceEnterList',
+        meta: { title: 'OutSourceEnterList', noCache: false, roles: ['131-132-383-1', '131-132-383-2', '131-132-383-3', '131-132-383-4', '131-132-383-5', '131-132-383-6', '131-132-383-7', '131-132-383-18', '131-132-383-16', '131-132-383-17'] }
       }
     ]
   },
@@ -851,6 +863,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockOut/OtherStockOutList'),
         name: 'OtherStockOutList',
         meta: { title: 'OtherStockOutList', noCache: false, roles: ['131-138-140-1', '131-138-140-2', '131-138-140-3', '131-138-140-4', '131-138-140-5', '131-138-140-6', '131-138-140-7', '131-138-140-18', '131-138-140-16', '131-138-140-17'] }
+      },
+      {
+        path: 'AddOutSourceOut',
+        component: () => import('@/views/OutSourceOut/AddOutSourceOut'),
+        name: 'AddOutSourceOut',
+        meta: { title: 'AddOutSourceOut', noCache: false, roles: ['131-138-384-1'] }
+      },
+      {
+        path: 'OutSourceOutList',
+        component: () => import('@/views/OutSourceOut/OutSourceOutList'),
+        name: 'OutSourceOutList',
+        meta: { title: 'OutSourceOutList', noCache: false, roles: ['131-138-384-1', '131-138-384-2', '131-138-384-3', '131-138-384-4', '131-138-384-5', '131-138-384-6', '131-138-384-7', '131-138-384-18', '131-138-384-16', '131-138-384-17'] }
       }
     ]
   },
@@ -1569,6 +1593,12 @@ export const asyncRouterMap = [
         meta: { title: 'AddStockOrder', noCache: false, roles: ['104-115-1'] }
       },
       {
+        path: 'ManyAddStockOrder',
+        component: () => import('@/views/StockOrder/ManyAddStockOrder'),
+        name: 'ManyAddStockOrder',
+        meta: { title: 'ManyAddStockOrder', noCache: false, roles: ['104-115-1'] }
+      },
+      {
         path: 'StockOrderList',
         component: () => import('@/views/StockOrder/StockOrderList'),
         name: 'StockOrderList',
@@ -1895,6 +1925,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleOut/NewAccessoriesOut'),
         name: 'NewAccessoriesOut',
         meta: { title: 'NewAccessoriesOut', noCache: false, roles: ['54-56-1'] }
+      },
+      {
+        path: 'NewBatteryOut',
+        component: () => import('@/views/SaleOut/NewBatteryOut'),
+        name: 'NewBatteryOut',
+        meta: { title: 'NewBatteryOut', noCache: false, roles: ['54-56-1'] }
       },
       {
         path: 'AddSaleOut2',
@@ -3426,6 +3462,27 @@ export const asyncRouterMap = [
         component: () => import('@/views/AccountManagement/index'),
         name: 'AccountManagement',
         meta: { title: 'AccountManagement', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/DiffPrice',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'DiffPrice',
+    alwaysShow: true,
+    meta: {
+      title: 'DiffPrice',
+      icon: 'shuxing',
+      type: 3,
+      roles: ['54-382-1', '54-382-2', '54-382-3', '54-382-4']
+    },
+    children: [
+      {
+        path: 'DiffPrice',
+        component: () => import('@/views/diffPrice/diffPricelist'),
+        name: 'DiffPrice',
+        meta: { title: 'DiffPrice', noCache: false }
       }
     ]
   },

@@ -138,7 +138,7 @@ export function collectAndPay(query) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId ', query.repositoryId) // 你要传给后台的参数值 key/value
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value

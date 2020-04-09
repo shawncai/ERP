@@ -40,7 +40,7 @@
                   :label="item.categoryName"
                   :value="item.id"/>
               </el-select>
-              <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+              <!-- <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
                 <el-option :label="$t('updates.wsh')" value="0"/>
                 <el-option :label="$t('updates.shz')" value="1"/>
                 <el-option :label="$t('updates.shtg')" value="2"/>
@@ -50,7 +50,7 @@
                 <el-option :label="$t('updates.zd')" value="1"/>
                 <el-option :label="$t('updates.zx')" value="2"/>
                 <el-option :label="$t('updates.jd')" value="3"/>
-              </el-select>
+              </el-select> -->
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -86,7 +86,11 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55"
+          align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.applyNumber }}</span>
@@ -143,6 +147,7 @@
 
 <script>
 import { stocapplylist } from '@/api/StockApply'
+import { getStockInfoByProduct } from '@/api/Supplier'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -317,17 +322,31 @@ export default {
       this.$router.push('/StockApply/AddStockApply')
     },
     // 选择主生产计划数据时的操作
-    handleCurrentChange(val) {
+    handleSelectionChange(val) {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
-      const applydata = this.choosedata.stockApplyDetailVos
+      // console.log('this.choosedata', this.choosedata)
+      // const neednewarr = this.choosedata.map(item => {
+      //   return item.stockApplyDetailVos
+      // })
+      // const applydata = [].concat.apply([], neednewarr)
+      // console.log('applydata', applydata)
+      console.log('123', this.choosedata)
+      const applydata = this.choosedata
       const number = this.choosedata.applyNumber
       console.log('1111122222', applydata)
-      const applyDetail = applydata.map(function(item) {
+      const orderdata = []
+      // const number = this.choosedata.orderNumber
+      for (let i = 0; i < this.choosedata.length; i++) {
+        for (let j = 0; j < this.choosedata[i].stockApplyDetailVos.length; j++) {
+          this.choosedata[i].stockApplyDetailVos[j].applyNumber = this.choosedata[i].applyNumber
+          orderdata.push(this.choosedata[i].stockApplyDetailVos[j])
+        }
+      }
+      const applyDetail = orderdata.map(function(item) {
         return {
           applyQuantity: item.applyQuantity,
           productCode: item.productCode,
@@ -338,7 +357,7 @@ export default {
           color: item.color,
           basicQuantity: item.applyQuantity,
           planDeliveryDate: item.requireDate,
-          planQuantity: item.planQuantity,
+          planQuantity: item.applyQuantity,
           applyReason: item.applyReason,
           sourceNumber: number,
           supplierId: '',
@@ -346,15 +365,42 @@ export default {
           basicPrice: 0,
           planMoney: '0.00',
           orderQuantity: '0.00',
-          requireQuantity: item.applyQuantity,
           requireDate: item.requireDate,
-          sourceSerialNumber: item.id
+          sourceSerialNumber: item.id,
+          applyNumber: item.applyNumber
         }
       })
-      console.log('22222333333', applyDetail[0].planQuantity)
-      this.$emit('apply', applyDetail)
-      this.$emit('apply2', applyDetail)
-      this.$emit('allinfo', this.choosedata)
+      const list = await Promise.all(applyDetail.map(function(item) {
+        return getStockInfoByProduct(item.productCode, item.planQuantity).then(res => {
+          for (let i = 0; i < res.data.data.content.length; i++) {
+            res.data.data.content[i].sourceNumber = item.applyNumber
+          }
+          return res.data.data.content
+        })
+      }))
+      const list2 = []
+      for (let i = 0; i < list.length; i++) {
+        for (let m = 0; m < list[i].length; m++) {
+          list[i][m].basicPrice = list[i][m].price
+          list[i][m].requireQuantity = list[i][m].quantity
+          list[i][m].planQuantity = list[i][m].quantity
+          list[i][m].basicQuantity = list[i][m].quantity
+          list2.push(list[i][m])
+        }
+      }
+      for (const i in list2) {
+        for (const j in applyDetail) {
+          if (list2[i].productCode === applyDetail[j].productCode) {
+            list2[i].sourceSerialNumber = applyDetail[j].sourceSerialNumber
+            list2[i].stockRequireId = applyDetail[j].stockRequireId
+            list2[i].orderQuantity = applyDetail[j].orderQuantity
+          }
+        }
+      }
+      console.log('22222333333', list2)
+      this.$emit('apply', list2)
+      this.$emit('apply2', list2)
+      this.$emit('allinfo', list2)
     }
     // 仓库管理员选择结束
   }

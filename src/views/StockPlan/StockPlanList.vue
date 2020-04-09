@@ -172,6 +172,7 @@
 </template>
 
 <script>
+import { addstockorder } from '@/api/StockOrder'
 import { stockplanlist, deletestockplan, updatestockplan2 } from '@/api/StockPlan'
 import { stockorderlist2 } from '@/api/StockOrder'
 import { checkReceiptPlan } from '@/api/public'
@@ -225,6 +226,7 @@ export default {
   },
   data() {
     return {
+      todaytime: null,
       step1: '',
       step2: '',
       step3: '',
@@ -286,17 +288,34 @@ export default {
   },
   activated() {
     this.getlist()
+    this.getdatatime()
   },
   mounted() {
     this.getlist()
+    this.getdatatime()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.todaytime = currentdate
+    },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
+      // console.log(row)
       if (row.judgeStat === 2) {
         return true
       }
@@ -333,7 +352,7 @@ export default {
     },
     // 判断反结单按钮
     isReview3(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat === 3) {
         return true
       }
@@ -363,7 +382,7 @@ export default {
     },
     // 判断结单按钮
     isReview2(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
         return true
       }
@@ -511,9 +530,10 @@ export default {
       }))
       const processdata = needdata.data.data.content.list
       this.total = needdata.data.data.content.totalCount
+      // console.log('processdata', processdata)
       const lists = await Promise.all(processdata.map((item) => {
         return stockorderlist2({
-          sourceNumber: item.sourceNumber,
+          sourceNumber: item.planNumber,
           regionIds
         })
       }))
@@ -589,8 +609,8 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
@@ -598,6 +618,12 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -609,6 +635,8 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 2
         const parms = JSON.stringify(this.reviewParms)
+        console.log('row', row)
+
         updatestockplan2(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
@@ -616,6 +644,103 @@ export default {
               message: this.$t('prompt.shcg')
             })
             this.getlist()
+            console.log('row.stockPlanDetailVos', row.stockPlanDetailVos)
+            var b = {}
+            var c = []
+            row.stockPlanDetailVos.forEach(v => {
+              !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
+            })
+            var i = 0
+            for (var o in b) {
+              c[i] = {
+                'supplierId': o,
+                'oarr': b[o]
+              }
+              i++
+            }
+            console.log('c', c)
+            for (const z in c) {
+              // console.log('c[z]', c[z])
+              const arr = []
+              for (const k in c[z].oarr) {
+                let orderQuantity = 0
+                if (c[z].oarr[k].orderQuantity === null) {
+                  orderQuantity = 0
+                } else {
+                  orderQuantity = c[z].oarr[k].orderQuantity
+                }
+                const stockorderparms2 = {
+                  productCode: c[z].oarr[k].productCode,
+                  productName: c[z].oarr[k].productName,
+                  productType: c[z].oarr[k].productType,
+                  typeName: c[z].oarr[k].productType,
+                  type: c[z].oarr[k].typeId,
+                  color: c[z].oarr[k].color,
+                  unit: c[z].oarr[k].unit,
+                  planQuantity: c[z].oarr[k].planQuantity,
+                  orderQuantity: orderQuantity,
+                  deliveryDate: c[z].oarr[k].planDeliveryDate,
+                  applicationReason: c[z].oarr[k].applyReason,
+                  sourceNumber: row.planNumber,
+                  sourceSerialNumber: c[z].oarr[k].id,
+                  remark: 0,
+                  discountRate: 0,
+                  discountMoney: 0,
+                  arrivalQuantity: 0,
+                  price: c[z].oarr[k].basicPrice,
+                  includeTaxPrice: c[z].oarr[k].basicPrice,
+                  supplierId: c[z].oarr[k].supplierId,
+                  returnQuantity: 0,
+                  tax: 0,
+                  actualArrivalQuantity: 0,
+                  stockQuantity: c[z].oarr[k].planQuantity,
+                  taxRate: 0,
+                  money: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
+                  includeTaxMoney: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
+                  typeId: c[z].oarr[k].typeId
+                }
+                arr.push(stockorderparms2)
+              }
+              const stockorderparms1 = {
+                title: '自动生成采购订单',
+                stockRepositoryId: 8,
+                stockPersonId: row.planPersonId,
+                createPersonId: row.planPersonId,
+                countryId: this.$store.getters.countryId,
+                repositoryId: this.$store.getters.repositoryId,
+                regionId: this.$store.getters.regionId,
+                isVat: 1,
+                settleMode: 4,
+                sourceType: '2',
+                currency: '1',
+                orderDate: this.todaytime,
+                deptId: this.$store.getters.deptId,
+                exchangeRate: '1.0000',
+                supplierId: c[z].supplierId,
+                stockTypeId: row.stockType
+              }
+              const orderparms = JSON.stringify(stockorderparms1)
+
+              const parms2 = JSON.stringify(arr)
+              // console.log('arr', arr)
+              // console.log('stockorderparms1', stockorderparms1)
+              setTimeout(function() {
+                addstockorder(orderparms, parms2, stockorderparms1).then(res => {
+                  if (res.data.ret === 200) {
+                    loading.close()
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'succzess',
+                      offset: 100
+                    })
+                  }
+                })
+              }, z * 500)
+            }
+            loading.close()
+          } else {
+            loading.close()
           }
         })
       }).catch(action => {

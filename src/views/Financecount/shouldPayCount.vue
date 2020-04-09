@@ -298,76 +298,91 @@ export default {
       this.stockPersonId = ''
       this.getemplist.stockPersonId = ''
     },
+    getMonthBetween(start, end) { // 传入的格式YYYY-MM
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.Format = function(fmt) {
+        var o = {
+          'M+': this.getMonth() + 1, // 月份
+          'd+': this.getDate(), // 日
+          'H+': this.getHours(), // 小时
+          'm+': this.getMinutes(), // 分
+          's+': this.getSeconds(), // 秒
+          'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
+          'S': this.getMilliseconds() // 毫秒
+        }
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
+        for (var k in o) { if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length))) }
+        return fmt
+      }
+      var result = []
+      var s = start.split('-')
+      var e = end.split('-')
+      var min = new Date()
+      var max = new Date()
+      min.setFullYear(s[0], s[1] * 1 - 1, 1)// 开始日期
+      // console.log(moment(min).format('YYYY-MM-DD'))
+      max.setFullYear(e[0], e[1] * 1 - 1, 1)// 结束日期
+      // console.log(moment(max).format('YYYY-MM-DD'))
+      var curr = min
+      // eslint-disable-next-line no-unmodified-loop-condition
+      while (curr <= max) {
+        // console.log(moment(curr).format('YYYY-MM-DD'))
+        var month = curr.getMonth()
+        console.log(month + 1)
+        // var str = curr.getFullYear() + "-" + (month);
+        // var s = curr.getFullYear() + "-0";
+        // if (str == s) {
+        // str = curr.getFullYear() + "-1";
+        // }
+        const mouths = curr.Format('yyyy-MM')
+        result.push(mouths)
+        curr.setMonth(month + 1)
+        console.log(mouths)
+      }
+      return result
+    },
     // 搜索
     handleFilter() {
-      if (this.data1 !== null && this.data2 !== null && this.data1 !== '' && this.data2 !== '') {
-        console.log(66666)
-        var result = []
-        var starts = this.data1.split('-')
-        var ends = this.data2.split('-')
-        var staYear = parseInt(starts[0])
-        var staMon = parseInt(starts[1])
-        var endYear = parseInt(ends[0])
-        var endMon = parseInt(ends[1])
-        while (staYear <= endYear) {
-          if (staYear === endYear) {
-            while (staMon < endMon) {
-              staMon++
-              let needdatas = ''
-              console.log('staMon.length', staMon.length)
-              console.log('staMon', staMon)
-              if (staMon.toString().length === 1) {
-                needdatas = staYear + '-0' + staMon
-              } else {
-                needdatas = staYear + '-' + staMon
+      if (this.data1 && this.data2) {
+        const date1 = new Date(this.data1).getTime(new Date(this.data1))
+        const data2 = new Date(this.data2).getTime(new Date(this.data2))
+        if (date1 > data2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '开始月份不能大于结束月份',
+            offset: 100
+          })
+          return false
+        } else {
+          const arrparms = this.getMonthBetween(this.data1, this.data2)
+          // arrparms[0] = this.data1
+          // arrparms[1] = this.data2
+          this.getemplist.dateList = arrparms
+          shouldPayCount(this.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              this.list = res.data.data.content.flat(1)
+              // for (let i = 0; i < res.data.data.content.length; i++) {
+              //   for (let j = 0; j < res.data.data.content[i].length; i++) {
+              //     this.list.push(res.data.data.content[i][j])
+              //   }
+              // }
+
+              const arr1 = res.data.data.content
+              for (const i in arr1) {
+                console.log(arr1[i])
+                const newarr = arr1[i].filter(item => {
+                  return (item.time === arr1[i].time)
+                })
+                console.log(newarr)
               }
-              console.log('needdatas', needdatas)
-              result.push(needdatas)
+              console.log('this.list', this.list)
             }
-            staYear++
-          } else {
-            staMon++
-            if (staMon > 12) {
-              staMon = 1
-              staYear++
-            }
-            let needdatas = ''
-            if (staMon.toString().length === 1) {
-              needdatas = staYear + '-0' + staMon
-            } else {
-              needdatas = staYear + '-' + staMon
-            }
-            console.log('needdatas', needdatas)
-            result.push(needdatas)
-          }
+          })
         }
-
-        this.getemplist.dateList = result
-        shouldPayCount(this.getemplist).then(res => {
-          if (res.data.ret === 200) {
-            this.list = res.data.data.content.flat(1)
-            // for (let i = 0; i < res.data.data.content.length; i++) {
-            //   for (let j = 0; j < res.data.data.content[i].length; i++) {
-            //     this.list.push(res.data.data.content[i][j])
-            //   }
-            // }
-
-            const arr1 = res.data.data.content
-            for (const i in arr1) {
-              console.log(arr1[i])
-              const newarr = arr1[i].filter(item => {
-                return (item.time === arr1[i].time)
-              })
-              console.log(newarr)
-            }
-            console.log('this.list', this.list)
-          }
-        })
       } else {
-        this.list = []
         this.$notify.error({
           title: 'wrong',
-          message: '搜索条件不能为空',
+          message: '请选择日期',
           offset: 100
         })
       }

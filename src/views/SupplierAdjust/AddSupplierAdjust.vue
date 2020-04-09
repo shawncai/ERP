@@ -2,25 +2,26 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top:  25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SupplierAdjust.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('SupplierAdjust.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SupplierAdjust.applyPersonId')" prop="applyPersonId" style="width: 100%;">
-                  <el-input v-model="applyPersonId" :disabled="IsStockPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('SupplierAdjust.applyPersonId')" prop="applyPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="applyPersonId" :disabled="IsStockPersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SupplierAdjust.deptId')" prop="deptId" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('SupplierAdjust.deptId')" prop="deptId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.deptId" style="width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -30,19 +31,19 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SupplierAdjust.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-form-item :label="$t('SupplierAdjust.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="supplierId" style="width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SupplierAdjust.applyDate')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('SupplierAdjust.applyDate')" prop="applyDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.applyDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -50,9 +51,12 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.tzdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.tzdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -81,7 +85,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -146,6 +150,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      datalist: [],
       // 带入的供应商
       supp: null,
       // 控制币种是否可以编辑
@@ -408,6 +413,7 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
+      this.datalist = val.supplierDetailVos
       this.$refs.editable.clear()
       for (let i = 0; i < val.supplierDetailVos.length; i++) {
         val.supplierDetailVos[i].id = ''
@@ -454,6 +460,7 @@ export default {
         })
         return false
       }
+      // this.supp = this.personalForm.supplierId
       this.control = true
     },
     productdetail(val) {
@@ -542,9 +549,13 @@ export default {
               })
               return false
             }
+            let mk = 0
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
+              if (elem.newPrice === null || elem.newPrice === '' || elem.newPrice === undefined) {
+                mk = 1
+              }
               if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
                 delete elem.productCode
               }
@@ -604,6 +615,14 @@ export default {
               }
               return elem
             })
+            if (mk === 1) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '商品明细中价格必填',
+                offset: 100
+              })
+              return false
+            }
             const parms2 = JSON.stringify(EnterDetail)
             const Data = this.personalForm
             for (const key in Data) {
@@ -694,22 +713,21 @@ export default {
     }
   }
 </style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .ERP-container{
+    margin-right: 0;
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
   }
 </style>

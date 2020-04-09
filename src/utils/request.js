@@ -17,13 +17,17 @@ service.interceptors.request.use(
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
       // config.headers['X-Token'] = getToken()
     }
-    console.log('store.getters.useCountry', store.getters.useCountry)
+    // console.log('store.getters.useCountry', store.getters.useCountry)
     if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
-      config.baseURL = process.env.BASE_API + '/erp'
+      config.baseURL = process.env.BASE_API + '8888/erp'
     }
     if (store.getters.useCountry === 2 || store.getters.useCountry === '2') {
-      config.baseURL = process.env.BASE_API + '/philippines'
+      config.baseURL = process.env.BASE_API + '9999/philippines'
     }
+    if (store.getters.useCountry === 3 || store.getters.useCountry === '3') {
+      config.baseURL = process.env.BASE_API + '7777/thailand'
+    }
+    store.dispatch('getuploadApi', config.baseURL)
     // console.log('config', config)
     return config
   },

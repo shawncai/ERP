@@ -14,8 +14,8 @@
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="采购到货单" />
-                  <el-option value="2" label="采购订单" />
+                  <el-option :label="$t('updates.cgdhd')" value="1" />
+                  <el-option :label="$t('updates.cgdd')" value="2" />
                 </el-select>
               </el-form-item>
             </el-col>

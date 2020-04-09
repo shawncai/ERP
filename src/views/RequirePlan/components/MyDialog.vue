@@ -133,7 +133,7 @@ export default {
       // 修改信息数据
       personalForm: this.editdata,
       // 物料来源
-      materialsSource: [{ value: 1, label: '库存' }, { value: 2, label: '生产' }, { value: 3, label: '采购' }],
+      materialsSource: [{ value: 1, label: '库存' }, { value: 2, label: '生产' }, { value: 3, label: '采购' }, { value: 4, label: '外加工' }],
       // 主生产计划回显
       producePlanNumber: '',
       // 仓库回显
@@ -205,7 +205,7 @@ export default {
       if (this.personalForm.produceRepositoryId === '' || this.personalForm.produceRepositoryId === null || this.personalForm.produceRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
+          message: this.$t('prompt.qxxzck'),
           offset: 100
         })
         return false

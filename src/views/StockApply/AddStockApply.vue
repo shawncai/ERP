@@ -44,7 +44,8 @@
                 <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
                     <el-option value="1" label="无来源" />
-                    <el-option value="2" label="销售订单" />
+                    <!-- <el-option value="2" label="销售计划" />
+                    <el-option value="3" label="采购需求" /> -->
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -69,8 +70,6 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-          <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
-          <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
           <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -86,14 +85,26 @@
             size="medium"
             style="width: 100%"
             @selection-change="deleteChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/> -->
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="1.00"
+                  v-model="scope.row.requireQuantity"
+                  @change="queryStock(scope.row, scope)"
+                />
+              </template>
+            </el-editable-column>
+
             <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="160px">
               <template slot="edit" slot-scope="scope">
                 <el-date-picker
@@ -101,7 +112,7 @@
                   :picker-options="pickerOptions1"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  @change="changeDate2"/>
+                  @change="changeDate2(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
@@ -197,6 +208,7 @@ import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyOrder from './components/MyOrder'
+import MyRequire from './components/MyRequire'
 import { materialslist2 } from '@/api/MaterialsList'
 var _that
 export default {
@@ -220,6 +232,7 @@ export default {
       }
     }
     return {
+      requirecontrol: false,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -312,6 +325,25 @@ export default {
     _that = this
   },
   methods: {
+    copydate(row) {
+      if (row.requireDate === '' || row.requireDate === null || row.requireDate === undefined) {
+        return false
+      }
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].temp = i
+      }
+      for (let i = row.temp; i < this.list2.length; i++) {
+        console.log(this.list2[i].requireDate)
+        if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+          console.log(111)
+          continue
+        } else {
+          console.log(222)
+          this.list2[i].requireDate = row.requireDate
+        }
+      }
+      console.log(row)
+    },
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
@@ -384,7 +416,6 @@ export default {
     },
     // 从源单添加商品
     handleAddSource() {
-      this.ordercontrol = true
     },
     // 从销售订单过来数据
     saleOrderDetail(val) {
@@ -444,8 +475,54 @@ export default {
       const objClone = JSON.parse(_obj)
       return objClone
     },
+    queryStock(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.requireQuantity !== '' && row.requireQuantity !== null && row.requireQuantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].requireQuantity !== null && this.list2[i].requireQuantity !== '' && this.list2[i].requireQuantity !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireQuantity = row.requireQuantity
+            }
+          }
+          this.changeDate2()
+          console.log(row)
+        }
+      }
+    },
+
     // 两表联动
-    async changeDate2() {
+    async changeDate2(row, scope) {
+      console.log('row', row)
+      console.log('scope', scope)
+      // 新加
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.requireDate !== '' && row.requireDate !== null && row.requireDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+              this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireQuantity = row.requireQuantity
+            }
+          }
+          console.log(row)
+        }
+      }
+      // 新加截止
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []
@@ -618,7 +695,7 @@ export default {
         })
         return false
       }
-      EnterDetail.map(function(elem) {
+      EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
@@ -634,10 +711,10 @@ export default {
           delete elem.unit
         }
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+          elem.basicQuantity = 0
         }
         if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
-          delete elem.requireQuantity
+          elem.requireQuantity = 0
         }
         if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
           delete elem.applyQuantity
@@ -649,11 +726,11 @@ export default {
           delete elem.applyReason
         }
         if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
-          delete elem.planQuantity
+          elem.planQuantity = 0
         }
         return elem
       })
-      const parms2 = JSON.stringify(EnterDetail)
+      const parms2 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

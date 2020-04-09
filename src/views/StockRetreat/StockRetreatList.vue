@@ -373,6 +373,11 @@ export default {
       searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockRetreatDetailVos.length; j++) {
+              this.list[i].stockRetreatDetailVos[j].taxRate = this.list[i].stockRetreatDetailVos[j].taxRate * 100
+            }
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -407,6 +412,11 @@ export default {
       searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockRetreatDetailVos.length; j++) {
+              this.list[i].stockRetreatDetailVos[j].taxRate = this.list[i].stockRetreatDetailVos[j].taxRate * 100
+            }
+          }
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

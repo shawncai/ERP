@@ -1,31 +1,33 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.phonenumber" :placeholder="$t('Customer.phone2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+      <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.phonenumber" :placeholder="$t('Customer.phone2')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-date-picker
         v-model="getemplist.time"
         :placeholder="$t('NewEmployeeInformation.time')"
         type="date"
+        size="small"
         value-format="yyyy-MM-dd"
         class="filter-item"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
+        size="small"
         trigger="click">
-        <el-select v-model="getemplist.stat" :value="getemplist.stat" :placeholder="$t('NewEmployeeInformation.status')" style="width: 40%;float: left;margin-left: 20px" clearable>
+        <el-select v-model="getemplist.stat" :value="getemplist.stat" :placeholder="$t('NewEmployeeInformation.status')" size="small" style="width: 40%;float: left;margin-left: 20px" clearable>
           <el-option :label="$t('prompt.zz')" value="1"/>
           <el-option :label="$t('prompt.lz')" value="2"/>
         </el-select>
-        <el-select v-model="getemplist.regionid" :value="getemplist.regionid" :placeholder="$t('NewEmployeeInformation.regionid')" style="width: 40%;float: right;margin-right: 20px" clearable>
+        <el-select v-model="getemplist.regionid" :value="getemplist.regionid" :placeholder="$t('NewEmployeeInformation.regionid')" size="small" style="width: 40%;float: right;margin-right: 20px" clearable>
           <el-option
             v-for="(item, index) in regions"
             :key="index"
             :label="item.regionName"
             :value="item.id"/>
         </el-select>
-        <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option
             v-for="(item, index) in repositories"
             :key="index"
@@ -39,14 +41,14 @@
                   :label="item.categoryName"
                   :value="item.id"/>
               </el-select> -->
-        <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
+        <el-select v-model="getemplist.roleid" :value="getemplist.roleid" :placeholder="$t('updates.roleid')" size="small" clearable style="width: 40%;float: right;margin-top: 20px;margin-right: 20px">
           <el-option
             v-for="(item, index) in roles"
             :key="index"
             :label="item.roleName"
             :value="item.id"/>
         </el-select>
-        <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
+        <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" size="small" clearable style="width: 40%;float: left;margin-top: 20px;margin-left: 20px">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
@@ -54,34 +56,34 @@
             :value="item.id"/>
         </el-select>
         <div class="seachbutton" style="width: 100%;float: right">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" size="small" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
 
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 20px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves size="small" class="filter-item2" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
+        <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-permission="['1-2-4-9']" :disabled="selected" style="text-align: left" command="disable"><svg-icon icon-class="tingyong" style="width: 40px"/>{{ $t('public.disable') }}</el-dropdown-item>
           <el-dropdown-item v-permission="['1-2-4-2']" :disabled="selected" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button v-permission="['1-2-4-10']" v-waves class="filter-item" type="primary" style="width: 86px" @click="handleContract">{{ $t('public.contract') }}</el-button>
+      <el-button v-permission="['1-2-4-10']" v-waves size="small" class="filter-item2" type="primary" style="width: 110px" @click="handleContract">{{ $t('public.contract') }}</el-button>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-2-4-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-2-4-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-2-4-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-2-4-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-2-4-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-2-4-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <el-table
         v-loading="listLoading"
         ref="table"
@@ -90,86 +92,88 @@
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="55"
+          min-width="30"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.id')" :resizable="false" fixed="left" align="center" min-width="50">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="edtiForm" :detailid.sync="detailid"/>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" fixed="left" align="center" width="60">
+        <el-table-column :label="$t('NewEmployeeInformation.jobNumber')" :resizable="false" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.jobNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" fixed="left" align="center" width="180">
+        <el-table-column :label="$t('NewEmployeeInformation.account')" :resizable="false" align="center" min-width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.account }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" fixed="left" align="center" width="220">
+        <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" min-width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" align="center" min-width="50">
           <template slot-scope="scope">
             <span>{{ scope.row.gender | genderFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('NewEmployeeInformation.postName')" :resizable="false" align="center" min-width="90">
           <template slot-scope="scope">
             <span>{{ scope.row.roleName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" align="center" width="180">
+        <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" align="center" min-width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.regionName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" align="center" width="180">
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" align="center" min-width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deptName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.email')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('NewEmployeeInformation.email')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.email }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.birthday')" :resizable="false" align="center" width="180">
+        <el-table-column :label="$t('NewEmployeeInformation.birthday')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.birthday }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.createTime')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.createTime')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.dimissionTime')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.dimissionTime')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.dimissionTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('NewEmployeeInformation.stat')" :resizable="false" align="center" width="100">
+        <el-table-column :label="$t('NewEmployeeInformation.stat')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.stat | statFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="180">
+        <el-table-column :label="$t('public.actions')" :resizable="false" fixed="right" align="center" min-width="180">
           <template slot-scope="scope">
             <el-button v-permission2="['1-2-4-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['1-2-4-9']" v-show="scope.row.stat === 1" title="停用" size="mini" type="warning" icon="el-icon-close" circle @click="handleDisable(scope.row)"/>
@@ -227,7 +231,7 @@ export default {
       }
     }
     return {
-      tableHeight: 50,
+      tableHeight: 200,
       // 判断是否能点击
       selected: true,
       // 详情传递id
@@ -397,13 +401,21 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.handlechange4()
     setTimeout(() => {
-      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
+  },
+  created() {
+    // setTimeout(() => {
+    //   this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    // }, 100)
   },
   beforeCreate() {
     _that = this
@@ -449,9 +461,14 @@ export default {
           for (let i = 0; i < this.list.length; i++) {
             let regionsName = ''
             const regions = this.list[i].regions
-            if (regions != null) {
+            console.log('regions', regions)
+            if (regions !== null) {
               for (let j = 0; j < regions.length; j++) {
-                regionsName = regionsName + regions[j].regionName
+                if (regions[j] !== null) {
+                  regionsName = regionsName + regions[j].regionName
+                } else {
+                  regionsName = ''
+                }
               }
             }
             this.list[i].regionsName = regionsName
@@ -565,10 +582,13 @@ export default {
         }
       })
     },
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val
-      console.log(this.moreaction.length)
+      // console.log(this.moreaction.length)
       if (this.moreaction.length === 0) {
         this.selected = true
       } else {
@@ -777,7 +797,7 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
@@ -785,7 +805,16 @@ export default {
   }
   .filter-item{
     width: 180px;
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

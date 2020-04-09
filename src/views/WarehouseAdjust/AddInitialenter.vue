@@ -168,7 +168,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         enterRepositoryId: this.$store.getters.repositoryId,
         enterDeptId: this.$store.getters.deptId,
-        countryId: 1
+        countryId: this.$store.getters.useCountry
       },
       repositoryId: this.$store.getters.repositoryId,
       regionId: this.$store.getters.regionId,
@@ -377,13 +377,13 @@ export default {
           delete elem.unit
         }
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
+          elem.basicQuantity = 1
         }
         if (elem.color === null || elem.color === '' || elem.color === undefined) {
           delete elem.color
         }
         if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
+          elem.enterQuantity = 1
         }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
@@ -453,7 +453,7 @@ export default {
         createPersonId: this.$store.getters.userId,
         enterRepositoryId: this.$store.getters.repositoryId,
         enterDeptId: this.$store.getters.deptId,
-        countryId: 1
+        countryId: this.$store.getters.useCountry
       }
       this.enterRepositoryId = this.$store.getters.repositoryName
       this.enterPersonId = this.$store.getters.name

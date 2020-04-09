@@ -1,15 +1,15 @@
 <template>
   <div class="ERP-container">
     <!-- 搜索条件栏目 -->
-    <el-card class="box-card" style="margin-top: 10px">
-      <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+      <el-input v-model="searchRepositoryId" :placeholder="$t('WarehouseAdjust.enterRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-      <el-input v-model="getemplist.locationCode" :placeholder="$t('WarehouseAdjust.locationCode')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.locationCode" :placeholder="$t('WarehouseAdjust.locationCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.locationName" :placeholder="$t('WarehouseAdjust.locationName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px">
+    <el-card :body-style="	{ padding: '6px'}" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <!-- <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" type="primary">
@@ -20,28 +20,32 @@
         </el-dropdown-menu>
       </el-dropdown> -->
       <!-- 表格导出操作 -->
-      <el-button v-permission="['1-9-169-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['1-9-169-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['1-9-169-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-9-169-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-9-169-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['1-9-169-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.id')" :resizable="false" prop="id" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
@@ -56,22 +60,22 @@
             <span>{{ scope.row.locationName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.volume')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.volume')" :resizable="false" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.volume }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.length')" :resizable="false" prop="length" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.length')" :resizable="false" prop="length" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.length }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.width')" :resizable="false" prop="width" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.width')" :resizable="false" prop="width" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.width }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('WarehouseAdjust.height')" :resizable="false" prop="height" align="center" width="150">
+        <el-table-column :label="$t('WarehouseAdjust.height')" :resizable="false" prop="height" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.height }}</span>
           </template>
@@ -130,6 +134,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 仓库回显
       searchRepositoryId: '',
       // 仓库控制
@@ -164,14 +169,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 启用停用操作
     open(row) {
       console.log('row', row)
@@ -386,7 +400,7 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .app-container >>> .el-table .cell {
+   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     line-height: 24px;
@@ -394,19 +408,25 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-  .filter-container >>> .el-form-item__label{
-    padding: 0;
-  }
   .ERP-container {
-    margin: 0px 30px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-   width: 180px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

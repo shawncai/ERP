@@ -43,7 +43,7 @@
               <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
                   <el-option value="1" label="无来源" />
-                  <el-option value="2" label="销售订单" />
+                  <!-- <el-option value="2" label="销售订单" /> -->
                 </el-select>
               </el-form-item>
             </el-col>
@@ -62,13 +62,11 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <!-- <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmxly') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
-        <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
-        <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrderDetail2="saleOrderDetail2" @saleOrder="saleOrder"/>
         <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -105,7 +103,7 @@
           <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
-    </el-card>
+    </el-card> -->
     <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmx') }}</h2>
       <div class="container">

@@ -1,252 +1,284 @@
 <template>
   <div class="ERP-container">
-    <div class="app-container">
-      <!--基本信息-->
-      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container">
-        <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeid" style="width: 40%;margin-top:1%">
-            <el-input v-model="employeeName" :disabled="isclick" clearable @focus="handlechoose"/>
-          </el-form-item>
-          <!--弹出员工列表开始-->
-          <el-dialog :visible.sync="employeeVisible" :title="$t('Hmodule.xzyg')" top="10px">
-            <div class="filter-container">
-              <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-              <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-              <el-date-picker
-                v-model="getemplist.time"
-                :placeholder="$t('Hmodule.xzrq')"
-                type="date"
-                class="filter-item"
-                value-format="yyyy-MM-dd"/>
-              <el-popover
-                placement="bottom"
-                width="500"
-                trigger="click">
-                <el-cascader
-                  :options="regions"
-                  :props="props"
-                  v-model="getemplistregions"
-                  :show-all-levels="false"
-                  :placeholder="$t('Hmodule.xzqy')"
-                  change-on-select
-                  filterable
-                  clearable
-                  style="width: 40%;float: left;margin-left: 20px"
-                  @change="handlechange4"
-                />
-                <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
-                  <el-option
-                    v-for="(item, index) in repositories"
-                    :key="index"
-                    :label="item.repositoryName"
-                    :value="item.id"/>
-                </el-select>
-                <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
-                  <el-option label="xxx" value="1"/>
-                  <el-option label="xxx" value="2"/>
-                </el-select>
-                <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
-                  <el-option
-                    v-for="(item, index) in depts"
-                    :key="index"
-                    :label="item.deptName"
-                    :value="item.id"/>
-                </el-select>
-                <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-                  <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+    <div class="app-container" style="padding-right: 0">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <!--基本信息-->
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeid" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="employeeName" :disabled="isclick" clearable style="width: 200px" @focus="handlechoose"/>
+                </el-form-item>
+              </el-col>
+              <!--弹出员工列表开始-->
+              <el-dialog :visible.sync="employeeVisible" :title="$t('Hmodule.xzyg')" top="10px">
+                <div class="filter-container">
+                  <el-input v-model="getemplist.employeename" :placeholder="$t('NewEmployeeInformation.employeename')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+                  <el-input v-model="getemplist.jobnumber" :placeholder="$t('NewEmployeeInformation.jobnumber2')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+                  <el-date-picker
+                    v-model="getemplist.time"
+                    :placeholder="$t('Hmodule.xzrq')"
+                    type="date"
+                    class="filter-item"
+                    value-format="yyyy-MM-dd"/>
+                  <el-popover
+                    placement="bottom"
+                    width="500"
+                    trigger="click">
+                    <el-cascader
+                      :options="regions"
+                      :props="props"
+                      v-model="getemplistregions"
+                      :show-all-levels="false"
+                      :placeholder="$t('Hmodule.xzqy')"
+                      change-on-select
+                      filterable
+                      clearable
+                      style="width: 40%;float: left;margin-left: 20px"
+                      @change="handlechange4"
+                    />
+                    <el-select v-model="getemplist.repositoryid" :placeholder="$t('Hmodule.xzmd')" clearable filterable style="width: 40%;float: right;margin-right: 20px">
+                      <el-option
+                        v-for="(item, index) in repositories"
+                        :key="index"
+                        :label="item.repositoryName"
+                        :value="item.id"/>
+                    </el-select>
+                    <el-select v-model="getemplist.postid" :value="getemplist.postid" :placeholder="$t('NewEmployeeInformation.postid2')" class="filter-item" clearable style="width: 40%;float: left;margin-top: 10px;margin-left: 20px">
+                      <el-option label="xxx" value="1"/>
+                      <el-option label="xxx" value="2"/>
+                    </el-select>
+                    <el-select v-model="getemplist.deptid" :placeholder="$t('NewEmployeeInformation.deptid2')" class="filter-item" clearable style="width: 40%;float: right;margin-top: 10px;margin-right: 20px">
+                      <el-option
+                        v-for="(item, index) in depts"
+                        :key="index"
+                        :label="item.deptName"
+                        :value="item.id"/>
+                    </el-select>
+                    <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+                      <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                    </div>
+                    <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+                  </el-popover>
+                  <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+                  <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd">{{ $t('public.add') }}</el-button>
                 </div>
-                <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
-              </el-popover>
-              <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
-              <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;" @click="handleAdd">{{ $t('public.add') }}</el-button>
-            </div>
-            <el-table
-              v-loading="listLoading"
-              :data="list"
-              :key="tableKey"
-              border
-              fit
-              highlight-current-row
-              style="width: 100%"
-              @current-change="handleCurrentChange">
-              <el-table-column
-                :label="$t('NewEmployeeInformation.id')"
-                :resizable="false"
-                property="id"
-                align="center"
-                width="50"/>
-              <el-table-column
-                :label="$t('NewEmployeeInformation.jobNumber')"
-                :resizable="false"
-                property="jobNumber"
-                align="center"
-                width="100"/>
-              <el-table-column
-                :label="$t('NewEmployeeInformation.account')"
-                :resizable="false"
-                property="account"
-                width="150"
-                align="center"/>
-              <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="109">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="80">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.gender | genderFilter }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.deptName }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" prop="regionName" align="center" width="230">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.regionName }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" prop="repositoryName" align="center" width="100">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.repositoryName }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getnationlist" />
-            <span slot="footer" class="dialog-footer" style="text-align: left">
-              <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
-            </span>
+                <el-table
+                  v-loading="listLoading"
+                  :data="list"
+                  :key="tableKey"
+                  border
+                  fit
+                  highlight-current-row
+                  style="width: 100%"
+                  @current-change="handleCurrentChange">
+                  <el-table-column
+                    :label="$t('NewEmployeeInformation.id')"
+                    :resizable="false"
+                    property="id"
+                    align="center"
+                    width="50"/>
+                  <el-table-column
+                    :label="$t('NewEmployeeInformation.jobNumber')"
+                    :resizable="false"
+                    property="jobNumber"
+                    align="center"
+                    width="100"/>
+                  <el-table-column
+                    :label="$t('NewEmployeeInformation.account')"
+                    :resizable="false"
+                    property="account"
+                    width="150"
+                    align="center"/>
+                  <el-table-column :label="$t('NewEmployeeInformation.name')" :resizable="false" align="center" width="109">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.firstName }} {{ scope.row.middleName }} {{ scope.row.lastName }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label="$t('NewEmployeeInformation.gender')" :resizable="false" prop="gender" align="center" width="80">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.gender | genderFilter }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label="$t('NewEmployeeInformation.deptName')" :resizable="false" prop="deptName" align="center" width="100">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.deptName }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label="$t('NewEmployeeInformation.regionName')" :resizable="false" prop="regionName" align="center" width="230">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.regionName }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column :label="$t('NewEmployeeInformation.repositoryName')" :resizable="false" prop="repositoryName" align="center" width="100">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.repositoryName }}</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getnationlist" />
+                <span slot="footer" class="dialog-footer" style="text-align: left">
+                  <el-button v-waves type="success" style="text-align: center;" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
+                </span>
+              </el-dialog>
+              <!--弹窗员工列表结束-->
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="typeid" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear" v-model="contractForm.typeid" style="width: 200px" @focus="updatetypes">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in alltypes"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractname" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="contractForm.contractname" clearable style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0" prop="signtime">
+                  <el-date-picker
+                    v-model="contractForm.signtime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"
+                    @change="test"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0" prop="expiredtime">
+                  <el-date-picker
+                    v-model="contractForm.expiredtime"
+                    :picker-options="pickerOptions1"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="margin-left: 18px;width: 100%;margin-bottom: 0" prop="effectivetime">
+                  <el-date-picker
+                    v-model="contractForm.effectivetime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.period')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="contractForm.period" style="width: 200px">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option label="固定期限" value="1"/>
+                    <el-option label="不固定期限" value="2"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear2" v-model="contractForm.attribute" style="width: 200px" @focus="updatetypes">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in allattribute"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="contractForm.iscorrection" style="width: 200px">
+                    <el-radio :label="1" style="width: 50%">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="contractForm.stat" style="width: 200px">
+                    <el-radio :label="1" style="width: 50%">{{ $t('updates.sx') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.wsx') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="contractForm.trialsalary" placeholder="请输入试用工资" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="contractForm.correctionsalary" placeholder="请输入转正工资" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="remindpersonid" placeholder="请选择提醒人" style="width: 200px" clearable @focus="controlremin"/>
+                  <div class="showtag">
+                    <el-tag
+                      v-for="tag in remindpersonname"
+                      :key="tag.id"
+                      :disable-transitions="false"
+                      closable
+                      @close="handleClose(tag)">
+                      {{ tag.personName }}
+                    </el-tag>
+                  </div>
+                </el-form-item>
+              </el-col>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+              <el-col :span="6">
+                <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="contractForm.advanceday" placeholder="请输入提前时间" style="width: 200px" clearable>
+                    <template slot="append">{{ $t('updates.day') }}</template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+    </div>
+    <!-- 上传附件 -->
+    <h2 ref="fujian" class="form-name">{{ $t('updates.scfj') }}</h2>
+    <div class="container">
+      <el-form :model="contractForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form-item :label="$t('NewEmployeeInformation.Enclosure')" style="width: 100%;margin-top: 1%">
+          <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
+          <el-upload
+            ref="upload"
+            :on-preview="handlepicPreview"
+            :on-remove="handlepicRemove"
+            :on-success="handlepicsuccess"
+            :data="picidsData"
+            :auto-upload="false"
+            action="http://192.168.1.26:9090/erp/upload/uploadpic"
+            list-type="picture-card">
+            <i class="el-icon-plus"/>
+          </el-upload>
+          <el-dialog :visible.sync="picidsVisible">
+            <img :src="picidsImageUrl" width="100%" alt="">
           </el-dialog>
-          <!--弹窗员工列表结束-->
-          <el-form-item :label="$t('NewEmployeeInformation.typeid')" prop="typeid" style="width: 40%;margin-top:1%">
-            <el-select ref="clear" v-model="contractForm.typeid" style="width: 100%;" @focus="updatetypes">
-              <el-option v-show="false" label="" value=""/>
-              <el-option
-                v-for="(item, index) in alltypes"
-                :key="index"
-                :label="item.categoryName"
-                :value="item.id"/>
-              <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
-              </template>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.contractname')" prop="contractname" style="width: 40%">
-            <el-input v-model="contractForm.contractname" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.signtime')" style="width: 40%" prop="signtime">
-            <el-date-picker
-              v-model="contractForm.signtime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"
-              @change="test"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.expiredtime')" style="width: 40%" prop="expiredtime">
-            <el-date-picker
-              v-model="contractForm.expiredtime"
-              :picker-options="pickerOptions1"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.effectivetime')" style="width: 40%" prop="effectivetime">
-            <el-date-picker
-              v-model="contractForm.effectivetime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              style="width: 100%"/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.period')" style="width: 40%;margin-top:1%">
-            <el-select v-model="contractForm.period" style="width: 100%;">
-              <el-option v-show="false" label="" value=""/>
-              <el-option label="固定期限" value="1"/>
-              <el-option label="不固定期限" value="2"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.attribute')" style="width: 40%;margin-top:1%">
-            <el-select ref="clear2" v-model="contractForm.attribute" style="width: 100%;" @focus="updatetypes">
-              <el-option v-show="false" label="" value=""/>
-              <el-option
-                v-for="(item, index) in allattribute"
-                :key="index"
-                :label="item.categoryName"
-                :value="item.id"/>
-              <template>
-                <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat2">{{ $t('updates.create') }}</el-button>
-              </template>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.iscorrection')" style="width: 40%;margin-top:1%">
-            <el-radio-group v-model="contractForm.iscorrection" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">{{ $t('updates.yes') }}</el-radio>
-              <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.contractstat')" style="width: 40%;margin-top:1%">
-            <el-radio-group v-model="contractForm.stat" style="width: 80%">
-              <el-radio :label="1" style="width: 50%">{{ $t('updates.sx') }}</el-radio>
-              <el-radio :label="2">{{ $t('updates.wsx') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.trialsalary')" style="width: 40%">
-            <el-input v-model="contractForm.trialsalary" placeholder="请输入试用工资" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.correctionsalary')" style="width: 40%">
-            <el-input v-model="contractForm.correctionsalary" placeholder="请输入转正工资" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.remindpersonid')" style="width: 40%">
-            <el-input v-model="remindpersonid" placeholder="请选择提醒人" clearable @focus="controlremin"/>
-            <div class="showtag">
-              <el-tag
-                v-for="tag in remindpersonname"
-                :key="tag.id"
-                :disable-transitions="false"
-                closable
-                @close="handleClose(tag)">
-                {{ tag.personName }}
-              </el-tag>
-            </div>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          <el-form-item :label="$t('NewEmployeeInformation.advanceday')" style="width: 40%">
-            <el-input v-model="contractForm.advanceday" placeholder="请输入提前时间" clearable>
-              <template slot="append">{{ $t('updates.day') }}</template>
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <!-- 上传附件 -->
-      <h2 ref="fujian" class="form-name">{{ $t('updates.scfj') }}</h2>
-      <div class="container">
-        <el-form :model="contractForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-form-item :label="$t('NewEmployeeInformation.Enclosure')" style="width: 100%;margin-top: 1%">
-            <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
-            <el-upload
-              ref="upload"
-              :on-preview="handlepicPreview"
-              :on-remove="handlepicRemove"
-              :on-success="handlepicsuccess"
-              :data="picidsData"
-              :auto-upload="false"
-              action="http://192.168.1.26:9090/erp/upload/uploadpic"
-              list-type="picture-card">
-              <i class="el-icon-plus"/>
-            </el-upload>
-            <el-dialog :visible.sync="picidsVisible">
-              <img :src="picidsImageUrl" width="100%" alt="">
-            </el-dialog>
-          </el-form-item >
-        </el-form>
-      </div>
-      <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click v-permission="['1-2-6-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-2-6-1']" type="success" @click="handleentry()">{{ $t('updates.jxxj') }}</el-button>
-        <el-button v-permission="['1-2-6-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
-      </div>
+        </el-form-item >
+      </el-form>
+    </div>
+    <!--操作-->
+    <div class="buttons" style="margin-top: 20px">
+      <el-button v-no-more-click v-permission="['1-2-6-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+      <el-button v-permission="['1-2-6-1']" type="success" @click="handleentry()">{{ $t('updates.jxxj') }}</el-button>
+      <el-button v-permission="['1-2-6-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </div>
 </template>
@@ -745,39 +777,21 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/css"  scoped>
-  .ERP-container >>> .el-dialog__body {
-    padding: 0 20px;
-  }
+<style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
-    margin:0px 30px;
-  }
-  .ERP-container >>> .el-dialog {
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-  }
-  .ERP-container >>> .el-dialog__header {
-    position: inherit;
-    width: 753px;
-  }
-  .filter-container{
-    padding: 20px;
-    padding-left: 0px;
-  }
-  .filter-item{
-    width: 140px;
-    margin-left: 20px;
-  }
+    margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 30px;
     }
     .container{
-      margin-top: 2%;
-      border: 1px solid #eceff6;
+      margin-top: 5px;
     }
+    .el-button+.el-button{
+      width: 98px;
+    }
+  }
 </style>

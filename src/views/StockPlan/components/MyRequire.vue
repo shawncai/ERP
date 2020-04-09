@@ -35,6 +35,9 @@
               placement="bottom"
               width="500"
               trigger="click">
+              <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter4"/>
+              <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
               <el-date-picker
                 v-model="date"
                 type="daterange"
@@ -117,6 +120,11 @@
             <span>{{ scope.row.inventoryQuantity }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockRequire.planedQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planedQuantity }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockRequire.shouldStockQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldStockQuantity }}</span>
@@ -150,13 +158,16 @@
 import { stockrequirelist } from '@/api/StockRequire'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
+import { getStockInfoByProduct } from '@/api/Supplier'
 import MyTree from '../../Product/components/MyTree'
 import MyDetail from '../../StockRequire/components/MyDetail'
+import MySupplier from './MySupplier'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves },
-  components: { MyDetail, MyTree, Pagination },
+  components: { MyDetail, MyTree, Pagination, MySupplier },
   filters: {
     isPlanedFilter(status) {
       const statusMap = {
@@ -174,6 +185,8 @@ export default {
   },
   data() {
     return {
+      supplierId: '',
+      empcontrol: false,
       // 选择框控制
       employeeVisible: this.requirecontrol,
       // 选择数据
@@ -205,7 +218,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds
+        regionIds: this.$store.getters.regionIds,
+        isActive: 1
       },
       // 传给组件的数据
       personalForm: {},
@@ -225,6 +239,16 @@ export default {
     _that = this
   },
   methods: {
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
+    },
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
+    },
     // 物料名称focus
     handleAddproduct() {
       this.control = true
@@ -268,6 +292,10 @@ export default {
       this.producePlanNumber = ''
       this.getemplist.producePlanNumber = ''
     },
+    restFilter4() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
+    },
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
@@ -293,9 +321,9 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
+      console.log('123', this.choosedata)
       const requiredata = this.choosedata
       const requireDetail = requiredata.map(function(item) {
         return {
@@ -306,7 +334,6 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: item.requireQuantity,
-          planQuantity: item.requireQuantity,
           planDeliveryDate: item.requireDate,
           applyReason: '',
           sourceNumber: item.materialsRequireNumber,
@@ -319,11 +346,44 @@ export default {
           requireDate: item.requireDate,
           sourceSerialNumber: item.id,
           requireQuantity: item.requireQuantity,
-          planedQuantity: item.planedQuantity
+          planedQuantity: item.planedQuantity,
+          planQuantity: item.shouldStockQuantity - item.planedQuantity
         }
       })
-      this.$emit('require', requireDetail)
-      this.$emit('require2', requireDetail)
+      const list = await Promise.all(requireDetail.map(function(item) {
+        return getStockInfoByProduct(item.productCode, item.planQuantity).then(res => {
+          for (let i = 0; i < res.data.data.content.length; i++) {
+            res.data.data.content[i].sourceNumber = item.sourceNumber
+          }
+          return res.data.data.content
+        })
+      }))
+      const list2 = []
+      for (let i = 0; i < list.length; i++) {
+        for (let m = 0; m < list[i].length; m++) {
+          list[i][m].basicPrice = list[i][m].price
+          list[i][m].requireQuantity = list[i][m].quantity
+          // list[i][m].planQuantity = list[i][m].quantity
+          list[i][m].basicQuantity = list[i][m].quantity
+          list2.push(list[i][m])
+        }
+      }
+      const list3 = []
+      for (const i in list2) {
+        for (const j in requireDetail) {
+          if (list2[i].productCode === requireDetail[j].productCode) {
+            list2[i].sourceSerialNumber = requireDetail[j].sourceSerialNumber
+            list2[i].stockRequireId = requireDetail[j].stockRequireId
+            list2[i].orderQuantity = requireDetail[j].orderQuantity
+            list2[i].planQuantity = requireDetail[j].planQuantity
+            list3.push(list2[i])
+          }
+        }
+      }
+      console.log('list3', list3)
+      console.log('requireDetail', requireDetail)
+      this.$emit('require', list3)
+      this.$emit('require2', list3)
     }
     // 仓库管理员选择结束
   }

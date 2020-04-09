@@ -8,6 +8,7 @@
         <el-option value="1" label="工艺BOM"/>
         <el-option value="2" label="设计BOM"/>
         <el-option value="3" label="制造BOM"/>
+        <el-option value="4" label="采购BOM"/>
       </el-select>
 
       <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -71,6 +72,11 @@
         <el-table-column :label="$t('MaterialsList.code')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productCode }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('MaterialsList.parentcolor')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('MaterialsList.bomTypeId')" :resizable="false" align="center" min-width="150">

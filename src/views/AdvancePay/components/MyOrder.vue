@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购订货单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -81,7 +81,7 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @current-change="handleCurrentChange">>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
@@ -187,8 +187,10 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgxq'),
-        3: _that.$t('Hmodule.Nosource')
+        2: _that.$t('updates.cgjhd'),
+        3: _that.$t('updates.cgxjd'),
+        4: _that.$t('updates.cght'),
+        5: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }
@@ -197,6 +199,10 @@ export default {
     ordercontrol: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -249,6 +255,7 @@ export default {
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
+        supplierId: this.supp,
         isActive: 1
       },
       // 传给组件的数据
@@ -263,12 +270,27 @@ export default {
     ordercontrol() {
       this.employeeVisible = this.ordercontrol
       this.getlist()
+    },
+    supp() {
+      this.getemplist.supplierId = this.supp
+      this.getlist()
+      console.log(this.supp)
     }
+  },
+  created() {
+    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    handleCurrentChange(val) {
+      this.choosedata = val
+    },
+    // 多选
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     // 更新采购类型
     updatecountry() {
       this.getlist()
@@ -343,49 +365,11 @@ export default {
     handleAdd() {
       this.$router.push('/StockOrder/AddStockOrder')
     },
-    // 选择主生产计划数据时的操作
-    handleCurrentChange(val) {
-      this.choosedata = val
-    },
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
-      const orderdata = this.choosedata.stockOrderDetailVos
-      const number = this.choosedata.orderNumber
-      const orderDetail = orderdata.map(function(item) {
-        return {
-          productCode: item.productCode,
-          productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          type: item.typeId,
-          unit: item.unit,
-          color: item.color,
-          stockQuantity: item.stockQuantity,
-          arrivalQuantity: 0,
-          giveDate: item.deliveryDate,
-          price: item.price,
-          includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate,
-          money: item.money,
-          includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.tax,
-          discountRate: item.discountRate,
-          discountMoney: item.discountMoney,
-          remark: item.remarks,
-          sourceNumber: number,
-          sourceSerialNumber: item.id,
-          hadStorageQuantity: 0,
-          reportCheckingQuantity: 0,
-          actualCheckingQuantity: 0,
-          qualifyQuantity: 0,
-          unqualifyQuantity: 0,
-          returnQuantity: 0
-        }
-      })
-      console.log(orderDetail)
-      this.$emit('order', orderDetail)
+      console.log('111', this.choosedata)
+      this.$emit('order', this.choosedata)
       this.$emit('allOrderinfo', this.choosedata)
     }
     // 仓库管理员选择结束

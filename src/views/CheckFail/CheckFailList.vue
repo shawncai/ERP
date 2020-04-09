@@ -46,7 +46,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!--      <el-button v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>-->
       <!-- 打印操作 -->
       <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
@@ -126,6 +126,8 @@
             <el-button v-permission2="['227-233-3', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['227-233-2', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['227-233-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -420,6 +422,43 @@ export default {
             }
           })
         }
+      })
+    },
+    // 判断反审批按钮
+    isReview4(row) {
+      console.log(row)
+      if (row.judgeStat === 2) {
+        return true
+      }
+    },
+    // 反审批操作
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fsp'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatecheckfail2(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: this.$t('prompt.fspsb')
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: this.$t('prompt.fspcg')
+              })
+            }
+            this.getlist()
+          }
+        })
       })
     },
     // 批量操作

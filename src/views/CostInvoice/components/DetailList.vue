@@ -68,6 +68,16 @@
                   <span>{{ personalForm.deptName }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
+                  <span>{{ personalForm.currencyRate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Repository.countryId')" style="width: 100%;">
+                  <span>{{ personalForm.countryName }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>

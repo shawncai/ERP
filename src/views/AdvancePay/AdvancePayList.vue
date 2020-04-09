@@ -123,6 +123,7 @@
             <el-button v-permission2="['266-222-3', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-222-2', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -251,6 +252,33 @@ export default {
     _that = this
   },
   methods: {
+    handleEdit2(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.confirmPersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.sfqrhwyck'), this.$t('prompt.qd'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.qd'),
+        type: 'warning'
+      }).then(() => {
+        const parms = JSON.stringify(this.reviewParms)
+        updateadvancepay2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.qrcg')
+            })
+            this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      })
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {

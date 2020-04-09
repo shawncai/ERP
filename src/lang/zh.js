@@ -1,5 +1,9 @@
 export default {
   route: {
+    AddOutSourceOut: '新增委外出库单',
+    OutSourceOutList: '委外出库单列表',
+    AddOutSourceEnter: '新增委外入库单',
+    OutSourceEnterList: '委外入库单列表',
     Stockcount: '采购统计',
     stockOrderCount: '采购订单汇总表',
     dashboard: '首页',
@@ -178,6 +182,7 @@ export default {
     AddStockContract: '新建采购合同',
     StockContractList: '采购合同列表',
     StockOrder: '采购订单',
+    ManyAddStockOrder: '批量新建采购订货单',
     AddStockOrder: '新建采购订货单',
     StockOrderList: '采购订货单列表',
     StockArrival: '采购到货',
@@ -407,7 +412,9 @@ export default {
     SaleDetailCount: '销售明细统计',
     ProfitCount: '利润统计表',
     AddDiscountsetting: '新建折扣设置',
-    Discountsetting: '折扣设置列表'
+    Discountsetting: '折扣设置列表',
+    DiffPrice: '电池差异价格设置',
+    NewBatteryOut: '新建电池置换'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -1099,6 +1106,7 @@ export default {
     orderquantity: '订单数量合计'
   },
   Product: {
+    numberId: '序号',
     unitGroupId: '计量单位组',
     stockCircle: '采购周期',
     produceAbility: '生产能力',
@@ -1524,6 +1532,7 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
+    parentcolor: '父件颜色',
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
     bomTypeId: 'BOM类型',
@@ -1719,6 +1728,7 @@ export default {
     applyNumber: '单据编号'
   },
   StockRequire: {
+    planedQuantity: '已计划数量',
     categoryId: '物料分类',
     productName: '物品名称',
     isPlan: '是否已生成采购计划',
@@ -1807,6 +1817,7 @@ export default {
     allIncludeTaxMoney: '含税金额合计'
   },
   StockArrival: {
+    presentdata: '采购明细',
     sourceNumber: '源单编号',
     title: '采购到货单主题',
     number: '采购到货单编号',
@@ -1935,6 +1946,7 @@ export default {
     settleStat: '结算方式'
   },
   ShouldPayList: {
+    payDate: '付款日期',
     invoiceNumber: '发票号',
     invoiceType: '发票类别',
     sourceNumber: '源单编码',
@@ -3029,6 +3041,11 @@ export default {
     evaluation: '评价'
   },
   Hmodule: {
+    jghmx: '加工后明细',
+    yclmx: '原材料明细',
+    enterQuantity: '已入库数量',
+    outQuantity: '已出库数量',
+    damageQuantity: '损坏数量',
     hhd: '换货单',
     ggxh: '规格型号',
     cilent: '点击上传',
@@ -3096,6 +3113,8 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    stockrequrenumber: '采购需求编号',
+    sfgouxuanqubqx: '是否勾选全部权限',
     jldwzbh: '计量单位组编号',
     gz: '跟踪',
     wly: '无来源',
@@ -4137,7 +4156,8 @@ export default {
     bx: '冰箱',
     xyj: '洗衣机',
     kt: '空调',
-    dn: '电脑'
+    dn: '电脑',
+    yfkbl: '预付款比列'
   },
   tongyo: {
     dbrxm: '担保人姓名',
@@ -4196,6 +4216,49 @@ export default {
     pf: '批发',
     zdzke: '最大折扣额',
     zdzkl: '最大折扣率',
-    cgzdzke: '超过最大折扣额'
+    cgzdzke: '超过最大折扣额',
+    gdjwjd: '该单据未结单',
+    gdjyscpz: '该单据已经生成凭证',
+    xsckscpzcg: '销售出库生成凭证成功',
+    xscbscpzcg: '销售成本生成凭证成功',
+    xsthscpzcg: '销售退货生成凭证成功',
+    scpzcg: '生成凭证成功',
+    gdjwshtg: '该单据未审核通过',
+    mdjh: '门店计划',
+    qyjh: '区域计划',
+    njh: '年计划',
+    jjh: '季计划',
+    yjh: '月计划',
+    zjh: '周计划',
+    rjh: '日计划',
+    jy: '家用',
+    yy: '营运',
+    tjzcx: '添加支出项',
+    dcsylb: '电池使用类别',
+    dcfl: '电池分类',
+    sydsy: '使用多少月',
+    zdsj: '折多少价格',
+    zbthd: '退货明细',
+    qxxzcknr: '请先选择出库数据',
+    kzqthslyckslbf: '控制器退回数量与出库数量不符合',
+    cdqthslyckslbf: '充电器退回数量与出库数量不符合',
+    djthslyckslbf: '电机退回数量与出库数量不符合',
+    zbthmxbnwk: '质保退货明细不能为空',
+    dcthslyckslbfh: '电池退回数量与出库数量不符合',
+    useType: '电池使用类型',
+    useMonth: '电池使用时长',
+    qxzdcsylx: '请选择电池使用类型',
+    qxzdcsysc: '请选择电池使用时长',
+    chargeCode: '充电器编码',
+    controlCode: '控制器编码',
+    kzqbmwtx: '控制器编码未填写',
+    cdqbmwtx: '充电器编码未填写',
+    bnyy: '不良原因',
+    zbyy: '质保原因'
+  },
+  OutSource: {
+    outFactoryName: '往来单位',
+    xgss: '修改委外入库单',
+    xgsss: '修改委外出库单'
   }
 }

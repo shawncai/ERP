@@ -158,7 +158,19 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.hph')" prop="invoiceNumber" align="center" min-width="200px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: invoiceTypes, type: 'visible'}" :label="$t('updates.fplx')" prop="invoiceType" align="center" min-width="170px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.bczfje')" prop="payThis" align="center" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.dkyfk')" prop="advanceMoney" align="center" min-width="170px"/>
+          <el-editable-column
+            :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}"
+            :label="$t('updates.dkyfk')"
+            prop="advanceMoney"
+            align="center"
+            min-width="170px"
+          >  <template slot="edit" slot-scope="scope">
+            <el-input-number
+              :precision="2"
+              v-model="scope.row.advanceMoney"
+              @change="handlechange(scope.row)"/>
+          </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -318,6 +330,9 @@ export default {
     _that = this
   },
   methods: {
+    handlechange(row) {
+      row.payThis = row.shouldMoney - row.advanceMoney
+    },
     submitUpload() {
       this.$refs.upload.submit()
     },

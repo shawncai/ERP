@@ -625,13 +625,13 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'CheckReportName', 'CheckReportShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['质检报告单号', '报检人员', '检验人员', '检验部门', '源单编号', '检验日期', '物品编号', '物品名称', '单位', '报检数量', '抽样数量', '合格数量', '不合格数量', '合格率']
+          const filterVal = ['reportNumber', 'inspectionPersonName', 'checkPersonName', 'checkDeptName', 'sourceNumber', 'checkDate', 'productCode', 'productName', 'unit', 'checkQuantity', 'sampleQuantity', 'passQuantity', 'failedQuantity', 'passRate']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '质检报告表'
           })
           this.downloadLoading = false
         })

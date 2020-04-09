@@ -99,7 +99,7 @@
           <template slot-scope="scope">
             <el-button v-permission2="['266-257-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <!--            <el-button v-permission="['266-257-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>-->
+            <el-button v-permission="['266-257-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <!--            <el-button v-permission="['266-257-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>-->
             <!--            <el-button v-permission="['266-257-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>-->
             <el-button v-permission2="['266-257-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -356,6 +356,12 @@ export default {
       stockInvoiceList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          // for (let i = 0; i < this.list.length; i++) {
+          //   for (let j = 0; j < this.list[i].stockInvoiceDetailVos.length; j++) {
+          //     console.log('this.list[i].stockInvoiceDetailVos[j]', this.list[i].stockInvoiceDetailVos[j])
+          //     this.list[i].stockInvoiceDetailVos[j].taxRate2 = this.list[i].stockInvoiceDetailVos[j].taxRate * 100
+          //   }
+          // }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

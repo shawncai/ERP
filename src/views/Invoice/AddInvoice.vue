@@ -122,6 +122,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -138,6 +139,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { getcountrylist } from '@/api/public'
 import { addinvoice } from '@/api/Invoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -164,6 +166,8 @@ export default {
       }
     }
     return {
+      // 国家列表
+      nations: [],
       // 控制到货单窗口
       arrivalcontrol: false,
       // 交货方式
@@ -213,7 +217,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        currencyRate: '1.0000'
       },
       // 采购申请单规则数据
       personalrules: {
@@ -280,6 +285,13 @@ export default {
       this.getTypes()
     },
     getTypes() {
+      getcountrylist().then(res => {
+        if (res.data.ret === 200) {
+          this.nations = res.data.data.content
+        } else {
+          console.log('国籍列表出错')
+        }
+      })
       // 采购类别数据
       searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {

@@ -48,6 +48,11 @@
                   <span>{{ somedate }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" style="width: 100%;">
+                  <span>{{ personalForm.planRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>

@@ -3,6 +3,9 @@ import request from '@/utils/request'
 // 采购需求列表
 export function stockrequirelist(query) {
   var params = new URLSearchParams()
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
   if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
     params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
   }
@@ -20,6 +23,9 @@ export function stockrequirelist(query) {
   }
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
