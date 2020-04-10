@@ -1,36 +1,37 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('StockApply.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.applyNumber" :placeholder="$t('updates.djbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="applyPersonId" :placeholder="$t('StockApply.applyPersonId')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+      <el-input v-model="getemplist.title" :placeholder="$t('StockApply.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('updates.djbh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="applyPersonId" :placeholder="$t('StockApply.applyPersonId')" size="mini" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
+        size="mini"
         width="500"
         trigger="click">
-        <el-select v-model="getemplist.applyDeptId" placeholder="申请部门" clearable style="width: 40%;float: left;margin-left: 20px">
+        <el-select v-model="getemplist.applyDeptId" size="mini" placeholder="申请部门" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-select v-model="getemplist.stockType" style="width: 40%;float: right;margin-right: 20px" clearable @focus="updatecountry">
+        <el-select v-model="getemplist.stockType" size="mini" style="width: 40%;float: right;margin-right: 20px" clearable @focus="updatecountry">
           <el-option
             v-for="(item, index) in types"
             :key="index"
             :label="item.categoryName"
             :value="item.id"/>
         </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.wsh')" value="0"/>
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="mini" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
@@ -324,7 +325,7 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 && row.receiptStat === 2) {
         return true
       }
     },
@@ -354,6 +355,11 @@ export default {
               })
             }
             this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fspcg')
+            })
           }
         })
       })

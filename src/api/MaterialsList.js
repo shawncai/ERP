@@ -1,6 +1,23 @@
 import request from '@/utils/request'
 
 // 添加物料清单
+export function getMaterialsByApply(query, query2, query3) {
+  var params = new URLSearchParams()
+  params.append('productCode', query) // 你要传给后台的参数值 key/value
+  if (query2.length !== 2 && query2 !== null && query2 !== undefined) {
+    params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('requireQuantity', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/requireplan/getMaterialsByApply',
+    method: 'post',
+    data: params
+  })
+}
+
+// 添加物料清单
 export function addmaterials(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('materialsListJson', query) // 你要传给后台的参数值 key/value
