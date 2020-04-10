@@ -363,6 +363,23 @@ export default {
       }
       return result
     },
+    uniqueArray2(array, key, key2) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key] && item[key2] === result[j][key2]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail4(val) {
       console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
@@ -373,6 +390,7 @@ export default {
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
       const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
       // const newArr = []
       // console.log('nowlistdata', nowlistdata)
       // alldata.forEach(el => {
@@ -390,7 +408,7 @@ export default {
       //   }
       // })
       console.log('newArr', alldata)
-      this.list3 = alldata
+      this.list3 = filterdata
     },
     // 两表联动
     changelistdata() {

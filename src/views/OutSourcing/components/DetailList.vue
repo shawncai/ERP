@@ -229,6 +229,7 @@ export default {
       heji: 0,
       // 详细表数据
       list2: [],
+      list3: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
