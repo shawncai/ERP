@@ -44,6 +44,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -313,6 +314,7 @@ export default {
         }
       })
       console.log(productDetail)
+      this.$refs.multipleTable.clearSelection()
       this.$emit('gift', productDetail)
     }
   }

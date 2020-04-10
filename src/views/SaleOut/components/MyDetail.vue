@@ -44,6 +44,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -361,6 +362,7 @@ export default {
           discountRate: 0
         }
       })
+      this.$refs.multipleTable.clearSelection()
       // console.log(productDetail)
       this.$emit('product', productDetail)
     }
