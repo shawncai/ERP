@@ -587,7 +587,7 @@ export default {
       })
       for (let i = 0; i < result2.length; i++) {
         // if (result2[i].productCode.substring(0, 2) === '01') {
-        const list = await getMaterialsByApply(result2[i].productCode, this.personalForm.applyRepositoryId, 1)
+        const list = await getMaterialsByApply(result2[i].productCode, this.personalForm.applyRepositoryId, (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)))
         console.log('list122', list.data.data.content)
         if (list.data.data.content.length > 0) {
           console.log('list', list.data.data.content)
@@ -596,8 +596,8 @@ export default {
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
             console.log('val[i]', result2[i])
-            list2[j].applyQuantity = (Number(list2[j].requireQuantity) * (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity))).toFixed(2)
-            list2[j].requireQuantity = (Number(list2[j].planQuantity) * (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity))).toFixed(2)
+            list2[j].applyQuantity = (Number(list2[j].requireQuantity)).toFixed(2)
+            list2[j].requireQuantity = (Number(list2[j].planQuantity)).toFixed(2)
             list2[j].planQuantity = 0
             list2[j].requireDate = result2[i].requireDate
             list2[j].sourceSerialNumber = result2[i].sourceSerialNumber
