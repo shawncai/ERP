@@ -273,6 +273,8 @@ export default {
     //   }
     // }
     return {
+      // 供应商id
+      supp: null,
       ordercontrol: false,
       // 合计
       heji1: '',
@@ -454,8 +456,7 @@ export default {
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-
+        console.log('getempcontract=======', this.$store.getters.empcontract)
         this.allarrivalinfo(this.$store.getters.empcontract)
         for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
           this.$store.getters.empcontract.stockArrivalDetailVos[i].productType = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName
@@ -504,13 +505,17 @@ export default {
       }
     },
     arrival(val) {
-      console.log(val)
+      console.log('初始值==================', val)
       this.$refs.editable.clear()
       let qq = 1
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
           val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(2)
+          // this.$refs.editable.insert(val[i])
+          console.log('val[i]==========', val[i])
+          delete val[i].stockArrivalDetailVos
+          this.list2.push(val[i])
           this.$refs.editable.insert(val[i])
           qq = 2
         }
@@ -526,6 +531,7 @@ export default {
     allarrivalinfo(val) {
       console.log(val)
       this.personalForm.supplierId = val.supplierId
+      this.supp = val.supplierId
       this.supplierId = val.supplierName
       if (val.supplierId !== null && val.supplierId !== undefined && val.supplierId !== '') {
         this.IssupplierId = true

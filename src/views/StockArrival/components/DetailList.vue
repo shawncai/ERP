@@ -518,6 +518,9 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      for (const i in this.personalForm.stockArrivalDetailVos) {
+        delete this.personalForm.stockArrivalDetailVos[i].stockArrivalDetailVos
+      }
       this.list2 = this.personalForm.stockArrivalDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos

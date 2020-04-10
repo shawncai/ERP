@@ -202,7 +202,7 @@ export default {
         pagesize: 10,
         repositoryId: 0
       },
-      // 根据id查物品详情
+      // 根据id查物品详情11
       detailList: {
         pagenum: 1,
         pagesize: 10

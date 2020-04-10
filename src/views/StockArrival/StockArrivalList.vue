@@ -1,30 +1,30 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('StockArrival.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
+    <el-card :body-style="{ padding: '10px' }" class="box-card" shadow="never" >
+      <el-input v-model="getemplist.title" :placeholder="$t('StockArrival.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="stockPersonId" :placeholder="$t('StockArrival.stockPersonId')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
         trigger="click">
-        <el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" clearable style="width: 40%;float: left;margin-left: 20px">
+        <el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
+        <el-input v-model="supplierId" placeholder="供应商" size="mini" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
         </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="mini" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
           <el-option :label="$t('updates.wsh')" value="0"/>
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
@@ -35,22 +35,23 @@
           type="daterange"
           range-separator="-"
           unlink-panels
+          size="mini"
           start-placeholder="Start"
           end-placeholder="End"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves class="filter-item" size="mini" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" size="mini" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
 
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <!-- 批量操作 -->
+    <el-card :body-style="{ padding: '10px' }" class="box-card" style="margin-top: 10px" shadow="never">
+      <!-- 批量操作123 -->
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
@@ -71,9 +72,12 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :span-method="arraySpanMethod"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -91,22 +95,27 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockArrival.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.stockTypeName }}</span>
+            <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stockTypeName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
@@ -116,27 +125,22 @@
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allIncludeTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.discountMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.discountMoney')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allDiscountMoney }}</span>
           </template>
@@ -151,7 +155,7 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="425">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="600">
           <template slot-scope="scope">
             <el-button v-permission2="['104-116-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
@@ -159,9 +163,9 @@
             <el-button v-permission="['104-116-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['104-116-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission2="['104-116-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['104-116-45']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成采购入库单</span></el-button>
-            <el-button v-permission="['104-116-46']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成质检报告单</span></el-button>
-            <el-button v-permission="['104-116-47']" v-show="scope.row.judgeStat === 2" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">生成采购退货单</span></el-button>
+            <el-button v-permission="['104-116-45']" v-show="scope.row.judgeStat === 2" size="mini" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成采购入库单</span></el-button>
+            <el-button v-permission="['104-116-46']" v-show="scope.row.judgeStat === 2" size="mini" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成质检报告单</span></el-button>
+            <el-button v-permission="['104-116-47']" v-show="scope.row.judgeStat === 2" size="mini" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">生成采购退货单</span></el-button>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
@@ -241,6 +245,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       spanArr: [],
       pos: '',
       step1: '',
@@ -305,9 +310,15 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
@@ -350,7 +361,7 @@ export default {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 3) {
+      } else if (columnIndex === 4) {
         return {
           rowspan: _row,
           colspan: _col
@@ -474,7 +485,7 @@ export default {
       })
     },
     handleMyReceipt1(val) {
-      console.log(val)
+      console.log('val=========================', val)
       this.$store.dispatch('getempcontract', val)
       this.$router.push('/Stockenter/addstockenter')
     },
@@ -943,8 +954,8 @@ export default {
     padding-left: 0px;
   }
   .filter-item{
-   width: 180px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 5px;
     padding: 10px 0;
   }
   .normal >>> .el-dialog__header {
