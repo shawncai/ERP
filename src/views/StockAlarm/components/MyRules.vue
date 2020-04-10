@@ -131,7 +131,6 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createId = 3
       this.personalForm.createPersonId = this.$store.getters.userId

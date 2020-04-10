@@ -60,6 +60,12 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('inventorydetaillist.repositoryName')" prop="applyRepositoryId" style="width: 100%;">
+                  <el-input v-model="applyRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -149,6 +155,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" :label="$t('updates.yxdsl')" prop="planQuantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -209,11 +216,12 @@ import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MyOrder from './components/MyOrder'
 import MyRequire from './components/MyRequire'
-import { materialslist2 } from '@/api/MaterialsList'
+import { getMaterialsByApply } from '@/api/MaterialsList'
+import MyRepository from './components/MyRepository'
 var _that
 export default {
   name: 'AddStockApply',
-  components: { MyOrder, MyDetail, MyEmp },
+  components: { MyRepository, MyOrder, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.applyPersonId)
@@ -231,6 +239,14 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(this.planRepositoryId)
+      if (this.applyRepositoryId === undefined || this.applyRepositoryId === null || this.applyRepositoryId === '') {
+        callback(new Error('请选择采购仓库'))
+      } else {
+        callback()
+      }
+    }
     return {
       requirecontrol: false,
       pickerOptions1: {
@@ -238,6 +254,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      applyRepositoryId: '',
+      repositorycontrol: false,
       // 网络卡顿
       canClick: false,
       // 暂存数据
@@ -278,6 +296,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        applyRepositoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         applyPersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
@@ -325,6 +346,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.applyRepositoryId = val.repositoryName
+      this.personalForm.applyRepositoryId = val.id
+    },
     copydate(row) {
       if (row.requireDate === '' || row.requireDate === null || row.requireDate === undefined) {
         return false
@@ -558,16 +587,18 @@ export default {
       })
       for (let i = 0; i < result2.length; i++) {
         // if (result2[i].productCode.substring(0, 2) === '01') {
-        const list = await materialslist2(result2[i].productCode)
-        console.log('list122', list.data.data.content.list)
-        if (list.data.data.content.list.length > 0) {
-          console.log('list', list.data.data.content.list[0].materialsListDetailVos)
-          const list2 = list.data.data.content.list[0].materialsListDetailVos
+        const list = await getMaterialsByApply(result2[i].productCode, this.personalForm.applyRepositoryId, (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)))
+        console.log('list122', list.data.data.content)
+        if (list.data.data.content.length > 0) {
+          console.log('list', list.data.data.content)
+          const list2 = list.data.data.content
 
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
             console.log('val[i]', result2[i])
-            list2[j].applyQuantity = (Number(list2[j].quantity) * (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity))).toFixed(2)
+            list2[j].applyQuantity = (Number(list2[j].requireQuantity)).toFixed(2)
+            list2[j].requireQuantity = (Number(list2[j].planQuantity)).toFixed(2)
+            list2[j].planQuantity = 0
             list2[j].requireDate = result2[i].requireDate
             list2[j].sourceSerialNumber = result2[i].sourceSerialNumber
             list2[j].requireDate = result2[i].requireDate
@@ -577,6 +608,7 @@ export default {
           }
         } else {
           // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+          result2[i].requireQuantity = result2[i].applyQuantity
           this.$refs.editable2.insert(result2[i])
         }
         // } else {
@@ -644,6 +676,14 @@ export default {
     },
     // 采购申请明细来源
     handleAddproduct() {
+      if (this.applyRepositoryId === null || this.applyRepositoryId === '' || this.applyRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {

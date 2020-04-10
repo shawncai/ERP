@@ -33,6 +33,7 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="multipleTable"
         :key="tableKey"
         :data="list"
         border
@@ -351,6 +352,7 @@ export default {
         }
       }
       console.log(advanceDetail)
+      this.$refs.multipleTable.clearSelection()
       this.$emit('advance', advanceDetail)
     }
     // 仓库管理员选择结束
