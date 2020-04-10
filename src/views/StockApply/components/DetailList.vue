@@ -43,6 +43,11 @@
                   {{ detailTime }}
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('inventorydetaillist.repositoryName')" style="width: 100%;">
+                  {{ personalForm.applyRepositoryName }}
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -98,6 +103,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center"/>
             <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center"/>
             <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center"/>
             <el-editable-column :label="$t('updates.yxdsl')" prop="planQuantity" align="center"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center"/>
           </el-editable>
