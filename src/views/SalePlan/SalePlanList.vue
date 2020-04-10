@@ -739,6 +739,11 @@ export default {
               })
             }
             this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fspcg')
+            })
           }
         })
       }).catch(action => {

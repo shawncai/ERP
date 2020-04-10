@@ -280,7 +280,7 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 && row.receiptStat === 2) {
         return true
       }
     },
@@ -310,6 +310,11 @@ export default {
               })
             }
             this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fspcg')
+            })
           }
         })
       })
