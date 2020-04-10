@@ -47,6 +47,16 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
+                <span>{{ personalForm.ratioName }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.orderMoney')" prop="orderMoney" style="width: 100%;">
+                <span>{{ personalForm.orderMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.totalMoney')" prop="totalMoney" style="width: 100%;">
                 <span>{{ personalForm.totalMoney }}</span>
               </el-form-item>

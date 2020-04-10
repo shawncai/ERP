@@ -9,6 +9,18 @@ export default{
   name: 'App',
   created() {
     this.$store.dispatch('initData')
+  },
+  mounted() {
+    console.log('before')
+    window.onbeforeunload = function() { return '确认离开页面？！' }
+  },
+  beforeDestroy() {
+    console.log('before')
+    window.onbeforeunload = function() { return '确认离开页面？！' }
+  },
+  destroyed() {
+    console.log('destroyed')
+    window.onbeforeunload = function() { return '确认离开页面？！' }
   }
 }
 </script>

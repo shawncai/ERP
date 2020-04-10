@@ -202,18 +202,18 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           const processData = res.data.data.content.list
-          for (let i = 0; i < processData.length; i++) {
-            for (let j = 0; j < processData[i].produceTaskDetailVos.length; j++) {
-              if (processData[i].produceTaskDetailVos[j].produceQuantity - processData[i].produceTaskDetailVos[j].actualCheckQuantity === 0) {
-                processData[i].produceTaskDetailVos.splice(j, 1)
-              }
-            }
-          }
-          for (let i = 0; i < processData.length; i++) {
-            if (processData[i].produceTaskDetailVos.length === 0) {
-              processData.splice(i, 1)
-            }
-          }
+          // for (let i = 0; i < processData.length; i++) {
+          //   for (let j = 0; j < processData[i].produceTaskDetailVos.length; j++) {
+          //     if (processData[i].produceTaskDetailVos[j].produceQuantity - processData[i].produceTaskDetailVos[j].actualCheckQuantity === 0) {
+          //       processData[i].produceTaskDetailVos.splice(j, 1)
+          //     }
+          //   }
+          // }
+          // for (let i = 0; i < processData.length; i++) {
+          //   if (processData[i].produceTaskDetailVos.length === 0) {
+          //     processData.splice(i, 1)
+          //   }
+          // }
         }
         setTimeout(() => {
           this.listLoading = false

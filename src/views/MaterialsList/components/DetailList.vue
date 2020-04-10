@@ -241,13 +241,13 @@ export default {
       const arr = this.cutnull(this.list2)
       console.log('arr', arr)
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['子件', '子件名称', '规格', '单位', '数量']
-        const filterVal = ['productCode', 'productName', 'productType', 'unit', 'quantity']
+        const tHeader = ['子件', '子件名称', '规格', '颜色', '单位', '数量']
+        const filterVal = ['productCode', 'productName', 'productType', 'color', 'unit', 'quantity']
         const data = this.formatJson(filterVal, arr)
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: '父件为' + this.personalForm.productName + '物料清单表'
+          filename: '父件为' + this.personalForm.color + this.personalForm.productName + '物料清单表'
         })
       })
     },
@@ -287,6 +287,7 @@ export default {
           { field: 'productName', displayName: '子件名称', columnSize: `100px` },
           { field: 'productType', displayName: '规格', columnSize: `100px` },
           { field: 'unit', displayName: '单位', columnSize: `100px` },
+          { field: 'color', displayName: '颜色', columnSize: `100px` },
           { field: 'productCategory', displayName: '子件类型', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
@@ -304,6 +305,10 @@ export default {
                         <div class="item">
                         <div class="itemname">父件：</div>
                         <div class="itemcontent">${this.personalForm.productName}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">父件颜色：</div>
+                        <div class="itemcontent">${this.personalForm.color}</div>
                         </div>
                         </div>
                         </div>`,

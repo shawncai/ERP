@@ -67,8 +67,25 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
+                <el-select v-model="personalForm.ratioId" style="margin-left: 18px;width: 200px" @change="handerchoose">
+                  <el-option
+                    v-for="(item, index) in ratios"
+                    :key="index"
+                    :label="item.categoryName"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.orderMoney')" prop="orderMoney" style="width: 100%;">
+                <el-input v-model="personalForm.orderMoney" disabled style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.totalMoney')" prop="totalMoney" style="width: 100%;">
-                <el-input v-model="personalForm.totalMoney" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.totalMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -125,6 +142,7 @@ export default {
       }
     }
     return {
+      ratios: [],
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -190,6 +208,12 @@ export default {
         ],
         settleMode: [
           { required: true, message: '请选择结算方式', trigger: 'change' }
+        ],
+        orderMoney: [
+          { required: true, message: '请输入订单金额', trigger: 'blur' }
+        ],
+        ratioId: [
+          { required: true, message: '请选择付款比例', trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -218,6 +242,14 @@ export default {
     _that = this
   },
   methods: {
+    handerchoose(val) {
+      console.log(val)
+      const needratio = this.ratios.find(item => {
+        return item.id === val
+      })
+      console.log('needratio', needratio)
+      this.personalForm.totalMoney = Number(needratio.categoryName) / 100 * Number(this.personalForm.orderMoney)
+    },
     handleAddSouce() {
       if (this.supp === '' || this.supp === undefined || this.supp === null) {
         this.$notify.error({
@@ -291,6 +323,12 @@ export default {
       searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           this.paymentIds = res.data.data.content.list
+        }
+      })
+      // 付款比例
+      searchCategory(8).then(res => {
+        if (res.data.ret === 200) {
+          this.ratios = res.data.data.content.list
         }
       })
     },
