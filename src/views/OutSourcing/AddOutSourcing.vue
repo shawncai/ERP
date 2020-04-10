@@ -104,7 +104,7 @@
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
           <my-materials :materialcontrol.sync="control" @product4="productdetail4" @detailproduct="detailproduct"/>
-          <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button> -->
+          <el-button type="danger" @click="deleteeditable()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -116,14 +116,25 @@
             stripe
             border
             size="medium"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="85" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="1.00"
+                  v-model="scope.row.quantity"
+                  @change="handelechangequantity()"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
           </el-editable>
@@ -238,13 +249,44 @@ export default {
       list2: [],
       // 主生产任务明细列表规则
       validRules: {
-      }
+      },
+      deleteselectdata: []
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    handleSelectionChange(val) {
+      // console.log('val', val)
+      this.deleteselectdata = val.map(item => {
+        return item.idx
+      })
+    },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
+    deleteeditable() {
+      this.$refs.editable.removeSelecteds()
+      const nowlistdata2 = this.deepClone(this.$refs.editable2.getRecords())
+      this.$refs.editable2.clear()
+      for (const j in nowlistdata2) {
+        for (const i in this.deleteselectdata) {
+          if (this.deleteselectdata[i] === nowlistdata2[j].idx) {
+            nowlistdata2.splice(j, 1)
+          }
+        }
+      }
+      for (const j in nowlistdata2) {
+        this.$refs.editable2.insert(nowlistdata2[j])
+      }
+    },
+    handelechangequantity() {
+      this.changelistdata()
+    },
     // 外包工厂focus事件
     chooseFactory() {
       this.factorycontrol = true
@@ -331,24 +373,36 @@ export default {
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
       const alldata = [...val, ...nowlistdata]
-      const newArr = []
-      console.log('nowlistdata', nowlistdata)
-      alldata.forEach(el => {
-        console.log('el', el)
-        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
-        console.log('result', result)
-        if (result !== -1) {
-          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
-            newArr[result].quantity = newArr[result].quantity + el.quantity
-          } else {
-            newArr.push(el)
+      // const newArr = []
+      // console.log('nowlistdata', nowlistdata)
+      // alldata.forEach(el => {
+      //   console.log('el', el)
+      //   const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+      //   console.log('result', result)
+      //   if (result !== -1) {
+      //     if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+      //       newArr[result].quantity = newArr[result].quantity + el.quantity
+      //     } else {
+      //       newArr.push(el)
+      //     }
+      //   } else {
+      //     newArr.push(el)
+      //   }
+      // })
+      console.log('newArr', alldata)
+      this.list3 = alldata
+    },
+    // 两表联动
+    changelistdata() {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata2 = this.$refs.editable2.getRecords()
+      for (const j in nowlistdata) {
+        for (const i in nowlistdata2) {
+          if (nowlistdata[j].idx === nowlistdata2[i].idx) {
+            nowlistdata2[i].quantity = Number(nowlistdata[j].quantity) * Number(nowlistdata2[i].baseQuantity)
           }
-        } else {
-          newArr.push(el)
         }
-      })
-      console.log('newArr', newArr)
-      this.list3 = newArr
+      }
     },
     // 清空记录
     restAllForm() {
@@ -363,7 +417,10 @@ export default {
     },
     // 保存操作
     handlesave() {
+      // 加工后明细
       const EnterDetail = this.$refs.editable.getRecords()
+      // 原材料明细
+      const EnterDetail2 = this.$refs.editable2.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -398,7 +455,10 @@ export default {
         }
         return elem
       })
+      // 加工后明细
       const parms2 = JSON.stringify(EnterDetail)
+      // 原材料明细
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -408,7 +468,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createoutFactory(parms, parms2, this.personalForm).then(res => {
+          createoutFactory(parms, parms3, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
@@ -419,6 +479,7 @@ export default {
               })
               this.restAllForm()
               this.$refs.editable.clear()
+              this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
