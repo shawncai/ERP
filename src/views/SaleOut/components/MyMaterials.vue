@@ -273,34 +273,52 @@ export default {
     // 物品选择添加
     async handleAddTo() {
       this.productVisible = false
+      console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          locationId: '',
-          typeId: item.productTypeId,
-          enterQuantity: 0,
-          taxRate: 0,
+          type: item.productTypeId,
           unit: item.unit,
-          actualEnterQuantity: 0,
-          quantity: 1,
-          enterPrice: item.costPrice,
           productType: item.productType,
+          quantity: 1,
+          money: 0,
           totalMoney: 0,
-          enterMoney: 0,
-          price: item.price,
-          typeIdname: item.productType,
-          color: item.color
+          enterQuantity: 0,
+          damageQuantity: 0
         }
       })
-      // 通过Promise.all把所有循环中的异步接口数据加载过来，再通过async/await把数据加载完成
-      const productDetail3 = await Promise.all(productDetail.map(function(item) {
-        const query = {}
-        query.code = item.productCode
-        return productlist(query)
-      }))
-      console.log(productDetail)
+      const yuan = this.moreaction.map(item => {
+        return item.materialsListDetailVos
+      })
+      const detialproduct = [].concat.apply([], yuan)
+      const finalproduct = detialproduct.map(item => {
+        return {
+          categoryName: item.productCategory,
+          category: item.categoryId,
+          type: item.typeId,
+          typeId: item.productType,
+          typeName: item.productType,
+          salePrice: item.price,
+          taxRate: 0,
+          discountRate: 0,
+          taxprice: item.price,
+          locationId: '',
+          productCode: item.productCode,
+          productName: item.productName,
+          color: item.color,
+          unit: item.unit,
+          quantity: item.quantity,
+          batch: '',
+          outQuantity: 0,
+          damageQuantity: 0,
+          productType: item.productType
+        }
+      })
+      console.log('productDetail', productDetail)
+      console.log('finalproduct', finalproduct)
       this.$emit('product4', productDetail)
+      this.$emit('detailproduct', finalproduct)
     }
   }
 }
