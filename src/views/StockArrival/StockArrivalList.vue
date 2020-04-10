@@ -73,7 +73,7 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
-
+        :span-method="arraySpanMethod"
         border
         fit
         highlight-current-row
@@ -330,7 +330,7 @@ export default {
           }
         }
       }
-      // console.log('this.spanArr', this.spanArr)
+      console.log('this.spanArr=================', this.spanArr)
     },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
@@ -603,46 +603,48 @@ export default {
       this.listLoading = true
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          // const needlist = res.data.data.content.list
-          // const newarr = res.data.data.content.list.map(item => {
-          //   return item.stockArrivalDetailVos
-          // })
-          // const newarr2 = [].concat.apply([], newarr)
-          // for (const i in needlist) {
-          //   for (const j in newarr2) {
-          //     if (needlist[i].id === newarr2[j].stockArrivalId) {
-          //       newarr2[j].number = needlist[i].number
-          //       newarr2[j].title = needlist[i].title
-          //       newarr2[j].stockTypeName = needlist[i].stockTypeName
-          //       newarr2[j].sourceType = needlist[i].sourceType
-          //       newarr2[j].stockPersonName = needlist[i].stockPersonName
-          //       newarr2[j].supplierName = needlist[i].supplierName
-          //       newarr2[j].allMoney = needlist[i].allMoney
-          //       newarr2[j].allTaxMoney = needlist[i].allTaxMoney
-          //       newarr2[j].id = needlist[i].id
-          //       newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
-          //       newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
-          //       newarr2[j].judgeStat = needlist[i].judgeStat
-          //       newarr2[j].receiptStat = needlist[i].receiptStat
-          //       newarr2[j].stockArrivalDetailVos = needlist[i].stockArrivalDetailVos
-          //       newarr2[j].approvalUseVos = needlist[i].approvalUseVos
-          //       newarr2[j].settleModeName = needlist[i].settleModeName
-          //       newarr2[j].supplierId = needlist[i].supplierId
-          //     }
-          //   }
-          // }
-          // this.list = newarr2
-          // this.getSpanArr(this.list)
-
-          this.list = res.data.data.content.list
-          for (const j in this.list) {
-            const newarr = []
-            for (const i in this.list[j].stockArrivalDetailVos) {
-              newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
+          const needlist = res.data.data.content.list
+          const newarr = res.data.data.content.list.map(item => {
+            return item.stockArrivalDetailVos
+          })
+          console.table('newarr==============', newarr)
+          const newarr2 = [].concat.apply([], newarr)
+          console.table('newarr2==============', newarr2)
+          for (const i in needlist) {
+            for (const j in newarr2) {
+              if (needlist[i].id === newarr2[j].stockArrivalId) {
+                newarr2[j].number = needlist[i].number
+                newarr2[j].title = needlist[i].title
+                newarr2[j].stockTypeName = needlist[i].stockTypeName
+                newarr2[j].sourceType = needlist[i].sourceType
+                newarr2[j].stockPersonName = needlist[i].stockPersonName
+                newarr2[j].supplierName = needlist[i].supplierName
+                newarr2[j].allMoney = needlist[i].allMoney
+                newarr2[j].allTaxMoney = needlist[i].allTaxMoney
+                newarr2[j].id = needlist[i].id
+                newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
+                newarr2[j].judgeStat = needlist[i].judgeStat
+                newarr2[j].receiptStat = needlist[i].receiptStat
+                newarr2[j].stockArrivalDetailVos = needlist[i].stockArrivalDetailVos
+                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
+                newarr2[j].settleModeName = needlist[i].settleModeName
+                newarr2[j].supplierId = needlist[i].supplierId
+              }
             }
-            this.list[j].presentdata = newarr.join('      ||     ')
           }
-          this.total = res.data.data.content.totalCount
+          this.list = newarr2
+          this.getSpanArr(this.list)
+
+          // this.list = res.data.data.content.list
+          // for (const j in this.list) {
+          //   const newarr = []
+          //   for (const i in this.list[j].stockArrivalDetailVos) {
+          //     newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
+          //   }
+          //   this.list[j].presentdata = newarr.join('      ||     ')
+          // }
+          // this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false

@@ -145,7 +145,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;">
-                <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width: 200px" clearable @blur="changeCheckQuantity"/>
+                <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width: 200px" clearable readonly @blur="changeCheckQuantity"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
