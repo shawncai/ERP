@@ -20,6 +20,7 @@
                   <el-option :label="$t('prompt.xsjh')" value="4"/>
                   <el-option :label="$t('prompt.wly')" value="5"/>
                   <el-option :label="$t('prompt.eshsd')" value="6"/>
+                  <el-option label="bom" value="7"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -240,6 +241,7 @@
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
@@ -609,6 +611,8 @@ import { updatesaleOut } from '@/api/SaleOut'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
+import { materialslist2 } from '@/api/MaterialsList'
+import MyMaterials from './MyMaterials'
 import MyEmp from './MyEmp2'
 import MyDelivery from './MyDelivery2'
 import MyDetail from './MyDetail'
@@ -717,6 +721,7 @@ export default {
       }
     }
     return {
+      materialcontrol: false,
       personalForm2: {
         couponSupports: [
           {
@@ -1021,6 +1026,31 @@ export default {
     _that = this
   },
   methods: {
+    detailproduct(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      alldata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      this.list2 = newArr
+    },
+    productdetail4(val) {
+      console.log('33333333333', val)
+    },
     getdiffprice() {
       searchDiffPrice(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -1701,7 +1731,7 @@ export default {
       this.personalForm.ridBikeMoney = ''
       console.log(val)
       console.log('this.list2', this.list2)
-      if (val === '5' || val === undefined) {
+      if (val === '5' || val === '7' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
         this.personalForm.saleType = '1'
@@ -2207,7 +2237,12 @@ export default {
         })
         return false
       }
-      this.control = true
+      console.log('this.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '7') {
+        this.materialcontrol = true
+      } else {
+        this.control = true
+      }
     },
     async productdetail(val) {
       console.log('val', val)

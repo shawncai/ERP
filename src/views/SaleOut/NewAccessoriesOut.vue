@@ -122,6 +122,8 @@
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button :disabled="Isproduct" @click="handleAddproduct2">{{ 'bom' }}</el-button>
+          <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
@@ -425,6 +427,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { materialslist2 } from '@/api/MaterialsList'
 import { batteryList2 } from '@/api/DiffPrice'
 import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
@@ -454,10 +457,11 @@ import MyReturn from './components/MyReturn'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
 import MyPackage from './components/MyPackage'
+import MyMaterials from './components/MyMaterials'
 var _that
 export default {
   name: 'NewAccessoriesOut',
-  components: { MyReturn, MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
+  components: { MyMaterials, MyReturn, MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -573,6 +577,7 @@ export default {
       recyclingcontrol: false,
       // 控制赠品
       giftcontrol: false,
+      materialcontrol: false,
       // 控制销售机会单
       opportunitycontrol: false,
       // 控制销售预售单
@@ -796,6 +801,31 @@ export default {
     _that = this
   },
   methods: {
+    detailproduct(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      alldata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      this.list2 = newArr
+    },
+    productdetail4(val) {
+      console.log('33333333333', val)
+    },
     sum(arr) {
       if (arr.length === 0) {
         return 0
@@ -2131,6 +2161,17 @@ export default {
       data.point = '0.00'
       data.quantity = 1
       // this.$refs.editable.insert(data)
+    },
+    handleAddproduct2() {
+      if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
+      this.materialcontrol = true
     },
     // 无来源添加商品
     handleAddproduct() {

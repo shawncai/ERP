@@ -499,7 +499,9 @@ export default {
         2: _that.$t('updates.xsht'),
         3: _that.$t('updates.ysd'),
         4: _that.$t('updates.xsjh'),
-        5: _that.$t('Hmodule.Nosource')
+        5: _that.$t('Hmodule.Nosource'),
+        6: _that.$t('prompt.eshsd'),
+        7: 'bom'
       }
       return statusMap[status]
     },
