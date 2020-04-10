@@ -44,6 +44,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
@@ -318,7 +319,6 @@ export default {
     },
     // 物品选择添加
     handleAddTo() {
-      this.productVisible = false
       console.log(this.moreaction)
       const newarr = []
       newarr.push(this.moreaction)
@@ -359,7 +359,9 @@ export default {
         }
       })
       // console.log(productDetail)
+      this.$refs.multipleTable.clearSelection()
       this.$emit('product', productDetail)
+      this.productVisible = false
     }
   }
 }

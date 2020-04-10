@@ -56,6 +56,7 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="multipleTable"
       :data="list"
       :key="tableKey"
       border
@@ -298,6 +299,7 @@ export default {
     },
     // 确认添加数据
     handleConfirm() {
+      this.$refs.multipleTable.clearSelection()
       this.employeeVisible = false
       this.$emit('acceptName', this.choosedata)
     }

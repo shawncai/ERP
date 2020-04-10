@@ -285,7 +285,8 @@ export default {
           money: 0,
           totalMoney: 0,
           enterQuantity: 0,
-          damageQuantity: 0
+          damageQuantity: 0,
+          idx: item.id
         }
       })
       const yuan = this.moreaction.map(item => {
@@ -304,7 +305,8 @@ export default {
           batch: '',
           outQuantity: 0,
           damageQuantity: 0,
-          productType: item.productType
+          productType: item.productType,
+          idx: item.materialsId
         }
       })
       console.log(productDetail)
