@@ -35,8 +35,8 @@
           type="daterange"
           range-separator="-"
           unlink-panels
-          start-placeholder="创建日期"
-          end-placeholder="创建日期"
+          start-placeholder="到货日期"
+          end-placeholder="到货日期"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">

@@ -218,6 +218,7 @@ export function search(query) {
   if (query.isRole !== '' && query.isRole !== null && query.isRole !== undefined) {
     params.append('isRole', query.isRole) // 你要传给后台的参数值 key/value
   }
+  params.append('isActive', 1) // 你要传给后台的参数值 key/value
   return request({
     url: '/supplier/search',
     method: 'post',

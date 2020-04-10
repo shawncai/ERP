@@ -153,7 +153,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;" >
-                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeCheckQuantity"/>
+                  <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeCheckQuantity" @input="numberOfVerifications"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -319,6 +319,8 @@ export default {
       }
     }
     return {
+      // 判断是否大于源单数量
+      judgequilty: null,
       // 退货原因
       getemplist: {
         categoryname: '',
@@ -664,6 +666,7 @@ export default {
           this.typeId = res.data.data.content.list[0].productType
         }
       })
+      this.judgequilty = (val.checkQuantity - val.checkedQuantity).toFixed(2)
       this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(2)
       if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
@@ -684,6 +687,7 @@ export default {
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
+      this.judgequilty = val.arrivalQuantity - val.reportCheckingQuantity
       this.personalForm.checkQuantity = val.arrivalQuantity - val.reportCheckingQuantity
       if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
@@ -705,6 +709,7 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
+      this.judgequilty = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
       this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
       if (Number(this.personalForm.checkQuantity) <= 100) {
         this.personalForm.sampleQuantity = 5
@@ -830,6 +835,19 @@ export default {
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
+        }
+      }
+    },
+    numberOfVerifications(val) {
+      console.log('val=============', val)
+      if (this.judgequilty !== null) {
+        if (val >= this.judgequilty) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '报检数量不能大于源单数量',
+            offset: 100
+          })
+          val = this.judgequilty
         }
       }
     },
@@ -1033,6 +1051,7 @@ export default {
         checkDate: null,
         checkResult: '1'
       }
+      this.judgequilty = null
       this.inspectionPersonId = this.$store.getters.name
       this.supplierId = null
       this.workCenterId = null

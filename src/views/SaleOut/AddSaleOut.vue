@@ -2320,7 +2320,7 @@ export default {
         sendType: '2',
         sendDate: null,
         outDate: null,
-        sourceType: '',
+        sourceType: '5',
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,

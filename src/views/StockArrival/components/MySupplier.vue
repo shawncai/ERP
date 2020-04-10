@@ -30,7 +30,7 @@
           style="width: 40%;float: left;margin-left: 20px"
           @change="handlechange4"
         />
-        <el-select v-model="getemplist.levelId" placeholder="请选择优质级别" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.levelId" placeholder="请选择优质级别" clearable style="width: 40%;float: right;margin-right: 20px" class="clearfix">
           <el-option
             v-for="(item, index) in levelIds"
             :key="index"
@@ -38,6 +38,11 @@
             :value="item.id"
           />
         </el-select>
+        <el-input
+          v-model="getemplist.productName"
+          style="width: 60%;float: left;margin-left: 20px;margin-top: 20px;"
+          placeholder="请输入商品名称"
+          clearable/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -164,7 +169,7 @@ export default {
         regionId: '',
         levelId: '',
         pagenum: 1,
-        pagesize: 10
+        pagesize: 100
       },
       // 部门列表
       depts: [],
@@ -292,5 +297,15 @@ export default {
   .container{
     margin-top: 2%;
     border: 1px solid #eceff6;
+  }
+  .clearfix:after,.clearfix:before{
+      content: "";
+      display: table;
+  }
+  .clearfix:after{
+      clear: both;
+  }
+  .clearfix{
+      *zoom: 1;
   }
 </style>

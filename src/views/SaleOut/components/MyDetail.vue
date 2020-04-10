@@ -213,6 +213,7 @@ export default {
     control() {
       this.productVisible = this.control
       // console.log(this.control)
+      this.tableKey = 0
       this.getlist()
     },
     personalform() {
