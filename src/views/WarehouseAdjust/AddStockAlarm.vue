@@ -13,21 +13,21 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.upStock')" prop="upStock" style="width: 100%;">
-                  <el-input v-model="personalForm.upStock" placeholder="请输入最高库存" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.downStock')" prop="downStock" style="width: 100%;">
-                  <el-input v-model="personalForm.downStock" placeholder="请输入最低库存" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" style="width: 100%;">
-                  <el-input v-model="personalForm.safeStock" placeholder="请输入安全库存" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.upStock')" prop="upStock" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.upStock" placeholder="请输入最高库存" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.downStock')" prop="downStock" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.downStock" placeholder="请输入最低库存" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
+              <!--              <el-col :span="6">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" style="width: 100%;">-->
+              <!--                  <el-input v-model="personalForm.safeStock" placeholder="请输入安全库存" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productId" style="width: 100%;">
                   <el-input v-model="productId" placeholder="请选择商品" style="margin-left: 18px;width:200px" clearable @focus="handleAddproduct"/>
@@ -51,7 +51,6 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
-            show-summary
             stripe
             border
             size="medium"
@@ -63,6 +62,33 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.upStock')" prop="upStock" align="center" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.upStock"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.downStock')" prop="downStock" align="center" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.downStock"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" align="center" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.safeStock"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -177,7 +203,7 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail = this.$refs.editable.getRecords()
-      console.log(this.personalForm)
+      console.log('this.personalForm', this.personalForm)
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -197,6 +223,9 @@ export default {
         if (valid) {
           for (const i in EnterDetail) {
             this.personalForm.productId = EnterDetail[i].productId
+            this.personalForm.safeStock = EnterDetail[i].safeStock
+            this.personalForm.upStock = EnterDetail[i].upStock
+            this.personalForm.downStock = EnterDetail[i].downStock
             const parms = JSON.stringify(this.personalForm)
             createstockalarm(parms).then(res => {
               if (res.data.ret === 200) {
