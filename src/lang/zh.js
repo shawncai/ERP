@@ -1917,6 +1917,8 @@ export default {
     picids: '附件'
   },
   AdvancePay: {
+    ratioId: '付款比例',
+    orderMoney: '订单金额',
     payDate: '预付日期',
     stockPersonId: '采购员',
     supplierId: '供应商',

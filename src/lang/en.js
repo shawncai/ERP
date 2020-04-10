@@ -1913,6 +1913,8 @@ export default {
     picids: 'attachment'
   },
   AdvancePay: {
+    ratioId: 'ratioId',
+    orderMoney: 'orderMoney',
     payDate: 'advance date',
     stockPersonId: 'purchase personnel',
     supplierId: 'supplier',

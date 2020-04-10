@@ -253,6 +253,12 @@ export function search2(query) {
   if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
     params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
   }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
   if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
     params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
   }
@@ -479,10 +485,10 @@ export function searchEmpCategory(query) {
 // 新增分类属性
 export function addEmpCategory(query) {
   var params = new URLSearchParams()
-  if (query.categoryname !== '' && query.categoryname !== null) {
+  if (query.categoryname !== '' && query.categoryname !== null && query.categoryname !== undefined) {
     params.append('categoryname', query.categoryname) // 你要传给后台的参数值 key/value
   }
-  if (query.category !== '' && query.category !== null) {
+  if (query.category !== '' && query.category !== null && query.category !== undefined) {
     params.append('category', query.category) // 你要传给后台的参数值 key/value
   }
   if (query.iseffective !== '' && query.iseffective !== null) {

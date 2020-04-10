@@ -22,21 +22,12 @@
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
+        <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter3" @focus="handlechoose"/>
+        <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
         <el-select v-model="personalForm.checkType" placeholder="质检类型" style="width: 40%;float: right;margin-right: 20px">
           <el-option value="1" label="来料质检"/>
           <el-option value="2" label="送样质检"/>
           <el-option value="3" label="生产质检"/>
-        </el-select>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option :label="$t('updates.zd')" value="1"/>
-          <el-option :label="$t('updates.zx')" value="2"/>
-          <el-option :label="$t('updates.jd')" value="3"/>
-        </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
-          <el-option :label="$t('updates.wsh')" value="0"/>
-          <el-option :label="$t('updates.shz')" value="1"/>
-          <el-option :label="$t('updates.shtg')" value="2"/>
-          <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
         <el-select v-model="getemplist.checkMode" :value="getemplist.checkMode" placeholder="检验方式" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option value="1" label="抽样"/>
@@ -100,6 +91,11 @@
         <el-table-column :label="$t('CheckReport.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('CheckReport.productName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('CheckReport.supplierId')" :resizable="false" align="center" min-width="150">
@@ -438,6 +434,10 @@ export default {
     restFilter2() {
       this.inspectionPersonId = ''
       this.getemplist.inspectionPersonId = ''
+    },
+    restFilter3() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 搜索
     handleFilter() {

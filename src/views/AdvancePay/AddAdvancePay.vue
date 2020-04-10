@@ -69,8 +69,25 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
+                  <el-select v-model="personalForm.ratioId" style="margin-left: 18px;width: 200px" @change="handerchoose">
+                    <el-option
+                      v-for="(item, index) in ratios"
+                      :key="index"
+                      :label="item.categoryName"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('AdvancePay.orderMoney')" prop="orderMoney" style="width: 100%;">
+                  <el-input v-model="personalForm.orderMoney" disabled style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.totalMoney')" prop="totalMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.totalMoney" style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.totalMoney" disabled style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -134,6 +151,8 @@ export default {
     //   }
     // }
     return {
+      stockPersonId: this.$store.getters.name,
+      ratios: [],
       supp: null,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -154,8 +173,6 @@ export default {
       transportIds: [],
       // 结算方式
       paymentIds: [],
-      // 采购员回显
-      stockPersonId: '',
       // 控制采购员
       deliverycontrol: false,
       // 控制源单为采购到货单
@@ -184,6 +201,7 @@ export default {
       // 采购申请单信息数据
       personalForm: {
         sourceType: '1',
+        stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -205,8 +223,14 @@ export default {
         totalMoney: [
           { required: true, message: '请输入预付金额', trigger: 'blur' }
         ],
+        orderMoney: [
+          { required: true, message: '请输入订单金额', trigger: 'blur' }
+        ],
         payAccount: [
           { required: true, message: '请输入付款账户', trigger: 'blur' }
+        ],
+        ratioId: [
+          { required: true, message: '请选择付款比例', trigger: 'change' }
         ]
         // settleMode: [
         //   { required: true, validator: validatePass4, trigger: 'change' }
@@ -232,9 +256,20 @@ export default {
     _that = this
   },
   methods: {
+    handerchoose(val) {
+      console.log(val)
+      const needratio = this.ratios.find(item => {
+        return item.id === val
+      })
+      console.log('needratio', needratio)
+      this.personalForm.totalMoney = Number(needratio.categoryName) / 100 * Number(this.personalForm.orderMoney)
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm.orderMoney = Number(this.$store.getters.empcontract.allIncludeTaxMoney)
+        this.personalForm.currency = String(this.$store.getters.empcontract.currency)
+        this.personalForm.sourceNumber = this.$store.getters.empcontract.orderNumber
         this.personalForm.supplierId = this.$store.getters.empcontract.supplierId
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
@@ -324,6 +359,12 @@ export default {
           this.paymentIds = res.data.data.content.list
         }
       })
+      // 付款比例
+      searchCategory(8).then(res => {
+        if (res.data.ret === 200) {
+          this.ratios = res.data.data.content.list
+        }
+      })
     },
     // 选择源单类型事件
     chooseType() {
@@ -359,6 +400,13 @@ export default {
     },
     allOrderinfo2(val) {
       this.personalForm.sourceNumber = val.orderNumber
+      this.stockPersonId = val.stockPersonName
+      this.personalForm.stockPersonId = val.stockPersonId
+      if (val.settleMode !== null) {
+        this.personalForm.settleMode = val.settleMode
+      }
+      this.personalForm.orderMoney = Number(val.allIncludeTaxMoney)
+      this.personalForm.currency = String(val.currency)
     },
     allOrderinfo(val) {
       this.personalForm.supplierId = val.supplierId
@@ -442,6 +490,8 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        sourceType: '1',
+        stockPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -451,9 +501,10 @@ export default {
       }
       this.supplierId = null
       this.inquiryPersonId = null
-      this.stockPersonId = null
+      this.stockPersonId = this.$store.getters.name
       this.ourContractorId = null
       this.acceptPersonId = null
+      this.getdatatime()
     },
     // 保存操作
     handlesave() {

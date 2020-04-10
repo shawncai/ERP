@@ -21,6 +21,7 @@
                     <el-option :label="$t('prompt.xsjh')" value="4"/>
                     <el-option :label="$t('prompt.wly')" value="5"/>
                     <el-option :label="$t('prompt.eshsd')" value="6"/>
+                    <el-option label="bom" value="7"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -232,6 +233,7 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
           <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
@@ -558,6 +560,7 @@ import '@/directive/noMoreClick/index.js'
 import { searchRoleDiscount } from '@/api/BasicSettings'
 import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
+import { materialslist2 } from '@/api/MaterialsList'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
 import { createsaleOut } from '@/api/SaleOut'
@@ -581,11 +584,12 @@ import MyOpportunity from './components/MyOpportunity'
 import MyDetail2 from './components/MyDetail2'
 import MyContract from './components/MyContract'
 import MyRecycling from './components/MyRecycling'
+import MyMaterials from './components/MyMaterials'
 import MyPackage from './components/MyPackage'
 var _that
 export default {
   name: 'AddSaleOut',
-  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
+  components: { MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage, MyMaterials },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
@@ -658,6 +662,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      materialcontrol: false,
       // 赠品选择控制
       packagecontrol: false,
       packagerepository: '',
@@ -911,6 +916,31 @@ export default {
     _that = this
   },
   methods: {
+    detailproduct(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      alldata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      this.list2 = newArr
+    },
+    productdetail4(val) {
+      console.log('33333333333', val)
+    },
     switchsaletype(val) {
       console.log('val', val)
       if (val === '1' && this.personalForm.sourceType === '2') {
@@ -1607,7 +1637,7 @@ export default {
       this.personalForm.ridBikeMoney = ''
       console.log(val)
       console.log('this.list2', this.list2)
-      if (val === '5' || val === undefined) {
+      if (val === '5' || val === '7' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
         this.personalForm.saleType = '1'
@@ -2209,7 +2239,12 @@ export default {
         })
         return false
       }
-      this.control = true
+      console.log('this.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '7') {
+        this.materialcontrol = true
+      } else {
+        this.control = true
+      }
     },
     async productdetail(val) {
       console.log('val', val)
