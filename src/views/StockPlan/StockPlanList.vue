@@ -360,7 +360,7 @@ export default {
           } else {
             this.$message({
               type: 'error',
-              message: this.$t('prompt.fspsb')
+              message: res.data.msg
             })
           }
         })

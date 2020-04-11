@@ -15,6 +15,7 @@
         <el-option label="表面处理" value="9"/>
         <el-option label="性能等级" value="10"/>
         <el-option label="序号" value="11"/>
+        <el-option label="物料清单版本" value="12"/>
       </el-select>
       <el-select v-model="getemplist.iseffective" :value="getemplist.iseffective" :placeholder="$t('NewEmployeeInformation.iseffective')" size="small" class="filter-item" clearable>
         <el-option label="on duty" value="1"/>
@@ -54,6 +55,7 @@
               <el-option label="表面处理" value="9"/>
               <el-option label="性能等级" value="10"/>
               <el-option label="序号" value="11"/>
+              <el-option label="物料清单版本" value="12"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
@@ -151,6 +153,7 @@
               <el-option label="表面处理" value="9"/>
               <el-option label="性能等级" value="10"/>
               <el-option label="序号" value="11"/>
+              <el-option label="物料清单版本" value="12"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
@@ -202,7 +205,8 @@ export default {
         8: '长度等级',
         9: '表面处理',
         10: '性能等级',
-        11: '序号'
+        11: '序号',
+        12: '物料清单版本'
       }
       return statusMap[status]
     },
@@ -397,6 +401,11 @@ export default {
         if (reg.test(this.addCategoryForm.code) === false) {
           this.addCategoryForm.code = ''
         }
+      } else if (this.addCategoryForm.type === '12') {
+        const reg = /^[A-Z0-9]{4}$/
+        if (reg.test(this.addCategoryForm.code) === false) {
+          this.addCategoryForm.code = ''
+        }
       }
     },
     chooseType(val) {
@@ -431,6 +440,8 @@ export default {
       } else if (val === '11') {
         this.weishu = '2位序号'
         this.tishi = true
+      } else if (val === '12') {
+        this.tishi = false
       }
     },
     getlist() {
