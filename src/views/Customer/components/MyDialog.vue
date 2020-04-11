@@ -3,8 +3,8 @@
     <!--零售客户-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <div class="container" style="margin-top: 30px">
+        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.agentname')" prop="agentName" style="width: 100%;">
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.introduce2')" style="width: 100%;">
-                <el-input v-model="customerForm.introduce" type="textarea" style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="customerForm.introduce" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <!--// 基本信息结束-->
@@ -65,10 +65,10 @@
       </div>
     </el-card>
     <!--业务信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
-        <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="customerForm2" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.contactname')" prop="contactName" style="width: 100%;">
@@ -151,10 +151,10 @@
       </div>
     </el-card>
     <!-- 财务信息 -->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
-        <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="customerForm3" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.accountsDays')" prop="accountsDays" style="width: 100%;">
@@ -222,10 +222,10 @@
       </div>
     </el-card>
     <!-- 辅助信息 -->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
       <h2 class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ywxx') }}</h2>
       <div class="container">
-        <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="customerForm4" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.establishmenttime')" style="width: 100%;">
@@ -601,7 +601,7 @@ export default {
 </script>
 
 <style scoped>
-  .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+   .container >>> .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     margin-left: -10px;
   }
   .container >>> .el-form-item__label{
@@ -612,7 +612,7 @@ export default {
   }
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
-    height: 1200px;
+    left: 0;
   }
   .el-col-12{
     width: 49%;

@@ -3,8 +3,8 @@
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <div class="container" style="margin-top: 30px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.supplierName')" prop="supplierName" style="width: 100%;">
@@ -37,10 +37,10 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 ref="lianxi" class="form-name">{{ $t('updates.ywxx') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('public.countyrId')" prop="countryId" style="width: 100%;">
@@ -200,7 +200,7 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 5px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ktgspmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -240,7 +240,7 @@
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 class="form-name">{{ $t('updates.cwxx') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.paymentId')" style="width: 100%;">
@@ -286,10 +286,10 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 20px">
       <h2 ref="fuzhu" class="form-name">{{ $t('updates.fzxx') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Supplier.establishDate')" style="width: 100%;">

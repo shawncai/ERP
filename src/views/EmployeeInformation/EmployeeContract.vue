@@ -106,7 +106,7 @@
       <!--修改弹窗-->
       <el-dialog :visible.sync="editVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
-          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
               <el-input v-model="employeeName" :disabled="true" placeholder="请选择员工" clearable/>
             </el-form-item>
@@ -205,7 +205,7 @@
       <!--      详情-->
       <el-dialog :visible.sync="detailVisible" :title="$t('updates.htbh') + contractNumber" width="1010px" class="edit" top="-10px">
         <el-card class="box-card" style="margin-top: 63px" shadow="never">
-          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+          <el-form ref="contractForm" :model="contractForm" :rules="contractFormRules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-form-item :label="$t('NewEmployeeInformation.employeeid')" prop="employeeId" style="width: 40%;">
               {{ contractForm.empName }}
             </el-form-item>
