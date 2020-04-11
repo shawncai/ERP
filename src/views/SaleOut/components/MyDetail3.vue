@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp12345')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -52,7 +52,7 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
+      @selection-change="selectService">
       <el-table-column
         :reserve-selection="true"
         type="selection"
@@ -150,6 +150,10 @@ export default {
     personalform: {
       type: Object,
       default: null
+    },
+    selected: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -215,9 +219,9 @@ export default {
     }
   },
   computed: {
-    // curPageAllIds() { // 存放当前页所有数据
-    //   return this.list.map((item) => item.id)
-    // },
+    curPageAllIds() { // 存放当前页所有数据
+      return this.list
+    }
     // curPageAllNames() {
     //   return this.list.map((item) => item.productName)
     // }
@@ -226,6 +230,11 @@ export default {
     control() {
       this.productVisible = this.control
       // console.log(this.control)
+      this.formValidate.serviceIdList = []
+      if (this.control) {
+        this.formValidate.serviceIdList = this.selected
+        console.log('this.formValidate.serviceIdList============2222', this.formValidate.serviceIdList)
+      }
       this.getlist()
     },
     personalform() {
@@ -243,7 +252,7 @@ export default {
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = this.selectFromId(res.data.data.content.list, this.formValidate.serviceIdList)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -333,27 +342,28 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      for (const i in this.moreaction) {
-        if (this.moreaction[i].isBatch === 2) {
-          this.moreaction[i].batch = '不使用'
+      console.log('this.formValidate.serviceIdList=================', this.formValidate.serviceIdList)
+      for (const i in this.formValidate.serviceIdList) {
+        if (this.formValidate.serviceIdList[i].isBatch === 2) {
+          this.formValidate.serviceIdList[i].batch = '不使用'
         }
       }
-      const productDetail = this.moreaction.map(function(item) {
+      const productDetail = this.formValidate.serviceIdList.map(function(item) {
         return {
-          productCode: item.code,
-          productName: item.productName,
-          category: item.categoryId,
-          categoryName: item.category,
-          type: item.typeId,
-          typeId: item.productType,
-          color: item.color,
-          unit: item.purMeasu,
-          performanceScore: item.kpiGrade,
-          productScore: item.point,
+          id: item.id,
+          productCode: item.code || item.productCode,
+          productName: item.productName || item.productName,
+          category: item.categoryId || item.category,
+          categoryName: item.category || item.categoryName,
+          type: item.typeId || item.type,
+          typeId: item.productType || item.typeId,
+          color: item.color || item.color,
+          unit: item.purMeasu || item.unit,
+          performanceScore: item.kpiGrade || item.performanceScore,
+          productScore: item.point || item.productScore,
           quantity: 0,
-          salePrice: item.salePrice,
-          costPrice: item.costPrice,
+          salePrice: item.salePrice || item.salePrice,
+          costPrice: item.costPrice || item.costPrice,
           costMoney: 0,
           includeTaxMoney: 0,
           taxRate: 0,
@@ -373,34 +383,40 @@ export default {
       this.$refs.multipleTable.clearSelection()
       // console.log(productDetail)
       this.$emit('product', productDetail)
-    }
+    },
+    // 去重
+    deWeightTwo(arr2) {
+      const temp = []
+      arr2.forEach(function(a) {
+        var check = temp.every(function(b) {
+          return a.id !== b.id
+        })
+        check ? temp.push(a) : ''
+      })
+      return temp
+    },
     // 保存分页选中
-    // selectService(selection) {
-    //   this.curPageSelected = selection.map((item) => item.id)
-    //   // otherPageIds其他页面选中项 为所有选中项减去当前页所有数据
-    //   const otherPageIds = this._.without(this.formValidate.serviceIdList, ...this.curPageAllIds)
-    //   // 最终选择项为
-    //   this.formValidate.serviceIdList = this._.union(otherPageIds, this.curPageSelected)
-    //   this.curPageSelectedName = selection.map((item) => item.productName)
-    //   const otherPageName = this._.without(this.formValidate.serviceIdNameList, ...this.curPageAllNames)
-    //   this.formValidate.serviceIdNameList = this._.union(otherPageName, this.curPageSelectedName)
-    // },
+    selectService(selection) {
+      this.curPageSelected = selection
+      // otherPageIds其他页面选中项 为所有选中项减去当前页所有数据
+      const otherPageIds = this._.without(this.formValidate.serviceIdList, ...this.curPageAllIds)
+      // 最终选择项为
+      this.formValidate.serviceIdList = this._.union(otherPageIds, this.curPageSelected)
+      this.formValidate.serviceIdList = this.deWeightTwo(this.formValidate.serviceIdList)
+      console.log('选中的项目', this.formValidate.serviceIdList)
+    },
     // 根据id选中
-    // selectFromId(showList, selectList) {
-    //   const that = this
-    //   if (selectList) {
-    //     for (const i in showList) {
-    //       if (selectList.includes(showList[i].id)) {
-    //         showList[i]._checked = true
-    //         // this.$set(this.showList[i], '_checked', true)
-    //       } else {
-    //         showList[i]._checked = false
-    //         // this.$set(this.showList[i], '_checked', false)
-    //       }
-    //     }
-    //   }
-    //   return showList
-    // }
+    selectFromId(showList, selectList) {
+      if (selectList) {
+        for (const i in showList) {
+          if (selectList.findIndex(item => item.id === showList[i].id) > -1) {
+            this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+            // showList[i].checked = true
+          }
+        }
+      }
+      return showList
+    }
   }
 }
 </script>
