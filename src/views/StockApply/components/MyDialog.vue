@@ -591,7 +591,7 @@ export default {
               } else {
                 this.$notify.error({
                   title: 'wrong',
-                  message: 'wrong',
+                  message: res.data.msg,
                   offset: 100
                 })
               }

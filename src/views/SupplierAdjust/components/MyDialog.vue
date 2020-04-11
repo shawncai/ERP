@@ -3,8 +3,8 @@
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <div class="container" style="margin-top: 20px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="6">
               <el-form-item :label="$t('SupplierAdjust.title')" style="width: 100%;">
@@ -49,7 +49,7 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 5px;margin-bottom: 20px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订货单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -62,9 +62,7 @@
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
-          :summary-method="getSummaries"
           class="click-table1"
-          show-summary
           stripe
           border
           size="medium"

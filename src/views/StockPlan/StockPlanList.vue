@@ -347,9 +347,10 @@ export default {
             }
             this.getlist()
           } else {
-            this.$message({
-              type: 'error',
-              message: this.$t('prompt.fspsb')
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
             })
           }
         })
@@ -381,6 +382,12 @@ export default {
               message: this.$t('prompt.fjdcg')
             })
             this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       })
@@ -411,6 +418,12 @@ export default {
               message: this.$t('prompt.jdcg')
             })
             this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       })
@@ -746,6 +759,11 @@ export default {
             loading.close()
           } else {
             loading.close()
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       }).catch(action => {
@@ -759,6 +777,12 @@ export default {
                 message: this.$t('prompt.shcg')
               })
               this.getlist()
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: res.data.msg,
+                offset: 100
+              })
             }
           })
         }

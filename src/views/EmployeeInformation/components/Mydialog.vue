@@ -3,8 +3,8 @@
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <div class="container" style="margin-top: 20px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.account')" prop="account" style="width: 100%;">
@@ -47,7 +47,7 @@
                 <el-input v-model="personalForm.email" placeholder="请输入邮箱地址" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" style="height: 47px">
               <el-form-item :label="$t('NewEmployeeInformation.gender')" prop="gender" style="width: 100%;">
                 <el-radio-group v-model="personalForm.gender" style="margin-left: 18px;width: 200px">
                   <el-radio :label="1" style="width: 100px">{{ $t('NewEmployeeInformation.male') }}</el-radio>
@@ -84,10 +84,10 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 ref="lianxi" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.lxxx') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="connectForm" :model="personalForm" :rules="connectrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="connectForm" :model="personalForm" :rules="connectrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.address')" prop="address" style="width: 100%;">
@@ -126,10 +126,10 @@
       </div>
     </el-card>
     <!--公司信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 15px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 class="form-name">{{ $t('updates.gsxx') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="companyForm" :model="personalForm" :rules="companyrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="companyForm" :model="personalForm" :rules="companyrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.jobnumber')" style="width: 100%;">
@@ -196,7 +196,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 15px;margin-bottom: 40px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 40px">
       <h2 class="form-name">角色信息</h2>
       <div class="container" style="margin-top: 37px">
         <el-row>
