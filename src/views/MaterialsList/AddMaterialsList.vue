@@ -32,8 +32,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('MaterialsList.version')" style="width: 100%;">
-                  <el-select v-model="personalForm.version" style="margin-left: 18px;width: 200px" clearable >
-                    <el-option value="1" label="版本1"/>
+                  <el-select v-model="personalForm.version" clearable style="margin-left: 18px;width:200px">
+                    <el-option
+                      v-for="(item, index) in versions"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.categoryName"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -127,6 +131,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getbom } from '@/api/public'
+import { searchEmpCategory2 } from '@/api/Product'
 import { addmaterials, isExist } from '@/api/MaterialsList'
 import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
@@ -136,6 +141,7 @@ export default {
   components: { MyMater, MyDetail },
   data() {
     return {
+      versions: [],
       checklist: [],
       // 父件型号回显
       productTypeId: '',
@@ -189,6 +195,14 @@ export default {
           console.log('res.data.ret ', res.data.data.content)
           this.personalForm.bomNumber = res.data.data.content
           console.log('this.personalForm.bomNumber', this.personalForm.bomNumber)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+      searchEmpCategory2(12).then(res => {
+        if (res.data.ret === 200) {
+          this.versions = res.data.data.content.list
         }
         setTimeout(() => {
           this.listLoading = false
