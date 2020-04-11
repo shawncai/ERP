@@ -68,7 +68,7 @@
                   <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
                   <el-select v-model="personalForm.ratioId" style="margin-left: 18px;width: 200px" @change="handerchoose">
                     <el-option
@@ -78,6 +78,11 @@
                       :value="item.id"
                     />
                   </el-select>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioRate" style="width: 100%;">
+                  <el-input v-model="personalForm.ratioRate" type="number" style="margin-left: 18px;width:200px" clearable @blur="handerchoose"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -109,6 +114,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { search2 } from '@/api/Supplier'
 import { addadvancepay } from '@/api/AdvancePay'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -207,7 +213,10 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        payDate: null
+        totalMoney: 0,
+        ratioRate: 0,
+        payDate: null,
+        payAccount: ''
       },
       // 采购申请单规则数据
       personalrules: {
@@ -231,6 +240,9 @@ export default {
         ],
         ratioId: [
           { required: true, message: '请选择付款比例', trigger: 'change' }
+        ],
+        ratioRate: [
+          { required: true, message: '请输入付款比例', trigger: 'blur' }
         ]
         // settleMode: [
         //   { required: true, validator: validatePass4, trigger: 'change' }
@@ -257,12 +269,13 @@ export default {
   },
   methods: {
     handerchoose(val) {
-      console.log(val)
-      const needratio = this.ratios.find(item => {
-        return item.id === val
-      })
-      console.log('needratio', needratio)
-      this.personalForm.totalMoney = Number(needratio.categoryName) / 100 * Number(this.personalForm.orderMoney)
+      // console.log(val)
+      // const needratio = this.ratios.find(item => {
+      //   return item.id === val
+      // })
+      // console.log('needratio', needratio)
+      console.log('this.personalForm.ratioRate', this.personalForm.ratioRate)
+      this.personalForm.totalMoney = Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
@@ -271,6 +284,13 @@ export default {
         this.personalForm.currency = String(this.$store.getters.empcontract.currency)
         this.personalForm.sourceNumber = this.$store.getters.empcontract.orderNumber
         this.personalForm.supplierId = this.$store.getters.empcontract.supplierId
+        const parms = { id: this.personalForm.supplierId }
+        search2(parms).then(res => {
+          console.log('res', res)
+          if (res.data.ret === 200) {
+            this.personalForm.payAccount = res.data.data.content.list[0].account
+          }
+        })
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.stockPersonId = this.$store.getters.empcontract.stockPersonName
         this.personalForm.stockPersonId = this.$store.getters.empcontract.stockPersonId
@@ -497,7 +517,10 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1,
-        payDate: null
+        totalMoney: 0,
+        ratioRate: 0,
+        payDate: null,
+        payAccount: ''
       }
       this.supplierId = null
       this.inquiryPersonId = null

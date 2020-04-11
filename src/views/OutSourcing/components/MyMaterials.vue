@@ -306,7 +306,8 @@ export default {
           outQuantity: 0,
           damageQuantity: 0,
           productType: item.productType,
-          idx: item.materialsId
+          idx: item.materialsId,
+          baseQuantity: item.quantity
         }
       })
       console.log(productDetail)

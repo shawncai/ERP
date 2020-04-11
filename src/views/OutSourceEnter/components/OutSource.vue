@@ -309,7 +309,7 @@ export default {
     handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
-      const outsourcingDetailVos = this.choosedata.outsourcingDetailVos
+      const outsourcingDetailVos = this.choosedata.outsourcingEnterDetailVos
       const OrderNumber = this.choosedata.number
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {

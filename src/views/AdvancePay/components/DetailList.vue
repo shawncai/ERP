@@ -48,7 +48,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
-                <span>{{ personalForm.ratioName }}</span>
+                <span>{{ personalForm.ratioRate }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">

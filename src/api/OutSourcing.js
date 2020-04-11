@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
 // 添加外包单
-export function createoutFactory(query, query2, query3) {
+export function createoutFactory(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
-  params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
-  params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
+  params.append('enterDetailJson', query3) // 你要传给后台的参数值 key/value
+  params.append('repositoryId', query4.repositoryId) // 你要传给后台的参数值 key/value
+  params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   return request({
     url: '/outsourcing/create',
     method: 'post',

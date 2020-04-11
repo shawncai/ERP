@@ -101,6 +101,39 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
+
+            <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
+            <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
+              <template slot-scope="scope">
+                <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
+              </template>
+            </el-editable-column>
+          </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 15px" shadow="never">
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wbdmx') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries"
+            show-summary
+            class="click-table1"
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
+            <el-editable-column :label="$t('Hmodule.outQuantity')" prop="outQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
@@ -196,6 +229,7 @@ export default {
       heji: 0,
       // 详细表数据
       list2: [],
+      list3: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
@@ -208,7 +242,8 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list2 = this.personalForm.outsourcingDetailVos
+      this.list2 = this.personalForm.outsourcingEnterDetailVos
+      this.list3 = this.personalForm.outsourcingDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

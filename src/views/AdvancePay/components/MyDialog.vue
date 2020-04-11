@@ -66,7 +66,7 @@
                 <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
                 <el-select v-model="personalForm.ratioId" style="margin-left: 18px;width: 200px" @change="handerchoose">
                   <el-option
@@ -76,6 +76,11 @@
                     :value="item.id"
                   />
                 </el-select>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="12">
+              <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioRate" style="width: 100%;">
+                <el-input v-model="personalForm.ratioRate" style="margin-left: 18px;width:200px" clearable @blur="handerchoose"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -214,6 +219,9 @@ export default {
         ],
         ratioId: [
           { required: true, message: '请选择付款比例', trigger: 'change' }
+        ],
+        ratioRate: [
+          { required: true, message: '请输入付款比例', trigger: 'blur' }
         ]
       },
       // 采购申请单明细数据
@@ -243,12 +251,8 @@ export default {
   },
   methods: {
     handerchoose(val) {
-      console.log(val)
-      const needratio = this.ratios.find(item => {
-        return item.id === val
-      })
-      console.log('needratio', needratio)
-      this.personalForm.totalMoney = Number(needratio.categoryName) / 100 * Number(this.personalForm.orderMoney)
+      console.log('this.personalForm.ratioRate', this.personalForm.ratioRate)
+      this.personalForm.totalMoney = Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)
     },
     handleAddSouce() {
       if (this.supp === '' || this.supp === undefined || this.supp === null) {
