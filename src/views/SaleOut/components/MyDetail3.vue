@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp12345')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -207,8 +207,20 @@ export default {
       detailList: {
         pagenum: 1,
         pagesize: 10
-      }
+      },
+      // 测试多选选中
+      curPageSelected: [], // 存放当前页选中项
+      formValidate: {},
+      curPageSelectedName: [] // 存放当前页名字
     }
+  },
+  computed: {
+    // curPageAllIds() { // 存放当前页所有数据
+    //   return this.list.map((item) => item.id)
+    // },
+    // curPageAllNames() {
+    //   return this.list.map((item) => item.productName)
+    // }
   },
   watch: {
     control() {
@@ -362,6 +374,33 @@ export default {
       // console.log(productDetail)
       this.$emit('product', productDetail)
     }
+    // 保存分页选中
+    // selectService(selection) {
+    //   this.curPageSelected = selection.map((item) => item.id)
+    //   // otherPageIds其他页面选中项 为所有选中项减去当前页所有数据
+    //   const otherPageIds = this._.without(this.formValidate.serviceIdList, ...this.curPageAllIds)
+    //   // 最终选择项为
+    //   this.formValidate.serviceIdList = this._.union(otherPageIds, this.curPageSelected)
+    //   this.curPageSelectedName = selection.map((item) => item.productName)
+    //   const otherPageName = this._.without(this.formValidate.serviceIdNameList, ...this.curPageAllNames)
+    //   this.formValidate.serviceIdNameList = this._.union(otherPageName, this.curPageSelectedName)
+    // },
+    // 根据id选中
+    // selectFromId(showList, selectList) {
+    //   const that = this
+    //   if (selectList) {
+    //     for (const i in showList) {
+    //       if (selectList.includes(showList[i].id)) {
+    //         showList[i]._checked = true
+    //         // this.$set(this.showList[i], '_checked', true)
+    //       } else {
+    //         showList[i]._checked = false
+    //         // this.$set(this.showList[i], '_checked', false)
+    //       }
+    //     }
+    //   }
+    //   return showList
+    // }
   }
 }
 </script>

@@ -170,7 +170,8 @@ export default {
         regionId: '',
         levelId: '',
         pagenum: 1,
-        pagesize: 100
+        pagesize: 100,
+        isActive: 1
       },
       // 部门列表
       depts: [],

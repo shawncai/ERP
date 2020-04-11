@@ -1,6 +1,6 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
       <el-input v-model="getemplist.title" :placeholder="$t('StockApply.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.applyNumber" :placeholder="$t('updates.djbh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="applyPersonId" :placeholder="$t('StockApply.applyPersonId')" size="mini" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
@@ -46,19 +46,19 @@
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves class="filter-item" size="mini" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
 
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" size="mini" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves size="mini" class="filter-item" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -66,19 +66,22 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['104-105-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-105-6']" v-waves :loading="downloadLoading" size="mini" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['104-105-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['104-105-7']" v-waves size="mini" class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['104-105-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['104-105-1']" v-waves size="mini" class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -234,6 +237,8 @@ export default {
   },
   data() {
     return {
+      // 默认表格高度
+      tableHeight: 200,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -295,14 +300,119 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
     this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].stockArrivalId === data[i - 1].stockArrivalId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex === 0) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 1) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 2) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 4) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 5) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 6) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 7) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 8) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 9) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 10) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 11) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 12) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 13) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 14) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      } else if (columnIndex === 15) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     // 判断能否删除
     junglehandle() {
       let temp = 0
@@ -558,6 +668,7 @@ export default {
       stocapplylist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          console.log('采购申请===============', res.data.data.content.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -828,7 +939,7 @@ export default {
   }
   .filter-item{
     width: 180px;
-    margin-left: 20px;
+    margin-left: 5px;
     padding: 10px 0;
   }
   .normal >>> .el-dialog__header {

@@ -1,17 +1,17 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.number" :placeholder="$t('updates.stockrequrenumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.number" :placeholder="$t('updates.stockrequrenumber')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" size="mini" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
       </el-select>
-      <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
       <my-detail :control.sync="control" @productdata="productdata"/>
-      <el-select v-model="getemplist.isPlan" :placeholder="$t('updates.sfysccg')" :value="getemplist.isPlan" class="filter-item" clearable>
+      <el-select v-model="getemplist.isPlan" :placeholder="$t('updates.sfysccg')" :value="getemplist.isPlan" size="mini" class="filter-item" clearable>
         <el-option :label="$t('updates.yes')" value="1"/>
         <el-option :label="$t('updates.no')" value="2"/>
       </el-select>
@@ -20,12 +20,13 @@
         placement="bottom"
         width="500"
         trigger="click">
-        <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter4"/>
+        <el-input v-model="supplierId" placeholder="供应商" size="mini" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter4"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
         <el-date-picker
           v-model="date"
           type="daterange"
+          size="mini"
           range-separator="-"
           unlink-panels
           start-placeholder="需求日期开始"
@@ -33,23 +34,23 @@
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves class="filter-item" type="primary" size="mini" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" type="primary" size="mini" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" size="mini" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 表格导出操作 -->
-      <el-button v-permission="['104-107-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-107-6']" v-waves :loading="downloadLoading" size="mini" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['104-107-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <el-button v-waves class="filter-item" icon="el-icon-plus" style="width: 160px;" @click="handleNumbers">{{ $t('updates.sccgjhd') }}</el-button>
+      <el-button v-permission="['104-107-7']" v-waves class="filter-item" icon="el-icon-printer" size="mini" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-plus" size="mini" style="width: 160px;" @click="handleNumbers">{{ $t('updates.sccgjhd') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -57,6 +58,7 @@
         :data="list"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;"
         @selection-change="handleSelectionChange">
