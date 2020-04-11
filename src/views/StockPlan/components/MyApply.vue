@@ -343,7 +343,9 @@ export default {
       for (let i = 0; i < this.choosedata.length; i++) {
         for (let j = 0; j < this.choosedata[i].stockApplyDetailVos.length; j++) {
           this.choosedata[i].stockApplyDetailVos[j].applyNumber = this.choosedata[i].applyNumber
-          orderdata.push(this.choosedata[i].stockApplyDetailVos[j])
+          if (this.choosedata[i].stockApplyDetailVos[j].planQuantity < this.choosedata[i].stockApplyDetailVos[j].requireQuantity) {
+            orderdata.push(this.choosedata[i].stockApplyDetailVos[j])
+          }
         }
       }
       const applyDetail = orderdata.map(function(item) {

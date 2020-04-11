@@ -297,11 +297,11 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
+      console.log('1', row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
-      this.personalForm.version = String(row.version)
       this.personalForm.bomTypeId = String(row.bomTypeId)
+      console.log('2', row)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {

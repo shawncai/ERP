@@ -31,8 +31,12 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('MaterialsList.version')" style="width: 100%;">
-                <el-select v-model="personalForm.version" style="margin-left: 18px;width: 200px" clearable >
-                  <el-option value="1" label="版本1"/>
+                <el-select v-model="personalForm.version" clearable style="margin-left: 18px;width:200px">
+                  <el-option
+                    v-for="(item, index) in versions"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -115,6 +119,7 @@
 import { updatematerials, isExist } from '@/api/MaterialsList'
 import MyDetail from './MyDetail2'
 import MyMater from './MyMater'
+import { searchEmpCategory2 } from '@/api/Product'
 var _that
 export default {
   components: { MyDetail, MyMater },
@@ -130,6 +135,7 @@ export default {
   },
   data() {
     return {
+      versions: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -173,6 +179,16 @@ export default {
       this.personalForm = this.editdata
       this.list2 = this.personalForm.materialsListDetailVos
     }
+  },
+  mounted() {
+    searchEmpCategory2(12).then(res => {
+      if (res.data.ret === 200) {
+        this.versions = res.data.data.content.list
+      }
+      setTimeout(() => {
+        this.listLoading = false
+      }, 0.5 * 100)
+    })
   },
   beforeCreate() {
     _that = this
