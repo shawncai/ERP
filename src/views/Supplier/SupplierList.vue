@@ -181,7 +181,7 @@
 
 <script>
 import { searchRepository, regionlist } from '@/api/public'
-import { searchCategory, search2, delete2, searchGroup, createGroup, deleteGroup, update } from '@/api/Supplier'
+import { searchCategory, search, search2, delete2, searchGroup, createGroup, deleteGroup, update } from '@/api/Supplier'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -404,7 +404,7 @@ export default {
         this.getemplist.isRole = 2
       }
       console.log(this.getemplist.isRole)
-      search2(this.getemplist).then(res => {
+      search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -461,7 +461,7 @@ export default {
       this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
-      search2(this.getemplist).then(res => {
+      search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
