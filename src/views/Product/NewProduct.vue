@@ -271,6 +271,7 @@
                   <el-select v-model="personalForm.source" placeholder="请选择来源" style="width: 200px" @change="choosesource">
                     <el-option value="2" label="生产"/>
                     <el-option value="3" label="采购"/>
+                    <el-option value="4" label="外加工"/>
                   </el-select>
                 </el-form-item>
               </el-col>
