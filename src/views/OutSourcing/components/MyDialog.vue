@@ -103,7 +103,7 @@
       <div class="buttons" style="margin-top: 58px">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
-        <my-materials :materialcontrol.sync="control" @product4="productdetail4" @detailproduct="detailproduct"/>
+        <my-materials :materialcontrol.sync="control" :selectlist="selectList" :selected="list2" @product4="productdetail4" @detailproduct="detailproduct"/>
         <el-button type="danger" @click="deleteeditable()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -191,6 +191,7 @@
 
 <script>
 import { updateoutsourcing } from '@/api/OutSourcing'
+import { searchoutFactory } from '@/api/OutFactory'
 import MyDelivery from './MyDelivery'
 import MyFactory from './MyFactory'
 import MyDetail from './MyDetail'
@@ -256,17 +257,32 @@ export default {
       deleteselectdata: [],
       // 主生产任务明细列表规则
       validRules: {
-      }
+      },
+      // 外包工厂代入选项
+      selectList: [],
+      factoryId: null
     }
   },
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
     },
-    editdata() {
+    async editdata() {
       this.personalForm = this.editdata
+      console.log('this.personalForm=======', this.personalForm)
       this.personId = this.personalForm.personName
       this.outFactoryId = this.personalForm.outFactoryName
+      this.factoryId = this.personalForm.outFactoryId
+      const getemplist = {
+        pageNum: 1,
+        pageSize: 10,
+        id: this.factoryId
+      }
+      await searchoutFactory(getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.selectList = res.data.data.content.list[0].outFactoryDetailVos
+        }
+      })
       this.list2 = this.personalForm.outsourcingEnterDetailVos
       this.list3 = this.personalForm.outsourcingDetailVos
     }
@@ -328,32 +344,26 @@ export default {
     productdetail4(val) {
       console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      const alldata = [...val, ...nowlistdata]
-      const filterdata = this.uniqueArray(alldata, 'productCode')
-      this.list2 = filterdata
+      nowlistdata.forEach(item => {
+        const index = val.findIndex(items => items.productCode === item.productCode)
+        if (index > -1) {
+          val.splice(index, 1, item)
+        }
+      })
+      // const alldata = [...val, ...nowlistdata]
+      // const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = val
+      console.log('this.list2=====================================', this.list2)
     },
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
-      const alldata = [...val, ...nowlistdata]
-      const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
-      // const newArr = []
-      // console.log('nowlistdata', nowlistdata)
-      // alldata.forEach(el => {
-      //   console.log('el', el)
-      //   const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
-      //   console.log('result', result)
-      //   if (result !== -1) {
-      //     if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
-      //       newArr[result].quantity = newArr[result].quantity + el.quantity
-      //     } else {
-      //       newArr.push(el)
-      //     }
-      //   } else {
-      //     newArr.push(el)
-      //   }
-      // })
-      console.log('newArr', filterdata)
-      this.list3 = filterdata
+      nowlistdata.forEach(item => {
+        const index = val.findIndex(items => items.productCode === item.productCode)
+        if (index > -1) {
+          val.splice(index, 1, item)
+        }
+      })
+      this.list3 = val
     },
     handleSelectionChange(val) {
       // console.log('val', val)

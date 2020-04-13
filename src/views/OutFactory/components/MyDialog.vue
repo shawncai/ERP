@@ -161,6 +161,37 @@
         </el-form>
       </div>
     </el-card>
+    <!-- 可选择商品 -->
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom:30px;">
+
+      <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" :selected="list2" @product="productdetail"/>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 2,controls:false}, type: 'visible'}" prop="price" align="center" label="价格" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -174,9 +205,10 @@
 import { updateoutFactory } from '@/api/OutFactory'
 import { getcountrylist, getprovincelist, getcitylist, regionlist, getRegion, saveRegion } from '@/api/public'
 import MyDelivery from './MyDelivery'
+import MyDetail from './MyDetail'
 var _that
 export default {
-  components: { MyDelivery },
+  components: { MyDelivery, MyDetail },
   props: {
     editcontrol: {
       type: Boolean,
@@ -218,6 +250,11 @@ export default {
         factoryName: [
           { required: true, message: '请输入工厂名称', trigger: 'blur' }
         ]
+      },
+      control: false,
+      list2: [],
+      // 商品明细列表规则
+      validRules: {
       }
     }
   },
@@ -228,14 +265,17 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.receiverId = this.personalForm.receiveName
+      this.list2 = this.personalForm.outFactoryDetailVos
       this.handlechange(this.personalForm.countryId)
       this.handlechange2(this.personalForm.provinceId)
       getRegion(this.personalForm.regionId).then(res => {
         if (res.data.ret === 200) {
-          const zhuz = res.data.data.content.zcc.split(',')
-          this.regionId = zhuz.map(function(item) {
-            return parseInt(item)
-          })
+          if (res.data.data.content) {
+            const zhuz = res.data.data.content.zcc.split(',')
+            this.regionId = zhuz.map(function(item) {
+              return parseInt(item)
+            })
+          }
         }
       })
     }
@@ -327,12 +367,49 @@ export default {
       }
       const Data = this.personalForm
       for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+        if (Data[key] === '' || Data[key] === undefined || Data[key] === null || [key] === 'outFactoryDetailVos') {
           delete Data[key]
         }
       }
+      const EnterDetail = this.$refs.editable.getRecords()
+      let mk = 0
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          mk = 1
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          mk = 2
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        return elem
+      })
+      if (mk === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中价格必填',
+          offset: 100
+        })
+        return false
+      }
+      const parms2 = JSON.stringify(EnterDetail)
       const parms = JSON.stringify(Data)
-      updateoutFactory(parms).then(res => {
+      updateoutFactory(parms, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),
@@ -365,6 +442,54 @@ export default {
       this.$refs.personalForm2.clearValidate()
       this.$refs.personalForm2.resetFields()
       this.editVisible = false
+    },
+    handleAddproduct() {
+      this.control = true
+    },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
+    productdetail(val) {
+      console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+
+      for (let i = 0; i < filterdata.length; i++) {
+        console.log(filterdata[i].price)
+        let m = 1
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (filterdata[i].productCode === nowlistdata[j].productCode) {
+            m = 2
+            // this.$notify.error({
+            //   title: 'wrong',
+            //   message: this.$t('prompt.wpytj'),
+            //   offset: 100
+            // })
+            // return false
+          }
+        }
+        filterdata[i].discountRate = 0
+        filterdata[i].price = filterdata[i].purchasePrice
+        if (m === 1) {
+          this.$refs.editable.insert(filterdata[i])
+        }
+      }
     }
     // 修改操作结束 -------------------------------------------------
   }

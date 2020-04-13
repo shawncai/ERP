@@ -192,7 +192,7 @@
           <template slot-scope="scope">
             <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['266-92-18']" v-show="isReview5(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <!-- <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('otherlanguage.jzsy')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleswitchtojz(scope.row)"/> -->
           </template>

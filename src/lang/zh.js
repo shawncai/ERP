@@ -1,5 +1,7 @@
 export default {
   route: {
+    wuxiinventorychangelist: '无锡库存月报表',
+    EndReceipt: '月结管理',
     AddOutSourceOut: '新增委外出库单',
     OutSourceOutList: '委外出库单列表',
     AddOutSourceEnter: '新增委外入库单',
@@ -4162,6 +4164,10 @@ export default {
     yfkbl: '预付款比列'
   },
   tongyo: {
+    yj: '月结',
+    qxzyjyf: '请选择月结月份',
+    js2: '结算',
+    fjs: '反结算',
     dbrxm: '担保人姓名',
     dz: '地址',
     yqsc: '逾期时长',

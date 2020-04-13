@@ -7,6 +7,16 @@
 
       <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('updates.hph')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-date-picker
+        v-model="date2"
+        :placeholder="$t('updates.xzy')"
+        class="filter-item"
+        type="month"
+        value-format="yyyy-MM"/>
+      <el-select v-model="getemplist.isInclude" :placeholder="$t('CostInvoice.isInclude')" class="filter-item" clearable style="margin-top: 2%;height: 20px">
+        <el-option label="计入成本" value="1"/>
+        <el-option label="不计入成本" value="2"/>
+      </el-select>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -94,12 +104,12 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['266-259-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <!--            <el-button v-permission="['266-259-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>-->
-            <!--            <el-button v-permission="['266-259-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>-->
-            <!--            <el-button v-permission="['266-259-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>-->
-            <el-button v-permission2="['266-259-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['266-259-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <!--            <el-button v-permission="['266-259-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>-->
+            <!--            <el-button v-permission="['266-259-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>-->
+            <!--            <el-button v-permission="['266-259-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>-->
+            <el-button v-permission2="['266-259-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -200,6 +210,7 @@ export default {
       moreaction: '',
       // 加载操作控制
       downloadLoading: false,
+      date2: [],
       // 表格数据
       list: [],
       // 表格数据条数
@@ -349,6 +360,11 @@ export default {
       this.getlist()
     },
     getlist() {
+      if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
+        this.getemplist.month = null
+      } else {
+        this.getemplist.month = this.date2
+      }
       // 物料需求计划列表数据
       this.listLoading = true
       costInvoiceList(this.getemplist).then(res => {
@@ -384,6 +400,11 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
+        this.getemplist.month = null
+      } else {
+        this.getemplist.month = this.date2
+      }
       this.getemplist.pageNum = 1
       console.log(this.getemplist)
       costInvoiceList(this.getemplist).then(res => {

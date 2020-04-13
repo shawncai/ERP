@@ -534,6 +534,12 @@ export default {
 
     // 两表联动
     async changeDate2(row, scope) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       console.log('row', row)
       console.log('scope', scope)
       // 新加
@@ -621,6 +627,7 @@ export default {
         //   this.$refs.editable2.insert(result2[i])
         // }
       }
+      loading.close()
     },
     getdatatime() { // 默认显示今天
       var date = new Date()

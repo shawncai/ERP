@@ -458,7 +458,8 @@ export default {
     sourceFilter(status) {
       const statusMap = {
         2: '生产',
-        3: '采购'
+        3: '采购',
+        4: '外加工'
       }
       return statusMap[status]
     },
