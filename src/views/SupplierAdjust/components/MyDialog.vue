@@ -94,6 +94,7 @@ import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
 import { searchsupplier } from '@/api/public'
+import { search } from '@/api/Supplier'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail2'
 import MySupplier from './MySupplier'
@@ -217,6 +218,7 @@ export default {
       supplierId: '',
       // 控制供应商
       empcontrol: false,
+      supplierIdDetail: [],
       // 部门数据
       depts: [],
       payModes: [],
@@ -288,6 +290,20 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.list2 = this.personalForm.supplierAdjustDetailVos
+      const param = {}
+      param.id = this.personalForm.supplierId
+      search(param).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.list.length > 0) {
+            console.log('res.data.data.content.list', res.data.data.content.list)
+            this.supplierIdDetail = res.data.data.content.list[0].supplierDetailVos
+          }
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+      console.log('this.supplierIdDetail', this.supplierIdDetail)
     }
   },
   created() {
@@ -755,11 +771,24 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
-      this.datalist = val.id
+      this.datalist = val.supplierDetailVos
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.supplierDetailVos.length; i++) {
+        val.supplierDetailVos[i].id = ''
+        val.supplierDetailVos[i].typeId = val.supplierDetailVos[i].type
+        val.supplierDetailVos[i].type = val.supplierDetailVos[i].productTypeName
+        val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
+        this.$refs.editable.insert(val.supplierDetailVos[i])
+      }
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.supp = val.id
-      this.$refs.editable.clear()
+      this.personalForm.deliveryMode = val.giveId
+      this.personalForm.settleMode = val.paymentId
+      if (val.moneyId !== null && val.moneyId !== undefined && val.moneyId !== '') {
+        this.personalForm.currency = String(val.moneyId)
+      }
+      this.supplierIdDetail = val.supplierDetailVos
     },
     // 采购员focus事件
     handlechooseStock() {
@@ -791,6 +820,19 @@ export default {
       this.control = true
     },
     productdetail(val) {
+      const param = {}
+      param.id = this.personalForm.supplierId
+      search(param).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.list.length > 0) {
+            console.log('res.data.data.content.list', res.data.data.content.list)
+            this.supplierIdDetail = res.data.data.content.list[0].supplierDetailVos
+          }
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       const nowlistdata2 = this.supplierIdDetail
@@ -812,10 +854,12 @@ export default {
           if (val[i].productCode === nowlistdata2[p].productCode) {
             console.log('success')
             val[i].discountRate = nowlistdata2[p].discountRate
+            val[i].oldPrice = nowlistdata2[p].price
             val[i].price = nowlistdata2[p].price
             val[i].includeTaxPrice = nowlistdata2[p].includeTaxPrice
           }
         }
+        console.log('val[i]', val[i])
         this.$refs.editable.insert(val[i])
       }
     },
