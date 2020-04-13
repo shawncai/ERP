@@ -211,8 +211,8 @@
           <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
             <template slot-scope="scope">
               <el-button v-permission2="['200-203-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-              <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-              <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+              <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+              <el-button v-permission2="['200-203-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
               <el-button v-permission="['200-203-59']" v-show="scope.row.stat !== 2&&scope.row.stat !== 3&&scope.row.stat !== 6" type="primary" @click="handleMyReceipt1(scope.row)"><span>改期</span></el-button>
               <el-button v-show="scope.row.stat !== 2&&scope.row.stat !== 6" type="primary" style="width: 84px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.oijn') }}</span></el-button>
             </template>
