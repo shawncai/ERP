@@ -361,7 +361,7 @@ export default {
     },
     getlist() {
       if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
-        this.getemplist.date = null
+        this.getemplist.month = null
       } else {
         this.getemplist.month = this.date2
       }
@@ -401,7 +401,7 @@ export default {
     // 搜索
     handleFilter() {
       if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
-        this.getemplist.date = null
+        this.getemplist.month = null
       } else {
         this.getemplist.month = this.date2
       }
