@@ -147,9 +147,9 @@
           <template slot-scope="scope">
             <el-button v-show="scope.row.inquirePersonId !== null && scope.row.judgeStat === 0" size="mini" type="primary" @click="handleDispatch2(scope.row)">{{ $t('otherlanguage.zcfp') }}</el-button>
             <el-button v-show="scope.row.inquirePersonId === null && scope.row.judgeStat !== 4" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
-            <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['200-201-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission2="['200-201-2', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
           </template>
         </el-table-column>
