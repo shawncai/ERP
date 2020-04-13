@@ -3059,6 +3059,12 @@ export const asyncRouterMap = [
         meta: { title: 'productSendAndReceive', noCache: false, roles: ['311-312-321-4'] }
       },
       {
+        path: 'wuxiinventorychangelist',
+        component: () => import('@/views/inventorycount2/wuxiinventorychangelist'),
+        name: 'wuxiinventorychangelist',
+        meta: { title: 'wuxiinventorychangelist', noCache: false, roles: ['311-312-322-4'] }
+      },
+      {
         path: 'inventorychangelist',
         component: () => import('@/views/inventorycount2/inventorychangelist'),
         name: 'inventorychangelist',

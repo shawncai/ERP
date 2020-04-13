@@ -1,5 +1,6 @@
 export default {
   route: {
+    wuxiinventorychangelist: '无锡库存月报表',
     EndReceipt: '月结管理',
     AddOutSourceOut: '新增委外出库单',
     OutSourceOutList: '委外出库单列表',
