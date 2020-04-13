@@ -7,6 +7,16 @@
 
       <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('updates.hph')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-col :span="6">
+        <el-form-item style="margin-top: 2%;height: 20px">
+          <el-date-picker
+            v-model="date2"
+            :placeholder="$t('updates.xzy')"
+            type="month"
+            value-format="yyyy-MM"/>
+        </el-form-item>
+      </el-col>
+
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -200,6 +210,7 @@ export default {
       moreaction: '',
       // 加载操作控制
       downloadLoading: false,
+      date2: [],
       // 表格数据
       list: [],
       // 表格数据条数
