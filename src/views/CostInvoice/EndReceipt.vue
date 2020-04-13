@@ -1,129 +1,23 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px;" shadow="never">
-
-      <el-input v-model="supplierId" :placeholder="$t('updates.gys')" class="filter-item" clearable @focus="handlechoose" @clear="restFilter"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-
-      <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('updates.hph')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
+      <span style="margin-left=20px">请选择月结月份</span>
       <el-date-picker
         v-model="date2"
         :placeholder="$t('updates.xzy')"
+        label="123"
         class="filter-item"
         type="month"
         value-format="yyyy-MM"/>
-      <el-select v-model="getemplist.isInclude" :placeholder="$t('CostInvoice.isInclude')" class="filter-item" clearable style="margin-top: 2%;height: 20px">
-        <el-option label="计入成本" value="1"/>
-        <el-option label="不计入成本" value="2"/>
-      </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-
-    </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <!-- 批量操作 -->
-      <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['266-259-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- 表格导出操作 -->
-      <el-button v-permission="['266-259-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
-      <!-- 打印操作 -->
-      <el-button v-permission="['266-259-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
-      <!-- 新建操作 -->
-      <el-button v-permission="['266-259-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-    </el-card>
-
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <!-- 列表开始 -->
-      <el-table
-        v-loading="listLoading"
-        :key="tableKey"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        style="width: 100%;"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          :selectable="selectInit"
-          type="selection"
-          width="55"
-          fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="180">
-          <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
-          </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.invoiceNumber')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.invoiceNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.supplierId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.payDate')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.payDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.handlePersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.handlePersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.deptId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.deptName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('CostInvoice.currency')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.currency | currencyFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
-          <template slot-scope="scope">
-            <el-button v-permission2="['266-259-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <!--            <el-button v-permission="['266-259-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>-->
-            <!--            <el-button v-permission="['266-259-16']" v-show="isReview2(scope.row)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>-->
-            <!--            <el-button v-permission="['266-259-17']" v-show="isReview3(scope.row)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>-->
-            <el-button v-permission2="['266-259-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
-      <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <!--修改结束=================================================-->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter2">{{ $t('tongyo.js2') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter">{{ $t('tongyo.fjs') }}</el-button>
     </el-card>
   </div>
 </template>
 
 <script>
-import { costInvoiceList, deletecostinvoice, updatecostinvoice2 } from '@/api/CostInvoice'
+import { handleEnd, handleReturnEnd, costInvoiceList, deletecostinvoice, updatecostinvoice2 } from '@/api/CostInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -138,7 +32,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'CostInvoiceList',
+  name: 'EndReceipt',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
@@ -235,10 +129,10 @@ export default {
     }
   },
   activated() {
-    this.getlist()
+    // this.getlist()
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -298,9 +192,9 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
-      this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
+      this.$confirm(this.$t('prompt.js2'), this.$t('prompt.js2'), {
         distinguishCancelAndClose: true,
-        confirmButtonText: this.$t('prompt.fjd'),
+        confirmButtonText: this.$t('prompt.js2'),
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 2
@@ -400,18 +294,73 @@ export default {
     },
     // 搜索
     handleFilter() {
-      if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
-        this.getemplist.date = null
-      } else {
-        this.getemplist.month = this.date2
-      }
-      this.getemplist.pageNum = 1
-      console.log(this.getemplist)
-      costInvoiceList(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+      this.$confirm(this.$t('tongyo.fjs'), this.$t('tongyo.fjs'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('tongyo.fjs'),
+        type: 'warning'
+      }).then(() => {
+        if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.qxzyjyf'),
+            offset: 100
+          })
+          return false
+        } else {
+          this.getemplist.month = this.date2
+          handleReturnEnd(this.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: 'success',
+                type: 'success',
+                offset: 100
+              })
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'wrong',
+                offset: 100
+              })
+            }
+          })
         }
+      }).catch(() => {
+        console.log('wrong')
+      })
+    },
+    handleFilter2() {
+      this.$confirm(this.$t('tongyo.js2'), this.$t('tongyo.js2'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('tongyo.js2'),
+        type: 'warning'
+      }).then(() => {
+        if (this.date2 === null || this.date2 === undefined | this.date2 === '' || this.date2.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('tongyo.qxzyjyf'),
+            offset: 100
+          })
+          return false
+        } else {
+          this.getemplist.month = this.date2
+          handleEnd(this.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: 'success',
+                type: 'success',
+                offset: 100
+              })
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'wrong',
+                offset: 100
+              })
+            }
+          })
+        }
+      }).catch(() => {
+        console.log('wrong')
       })
     },
     // 采购人focus事件

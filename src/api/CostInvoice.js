@@ -1,5 +1,30 @@
 import request from '@/utils/request'
 
+// 查询采购退货
+export function handleEnd(query) {
+  var params = new URLSearchParams()
+  if (query.month !== '' && query.month !== null && query.month !== undefined) {
+    params.append('month', query.month) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/endReceipt/handleEnd',
+    method: 'post',
+    data: params
+  })
+}
+
+export function handleReturnEnd(query) {
+  var params = new URLSearchParams()
+  if (query.month !== '' && query.month !== null && query.month !== undefined) {
+    params.append('month', query.month) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/endReceipt/handleReturnEnd',
+    method: 'post',
+    data: params
+  })
+}
+
 //   添加采购退货
 export function addCostInvoice(query, query2, query3) {
   var params = new URLSearchParams()
@@ -53,6 +78,12 @@ export function costInvoiceList(query) {
   }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.isInclude !== '' && query.isInclude !== null && query.isInclude !== undefined) {
+    params.append('isInclude', query.isInclude) // 你要传给后台的参数值 key/value
+  }
+  if (query.month !== '' && query.month !== null && query.month !== undefined) {
+    params.append('month', query.month) // 你要传给后台的参数值 key/value
   }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value

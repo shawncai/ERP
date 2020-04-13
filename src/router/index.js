@@ -312,6 +312,26 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/EndReceipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'EndReceipt',
+    alwaysShow: true,
+    meta: {
+      title: 'EndReceipt',
+      icon: 'fapiao',
+      type: 11
+    },
+    children: [
+      {
+        path: 'EndReceipt',
+        component: () => import('@/views/CostInvoice/EndReceipt'),
+        name: 'EndReceipt',
+        meta: { title: 'EndReceipt', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/Invoice',
     component: Layout,
     redirect: 'noredirect',
