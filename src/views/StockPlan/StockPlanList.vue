@@ -347,6 +347,7 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
+
                 type: 'error',
                 message: this.$t('prompt.fspsb')
               })
