@@ -1615,7 +1615,7 @@ export default {
           }
         })
       }
-      // 默认货位
+      // 默认货位123
       getlocation(this.personalForm.saleRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
           console.log('res', res)
