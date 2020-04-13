@@ -44,6 +44,7 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref ="multipleTable"
       :key="tableKey"
       :data="list"
       border
@@ -112,6 +113,10 @@ export default {
     selectlist: {
       type: Array,
       default: () => []
+    },
+    selected: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -168,7 +173,14 @@ export default {
   watch: {
     materialcontrol() {
       this.productVisible = this.materialcontrol
-      console.log(this.control)
+      console.log(this.selectlist, this.selected)
+      if (this.materialcontrol) {
+        try {
+          this.$refs.multipleTable.clearSelection()
+        } catch (error) {
+          console.log(error)
+        }
+      }
       this.getlist()
     }
   },
@@ -179,20 +191,21 @@ export default {
     _that = this
   },
   methods: {
+    // 根据id选中
+    selectFromId(showList, selectList) {
+      if (selectList) {
+        for (const i in showList) {
+          if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
+            this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+          }
+        }
+      }
+      return showList
+    },
     // 物料清单列表数据
     getlist() {
       this.listLoading = true
-      // materialslist(this.getemplist).then(res => {
-      //   console.log('ret', res.data.data.content.list)
-      //   if (res.data.ret === 200) {
-      //     this.list = res.data.data.content.list
-      //     this.total = res.data.data.content.totalCount
-      //   }
-      //   setTimeout(() => {
-      //     this.listLoading = false
-      //   }, 0.5 * 100)
-      // })
-      this.list = this.selectlist
+      this.list = this.selectFromId(this.selectlist, this.selected)
       setTimeout(() => {
         this.listLoading = false
       }, 0.5 * 100)
@@ -297,38 +310,16 @@ export default {
             baseQuantity: item.quantity
           }
         })
+        console.log(productDetail)
         this.$emit('detailproduct', finalproduct)
+        this.$emit('product4', productDetail)
       }).catch((err) => {
         console.log(err)
       })
-      // const yuan = this.moreaction.map(item => {
-      //   return item.materialsListDetailVos
-      // })
-      // const detialproduct = [].concat.apply([], yuan)
-      // const finalproduct = detialproduct.map(item => {
-      //   return {
-      //     locationId: '',
-      //     productCode: item.productCode,
-      //     productName: item.productName,
-      //     color: item.color,
-      //     type: item.typeId,
-      //     unit: item.unit,
-      //     quantity: item.quantity,
-      //     batch: '',
-      //     outQuantity: 0,
-      //     damageQuantity: 0,
-      //     productType: item.productType,
-      //     idx: item.materialsId,
-      //     baseQuantity: item.quantity
-      //   }
-      // })
-      console.log(productDetail)
-      this.$emit('product4', productDetail)
     },
     // 接口请求
     getInfo(productCode, id) {
       return new Promise((resolve, reject) => {
-        // 使用settimeout模拟请求
         this.getemplist.productCode = productCode
         materialslist(this.getemplist).then(res => {
           if (res.data.ret === 200) {

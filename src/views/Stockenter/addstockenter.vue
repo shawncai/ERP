@@ -531,7 +531,7 @@ export default {
     // 获取默认货位
     getLocationData(row) {
       // 默认货位123
-      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+      getlocation(this.personalForm.enterRepositoryId, row).then(res => {
         if (res.data.ret === 200) {
           console.log('res', res)
           if (res.data.data.content.length !== 0) {
@@ -785,6 +785,7 @@ export default {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
               this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
             } else if (res.data.data.content.length === 0) {
               locationlist(this.personalForm.enterRepositoryId).then(res => {
                 if (res.data.ret === 200) {

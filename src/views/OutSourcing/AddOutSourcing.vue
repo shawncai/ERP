@@ -103,7 +103,7 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
-          <my-materials :materialcontrol.sync="control" :selectlist="selectList" @product4="productdetail4" @detailproduct="detailproduct"/>
+          <my-materials :materialcontrol.sync="control" :selectlist="selectList" :selected="list2" @product4="productdetail4" @detailproduct="detailproduct"/>
           <el-button type="danger" @click="deleteeditable()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -387,15 +387,28 @@ export default {
     productdetail4(val) {
       console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      const alldata = [...val, ...nowlistdata]
-      const filterdata = this.uniqueArray(alldata, 'productCode')
-      this.list2 = filterdata
+      nowlistdata.forEach(item => {
+        const index = val.findIndex(items => items.productCode === item.productCode)
+        if (index > -1) {
+          val.splice(index, 1, item)
+        }
+      })
+      // const alldata = [...val, ...nowlistdata]
+      // const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = val
+      console.log('this.list2=====================================', this.list2)
     },
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
-      const alldata = [...val, ...nowlistdata]
-      console.log('alldata=============', val, alldata)
-      const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
+      nowlistdata.forEach(item => {
+        const index = val.findIndex(items => items.productCode === item.productCode)
+        if (index > -1) {
+          val.splice(index, 1, item)
+        }
+      })
+      // const alldata = [...val, ...nowlistdata]
+      // console.log('alldata=============', val, alldata)
+      // const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
       // const newArr = []
       // console.log('nowlistdata', nowlistdata)
       // alldata.forEach(el => {
@@ -412,8 +425,8 @@ export default {
       //     newArr.push(el)
       //   }
       // })
-      console.log('newArr', alldata)
-      this.list3 = filterdata
+      // console.log('newArr', alldata)
+      this.list3 = val
     },
     // 两表联动
     changelistdata() {
