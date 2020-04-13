@@ -103,7 +103,7 @@
       <div class="buttons" style="margin-top: 58px">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
-        <my-materials :materialcontrol.sync="control" @product4="productdetail4" @detailproduct="detailproduct"/>
+        <my-materials :materialcontrol.sync="control" :selectlist="selectList" @product4="productdetail4" @detailproduct="detailproduct"/>
         <el-button type="danger" @click="deleteeditable()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -191,6 +191,7 @@
 
 <script>
 import { updateoutsourcing } from '@/api/OutSourcing'
+import { searchoutFactory } from '@/api/OutFactory'
 import MyDelivery from './MyDelivery'
 import MyFactory from './MyFactory'
 import MyDetail from './MyDetail'
@@ -256,17 +257,32 @@ export default {
       deleteselectdata: [],
       // 主生产任务明细列表规则
       validRules: {
-      }
+      },
+      // 外包工厂代入选项
+      selectList: [],
+      factoryId: null
     }
   },
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
     },
-    editdata() {
+    async editdata() {
       this.personalForm = this.editdata
+      console.log('this.personalForm=======', this.personalForm)
       this.personId = this.personalForm.personName
       this.outFactoryId = this.personalForm.outFactoryName
+      this.factoryId = this.personalForm.outFactoryId
+      const getemplist = {
+        pageNum: 1,
+        pageSize: 10,
+        id: this.factoryId
+      }
+      await searchoutFactory(getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.selectList = res.data.data.content.list[0].outFactoryDetailVos
+        }
+      })
       this.list2 = this.personalForm.outsourcingEnterDetailVos
       this.list3 = this.personalForm.outsourcingDetailVos
     }

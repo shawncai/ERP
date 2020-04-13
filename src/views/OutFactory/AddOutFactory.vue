@@ -161,6 +161,37 @@
           </el-form>
         </div>
       </el-card>
+      <!-- 可提供商品 -->
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :selected="list2" @product="productdetail"/>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable"
+            :data.sync="list2"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="medium"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 2,controls:false}, type: 'visible'}" prop="price" align="center" label="价格" min-width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -175,10 +206,11 @@ import '@/directive/noMoreClick/index.js'
 import { createoutFactory } from '@/api/OutFactory'
 import { getcountrylist, getprovincelist, getcitylist, regionlist, saveRegion } from '@/api/public'
 import MyDelivery from './components/MyDelivery'
+import MyDetail from './components/MyDetail'
 var _that
 export default {
   name: 'AddOutFactory',
-  components: { MyDelivery },
+  components: { MyDelivery, MyDetail },
   data() {
     return {
       // 区域列表字段更改
@@ -210,6 +242,11 @@ export default {
         factoryName: [
           { required: true, message: '请输入工厂名称', trigger: 'blur' }
         ]
+      },
+      control: false,
+      list2: [],
+      // 商品明细列表规则
+      validRules: {
       }
     }
   },
@@ -307,6 +344,43 @@ export default {
     handlesave() {
       this.personalForm.regionId = this.regionId[this.regionId.length - 1]
       const Data = this.personalForm
+      const EnterDetail = this.$refs.editable.getRecords()
+      let mk = 0
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          mk = 1
+        }
+        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          mk = 2
+        }
+        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          delete elem.productCode
+        }
+        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          delete elem.productName
+        }
+        if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          delete elem.type
+        }
+        if (elem.color === null || elem.color === '' || elem.color === undefined) {
+          delete elem.color
+        }
+        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          delete elem.unit
+        }
+        return elem
+      })
+      if (mk === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '商品明细中价格必填',
+          offset: 100
+        })
+        return false
+      }
+      const parms2 = JSON.stringify(EnterDetail)
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
@@ -315,7 +389,7 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          createoutFactory(parms).then(res => {
+          createoutFactory(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({
                 title: 'successful',
@@ -356,6 +430,55 @@ export default {
       const view = { path: '/OutFactory/AddOutFactory', name: 'AddOutFactory', fullPath: '/OutFactory/AddOutFactory', title: 'AddOutFactory' }
       this.$store.dispatch('delView', view).then(({ visitedViews }) => {
       })
+    },
+    // 添加商品
+    handleAddproduct() {
+      this.control = true
+    },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
+    productdetail(val) {
+      console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+
+      for (let i = 0; i < filterdata.length; i++) {
+        console.log(filterdata[i].price)
+        let m = 1
+        for (let j = 0; j < nowlistdata.length; j++) {
+          if (filterdata[i].productCode === nowlistdata[j].productCode) {
+            m = 2
+            // this.$notify.error({
+            //   title: 'wrong',
+            //   message: this.$t('prompt.wpytj'),
+            //   offset: 100
+            // })
+            // return false
+          }
+        }
+        filterdata[i].discountRate = 0
+        filterdata[i].price = filterdata[i].purchasePrice
+        if (m === 1) {
+          this.$refs.editable.insert(filterdata[i])
+        }
+      }
     }
   }
 }

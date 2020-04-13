@@ -528,6 +528,25 @@ export default {
         })
       }
     },
+    // 获取默认货位
+    getLocationData(row) {
+      // 默认货位123
+      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res', res)
+          if (res.data.data.content.length !== 0) {
+            row.location = res.data.data.content[0].locationCode
+            row.locationId = res.data.data.content[0].id
+            console.log('row.locationId', row.locationId)
+          } else {
+            row.location = null
+            row.locationId = null
+          }
+        }
+      })
+      return row.location
+    },
+    // ====================
     allarrivalinfo(val) {
       console.log(val)
       this.personalForm.supplierId = val.supplierId

@@ -52,6 +52,9 @@ export function materialslist(query) {
   if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
     params.append('productName', query.productName) // 你要传给后台的参数值 key/value
   }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }

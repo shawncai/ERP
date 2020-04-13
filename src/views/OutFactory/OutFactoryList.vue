@@ -160,18 +160,16 @@ export default {
   },
   methods: {
     checkPermission,
-    getlist() {
+    async getlist() {
       // 外包工厂列表数据
       this.listLoading = true
-      searchoutFactory(this.getemplist).then(res => {
+      await searchoutFactory(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
       })
+      this.listLoading = false
     },
     // 清空搜索条件
     restFilter() {

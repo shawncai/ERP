@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
 // 添加外包工厂
-export function createoutFactory(query) {
+export function createoutFactory(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/outFactory/create',
     method: 'post',
@@ -52,9 +53,10 @@ export function deleteoutFactory(query, query2) {
 }
 
 // 修改外包工厂
-export function updateoutFactory(query) {
+export function updateoutFactory(query, query2) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
+  params.append('detailJson', query2) // 你要传给后台的参数值 key/value
   return request({
     url: '/outFactory/update',
     method: 'post',

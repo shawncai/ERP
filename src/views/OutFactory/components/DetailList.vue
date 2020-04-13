@@ -133,6 +133,29 @@
         </el-form>
       </div>
     </el-card>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom:30px;">
+      <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
+      <div class="container">
+        <el-editable
+          ref="editable"
+          :data.sync="list2"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          :edit-rules="validRules"
+          class="click-table1"
+          stripe
+          border
+          size="medium"
+          style="width: 100%">
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
+        </el-editable>
+      </div>
+    </el-card>
   </el-dialog>
 </template>
 
@@ -154,7 +177,11 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      list2: [],
+      // 商品明细列表规则
+      validRules: {
+      }
     }
   },
   watch: {
@@ -163,6 +190,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      this.list2 = this.personalForm.outFactoryDetailVos
     }
   },
   beforeCreate() {
