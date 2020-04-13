@@ -3,8 +3,8 @@
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <div class="container" style="margin-top: 20px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Product.productname')" style="width: 100%;">
@@ -253,10 +253,10 @@
       </div>
     </el-card>
     <!--价格信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 ref="lianxi" class="form-name">价格信息</h2>
       <div class="container">
-        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="140px">
+        <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-col :span="12">
             <el-form-item :label="$t('Product.valuation')" prop="valuation" style="width: 100%;">
               <el-select v-model="personalForm.valuation" :placeholder="$t('updates.qxz')" style="margin-left: 18px;width: 200px">
@@ -298,10 +298,10 @@
       </div>
     </el-card>
     <!--图片信息-->
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card class="box-card" shadow="never" style="margin-top: 5px">
       <h2 class="form-name">图片信息</h2>
       <div class="container">
-        <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form :model="personalForm" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-form-item :label="$t('Product.picids')" style="width: 100%;margin-top: 1%">
             <el-button style="margin-bottom: 10px" size="small" type="success" @click="submitUpload">{{ $t('public.uploadimage') }}</el-button>
             <el-upload

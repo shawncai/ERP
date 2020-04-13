@@ -124,7 +124,7 @@
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button :disabled="Isproduct" @click="handleAddproduct2">{{ 'bom' }}</el-button>
           <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
-          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+          <my-detail :control.sync="control" :selected="list2" :personalform="personalForm" @product="productdetail"/>
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
@@ -464,7 +464,6 @@ export default {
   components: { MyMaterials, MyReturn, MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
-      console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
         callback(new Error('请选择销售人员'))
       } else {
@@ -472,7 +471,6 @@ export default {
       }
     }
     const validatePass2 = (rule, value, callback) => {
-      console.log(this.saleRepositoryId)
       if (this.saleRepositoryId === undefined || this.saleRepositoryId === null || this.saleRepositoryId === '') {
         callback(new Error('请选择出库仓库'))
       } else {
@@ -480,7 +478,6 @@ export default {
       }
     }
     const validatePass3 = (rule, value, callback) => {
-      console.log(1789, this.personalForm.pointSupport)
       if (Number(this.personalForm.pointSupport) < 0 || Number(this.personalForm.pointSupport) > this.point) {
         callback(new Error('请输入正确积分'))
       } else {
@@ -488,7 +485,6 @@ export default {
       }
     }
     const validatePass4 = (rule, value, callback) => {
-      console.log(89, this.customerId)
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
         callback(new Error('请输入顾客姓名'))
       } else {
@@ -496,7 +492,6 @@ export default {
       }
     }
     const validatePass5 = (rule, value, callback) => {
-      console.log(89, this.customerId)
       if (this.transferPersonId === undefined || this.transferPersonId === null || this.transferPersonId === '') {
         callback(new Error('请选择出库人'))
       } else {
@@ -504,7 +499,6 @@ export default {
       }
     }
     const validatePass6 = (rule, value, callback) => {
-      console.log(89, this.customerId)
       if (this.personalForm.outDate === undefined || this.personalForm.outDate === null || this.personalForm.outDate === '') {
         callback(new Error('请选择出库时间'))
       } else {
@@ -521,7 +515,6 @@ export default {
       }
     }
     const validatePass8 = (rule, value, callback) => {
-      console.log(89, this.customerId)
       if (this.personalForm.saleType === undefined || this.personalForm.saleType === null || this.personalForm.saleType === '') {
         callback(new Error('请选择销售类别'))
       } else {
@@ -727,10 +720,8 @@ export default {
   watch: {
     list2: {
       handler(oldval, newval) {
-        console.log(this.list2.length)
         if (this.list2.length !== 0) {
           this.isfixed = true
-          console.log('可以滚动')
         } else {
           this.isfixed = false
         }
@@ -738,13 +729,11 @@ export default {
         let num1 = 0
         let num2 = 0
         for (const i in this.list2) {
-          console.log(this.list2[i].productCode)
           num += this.list2[i].quantity
           num2 += Number(this.list2[i].discountMoney)
           num1 += this.list2[i].includeTaxCostMoney
           productlist(this.list2[i].productCode).then(res => {
             if (res.data.ret === 200) {
-              console.log(res.data.data.content.list[0].isBatch)
               if (res.data.data.content.list[0].isBatch === 2) {
                 this.list2[i].batch = '不使用'
               }
@@ -761,7 +750,6 @@ export default {
         this.heji3 = num1
         this.heji4 = num2
         this.getReceivableMoney()
-        // console.log(num)
       },
       deep: true
     },
@@ -770,13 +758,11 @@ export default {
         let num = 0
         let num1 = 0
         for (const i in this.list3) {
-          // console.log(typeof (this.list3[i].taxprice))
           num += this.list3[i].quantity
           num1 += this.list3[i].salePrice * num
         }
         this.heji9 = num
         this.heji10 = num1
-        // console.log(num)
       },
       deep: true
     }
@@ -805,11 +791,8 @@ export default {
       const nowlistdata = this.$refs.editable.getRecords()
       const alldata = [...val, ...nowlistdata]
       const newArr = []
-      console.log('nowlistdata', nowlistdata)
       alldata.forEach(el => {
-        console.log('el', el)
         const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
-        console.log('result', result)
         if (result !== -1) {
           if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
             newArr[result].quantity = newArr[result].quantity + el.quantity
@@ -820,11 +803,9 @@ export default {
           newArr.push(el)
         }
       })
-      console.log('newArr', newArr)
       this.list2 = newArr
     },
     productdetail4(val) {
-      console.log('33333333333', val)
     },
     sum(arr) {
       if (arr.length === 0) {
@@ -839,7 +820,6 @@ export default {
     },
     updatebatchreturnpro(event, scope) {
       if (event === true) {
-        console.log(this.personalForm.saleRepositoryId)
         if (this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
           this.$notify.error({
             title: 'wrong',
@@ -864,21 +844,16 @@ export default {
       }
     },
     productdetail2(val) {
-      console.log(val)
       const nowlistdata = this.$refs.editable2.getRecords()
-
-      console.log(nowlistdata)
       var ret4 = val.findIndex((value, index, arr) => {
         return value.productCode === this.personalForm.productCode
       })
 
-      console.log(ret4)
       this.returnlist = val.filter(item => {
         return item.productCode !== this.personalForm.productCode
       })
     },
     handleAddreturnproduct() {
-      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
       const outproduct = this.$refs.editable.getRecords()
       if (this.saleRepositoryId === null || this.saleRepositoryId === '' || this.saleRepositoryId === undefined) {
         this.$notify.error({
@@ -899,13 +874,10 @@ export default {
       }
     },
     changeCoupon() {
-      console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
       const parms2 = JSON.stringify(this.personalForm.couponSupports)
       returnMoney(parms2).then(res => {
-        console.log(res)
         if (res.data.ret === 200) {
           this.personalForm.couponMoney = res.data.data.content
-          console.log('res.data.data.content', res.data.data.content)
           this.getReceivableMoney(res.data.data.content)
         } else {
           this.$notify.error({
@@ -925,11 +897,9 @@ export default {
       this.recyclingcontrol = true
     },
     salePrice(val) {
-      console.log('val1222222', val)
       this.moreaction[0].salePrice = val
     },
     packagedata(val) {
-      console.log('val1222222', val)
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable2.insert(val[i])
@@ -952,14 +922,12 @@ export default {
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
         this.personalForm.sourceType = '2'
-        console.log('this.$store.getters.newsaleoutdatacontract', this.$store.getters.newsaleoutdata)
         this.installappley(this.$store.getters.newsaleoutdata)
         this.getReceivableMoney()
         this.$store.dispatch('getnewsaleoutdata', '')
       }
     },
     installappley(val) {
-      console.log('getempcontract3', this.$store.getters.newsaleoutdata)
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
@@ -976,7 +944,6 @@ export default {
       this.customerId = this.$store.getters.newsaleoutdata.customerName
 
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -988,7 +955,6 @@ export default {
       if (this.$store.getters.newsaleoutdata.payMode !== null && this.$store.getters.newsaleoutdata.payMode !== undefined && this.$store.getters.newsaleoutdata.payMode !== '') {
         this.personalForm.payMode = this.$store.getters.newsaleoutdata.payMode
       }
-      console.log('this.$store.getters.newsaleoutdata.saleRepositoryId', this.$store.getters.newsaleoutdata.saleRepositoryId)
       if (this.$store.getters.newsaleoutdata.saleRepositoryId !== 0 && this.$store.getters.newsaleoutdata.saleRepositoryId !== null && this.$store.getters.newsaleoutdata.saleRepositoryId !== undefined && this.$store.getters.newsaleoutdata.saleRepositoryId !== '') {
         this.personalForm.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryId
         this.saleRepositoryId = this.$store.getters.newsaleoutdata.saleRepositoryName
@@ -1009,13 +975,11 @@ export default {
       }
     },
     getInfo(row) {
-      console.log(row)
       if (row.carCode !== null && row.carCode !== '' && row.carCode !== undefined) {
         const param = {}
         param.carCode = row.carCode
         vehicleInfo(param).then(res => {
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content !== null) {
               row.carCode = res.data.data.content.carCode
               row.batteryCode = res.data.data.content.batteryCode
@@ -1033,13 +997,11 @@ export default {
       }
     },
     getInfo2(row) {
-      console.log(row)
       if (row.batteryCode !== null && row.batteryCode !== '' && row.batteryCode !== undefined) {
         const param = []
         param.batteryCode = row.batteryCode
         vehicleInfo(param).then(res => {
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content !== null) {
               row.carCode = res.data.data.content.carCode
               row.batteryCode = res.data.data.content.batteryCode
@@ -1057,13 +1019,11 @@ export default {
       }
     },
     getInfo3(row) {
-      console.log(row)
       if (row.motorCode !== null && row.motorCode !== '' && row.motorCode !== undefined) {
         const param = []
         param.motorCode = row.motorCode
         vehicleInfo(param).then(res => {
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content !== null) {
               row.carCode = res.data.data.content.carCode
               row.batteryCode = res.data.data.content.batteryCode
@@ -1081,7 +1041,6 @@ export default {
       }
     },
     getReceivableMoney() {
-      console.log('666', 666)
       if (!this.personalForm.pointSupport) {
         this.personalForm.pointSupport = 0
       }
@@ -1100,14 +1059,10 @@ export default {
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
       }
-      console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
-        console.log('this.heji3', this.heji3)
-        console.log('this.heji4', this.heji4)
-        console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1117,7 +1072,6 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        console.log('123', 123)
         let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1127,8 +1081,6 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
-        console.log('是否是销售合同带入过来')
-        console.log('234', 234)
         let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1138,7 +1090,6 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
-        console.log('456', 456)
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1179,7 +1130,6 @@ export default {
       // }
     },
     isEdit8(row) {
-      console.log('row', row)
       if (this.controlcategorysdetail.includes(row.category)) {
         return true
       } else {
@@ -1187,12 +1137,9 @@ export default {
       }
     },
     isEdit7(row) {
-      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
       if (this.chargecategorysdetail.includes(row.category)) {
-        console.log('trueistrue')
         return true
       } else {
-        console.log('falsefalse')
         return false
       }
     },
@@ -1213,7 +1160,6 @@ export default {
       if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit2(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
       // if (re === '01') {
       //   row.quantity = 1
@@ -1226,20 +1172,15 @@ export default {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('1-22-28-1')
       this.isshow2 = roles.includes('54-83-1')
-      console.log(this.isshow)
     },
     test() {
       const list = [...this.list2]
-      console.log(list.length)
       if (list.length === 0) {
         this.ableSubmission = true
-        console.log(this.ableSubmission)
       }
     },
     queryStock(row) {
-      console.log('row', row)
       if (row.location === null || row.location === '' || row.location === undefined) {
-        console.log('1222222200--------------')
         this.$notify.error({
           title: 'wrong',
           message: '仓库不存在此商品!',
@@ -1263,7 +1204,6 @@ export default {
         // 1.批次只有一个 不能超过总库存
         countlist(this.personalForm.saleRepositoryId, 0, row.productCode).then(res => {
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
                 title: 'wrong',
@@ -1298,7 +1238,6 @@ export default {
         param.repositoryId = row.repositoryId
         getAllBatch(param).then(res => {
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content)
             if (row.quantity > res.data.data.content[0].quantity) {
               this.$notify.error({
                 title: 'wrong',
@@ -1325,7 +1264,6 @@ export default {
       }
     },
     checkStock(row) {
-      console.log('this.personalForm.saleRepositoryId', this.personalForm.saleRepositoryId)
       if (this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === undefined || this.personalForm.saleRepositoryId === '') {
         this.$notify.error({
           title: 'wrong',
@@ -1334,14 +1272,11 @@ export default {
         })
         return false
       } else {
-        console.log('this.moreaction.length', this.moreaction)
         if (this.moreaction.length > 1 || this.moreaction.length === 0) {
           this.$message.error('请选择单个商品')
         } else {
           countlist(this.personalForm.saleRepositoryId, 0, this.moreaction[0].productCode).then(res => {
-            console.log(res)
             if (res.data.ret === 200) {
-              console.log('res.data.data.content', res.data.data.content)
               this.list111 = res.data.data.content.list
               this.receiptVisible2 = true
             } else {
@@ -1357,12 +1292,10 @@ export default {
     },
     // 批量操作
     handleSelectionChange(val) {
-      console.log(val)
       this.moreaction = val
     },
     getinformation3() {
       if (this.$store.getters.empcontract3) {
-        console.log('getempcontract3', this.$store.getters.empcontract3)
         this.personalForm.sourceType = '3'
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -1373,7 +1306,6 @@ export default {
 
         this.personalForm.customerId = this.$store.getters.empcontract3.customerId
         customerlist2(this.personalForm.customerId).then(res => {
-          console.log('res======', res)
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
           }
@@ -1405,7 +1337,6 @@ export default {
     },
     getinformation2() {
       if (this.$store.getters.empcontract2) {
-        console.log('getempcontract2', this.$store.getters.empcontract2)
         this.personalForm.sourceType = '4'
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -1449,7 +1380,6 @@ export default {
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
-        console.log('getempcontractsaleorder', this.$store.getters.empcontract)
         this.personalForm.sourceType = '1'
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -1465,15 +1395,12 @@ export default {
         }
         this.personalForm.customerId = this.$store.getters.empcontract.customerId
         customerlist2(this.personalForm.customerId).then(res => {
-          console.log('res======', res)
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
           }
         })
         this.customerId = this.$store.getters.empcontract.customerName
-        // console.log('顾客姓名', this.customerId)
         this.personalForm.customerPhone = this.$store.getters.empcontract.customerPhone
-        // console.log('顾客电话', this.personalForm.customerPhone)
         this.personalForm.saleType = String(this.$store.getters.empcontract.saleType)
         this.personalForm.payMode = this.$store.getters.empcontract.payMode
         this.personalForm.invoiceType = this.$store.getters.empcontract.invoiceType
@@ -1540,7 +1467,6 @@ export default {
       if (event === true) {
         const parms3 = scope.row.productCode
         batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          console.log(res)
           this.batchlist = res.data.data.content
         })
       }
@@ -1550,7 +1476,6 @@ export default {
       if (row.batch === null || row.batch === '' || row.batch === undefined) {
         const parms3 = row.productCode
         batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          // console.log(res)
           if (res.data.data.content.length > 0) {
             row.batch = res.data.data.content[0]
           }
@@ -1583,8 +1508,6 @@ export default {
       this.receivableMoney = ''
       this.personalForm.ridMoney = ''
       this.personalForm.ridBikeMoney = ''
-      console.log(val)
-      console.log('this.list2', this.list2)
       if (val === '5' || val === undefined) {
         this.Isproduct = false
         this.IsSourceNumber = true
@@ -1806,7 +1729,6 @@ export default {
               })
             } else {
               const isoverdiscount = val / row.quantity
-              console.log('isoverdiscount', isoverdiscount)
               if (res.data.data.content.list[0].discountMoney < isoverdiscount) {
                 row.discountMoney = 0
                 row.discountRate = 0
@@ -1840,9 +1762,7 @@ export default {
                 offset: 100
               })
             } else {
-              console.log('res222', res)
               const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
-              console.log('isoverdiscount', isoverdiscount)
               if (isoverdiscount < val) {
                 row.discountMoney = 0
                 row.discountRate = 0
@@ -1904,11 +1824,9 @@ export default {
       }
     },
     customerdata(val) {
-      console.log(val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -1920,11 +1838,9 @@ export default {
       this.point = val.point
     },
     agentdata(val) {
-      console.log('val', val)
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -1960,13 +1876,11 @@ export default {
     },
     // 从销售订单过来数据
     saleOrderDetail(val) {
-      console.log('val', val)
       // const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = (val[i].quantity - val[i].alreadyOutQuantity).toFixed(2)
         const re = val[i].productCode.slice(0, 2)
-        console.log('re === ', re === '01')
         let size = 1
         if (re === '01') {
           size = val[i].quantity
@@ -1988,7 +1902,6 @@ export default {
       // }
       this.personalForm.customerId = val.customerId
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -2008,12 +1921,10 @@ export default {
     },
     // 从预售单过来的源单数据
     advanceOrderDetail(val) {
-      console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         const re = val[i].productCode.slice(0, 2)
-        console.log('re === ', re === '01')
         let size = 1
         if (re === '01') {
           size = val[i].quantity
@@ -2030,7 +1941,6 @@ export default {
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -2047,7 +1957,6 @@ export default {
     },
     // 从销售机会过来的源单数据
     opportunityDetail(val) {
-      console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
@@ -2066,7 +1975,6 @@ export default {
     },
     opportunity(val) {
       this.receivableMoney = ''
-      console.log(val)
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
@@ -2081,12 +1989,10 @@ export default {
     },
     // 源单类型为销售合同
     salecontractDetail(val) {
-      console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].typeId = val[i].typeName
-        console.log('val[i]', val[i])
         const re = val[i].productCode.slice(0, 2)
         if (re === '01') {
           this.$refs.editable.insert(val[i])
@@ -2096,8 +2002,6 @@ export default {
       }
     },
     salecontract(val) {
-      console.log('val===========', val)
-      console.log('val.firstMoney', val.firstMoney)
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
@@ -2107,7 +2011,6 @@ export default {
       }
       this.personalForm.customerId = val.customerId
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -2129,14 +2032,11 @@ export default {
       this.getReceivableMoney()
     },
     recyclingdata(val) {
-      // console.log(12312312312)
       this.personalForm.sourceNumber = val.number
       this.personalForm.ridBikeMoney = val.recyclingMoney
-      console.log('val', val)
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
       customerlist2(this.personalForm.customerId).then(res => {
-        console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
         }
@@ -2186,15 +2086,14 @@ export default {
       this.control = true
     },
     async productdetail(val) {
-      console.log('val', val)
       this.$refs.editable.clear()
+      console.log('val============', val)
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable.insert(val[i])
       }
-
-      console.log('123', 123)
-      const that = this
+      // const that = this
+      // this.list2 = val
       // const list = await Promise.all(val.map(function(item) {
       //   console.log('321', 321)
       //   const param = {}
@@ -2406,7 +2305,6 @@ export default {
           }
         })
       })
-      console.log(i)
       if (i > EnterDetail.length) {
         this.$notify.error({
           title: 'wrong',
@@ -2424,7 +2322,6 @@ export default {
           j = 2
         }
       })
-      console.log(j)
       if (j === 2) {
         this.$notify.error({
           title: 'wrong',
@@ -2526,9 +2423,7 @@ export default {
           couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
         }
       }
-      console.log('couponNumbers', couponNumbers)
       couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
-      console.log('couponNumbers', couponNumbers)
       this.personalForm.couponNumbers = couponNumbers
       if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
         // this.$notify.error({
@@ -2539,9 +2434,7 @@ export default {
         // return false
         this.personalForm.receivableMoney = 0
       }
-      console.log('this.personalForm.isFree', this.personalForm.isFree)
       if (this.personalForm.isFree === 1) {
-        console.log('進入了2')
         this.personalForm.taxMoney = 0
         this.personalForm.includeTaxMoney = 0
         this.personalForm.money = 0
@@ -2571,7 +2464,6 @@ export default {
       }
       const parms = JSON.stringify(Data)
       createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
-        console.log(res)
         if (res.data.ret === 200) {
           this.$notify({
             title: 'successful',
@@ -2599,9 +2491,7 @@ export default {
     },
     // 保存操作
     async handlesave() {
-      console.log('this.returnlist', this.returnlist)
       if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
-        console.log('this.$refs.editable2', this.$refs.editable2.getRecords())
         this.$refs.editable2.clear()
       }
       const controlcategorys = await batteryList2(8).then(res => {
@@ -2634,13 +2524,8 @@ export default {
           changedata = 1
         }
       }
-      console.log('firsttabledata', firsttabledata)
-      console.log('allcategorys', allcategorys)
-      console.log('changedata', changedata)
       if (this.personalForm.isFree === 1 && changedata === 1) {
-        console.log('controlcategorysdetail', controlcategorysdetail)
         const outproduct = this.$refs.editable.getRecords()
-        console.log('outproduct', outproduct)
         if (this.returnlist.length === 0) {
           this.$notify.error({
             title: 'wrong',
@@ -2669,28 +2554,19 @@ export default {
           return item.quantity
         })
         const allcontrolproquantity = this.sum(controlproquantity)
-        console.log('allcontrolproquantity', allcontrolproquantity)
         const chargeproquantity = chargepro.map(item => {
           return item.quantity
         })
         const allchargeproquantity = this.sum(chargeproquantity)
-        console.log('allchargeproquantity', allchargeproquantity)
         const motoproquantity = motopro.map(item => {
           return item.quantity
         })
         const allmotoproquantity = this.sum(motoproquantity)
-        console.log('allmotoproquantity', allmotoproquantity)
 
         const batteryproquantity = batterypro.map(item => {
           return item.quantity
         })
         const allbatteryproquantity = this.sum(batteryproquantity)
-        console.log('allbatteryproquantity', allbatteryproquantity)
-
-        console.log('controlpro', controlpro)
-        console.log('chargepro', chargepro)
-        console.log('motopro', motopro)
-        console.log('batterypro', batterypro)
         const returncontrolpro = []
         const returnchargepro = []
         const returnmotopro = []
@@ -2707,31 +2583,23 @@ export default {
           }
         }
 
-        console.log('returncontrolpro', returncontrolpro)
-        console.log('returnchargepro', returnchargepro)
-        console.log('returnmotopro', returnmotopro)
-        console.log('returnbatterypro', returnbatterypro)
         const returncontrolproquantity = returncontrolpro.map(item => {
           return item.quantity
         })
         const allreturncontrolproquantity = this.sum(returncontrolproquantity)
-        console.log('allreturncontrolproquantity', allreturncontrolproquantity)
         const returnchargeproquantity = returnchargepro.map(item => {
           return item.quantity
         })
         const allreturnchargeproquantity = this.sum(returnchargeproquantity)
-        console.log('allreturnchargeproquantity', allreturnchargeproquantity)
         const returnmotoproquantity = returnmotopro.map(item => {
           return item.quantity
         })
         const allreturnmotoproquantity = this.sum(returnmotoproquantity)
-        console.log('allreturnmotoproquantity', allreturnmotoproquantity)
 
         const returnbatteryproquantity = returnbatterypro.map(item => {
           return item.quantity
         })
         const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
-        console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
 
         if (allbatteryproquantity !== allreturnbatteryproquantity) {
           this.$notify.error({
@@ -2898,7 +2766,6 @@ export default {
               }
             })
           })
-          console.log(i)
           if (i > EnterDetail.length) {
             this.$notify.error({
               title: 'wrong',
@@ -2916,7 +2783,6 @@ export default {
               j = 2
             }
           })
-          console.log(j)
           if (j === 2) {
             this.$notify.error({
               title: 'wrong',
@@ -3053,9 +2919,7 @@ export default {
               couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
             }
           }
-          console.log('couponNumbers', couponNumbers)
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
-          console.log('couponNumbers', couponNumbers)
           this.personalForm.couponNumbers = couponNumbers
           if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
             this.$notify.error({
@@ -3065,9 +2929,7 @@ export default {
             })
             return false
           }
-          console.log('this.personalForm.isFree', this.personalForm.isFree)
           if (this.personalForm.isFree === 1) {
-            console.log('進入了2')
             this.personalForm.taxMoney = 0
             this.personalForm.includeTaxMoney = 0
             this.personalForm.money = 0
@@ -3097,7 +2959,6 @@ export default {
           }
           const parms = JSON.stringify(Data)
           createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2, parms6).then(res => {
-            console.log(res)
             if (res.data.ret === 200) {
               this.$notify({
                 title: 'successful',

@@ -3,7 +3,7 @@
     <!--基本信息-->
     <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
     <div class="container">
-      <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
+      <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
         <el-form-item :label="$t('Product.title')" prop="title" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.title" placeholder="请输入变更单主题" clearable/>
         </el-form-item>

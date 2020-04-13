@@ -1,10 +1,10 @@
 <template>
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="customerForm.id +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
-    <el-card class="box-card" style="margin-top: 63px" shadow="never">
+    <el-card class="box-card" style="margin-top: 63px; margin-bottom: 20px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
-        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+        <el-form ref="customerForm" :model="customerForm" :rules="customerFormrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('Customer.firstname')" prop="firstName" style="width: 100%;">
@@ -27,21 +27,21 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Customer.phone12')" style="margin-left: 18px;width: 100%">
-                <el-input v-model.number="customerForm.phone2" clearable/>
+              <el-form-item :label="$t('Customer.phone12')" style="width: 100%">
+                <el-input v-model.number="customerForm.phone2" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Customer.phone13')" style="margin-left: 18px;width: 100%">
-                <el-input v-model.number="customerForm.phone3" clearable/>
+              <el-form-item :label="$t('Customer.phone13')" style="width: 100%">
+                <el-input v-model.number="customerForm.phone3" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('updates2.landline')" style="margin-left: 18px;width: 100%">
-                <el-input v-model="customerForm.landline" clearable/>
+              <el-form-item :label="$t('updates2.landline')" style="width: 100%">
+                <el-input v-model="customerForm.landline" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" style="height: 47px">
               <el-form-item :label="$t('Customer.gender')" prop="gender" style="width: 100%">
                 <el-radio-group v-model="customerForm.gender" style="margin-left: 18px;width: 200px">
                   <el-radio :label="1" style="width: 100px">{{ $t('public.male') }}</el-radio>

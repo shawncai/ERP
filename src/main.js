@@ -23,6 +23,7 @@ import './permission' // permission control
 import './mock' // simulation data
 import Print from 'vue-print-nb'
 import * as filters from './filters' // global filters
+import _ from 'lodash'
 // 全局图片上传地址
 Vue.prototype.$upload = process.env.BASE_API
 Vue.use(Element, {
@@ -30,6 +31,8 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
+window._ = _
+Vue.prototype._ = _
 // Vue.config.keyCodes.f6 = 117
 Vue.use(Print)
 
