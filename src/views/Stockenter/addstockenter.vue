@@ -389,8 +389,6 @@ export default {
   watch: {
     list2: {
       handler(newval, oldval) {
-        console.table('数据表老结构============', oldval)
-        console.table('数据表新结构============', newval)
         let num = 0
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
@@ -850,7 +848,7 @@ export default {
       } else {
         return scope.row.location
       }
-      if (scope.row.falg) {
+      if (scope.row.flag) {
         getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
