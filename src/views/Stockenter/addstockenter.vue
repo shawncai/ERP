@@ -850,7 +850,7 @@ export default {
       } else {
         return scope.row.location
       }
-      if (scope.row.falg) {
+      if (scope.row.flag) {
         getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
