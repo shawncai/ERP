@@ -156,6 +156,11 @@
                 <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getmylocation(scope) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
@@ -544,24 +549,6 @@ export default {
         })
       }
     },
-    // 获取默认货位
-    getLocationData(row) {
-      // 默认货位123
-      getlocation(this.personalForm.enterRepositoryId, row).then(res => {
-        if (res.data.ret === 200) {
-          console.log('res', res)
-          if (res.data.data.content.length !== 0) {
-            row.location = res.data.data.content[0].locationCode
-            row.locationId = res.data.data.content[0].id
-            console.log('row.locationId', row.locationId)
-          } else {
-            row.location = null
-            row.locationId = null
-          }
-        }
-      })
-      return row.location
-    },
     // ====================
     allarrivalinfo(val) {
       console.log(val)
@@ -787,7 +774,6 @@ export default {
       this.personalForm.enterRepositoryId = val.id
     },
     updatebatch(event, scope) {
-      console.log('触发')
       if (event === true) {
         console.log(this.personalForm.enterRepositoryId)
         if (this.personalForm.enterRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
@@ -872,6 +858,9 @@ export default {
     },
     // 入库金额计算
     getSize(scope, quan, pric) {
+      return (quan * pric).toFixed(2)
+    },
+    getmylocation(scope) {
       getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
         if (res.data.ret === 200) {
           if (res.data.data.content.length !== 0) {
@@ -880,7 +869,6 @@ export default {
           }
         }
       })
-      return (quan * pric).toFixed(2)
     }
   }
 }
