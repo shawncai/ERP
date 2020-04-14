@@ -404,14 +404,14 @@ export default {
         })
         console.log('find========', find)
         for (const i in process) {
-          getlocation(this.personalForm.enterRepositoryId, process[i]).then(res => {
-            if (res.data.ret === 200) {
-              if (res.data.data.content.length !== 0) {
-                this.locationlist = res.data.data.content
-                process[i].locationId = res.data.data.content[0].id
-              }
-            }
-          })
+          // getlocation(this.personalForm.enterRepositoryId, process[i]).then(res => {
+          //   if (res.data.ret === 200) {
+          //     if (res.data.data.content.length !== 0) {
+          //       this.locationlist = res.data.data.content
+          //       process[i].locationId = res.data.data.content[0].id
+          //     }
+          //   }
+          // })
         }
       },
       deep: true
