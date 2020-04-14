@@ -673,7 +673,7 @@ export default {
           //   }
           //   this.list[j].presentdata = newarr.join('      ||     ')
           // }
-          // this.total = res.data.data.content.totalCount
+          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
