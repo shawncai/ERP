@@ -2,45 +2,46 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('AccessTools.title')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.applyDate')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('AccessTools.applyDate')" prop="applyDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.applyDate"
                     :picker-options="pickerOptions4"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.accessDate')" prop="accessDate" style="width: 100%;">
+                <el-form-item :label="$t('AccessTools.accessDate')" prop="accessDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.accessDate"
                     :picker-options="pickerOptions4"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.applyPersonId')" prop="applyPersonId" style="width: 100%;">
-                  <el-input v-model="applyPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('AccessTools.applyPersonId')" prop="applyPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="applyPersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.deptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('AccessTools.deptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.deptId" clearable style="width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -50,29 +51,29 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.useType')" style="width: 100%;">
-                  <el-select v-model="personalForm.useType" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('AccessTools.useType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.useType" style="width: 200px">
                     <el-option value="1" label="维修" />
                     <el-option value="2" label="其他" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.emergencyLevel')" prop="emergencyLevel" style="width: 100%;">
-                  <el-select v-model="personalForm.emergencyLevel" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('AccessTools.emergencyLevel')" prop="emergencyLevel" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.emergencyLevel" style="width: 200px">
                     <el-option value="1" label="紧急" />
                     <el-option value="2" label="不紧急" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.reason')" prop="applyReason" style="width: 100%;">
-                  <el-input v-model="personalForm.applyReason" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('AccessTools.reason')" prop="applyReason" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.applyReason" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('AccessTools.accessRepositoryId')" prop="accessRepositoryId" style="width: 100%;">
-                  <el-input v-model="accessRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('AccessTools.accessRepositoryId')" prop="accessRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="accessRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
@@ -81,8 +82,9 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.gjmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.gjmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -109,7 +111,7 @@
             <!--            <el-editable-column prop="color" align="center" :label="$t('updates.ys')" min-width="150px"/>-->
             <!--            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
             <!--              <template slot-scope="scope">-->
-            <!--                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
+            <!--                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">-->
             <!--                  <el-option-->
             <!--                    v-for="(item, index) in locationlist"-->
             <!--                    :key="index"-->
@@ -124,7 +126,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -898,19 +901,21 @@ export default {
   .ERP-container >>> .el-input-number.is-without-controls .el-input__inner{
     text-align: left;
   }
-  .ERP-container {
+   .ERP-container{
     margin-right: 0;
-  }
-  .form-name{
-    font-size: 18px;
-    color: #373e4f;
-    margin-bottom: -20px;
-    margin-top: 20px;
-  }
-  .container{
-    margin-top: 40px;
-  }
-  .el-button+.el-button{
-    width: 98px;
-  }
+   }
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
+
 </style>

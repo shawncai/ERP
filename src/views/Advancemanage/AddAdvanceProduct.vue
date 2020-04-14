@@ -2,13 +2,14 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.ysgz') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('updates.ysgz') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.depositBegintime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.depositBegintime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.depositBegintime"
                     :picker-options="pickerOptions0"
@@ -19,7 +20,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.depositEndtime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.depositEndtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.depositEndtime"
                     :picker-options="pickerOptions1"
@@ -29,7 +30,7 @@
                 </el-form-item>
               </el-col> -->
               <el-col :span="12">
-                <el-form-item :label="$t('Advancemanage.startend')" prop="startend" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.startend')" prop="startend" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.startend"
                     type="daterange"
@@ -37,12 +38,12 @@
                     align="right"
                     unlink-panels
                     range-separator="-"
-                    style="margin-left: 18px;width:400px"
+                    style="width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.finalBegintime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.finalBegintime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.finalBegintime"
                     :picker-options="pickerOptions2"
@@ -53,7 +54,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.finalEndtime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.finalEndtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.finalEndtime"
                     :picker-options="pickerOptions3"
@@ -63,7 +64,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.advanceEndtime')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.advanceEndtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.advanceEndtime"
                     type="date"
@@ -72,7 +73,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.advanceMode')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.advanceMode')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.advanceMode" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">一口价</el-radio>
                     <el-radio :label="2">阶梯价</el-radio>
@@ -80,7 +81,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.advanceStat')" style="width: 100%;">
+                <el-form-item :label="$t('Advancemanage.advanceStat')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.advanceStat" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">开启</el-radio>
                     <el-radio :label="2">暂不开启</el-radio>
@@ -92,8 +93,9 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.yssp') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.yssp') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -130,7 +132,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -532,13 +535,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

@@ -2,19 +2,19 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
+                <el-form-item :label="$t('SaleOut.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseSourceType">
                     <el-option :label="$t('prompt.xsdd')" value="1"/>
                     <el-option :label="$t('prompt.xsht')" value="2"/>
                     <el-option :label="$t('prompt.ysd')" value="3"/>
@@ -26,43 +26,43 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="personalForm.sourceType === '6'" :span="6" >
-                <el-form-item :label="$t('SaleOut.ershouNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
+                <el-form-item :label="$t('SaleOut.ershouNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.sourceNumber" style="width: 200px" clearable @focus="chooseNumber"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="width: 100%;">
-                  <el-select v-model="personalForm.customerType" style="margin-left: 18px;width: 200px" @change="clearCustomer">
+                <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.customerType" style="width: 200px" @change="clearCustomer">
                     <el-option :label="$t('prompt.jxs')" value="1"/>
                     <el-option :label="$t('prompt.ls')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
+                <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.customerPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerPhone" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.customerAccount')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerAccount" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.customerAccount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerAccount" style="width: 200px"/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="width: 100%;">
-                  <el-select v-model="personalForm.outType" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('SaleOut.outType')" prop="outType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.outType" style="width: 200px">
                     <el-option :label="$t('prompt.xsck')" value="1"/>
                     <el-option :label="$t('prompt.hhck')" value="2"/>
                     <el-option :label="$t('prompt.yjhx')" value="3"/>
@@ -70,32 +70,32 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.salePersonId')" prop="salePersonId" style="width: 100%;">
-                  <el-input v-model="salePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('SaleOut.salePersonId')" prop="salePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="salePersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="width: 100%;">
-                  <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="switchsaletype">
+                <el-form-item :label="$t('SaleOut.saleType')" prop="saleType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.saleType" style="width: 200px" @change="switchsaletype">
                     <el-option :label="$t('prompt.xj')" value="1" />
                     <el-option :label="$t('prompt.fq')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.sendDate')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.sendDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.sendDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
-                  <el-select ref="clear" v-model="personalForm.settleMode" style="margin-left: 18px;width: 200px" @change="change">
+                <el-form-item :label="$t('SaleOut.closeType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear" v-model="personalForm.settleMode" style="width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in colseTypes"
@@ -109,8 +109,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceType')" style="width: 100%;">
-                  <el-select ref="clear2" v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px" @change="change">
+                <el-form-item :label="$t('SaleOut.invoiceType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear2" v-model="personalForm.invoiceType" style="width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in invoiceTypes"
@@ -125,8 +125,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.payType')" style="width: 100%;">
-                  <el-select ref="clear3" v-model="personalForm.payMode" style="margin-left: 18px;width: 200px" @change="change">
+                <el-form-item :label="$t('SaleOut.payType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear3" v-model="personalForm.payMode" style="width: 200px" @change="change">
                     <el-option v-show="false" label="" value=""/>
                     <el-option
                       v-for="(item, index) in payModes"
@@ -141,83 +141,83 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.transferPersonId')" style="width: 100%;">
-                  <el-input v-model="transferPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
+                <el-form-item :label="$t('SaleOut.transferPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="transferPersonId" style="width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="width:100%;">
-                  <el-input v-model="saleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.address')" style="width: 100%;">
-                  <el-input v-model="personalForm.address" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.address')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.address" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outPersonId')" style="width: 100%;">
-                  <el-input v-model="outPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseAccept"/>
+                <el-form-item :label="$t('SaleOut.outPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="outPersonId" style="width: 200px" @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.outDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="width: 100%;">
-                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="width: 100%;">
-                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
+                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridMoney" disabled style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.ridBikeMoney" disabled style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
-                  <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
               <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleOut.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.receivableMoney }}
                     <!-- {{ getReceivableMoney() }} -->
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.isInvoice')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isInvoice" style="margin-left: 18px;width: 200px">
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
@@ -228,8 +228,9 @@
         </div>
       </el-card>
       <!--出库明细-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -267,7 +268,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -386,8 +387,8 @@
         </div>
       </el-card>
       <!-- 赠品明细 -->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
           <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
@@ -418,7 +419,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -452,64 +453,65 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+
+        <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" label-position="left" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji1')" style="width: 100%;">
-                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji1')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji1" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji2" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji3')" style="width: 100%;">
-                  <el-input v-model="heji3" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji3')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji3" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji4')" style="width: 100%;">
-                  <el-input v-model="heji4" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji4')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji4" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji5')" style="width: 100%;">
-                  <el-input v-model="heji5" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji5')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji5" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji6')" style="width: 100%;">
-                  <el-input v-model="heji6" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji6')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji6" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji7')" style="width: 100%;">
-                  <el-input v-model="heji7" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji7')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji7" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji8')" style="width: 100%;">
-                  <el-input v-model="heji8" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji8')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji8" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji9')" style="width: 100%;">
-                  <el-input v-model="heji9" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji9')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji9" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji10')" style="width: 100%;">
-                  <el-input v-model="heji10" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('SaleOut.heji10')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji10" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.heji11')" style="width: 100%;">
-                  <el-input v-model="personalForm.otherMoney" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
+                <el-form-item :label="$t('SaleOut.heji11')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.otherMoney" style="width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -517,7 +519,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave2()">{{ $t('collectAndPay.lsbc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -529,7 +531,7 @@
               <el-table
                 :data="list111"
                 height="220"
-                style="width: 100%;"
+                style="margin-left: 18px;width: 100%;margin-bottom: 0"
               >
                 <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
@@ -3024,4 +3026,21 @@ export default {
     margin: 0 auto;
     height: auto;
   }
+  .ERP-container{
+    margin-right: 0;
+  }
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
+
 </style>

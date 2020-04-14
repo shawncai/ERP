@@ -82,6 +82,11 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
+        <el-table-column :label="$t('Stockenter.supplierId')" :resizable="false" fixed="left" prop="title" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>

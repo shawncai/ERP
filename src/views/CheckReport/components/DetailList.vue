@@ -411,7 +411,7 @@ export default {
         properties: [
           { field: 'step', displayName: '序号', columnSize: `100px` },
           { field: 'checkItemName', displayName: '检验项目', columnSize: `100px` },
-          { field: 'checkContent', displayName: '检验内容', columnSize: `100px` },
+          { field: 'checkContent', displayName: '检验内容', columnSize: `500px` },
           { field: 'checkQuantity', displayName: '样本数', columnSize: `100px` },
           { field: 'remarks', displayName: '检验结果', columnSize: `100px` },
           { field: 'chectResultName', displayName: '单项结论', columnSize: `100px` },
@@ -443,15 +443,35 @@ export default {
                           <div class="item">
                          <div class="itemname">适用车型：</div>
                         <div class="itemcontent">${this.personalForm.productType}</div>
+                          </div>          
                           </div>
+
+<div class="titleline">
+                        <div class="item">
+                         <div class="itemname">供应商：</div>
+                        <div class="itemcontent">${this.personalForm.supplierName}</div>
                           </div>
+                          <div class="item">
+                         <div class="itemname">质检时间：</div>
+                        <div class="itemcontent">${this.personalForm.checkDate}</div>
+                          </div>          
+                          </div>
+
+                          <div class="titleline">
+                        <div class="item">
+                         <div class="itemname">订单数量：</div>
+                        <div class="itemcontent">${this.personalForm.checkQuantity}</div>
+                          </div>          
+                          </div>
+
+
                           </div>
                         </div>`,
         bottom: `<div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">检验员：</div>
-                        <div class="bottomname" >${this.personalForm.checkPersonName}</div>
+                        <div class="bottomname" >${this.personalForm.checkPersonName}</div>  
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">检验结果：</div>
@@ -465,16 +485,16 @@ export default {
           '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
           '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
           '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
-          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
+          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px;}' +
           '.titleline {width: 100%; align-items: center; justify-content: space-around;}' +
           '.item { width: 100%; justify-content: center; align-items: center; display: flex}' +
           '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
           '.itemname2 { width: 20% }' +
           '.itemcontent2 {width: 80%}' +
-          '.itemname { width: 50% }' +
+          '.itemname { width: 80% }' +
           '.itemcontent {width: 80%}',
         gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center;',
         repeatTableHeader: true
       })
     },

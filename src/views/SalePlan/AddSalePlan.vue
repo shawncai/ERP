@@ -2,25 +2,27 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
           <el-form
             ref="personalForm"
             :model="personalForm"
             :rules="personalrules"
             :inline="true"
+            size="mini"
             status-icon
             class="demo-ruleForm"
+            label-position="left"
             label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable />
+                <el-form-item :label="$t('SalePlan.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.planCategory')" prop="planCategory" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.planCategory')" prop="planCategory" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select
                     v-model="personalForm.planCategory"
                     style="margin-left: 18px;width: 200px">
@@ -30,7 +32,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.planType')" prop="planType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select
                     v-model="personalForm.planType"
                     style="margin-left: 18px;width: 200px"
@@ -50,7 +52,7 @@
                     v-model="personalForm.planDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px" />
+                    style="width: 200px" />
                   <el-date-picker
                     v-else-if="personalForm.planType == 1 || 2 || 3 || 4"
                     v-model="personalForm.planDate"
@@ -59,11 +61,11 @@
                     placeholder="选择年"
                     style="margin-left: 18px;width: 200px"
                     @change="getnum" />
-                  <el-input v-else v-model="personalForm.planDate" disabled style="margin-left: 18px;width:200px" />
+                  <el-input v-else v-model="personalForm.planDate" disabled style="width: 200px" />
                 </el-form-item>
               </el-col> -->
               <!-- <el-col :span="6">
-                <el-form-item v-if="isshow" :label="$t(typeName)" style="width: 100%;">
+                <el-form-item v-if="isshow" :label="$t(typeName)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select
                     v-if="personalForm.planType == 2"
                     v-model="personalForm.planDateAdd"
@@ -99,27 +101,27 @@
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.beginTime')" prop="beginTime" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.beginTime')" prop="beginTime" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.beginTime"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     @change="cleardeposit" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SalePlan.endTime')" prop="endTime" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.endTime')" prop="endTime" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.endTime"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px" />
+                    style="width: 200px" />
                 </el-form-item>
               </el-col>
               <el-col v-if="personalForm.planCategory === '2'" :span="6" >
-                <el-form-item :label="$t('SalePlan.regionId')" prop="regionId" style="width: 100%;">
+                <el-form-item :label="$t('SalePlan.regionId')" prop="regionId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-cascader
                     :options="regions"
                     :props="reprops"
@@ -135,8 +137,8 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="personalForm.planCategory === '1'" :span="6">
-                <el-form-item :label="$t('SalePlan.repositoryid')" prop="repositoryid" style="width: 100%;">
-                  <el-input v-model="repositoryid" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('SalePlan.repositoryid')" prop="repositoryid" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="repositoryid" style="width: 200px" clearable @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
@@ -145,8 +147,9 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.jhmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('updates.jhmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">{{ $t('updates.tjmx') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('updates.scmx') }}</el-button>
@@ -236,7 +239,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button
           v-no-more-click
           type="primary"
@@ -1491,23 +1495,21 @@ export default {
     height: auto;
   }
 
-  .ERP-container {
+  .ERP-container{
     margin-right: 0;
   }
-
-  .form-name {
-    font-size: 18px;
-    color: #373e4f;
-    margin-bottom: -20px;
-    margin-top: 20px;
-  }
-
-  .container {
-    margin-top: 40px;
-  }
-
-  /* .el-button+.el-button {
-    width: 98px;
-  } */
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
 
 </style>

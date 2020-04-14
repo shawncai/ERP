@@ -2,127 +2,128 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.hsspxx') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('updates.hsspxx') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Recycling.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width: 200px" @focus="handlemater"/>
+                <el-form-item :label="$t('Recycling.productCode')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productCode" style="width: 200px" @focus="handlemater"/>
                 </el-form-item>
               </el-col> -->
               <!-- <my-mater :matercontrol.sync="matercontrol" @mater="mater"/> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.productType')" style="width: 100%;">
-                  <el-input v-model="productType" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.productType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="productType" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.color')" style="width: 100%;">
-                  <el-input v-model="personalForm.color" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.color')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.color" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.productCategory')" style="width: 100%;">
-                  <el-input v-model="productCategory" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.productCategory')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="productCategory" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.recyclingMoney')" prop="recyclingMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.recyclingMoney" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Recycling.recyclingMoney')" prop="recyclingMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.recyclingMoney" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="width: 100%;">
+                <el-form-item :label="$t('Recycling.recyclingDate')" prop="recyclingDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.recyclingDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="width: 100%;">
-                  <el-input v-model="recyclingPersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('Recycling.recyclingPersonId')" prop="recyclingPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="recyclingPersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.recyclingRepositoryId')" prop="recyclingRepositoryId" style="width: 100%;">
-                  <el-input v-model="recyclingRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('Recycling.recyclingRepositoryId')" prop="recyclingRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="recyclingRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.locationId')" style="width: 100%;">
-                  <el-select v-if="junglelocation" v-model="personalForm.locationId" style="margin-left: 18px;width: 200px" @visible-change="changelocation($event)">
+                <el-form-item :label="$t('Recycling.locationId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-if="junglelocation" v-model="personalForm.locationId" style="width: 200px" @visible-change="changelocation($event)">
                     <el-option
                       v-for="item in locationlist"
                       :key="item.id"
                       :value="item.id"
                       :label="item.locationCode"/>
                   </el-select>
-                  <el-input v-else v-model="locationId" style="margin-left: 18px;width: 200px" disabled/>
+                  <el-input v-else v-model="locationId" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Recycling.batch')" style="width: 100%;">
-                  <el-input v-model="personalForm.batch" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Recycling.batch')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.batch" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.remark')" style="width: 100%;">
-                  <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Recycling.remark')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.remark" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">{{ $t('updates.khxx') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="geren" class="form-name">{{ $t('updates.khxx') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
+                <el-form-item :label="$t('Recycling.customerId')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
                 </el-form-item>
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.sexId')" style="width: 100%;">
-                  <el-select v-model="personalForm.sexId" style="margin-left: 18px;width: 200px" disabled>
+                <el-form-item :label="$t('Recycling.sexId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sexId" style="width: 200px" disabled>
                     <el-option value="1" label="男"/>
                     <el-option value="2" label="女"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.customerPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerPhone" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.provinceId')" style="width: 100%;">
-                  <el-input v-model="provinceId" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.provinceId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="provinceId" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.cityId')" style="width: 100%;">
-                  <el-input v-model="cityId" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.cityId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="cityId" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Recycling.detailAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.detailAddress" style="margin-left: 18px;width: 200px" disabled/>
+                <el-form-item :label="$t('Recycling.detailAddress')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.detailAddress" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -130,8 +131,9 @@
         </div>
       </el-card>
       <!-- 明细 -->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.hscmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.hscmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -158,7 +160,7 @@
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
@@ -213,7 +215,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -756,13 +758,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
