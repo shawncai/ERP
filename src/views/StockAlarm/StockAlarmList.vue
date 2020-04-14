@@ -114,7 +114,8 @@ export default {
     flagStatFileter(status) {
       const statusMap = {
         1: '下限预警',
-        2: '上线预警'
+        2: '上线预警',
+        3: '安全库存预警'
       }
       return statusMap[status]
     }

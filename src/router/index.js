@@ -320,14 +320,15 @@ export const asyncRouterMap = [
     meta: {
       title: 'EndReceipt',
       icon: 'fapiao',
-      type: 11
+      type: 11,
+      roles: ['266-385-80', '266-385-81']
     },
     children: [
       {
         path: 'EndReceipt',
         component: () => import('@/views/CostInvoice/EndReceipt'),
         name: 'EndReceipt',
-        meta: { title: 'EndReceipt', noCache: false }
+        meta: { title: 'EndReceipt', noCache: false, roles: ['266-385-80', '266-385-81'] }
       }
     ]
   },
