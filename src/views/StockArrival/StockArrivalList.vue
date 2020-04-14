@@ -18,7 +18,7 @@
             :label="item.deptName"/>
         </el-select>
         <el-input v-model="supplierId" placeholder="供应商" size="mini" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
-        <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+        <my-supplier :control.sync="empcontrol" :query="true" @supplierName="supplierName"/>
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>

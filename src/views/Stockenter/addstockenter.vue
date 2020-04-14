@@ -153,7 +153,7 @@
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+                <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -383,14 +383,31 @@ export default {
   },
   watch: {
     list2: {
-      handler(oldval, newval) {
+      handler(newval, oldval) {
+        console.table('数据表老结构============', oldval)
+        console.table('数据表新结构============', newval)
         let num = 0
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
           num += this.list2[i].actualEnterQuantity
         }
         this.heji1 = num
-        // console.log(num)
+        console.log(this._.differenceWith(newval, oldval))
+        const process = this._.differenceWith(newval, oldval)
+        const find = process.map(item => {
+          return newval.findIndex(key => key.productCode === item.productCode)
+        })
+        console.log('find========', find)
+        for (const i in process) {
+          getlocation(this.personalForm.enterRepositoryId, process[i]).then(res => {
+            if (res.data.ret === 200) {
+              if (res.data.data.content.length !== 0) {
+                this.locationlist = res.data.data.content
+                process[i].locationId = res.data.data.content[0].id
+              }
+            }
+          })
+        }
       },
       deep: true
     }
@@ -425,7 +442,6 @@ export default {
     },
     // 判断整车或者电池
     isEdit4(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
       if (re === '01' || re === '05') { return true } else { return false }
     },
@@ -771,6 +787,7 @@ export default {
       this.personalForm.enterRepositoryId = val.id
     },
     updatebatch(event, scope) {
+      console.log('触发')
       if (event === true) {
         console.log(this.personalForm.enterRepositoryId)
         if (this.personalForm.enterRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
@@ -854,7 +871,15 @@ export default {
       }
     },
     // 入库金额计算
-    getSize(quan, pric) {
+    getSize(scope, quan, pric) {
+      getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.length !== 0) {
+            this.locationlist = res.data.data.content
+            scope.row.locationId = res.data.data.content[0].id
+          }
+        }
+      })
       return (quan * pric).toFixed(2)
     }
   }
