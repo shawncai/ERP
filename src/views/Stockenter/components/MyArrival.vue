@@ -281,7 +281,6 @@ export default {
           for (let i = 0; i < this.list.length; i++) {
             for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
               if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0) {
-                console.log('序号' + i, j)
                 this.list[i].stockArrivalDetailVos.splice(j, 1)
                 j--
               }
@@ -293,7 +292,6 @@ export default {
               i--
             }
           }
-          console.log('处理后', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

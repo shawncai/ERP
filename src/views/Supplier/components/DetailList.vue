@@ -139,6 +139,7 @@
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.ktgspmx') }}</h2>
+        <button :loading="downloadLoading" class="print" style="font-size: 13px;background: white;" @click="handleExport">{{ $t('public.export') }}</button>
         <div class="container">
           <el-editable
             ref="editable"
@@ -614,6 +615,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       // 延迟记录数据
       tableData7: [],
       // 惩罚数据
@@ -725,6 +727,25 @@ export default {
     _that = this
   },
   methods: {
+    handleExport() {
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '规格', '单位', '颜色', '供货比例', '价格', '折扣']
+          const filterVal = ['productCode', 'productName', 'productType', 'unit', 'color', 'proportion', 'price', 'discountRate']
+          const data = this.formatJson(filterVal, this.list2)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: `${this.personalForm.supplierName}可提供商品明细`
+          })
+          this.downloadLoading = false
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     // 延迟记录
     getsearchstockArrivallist() {
       searchstockArrival(this.getstockArrivalData).then(res => {

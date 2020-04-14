@@ -71,6 +71,11 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
+        <el-table-column :label="$t('inventorydetaillist.repositoryName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockRequire.productName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>

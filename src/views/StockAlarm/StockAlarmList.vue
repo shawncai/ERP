@@ -114,7 +114,8 @@ export default {
     flagStatFileter(status) {
       const statusMap = {
         1: '下限预警',
-        2: '上线预警'
+        2: '上线预警',
+        3: '安全库存预警'
       }
       return statusMap[status]
     }
@@ -156,26 +157,28 @@ export default {
     }
   },
   activated() {
+    // if (!this.firstenter) {
     this.getlist()
-    this.getlist2()
+    // }
+    // this.getlist2()
   },
   mounted() {
     this.getlist()
-    this.getlist2()
+    // this.getlist2()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
-    getlist2() {
-      this.getemplist.pageNum = 1
-      this.getemplist.pageSize = 9999
-      searchalarm(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list2 = res.data.data.content.list
-        }
-      })
-    },
+    // getlist2() {
+    //   this.getemplist.pageNum = 1
+    //   this.getemplist.pageSize = 9999
+    //   searchalarm(this.getemplist).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.list2 = res.data.data.content.list
+    //     }
+    //   })
+    // },
     checkPermission,
     // 仓库列表focus事件触发
     handlechooseRep() {

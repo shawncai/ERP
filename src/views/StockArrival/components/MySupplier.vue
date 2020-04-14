@@ -138,6 +138,10 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    query: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -205,6 +209,9 @@ export default {
     getlist() {
       // 供应商列表数据
       this.listLoading = true
+      if (this.query) {
+        delete this.getemplist.isActive
+      }
       search(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

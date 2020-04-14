@@ -521,7 +521,7 @@ export default {
               row.outQuantity = 1
               return false
             }
-            if (row.outQuantity > res.data.data.content.list[0].ableStock) {
+            if (row.outQuantity > res.data.data.content.list[0].existStock) {
               this.$notify.error({
                 title: 'wrong',
                 message: this.$t('prompt.sqslcg'),

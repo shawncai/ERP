@@ -1214,7 +1214,7 @@ export default {
               row.quantity = 1
               return false
             }
-            if (row.quantity > res.data.data.content.list[0].ableStock) {
+            if (row.quantity > res.data.data.content.list[0].existStock) {
               this.$notify.error({
                 title: 'wrong',
                 message: this.$t('prompt.ckslgykcsl'),

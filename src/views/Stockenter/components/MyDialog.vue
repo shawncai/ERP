@@ -142,6 +142,11 @@
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>
           </el-editable-column>
+          <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getmylocation(scope) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
@@ -491,6 +496,24 @@ export default {
     // 入库金额计算
     getSize(quan, pric) {
       return quan * pric
+    },
+    getmylocation(scope) {
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.flag) {
+        getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+      scope.row.flag = false
     },
     // 深拷贝
     deepClone(obj) {

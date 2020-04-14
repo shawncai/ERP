@@ -10,8 +10,8 @@
         type="month"
         value-format="yyyy-MM"/>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter2">{{ $t('tongyo.js2') }}</el-button>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter">{{ $t('tongyo.fjs') }}</el-button>
+      <el-button v-permission="['266-385-80']" v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter2">{{ $t('tongyo.js2') }}</el-button>
+      <el-button v-permission="['266-385-81']" v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 100px;margin-top: 10px" round @click="handleFilter">{{ $t('tongyo.fjs') }}</el-button>
     </el-card>
   </div>
 </template>
