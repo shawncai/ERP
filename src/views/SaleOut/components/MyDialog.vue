@@ -1621,42 +1621,50 @@ export default {
       }
     },
     getLocationData(row) {
-      // 默认批次
-      if (row.batch === null || row.batch === '' || row.batch === undefined) {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          // console.log(res)
-          if (res.data.data.content.length > 0) {
-            row.batch = res.data.data.content[0]
-          }
-        })
+      if (row.flag === undefined) {
+        row.flag = true
       } else {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length === 0) {
-            if (row.batch !== '不使用') {
-              row.batch = null
+        return row.location
+      }
+      // 默认批次
+      if (row.flag) {
+        if (row.batch === null || row.batch === '' || row.batch === undefined) {
+          const parms3 = row.productCode
+          batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+          // console.log(res)
+            if (res.data.data.content.length > 0) {
+              row.batch = res.data.data.content[0]
+            }
+          })
+        } else {
+          const parms3 = row.productCode
+          batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length === 0) {
+              if (row.batch !== '不使用') {
+                row.batch = null
+              }
+            }
+          })
+        }
+        // 默认货位
+        getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+          if (res.data.ret === 200) {
+          // console.log('res', res)
+            if (res.data.data.content.length !== 0) {
+              row.location = res.data.data.content[0].locationCode
+              row.locationName = res.data.data.content[0].locationCode
+              row.locationId = res.data.data.content[0].id
+            // console.log('row.location', row.location)
+            } else {
+              row.location = null
+              row.locationName = null
+              row.locationId = null
             }
           }
         })
+        return row.locationName
       }
-      // 默认货位
-      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
-        if (res.data.ret === 200) {
-          // console.log('res', res)
-          if (res.data.data.content.length !== 0) {
-            row.location = res.data.data.content[0].locationCode
-            row.locationName = res.data.data.content[0].locationCode
-            row.locationId = res.data.data.content[0].id
-            // console.log('row.location', row.location)
-          } else {
-            row.location = null
-            row.locationName = null
-            row.locationId = null
-          }
-        }
-      })
-      return row.locationName
+      row.flag = false
     },
     // 源单类型为销售合同
     salecontractDetail(val) {

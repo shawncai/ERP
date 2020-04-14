@@ -156,7 +156,7 @@
                 <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
+            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getmylocation(scope) }}</p>
               </template>
@@ -397,22 +397,6 @@ export default {
           num += this.list2[i].actualEnterQuantity
         }
         this.heji1 = num
-        console.log(this._.differenceWith(newval, oldval))
-        const process = this._.differenceWith(newval, oldval)
-        const find = process.map(item => {
-          return newval.findIndex(key => key.productCode === item.productCode)
-        })
-        console.log('find========', find)
-        for (const i in process) {
-          getlocation(this.personalForm.enterRepositoryId, process[i]).then(res => {
-            if (res.data.ret === 200) {
-              if (res.data.data.content.length !== 0) {
-                this.locationlist = res.data.data.content
-                process[i].locationId = res.data.data.content[0].id
-              }
-            }
-          })
-        }
       },
       deep: true
     }
@@ -861,14 +845,22 @@ export default {
       return (quan * pric).toFixed(2)
     },
     getmylocation(scope) {
-      getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
-        if (res.data.ret === 200) {
-          if (res.data.data.content.length !== 0) {
-            this.locationlist = res.data.data.content
-            scope.row.locationId = res.data.data.content[0].id
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.falg) {
+        getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+            }
           }
-        }
-      })
+        })
+      }
+      scope.row.flag = false
     }
   }
 }
