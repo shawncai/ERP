@@ -389,8 +389,6 @@ export default {
   watch: {
     list2: {
       handler(newval, oldval) {
-        console.table('数据表老结构============', oldval)
-        console.table('数据表新结构============', newval)
         let num = 0
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
