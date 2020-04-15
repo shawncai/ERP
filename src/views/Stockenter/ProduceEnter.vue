@@ -2,51 +2,52 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Stockenter.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" clearable >
                     <el-option :label="$t('updates.zscrw')" value="1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.produceTaskNumber" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
+                <el-form-item :label="$t('Stockenter.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.produceTaskNumber" style="width: 200px" clearable @focus="handleAddSouce"/>
                 </el-form-item>
                 <produce-task :procontrol.sync="producecontrol" @moredata="moredata" @productDetail="productDetail"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="width: 100%;">
-                  <el-select v-model="personalForm.processType" style="margin-left: 18px;width: 200px" clearable >
+                <el-form-item :label="$t('Stockenter.processType')" prop="processType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.processType" style="width: 200px" clearable >
                     <el-option value="1" label="加工1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                <el-form-item :label="$t('Stockenter.produceManagerId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="produceManagerId" style="width: 200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="width: 100%;">
-                  <el-input v-model="enterPersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                <el-form-item :label="$t('Stockenter.enterPersonId')" prop="enterPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="enterPersonId" style="width: 200px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterDeptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.enterDeptId" style="margin-left: 18px;width: 200px" clearable >
+                <el-form-item :label="$t('Stockenter.enterDeptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.enterDeptId" style="width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -56,14 +57,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="width: 100%;">
-                  <el-input v-model="enterRepositoryId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('Stockenter.enterRepositoryId')" prop="enterRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="enterRepositoryId" style="width: 200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.summary" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -71,8 +72,9 @@
         </div>
       </el-card>
       <!--入库单明细-->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -95,7 +97,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope" edit="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -148,7 +150,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -159,7 +161,7 @@
               <el-table
                 :data="list111"
                 height="220"
-                style="width: 100%;"
+                style="margin-left: 18px;width: 100%;margin-bottom: 0"
               >
                 <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
@@ -616,35 +618,18 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
     }
   }
 </style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
-</style>
+
