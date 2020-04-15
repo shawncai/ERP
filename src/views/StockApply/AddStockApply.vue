@@ -517,23 +517,29 @@ export default {
           }
           for (let i = row.temp; i < this.list2.length; i++) {
             console.log(this.list2[i].requireDate)
-            if (this.list2[i].requireQuantity !== null && this.list2[i].requireQuantity !== '' && this.list2[i].requireQuantity !== undefined) {
+            if (this.list2[i].requireQuantity !== null && this.list2[i].requireQuantity !== 1 && this.list2[i].requireQuantity !== '' && this.list2[i].requireQuantity !== undefined) {
               // this.list2[i].requireDate = row.requireDate
-              this.list2[i].requireQuantity = row.requireQuantity
+              // this.list2[i].requireQuantity = row.requireQuantity
             } else {
               console.log(222)
               // this.list2[i].requireDate = row.requireDate
               this.list2[i].requireQuantity = row.requireQuantity
             }
           }
-          this.changeDate2()
           console.log(row)
         }
       }
+      this.changeDate2()
     },
 
     // 两表联动
     async changeDate2(row, scope) {
+      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      for (let i = 0; i < this.list2.length; i++) {
+        if (EnterDetail[i].requireQuantity === '' || EnterDetail[i].requireQuantity === null || EnterDetail[i].requireQuantity === undefined || EnterDetail[i].requireDate === '' || EnterDetail[i].requireDate === null || EnterDetail[i].requireDate === undefined) {
+          return false
+        }
+      }
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -596,6 +602,8 @@ export default {
           applyQuantity: Number(item.requireQuantity).toFixed(2)
         }
       })
+      console.log('result2', result2)
+      const myeditable2 = []
       for (let i = 0; i < result2.length; i++) {
         // if (result2[i].productCode.substring(0, 2) === '01') {
         const list = await getMaterialsByApply(result2[i].productCode, this.personalForm.applyRepositoryId, (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)))
@@ -603,10 +611,8 @@ export default {
         if (list.data.data.content.length > 0) {
           console.log('list', list.data.data.content)
           const list2 = list.data.data.content
-
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
-            console.log('val[i]', result2[i])
             list2[j].applyQuantity = (Number(list2[j].requireQuantity)).toFixed(2)
             list2[j].requireQuantity = (Number(list2[j].planQuantity)).toFixed(2)
             list2[j].planQuantity = 0
@@ -614,19 +620,38 @@ export default {
             list2[j].sourceSerialNumber = result2[i].sourceSerialNumber
             list2[j].requireDate = result2[i].requireDate
             // - val.alre
-            console.log(list2[j])
-            this.$refs.editable2.insert(list2[j])
+            const result = myeditable2.findIndex(ol => { return list2[j].requireDate === ol.requireDate && list2[j].productCode === ol.productCode })
+            console.log('result', result)
+            if (result !== -1) {
+              console.log('(Number(myeditable2[result].applyQuantity)).toFixed(2)', (Number(myeditable2[result].applyQuantity)))
+              console.log('list2[j].applyQuantity', (Number(list2[j].applyQuantity)))
+              myeditable2[result].applyQuantity = (Number(myeditable2[result].applyQuantity)) + (Number(list2[j].applyQuantity))
+            } else {
+              myeditable2.push(list2[j])
+            }
+            // this.$refs.editable2.insert(list2[j])
           }
         } else {
           // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
           result2[i].requireQuantity = result2[i].applyQuantity
-          this.$refs.editable2.insert(result2[i])
+          result2[i].planQuantity = 0
+          const result = myeditable2.findIndex(ol => { return result2[i].requireDate === ol.requireDate && result2[i].productCode === ol.productCode })
+          console.log('result', result)
+          if (result !== -1) {
+            console.log('(Number(myeditable2[result].applyQuantity)).toFixed(2)', (Number(myeditable2[result].applyQuantity)))
+            console.log('list2[j].applyQuantity', (Number(result2[i].applyQuantity)))
+            myeditable2[result].applyQuantity = (Number(myeditable2[result].applyQuantity)) + (Number(result2[i].applyQuantity))
+          } else {
+            myeditable2.push(result2[i])
+          }
         }
+        console.log('myeditable2', myeditable2)
         // } else {
         //   // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
         //   this.$refs.editable2.insert(result2[i])
         // }
       }
+      this.list3 = myeditable2
       loading.close()
     },
     getdatatime() { // 默认显示今天

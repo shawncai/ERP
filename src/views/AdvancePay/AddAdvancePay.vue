@@ -464,6 +464,7 @@ export default {
       this.stockPersonId = val.buyerName
       this.personalForm.stockPersonId = val.buyerId
       this.personalForm.settleMode = val.paymentId
+      this.personalForm.payAccount = val.payAccount
       if (val.moneyId !== '' && val.moneyId !== null && val.moneyId !== undefined) {
         this.personalForm.currency = String(val.moneyId)
       }

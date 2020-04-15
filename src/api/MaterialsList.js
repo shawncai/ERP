@@ -4,8 +4,10 @@ import request from '@/utils/request'
 export function getMaterialsByApply(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('productCode', query) // 你要传给后台的参数值 key/value
-  if (query2.length !== 2 && query2 !== null && query2 !== undefined) {
-    params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+  if (query2 !== null && query2 !== undefined) {
+    if (query2.length !== 2) {
+      params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+    }
   }
   if (query3 !== '' && query3 !== null && query3 !== undefined) {
     params.append('requireQuantity', query3) // 你要传给后台的参数值 key/value

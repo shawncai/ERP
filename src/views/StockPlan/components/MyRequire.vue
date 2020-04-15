@@ -358,6 +358,7 @@ export default {
           return res.data.data.content
         })
       }))
+      console.log('list', list)
       const list2 = []
       for (let i = 0; i < list.length; i++) {
         for (let m = 0; m < list[i].length; m++) {
@@ -369,6 +370,8 @@ export default {
         }
       }
       const list3 = []
+      console.log('list2', list2)
+      console.log('requireDetail', requireDetail)
       for (const i in list2) {
         for (const j in requireDetail) {
           if (list2[i].productCode === requireDetail[j].productCode) {
