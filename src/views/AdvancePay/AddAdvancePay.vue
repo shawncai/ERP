@@ -427,6 +427,7 @@ export default {
       }
       this.personalForm.orderMoney = Number(val.allIncludeTaxMoney)
       this.personalForm.currency = String(val.currency)
+      this.handerchoose()
     },
     allOrderinfo(val) {
       this.personalForm.supplierId = val.supplierId
@@ -464,6 +465,7 @@ export default {
       this.stockPersonId = val.buyerName
       this.personalForm.stockPersonId = val.buyerId
       this.personalForm.settleMode = val.paymentId
+      this.personalForm.ratioRate = val.proportion
       if (val.moneyId !== '' && val.moneyId !== null && val.moneyId !== undefined) {
         this.personalForm.currency = String(val.moneyId)
       }

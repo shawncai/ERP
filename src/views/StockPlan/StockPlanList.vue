@@ -71,9 +71,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :height="tableHeight"
+        :span-method="arraySpanMethod"
         border
         fit
         size="small"
@@ -95,6 +97,11 @@
         <el-table-column :label="$t('StockPlan.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
@@ -309,6 +316,35 @@ export default {
     _that = this
   },
   methods: {
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].planId === data[i - 1].planId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 3) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -571,7 +607,53 @@ export default {
           processdata[i].isused = 1
         }
       }
-      this.list = processdata
+      // this.list = processdata
+      const newarr = processdata.map(item => {
+        return item.stockPlanDetailVos
+      })
+      const newarr2 = [].concat.apply([], newarr)
+      console.log('newarr2=========', newarr2)
+      for (const i in processdata) {
+        for (const j in newarr2) {
+          if (processdata[i].id === newarr2[j].planId) {
+            newarr2[j].id = processdata[i].id
+            newarr2[j].planNumber = processdata[i].planNumber
+            newarr2[j].title = processdata[i].title
+            newarr2[j].stockType = processdata[i].stockType
+            newarr2[j].planPersonId = processdata[i].planPersonId
+            newarr2[j].stockDeptId = processdata[i].stockDeptId
+            newarr2[j].stockPersonId = processdata[i].stockPersonId
+            newarr2[j].planDate = processdata[i].planDate
+            newarr2[j].sourceType = processdata[i].sourceType
+            newarr2[j].totalQuantity = processdata[i].totalQuantity
+            newarr2[j].allMoney = processdata[i].allMoney
+            newarr2[j].receiptStat = processdata[i].receiptStat
+            newarr2[j].judgeStat = processdata[i].judgeStat
+            newarr2[j].createPersonId = processdata[i].createPersonId
+            newarr2[j].createDate = processdata[i].createDate
+            newarr2[j].judgePersonId = processdata[i].judgePersonId
+            newarr2[j].judgeDate = processdata[i].judgeDate
+            newarr2[j].endPersonId = processdata[i].endPersonId
+            newarr2[j].endDate = processdata[i].endDate
+            newarr2[j].summary = processdata[i].summary
+            newarr2[j].countryId = processdata[i].countryId
+            newarr2[j].planRepositoryId = processdata[i].planRepositoryId
+            newarr2[j].planPersonName = processdata[i].planPersonName
+            newarr2[j].planRepositoryName = processdata[i].planRepositoryName
+            newarr2[j].stockDeptName = processdata[i].stockDeptName
+            newarr2[j].stockPersonName = processdata[i].stockPersonName
+            newarr2[j].planRepositoryName = processdata[i].planRepositoryName
+            newarr2[j].createPersonName = processdata[i].createPersonName
+            newarr2[j].countryName = processdata[i].countryName
+            newarr2[j].stockTypeName = processdata[i].stockTypeName
+            newarr2[j].isused = processdata[i].isused
+            newarr2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
+            newarr2[j].approvalUseVos = processdata[i].approvalUseVos
+          }
+        }
+      }
+      this.list = newarr2
+      this.getSpanArr(this.list)
       this.listLoading = false
       console.log('数据数据数据', processdata)
       // 部门列表数据
@@ -639,7 +721,6 @@ export default {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         // console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        // console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
