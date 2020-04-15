@@ -67,4 +67,7 @@ export default{
     -webkit-box-shadow:inset 0 0 6px rgba(209, 209, 209, 0.3);
     background-color:rgb(151, 151, 151);
 }
+#app /deep/ .el-input.is-disabled .el-input__inner {
+    color:#000;
+}
 </style>

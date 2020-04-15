@@ -364,6 +364,9 @@ export default {
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.planRepositoryId = this.personalForm.planRepositoryName
+      for (const i in this.personalForm.stockPlanDetailVos) {
+        delete this.personalForm.stockPlanDetailVos[i].stockPlanDetailVos
+      }
       this.list2 = this.personalForm.stockPlanDetailVos
       this.list3 = this.personalForm.stockPlanDetailVos
       this.getdatatime()

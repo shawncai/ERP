@@ -760,7 +760,7 @@ export default {
         this.personalForm.payId = String(row.payId)
       }
     },
-    // 修改组件修改成功后返回
+    // 修改组件修改成功后返回2
     refreshlist(val) {
       if (val === true) {
         this.getlist()
