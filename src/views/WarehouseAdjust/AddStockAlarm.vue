@@ -2,34 +2,35 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.enterRepositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('WarehouseAdjust.enterRepositoryId')" prop="repositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="width:200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('WarehouseAdjust.upStock')" prop="upStock" style="width: 100%;">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.upStock')" prop="upStock" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-input v-model="personalForm.upStock" placeholder="请输入最高库存" style="margin-left: 18px;width:200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('WarehouseAdjust.downStock')" prop="downStock" style="width: 100%;">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.downStock')" prop="downStock" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-input v-model="personalForm.downStock" placeholder="请输入最低库存" style="margin-left: 18px;width:200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" style="width: 100%;">-->
+              <!--                <el-form-item :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-input v-model="personalForm.safeStock" placeholder="请输入安全库存" style="margin-left: 18px;width:200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productId" style="width: 100%;">
+                <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="productId" placeholder="请选择商品" style="margin-left: 18px;width:200px" clearable @focus="handleAddproduct"/>
 
                 </el-form-item>
@@ -38,8 +39,9 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('otherlanguage.spmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('otherlanguage.spmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail3 :control.sync="control" :personalform="personalForm" @product="productdetail"/>
@@ -93,7 +95,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -273,13 +276,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
