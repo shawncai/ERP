@@ -717,13 +717,10 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
-      console.log(row)
-      console.log('判断条件=================', row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0)
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         // console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log('index=================', index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

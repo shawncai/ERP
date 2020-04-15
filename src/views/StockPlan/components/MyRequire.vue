@@ -16,6 +16,11 @@
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
+              <el-input v-model="getemplist.number" placeholder="编号" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3" style="margin-left: 27px">
+            <el-form-item>
               <el-input v-model="getemplist.productName" placeholder="物料名称" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
               <my-detail :control.sync="control" @productdata="productdata"/>
             </el-form-item>
