@@ -1,37 +1,37 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('StockRetreat.title')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="stockPersonId" :placeholder="$t('StockRetreat.stockPersonId')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseStock"/>
+    <el-card :body-style="{ padding: '10px' }" class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.title" :placeholder="$t('StockRetreat.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="stockPersonId" :placeholder="$t('StockRetreat.stockPersonId')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseStock"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
         trigger="click">
-        <el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" clearable style="width: 40%;float: left;margin-left: 20px">
+        <el-select v-model="getemplist.deptId" :placeholder="$t('updates.dept')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="supplierId" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
+        <el-input v-model="supplierId" placeholder="供应商" size="mini" style="width: 40%;float: right;margin-right: 20px;" clearable @focus="handlechoose" @clear="restFilter"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
         </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="mini" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
           <el-option :label="$t('updates.wsh')" value="0"/>
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves class="filter-item" size="mini" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
         <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
@@ -49,11 +49,11 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['104-118-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-118-6']" v-waves :loading="downloadLoading" class="filter-item" size="mini" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['104-118-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['104-118-7']" v-waves class="filter-item" icon="el-icon-printer" size="mini" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['104-118-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['104-118-1']" v-waves class="filter-item" icon="el-icon-plus" size="mini" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -62,7 +62,9 @@
         v-loading="listLoading"
         :key="tableKey"
         :data="list"
+        :span-method="arraySpanMethod"
         border
+        size="small"
         fit
         highlight-current-row
         style="width: 100%;"
@@ -257,6 +259,35 @@ export default {
     _that = this
   },
   methods: {
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].stockArrivalId === data[i - 1].stockArrivalId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 3) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
@@ -390,12 +421,20 @@ export default {
       this.listLoading = true
       searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let j = 0; j < this.list[i].stockRetreatDetailVos.length; j++) {
-              this.list[i].stockRetreatDetailVos[j].taxRate = this.list[i].stockRetreatDetailVos[j].taxRate * 100
-            }
-          }
+          const list = res.data.data.content.list
+          // const needlist = res.data.data.content.list
+          // for (let i = 0; i < needlist.length; i++) {
+          //   for (let j = 0; j < needlist[i].stockRetreatDetailVos.length; j++) {
+          //     needlist[i].stockRetreatDetailVos[j].taxRate = needlist[i].stockRetreatDetailVos[j].taxRate * 100
+          //   }
+          // }
+          // const newarr = needlist.map(item => {
+          //   return item.stockRetreatDetailVos
+          // })
+          // console.table('newarr==============', newarr)
+          // const newarr2 = [].concat.apply([], newarr)
+          // console.table('newarr2==============', newarr2)
+          // this.list = newarr2
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
