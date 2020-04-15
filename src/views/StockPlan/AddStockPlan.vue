@@ -521,27 +521,89 @@ export default {
     handleSelectionChange(val) {
       this.moreaction = val
     },
-    getinformation() {
+    async getinformation() {
       if (this.$store.getters.empcontract) {
         if (this.$store.getters.empcontract.length) {
           this.personalForm.sourceType = '2'
           this.chooseType()
-          for (const i in this.$store.getters.empcontract) {
-            this.$store.getters.empcontract[i].basicQuantity = this.$store.getters.empcontract[i].requireQuantity
-            this.$store.getters.empcontract[i].planQuantity = this.$store.getters.empcontract[i].requireQuantity
-            this.$store.getters.empcontract[i].planDeliveryDate = this.$store.getters.empcontract[i].requireDate
-            this.$store.getters.empcontract[i].applyReason = ''
-            this.$store.getters.empcontract[i].sourceNumber = this.$store.getters.empcontract[i].materialsRequireNumber
-            this.$store.getters.empcontract[i].supplierId = ''
-            this.$store.getters.empcontract[i].supplierName = ''
-            this.$store.getters.empcontract[i].basicPrice = 0
-            this.$store.getters.empcontract[i].planMoney = '0.00'
-            this.$store.getters.empcontract[i].orderQuantity = '0.00'
-            this.$store.getters.empcontract[i].stockRequireId = this.$store.getters.empcontract[i].id
-            this.$store.getters.empcontract[i].sourceSerialNumber = this.$store.getters.empcontract[i].id
-            this.$refs.editable.insert(this.$store.getters.empcontract[i])
-            this.$refs.editable2.insert(this.$store.getters.empcontract[i])
+          // this.$store.getters.empcontract[i].basicQuantity = this.$store.getters.empcontract[i].requireQuantity
+          // this.$store.getters.empcontract[i].planQuantity = this.$store.getters.empcontract[i].requireQuantity
+          // this.$store.getters.empcontract[i].planDeliveryDate = this.$store.getters.empcontract[i].requireDate
+          // this.$store.getters.empcontract[i].applyReason = ''
+          // this.$store.getters.empcontract[i].sourceNumber = this.$store.getters.empcontract[i].materialsRequireNumber
+          // this.$store.getters.empcontract[i].supplierId = ''
+          // this.$store.getters.empcontract[i].supplierName = ''
+          // this.$store.getters.empcontract[i].basicPrice = 0
+          // this.$store.getters.empcontract[i].planMoney = '0.00'
+          // this.$store.getters.empcontract[i].orderQuantity = '0.00'
+          // this.$store.getters.empcontract[i].stockRequireId = this.$store.getters.empcontract[i].id
+          // this.$store.getters.empcontract[i].sourceSerialNumber = this.$store.getters.empcontract[i].id
+          const requiredata = this.$store.getters.empcontract
+          const requireDetail = requiredata.map(function(item) {
+            return {
+              productCode: item.productCode,
+              productName: item.productName,
+              productType: item.productType,
+              typeId: item.typeId,
+              unit: item.unit,
+              color: item.color,
+              basicQuantity: item.requireQuantity,
+              planDeliveryDate: item.requireDate,
+              applyReason: '',
+              sourceNumber: item.materialsRequireNumber,
+              supplierId: '',
+              supplierName: '',
+              basicPrice: 0,
+              planMoney: '0.00',
+              orderQuantity: '0.00',
+              stockRequireId: item.id,
+              requireDate: item.requireDate,
+              sourceSerialNumber: item.id,
+              requireQuantity: item.requireQuantity,
+              planedQuantity: item.planedQuantity,
+              planQuantity: item.shouldStockQuantity - item.planedQuantity
+            }
+          })
+          const list = await Promise.all(requireDetail.map(function(item) {
+            return getStockInfoByProduct(item.productCode, item.planQuantity).then(res => {
+              for (let i = 0; i < res.data.data.content.length; i++) {
+                res.data.data.content[i].sourceNumber = item.sourceNumber
+              }
+              return res.data.data.content
+            })
+          }))
+          console.log('list', list)
+          const list2 = []
+          for (let i = 0; i < list.length; i++) {
+            for (let m = 0; m < list[i].length; m++) {
+              list[i][m].basicPrice = list[i][m].price
+              list[i][m].requireQuantity = list[i][m].quantity
+              // list[i][m].planQuantity = list[i][m].quantity
+              list[i][m].basicQuantity = list[i][m].quantity
+              list2.push(list[i][m])
+            }
           }
+          const list3 = []
+          console.log('list2', list2)
+          console.log('requireDetail', requireDetail)
+          for (const i in list2) {
+            for (const j in requireDetail) {
+              if (list2[i].productCode === requireDetail[j].productCode) {
+                list2[i].sourceSerialNumber = requireDetail[j].sourceSerialNumber
+                list2[i].stockRequireId = requireDetail[j].stockRequireId
+                list2[i].orderQuantity = requireDetail[j].orderQuantity
+                list2[i].planQuantity = requireDetail[j].planQuantity
+                list3.push(list2[i])
+              }
+            }
+          }
+          // this.$refs.editable.insert(this.$store.getters.empcontract[i])
+          // this.$refs.editable2.insert(this.$store.getters.empcontract[i])
+          console.log('list3', list3)
+          this.list2 = list3
+          this.list3 = list3
+          console.log('this.$refs.editable', this.list2)
+          console.log('this.$refs.editable2', this.list3)
           this.$store.dispatch('getempcontract', '')
         } else {
           console.log('getempcontract', this.$store.getters.empcontract)
@@ -890,12 +952,14 @@ export default {
     // 采购需求数据
     requiredata(val) {
       this.getTypes()
-      console.log(val)
+      console.log('val1', val)
       for (let i = 0; i < val.length; i++) {
+        console.log('val[i]', val[i])
         this.$refs.editable.insert(val[i])
       }
     },
     requiredata2(val) {
+      console.log('val2', val)
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable2.insert(val[i])
       }
