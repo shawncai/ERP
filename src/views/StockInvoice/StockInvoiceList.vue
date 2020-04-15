@@ -430,8 +430,12 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
+      this.personalForm = {}
       this.editVisible = true
-      this.personalForm = Object.assign({}, row)
+      this.personalForm = this._.cloneDeep(row)
+      for (const i in this.personalForm.stockInvoiceDetailVos) {
+        this.personalForm.stockInvoiceDetailVos[i].discountRate = Number(this.personalForm.stockInvoiceDetailVos[i].discountRate) * 100
+      }
       this.personalForm.sourceType = String(row.sourceType)
       if (row.currency !== null) {
         this.personalForm.currency = String(row.currency)
@@ -448,9 +452,13 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
+      this.personalForm = {}
       console.log(row)
       this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      this.personalForm = this._.cloneDeep(row)
+      for (const i in this.personalForm.stockInvoiceDetailVos) {
+        this.personalForm.stockInvoiceDetailVos[i].discountRate = Number(this.personalForm.stockInvoiceDetailVos[i].discountRate) * 100
+      }
     },
     // 判断审核按钮
     isReview(row) {
