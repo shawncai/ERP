@@ -60,9 +60,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
         :span-method="arraySpanMethod"
+        :height="tableHeight"
         border
         size="small"
         fit
@@ -195,6 +197,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -251,9 +254,15 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
