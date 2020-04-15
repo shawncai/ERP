@@ -12,6 +12,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('inventorydetaillist.repositoryName')" style="width: 100%;">
+                {{ personalForm.repositoryName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('StockRequire.productName')" prop="stockType" style="width: 100%;">
                 {{ personalForm.productName }}
               </el-form-item>
