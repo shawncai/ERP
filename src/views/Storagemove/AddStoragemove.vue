@@ -2,25 +2,26 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
-              <el-col :span="8">
-                <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:180px" clearable/>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
-                <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                  <el-input v-model="applyPersonId" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="applyPersonId" style="width: 200px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
               </el-col>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-              <el-col :span="8">
-                <el-form-item :label="$t('otherlanguage.dblx')" prop="moveType" style="width: 100%;">
-                  <el-select v-model="personalForm.moveType" :placeholder="$t('otherlanguage.dblx')" style="margin-left: 18px;width:180px" clearable @change="choosemovetype" @clear="clearmovetype">
+              <el-col :span="6">
+                <el-form-item :label="$t('otherlanguage.dblx')" prop="moveType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.moveType" :placeholder="$t('otherlanguage.dblx')" style="width: 200px" clearable @change="choosemovetype" @clear="clearmovetype">
                     <el-option
                       :label="$t('otherlanguage.ptdb')"
                       value="1"/>
@@ -31,60 +32,60 @@
                 </el-form-item>
               </el-col>
               <!-- 普通调拨时仓库逻辑 开始-->
-              <el-col v-show="ismovetype" :span="8">
-                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
+              <el-col v-show="ismovetype" :span="6">
+                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="moveInRepository" style="width: 200px" clearable @focus="handlechooseDep"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
               </el-col>
-              <el-col v-show="ismovetype" :span="8">
-                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                  <el-input v-model="moveOutRepository" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
+              <el-col v-show="ismovetype" :span="6">
+                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="moveOutRepository" style="width: 200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" :personform="personalForm" @repositoryname="repositoryname"/>
               </el-col>
               <!-- 普通调拨时仓库逻辑 结束-->
               <!-- 退货调拨时仓库逻辑 开始-->
-              <el-col v-show="isreturntype" :span="8">
-                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                  <el-input v-model="moveInRepository" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep2"/>
+              <el-col v-show="isreturntype" :span="6">
+                <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="moveInRepository" style="width: 200px" clearable @focus="handlechooseDep2"/>
                 </el-form-item>
                 <my-depot :depotcontrol.sync="depotcontrol2" @depotname="depotname2"/>
               </el-col>
-              <el-col v-show="isreturntype" :span="8">
-                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                  <el-input v-model="moveOutRepository" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep2"/>
+              <el-col v-show="isreturntype" :span="6">
+                <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="moveOutRepository" style="width: 200px" clearable @focus="handlechooseRep2"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol2" :personform="personalForm" @repositoryname="repositoryname2"/>
               </el-col>
               <!-- 退货调拨时仓库逻辑 结束-->
-              <el-col :span="8">
-                <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.requestArrivalDate"
                     type="date"
 
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 8px;width: 180px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
-                <el-form-item :label="$t('updates.yqchrq')" label-width="110px" style="width: 100%;">
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.yqchrq')" label-width="110px" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.moveOutDate"
                     type="date"
 
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 8px;width: 180px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
-                <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                  <el-input v-model="personalForm.moveReason" style="margin-left: 18px;width:180px" clearable/>
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.moveReason')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.moveReason" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
+                <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 200px" clearable >
                     <el-option
                       v-for="(item, index) in depts"
@@ -94,9 +95,9 @@
                   </el-select>
                 </el-form-item>
               </el-col>               -->
-              <el-col :span="8">
-                <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                  <el-select v-model="personalForm.businessStat" style="margin-left: 18px;width: 180px" disabled >
+              <el-col :span="6">
+                <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.businessStat" style="width: 200px" disabled >
                     <el-option :label="$t('prompt.dbsq')" value="1"/>
                     <el-option value="2" label="调拨出库"/>
                     <el-option value="3" label="调拨入库"/>
@@ -105,13 +106,13 @@
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
+                <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept2"/>
                 </el-form-item>
               </el-col>
               <my-out :outcontrol.sync="outcontrol" @outName="outName"/> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" style="width: 100%;">
+                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.storageMoveDate"
                     type="date"
@@ -125,8 +126,9 @@
         </div>
       </el-card>
       <!--调拨申请明细-->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -152,7 +154,7 @@
             </el-editable-column> -->
             <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -215,7 +217,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -302,7 +304,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -375,7 +377,7 @@
         </div>
       </el-card> -->
       <!-- 操作 -->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -1005,13 +1007,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

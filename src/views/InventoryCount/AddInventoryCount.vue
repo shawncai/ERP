@@ -1,56 +1,76 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <div class="ERP-container">
     <!--基本信息-->
-    <el-card class="box-card" shadow="never">
-      <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-      <div class="container">
-        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-          <el-form-item :label="$t('InventoryCount.title')" style="width: 40%;margin-top:1%">
-            <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" clearable/>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-            <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
-          </el-form-item>
-          <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-          <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" clearable style="width: 100%;">
-              <el-option
-                v-for="(item, index) in depts"
-                :key="index"
-                :value="item.id"
-                :label="item.deptName"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.countRepositoryId')" prop="countRepositoryId" style="width: 40%;margin-top:1%">
-            <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" clearable @focus="handlechooseRep"/>
-          </el-form-item>
-          <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-          <el-form-item :label="$t('InventoryCount.countType')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.countType" placeholder="请选择盘点类型" clearable style="width: 100%;">
-              <el-option value="1" label="zzz"/>
-              <el-option value="2" label="xxx"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('InventoryCount.Time')" prop="Time" style="width: 40%;margin-top:1%">
-            <el-date-picker
-              v-model="Time"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="盘点开始日期"
-              end-placeholder="盘点结束日期"
-              value-format="yyyy-MM-dd"
-              style="width: 640px"
-            />
-          </el-form-item><br>
-          <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
-            <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" clearable/>
-          </el-form-item>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+      <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+      <div class="container" style="margin-top: 25px">
+        <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
+          <el-row>
+
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" style="width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable style="width: 200px" @focus="handlechoose"/>
+              </el-form-item>
+              <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.countDeptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" style="width: 200px" clearable>
+                  <el-option
+                    v-for="(item, index) in depts"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.deptName"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.countRepositoryId')" prop="countRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="countRepositoryId" placeholder="请选择盘点仓库" style="width: 200px" clearable @focus="handlechooseRep"/>
+              </el-form-item>
+              <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.countType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-select v-model="personalForm.countType" placeholder="请选择盘点类型" clearable style="width: 200px">
+                  <el-option value="1" label="zzz"/>
+                  <el-option value="2" label="xxx"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.Time')" prop="Time" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-date-picker
+                  v-model="Time"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="盘点开始日期"
+                  end-placeholder="盘点结束日期"
+                  value-format="yyyy-MM-dd"
+                  style="width: 200px"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+
+          </el-row>
         </el-form>
       </div>
     </el-card>
     <!--入库单明细-->
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</h2>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+      <div ref="fuzhu" class="form-name">{{ $t('updates.pddmx') }}</div>
       <div class="buttons" style="margin-top: 50px">
         <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -136,7 +156,8 @@
       </div>
     </el-card>
     <!-- 合计信息 -->
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -176,7 +197,8 @@
       </div>
     </el-card>
     <!--操作-->
-    <div class="buttons" style="margin-top: 20px">
+    <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
       <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
       <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -840,35 +862,20 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin:0px 30px;
+   .ERP-container{
+    margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 30px;
     }
     .container{
-      margin-top: 2%;
+      margin-top: 5px;
     }
-  }
-</style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
+    .el-button+.el-button{
+      width: 98px;
+    }
   }
 </style>

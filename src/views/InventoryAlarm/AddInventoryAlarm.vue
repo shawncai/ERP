@@ -2,43 +2,44 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('inventoryAlarm.repositoryId')" prop="repositoryId" style="width: 100%;">
-                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                <el-form-item :label="$t('inventoryAlarm.repositoryId')" prop="repositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="repositoryId" placeholder="请选择仓库" style="width: 200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('inventoryAlarm.handlePerson')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" placeholder="经办人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept"/>
+                <el-form-item :label="$t('inventoryAlarm.handlePerson')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handlePersonId" placeholder="经办人" style="width: 200px" clearable @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('inventoryAlarm.createDate')" prop="creatDate" style="width: 100%;">
+                <el-form-item :label="$t('inventoryAlarm.createDate')" prop="creatDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.creatDate"
                     placeholder="创建时间"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"
+                    style="width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productCode" style="width: 100%;">
-                  <el-input v-model="productCode" placeholder="请选择商品" style="margin-left: 18px;width:200px" clearable @focus="handleAddproduct"/>
+                <el-form-item :label="$t('WarehouseAdjust.productId')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="productCode" placeholder="请选择商品" style="width: 200px" clearable @focus="handleAddproduct"/>
                   <my-product :control.sync="control" @product="productdetail"/>
                 </el-form-item>
               </el-col> -->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" style="width: 100%;">
-                  <el-input-number v-model="personalForm.alarmDays" :precision="0" :controls="false" :step="1" :min="0" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('inventoryAlarm.alarmDays')" prop="alarmDays" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.alarmDays" :precision="0" :controls="false" :step="1" :min="0" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col> -->
             </el-row>
@@ -46,8 +47,9 @@
         </div>
       </el-card>
       <!-- 货物流转规则明细 -->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.wllzgzmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('updates.wllzgzmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -87,7 +89,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -334,16 +337,17 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

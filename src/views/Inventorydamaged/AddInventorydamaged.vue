@@ -2,48 +2,65 @@
   <div class="ERP-container">
     <div class="app-container">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
-            <el-form-item :label="$t('Inventorydamaged.title')" style="width: 40%;margin-top:1%">
-              <el-input v-model="personalForm.title" placeholder="请输入报损单主题" clearable/>
-            </el-form-item>
-            <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="handlePersonId" style="width: 40%;margin-top:1%">
-              <el-input v-model="handlePersonId" placeholder="请选择经办人" clearable @focus="handlechoose"/>
-            </el-form-item>
-            <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
-            <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="width: 40%;margin-top:1%">
-              <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 100%;" @focus="updatedept">
-                <el-option
-                  v-for="(item, index) in depts"
-                  :key="index"
-                  :value="item.id"
-                  :label="item.deptName"/>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="damagedRepositoryId" style="width: 40%;margin-top:1%">
-              <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" clearable @focus="handlechooseRep"/>
-            </el-form-item>
-            <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-            <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="width: 40%;margin-top:1%">
-              <el-date-picker
-                v-model="personalForm.damagedDate"
-                type="date"
-                placeholder="报损日期"
-                value-format="yyyy-MM-dd"
-                clearable
-                style="width: 100%"/>
-            </el-form-item>
-            <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="width: 80%;margin-top:1%">
-              <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" type="textarea" clearable/>
-            </el-form-item>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
+            <el-row>
+
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" placeholder="请输入报损单主题" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handlePersonId" placeholder="请选择经办人" style="width: 200px" clearable @focus="handlechoose"/>
+                </el-form-item>
+
+                <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.damagedDeptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.damagedDeptId" placeholder="请选择报损部门" clearable style="width: 200px" @focus="updatedept">
+                    <el-option
+                      v-for="(item, index) in depts"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.deptName"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.damagedRepositoryId')" prop="damagedRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="damagedRepositoryId" placeholder="请选择报损仓库" style="width: 200px" clearable @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.damagedDate')" prop="damagedDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.damagedDate"
+                    type="date"
+                    placeholder="报损日期"
+                    value-format="yyyy-MM-dd"
+                    clearable
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Inventorydamaged.damagedReason')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.damagedReason" placeholder="请输入报损原因" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </div>
       </el-card>
       <!-- 报损入库明细 -->
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsrkmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsrkmx') }}</div>
         <div class="buttons" style="margin-top: 50px">
           <el-button type="success" @click="handleAddstockinproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -66,7 +83,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index" />
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 200px" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="item in locationlist2"
                     :key="item.id"
@@ -86,8 +103,9 @@
         </div>
       </el-card>
       <!--报损单出库明细-->
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsckmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('otherlanguage.bsckmx') }}</div>
         <div class="buttons" style="margin-top: 50px">
           <el-button type="success" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -110,7 +128,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index" />
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 200px" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
@@ -121,7 +139,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 200px" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -147,18 +165,19 @@
         </div>
       </el-card>
       <!-- 合计信息 -->
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Inventorydamaged.heji')" style="width: 100%;">
+                <el-form-item :label="$t('Inventorydamaged.heji')" style="width: 200px">
                   <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Inventorydamaged.heji2')" style="width: 100%;">
+                <el-form-item :label="$t('Inventorydamaged.heji2')" style="width: 200px">
                   <el-input v-model="heji2" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
@@ -167,7 +186,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -178,7 +198,7 @@
               <el-table
                 :data="list111"
                 height="220"
-                style="width: 100%;"
+                style="width: 200px"
               >
                 <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
@@ -707,33 +727,20 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .ERP-container{
+    margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 30px;
     }
     .container{
-      margin-top: 2%;
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
     }
   }
 </style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
-</style>
+
