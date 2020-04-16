@@ -40,15 +40,16 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
-      ref ="multipleTable"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
-      <el-table-column type="selection" min-width="55" align="center"/>
+      <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center"/>
       <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
       <el-table-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
       <el-table-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
@@ -188,17 +189,23 @@ export default {
     _that = this
   },
   methods: {
+    getRowKeys(row) {
+      return row.id
+    },
     // 根据id选中
     selectFromId(showList, selectList) {
       console.log('selectList', selectList)
-      if (selectList) {
-        for (const i in showList) {
-          if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
-            console.log('showList[i]', showList[i])
-            this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+      this.$nextTick(() => {
+        if (selectList) {
+          for (const i in showList) {
+            if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
+              console.log('showList[i]', showList[i])
+              // this.$refs.multipleTable.toggleAllSelection()
+              this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+            }
           }
         }
-      }
+      })
       return showList
     },
     // 物料清单列表数据
@@ -231,10 +238,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      console.log('我的分页', this.getemplist.pageNum, this.getemplist.pageSize)
       this.list2 = this.selectlist
       // if (this.getemplist.productCode !== null && this.getemplist.productCode !== '' && this.getemplist.productCode !== undefined) {
       const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName)
-      this.list = this.selectFromId(list3, this.selected)
+      const currentarry = this._.slice(list3, (this.getemplist.pageNum - 1) * this.getemplist.pageSize, this.getemplist.pageNum * this.getemplist.pageSize)
+      this.list = this.selectFromId(currentarry, this.selected)
+      this.total = list3.length
       // }
     },
     fuzzyQuery(list, keyWord, keyWord2) {
@@ -338,7 +348,7 @@ export default {
     // 接口请求
     getInfo(productCode, id) {
       return new Promise((resolve, reject) => {
-        // this.getemplist.productCode = productCode
+        this.getemplist.productCode = productCode
         materialslist(this.getemplist).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list && res.data.data.content.list.length > 0) {
