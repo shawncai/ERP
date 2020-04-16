@@ -18,6 +18,7 @@
                     <el-option value="1" label="质检申请单" />
                     <el-option value="2" label="采购到货单" />
                     <el-option value="3" label="生产任务单" />
+                    <el-option value="4" label="外包单" />
                     <!--                    <el-option value="4" label="无来源" />-->
                   </el-select>
                 </el-form-item>
@@ -28,6 +29,7 @@
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfodata="allarrivalinfodata"/>
                   <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
+                  <out-source :outsourcecontrol.sync="outsourcecontrol" @outSourceDetail="outSourceDetail" @outSource="outSource"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -271,10 +273,11 @@ import MyEmp2 from './components/MyEmp2'
 import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
+import OutSource from './components/OutSource'
 var _that
 export default {
   name: 'AddCheckReport',
-  components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
+  components: { OutSource, DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       // console.log(value)
@@ -319,6 +322,7 @@ export default {
       }
     }
     return {
+      outsourcecontrol: false,
       // 判断是否大于源单数量
       judgequilty: null,
       // 退货原因
@@ -507,6 +511,17 @@ export default {
     _that = this
   },
   methods: {
+    outSourceDetail(val) {
+      console.log(val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    outSource(val) {
+      console.log(val)
+      this.personalForm.sourceNumber = val.number
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -586,7 +601,6 @@ export default {
         this.supplierId = ''
         this.personalForm.sourceNumber = ''
       } else if (this.personalForm.sourceType === '4') {
-        this.IsProduceManagerId = false
         this.IsWorkCenterId = false
         this.personalForm.supplierId = ''
         this.supplierId = ''
@@ -615,7 +629,7 @@ export default {
       } else if (this.personalForm.sourceType === '3') {
         this.reportcontrol3 = true
       } else if (this.personalForm.sourceType === '4') {
-        this.matercontrol = true
+        // this.outsourcecontrol = true
       }
     },
     adddetail(val) {
@@ -911,6 +925,8 @@ export default {
         this.arrivalcontrol = true
       } else if (this.personalForm.sourceType === '3') {
         this.producecontrol = true
+      } else if (this.personalForm.sourceType === '4') {
+        this.outsourcecontrol = true
       }
     },
     allqualityinfo(val) {

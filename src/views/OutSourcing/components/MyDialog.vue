@@ -47,7 +47,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('OutSourcing.productionDate')" prop="productionDate" style="width: 100%;">
+              <el-form-item :label="$t('OutSourcing.productionDate')" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.productionDate"
                   type="date"

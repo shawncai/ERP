@@ -214,7 +214,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         totalMoney: 0,
-        ratioRate: 0,
+        ratioRate: 100,
         payDate: null,
         payAccount: ''
       },
@@ -465,7 +465,6 @@ export default {
       this.stockPersonId = val.buyerName
       this.personalForm.stockPersonId = val.buyerId
       this.personalForm.settleMode = val.paymentId
-      this.personalForm.ratioRate = val.proportion
       if (val.moneyId !== '' && val.moneyId !== null && val.moneyId !== undefined) {
         this.personalForm.currency = String(val.moneyId)
       }
@@ -520,7 +519,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         totalMoney: 0,
-        ratioRate: 0,
+        ratioRate: 100,
         payDate: null,
         payAccount: ''
       }
