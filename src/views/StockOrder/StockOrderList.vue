@@ -157,6 +157,7 @@
         ref="table"
         :data="list"
         :height="tableHeight"
+        :span-method="arraySpanMethod"
         border
         size="small"
         fit
@@ -174,6 +175,11 @@
         <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('updates.dhrq')" :resizable="false" fixed="left" align="center" min-width="150">
@@ -418,7 +424,7 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentId
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -461,7 +467,7 @@ export default {
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentId
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
@@ -497,7 +503,7 @@ export default {
     // 结单操作
     handleReview2(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentId
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
@@ -609,14 +615,106 @@ export default {
     updatecountry() {
       this.getlist()
     },
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].orderId === data[i - 1].orderId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 3) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     getlist() {
       console.log('this.getemplist', this.getemplist)
-      // 物料需求计划列表数据
+      // 物料需求计划列表数据1212
       this.listLoading = true
       stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          console.log(this.list)
+          const needlist = res.data.data.content.list
+          const newarr = res.data.data.content.list.map(item => {
+            return item.stockOrderDetailVos
+          })
+          const newarr2 = [].concat.apply([], newarr)
+          for (const i in needlist) {
+            for (const j in newarr2) {
+              if (needlist[i].id === newarr2[j].orderId) {
+                newarr2[j].parentId = needlist[i].id
+                newarr2[j].orderNumber = needlist[i].orderNumber
+                newarr2[j].title = needlist[i].title
+                newarr2[j].sourceType = needlist[i].sourceType
+                newarr2[j].stockTypeId = needlist[i].stockTypeId
+                newarr2[j].supplierId = needlist[i].supplierId
+                newarr2[j].stockRepositoryId = needlist[i].stockRepositoryId
+                newarr2[j].stockPersonId = needlist[i].stockPersonId
+                newarr2[j].deptId = needlist[i].deptId
+                newarr2[j].payMode = needlist[i].payMode
+                newarr2[j].orderDate = needlist[i].orderDate
+                newarr2[j].isVat = needlist[i].isVat
+                newarr2[j].deliveryMode = needlist[i].deliveryMode
+                newarr2[j].settleMode = needlist[i].settleMode
+                newarr2[j].signPersonId = needlist[i].signPersonId
+                newarr2[j].currency = needlist[i].currency
+                newarr2[j].receiptStat = needlist[i].receiptStat
+                newarr2[j].judgeStat = needlist[i].judgeStat
+                newarr2[j].createPersonId = needlist[i].createPersonId
+                newarr2[j].createDate = needlist[i].createDate
+                newarr2[j].judgePersonId = needlist[i].judgePersonId
+                newarr2[j].judgeDate = needlist[i].judgeDate
+                newarr2[j].endPersonId = needlist[i].endPersonId
+                newarr2[j].endDate = needlist[i].endDate
+                newarr2[j].modifyPersonId = needlist[i].modifyPersonId
+                newarr2[j].modifyDate = needlist[i].modifyDate
+                newarr2[j].countryId = needlist[i].countryId
+                newarr2[j].otherMoney = needlist[i].otherMoney
+                newarr2[j].supplierNumber = needlist[i].supplierNumber
+                newarr2[j].arrivalDate = needlist[i].arrivalDate
+                newarr2[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
+                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
+                newarr2[j].stockType = needlist[i].stockType
+                newarr2[j].supplierName = needlist[i].supplierName
+                newarr2[j].stockPersonName = needlist[i].stockPersonName
+                newarr2[j].deptName = needlist[i].deptName
+                newarr2[j].signPersonName = needlist[i].signPersonName
+                newarr2[j].createPersonName = needlist[i].createPersonName
+                newarr2[j].judgePersonName = needlist[i].judgePersonName
+                newarr2[j].endPersonName = needlist[i].endPersonName
+                newarr2[j].modifyPersonName = needlist[i].modifyPersonName
+                newarr2[j].countryName = needlist[i].countryName
+                newarr2[j].stockRepositoryName = needlist[i].stockRepositoryName
+                newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                newarr2[j].allMoney = needlist[i].allMoney
+                newarr2[j].allTaxMoney = needlist[i].allTaxMoney
+                newarr2[j].settleModeName = needlist[i].settleModeName
+                newarr2[j].allQuantity = needlist[i].allQuantity
+                newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
+                newarr2[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
+                newarr2[j].deliveryModeName = needlist[i].deliveryModeName
+                newarr2[j].payModeName = needlist[i].payModeName
+              }
+            }
+          }
+          this.list = newarr2
+          this.getSpanArr(this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -722,7 +820,7 @@ export default {
     // 审批操作
     handleReview(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentId
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -770,7 +868,7 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const ids = this.moreaction.map(item => item.parentId).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -808,7 +906,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        deletestockorder(row.id, this.$store.getters.userId).then(res => {
+        deletestockorder(row.parentId, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: this.$t('prompt.sccg'),
@@ -840,7 +938,7 @@ export default {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockOrderName', 'StockOrderShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['parentId', 'StockOrderName', 'StockOrderShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

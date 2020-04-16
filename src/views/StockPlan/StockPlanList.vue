@@ -680,15 +680,16 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stockplanlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // stockplanlist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 计划人focus事件
     handlechooseStock() {
@@ -729,7 +730,7 @@ export default {
         }
       }
     },
-    // 审批操作
+    // 审批操作123
     handleReview(row) {
       const loading = this.$loading({
         lock: true,
