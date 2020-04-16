@@ -111,7 +111,6 @@
           ref="editable"
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
-
           class="click-table1"
           stripe
           border
