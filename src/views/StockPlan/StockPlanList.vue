@@ -864,23 +864,40 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          this.reviewParms.judgeStat = 3
-          const parms = JSON.stringify(this.reviewParms)
-          updatestockplan2(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: this.$t('prompt.shcg')
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
           })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockplan2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.getlist()
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
         }
       })
     },

@@ -1030,7 +1030,7 @@ export default {
             })
             this.getlist()
           }
-        }).catch(() => {
+        }).catch(action => {
           this.$message({
             type: 'info',
             message: '已取消'

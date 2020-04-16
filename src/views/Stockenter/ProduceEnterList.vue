@@ -513,15 +513,32 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          updatestockenter4(row, 1, this.$store.getters.userId).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: this.$t('prompt.shcg')
-              })
-              this.getlist()
-            }
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
           })
+            .then(() => {
+              updatestockenter4(row, 1, this.$store.getters.userId).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.getlist()
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
         }
       })
     },
