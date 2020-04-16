@@ -936,15 +936,25 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
+      if (this.moreaction.length === 0) {
+        this.$message({
+          message: '请选择要导出数据',
+          type: 'warning'
+        })
+        this.downloadLoading = false
+        return false
+      }
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['parentId', 'StockOrderName', 'StockOrderShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
+          const tHeader = ['物品编号', '物品名称', '规格', '颜色', '单位', '采购数量', '交货日期', '备注', '单价', '含税价', '税率', '金额', '含税金额', '税额', '折扣率', '折扣额', '源单编号', '源单序号', '已到货数量', '退货数量', '实到数量']
+          const filterVal = ['productCode', 'productName', 'productType', 'color', 'unit', 'stockQuantity', 'deliveryDate', 'remarks', 'price', 'includeTaxPrice', 'taxRate', 'money', 'includeTaxMoney', 'tax', 'discountRate', 'discountMoney', 'sourceNumber', 'sourceSerialNumber', 'arrivalQuantity', 'returnQuantity', 'actualArrivalQuantity']
+          for (let i = 0; i < this.moreaction.length; i++) {
+            const data = this.formatJson(filterVal, this.moreaction[i].stockOrderDetailVos)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: this.moreaction[i].supplierName
+            })
+          }
           this.downloadLoading = false
         })
     },
