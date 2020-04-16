@@ -292,6 +292,25 @@ export default {
     _that = this
   },
   methods: {
+    // 默认货位
+    getmylocation(scope) {
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.flag) {
+        getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+      scope.row.flag = false
+    },
     order(val) {
       console.log('ssssss', val)
       for (let i = 0; i < val.length; i++) {

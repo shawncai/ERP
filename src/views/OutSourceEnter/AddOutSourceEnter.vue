@@ -136,11 +136,16 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getmylocation(scope) }}</p>
+              </template>
+            </el-editable-column>
             <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
           </el-editable>
         </div>
       </el-card>
-      <!--操作-->
+      <!--操作123-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -309,6 +314,24 @@ export default {
     _that = this
   },
   methods: {
+    getmylocation(scope) {
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.flag) {
+        getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationId = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+      scope.row.flag = false
+    },
     outSourceDetail(val) {
       console.log(val)
       this.$refs.editable.clear()
