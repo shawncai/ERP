@@ -273,6 +273,7 @@ export default {
       const productDetail = this.moreaction.map(function(item) {
         return {
           productCode: item.code,
+          color: item.color,
           productName: item.productName,
           type: item.typeId,
           unit: item.produceMeasu,

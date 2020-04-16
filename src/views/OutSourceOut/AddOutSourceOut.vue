@@ -723,6 +723,7 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        elem.totalMoney = elem.outQuantity * elem.outPrice
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
         }
