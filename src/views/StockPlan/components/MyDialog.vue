@@ -365,6 +365,7 @@ export default {
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.planRepositoryId = this.personalForm.planRepositoryName
+      this.personalForm.id = this.personalForm.parentid
       for (const i in this.personalForm.stockPlanDetailVos) {
         delete this.personalForm.stockPlanDetailVos[i].stockPlanDetailVos
       }
