@@ -301,6 +301,9 @@ export default {
       this.personalForm.outFactoryId = val.id
       this.personalForm.giveAddress = val.receiverAddress
       this.selectList = val.outFactoryDetailVos
+      console.log('this.selectList=================', this.selectList)
+      this.list2 = []
+      this.list3 = []
     },
     // 经办人focus事件
     handlechooseStock() {

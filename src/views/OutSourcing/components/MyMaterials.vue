@@ -2,13 +2,9 @@
   <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <!-- <el-input v-model="getemplist.bomNumber" :placeholder="$t('MaterialsList.bomNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
-      <!-- <el-select v-model="getemplist.bomTypeId" :value="getemplist.bomTypeId" class="filter-item" clearable>
-        <el-option value="1" label="工艺BOM"/>
-        <el-option value="2" label="设计BOM"/>
-        <el-option value="3" label="制造BOM"/>
-      </el-select> -->
-      <!-- <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
+      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- <el-input v-model="getemplist.productTypeName" :placeholder="$t('Hmodule.gg')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
 
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
@@ -37,7 +33,7 @@
       <!--        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
       <!--      </el-popover>-->
       <!-- 搜索按钮 -->
-      <!-- <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button> -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 新建操作 -->
       <!-- <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </div>
@@ -121,6 +117,7 @@ export default {
   },
   data() {
     return {
+      list2: [],
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -193,9 +190,11 @@ export default {
   methods: {
     // 根据id选中
     selectFromId(showList, selectList) {
+      console.log('selectList', selectList)
       if (selectList) {
         for (const i in showList) {
           if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
+            console.log('showList[i]', showList[i])
             this.$refs.multipleTable.toggleRowSelection(showList[i], true)
           }
         }
@@ -205,7 +204,8 @@ export default {
     // 物料清单列表数据
     getlist() {
       this.listLoading = true
-      this.list = this.selectFromId(this.selectlist, this.selected)
+      // this.list = this.selectFromId(this.selectlist, this.selected)
+      this.handleFilter()
       setTimeout(() => {
         this.listLoading = false
       }, 0.5 * 100)
@@ -223,18 +223,35 @@ export default {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 搜索
     handleFilter() {
-      this.getemplist.pageNum = 1
-      materialslist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
+      this.list2 = this.selectlist
+      // if (this.getemplist.productCode !== null && this.getemplist.productCode !== '' && this.getemplist.productCode !== undefined) {
+      const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName)
+      this.list = this.selectFromId(list3, this.selected)
+      // }
+    },
+    fuzzyQuery(list, keyWord, keyWord2) {
+      console.log('list', list)
+      console.log('keyWord', keyWord)
+      var reg = new RegExp(keyWord)
+      var reg2 = new RegExp(keyWord2)
+      var arr = []
+      for (var i = 0; i < list.length; i++) {
+        if (reg.test(list[i].productCode)) {
+          if (reg2.test(list[i].productName)) {
+            arr.push(list[i])
+          }
         }
-      })
+      }
+      console.log('arr', arr)
+      return arr
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -321,7 +338,7 @@ export default {
     // 接口请求
     getInfo(productCode, id) {
       return new Promise((resolve, reject) => {
-        this.getemplist.productCode = productCode
+        // this.getemplist.productCode = productCode
         materialslist(this.getemplist).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list && res.data.data.content.list.length > 0) {
