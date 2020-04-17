@@ -2,72 +2,73 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('ChangeCount.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px">
                     <el-option :label="$t('updates.fqsqd')" value="1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="handleAddsourceNum"/>
+                <el-form-item :label="$t('ChangeCount.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.sourceNumber" style="width: 200px" @focus="handleAddsourceNum"/>
                 </el-form-item>
                 <my-installment :installmentcontrol.sync="installmentcontrol" @Installment="Installment"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.customerId')" prop="customerId" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" :disabled="IscustomerName" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.customerId')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerName" :disabled="IscustomerName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.customerPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerPhone" :disabled="IscustomerPhone" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.customerPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerPhone" :disabled="IscustomerPhone" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.totalMoney')" prop="totalMoney" style="width: 100%;">
-                  <el-input v-model="personalForm.totalMoney" :disabled="IstotalMoney" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.totalMoney')" prop="totalMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.totalMoney" :disabled="IstotalMoney" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.beforeCount')" prop="beforeCount" style="width: 100%;">
-                  <el-input v-model="personalForm.beforeCount" :disabled="IsbeforeCount" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.beforeCount')" prop="beforeCount" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.beforeCount" :disabled="IsbeforeCount" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidCount')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidCount" :disabled="IspaidCount" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.paidCount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.paidCount" :disabled="IspaidCount" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidMoney')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidMoney" :disabled="IspaidMoney" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.paidMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.paidMoney" :disabled="IspaidMoney" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.paidCapital')" style="width: 100%;">
-                  <el-input v-model="personalForm.paidCapital" :disabled="IspaidCapital" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.paidCapital')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.paidCapital" :disabled="IspaidCapital" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.remainCapital')" style="width: 100%;">
-                  <el-input v-model="personalForm.remainCapital" :disabled="IsremainCapital" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('ChangeCount.remainCapital')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.remainCapital" :disabled="IsremainCapital" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.afterCount')" prop="afterCount" style="width: 100%;">
-                  <el-select v-model="personalForm.afterCount" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('ChangeCount.afterCount')" prop="afterCount" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.afterCount" clearable style="width: 200px">
                     <el-option
                       v-for="(item, index) in installmentCounts"
                       :key="index"
@@ -77,8 +78,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ChangeCount.saleRepositoryId')" style="width: 100%;">
-                  <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('ChangeCount.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="saleRepositoryId" :disabled="IssaleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
@@ -117,7 +118,8 @@
         </div>
       </el-card> -->
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -402,13 +404,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
