@@ -17,6 +17,7 @@
                   <el-option value="1" label="质检申请单" />
                   <el-option value="2" label="采购到货单" />
                   <el-option value="3" label="生产任务单" />
+                  <el-option value="4" label="外包单" />
                 </el-select>
               </el-form-item>
             </el-col>

@@ -127,6 +127,7 @@
                   <detail-report :reportcontrol.sync="reportcontrol" :reportdata.sync="reportdata" @report="report"/>
                   <detail-report2 :reportcontrol2.sync="reportcontrol2" :reportdata2.sync="reportdata2" @report2="report2"/>
                   <detail-report3 :reportcontrol3.sync="reportcontrol3" :reportdata3.sync="reportdata3" @report3="report3"/>
+                  <detail-report4 :reportcontrol4.sync="reportcontrol4" :reportdata4.sync="reportdata4" @report4="report4"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -273,11 +274,12 @@ import MyEmp2 from './components/MyEmp2'
 import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
+import DetailReport4 from './components/DetailReport4'
 import OutSource from './components/OutSource'
 var _that
 export default {
   name: 'AddCheckReport',
-  components: { OutSource, DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
+  components: { DetailReport4, OutSource, DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass = (rule, value, callback) => {
       // console.log(value)
@@ -351,8 +353,10 @@ export default {
       IsProduceManagerId: false,
       // 生产任务单传给物品信息数据
       reportdata3: [],
+      reportdata4: [],
       // 生产任务单控制物品明细
       reportcontrol3: false,
+      reportcontrol4: false,
       // 采购到货单传给物品信息数据
       reportdata2: [],
       // 采购到货单控制物品明细
@@ -511,16 +515,49 @@ export default {
     _that = this
   },
   methods: {
-    outSourceDetail(val) {
-      console.log(val)
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+    report4(val) {
+      console.log('val', val)
+      this.sourceSerialNumber = val.id
+      this.personalForm.sourceSerialNumber = val.id
+      this.personalForm.productCode = val.productCode
+      this.personalForm.productName = val.productName
+      this.personalForm.unit = val.unit
+      this.personalForm.typeId = val.type
+      this.typeId = val.typeName
+      this.judgequilty = (val.quantity).toFixed(2)
+      this.personalForm.checkQuantity = (val.quantity).toFixed(2)
+      if (Number(this.personalForm.checkQuantity) <= 100) {
+        this.personalForm.sampleQuantity = 5
       }
+      if (Number(this.personalForm.checkQuantity) >= 101) {
+        this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
+      }
+      // 增加明细
+      this.adddetail(val.productCode)
+    },
+    outSourceDetail(val) {
     },
     outSource(val) {
       console.log(val)
       this.personalForm.sourceNumber = val.number
+      console.log(123)
+      this.$refs.editable.clear()
+      this.$refs.personalForm2.clearValidate()
+      this.$refs.personalForm2.resetFields()
+      this.$refs.personalForm3.clearValidate()
+      this.$refs.personalForm3.resetFields()
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.personalForm.typeId = ''
+      this.personalForm.failedQuantity = ''
+      this.personalForm.passRate = ''
+      this.reportdata4 = val.outsourcingEnterDetailVos
+      this.personalForm.inspectionDeptId = val.produceDeptId
+      if (val.handlePersonId !== '' && val.handlePersonId !== null && val.handlePersonId !== undefined) {
+        this.personalForm.produceManagerId = val.handlePersonId
+        this.produceManagerId = val.handlePersonName
+        this.IsProduceManagerId = true
+      }
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -629,7 +666,7 @@ export default {
       } else if (this.personalForm.sourceType === '3') {
         this.reportcontrol3 = true
       } else if (this.personalForm.sourceType === '4') {
-        // this.outsourcecontrol = true
+        this.reportcontrol4 = true
       }
     },
     adddetail(val) {

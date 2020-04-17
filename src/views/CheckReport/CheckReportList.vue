@@ -206,7 +206,7 @@ export default {
         1: _that.$t('updates.zjsqd'),
         2: _that.$t('updates.cgdhd'),
         3: _that.$t('updates.zscrw'),
-        4: _that.$t('Hmodule.Nosource')
+        4: '外包单'
       }
       return statusMap[status]
     },

@@ -316,6 +316,7 @@ export default {
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {
           actualEnterQuantity: item.quantity,
+          qualifyQuantity: item.qualifyQuantity,
           productCode: item.productCode,
           productName: item.productName,
           categoryName: item.productCategoryName,
