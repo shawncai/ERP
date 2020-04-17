@@ -78,6 +78,11 @@
                   <span>{{ personalForm.payDate }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.summary')" style="width: 100%;">
+                  <span>{{ personalForm.summary }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
