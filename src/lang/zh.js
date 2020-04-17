@@ -3654,6 +3654,7 @@ export default {
     skdzt: '收款单主题',
     bimbm: 'BOM编码',
     bomlx: 'BOM类型',
+    xzbom: '选择bom',
     zj: '子件',
     zjmc: '子件名称',
     zjlx: '子件类型',
