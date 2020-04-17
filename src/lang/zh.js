@@ -4044,6 +4044,7 @@ export default {
     ygssmdm: '员工所属门店'
   },
   prompt: {
+    nonedetail: '明细不能为空',
     lx1: '类型1',
     lx2: '类型2',
     sjhbnwk: '手机号为空',

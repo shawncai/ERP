@@ -4038,6 +4038,7 @@ export default {
     ygssmdm: 'employee affiliated branch'
   },
   prompt: {
+    nonedetail: 'detail empyt',
     lx1: 'Types of1',
     lx2: 'Types of2',
     sjhbnwk: 'empty cell-phone number',
