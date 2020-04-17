@@ -482,6 +482,10 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        elem.reportCheckingQuantity = 0
+        elem.actualCheckingQuantity = 0
+        elem.qualifyQuantity = 0
+        elem.unqualifyQuantity = 0
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
