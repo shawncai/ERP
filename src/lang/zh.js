@@ -3654,6 +3654,7 @@ export default {
     skdzt: '收款单主题',
     bimbm: 'BOM编码',
     bomlx: 'BOM类型',
+    xzbom: '选择bom',
     zj: '子件',
     zjmc: '子件名称',
     zjlx: '子件类型',
@@ -4043,6 +4044,7 @@ export default {
     ygssmdm: '员工所属门店'
   },
   prompt: {
+    nonedetail: '明细不能为空',
     lx1: '类型1',
     lx2: '类型2',
     sjhbnwk: '手机号为空',

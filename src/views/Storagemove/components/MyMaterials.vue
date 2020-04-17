@@ -1,10 +1,14 @@
 <template>
   <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
     <div class="filter-container">
-      <!-- 搜索条件栏目 -->
-      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <!-- <el-input v-model="getemplist.productTypeName" :placeholder="$t('Hmodule.gg')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
+      <!-- 搜索条件栏目111 -->
+      <el-input v-model="getemplist.bomNumber" :placeholder="$t('MaterialsList.bomNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.bomTypeId" :value="getemplist.bomTypeId" class="filter-item" clearable>
+        <el-option value="1" label="工艺BOM"/>
+        <el-option value="2" label="设计BOM"/>
+        <el-option value="3" label="制造BOM"/>
+      </el-select>
+      <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
@@ -35,27 +39,54 @@
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 新建操作 -->
-      <!-- <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
+      <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </div>
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
-      ref="multipleTable"
+      ref="table"
       :key="tableKey"
       :data="list"
-      :row-key="getRowKeys"
+      :max-height="tableHeight"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
-      <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center"/>
-      <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-      <el-table-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-      <el-table-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-      <el-table-column :label="$t('Hmodule.gg')" prop="productTypeName" align="center" min-width="150px"/>
-      <el-table-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-      <el-table-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+      <el-table-column
+        type="selection"
+        width="55"
+        align="center"/>
+      <el-table-column :label="$t('MaterialsList.bomNumber')" :resizable="false" align="center" min-width="150" fixed="left">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bomNumber }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('MaterialsList.productName')" :resizable="false" align="center" min-width="150" fixed="left">
+        <template slot-scope="scope">
+          <span>{{ scope.row.productName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('MaterialsList.code')" :resizable="false" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.productCode }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('MaterialsList.bomTypeId')" :resizable="false" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bomTypeId | bomTypeIdFliter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('MaterialsList.summary')" :resizable="false" prop="MaterialsListDetails" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.summary }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('MaterialsList.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 列表结束 -->
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" style="padding: 0" @pagination="getlist" />
@@ -106,19 +137,11 @@ export default {
     materialcontrol: {
       type: Boolean,
       default: false
-    },
-    selectlist: {
-      type: Array,
-      default: () => []
-    },
-    selected: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
     return {
-      list2: [],
+      tableHeight: 200,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -171,15 +194,13 @@ export default {
   watch: {
     materialcontrol() {
       this.productVisible = this.materialcontrol
-      console.log(this.selectlist, this.selected)
-      if (this.materialcontrol) {
-        try {
-          this.$refs.multipleTable.clearSelection()
-        } catch (error) {
-          console.log(error)
-        }
-      }
+      console.log(this.control)
       this.getlist()
+      if (this.materialcontrol) {
+        setTimeout(() => {
+          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+        }, 100)
+      }
     }
   },
   created() {
@@ -189,33 +210,19 @@ export default {
     _that = this
   },
   methods: {
-    getRowKeys(row) {
-      return row.id
-    },
-    // 根据id选中
-    selectFromId(showList, selectList) {
-      console.log('selectList', selectList)
-      this.$nextTick(() => {
-        if (selectList) {
-          for (const i in showList) {
-            if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
-              console.log('showList[i]', showList[i])
-              // this.$refs.multipleTable.toggleAllSelection()
-              this.$refs.multipleTable.toggleRowSelection(showList[i], true)
-            }
-          }
-        }
-      })
-      return showList
-    },
     // 物料清单列表数据
     getlist() {
       this.listLoading = true
-      // this.list = this.selectFromId(this.selectlist, this.selected)
-      this.handleFilter()
-      setTimeout(() => {
-        this.listLoading = false
-      }, 0.5 * 100)
+      materialslist(this.getemplist).then(res => {
+        console.log('ret', res.data.data.content.list)
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
     },
     // 清空搜索条件
     restFilter() {
@@ -230,38 +237,18 @@ export default {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
-    // 深拷贝
-    deepClone(obj) {
-      const _obj = JSON.stringify(obj)
-      const objClone = JSON.parse(_obj)
-      return objClone
-    },
     // 搜索
     handleFilter() {
-      console.log('我的分页', this.getemplist.pageNum, this.getemplist.pageSize)
-      this.list2 = this.selectlist
-      // if (this.getemplist.productCode !== null && this.getemplist.productCode !== '' && this.getemplist.productCode !== undefined) {
-      const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName)
-      const currentarry = this._.slice(list3, (this.getemplist.pageNum - 1) * this.getemplist.pageSize, this.getemplist.pageNum * this.getemplist.pageSize)
-      this.list = this.selectFromId(currentarry, this.selected)
-      this.total = list3.length
-      // }
-    },
-    fuzzyQuery(list, keyWord, keyWord2) {
-      console.log('list', list)
-      console.log('keyWord', keyWord)
-      var reg = new RegExp(keyWord)
-      var reg2 = new RegExp(keyWord2)
-      var arr = []
-      for (var i = 0; i < list.length; i++) {
-        if (reg.test(list[i].productCode)) {
-          if (reg2.test(list[i].productName)) {
-            arr.push(list[i])
-          }
+      this.getemplist.pageNum = 1
+      materialslist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
+          // this.restFilter()
+        } else {
+          // this.restFilter()
         }
-      }
-      console.log('arr', arr)
-      return arr
+      })
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -297,71 +284,49 @@ export default {
       console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
-          color: item.color,
           productCode: item.productCode,
           productName: item.productName,
-          type: item.type,
+          type: item.productTypeId,
           unit: item.unit,
-          productType: item.productTypeName,
+          productType: item.productType,
           quantity: 1,
           money: 0,
           totalMoney: 0,
           enterQuantity: 0,
+          damageQuantity: 0
+        }
+      })
+      const yuan = this.moreaction.map(item => {
+        return item.materialsListDetailVos
+      })
+      const detialproduct = [].concat.apply([], yuan)
+      const finalproduct = detialproduct.map(item => {
+        return {
+          categoryName: item.productCategory,
+          category: item.categoryId,
+          type: item.typeId,
+          typeId: item.productType,
+          typeName: item.productType,
+          salePrice: item.price,
+          taxRate: 0,
+          discountRate: 0,
+          taxprice: item.price,
+          locationId: '',
+          productCode: item.productCode,
+          productName: item.productName,
+          color: item.color,
+          unit: item.unit,
+          quantity: item.quantity,
+          batch: '',
+          outQuantity: 0,
           damageQuantity: 0,
-          idx: item.id
+          productType: item.productType
         }
       })
-      const promises = productDetail.map((item) => {
-        return this.getInfo(item.productCode, item.idx)
-      })
-      Promise.all(promises).then((allData) => {
-        const yuan = [].concat.apply([], allData).map(item => {
-          item.materialsListDetailVos[0].idx = item.idx
-          return item.materialsListDetailVos[0]
-        })
-        console.log('yuan=====', yuan)
-        console.log('detialproduct==========', yuan)
-        const finalproduct = yuan.map(item => {
-          return {
-            locationId: '',
-            productCode: item.productCode,
-            productName: item.productName,
-            color: item.color,
-            type: item.typeId,
-            unit: item.unit,
-            quantity: item.quantity,
-            batch: '',
-            outQuantity: 0,
-            damageQuantity: 0,
-            productType: item.productType,
-            idx: item.idx,
-            baseQuantity: item.quantity
-          }
-        })
-        console.log(productDetail)
-        this.$emit('detailproduct', finalproduct)
-        this.$emit('product4', productDetail)
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-    // 接口请求
-    getInfo(productCode, id) {
-      return new Promise((resolve, reject) => {
-        const querylist = {
-          pageNum: 1,
-          pageSize: 10
-        }
-        querylist.productCode = productCode
-        materialslist(querylist).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.list && res.data.data.content.list.length > 0) {
-              res.data.data.content.list[0].idx = id
-            }
-            resolve(res.data.data.content.list)
-          }
-        })
-      })
+      console.log('productDetail', productDetail)
+      console.log('finalproduct', finalproduct)
+      this.$emit('product4', productDetail)
+      this.$emit('detailproduct', finalproduct)
     }
   }
 }

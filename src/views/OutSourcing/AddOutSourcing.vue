@@ -410,6 +410,7 @@ export default {
           val.splice(index, 1, item)
         }
       })
+      console.log('val===================', val)
       // const alldata = [...val, ...nowlistdata]
       // console.log('alldata=============', val, alldata)
       // const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
@@ -463,6 +464,14 @@ export default {
       const EnterDetail = this.$refs.editable.getRecords()
       // 原材料明细
       const EnterDetail2 = this.$refs.editable2.getRecords()
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.nonedetail'),
+          offset: 100
+        })
+        return false
+      }
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',

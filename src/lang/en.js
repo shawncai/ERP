@@ -3648,6 +3648,7 @@ export default {
     skdzt: 'subject',
     bimbm: 'BOM code',
     bomlx: 'BOM type',
+    xzbom: 'bom',
     zj: ',subsidiary  parts',
     zjmc: 'subsidiary parts name',
     zjlx: 'subsidiary category',
@@ -4037,6 +4038,7 @@ export default {
     ygssmdm: 'employee affiliated branch'
   },
   prompt: {
+    nonedetail: 'detail empyt',
     lx1: 'Types of1',
     lx2: 'Types of2',
     sjhbnwk: 'empty cell-phone number',
