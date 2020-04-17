@@ -573,7 +573,8 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      this.$refs.editable2.validate().then(valid => {
+      this.$refs.personalForm.validate().then(valid => {
+        console.log('执行=====')
         updatestockapply(parms, parms2).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
@@ -584,7 +585,7 @@ export default {
               offset: 100
             })
             this.$emit('rest', true)
-            this.$refs.editable.clear()
+            // this.$refs.editable.clear()
             this.$refs.editable2.clear()
             this.$refs.personalForm.clearValidate()
             this.$refs.personalForm.resetFields()
