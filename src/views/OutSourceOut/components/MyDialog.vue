@@ -96,7 +96,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" align="center" label="编号" width="150px" />
@@ -368,6 +368,7 @@ export default {
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        elem.totalMoney = elem.outQuantity * elem.outPrice
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
         }

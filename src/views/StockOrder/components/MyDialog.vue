@@ -525,6 +525,10 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.stockRepositoryId = this.personalForm.stockRepositoryName
+      this.personalForm.id = this.personalForm.parentId
+      for (const i in this.personalForm.stockOrderDetailVos) {
+        delete this.personalForm.stockOrderDetailVos[i].stockOrderDetailVos
+      }
       this.list2 = this.personalForm.stockOrderDetailVos
       this.changeRate()
     }
@@ -1267,7 +1271,7 @@ export default {
                 delete elem.sourceSerialNumber
               }
               if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-                delete elem.includeTaxPrice
+                elem.includeTaxPrice = 0
               }
               if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
                 delete elem.taxRate

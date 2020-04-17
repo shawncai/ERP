@@ -63,7 +63,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <!--          <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">-->
@@ -138,7 +138,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>

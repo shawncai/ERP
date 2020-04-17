@@ -144,7 +144,7 @@
           show-summary
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" min-width="55" align="center"/>
@@ -173,7 +173,7 @@
           show-summary
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange2">
           <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />

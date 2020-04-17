@@ -98,7 +98,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
@@ -124,7 +124,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column label="阶段" min-width="55" prop="phase" align="center" type="index"/>
           <el-editable-column :label="$t('updates.rq')" prop="chatDate" align="center" min-width="150px"/>

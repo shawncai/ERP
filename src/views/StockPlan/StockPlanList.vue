@@ -370,7 +370,7 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentid
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -413,7 +413,7 @@ export default {
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentid
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
@@ -449,7 +449,7 @@ export default {
     // 结单操作
     handleReview2(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentid
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
@@ -616,7 +616,7 @@ export default {
       for (const i in processdata) {
         for (const j in newarr2) {
           if (processdata[i].id === newarr2[j].planId) {
-            newarr2[j].id = processdata[i].id
+            newarr2[j].parentid = processdata[i].id
             newarr2[j].planNumber = processdata[i].planNumber
             newarr2[j].title = processdata[i].title
             newarr2[j].stockType = processdata[i].stockType
@@ -644,6 +644,9 @@ export default {
             newarr2[j].stockPersonName = processdata[i].stockPersonName
             newarr2[j].planRepositoryName = processdata[i].planRepositoryName
             newarr2[j].createPersonName = processdata[i].createPersonName
+            newarr2[j].judgePersonName = processdata[i].judgePersonName
+            newarr2[j].endPersonName = processdata[i].endPersonName
+            newarr2[j].modifyPersonName = processdata[i].modifyPersonName
             newarr2[j].countryName = processdata[i].countryName
             newarr2[j].stockTypeName = processdata[i].stockTypeName
             newarr2[j].isused = processdata[i].isused
@@ -677,15 +680,16 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stockplanlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // stockplanlist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 计划人focus事件
     handlechooseStock() {
@@ -726,7 +730,7 @@ export default {
         }
       }
     },
-    // 审批操作
+    // 审批操作123
     handleReview(row) {
       const loading = this.$loading({
         lock: true,
@@ -735,7 +739,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = row.parentid
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -860,23 +864,40 @@ export default {
         })
       }).catch(action => {
         if (action === 'cancel') {
-          this.reviewParms.judgeStat = 3
-          const parms = JSON.stringify(this.reviewParms)
-          updatestockplan2(parms).then(res => {
-            if (res.data.ret === 200) {
-              this.$message({
-                type: 'success',
-                message: this.$t('prompt.shcg')
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
           })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockplan2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.getlist()
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
         }
       })
     },
@@ -887,7 +908,7 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const ids = this.moreaction.map(item => item.parentid).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -925,7 +946,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        deletestockplan(row.id, this.$store.getters.userId).then(res => {
+        deletestockplan(row.parentid, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: this.$t('prompt.sccg'),
@@ -957,7 +978,7 @@ export default {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockPlanName', 'StockPlanShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const filterVal = ['parentid', 'StockPlanName', 'StockPlanShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

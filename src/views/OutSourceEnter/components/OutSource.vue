@@ -208,6 +208,8 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
+        judgeStat: 2,
+        receiptStat: 2,
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
@@ -313,6 +315,8 @@ export default {
       const OrderNumber = this.choosedata.number
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {
+          actualEnterQuantity: item.quantity,
+          qualifyQuantity: item.qualifyQuantity,
           productCode: item.productCode,
           productName: item.productName,
           categoryName: item.productCategoryName,

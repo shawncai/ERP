@@ -1,13 +1,14 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" class="filter-item" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" size="mini" class="filter-item" clearable style="width: 150px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
       <my-detail :control.sync="control" @product="product"/>
-      <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" class="filter-item" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
+      <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" size="mini" class="filter-item" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-date-picker
         v-model="date"
         type="daterange"
+        size="mini"
         range-separator="-"
         unlink-panels
         style="width: 230px;"
@@ -15,7 +16,7 @@
         end-placeholder="End"
         value-format="yyyy-MM-dd"
       />
-      <el-button v-waves type="primary" icon="el-icon-search" class="filter-item" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves type="primary" icon="el-icon-search" size="mini" class="filter-item" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -32,10 +33,13 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
         border
         fit
+        size="small"
         highlight-current-row
         style="width: 100%;">
         <el-table-column :label="$t('StockQuery.productName')" :resizable="false" align="center" min-width="150">
@@ -91,6 +95,7 @@ export default {
   components: { MySupplier, MyDetail, DetailList, Pagination },
   data() {
     return {
+      tableHeight: 200,
       formTheadOptions: ['quantity', 'includeTaxMoney', 'includeTaxPrice', 'totalMoney'],
       formThead: defaultFormThead,
       checkboxVal: defaultFormThead,
@@ -132,9 +137,16 @@ export default {
       this.tableKey = this.tableKey + 1// 为了保证table 每次都会重渲 In order to ensure the table will be re-rendered each time
     }
   },
-
+  activated() {
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
+  },
   mounted() {
     // this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
     this.getchecked()
     this.getamouthDate()
   },

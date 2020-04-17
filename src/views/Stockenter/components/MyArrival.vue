@@ -367,6 +367,7 @@ export default {
       const arrivaldata = this.choosedata.stockArrivalDetailVos
       const number = this.choosedata.number
       const arrivalDetail = arrivaldata.map(function(item) {
+        console.log('item===============', item)
         return {
           productCode: item.productCode,
           productName: item.productName,

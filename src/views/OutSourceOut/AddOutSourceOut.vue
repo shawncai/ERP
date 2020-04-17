@@ -112,7 +112,7 @@
             class="click-table1"
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" align="center"/>
@@ -723,6 +723,7 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        elem.totalMoney = elem.outQuantity * elem.outPrice
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           delete elem.locationId
         }

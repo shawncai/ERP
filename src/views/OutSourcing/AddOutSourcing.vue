@@ -48,7 +48,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.productionDate')" prop="productionDate" style="width: 100%;">
+                <el-form-item :label="$t('OutSourcing.productionDate')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.productionDate"
                     type="date"
@@ -111,11 +111,10 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
-
             class="click-table1"
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="85" align="center"/>
@@ -123,6 +122,7 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
@@ -159,13 +159,14 @@
             show-summary
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column type="selection" width="85" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
@@ -300,6 +301,9 @@ export default {
       this.personalForm.outFactoryId = val.id
       this.personalForm.giveAddress = val.receiverAddress
       this.selectList = val.outFactoryDetailVos
+      console.log('this.selectList=================', this.selectList)
+      this.list2 = []
+      this.list3 = []
     },
     // 经办人focus事件
     handlechooseStock() {
@@ -470,6 +474,10 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        elem.reportCheckingQuantity = 0
+        elem.actualCheckingQuantity = 0
+        elem.qualifyQuantity = 0
+        elem.unqualifyQuantity = 0
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }

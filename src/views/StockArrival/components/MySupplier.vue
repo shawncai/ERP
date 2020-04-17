@@ -57,8 +57,10 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :max-height="tableHeight"
       border
       fit
       highlight-current-row
@@ -146,6 +148,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 更多搜索条件问题
       visible2: false,
       // 转化数据
@@ -200,6 +203,11 @@ export default {
     control() {
       this.employeeVisible = this.control
       this.getlist()
+      if (this.control) {
+        setTimeout(() => {
+          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 200
+        }, 100)
+      }
     }
   },
   beforeCreate() {
@@ -207,7 +215,7 @@ export default {
   },
   methods: {
     getlist() {
-      // 供应商列表数据
+      // 供应商列表数据123
       this.listLoading = true
       if (this.query) {
         delete this.getemplist.isActive

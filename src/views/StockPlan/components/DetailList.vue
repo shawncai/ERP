@@ -67,7 +67,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" class="print" fixed="left" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
@@ -96,7 +96,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" class="print" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" class="print" prop="productCode" align="center" />

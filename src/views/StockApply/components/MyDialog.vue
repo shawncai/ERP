@@ -78,7 +78,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%"
           @selection-change="deleteChange">
           <el-editable-column type="selection" min-width="55" align="center"/>
@@ -115,7 +115,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
@@ -273,7 +273,7 @@ export default {
   methods: {
     // 移除表单验证
     clearValidate() {
-      this.$refs.editable.revert()
+      // this.$refs.editable.revert()
       // this.$refs.editable
     },
     // 控制不同源单类型
@@ -508,105 +508,97 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
-      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+      // const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
-      for (let i = 0; i < EnterDetail.length; i++) {
-        for (let j = 0; j < EnterDetail2.length; j++) {
-          if (EnterDetail[i].productCode === EnterDetail2[j].productCode) {
-            EnterDetail[i].applyQuantity = EnterDetail2[j].applyQuantity
-            EnterDetail[i].planQuantity = EnterDetail2[j].planQuantity
-            break
-          }
-        }
-      }
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
-        }
-        if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
-          delete elem.requireQuantity
-        }
-        if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
-          delete elem.applyQuantity
-        }
-        if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
-          delete elem.requireDate
-        }
-        if (elem.applyReason === null || elem.applyReason === '' || elem.applyReason === undefined) {
-          delete elem.applyReason
-        }
-        if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
-          delete elem.planQuantity
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
+      // for (let i = 0; i < EnterDetail.length; i++) {
+      //   for (let j = 0; j < EnterDetail2.length; j++) {
+      //     if (EnterDetail[i].productCode === EnterDetail2[j].productCode) {
+      //       EnterDetail[i].applyQuantity = EnterDetail2[j].applyQuantity
+      //       EnterDetail[i].planQuantity = EnterDetail2[j].planQuantity
+      //       break
+      //     }
+      //   }
+      // }
+      // if (EnterDetail.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.mxbbnwk'),
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+      //     delete elem.productCode
+      //   }
+      //   if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+      //     delete elem.productName
+      //   }
+      //   if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+      //     delete elem.typeId
+      //   }
+      //   if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+      //     delete elem.unit
+      //   }
+      //   if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
+      //     delete elem.basicQuantity
+      //   }
+      //   if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
+      //     delete elem.requireQuantity
+      //   }
+      //   if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
+      //     delete elem.applyQuantity
+      //   }
+      //   if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
+      //     delete elem.requireDate
+      //   }
+      //   if (elem.applyReason === null || elem.applyReason === '' || elem.applyReason === undefined) {
+      //     delete elem.applyReason
+      //   }
+      //   if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
+      //     delete elem.planQuantity
+      //   }
+      //   return elem
+      // })
+      const parms2 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
         }
+        if (key === 'judgeStat') {
+          delete Data[key]
+        }
       }
       const parms = JSON.stringify(Data)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.editable.validate().then(valid => {
-            updatestockapply(parms, parms2).then(res => {
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: this.$t('prompt.czcg'),
-                  message: this.$t('prompt.czcg'),
-                  type: 'success',
-                  duration: 1000,
-                  offset: 100
-                })
-                this.$emit('rest', true)
-                this.$refs.editable.clear()
-                this.$refs.editable2.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-                this.editVisible = false
-              } else {
-                this.$notify.error({
-                  title: 'wrong',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
+      this.$refs.personalForm.validate().then(valid => {
+        updatestockapply(parms, parms2).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: this.$t('prompt.czcg'),
+              message: this.$t('prompt.czcg'),
+              type: 'success',
+              duration: 1000,
+              offset: 100
             })
-          }).catch(valid => {
-            console.log('error submit!!')
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
+            this.$emit('rest', true)
+            // this.$refs.editable.clear()
+            this.$refs.editable2.clear()
+            this.$refs.personalForm.clearValidate()
+            this.$refs.personalForm.resetFields()
+            this.editVisible = false
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }).catch(valid => {
+        console.log('error submit!!')
       })
     },
     handlecancel() {

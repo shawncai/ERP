@@ -2,13 +2,9 @@
   <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
-      <!-- <el-input v-model="getemplist.bomNumber" :placeholder="$t('MaterialsList.bomNumber')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
-      <!-- <el-select v-model="getemplist.bomTypeId" :value="getemplist.bomTypeId" class="filter-item" clearable>
-        <el-option value="1" label="工艺BOM"/>
-        <el-option value="2" label="设计BOM"/>
-        <el-option value="3" label="制造BOM"/>
-      </el-select> -->
-      <!-- <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
+      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <!-- <el-input v-model="getemplist.productTypeName" :placeholder="$t('Hmodule.gg')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
 
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
@@ -37,22 +33,23 @@
       <!--        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
       <!--      </el-popover>-->
       <!-- 搜索按钮 -->
-      <!-- <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button> -->
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
       <!-- 新建操作 -->
       <!-- <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </div>
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
-      ref ="multipleTable"
+      ref="multipleTable"
       :key="tableKey"
       :data="list"
+      :row-key="getRowKeys"
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
-      <el-table-column type="selection" min-width="55" align="center"/>
+      <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center"/>
       <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
       <el-table-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
       <el-table-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
@@ -121,6 +118,7 @@ export default {
   },
   data() {
     return {
+      list2: [],
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -191,21 +189,30 @@ export default {
     _that = this
   },
   methods: {
+    getRowKeys(row) {
+      return row.id
+    },
     // 根据id选中
     selectFromId(showList, selectList) {
-      if (selectList) {
-        for (const i in showList) {
-          if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
-            this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+      console.log('selectList', selectList)
+      this.$nextTick(() => {
+        if (selectList) {
+          for (const i in showList) {
+            if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
+              console.log('showList[i]', showList[i])
+              // this.$refs.multipleTable.toggleAllSelection()
+              this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+            }
           }
         }
-      }
+      })
       return showList
     },
     // 物料清单列表数据
     getlist() {
       this.listLoading = true
-      this.list = this.selectFromId(this.selectlist, this.selected)
+      // this.list = this.selectFromId(this.selectlist, this.selected)
+      this.handleFilter()
       setTimeout(() => {
         this.listLoading = false
       }, 0.5 * 100)
@@ -223,18 +230,38 @@ export default {
       this.acceptPersonId = ''
       this.getemplist.acceptPersonId = ''
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 搜索
     handleFilter() {
-      this.getemplist.pageNum = 1
-      materialslist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
+      console.log('我的分页', this.getemplist.pageNum, this.getemplist.pageSize)
+      this.list2 = this.selectlist
+      // if (this.getemplist.productCode !== null && this.getemplist.productCode !== '' && this.getemplist.productCode !== undefined) {
+      const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName)
+      const currentarry = this._.slice(list3, (this.getemplist.pageNum - 1) * this.getemplist.pageSize, this.getemplist.pageNum * this.getemplist.pageSize)
+      this.list = this.selectFromId(currentarry, this.selected)
+      this.total = list3.length
+      // }
+    },
+    fuzzyQuery(list, keyWord, keyWord2) {
+      console.log('list', list)
+      console.log('keyWord', keyWord)
+      var reg = new RegExp(keyWord)
+      var reg2 = new RegExp(keyWord2)
+      var arr = []
+      for (var i = 0; i < list.length; i++) {
+        if (reg.test(list[i].productCode)) {
+          if (reg2.test(list[i].productName)) {
+            arr.push(list[i])
+          }
         }
-      })
+      }
+      console.log('arr', arr)
+      return arr
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -270,6 +297,7 @@ export default {
       console.log('this.moreaction', this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
+          color: item.color,
           productCode: item.productCode,
           productName: item.productName,
           type: item.type,

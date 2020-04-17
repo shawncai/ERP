@@ -103,7 +103,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
@@ -381,6 +381,9 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      for (const i in this.personalForm.stockOrderDetailVos) {
+        delete this.personalForm.stockOrderDetailVos[i].stockOrderDetailVos
+      }
       this.list2 = this.personalForm.stockOrderDetailVos
       this.reviewList = this.personalForm.approvalUseVos
       this.stockArrivaldata.sourceNumber = this.personalForm.orderNumber
