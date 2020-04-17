@@ -1,37 +1,23 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="4">
-            <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
-              <el-input v-model="getemplist.name" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 10%">
-            <el-form-item :label="$t('Coupon.money')" label-width="100px">
-              <el-input-number v-model="getemplist.money" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 160px"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 10%">
-            <el-form-item :label="$t('collectAndPay.type')" label-width="100px">
-              <el-select v-model="getemplist.type" :value="getemplist.receiptStat" clearable style="width: 160px;float: left;margin-right: 20px">
-                <el-option value="1" label="全部门店"/>
-                <el-option value="2" label="部分门店"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 8%">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
+        <el-input v-model="getemplist.name" :placeholder="$t('updates.yhjmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input-number v-model="getemplist.money" :placeholder="$t('Coupon.money')" :precision="2" :controls="false" :step="0.1" :min="0" size="small" class="filter-item"/>
+        <el-select v-model="getemplist.type" :placeholder="$t('collectAndPay.type')" :value="getemplist.receiptStat" clearable size="small" class="filter-item">
+          <el-option value="1" label="全部门店"/>
+          <el-option value="2" label="部分门店"/>
+        </el-select>
+        <el-button v-waves type="primary" icon="el-icon-search" size="small" class="filter-item" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
       </el-row>
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
+
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves class="filter-item" size="small" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -39,19 +25,23 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 新建操作 -->
-      <el-button v-permission="['215-216-217-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['215-216-217-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           :selectable="selectInit"
@@ -176,6 +166,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 回显仓库
       saleRepositoryId: '',
       // 控制仓库
@@ -245,14 +237,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 新增数据
     handleAdd3(val) {
       this.$store.dispatch('getempcontract', val)
@@ -616,14 +617,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 10px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

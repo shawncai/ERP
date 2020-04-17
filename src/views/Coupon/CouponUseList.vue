@@ -1,36 +1,29 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+
       <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.yhjmc')" label-width="100px">
-              <el-input v-model="getemplist.couponName" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10%">
-            <el-form-item :label="$t('collectAndPay.repositoryName')" label-width="100px">
-              <el-input v-model="getemplist.repositoryName" style="width: 160px;" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 8%">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-        </el-form>
+        <el-input v-model="getemplist.couponName" :placeholder="$t('updates.yhjmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.repositoryName" :placeholder="$t('collectAndPay.repositoryName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
       </el-row>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
         border
         fit
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <!--        门店名称、优惠券名称、优惠券码、面值、客户姓名、使用时间、抵扣金额、剩余金额-->
         <el-table-column :label="$t('collectAndPay.repositoryName')" :resizable="false" fixed="left" align="center" min-width="200">
@@ -137,6 +130,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 回显仓库
       saleRepositoryId: '',
       // 控制仓库
@@ -205,14 +200,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 确认操作
     handleEdit2(row) {
       this.reviewParms = {}
@@ -580,14 +584,24 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 10px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 30px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

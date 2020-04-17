@@ -2,43 +2,44 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="135px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.name')" prop="name" style="width: 100%;">
-                  <el-input v-model="personalForm.name" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('Coupon.name')" prop="name" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.name" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.money')" prop="money" style="width: 100%;">
-                  <el-input-number v-model="personalForm.money" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
+                <el-form-item :label="$t('Coupon.money')" prop="money" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.money" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.number')" prop="number" style="width: 100%;">
-                  <el-input-number v-model="personalForm.number" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left"/>
+                <el-form-item :label="$t('collectAndPay.number')" prop="number" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.number" :controls="false" :step="0.1" :min="0" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.type')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.type" style="margin-left: 18px;width: 210px" @change="changeType">
+                <el-form-item :label="$t('collectAndPay.type')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.type" style="width: 200px" @change="changeType">
                     <el-radio :label="1" style="width: 100px">全部门店</el-radio>
                     <el-radio :label="2">部分门店</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.repostiryName')" style="width: 100%;">
-                  <el-input :disabled="repo" v-model="personalForm.itemName" :value="personalForm.itemName" placeholder="请选择仓库" filterable clearable style="margin-left: 18px;width: 200px;" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('Storagemove.repostiryName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input :disabled="repo" v-model="personalForm.itemName" :value="personalForm.itemName" placeholder="请选择仓库" filterable clearable style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname($event)"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.effectiveType')" prop="effectiveType" style="width: 100%;">
-                  <el-select v-model="personalForm.effectiveType" multiple collapse-tags style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('collectAndPay.effectiveType')" prop="effectiveType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.effectiveType" multiple collapse-tags style="width: 200px">
                     <el-option value="1" label="分期付款"/>
                     <el-option value="2" label="购车"/>
                     <el-option value="3" label="配件"/>
@@ -48,48 +49,49 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.isRepeat')" prop="isDiscount" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isRepeat" style="margin-left: 18px;width: 210px">
+                <el-form-item :label="$t('collectAndPay.isRepeat')" prop="isDiscount" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isRepeat" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">Yes</el-radio>
                     <el-radio :label="2">No</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.effectiveTime')" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.effectiveTime" style="margin-left: 18px;width: 225px" @change="changeTime">
+                <el-form-item :label="$t('collectAndPay.effectiveTime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.effectiveTime" style="width: 200px" @change="changeTime">
                     <el-radio :label="1" style="width: 100px">限制时间</el-radio>
                     <el-radio :label="2">不限制时间</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.beginTime')" style="width: 100%;">
+                <el-form-item :label="$t('Coupon.beginTime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     :disabled="addpro"
                     v-model="personalForm.beginTime"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Coupon.endTime')" style="width: 100%;">
+                <el-form-item :label="$t('Coupon.endTime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     :disabled="addpro"
                     v-model="personalForm.endTime"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
