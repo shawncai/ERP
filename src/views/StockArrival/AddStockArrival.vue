@@ -179,13 +179,14 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" fixed="left" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('updates.ydbh')" fixed="left" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jhrq')" prop="giveDate" align="center" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
@@ -212,7 +213,6 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.yrksl')" prop="hadStorageQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.bjsl')" prop="reportCheckingQuantity" align="center" min-width="150px"/>
@@ -322,6 +322,7 @@ import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import '@/directive/noMoreClick/index.js'
 import MyRepository from './components/MyRepository'
+import { stockorderlist } from '@/api/StockOrder'
 
 // eslint-disable-next-line no-unused-vars
 var _that
@@ -424,6 +425,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        sourceType: '1',
         deptId: this.$store.getters.deptId,
         arrivalRepositoryId: this.$store.getters.repositoryId,
         stockPersonId: this.$store.getters.userId,
@@ -782,6 +784,26 @@ export default {
         this.personalForm.payMode = val.paymentId
       }
       this.$refs.editable.clear()
+      // if (this.personalForm.sourceType === '1') {
+      //   const getemplist = {}
+      //   getemplist.pageNum = 1
+      //   getemplist.pageSize = 9999
+      //   getemplist.judgeStat = 2
+      //   getemplist.receiptStat = 2
+      //   getemplist.repositoryId = this.$store.getters.repositoryId
+      //   getemplist.regionIds = this.$store.getters.regionIds
+      //   getemplist.isActive = 1
+      //   getemplist.supplierId = val.id
+      //   stockorderlist(this.getemplist).then(res => {
+      //     if (res.data.ret === 200) {
+      //       const list = res.data.data.content.list
+      //       console.log('list', list)
+      //     }
+      //     setTimeout(() => {
+      //       this.listLoading = false
+      //     }, 0.5 * 100)
+      //   })
+      // }
     },
     // 采购员focus事件
     handlechooseStock() {
