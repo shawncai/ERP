@@ -92,7 +92,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('updates.fydm')" prop="costCode" align="center" min-width="150px"/>

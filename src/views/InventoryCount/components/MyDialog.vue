@@ -70,7 +70,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>

@@ -1,13 +1,14 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" class="filter-item" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" size= "mini" class="filter-item" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
       <my-detail :control.sync="control" @product="product"/>
-      <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" class="filter-item" style="width: 200px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
+      <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" size= "mini" class="filter-item" style="width: 200px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-date-picker
         v-model="date"
         type="daterange"
+        size= "mini"
         range-separator="-"
         unlink-panels
         start-placeholder="Start"
@@ -16,22 +17,25 @@
       />
 
       <!-- 搜索按钮 -->
-      <el-button v-waves type="primary" class="filter-item" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves type="primary" class="filter-item" icon="el-icon-search" size= "mini" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 表格导出操作 -->
-      <el-button v-waves class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-waves class="filter-item" style="width: 86px" size= "mini" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" size= "mini" @click="handlePrint">{{ $t('public.print') }}</el-button>
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -134,6 +138,7 @@ export default {
   components: { MySupplier, MyDetail, DetailList, Pagination },
   data() {
     return {
+      tableHeight: 200,
       // 供应商回显
       supplierId: '',
       // 控制供应商
@@ -169,9 +174,15 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this

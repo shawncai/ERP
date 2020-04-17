@@ -114,10 +114,11 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
+            :height="tableHeight"
             class="click-table1"
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" fixed align="center"/>
@@ -281,6 +282,7 @@ export default {
     //   }
     // }
     return {
+      tableHeight: 200,
       // 供应商id
       supp: null,
       ordercontrol: false,
@@ -402,9 +404,17 @@ export default {
       deep: true
     }
   },
-
+  activated() {
+    this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.editable.$el.offsetTop - 140
+    }, 100)
+  },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.editable.$el.offsetTop - 140
+    }, 100)
     this.getdatatime()
     this.getinformation()
   },
