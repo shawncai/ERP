@@ -1,21 +1,20 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-
-      <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.type" :placeholder="$t('updates.fllb')" :value="getemplist.type" class="filter-item" clearable @keyup.enter.native="handleFilter">
+      <el-input v-model="getemplist.categoryname" :placeholder="$t('updates.flmc')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.type" :placeholder="$t('updates.fllb')" :value="getemplist.type" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter">
         <el-option :label="$t('StockPlan.stockType')" value="1"/>
       </el-select>
-      <el-select v-model="getemplist.iseffective" :placeholder="$t('updates.qyzt')" :value="getemplist.iseffective" class="filter-item" clearable @keyup.enter.native="handleFilter">
+      <el-select v-model="getemplist.iseffective" :placeholder="$t('updates.qyzt')" :value="getemplist.iseffective" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter">
         <el-option label="on duty" value="1"/>
         <el-option label="closed" value="2"/>
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" type="primary" size="mini" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves class="filter-item" style="margin-left: 0" size="mini" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -23,31 +22,31 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['104-125-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['104-125-6']" v-waves :loading="downloadLoading" size="mini" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['104-125-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['104-125-7']" v-waves class="filter-item" size="mini" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['104-125-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['104-125-1']" v-waves class="filter-item" size="mini" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
       <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
-            <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
+            <el-select v-model="addCategoryForm.type" placeholder="请选择类别" size="mini" style="width: 100%">
               <el-option :label="$t('StockPlan.stockType')" value="1"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
-            <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
+            <el-input v-model="addCategoryForm.categoryname" size="mini" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
-            <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" style="width: 100%">
+            <el-select v-model="addCategoryForm.iseffective" placeholder="请选择状态" size="mini" style="width: 100%">
               <el-option :label="$t('updates.qy')" value="1"/>
               <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-          <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+          <el-button v-no-more-click type="primary" size="mini" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+          <el-button type="danger" size="mini" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -56,8 +55,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
+        :height="tableHeight"
         :data="list"
+        size="small"
         border
         fit
         highlight-current-row
@@ -155,6 +157,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 批量删除参数
       moreaction: [],
       // 新增窗口
@@ -217,9 +220,16 @@ export default {
       }
     }
   },
-
+  activated() {
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
+  },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
