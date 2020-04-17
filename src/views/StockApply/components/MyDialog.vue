@@ -574,7 +574,6 @@ export default {
       }
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate().then(valid => {
-        console.log('执行=====')
         updatestockapply(parms, parms2).then(res => {
           if (res.data.ret === 200) {
             this.$notify({

@@ -1271,7 +1271,7 @@ export default {
                 delete elem.sourceSerialNumber
               }
               if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-                delete elem.includeTaxPrice
+                elem.includeTaxPrice = 0
               }
               if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
                 delete elem.taxRate
