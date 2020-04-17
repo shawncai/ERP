@@ -84,9 +84,11 @@
       <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddBom">{{ $t('updates.xzbom') }}</el-button>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
+      <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
       <div class="container">
         <el-editable
           ref="editable"
@@ -164,6 +166,7 @@ export default {
       locationlist: [],
       // 明细表控制框
       control: false,
+      materialcontrol: false,
       // 验收人回显
       acceptPersonId: '',
       // 验收人控制框
@@ -243,6 +246,28 @@ export default {
     _that = this
   },
   methods: {
+    // bom传回来事件
+    productdetail4(val) {
+    },
+    async detailproduct(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      alldata.forEach(el => {
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      this.list2 = this._.concat(this.list2, newArr)
+      console.log('this.list2=================', this.list2)
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {

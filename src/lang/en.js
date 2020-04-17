@@ -3648,6 +3648,7 @@ export default {
     skdzt: 'subject',
     bimbm: 'BOM code',
     bomlx: 'BOM type',
+    xzbom: 'bom',
     zj: ',subsidiary  parts',
     zjmc: 'subsidiary parts name',
     zjlx: 'subsidiary category',

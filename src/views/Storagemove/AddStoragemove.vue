@@ -131,9 +131,11 @@
         <div ref="fuzhu" class="form-name">{{ $t('updates.dbsqdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddBom">{{ $t('updates.xzbom') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4" @detailproduct="detailproduct"/>
         <div class="container">
           <el-editable
             ref="editable"
@@ -399,10 +401,11 @@ import MyOut from './components/MyOut'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
+import MyMaterials from './components/MyMaterials'
 var _that
 export default {
   name: 'AddStoragemove',
-  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut },
+  components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut, MyMaterials },
   data() {
     return {
       depotcontrol2: false,
@@ -431,6 +434,8 @@ export default {
       depotcontrol: false,
       // 控制商品列表窗口
       control: false,
+      // bom清单窗口
+      materialcontrol: false,
       // 调拨信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -495,6 +500,28 @@ export default {
     _that = this
   },
   methods: {
+    // bom传回来事件
+    productdetail4(val) {
+    },
+    async detailproduct(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      const alldata = [...val, ...nowlistdata]
+      const newArr = []
+      alldata.forEach(el => {
+        const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+        if (result !== -1) {
+          if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+            newArr[result].quantity = newArr[result].quantity + el.quantity
+          } else {
+            newArr.push(el)
+          }
+        } else {
+          newArr.push(el)
+        }
+      })
+      this.list2 = this._.concat(this.list2, newArr)
+      console.log('this.list2=================', this.list2)
+    },
     choosemovetype(val) {
       console.log(val)
       if (val === '1') {
@@ -651,25 +678,20 @@ export default {
       this.depotcontrol2 = true
     },
     repositoryname2(val) {
-      // const EnterDetail = this.$refs.editable.getRecords()
-      // EnterDetail.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   elem.moveQuantity = 1
-      // })
-      // console.log(val)
       this.moveInRepository = val.repositoryName
       this.personalForm.moveInRepository = val.id
     },
     queryStock(row) {
       console.log(this.$refs.editable.getRecords())
-      if (row.applyQuantity > row.existStock) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
-          offset: 100
-        })
-        row.applyQuantity = 1
+      if (row.existStock !== null) {
+        if (row.applyQuantity > row.existStock) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.sqslcg'),
+            offset: 100
+          })
+          row.applyQuantity = 1
+        }
       }
     },
     getLocationData(row) {
@@ -781,6 +803,17 @@ export default {
         return false
       }
       this.control = true
+    },
+    handleAddBom() {
+      if (this.moveOutRepository === null || this.moveOutRepository === '' || this.moveOutRepository === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.qxxzckck'),
+          offset: 100
+        })
+        return false
+      }
+      this.materialcontrol = true
     },
     uniqueArray(array, key) {
       var result = [array[0]]
