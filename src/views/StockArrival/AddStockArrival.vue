@@ -784,26 +784,49 @@ export default {
         this.personalForm.payMode = val.paymentId
       }
       this.$refs.editable.clear()
-      // if (this.personalForm.sourceType === '1') {
-      //   const getemplist = {}
-      //   getemplist.pageNum = 1
-      //   getemplist.pageSize = 9999
-      //   getemplist.judgeStat = 2
-      //   getemplist.receiptStat = 2
-      //   getemplist.repositoryId = this.$store.getters.repositoryId
-      //   getemplist.regionIds = this.$store.getters.regionIds
-      //   getemplist.isActive = 1
-      //   getemplist.supplierId = val.id
-      //   stockorderlist(this.getemplist).then(res => {
-      //     if (res.data.ret === 200) {
-      //       const list = res.data.data.content.list
-      //       console.log('list', list)
-      //     }
-      //     setTimeout(() => {
-      //       this.listLoading = false
-      //     }, 0.5 * 100)
-      //   })
-      // }
+      if (this.personalForm.sourceType === '1') {
+        const getemplist = {}
+        getemplist.pageNum = 1
+        getemplist.pageSize = 9999
+        getemplist.judgeStat = 2
+        getemplist.receiptStat = 2
+        getemplist.repositoryId = this.$store.getters.repositoryId
+        getemplist.regionIds = this.$store.getters.regionIds
+        getemplist.isActive = 1
+        getemplist.supplierId = val.id
+        stockorderlist(getemplist).then(res => {
+          if (res.data.ret === 200) {
+            const list = res.data.data.content.list
+            for (let i = 0; i < list.length; i++) {
+              for (let j = 0; j < list[i].stockOrderDetailVos.length; j++) {
+                list[i].stockOrderDetailVos[j].sourceNumber = list[i].orderNumber
+                list[i].stockOrderDetailVos[j].allarrivalQuantity = list[i].stockOrderDetailVos[j].arrivalQuantity
+                list[i].stockOrderDetailVos[j].typeName = list[i].stockOrderDetailVos[j].productType
+                list[i].stockOrderDetailVos[j].type = list[i].stockOrderDetailVos[j].typeId
+                list[i].stockOrderDetailVos[j].arrivalQuantity = (Number(list[i].stockOrderDetailVos[j].stockQuantity) - Number(list[i].stockOrderDetailVos[j].arrivalQuantity) + Number(list[i].stockOrderDetailVos[j].returnQuantity)).toFixed(2)
+                list[i].stockOrderDetailVos[j].giveDate = list[i].stockOrderDetailVos[j].deliveryDate
+                list[i].stockOrderDetailVos[j].taxMoney = list[i].stockOrderDetailVos[j].tax
+                list[i].stockOrderDetailVos[j].remark = list[i].stockOrderDetailVos[j].remarks
+                list[i].stockOrderDetailVos[j].sourceSerialNumber = list[i].stockOrderDetailVos[j].id
+                list[i].stockOrderDetailVos[j].hadStorageQuantity = 0
+                list[i].stockOrderDetailVos[j].reportCheckingQuantity = 0
+                list[i].stockOrderDetailVos[j].actualCheckingQuantity = 0
+                list[i].stockOrderDetailVos[j].qualifyQuantity = 0
+                list[i].stockOrderDetailVos[j].unqualifyQuantity = 0
+                if ((list[i].stockOrderDetailVos[j].allarrivalQuantity - list[i].stockOrderDetailVos[j].returnQuantity) < list[i].stockOrderDetailVos[j].stockQuantity) {
+                  console.log('list[i].stockOrderDetailVos[j]', list[i].stockOrderDetailVos[j])
+                  list[i].stockOrderDetailVos[j].arrivalQuantity = (list[i].stockOrderDetailVos[j].stockQuantity - list[i].stockOrderDetailVos[j].allarrivalQuantity + list[i].stockOrderDetailVos[j].returnQuantity).toFixed(2)
+                  this.$refs.editable.insert(list[i].stockOrderDetailVos[j])
+                }
+              }
+            }
+            console.log('list', list)
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      }
     },
     // 采购员focus事件
     handlechooseStock() {

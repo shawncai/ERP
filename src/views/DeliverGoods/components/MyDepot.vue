@@ -98,8 +98,8 @@ export default {
   filters: {
     iseffectiveFilter(status) {
       const statusMap = {
-        1: '停用',
-        2: '启用'
+        1: '启用',
+        2: '停用'
       }
       return statusMap[status]
     },

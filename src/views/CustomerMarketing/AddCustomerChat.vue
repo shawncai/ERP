@@ -2,37 +2,38 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerMarketing.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.customerId')" prop="customerName" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerMarketing.customerId')" prop="customerName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('CustomerMarketing.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handlePersonId" style="width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.phase')" style="width: 100%;">
-                  <el-select v-model="personalForm.phase" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CustomerMarketing.phase')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.phase" style="width: 200px">
                     <el-option value="1" label="阶段1"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.chatMode')" style="width: 100%;">
-                  <el-select v-model="personalForm.chatMode" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CustomerMarketing.chatMode')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.chatMode" style="width: 200px">
                     <el-option :label="$t('updates.dh')" value="1"/>
                     <el-option value="2" label="邮件"/>
                     <el-option value="3" label="远程视频"/>
@@ -42,8 +43,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('otherlanguage.buyIntention')" style="width: 100%;">
-                  <el-select v-model="personalForm.buyIntention" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('otherlanguage.buyIntention')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.buyIntention" style="width: 200px">
                     <el-option value="1" label="低"/>
                     <el-option value="2" label="中"/>
                     <el-option value="3" label="高"/>
@@ -51,39 +52,39 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.chatDate')" prop="chatDate" style="width: 100%;">
+                <el-form-item :label="$t('CustomerMarketing.chatDate')" prop="chatDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.chatDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.actionDesc')" style="width: 100%;">
-                  <el-input v-model="personalForm.actionDesc" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerMarketing.actionDesc')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.actionDesc" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.customerReturn')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerReturn" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerMarketing.customerReturn')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerReturn" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerMarketing.remarks')" style="width: 100%;">
-                  <el-input v-model="personalForm.remarks" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerMarketing.remarks')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.remarks" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
-      </el-card>
-      <!--子件信息-->
-      <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
-      </div>
+    </el-card></div>
+    <!--子件信息-->
+    <!--操作-->
+    <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
+      <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+      <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </div>
 </template>
@@ -237,13 +238,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
