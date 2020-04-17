@@ -1,32 +1,33 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentApply.customerName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.customerName" :placeholder="$t('InstallmentApply.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
+      <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" size="small" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
       <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
+        size="small"
         trigger="click">
-        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
           <el-option :label="$t('updates.jd')" value="3"/>
         </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option :label="$t('updates.wsh')" value="0"/>
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
-        <el-input v-model="saleRepositoryId" :placeholder="$t('collectAndPay.saleRepository')" style="width: 40%;float: left;margin-left: 53px;margin-top: 10px;" clearable @focus="handlechooseRep" @clear="clearid"/>
+        <el-input v-model="getemplist.suretyName" :placeholder="$t('otherlanguage.dbr')" size="small" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 10px" @keyup.enter.native="handleFilter"/>
+        <el-input v-model="saleRepositoryId" :placeholder="$t('collectAndPay.saleRepository')" size="small" style="width: 40%;float: left;margin-left: 53px;margin-top: 10px;" clearable @focus="handlechooseRep" @clear="clearid"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <!--<el-date-picker-->
         <!--v-model="date"-->
@@ -38,18 +39,19 @@
         <!--value-format="yyyy-MM-dd"-->
         <!--style="margin-top: 20px;margin-left: 20px"/>-->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
-          <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+          <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
-        <el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+        <el-button v-waves slot="reference" size="small" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
       </el-popover>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
+
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves class="filter-item" size="small" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
@@ -57,25 +59,30 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['200-201-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['200-201-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['200-201-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['200-201-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
-      <el-button v-permission="['200-201-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddreport">{{ $t('InstallmentApply.addInvestigationReport') }}</el-button>
-      <el-button v-permission="['54-65-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" @click="handleAddcontrat">{{ $t('InstallmentApply.salecontrat') }}</el-button>
+      <el-button v-permission="['200-201-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['54-65-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" @click="handleAddreport">{{ $t('InstallmentApply.addInvestigationReport') }}</el-button>
+      <el-button v-permission="['54-65-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" @click="handleAddcontrat">{{ $t('InstallmentApply.salecontrat') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
+
         :data="list"
         border
         fit
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -268,6 +275,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       saleRepositoryId: '',
       step1: '',
       step2: '',
@@ -353,14 +361,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     // 清楚id
     clearid() {
       this.saleRepositoryId = ''
@@ -969,30 +986,6 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-  .el-dialog--center >>> el-dialog__body{
-    /*padding: 10px 20px 10px;*/
-    padding: 0px 25px 30px;
-  }
-  .normal >>> .el-dialog__header {
-    /*padding: 10px 20px 10px;*/
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
-</style>
-
-<style rel="stylesheet/css" scoped>
   .ERP-container >>>  .el-form-item__label{
     color: #909399;
     text-align: left;
@@ -1005,17 +998,26 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-  .ERP-container {
-    margin: 0px 10px;
+   .ERP-container {
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-     width: 180px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

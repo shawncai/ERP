@@ -2,55 +2,56 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.title')" prop="title" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CustomerSurveyReport.title')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <el-option :label="$t('prompt.fqsq')" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" @focus="chooseData"/>
+                <el-form-item :label="$t('CustomerSurveyReport.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.sourceNumber" style="width: 200px" @focus="chooseData"/>
                 </el-form-item>
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
                 <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.customerName')" style="width: 100%;">
-                  <el-input v-model="personalForm.customerName" style="margin-left: 18px;width: 200px" disabled @focus="chooseCustomer"/>
+                <el-form-item :label="$t('CustomerSurveyReport.customerName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.customerName" style="width: 200px" disabled @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.surveyDate')" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.surveyDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.surveyDate"
                     :picker-options="pickerOptions3"
                     :disabled="true"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CustomerSurveyReport.surveyPersonId')" style="width: 100%;">
-                  <el-input v-model="surveyPersonId" style="margin-left: 18px;width: 200px" disabled clearable/>
+                <el-form-item :label="$t('CustomerSurveyReport.surveyPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="surveyPersonId" style="width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.uploadAttachments')" style="width: 100%;">
+                <el-form-item :label="$t('SaleContract.uploadAttachments')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-upload
                     ref="upload"
                     :limit="1"
@@ -73,13 +74,14 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="24">
-                <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.liveStatus">
                     <el-radio label="1">{{ $t('prompt.zyzf') }}</el-radio>
                     <el-radio label="2">{{ $t('prompt.zf') }}</el-radio>
@@ -88,7 +90,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24">
-                <el-form-item :label="$t('CustomerSurveyReport.liveType')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.liveType')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.liveType">
                     <el-radio label="1"> {{ $t('prompt.jiude') }}</el-radio>
                     <el-radio label="2"> {{ $t('prompt.xjianz') }}</el-radio>
@@ -101,7 +103,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24">
-                <el-form-item :label="$t('CustomerSurveyReport.personalProperty')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.personalProperty')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-checkbox-group v-model="personalProperty">
                     <el-checkbox label="1"> {{ $t('prompt.ds') }}</el-checkbox>
                     <el-checkbox label="2"> {{ $t('prompt.jtyy') }}</el-checkbox>
@@ -116,14 +118,15 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.zhjg') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.zhjg') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="24">
-                <el-form-item :label="$t('CustomerSurveyReport.result')" prop="title" style="width: 100%;">
-                  <el-select v-model="personalForm.result" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CustomerSurveyReport.result')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.result" style="width: 200px">
                     <el-option :label="$t('updates.tg')" value="1" />
                     <el-option :label="$t('updates.btg')" value="2" />
                   </el-select>
@@ -133,13 +136,14 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('updates.yyfx') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.yyfx') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm4" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="24">
-                <el-form-item :label="$t('CustomerSurveyReport.reason')" prop="title" style="width: 100%;">
+                <el-form-item :label="$t('CustomerSurveyReport.reason')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     :autosize="{ minRows: 3}"
                     v-model="personalForm.reason"
@@ -152,7 +156,8 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -915,38 +920,21 @@ export default {
   .ERP-container >>> .el-input-number.is-without-controls .el-input__inner{
     text-align: left;
   }
-  .ERP-container {
+  .ERP-container{
     margin-right: 0;
   }
-  .form-name{
-    font-size: 18px;
-    color: #373e4f;
-    margin-bottom: -20px;
-    margin-top: 20px;
-  }
-  .container{
-    margin-top: 40px;
-  }
-  .el-button+.el-button{
-    width: 98px;
-  }
-</style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
+
 </style>
