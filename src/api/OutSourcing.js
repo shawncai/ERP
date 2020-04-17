@@ -18,6 +18,9 @@ export function createoutFactory(query, query2, query3, query4) {
 // 查询外包单
 export function searchoutsourcing(query) {
   var params = new URLSearchParams()
+  if (query.numisActiveber !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }
