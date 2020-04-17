@@ -102,7 +102,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column type="index" fixed align="center" label="编号" />
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" />

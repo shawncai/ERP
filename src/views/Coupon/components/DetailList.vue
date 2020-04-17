@@ -71,7 +71,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('collectAndPay.repositoryName')" prop="repositoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('collectAndPay.number2')" prop="provideNumber" align="center" min-width="150px"/>

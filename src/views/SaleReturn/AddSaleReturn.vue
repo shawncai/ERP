@@ -5,7 +5,7 @@
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
         <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 25px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">>
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -21,12 +21,6 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('SaleReturn.sourceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="width: 200px" @focus="choosesaleout"/>
-                </el-form-item>
-                <my-saleout :saleoutcontrol.sync="saleoutcontrol" @saleOutDetail="saleOutDetail" @saleOutdata="saleOutdata"/>
-              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('SaleReturn.customerType')" prop="customerType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.customerType" style="width: 200px" @change="clearCustomer">
@@ -145,7 +139,7 @@
             show-summary
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>

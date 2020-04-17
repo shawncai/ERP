@@ -69,7 +69,7 @@
                 class="click-table1"
                 stripe
                 border
-                size="medium"
+                size="small"
                 style="width: 100%">
                 <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
                 <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
@@ -124,7 +124,7 @@
                 :edit-config="{ showIcon: true, showStatus: true}"
                 class="click-table1"
                 border
-                size="medium"
+                size="small"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
@@ -195,7 +195,7 @@
                 class="click-table1"
                 stripe
                 border
-                size="medium"
+                size="small"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
@@ -237,7 +237,7 @@
                 class="click-table1"
                 stripe
                 border
-                size="medium"
+                size="small"
                 style="width: 100%">
                 <el-editable-column type="selection" min-width="55" align="center"/>
                 <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>

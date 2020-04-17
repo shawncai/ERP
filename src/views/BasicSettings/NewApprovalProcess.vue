@@ -86,7 +86,7 @@
             class="click-table1"
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%"
             @select="selectEvent"
             @current-change="currentChangeEvent">

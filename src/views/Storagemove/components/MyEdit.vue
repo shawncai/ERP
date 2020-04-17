@@ -140,7 +140,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" fixed="left" align="center" type="index"/>

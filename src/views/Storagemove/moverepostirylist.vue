@@ -46,7 +46,7 @@
           class="click-table1"
           stripe
           border
-          size="medium"
+          size="small"
           style="width: 90%;margin:0 auto"
           @selection-change="handleSelectionChange2">
           <!-- <el-editable-column type="selection" min-width="55" align="center" /> -->
@@ -96,7 +96,7 @@
             <el-popover v-if="scope.row.repositories.length !== 1" trigger="hover" placement="right">
               <p v-for="(item, index) in scope.row.repositories" :key="index">仓库名称: {{ item.repositoryName }}</p>
               <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">...</el-tag>
+                <el-tag size="small">...</el-tag>
               </div>
             </el-popover>
             <span v-else>{{ scope.row.repositories[0].repositoryName }}</span>
@@ -158,7 +158,7 @@
               class="click-table1"
               stripe
               border
-              size="medium"
+              size="small"
               style="width: 100%">
               <el-editable-column type="selection" width="55" align="center" fixed="left"/>
               <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>

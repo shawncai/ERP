@@ -48,7 +48,7 @@
             ref="editable"
             :data.sync="list2"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" width="55" fixed="left" align="center" type="index"/>
             <el-editable-column label="流程步骤" prop="step" width="100" align="center" fixed="left" />

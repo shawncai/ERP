@@ -111,7 +111,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>

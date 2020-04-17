@@ -110,7 +110,7 @@
             class="click-table1"
             stripe
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>

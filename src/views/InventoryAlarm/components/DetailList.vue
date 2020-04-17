@@ -36,7 +36,7 @@
             :edit-config="{ showIcon: false, showStatus: false}"
             class="click-table1"
             border
-            size="medium"
+            size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />

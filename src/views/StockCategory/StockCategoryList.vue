@@ -102,23 +102,23 @@
       <el-dialog :visible.sync="editcategoryVisible" :title="$t('updates.xgflsx')" class="normal" width="600px" center>
         <el-form ref="editCategoryForm" :rules="editCategoryFormRules" :model="editCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px">
-            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" style="width: 100%" disabled >
+            <el-select v-model="editCategoryForm.type" placeholder="请选择类别" size="mini" style="width: 100%" disabled >
               <el-option label="采购类别" value="1"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryName">
-            <el-input v-model="editCategoryForm.categoryName" autocomplete="off"/>
+            <el-input v-model="editCategoryForm.categoryName" size="mini" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="isEffective">
-            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" style="width: 100%">
+            <el-select v-model="editCategoryForm.isEffective" placeholder="请选择状态" size="mini" style="width: 100%">
               <el-option :label="$t('updates.qy')" value="1"/>
               <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
-          <el-button type="danger" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
+          <el-button type="primary" size="mini" @click="handleOk()">{{ $t('public.edit') }}</el-button>
+          <el-button type="danger" size="mini" @click="handleNo()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
       <!--修改结束=================================================-->
