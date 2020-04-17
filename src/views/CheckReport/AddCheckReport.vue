@@ -527,6 +527,9 @@ export default {
       this.judgequilty = (val.quantity).toFixed(2)
       this.personalForm.checkQuantity = (val.quantity).toFixed(2)
       if (Number(this.personalForm.checkQuantity) <= 100) {
+        if (Number(this.personalForm.checkQuantity) <= 5) {
+          this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        }
         this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
