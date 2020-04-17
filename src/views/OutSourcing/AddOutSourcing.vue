@@ -410,6 +410,7 @@ export default {
           val.splice(index, 1, item)
         }
       })
+      console.log('val===================', val)
       // const alldata = [...val, ...nowlistdata]
       // console.log('alldata=============', val, alldata)
       // const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')

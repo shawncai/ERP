@@ -348,8 +348,12 @@ export default {
     // 接口请求
     getInfo(productCode, id) {
       return new Promise((resolve, reject) => {
-        this.getemplist.productCode = productCode
-        materialslist(this.getemplist).then(res => {
+        const querylist = {
+          pageNum: 1,
+          pageSize: 10
+        }
+        querylist.productCode = productCode
+        materialslist(querylist).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list && res.data.data.content.list.length > 0) {
               res.data.data.content.list[0].idx = id
