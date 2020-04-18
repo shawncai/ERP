@@ -207,7 +207,6 @@ export default {
     }
   },
   created() {
-    this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -215,13 +214,20 @@ export default {
   methods: {
     // 根据id选中
     selectFromId(showList, selectList) {
-      if (selectList) {
-        for (const i in showList) {
-          if (selectList.findIndex(item => item.productCode === showList[i].code) > -1) {
-            this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+      this.$refs.multipleTable.clearSelection()
+      this.$nextTick(() => {
+        if (selectList) {
+          console.log('showList和selectList', showList, selectList)
+          for (const i in showList) {
+            if (selectList.findIndex(item => item.productCode === showList[i].code) > -1) {
+              console.log('选中==================', i, showList[i])
+              this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+            } else {
+              this.$refs.multipleTable.toggleRowSelection(showList[i], false)
+            }
           }
         }
-      }
+      })
       return showList
     },
     getlist() {
@@ -254,15 +260,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
     },
     // 批量操作
     handleSelectionChange(rows) {

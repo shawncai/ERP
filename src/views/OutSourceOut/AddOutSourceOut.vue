@@ -671,27 +671,27 @@ export default {
     handlesave() {
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       // 保存时同样商品不能有同一个批次
-      let i = 0
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        EnterDetail.map(function(elem2) {
-          return elem2
-        }).forEach(function(elem2) {
-          if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-            i++
-          }
-        })
-      })
-      console.log(i)
-      if (i > EnterDetail.length) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '同样商品不能有同一个批次',
-          offset: 100
-        })
-        return false
-      }
+      // let i = 0
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   EnterDetail.map(function(elem2) {
+      //     return elem2
+      //   }).forEach(function(elem2) {
+      //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+      //       i++
+      //     }
+      //   })
+      // })
+      // console.log(i)
+      // if (i > EnterDetail.length) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '同样商品不能有同一个批次',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       // 批次货位不能为空
       let j = 1
       EnterDetail.map(function(elem) {
