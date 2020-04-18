@@ -411,26 +411,6 @@ export default {
         }
       })
       console.log('val===================', val)
-      // const alldata = [...val, ...nowlistdata]
-      // console.log('alldata=============', val, alldata)
-      // const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
-      // const newArr = []
-      // console.log('nowlistdata', nowlistdata)
-      // alldata.forEach(el => {
-      //   console.log('el', el)
-      //   const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
-      //   console.log('result', result)
-      //   if (result !== -1) {
-      //     if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
-      //       newArr[result].quantity = newArr[result].quantity + el.quantity
-      //     } else {
-      //       newArr.push(el)
-      //     }
-      //   } else {
-      //     newArr.push(el)
-      //   }
-      // })
-      // console.log('newArr', alldata)
       this.list3 = val
     },
     // 两表联动
