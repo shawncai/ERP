@@ -23,7 +23,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                  <my-supplier :control.sync="empcontrol" :supp2.sync="supp2" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
@@ -375,6 +375,7 @@ export default {
       IsSourceNumber: false,
       // 带入的供应商
       supp: null,
+      supp2: null,
       // 结算方式
       paymentIds: [],
       // 合计数据
@@ -525,6 +526,7 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
+      this.supp2 = val.id
       this.arrivalRepositoryId = val.repositoryName
       this.personalForm.arrivalRepositoryId = val.id
     },
@@ -766,7 +768,13 @@ export default {
     },
     // 供应商输入框focus事件触发
     handlechoose() {
-      this.empcontrol = true
+      if (this.arrivalRepositoryId === undefined || this.arrivalRepositoryId === null || this.arrivalRepositoryId === '') {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择仓库',
+          duration: 0
+        })
+      } else { this.empcontrol = true }
     },
     // 供应商列表返回数据
     supplierName(val) {

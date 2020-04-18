@@ -173,6 +173,9 @@ export function create(query, query2) {
 // 供应商列表
 export function search(query) {
   var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
     params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
   }

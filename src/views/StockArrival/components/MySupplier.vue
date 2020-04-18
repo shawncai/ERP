@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :control="control" :close-on-press-escape="false" top="10px" title="选择供应商" append-to-body @close="$emit('update:control', false)">
+  <el-dialog :visible.sync="employeeVisible" :control="control" :supp2="supp2" :close-on-press-escape="false" top="10px" title="选择供应商" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -144,6 +144,10 @@ export default {
     query: {
       type: Boolean,
       default: false
+    },
+    supp2: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -171,6 +175,7 @@ export default {
       listLoading: true,
       // 供应商列表查询加展示参数
       getemplist: {
+        repositoryId: this.supp2,
         id: '',
         supplierName: '',
         typeId: '',
@@ -208,6 +213,11 @@ export default {
           this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 200
         }, 100)
       }
+    },
+    supp2() {
+      this.getemplist.repositoryId = this.supp2
+      this.getlist()
+      console.log(this.supp2)
     }
   },
   beforeCreate() {
