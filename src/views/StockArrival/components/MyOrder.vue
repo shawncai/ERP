@@ -85,7 +85,7 @@
         <el-table-column
           type="selection"
           width="55"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="200">
           <!-- <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
           </template> -->
@@ -98,18 +98,24 @@
             </el-popover> -->
             <el-popover
               placement="right"
-              width="400"
-              trigger="click">
-              <el-table :data="scope.row.stockOrderDetailVos">
-                <el-table-column width="150" property="productCode" label="日期"/>
-                <el-table-column width="100" property="name" label="姓名"/>
-                <el-table-column width="300" property="address" label="地址"/>
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.stockOrderDetailVos" border size="small">
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <el-table-column :label="$t('updates.cgsl')" min-width="100" property="stockQuantity"/>
+                <el-table-column :label="$t('updates.jhrq')" min-width="200" property="deliveryDate"/>
+                <el-table-column :label="$t('updates.ys')" min-width="100" property="color"/>
+                <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
               </el-table>
-              <el-button slot="reference">{{ scope.row.orderNumber }}</el-button>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="small">{{ scope.row.orderNumber }}</el-tag>
+              </div>
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
