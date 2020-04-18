@@ -319,8 +319,12 @@ export default {
           quantity: item.quantity,
           batch: '',
           outQuantity: 0,
+          enterQuantity: 0,
+          moveQuantity: 0,
+          moveMoney: 0,
           damageQuantity: 0,
-          productType: item.productType
+          productType: item.productType,
+          movePrice: item.price
         }
       })
       console.log('productDetail', productDetail)
