@@ -715,6 +715,7 @@ export default {
           }
           this.list = newarr2
           this.getSpanArr(this.list)
+          console.log('this.list==================', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -753,15 +754,16 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      stockorderlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // stockorderlist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 采购人focus事件
     handlechooseStock() {
@@ -808,10 +810,7 @@ export default {
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        console.log('11', approvalUse)
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log('22', approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }

@@ -529,6 +529,8 @@ export default {
       if (Number(this.personalForm.checkQuantity) <= 100) {
         if (Number(this.personalForm.checkQuantity) <= 5) {
           this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        } else {
+          this.personalForm.sampleQuantity = 5
         }
         this.personalForm.sampleQuantity = 5
       }
@@ -723,6 +725,11 @@ export default {
       this.judgequilty = (val.checkQuantity - val.checkedQuantity).toFixed(2)
       this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(2)
       if (Number(this.personalForm.checkQuantity) <= 100) {
+        if (Number(this.personalForm.checkQuantity) <= 5) {
+          this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        } else {
+          this.personalForm.sampleQuantity = 5
+        }
         this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
@@ -744,7 +751,11 @@ export default {
       this.judgequilty = val.arrivalQuantity - val.reportCheckingQuantity
       this.personalForm.checkQuantity = val.arrivalQuantity - val.reportCheckingQuantity
       if (Number(this.personalForm.checkQuantity) <= 100) {
-        this.personalForm.sampleQuantity = 5
+        if (Number(this.personalForm.checkQuantity) <= 5) {
+          this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        } else {
+          this.personalForm.sampleQuantity = 5
+        }
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
         this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
@@ -766,6 +777,11 @@ export default {
       this.judgequilty = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
       this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
       if (Number(this.personalForm.checkQuantity) <= 100) {
+        if (Number(this.personalForm.checkQuantity) <= 5) {
+          this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+        } else {
+          this.personalForm.sampleQuantity = 5
+        }
         this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
@@ -870,6 +886,9 @@ export default {
         console.log('111')
         this.IsSampleQuantity = false
         if (Number(this.personalForm.checkQuantity) <= 100) {
+          if (Number(this.personalForm.checkQuantity) <= 5) {
+            this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+          }
           this.personalForm.sampleQuantity = 5
         }
         if (Number(this.personalForm.checkQuantity) >= 101) {
