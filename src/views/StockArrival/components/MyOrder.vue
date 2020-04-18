@@ -86,8 +86,27 @@
           type="selection"
           width="55"/>
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <span>{{ scope.row.orderNumber }}</span>
+          </template> -->
+          <template slot-scope="scope">
+            <!-- <el-popover trigger="hover" placement="right">
+              <p v-for="(item, index) in scope.row.stockOrderDetailVos" :key="index">物品编码: {{ item.productCode }}</p>
+              <div slot="reference" class="name-wrapper">
+                <el-tag>{{ scope.row.orderNumber }}</el-tag>
+              </div>
+            </el-popover> -->
+            <el-popover
+              placement="right"
+              width="400"
+              trigger="click">
+              <el-table :data="scope.row.stockOrderDetailVos">
+                <el-table-column width="150" property="productCode" label="日期"/>
+                <el-table-column width="100" property="name" label="姓名"/>
+                <el-table-column width="300" property="address" label="地址"/>
+              </el-table>
+              <el-button slot="reference">{{ scope.row.orderNumber }}</el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockOrder.title')" :resizable="false" align="center" min-width="150">
