@@ -294,6 +294,7 @@ export default {
       const detialproduct = [].concat.apply([], yuan)
       const finalproduct = detialproduct.map(item => {
         return {
+          countNumber: 0,
           categoryName: item.productCategory,
           category: item.categoryId,
           type: item.typeId,

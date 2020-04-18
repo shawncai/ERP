@@ -131,6 +131,7 @@
         </div>
         <div class="container">
           <el-editable
+            v-loading="listLoading"
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
@@ -145,6 +146,7 @@
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -166,8 +168,8 @@
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/>
+            <!-- <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150"/> -->
+            <!-- <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/> -->
             <el-editable-column :label="$t('updates.ydsl')" prop="allQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.wcksl')" prop="allQuantity" align="center" min-width="150"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
@@ -523,6 +525,7 @@ export default {
       }
     }
     return {
+      listLoading: false,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -733,19 +736,6 @@ export default {
           num += this.list2[i].quantity
           num2 += Number(this.list2[i].discountMoney)
           num1 += this.list2[i].includeTaxCostMoney
-          productlist(this.list2[i].productCode).then(res => {
-            if (res.data.ret === 200) {
-              if (res.data.data.content.list[0].isBatch === 2) {
-                this.list2[i].batch = '不使用'
-              }
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
         }
         this.heji1 = num
         this.heji3 = num1
@@ -1473,37 +1463,49 @@ export default {
       }
     },
     getLocationData(row) {
-      // 默认批次
-      if (row.batch === null || row.batch === '' || row.batch === undefined) {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length > 0) {
-            row.batch = res.data.data.content[0]
-          }
-        })
+      if (row.flag === undefined) {
+        row.flag = true
       } else {
-        const parms3 = row.productCode
-        batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length === 0) {
-            if (row.batch !== '不使用') {
-              row.batch = null
+        return row.location
+      }
+      // 默认批次
+      if (row.flag) {
+        if (row.batch === null || row.batch === '' || row.batch === undefined) {
+          const parms3 = row.productCode
+          batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.batch = res.data.data.content[0]
+            }
+          })
+        } else {
+          const parms3 = row.productCode
+          batchlist(this.personalForm.saleRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length === 0) {
+              if (row.batch !== '不使用') {
+                row.batch = null
+              }
+            }
+          })
+        }
+        // 默认货位
+        getlocation(this.personalForm.saleRepositoryId, row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              row.location = res.data.data.content[0].locationCode
+              row.locationId = res.data.data.content[0].id
+            } else {
+              row.location = null
+              row.locationId = null
             }
           }
         })
+        // 查询库存数量
+        countlist(this.personalForm.saleRepositoryId, this.$store.getters.regionIds, row.productCode).then(res => {
+          row.countNumber = res.data.data.content.list[0].existStock
+        })
+        return row.location
       }
-      // 默认货位
-      getlocation(this.personalForm.saleRepositoryId, row).then(res => {
-        if (res.data.ret === 200) {
-          if (res.data.data.content.length !== 0) {
-            row.location = res.data.data.content[0].locationCode
-            row.locationId = res.data.data.content[0].id
-          } else {
-            row.location = null
-            row.locationId = null
-          }
-        }
-      })
-      return row.location
+      row.flag = false
     },
     chooseSourceType(val) {
       this.receivableMoney = ''

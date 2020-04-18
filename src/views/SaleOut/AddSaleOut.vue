@@ -247,6 +247,7 @@
         </div>
         <div class="container">
           <el-editable
+            v-loading="listLoading"
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
@@ -261,6 +262,7 @@
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -653,6 +655,7 @@ export default {
       }
     }
     return {
+      listLoading: false,
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -1564,7 +1567,10 @@ export default {
             }
           }
         })
-        console.log(`调用次数${this.flag}`, this.flag)
+        // 查询库存数量
+        countlist(this.personalForm.saleRepositoryId, this.$store.getters.regionIds, row.productCode).then(res => {
+          row.countNumber = res.data.data.content.list[0].existStock
+        })
         return row.location
       }
       row.flag = false
