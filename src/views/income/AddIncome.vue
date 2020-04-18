@@ -241,11 +241,20 @@ export default {
     this.getdatatime()
     this.getTypes()
     this.gettree()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     switchtreedata(val) {
       for (const i in val) {
         if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
@@ -444,6 +453,7 @@ export default {
         currency: '1',
         handlePersonId: this.$store.getters.userId
       }
+      this.getcurrency()
       this.handlePersonId = null
       this.personalForm.handlePersonId = null
       this.incomeRepositoryId = null

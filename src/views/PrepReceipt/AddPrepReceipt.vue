@@ -249,11 +249,20 @@ export default {
 
   mounted() {
     this.getinformation()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     clearCustomer() {
       this.personalForm.customerName = ''
       this.personalForm.agentId = ''
@@ -428,6 +437,7 @@ export default {
         receiptDate: null
       }
       this.receiptPersonId = null
+      this.getcurrency()
     },
     // 保存操作
     handlesave() {

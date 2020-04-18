@@ -490,12 +490,21 @@ export default {
   created() {
     this.getTypes()
     this.getways()
+    this.getcurrency()
     // this.getdatatime()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     handlepaythis(row) {
       console.log(row)
       const judgemoney = Number(row.payThis) + Number(row.advanceMoney)
@@ -736,6 +745,7 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1
       }
+      this.getcurrency()
       this.getdatatime()
       this.supplierId = null
       this.handlePersonId = null

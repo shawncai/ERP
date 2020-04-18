@@ -710,6 +710,13 @@ export default {
             if (res.data.ret === 200) {
               row.data.stat = 2
               that.ischeck = false
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: res.data.msg,
+                offset: 100
+              })
+              that.ischeck = false
             }
           })
         } else {

@@ -274,11 +274,20 @@ export default {
     this.getTypes()
     this.gettree()
     this.getitemList()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     getitemList() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
       if (this.$store.getters.repositoryId === 0) {
@@ -516,6 +525,7 @@ export default {
     },
     // 清空记录
     restAllForm() {
+      this.getcurrency()
       // this.personalForm = {
       //   createPersonId: this.$store.getters.userId,
       //   countryId: this.$store.getters.countryId,

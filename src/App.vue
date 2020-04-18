@@ -49,7 +49,6 @@ export default{
       ' ████____███',
       ' █ _███_ _█_███'
     ].join('\n')))
-
     window.onbeforeunload = function() { return '确认离开页面？！' }
   },
   beforeDestroy() {

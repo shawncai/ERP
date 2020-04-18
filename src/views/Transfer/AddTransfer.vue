@@ -323,11 +323,20 @@ export default {
     this.handlechange4()
     this.judgedirction()
     this.getaccounts2()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     test2(row, val) {
       console.log(row, val)
       const accountsname = this.accountcodes.find(item => {
@@ -684,6 +693,7 @@ export default {
         currency: '1',
         transferType: '1'
       }
+      this.getcurrency()
       this.handlePersonId = this.$store.getters.name
       this.personalForm.handlePersonId = null
       this.incomeRepositoryId = null

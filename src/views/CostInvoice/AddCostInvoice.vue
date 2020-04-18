@@ -370,11 +370,20 @@ export default {
 
   mounted() {
     this.getinformation()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     change2(val) {
       console.log('val', val)
       for (let i = 0; i < this.costs.length; i++) {
@@ -720,6 +729,7 @@ export default {
         currency: '1',
         retreatDate: null
       }
+      this.getcurrency()
       this.getdatatime()
       this.supplierId = null
       this.inquiryPersonId = null

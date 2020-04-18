@@ -506,14 +506,22 @@ export default {
     this.getways()
     this.getdatatime()
   },
-
   mounted() {
     this.getinformation()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -931,6 +939,7 @@ export default {
         payDate: null,
         invoiceType: '1'
       }
+      this.getcurrency()
       this.supplierId = null
       this.inquiryPersonId = null
       this.handlePersonId = this.$store.getters.name

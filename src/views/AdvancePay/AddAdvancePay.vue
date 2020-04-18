@@ -263,11 +263,20 @@ export default {
 
   mounted() {
     this.getinformation()
+    this.getcurrency()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     handerchoose(val) {
       // console.log(val)
       // const needratio = this.ratios.find(item => {
