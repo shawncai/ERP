@@ -379,7 +379,7 @@ export default {
           color: item.color,
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
           actualEnterQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(2),
-          enterPrice: (item.includeTaxPrice).toFixed(2),
+          enterPrice: item.includeTaxPrice,
           taxRate: (item.taxRate).toFixed(2),
           enterMoney: '0.00',
           remarks: '',
@@ -391,7 +391,7 @@ export default {
           hadStorageQuantity: item.hadStorageQuantity
         }
       })
-      console.log(arrivalDetail)
+      console.log('arrivalDetail', arrivalDetail)
       this.$emit('arrival', arrivalDetail)
       this.$emit('allarrivalinfo', this.choosedata)
     }
