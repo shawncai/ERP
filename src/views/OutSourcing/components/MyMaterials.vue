@@ -4,6 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.color" :placeholder="$t('updates.ys')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- <el-input v-model="getemplist.productTypeName" :placeholder="$t('Hmodule.gg')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
 
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
@@ -241,22 +242,25 @@ export default {
       console.log('我的分页', this.getemplist.pageNum, this.getemplist.pageSize)
       this.list2 = this.selectlist
       // if (this.getemplist.productCode !== null && this.getemplist.productCode !== '' && this.getemplist.productCode !== undefined) {
-      const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName)
+      const list3 = this.fuzzyQuery(this.list2, this.getemplist.productCode, this.getemplist.productName, this.getemplist.color)
       const currentarry = this._.slice(list3, (this.getemplist.pageNum - 1) * this.getemplist.pageSize, this.getemplist.pageNum * this.getemplist.pageSize)
       this.list = this.selectFromId(currentarry, this.selected)
       this.total = list3.length
       // }
     },
-    fuzzyQuery(list, keyWord, keyWord2) {
+    fuzzyQuery(list, keyWord, keyWord2, keyWord3) {
       console.log('list', list)
       console.log('keyWord', keyWord)
       var reg = new RegExp(keyWord)
       var reg2 = new RegExp(keyWord2)
+      var reg3 = new RegExp(keyWord3)
       var arr = []
       for (var i = 0; i < list.length; i++) {
         if (reg.test(list[i].productCode)) {
           if (reg2.test(list[i].productName)) {
-            arr.push(list[i])
+            if (reg3.test(list[i].color)) {
+              arr.push(list[i])
+            }
           }
         }
       }
