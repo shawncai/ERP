@@ -1,22 +1,23 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('updates.djbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('updates.djbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="supplierId" :placeholder="$t('updates.gys')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
+      <el-input v-model="supplierId" :placeholder="$t('updates.gys')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
       <el-date-picker
         v-model="getemplist.payDate"
         type="date"
+        size="small"
         value-format="yyyy-MM-dd"
         class="filter-item"/>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
       <!--&lt;!&ndash; 批量操作 &ndash;&gt;-->
       <!--<el-dropdown @command="handleCommand">-->
       <!--<el-button v-waves class="filter-item" style="margin-left: 0" type="primary">-->
@@ -27,21 +28,25 @@
       <!--</el-dropdown-menu>-->
       <!--</el-dropdown>-->
       <!-- 表格导出操作 -->
-      <el-button v-permission="['266-128-6']" v-waves :loading="downloadLoading" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button v-permission="['266-128-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['266-128-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['266-128-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
+        :height="tableHeight"
         :key="tableKey"
         :data="list"
+        size="small"
         border
         fit
         highlight-current-row
         style="width: 100%;"
+        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           :selectable="selectInit"
@@ -194,6 +199,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -251,14 +258,23 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     checkPermission,
     // 不让勾选
     selectInit(row, index) {
@@ -455,16 +471,25 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-  .ERP-container {
-    margin: 0px 10px;
+ .ERP-container {
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-     width: 180px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
 </style>

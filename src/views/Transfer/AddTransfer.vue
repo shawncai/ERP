@@ -2,31 +2,31 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('collectAndPayDetail.fx')" style="width: 100%;">
-                  <el-select v-model="personalForm.direction" disabled style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('collectAndPayDetail.fx')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.direction" disabled style="width: 200px">
                     <el-option value="1" label="门店"/>
                     <el-option value="2" label="公司"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Transfer.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferTicket" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.transferTicket" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('income.region')" prop="transferRegion" style="width: 100%;">
+                <el-form-item :label="$t('income.region')" prop="transferRegion" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-cascader
                     :options="regions"
                     :props="props"
@@ -36,30 +36,30 @@
                     change-on-select
                     filterable
                     clearable
-                    style="margin-left: 18px;width: 200px"
+                    style="width: 200px"
                     @change="handlechange4"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('income.incomeRepositoryId')" style="width: 100%;">
-                  <el-input v-model="transferRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <el-form-item :label="$t('income.incomeRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="transferRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" :regionid="region" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="width: 100%;">
+                <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.transferDate"
                     :picker-options="pickerOptions1"
                     type="datetime"
                     value-format="yyyy-MM-dd HH:mm:ss"
-                    style="margin-left: 18px;width:200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('otherlanguage.zzlx')" style="width: 100%;">
-                  <el-select v-model="personalForm.transferType" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('otherlanguage.zzlx')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.transferType" style="width: 200px">
                     <el-option value="1" label="现金"/>
                     <el-option value="2" label="支票"/>
                     <el-option value="3" label="银行转账"/>
@@ -67,23 +67,23 @@
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="width: 100%;">-->
-              <!--                  <el-input v-model="personalForm.transferMoney" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                <el-form-item :label="$t('Transfer.transferMoney')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
+              <!--                  <el-input v-model="personalForm.transferMoney" style="width: 200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferOutAccount" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Transfer.transferOutAccount')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.transferOutAccount" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferOutBank" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('Transfer.transferOutBank')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.transferOutBank" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col> -->
               <el-col v-if="personalForm.direction === '2'" :span="6">
-                <el-form-item v-if="personalForm.direction === '2'" :label="$t('Transfer.transferInAccount')" prop="transferInAccount" style="width: 100%;">
-                  <el-select v-model="personalForm.transferInAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts" @change="setbank">
+                <el-form-item v-if="personalForm.direction === '2'" :label="$t('Transfer.transferInAccount')" prop="transferInAccount" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.transferInAccount" style="width: 200px" @focus="getaccounts" @change="setbank">
                     <el-option
                       v-for="(item, index) in accounts"
                       :key="index"
@@ -93,24 +93,24 @@
                 </el-form-item>
               </el-col>
               <el-col v-show="personalForm.direction === '2'" :span="6">
-                <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
-                  <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable disabled/>
+                <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.transferInBank" style="width: 200px" clearable disabled/>
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="width: 100%;">-->
-              <!--                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>-->
+              <!--                <el-form-item :label="$t('Transfer.taxRate')" prop="transferTicket" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
+              <!--                  <el-input v-model="personalForm.taxRate" style="width: 200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handlePersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Transfer.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('Transfer.currency')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.currency" style="width: 200px">
                     <el-option value="1" label="PHP"/>
                     <el-option value="2" label="USD"/>
                     <el-option value="3" label="RMB"/>
@@ -121,8 +121,8 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('otherlanguage.zzmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name" >{{ $t('otherlanguage.zzmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="insertEvent(-1)">{{ $t('updates.tjsrx') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -181,7 +181,7 @@
             </el-editable-column> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.kmmc')" prop="subjectCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.subjectCode" :value="scope.row.subjectCode" :placeholder="$t('updates.kmmc')" filterable style="width: 100%;" @change="test2(scope.row,$event)">
+                <el-select v-model="scope.row.subjectCode" :value="scope.row.subjectCode" :placeholder="$t('updates.kmmc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @change="test2(scope.row,$event)">
                   <el-option
                     v-for="(item, index) in accountcodes"
                     :key="index"
@@ -195,7 +195,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -827,16 +827,17 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

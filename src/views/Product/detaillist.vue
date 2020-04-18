@@ -262,7 +262,7 @@ export default {
       this.nodata = false
       const ceshidigui = this.recursion(node)
       console.log('ceshidigui', ceshidigui)
-      if ((node.parent.data.code === '01' && node.parent.data.level === 1) || (data.level === 4 && ceshidigui.code === '02') || (data.level === 3 && ceshidigui.code === '03') || (data.level === 4 && ceshidigui.code === '06') || (data.level === 4 && ceshidigui.code === '07')) {
+      if ((node.parent.data.code === '01' && node.parent.data.level === 1) || (data.level === 4 && ceshidigui.code === '02') || (data.level === 3 && ceshidigui.code === '03') || (data.level === 4 && ceshidigui.code === '06') || (data.level === 4 && ceshidigui.code === '07') || (data.level === 4 && ceshidigui.code === '08')) {
         this.tishi = false
         this.nodata = true
         return false

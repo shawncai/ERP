@@ -2,78 +2,78 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.factoryName')" prop="factoryName" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryName" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.factoryName')" prop="factoryName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.factoryName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.factoryNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryNumber" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.factoryNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.factoryNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.factoryFax')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryFax" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.factoryFax')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.factoryFax" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.factoryContactName')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryContactName" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.factoryContactName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.factoryContactName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.factoryContactPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.factoryContactPhone" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.factoryContactPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.factoryContactPhone" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.taxNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxNumber" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.taxNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.taxNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.accountName')" style="width: 100%;">
-                  <el-input v-model="personalForm.accountName" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.accountName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.accountName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.bankName')" style="width: 100%;">
-                  <el-input v-model="personalForm.bankName" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.bankName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.bankName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.account')" style="width: 100%;">
-                  <el-input v-model="personalForm.account" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.account')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.account" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.businessRegisterNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.businessRegisterNumber" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.businessRegisterNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.businessRegisterNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.productionLicense')" style="width: 100%;">
-                  <el-input v-model="personalForm.productionLicense" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.productionLicense')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productionLicense" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.unitAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.unitAddress" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.unitAddress')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.unitAddress" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.unitEmail')" style="width: 100%;">
-                  <el-input v-model="personalForm.unitEmail" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.unitEmail')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.unitEmail" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.stat')" style="width: 100%;">
+                <el-form-item :label="$t('OutFactory.stat')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.stat" style="width:200px;margin-left: 18px">
                     <el-radio :label="1" style="width: 100px">启用</el-radio>
                     <el-radio :label="2">停用</el-radio>
@@ -84,25 +84,26 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 15px">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
+      <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.receiverId')" style="width: 100%;">
-                  <el-input v-model="receiverId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('OutFactory.receiverId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="receiverId" style="width: 200px" clearable @focus="handlechooseStock"/>
                   <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.receivePlaceCode')" style="width: 100%;">
-                  <el-input v-model="personalForm.receivePlaceCode" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.receivePlaceCode')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.receivePlaceCode" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.countryId')" style="width: 100%;">
-                  <el-select v-model="personalForm.countryId" style="margin-left: 18px;width: 200px" @change ="handlechange" @focus="updatecountry">
+                <el-form-item :label="$t('OutFactory.countryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.countryId" style="width: 200px" @change ="handlechange" @focus="updatecountry">
                     <el-option
                       v-for="(item, index) in nations"
                       :key="index"
@@ -112,8 +113,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.provinceId')" style="width: 100%;">
-                  <el-select v-model="personalForm.provinceId" filterable style="margin-left: 18px;width: 200px" @change="handlechange2">
+                <el-form-item :label="$t('OutFactory.provinceId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.provinceId" filterable style="width: 200px" @change="handlechange2">
                     <el-option
                       v-for="(item, index) in provinces"
                       :key="index"
@@ -123,8 +124,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.cityId')" style="width: 100%;">
-                  <el-select v-model="personalForm.cityId" filterable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('OutFactory.cityId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.cityId" filterable style="width: 200px">
                     <el-option
                       v-for="(item, index) in cities"
                       :key="index"
@@ -134,7 +135,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.regionId')" style="width: 100%;">
+                <el-form-item :label="$t('OutFactory.regionId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-cascader
                     :options="regions"
                     :props="props"
@@ -143,18 +144,18 @@
                     change-on-select
                     filterable
                     clearable
-                    style="margin-left: 18px;width: 200px"
+                    style="width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.receiverPhone')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiverPhone" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.receiverPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.receiverPhone" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutFactory.receiverAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.receiverAddress" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutFactory.receiverAddress')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.receiverAddress" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -162,7 +163,7 @@
         </div>
       </el-card>
       <!-- 可提供商品 -->
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
 
         <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -193,7 +194,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -488,13 +489,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
