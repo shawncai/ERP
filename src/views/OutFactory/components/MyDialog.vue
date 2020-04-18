@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.factoryNumber +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.factoryName +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -464,28 +464,22 @@ export default {
       return result
     },
     productdetail(val) {
-      console.log(val)
-      // const nowlistdata = this.$refs.editable.getRecords()
       const nowlistdata = this.$refs.editable.getRecords()
       const alldata = [...val, ...nowlistdata]
       const filterdata = this.uniqueArray(alldata, 'productCode')
-
+      console.log('filterdata=========', filterdata)
       for (let i = 0; i < filterdata.length; i++) {
         console.log(filterdata[i].price)
         let m = 1
         for (let j = 0; j < nowlistdata.length; j++) {
           if (filterdata[i].productCode === nowlistdata[j].productCode) {
             m = 2
-            // this.$notify.error({
-            //   title: 'wrong',
-            //   message: this.$t('prompt.wpytj'),
-            //   offset: 100
-            // })
-            // return false
           }
         }
-        filterdata[i].discountRate = 0
-        filterdata[i].price = filterdata[i].purchasePrice
+        if (filterdata[i].price === undefined) {
+          filterdata[i].price = 0
+        }
+        // filterdata[i].price = filterdata[i].purchasePrice
         if (m === 1) {
           this.$refs.editable.insert(filterdata[i])
         }

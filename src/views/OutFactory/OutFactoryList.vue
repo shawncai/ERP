@@ -45,15 +45,15 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('OutFactory.factoryNumber')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('OutFactory.factoryName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.factoryNumber }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.factoryName }}</span>
+            <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('OutFactory.factoryName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('OutFactory.factoryNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.factoryName }}</span>
+            <span>{{ scope.row.factoryNumber }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('OutFactory.factoryContactPhone')" :resizable="false" align="center" min-width="150">
