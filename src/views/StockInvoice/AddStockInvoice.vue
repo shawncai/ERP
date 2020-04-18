@@ -215,7 +215,7 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.discountRate"
-                  @change="getdiscountRate(scope.row)"/>
+                  @input="getdiscountRate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
@@ -636,11 +636,31 @@ export default {
       }
     },
     // 通过折扣计算折扣额
-    getdiscountRate(row) {
+    getdiscountRate(row, scope) {
+      console.log('执行了')
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
         row.discountMoney = (row.includeTaxPrice * row.quantity * (row.discountRate / 100)).toFixed(2)
+      }
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('this.list2[i].discountRate', this.list2[i].discountRate)
+            if (this.list2[i].discountRate !== null && this.list2[i].discountRate !== 0 && this.list2[i].discountRate !== '' && this.list2[i].discountRate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              // this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].discountRate = row.discountRate
+            }
+          }
+          console.log(row)
+        }
       }
     },
     // 通过税率计算含税价
