@@ -2,82 +2,82 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutSourcing.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.personId')" prop="personId" style="width: 100%;">
-                  <el-input v-model="personId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('OutSourcing.personId')" prop="personId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personId" style="width: 200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="stockControl" @deliveryName="stockName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.taxRate')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxRate" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('OutSourcing.taxRate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.taxRate" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.outFactoryId')" prop="outFactoryId" style="width: 100%;">
-                  <el-input v-model="outFactoryId" style="margin-left: 18px;width:200px" clearable @focus="chooseFactory"/>
+                <el-form-item :label="$t('OutSourcing.outFactoryId')" prop="outFactoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="outFactoryId" style="width: 200px" clearable @focus="chooseFactory"/>
                 </el-form-item>
                 <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.paymentAgreementId')" style="width: 100%;">
-                  <el-select v-model="personalForm.paymentAgreementId" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('OutSourcing.paymentAgreementId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.paymentAgreementId" style="width: 200px">
                     <el-option value="1" label="付款1"/>
                     <el-option value="2" label="付款2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.deadline')" style="width: 100%;">
+                <el-form-item :label="$t('OutSourcing.deadline')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.deadline"
                     type="date"
                     placeholder="期限"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.productionDate')" style="width: 100%;">
+                <el-form-item :label="$t('OutSourcing.productionDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.productionDate"
                     type="date"
                     placeholder="生产日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.completeDate')" prop="completeDate" style="width: 100%;">
+                <el-form-item :label="$t('OutSourcing.completeDate')" prop="completeDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.completeDate"
                     type="date"
                     placeholder="完成日期"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.billingTypeId')" style="width: 100%;">
-                  <el-select v-model="personalForm.billingTypeId" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('OutSourcing.billingTypeId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.billingTypeId" style="width: 200px">
                     <el-option value="1" label="普通发票"/>
                     <el-option value="2" label="付款2"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.giveAddress')" style="width: 100%;">
-                  <el-input v-model="personalForm.giveAddress" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('OutSourcing.giveAddress')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.giveAddress" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -90,16 +90,16 @@
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="110px" style="margin-left: 30px;">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('OutSourcing.heji')" style="width: 100%;">
-                  <el-input v-model="heji" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('OutSourcing.heji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('Hmodule.jghmx') }}</h2>
+      <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="fuzhu" class="form-name">{{ $t('Hmodule.jghmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <!-- <my-detail :control.sync="control" @product="productdetail"/> -->
@@ -141,8 +141,8 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('Hmodule.yclmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name">{{ $t('Hmodule.yclmx') }}</div>
         <!-- <div class="buttons" style="margin-top: 58px">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -182,7 +182,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -552,13 +552,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

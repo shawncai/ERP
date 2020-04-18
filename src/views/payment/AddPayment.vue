@@ -2,31 +2,33 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
           <el-form
             ref="personalForm"
             :model="personalForm"
             :rules="personalrules"
             :inline="true"
+            size="mini"
             status-icon
             class="demo-ruleForm"
-            label-width="130px"
-          >
+            label-position="left"
+            label-width="130px">
+            >
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.title')" style="width: 100%;">
+                <el-form-item :label="$t('payment.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.title"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                   />
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="width: 100%;">-->
-              <!--                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">-->
+              <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
+              <!--                  <el-select v-model="personalForm.sourceType" style="width: 200px">-->
               <!--                    <el-option value="1" label="采购订单" />-->
               <!--                    <el-option value="2" label="无来源" />-->
               <!--                  </el-select>-->
@@ -36,11 +38,11 @@
                 <el-form-item
                   :label="$t('payment.supplierId')"
                   prop="supplierId"
-                  style="width: 100%;"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
                 >
                   <el-input
                     v-model="supplierId"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                     @focus="handlechoose"
                   />
@@ -51,11 +53,11 @@
                 <el-form-item
                   :label="$t('payment.handlePersonId')"
                   prop="handlePersonId"
-                  style="width: 100%;"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
                 >
                   <el-input
                     v-model="handlePersonId"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                     @focus="handlechooseStock"
                   />
@@ -63,11 +65,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.payMode')" style="width: 100%;">
+                <el-form-item :label="$t('payment.payMode')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select
                     v-model="personalForm.payMode"
                     clearable
-                    style="margin-left: 18px;width: 200px"
+                    style="width: 200px"
                   >
                     <el-option
                       v-for="(item, index) in payModes"
@@ -79,20 +81,20 @@
                 </el-form-item>
               </el-col>
               <!--              <el-col :span="6">-->
-              <!--                <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="width: 100%;">-->
+              <!--                <el-form-item :label="$t('payment.applyDate')" prop="applyDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-date-picker-->
               <!--                    v-model="personalForm.applyDate"-->
               <!--                    type="date"-->
               <!--                    value-format="yyyy-MM-dd"-->
-              <!--                    style="margin-left: 18px;width:200px"/>-->
+              <!--                    style="width: 200px"/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('payment.currency')" style="width: 100%;">
+                <el-form-item :label="$t('payment.currency')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select
                     v-model="personalForm.currency"
                     clearable
-                    style="margin-left: 18px;width: 200px"
+                    style="width: 200px"
                   >
                     <el-option value="1" label="RMB" />
                     <el-option value="2" label="USD" />
@@ -100,66 +102,66 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
+                <el-form-item :label="$t('payment.payAccount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.payAccount"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.payAccountNumber')" style="width: 100%;">
+                <el-form-item :label="$t('payment.payAccountNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.payAccountNumber"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.remarks')" style="width: 100%;">
+                <el-form-item :label="$t('payment.remarks')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.remarks"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.rate')" style="width: 100%;">
+                <el-form-item :label="$t('payment.rate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.rate"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     clearable
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.payDate')" prop="payDate" style="width: 100%;">
+                <el-form-item :label="$t('payment.payDate')" prop="payDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.payDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.offsetAdvance')" style="width: 100%;">
+                <el-form-item :label="$t('payment.offsetAdvance')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.offsetAdvance"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     disabled
                   />
                 </el-form-item>
                 <span style="color: red;margin-left: 52px;font-size: 14px">预付款金额：{{ yufu }}</span>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('payment.moneyThis')" style="width: 100%;">
+                <el-form-item :label="$t('payment.moneyThis')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input
                     v-model="personalForm.moneyThis"
-                    style="margin-left: 18px;width:200px"
+                    style="width: 200px"
                     disabled
                   />
                 </el-form-item>
@@ -217,8 +219,8 @@
       <!--          </el-form>-->
       <!--        </div>-->
       <!--      </el-card>-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.fkmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name">{{ $t('updates.fkmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
@@ -278,7 +280,7 @@
           </el-editable>
         </div>
       </el-card>
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button
           v-no-more-click
           type="primary"
@@ -903,19 +905,20 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.ERP-container {
-  margin-right: 0;
-  .form-name {
-    font-size: 18px;
-    color: #373e4f;
-    margin-bottom: -20px;
-    margin-top: 20px;
+ .ERP-container{
+    margin-right: 0;
+    .form-name{
+      font-weight: bold;
+      font-size: 18px;
+      color: #373e4f;
+      padding: 5px;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 5px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
   }
-  .container {
-    margin-top: 40px;
-  }
-  .el-button + .el-button {
-    width: 98px;
-  }
-}
 </style>
