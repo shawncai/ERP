@@ -2,19 +2,19 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.bomNumber')" prop="bomNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.bomNumber" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('MaterialsList.bomNumber')" prop="bomNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.bomNumber" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.bomTypeId')" prop="bomTypeId" style="width: 100%;">
-                  <el-select v-model="personalForm.bomTypeId" style="margin-left: 18px;width: 200px" clearable >
+                <el-form-item :label="$t('MaterialsList.bomTypeId')" prop="bomTypeId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.bomTypeId" style="width: 200px" clearable >
                     <el-option value="1" label="工艺BOM"/>
                     <el-option value="2" label="设计BOM"/>
                     <el-option value="3" label="制造BOM"/>
@@ -23,16 +23,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.isActive')" prop="isActive" style="width: 100%;">
-                  <el-radio-group v-model="personalForm.isActive" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('MaterialsList.isActive')" prop="isActive" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isActive" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">启用</el-radio>
                     <el-radio :label="2">未启用</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.version')" style="width: 100%;">
-                  <el-select v-model="personalForm.version" clearable style="margin-left: 18px;width:200px">
+                <el-form-item :label="$t('MaterialsList.version')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.version" clearable style="width: 200px">
                     <el-option
                       v-for="(item, index) in versions"
                       :key="index"
@@ -42,8 +42,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.summary')" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('MaterialsList.summary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.summary" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -51,35 +51,36 @@
         </div>
       </el-card>
       <!--父件信息-->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="geren" class="form-name">{{ $t('updates.fjxx') }}</h2>
-        <div class="container">
-          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
+      <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.fjxx') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" @focus="handlemater"/>
+                <el-form-item :label="$t('MaterialsList.productName')" prop="productName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productName" style="width: 200px" @focus="handlemater"/>
                 </el-form-item>
               </el-col>
               <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.unit')" prop="unit" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('MaterialsList.unit')" prop="unit" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.unit" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.productTypeId')" prop="productTypeId" style="width: 100%;">
-                  <el-input v-model="productTypeId" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('MaterialsList.productTypeId')" prop="productTypeId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="productTypeId" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.code')" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('MaterialsList.code')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productCode" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('MaterialsList.color')" prop="color" style="width: 100%;">
-                  <el-input v-model="personalForm.color" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('MaterialsList.color')" prop="color" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.color" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -87,8 +88,9 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.zjxx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name">{{ $t('updates.zjxx') }}</div>
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -120,7 +122,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -427,13 +429,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

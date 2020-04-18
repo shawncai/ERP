@@ -23,7 +23,7 @@
               <el-col :span="12">
                 <el-form-item :label="$t('StockArrival.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                  <my-supplier :control.sync="empcontrol" :supp2.sync="supp2" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -345,6 +345,7 @@ export default {
       }
     }
     return {
+      supp2: null,
       repositorycontrol: false,
       arrivalRepositoryId: '',
       IsCurrency: false,
@@ -453,6 +454,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.supp2 = this.personalForm.supplierId
       this.arrivalRepositoryId = this.personalForm.arrivalRepositoryName
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
@@ -475,6 +477,7 @@ export default {
       this.repositorycontrol = true
     },
     repositoryname(val) {
+      this.supp2 = val.id
       console.log(val)
       this.arrivalRepositoryId = val.repositoryName
       this.personalForm.arrivalRepositoryId = val.id
@@ -685,7 +688,13 @@ export default {
     },
     // 供应商输入框focus事件触发
     handlechoose() {
-      this.empcontrol = true
+      if (this.arrivalRepositoryId === undefined || this.arrivalRepositoryId === null || this.arrivalRepositoryId === '') {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择仓库',
+          duration: 0
+        })
+      } else { this.empcontrol = true }
     },
     // 供应商列表返回数据
     supplierName(val) {
