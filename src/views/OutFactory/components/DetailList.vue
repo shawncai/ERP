@@ -133,7 +133,7 @@
         </el-form>
       </div>
     </el-card>
-    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom:30px;">
+    <el-card :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom:30px;">
       <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
       <button :loading="downloadLoading" class="print" style="font-size: 13px;background: white;" @click="handleExport">{{ $t('public.export') }}</button>
       <div class="container">
@@ -175,6 +175,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
