@@ -1,32 +1,37 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="receivePersonId" :placeholder="$t('updates.scr')" class="filter-item" @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
+      <el-input v-model="receivePersonId" :placeholder="$t('updates.scr')" size="small" class="filter-item" @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechooseStock"/>
 
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
-      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" size="small" class="filter-item" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-date-picker
         v-model="date"
+        size="small"
         type="daterange"
         range-separator="-"
         unlink-panels
         value-format="yyyy-MM-dd"
         style="width: 250px"/>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        ref="table"
+        :height="tableHeight"
         :data="list"
+        size="small"
         border
-        style="width: 100%">
+        style="width: 100%"
+        @row-click="clickRow">
         <el-table-column
           :label="$t('recoveryCarDetail.repositoryName')"
           prop="repositoryName"
@@ -129,6 +134,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       first: '',
       step1: '',
       step2: '',
@@ -202,15 +209,24 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.changeName()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     changeName() {
       if (this.getemplist.type === '1') {
         this.first = '仓库名称'
@@ -432,8 +448,8 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-  .ERP-container {
-    margin: 0px 10px;
+ .ERP-container {
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
@@ -441,8 +457,17 @@ export default {
   }
   .filter-item{
     width: 180px;
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

@@ -2,42 +2,42 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item :label="$t('CheckFail.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" sstyle="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.sourceType')" prop="sourceType" style="width: 100%;">
+                <el-form-item :label="$t('CheckFail.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="质检报告单" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width:200px" clearable @focus="chooseNumber"/>
+                <el-form-item :label="$t('CheckFail.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.sourceNumber" sstyle="width: 200px" clearable @focus="chooseNumber"/>
                   <my-report :reportcontrol.sync="reportcontrol" @allreportinfo="allreportinfo"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('CheckFail.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handlePersonId" sstyle="width: 200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.handleDate')" prop="handleDate" style="width: 100%;">
+                <el-form-item :label="$t('CheckFail.handleDate')" prop="handleDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.handleDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    sstyle="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -45,39 +45,39 @@
         </div>
       </el-card>
 
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
-        <div class="container" style="margin-top: 37px">
+      <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="geren" class="form-name">{{ $t('updates.wpxx') }}</div>
+        <div class="container" style="margin-top: 25px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.productCode')" prop="productCode" style="width: 100%;">
-                  <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('CheckFail.productCode')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productCode" sstyle="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.productName')" style="width: 100%;">
-                  <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('CheckFail.productName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.productName" sstyle="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.unit')" style="width: 100%;">
-                  <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('CheckFail.unit')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.unit" sstyle="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
-                  <el-input v-model="personalForm.typeId" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('CheckFail.typeId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.typeId" sstyle="width: 200px" disabled/>
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.typeId')" style="width: 100%;">
-                  <el-input v-model="typeName" style="margin-left: 18px;width:200px" disabled/>
+                <el-form-item :label="$t('CheckFail.typeId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="typeName" sstyle="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckFail.failedQuantity')" style="width: 100%;">
-                  <el-input v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px"/>
+                <el-form-item :label="$t('CheckFail.failedQuantity')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.failedQuantity" sstyle="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -85,8 +85,8 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.bhgczdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.bhgczdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="$refs.editable.insert(-1)">{{ $t('updates.tj') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -119,7 +119,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -583,13 +583,14 @@ export default {
   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

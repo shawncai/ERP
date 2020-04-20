@@ -1,28 +1,34 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.taskNumber" :placeholder="$t('updates.rwdbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.taskNumber" :placeholder="$t('updates.rwdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-date-picker
         v-model="date"
         :placeholder="$t('stockOrderCount.date')"
+        size="small"
         type="daterange"
         range-separator="-"
         unlink-panels
         value-format="yyyy-MM-dd"
         style="width: 250px"/>
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        ref="table"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
-        style="width: 100%">
+
+        style="width: 100%"
+        @row-click="clickRow">
         <el-table-column
           :label="$t('accessStatus.taskNumber')"
           prop="taskNumber"
@@ -165,6 +171,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       receiptVisible2: false,
       first: '',
       step1: '',
@@ -239,15 +246,24 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.changeName()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     handleReceipt2(row) {
       this.receiptVisible2 = true
       console.log('row', row)
@@ -468,7 +484,7 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 10px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
@@ -476,8 +492,17 @@ export default {
   }
   .filter-item{
     width: 180px;
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

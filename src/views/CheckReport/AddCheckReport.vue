@@ -2,19 +2,19 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('CheckReport.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                <el-form-item :label="$t('CheckReport.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <el-option value="1" label="质检申请单" />
                     <el-option value="2" label="采购到货单" />
                     <el-option value="3" label="生产任务单" />
@@ -24,8 +24,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 200px" clearable @focus="chooseNumber"/>
+                <el-form-item :label="$t('CheckReport.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.sourceNumber" style="width: 200px" clearable @focus="chooseNumber"/>
                   <my-quality :qualitycontrol.sync="qualitycontrol" @allqualityinfo="allqualityinfo"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @allarrivalinfodata="allarrivalinfodata"/>
                   <produce-task :procontrol.sync="producecontrol" @produce="produce"/>
@@ -33,20 +33,20 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.supplierId')" style="width: 100%;">
-                  <el-input v-model="supplierId" :disabled="IsSupplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-form-item :label="$t('CheckReport.supplierId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="supplierId" :disabled="IsSupplierId" style="width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="inspectionPersonId" style="width: 100%;">
-                  <el-input v-model="inspectionPersonId" :disabled="IsInspectionPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('CheckReport.inspectionPersonId')" prop="inspectionPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="inspectionPersonId" :disabled="IsInspectionPersonId" style="width: 200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.inspectionDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.inspectionDeptId" :disabled="IsInspectionDeptId" style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('CheckReport.inspectionDeptId')" prop="reportDeptId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.inspectionDeptId" :disabled="IsInspectionDeptId" style="width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -56,8 +56,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkType')" prop="checkType" style="width: 100%;">
-                  <el-select v-model="personalForm.checkType" value="personalForm.checkType" style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('CheckReport.checkType')" prop="checkType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkType" value="personalForm.checkType" style="width: 200px" @change="change()">
                     <el-option value="1" label="来料质检"/>
                     <el-option value="2" label="送样质检"/>
                     <el-option value="3" label="生产质检"/>
@@ -65,34 +65,34 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="margin-left: 18px;width: 200px" @change="checkModeChoose">
+                <el-form-item :label="$t('CheckReport.checkMode')" prop="checkMode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkMode" value="personalForm.checkMode" style="width: 200px" @change="checkModeChoose">
                     <el-option value="1" label="抽样"/>
                     <el-option value="2" label="全检"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" :disabled="IsProduceManagerId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
+                <el-form-item :label="$t('CheckReport.produceManagerId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="produceManagerId" :disabled="IsProduceManagerId" style="width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.workCenterId')" style="width: 100%;">
-                  <el-input v-model="workCenterId" :disabled="IsWorkCenterId" style="margin-left: 18px;width: 200px" @focus="workcenterchoose"/>
+                <el-form-item :label="$t('CheckReport.workCenterId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="workCenterId" :disabled="IsWorkCenterId" style="width: 200px" @focus="workcenterchoose"/>
                   <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkPersonId')" style="width: 100%;">
-                  <el-input v-model="checkPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseAccept"/>
+                <el-form-item :label="$t('CheckReport.checkPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="checkPersonId" style="width: 200px" clearable @focus="handlechooseAccept"/>
                   <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.checkDeptId" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CheckReport.checkDeptId')" prop="reportDeptId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkDeptId" clearable style="width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -102,12 +102,12 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkDate')" prop="checkDate" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.checkDate')" prop="checkDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.checkDate"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -115,13 +115,13 @@
         </div>
       </el-card>
 
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">{{ $t('updates.wpxx') }}</h2>
-        <div class="container" style="margin-top: 37px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+        <div ref="geren" class="form-name">{{ $t('updates.wpxx') }}</div>
+        <div class="container" style="margin-top: 25px">
           <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" @focus="handlemater"/>
                   <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
                   <detail-report :reportcontrol.sync="reportcontrol" :reportdata.sync="reportdata" @report="report"/>
@@ -131,17 +131,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.productName')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.productName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.productName" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.unit')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.unit')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.unit" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.typeId')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.typeId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="typeId" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
@@ -149,46 +149,47 @@
           </el-form>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name">{{ $t('updates.jyxx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.jyxx') }}</div>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="width: 100%;" >
+                <el-form-item :label="$t('CheckReport.checkQuantity')" prop="checkQuantity" style="margin-left: 18px;width: 100%;margin-bottom: 0" >
                   <el-input v-model="personalForm.checkQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeCheckQuantity" @input="numberOfVerifications"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.sampleQuantity')" prop="sampleQuantity" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.sampleQuantity" :disabled="IsSampleQuantity" style="margin-left: 18px;width:200px" clearable @blur="changeSampleQuantity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.passQuantity')" prop="passQuantity" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.passQuantity')" prop="passQuantity" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.passQuantity" style="margin-left: 18px;width:200px" @blur="changePassQuantity"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.failedQuantity')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.failedQuantity')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input :disabled="true" v-model="personalForm.failedQuantity" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.passRate')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.passRate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input :disabled="true" v-model="personalForm.passRate" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.checkResult')" style="width: 100%;">
-                  <el-select v-model="personalForm.checkResult" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('CheckReport.checkResult')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkResult" style="width: 200px">
                     <el-option value="1" label="合格"/>
                     <el-option value="2" label="不合格"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CheckReport.isRecheck')" style="width: 100%;">
+                <el-form-item :label="$t('CheckReport.isRecheck')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isRecheck" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
@@ -200,8 +201,9 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zjbgmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.zjbgmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!--          <el-button @click="handleAdd">{{ $t('updates.tj') }}</el-button>-->
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -245,7 +247,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -1278,16 +1280,17 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+   .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;

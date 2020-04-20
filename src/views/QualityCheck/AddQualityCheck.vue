@@ -2,19 +2,19 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
+        <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
+        <div class="container" style="margin-top: 25px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.title')" style="width: 100%;">
-                  <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
+                <el-form-item :label="$t('QualityCheck.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.sourceType')" prop="sourceType" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                <el-form-item :label="$t('QualityCheck.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <!-- <el-option value="1" label="采购到货单" /> -->
                     <!-- <el-option value="2" label="生产任务单" /> -->
                     <el-option value="3" label="无来源" />
@@ -22,20 +22,20 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.supplierId')" style="width: 100%;">
-                  <el-input v-model="supplierId" :disabled="IsSupplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                <el-form-item :label="$t('QualityCheck.supplierId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="supplierId" :disabled="IsSupplierId" style="width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.reportPersonId')" prop="reportPersonId" style="width: 100%;">
-                  <el-input v-model="reportPersonId" style="margin-left: 18px;width: 200px" clearable @focus="handlechooseStock"/>
+                <el-form-item :label="$t('QualityCheck.reportPersonId')" prop="reportPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="reportPersonId" style="width: 200px" clearable @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.reportDeptId')" prop="reportDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.reportDeptId" clearable style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item :label="$t('QualityCheck.reportDeptId')" prop="reportDeptId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.reportDeptId" clearable style="width: 200px" @change="change()">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -45,8 +45,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.checkType')" prop="checkType" style="width: 100%;">
-                  <el-select v-model="personalForm.checkType" style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('QualityCheck.checkType')" prop="checkType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkType" style="width: 200px">
                     <el-option value="1" label="来料质检"/>
                     <el-option value="2" label="送样质检"/>
                     <el-option value="3" label="生产质检"/>
@@ -54,33 +54,33 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.checkMode')" prop="checkMode" style="width: 100%;">
-                  <el-select v-model="personalForm.checkMode" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item :label="$t('QualityCheck.checkMode')" prop="checkMode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.checkMode" clearable style="width: 200px">
                     <el-option value="1" label="抽样"/>
                     <el-option value="2" label="全检"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.produceManagerId')" style="width: 100%;">
-                  <el-input v-model="produceManagerId" :disabled="IsProduceManagerId" style="margin-left: 18px;width: 200px" @focus="handlechooseDelivery"/>
+                <el-form-item :label="$t('QualityCheck.produceManagerId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="produceManagerId" :disabled="IsProduceManagerId" style="width: 200px" @focus="handlechooseDelivery"/>
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.workCenterId')" style="width: 100%;">
-                  <el-input v-model="personalForm.workCenterId" :disabled="IsWorkCenterId" style="margin-left: 18px;width: 200px" clearable @focus="workcenterchoose"/>
+                <el-form-item :label="$t('QualityCheck.workCenterId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.workCenterId" :disabled="IsWorkCenterId" style="width: 200px" clearable @focus="workcenterchoose"/>
                   <my-center :control.sync="centercontrol" @center="center"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('QualityCheck.reportDate')" prop="reportDate" style="width: 100%;">
+                <el-form-item :label="$t('QualityCheck.reportDate')" prop="reportDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.reportDate"
                     :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width: 200px"/>
+                    style="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -88,8 +88,8 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zjsqdmx') }}</h2>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name" >{{ $t('updates.zjsqdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
@@ -127,7 +127,7 @@
         </div>
       </el-card>
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -138,7 +138,7 @@
               <el-table
                 :data="list111"
                 height="220"
-                style="width: 100%;"
+                style="margin-left: 18px;width: 100%;margin-bottom: 0"
               >
                 <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
                   <template slot-scope="scope">
@@ -567,38 +567,21 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
+ .ERP-container{
     margin-right: 0;
     .form-name{
+      font-weight: bold;
       font-size: 18px;
       color: #373e4f;
+      padding: 5px;
       margin-bottom: -20px;
-      margin-top: 20px;
     }
     .container{
-      margin-top: 40px;
+      margin-top: 5px;
     }
     .el-button+.el-button{
       width: 98px;
     }
   }
 </style>
-<style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
-</style>
+

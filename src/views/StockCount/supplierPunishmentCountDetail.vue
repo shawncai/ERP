@@ -1,11 +1,15 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        ref="table"
+        :height="tableHeight"
         :data="list"
+        size="small"
         border
-        style="width: 100%">
+        style="width: 100%"
+        @row-click="clickRow">
         <el-table-column
           :label="$t('supplierPunishmentCount.supplierId')"
           prop="supplierId"
@@ -104,6 +108,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       first: '',
       step1: '',
       step2: '',
@@ -177,6 +183,9 @@ export default {
 
   mounted() {
     this.getinformation()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
     // this.getlist()
     // this.changeName()
   },
@@ -184,6 +193,9 @@ export default {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
@@ -410,15 +422,25 @@ export default {
     white-space: pre-wrap;
   }
   .ERP-container {
-    margin: 0px 10px;
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
     padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;

@@ -1,14 +1,14 @@
 <template>
   <div class="ERP-container">
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="outRepositoryId" :placeholder="$t('updates.dcck')" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <el-input v-model="outRepositoryId" :placeholder="$t('updates.dcck')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
-      <el-input v-model="enterRepositoryId" :placeholder="$t('updates.drck')" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
+      <el-input v-model="enterRepositoryId" :placeholder="$t('updates.drck')" size="small" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
 
-      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" size="small" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
@@ -19,21 +19,26 @@
       <el-date-picker
         v-model="date"
         :placeholder="$t('Hmodule.xzrq')"
+        size="small"
         class="filter-item"
         type="date"
         value-format="yyyy-MM-dd"
       />
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
 
-    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        ref="table"
+        :height="tableHeight"
         :data="list"
+        size="small"
         border
-        style="width: 100%">
+        style="width: 100%"
+        @row-click="clickRow">
         <el-table-column
           :label="$t('inventoryCollect.receiptNumber')"
           prop="receiptNumber"
@@ -149,6 +154,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       categoryId: '',
       outRepositoryId: '',
       enterRepositoryId: '',
@@ -226,15 +233,24 @@ export default {
   },
   activated() {
     this.getlist()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   mounted() {
     this.getlist()
     this.changeName()
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    clickRow(val) {
+      this.$refs.table.toggleRowSelection(val)
+    },
     treechoose() {
       this.treecontrol = true
     },
@@ -465,8 +481,8 @@ export default {
     word-wrap: break-word;
     white-space: pre-wrap;
   }
-  .ERP-container {
-    margin: 0px 10px;
+   .ERP-container {
+    margin-left:10px;
   }
   .filter-container{
     padding: 20px;
@@ -474,8 +490,17 @@ export default {
   }
   .filter-item{
     width: 180px;
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 10px 0;
+  }
+  .filter-item2{
+    width: 180px;
+    margin-left: 5px;
+    padding: 10px 0;
+  }
+  .box-card {
+    /* border : 1px solid #f1f1ff !important; */
+    border-bottom : 1px solid #f1f1ff00 !important
   }
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;
