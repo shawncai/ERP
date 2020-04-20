@@ -15,7 +15,6 @@
             class="demo-ruleForm"
             label-position="left"
             label-width="130px">
-            >
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('payment.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -98,6 +97,7 @@
                   >
                     <el-option value="1" label="RMB" />
                     <el-option value="2" label="USD" />
+                    <el-option value="3" label="PHP" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -367,11 +367,7 @@ export default {
     const validatePass5 = (rule, value, callback) => {
       console.log('value', value)
       if (value === 0) {
-        // this.$notify.error({
-        //   title: 'wrong',
-        //   message: '本次支付金额未填写',
-        //   offset: 100
-        // })
+        callback()
       } else {
         callback()
       }
@@ -848,47 +844,45 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
+
       this.$refs.personalForm.validate(valid => {
         if (valid) {
-          this.$refs.editable
-            .validate()
-            .then(valid => {
-              if (valid) {
-                console.log('zhixing')
-                addpayment(parms, parms2, this.personalForm).then(res => {
-                  console.log(res)
-                  if (res.data.ret === 200) {
-                    this.$notify({
-                      title: 'successful',
-                      message: 'save successful',
-                      type: 'success',
-                      offset: 100
-                    })
-                    this.restAllForm()
-                    this.$refs.editable.clear()
-                    this.$refs.personalForm.clearValidate()
-                    this.$refs.personalForm.resetFields()
-                    this.$refs.upload.clearFiles()
-                  } else {
-                    this.$notify.error({
-                      title: 'wrong',
-                      message: res.data.msg,
-                      offset: 100
-                    })
-                  }
-                })
-              } else {
-                this.$notify.error({
-                  title: 'wrong',
-                  message: 'Information is incomplete',
-                  offset: 100
-                })
-                return false
-              }
-            })
-            .catch(valid => {
-              console.log('error submit!!')
-            })
+          console.log('执行22222', valid)
+          this.$refs.editable.validate((valid, data) => {
+            console.log('执行111111', valid)
+            if (valid) {
+              console.log('zhixing')
+              addpayment(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: 'successful',
+                    message: 'save successful',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                  this.$refs.upload.clearFiles()
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'Information is incomplete',
+                offset: 100
+              })
+              return false
+            }
+          })
         } else {
           this.$notify.error({
             title: 'wrong',
