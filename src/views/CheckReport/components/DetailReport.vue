@@ -24,6 +24,11 @@
           <span>{{ scope.row.unit }}</span>
         </template>
       </el-table-column>
+      <el-table-column :resizable="false" :label="$t('updates.ys')" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.color }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :resizable="false" :label="$t('updates.jbel')" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.basicQuantity }}</span>
