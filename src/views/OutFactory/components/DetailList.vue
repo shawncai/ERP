@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.factoryNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.factoryName +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -135,6 +135,7 @@
     </el-card>
     <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom:30px;">
       <div ref="fuzhu" class="form-name" >{{ $t('updates.ktgspmx') }}</div>
+      <button :loading="downloadLoading" class="print" style="font-size: 13px;background: white;" @click="handleExport">{{ $t('public.export') }}</button>
       <div class="container">
         <el-editable
           ref="editable"
@@ -199,6 +200,25 @@ export default {
   methods: {
     handlecancel() {
       this.editVisible = false
+    },
+    handleExport() {
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '规格', '单位', '颜色', '价格']
+          const filterVal = ['productCode', 'productName', 'productType', 'unit', 'color', 'price']
+          const data = this.formatJson(filterVal, this.list2)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: `${this.personalForm.factoryName}可提供商品明细`
+          })
+          this.downloadLoading = false
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
     }
   }
 }
