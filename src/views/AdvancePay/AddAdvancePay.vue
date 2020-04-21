@@ -82,7 +82,7 @@
               </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioRate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.ratioRate" type="number" style="width: 200px" clearable @blur="handerchoose"/>
+                  <el-input v-model="personalForm.ratioRate" type="number" style="width: 200px" clearable @input="handerchoose"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -136,6 +136,13 @@ export default {
       console.log(this.stockPersonId)
       if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
         callback(new Error('请选择采购员'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass4 = (rule, value, callback) => {
+      if (this.personalForm.orderMoney === undefined || this.personalForm.orderMoney === null || this.personalForm.orderMoney === '') {
+        callback(new Error('请输入订单金额'))
       } else {
         callback()
       }
@@ -216,7 +223,8 @@ export default {
         totalMoney: 0,
         ratioRate: 100,
         payDate: null,
-        payAccount: ''
+        payAccount: '',
+        settleMode: null
       },
       // 采购申请单规则数据
       personalrules: {
@@ -233,7 +241,7 @@ export default {
           { required: true, message: '请输入预付金额', trigger: 'blur' }
         ],
         orderMoney: [
-          { required: true, message: '请输入订单金额', trigger: 'blur' }
+          { required: true, validator: validatePass4, trigger: 'blur' }
         ],
         payAccount: [
           { required: true, message: '请输入付款账户', trigger: 'blur' }
@@ -260,7 +268,9 @@ export default {
     this.getways()
     this.getdatatime()
   },
-
+  activated() {
+    this.getinformation()
+  },
   mounted() {
     this.getinformation()
     this.getcurrency()
@@ -271,6 +281,7 @@ export default {
   methods: {
     getcurrency() {
       const mycountry = this.$store.getters.countryId
+      console.log('mycountry============', mycountry)
       if (mycountry === 1) {
         this.personalForm.currency = '3'
       } else if (mycountry === 2) {
@@ -306,6 +317,7 @@ export default {
         if (this.$store.getters.empcontract.settleMode !== null) {
           this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
         }
+        this.handerchoose()
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -538,6 +550,7 @@ export default {
       this.ourContractorId = null
       this.acceptPersonId = null
       this.getdatatime()
+      this.getcurrency()
     },
     // 保存操作
     handlesave() {

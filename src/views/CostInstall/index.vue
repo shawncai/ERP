@@ -51,6 +51,11 @@
               <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
+          <el-form-item :label="$t('CostInstall.unit')" label-width="100px">
+            <el-select v-model="addCategoryForm.unit" filterable style="width: 300px">
+              <el-option v-for="(item, index) in measurements" :key="index" :value="item.id" :label="item.categoryName"/>
+            </el-select>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -135,6 +140,11 @@
               <el-option :label="$t('updates.ty')" value="2"/>
             </el-select>
           </el-form-item>
+          <el-form-item :label="$t('CostInstall.unit')" label-width="100px">
+            <el-select v-model="editCategoryForm.unit" filterable style="width: 300px">
+              <el-option v-for="(item, index) in measurements" :key="index" :value="item.id" :label="item.categoryName"/>
+            </el-select>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="handleOk()">{{ $t('public.edit') }}</el-button>
@@ -155,7 +165,7 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
-
+import { searchMea } from '@/api/Product'
 var _that
 export default {
   name: 'EmpCategory',
@@ -181,7 +191,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      measurements: [],
       // 费用类别
       category: [],
       // 批量删除参数
@@ -267,6 +277,7 @@ export default {
     }, 100)
   },
   mounted() {
+    this.getunit()
     this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -276,6 +287,13 @@ export default {
     _that = this
   },
   methods: {
+    getunit() {
+      searchMea().then(res => {
+        if (res.data.ret === 200) {
+          this.measurements = res.data.data.content
+        }
+      })
+    },
     clickRow(val) {
       this.$refs.table.toggleRowSelection(val)
     },

@@ -374,7 +374,6 @@ export default {
     }
     return {
       path: '',
-
       pickerOptions1: {
         disabledDate: time => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -453,7 +452,8 @@ export default {
         offsetAdvance: 0,
         moneyThis: 0,
         payDate: null,
-        picids: []
+        picids: [],
+        currency: null
       },
       // 采购申请单规则数据
       personalrules: {
@@ -544,17 +544,18 @@ export default {
     },
     getcurrency() {
       const mycountry = this.$store.getters.countryId
+      console.log('mycountry=====', mycountry)
       if (mycountry === 1) {
-        this.personalForm.currency = '3'
-      } else if (mycountry === 2) {
         this.personalForm.currency = '1'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '3'
       }
     },
     handlepaythis(row) {
       console.log(row)
       const judgemoney = Number(row.payThis) + Number(row.advanceMoney)
       console.log(judgemoney)
-      if (judgemoney > row.shouldMoney) {
+      if (judgemoney > row.payingMoney) {
         console.log(123)
         this.$notify.error({
           title: 'wrong',
@@ -736,7 +737,7 @@ export default {
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
             detailList[i].shouldPayId = detailList[i].id
-            detailList[i].payThis = detailList[i].shouldMoney
+            detailList[i].payThis = detailList[i].payingMoney
             this.$refs.editable.insert(detailList[i])
           }
         }

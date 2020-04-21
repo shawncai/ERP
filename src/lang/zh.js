@@ -743,7 +743,8 @@ export default {
     costName: '费用名称',
     subjectId: '往来科目',
     isEffective: '启用状态',
-    createId: '创建人'
+    createId: '创建人',
+    unit: '单位'
   },
   SubjectFinance: {
     subjectNumber: '科目代码',
