@@ -12,6 +12,9 @@
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        <el-option :label="$t('otherlanguage.xss')" value="6"/>
+        <el-option :label="$t('otherlanguage.pjj')" value="7"/>
+        <el-option :label="$t('otherlanguage.hj')" value="8"/>
       </el-select>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover

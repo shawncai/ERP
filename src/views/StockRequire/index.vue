@@ -8,6 +8,9 @@
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        <el-option :label="$t('otherlanguage.xss')" value="6"/>
+        <el-option :label="$t('otherlanguage.pjj')" value="7"/>
+        <el-option :label="$t('otherlanguage.hj')" value="8"/>
       </el-select>
       <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
       <my-detail :control.sync="control" @productdata="productdata"/>
