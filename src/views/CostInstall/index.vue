@@ -416,6 +416,7 @@ export default {
       this.editcategoryVisible = true
       this.editCategoryForm = Object.assign({}, row)
       this.editCategoryForm.isEffective = String(row.isEffective)
+      this.editCategoryForm.unit = Number(row.unit)
     },
     // 取消修改
     handleNo() {
