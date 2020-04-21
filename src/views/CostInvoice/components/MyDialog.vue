@@ -132,6 +132,7 @@
           :edit-rules="validRules"
           :summary-method="getSummaries"
           class="click-table1"
+          show-summary
           stripe
           border
           size="small"
@@ -158,6 +159,31 @@
           </el-editable-column>          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remark" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.fykm')" prop="subjectName" align="center" min-width="170px"/>
         </el-editable>
+      </div>
+    </el-card>
+    <!-- 合计信息 -->
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+      <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+      <div class="container" style="margin-top: 37px">
+        <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item :label="$t('SaleOrder.heji1')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="allNumber" style="width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="allTaxMoney" style="width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="allIncludeTaxMoney" style="width: 200px" disabled/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -356,6 +382,7 @@ export default {
           val.row.costCode = this.costs[i].costCode
           val.row.subject = this.costs[i].subjectId
           val.row.subjectName = this.costs[i].subjectName
+          val.row.unit = this.costs[i].unit
         }
       }
     },
@@ -396,17 +423,12 @@ export default {
       sums[3] = ''
       sums[4] = ''
       sums[5] = ''
-      sums[6] = ''
-      sums[10] = ''
-      sums[15] = ''
-      sums[18] = ''
-      sums[19] = ''
-      this.allNumber = sums[7]
+      sums[12] = ''
+      sums[13] = ''
+      this.allNumber = sums[6]
       this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      this.allTaxMoney = sums[9]
+      this.allIncludeTaxMoney = sums[8]
       return sums
     },
     getdiscountMoney(row) {

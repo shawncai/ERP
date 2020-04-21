@@ -1975,6 +1975,7 @@ export default {
     workCenterId: '生产中心'
   },
   CheckReport: {
+    color: '颜色',
     checkItemId: '检验项目',
     checkContent: '检验指标',
     checkTools: '检验工具',

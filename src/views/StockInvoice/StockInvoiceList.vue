@@ -55,7 +55,8 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+            <span v-if="scope.row.judgeStat === 0" class="link-type" @click="handleEdit(scope.row)">{{ scope.row.number }}</span>
+            <span v-else class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>

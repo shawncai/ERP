@@ -1126,14 +1126,15 @@ export default {
         checkMode: '1',
         checkType: '1',
         checkDate: null,
-        checkResult: '1'
+        checkResult: '1',
+        checkPersonId: this.$store.getters.userId
       }
       this.judgequilty = null
       this.inspectionPersonId = this.$store.getters.name
       this.supplierId = null
       this.workCenterId = null
       this.produceManagerId = null
-      this.checkPersonId = null
+      this.checkPersonId = this.$store.getters.name
       this.getdatatime()
     },
     // 保存操作

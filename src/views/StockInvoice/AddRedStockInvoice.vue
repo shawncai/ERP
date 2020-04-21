@@ -132,7 +132,7 @@
         <h2 ref="fuzhu" class="form-name" >红字采购发票明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
-          <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
+          <my-invoice :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -312,11 +312,12 @@ import MyLnquiry from './components/MyLnquiry'
 import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyEnter from './components/MyEnter'
+import MyInvoice from './components/MyInvoice'
 import MyRepository from './components/MyRepository'
 var _that
 export default {
   name: 'AddStockInvoice',
-  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyEnter },
+  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyEnter, MyInvoice },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.handlePersonId)

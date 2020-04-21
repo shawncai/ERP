@@ -267,6 +267,7 @@
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button type="info" @click="handleReview()">{{ $t('prompt.sh') }}</el-button>
       </div>
     </el-card>
   </el-dialog>
@@ -278,6 +279,7 @@ import { updatestockinvoice } from '@/api/StockInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
+import { updatestockinvoice2 } from '@/api/StockInvoice'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
@@ -434,7 +436,12 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      reviewParms: {
+        id: '',
+        judgePersonId: '',
+        judgeStat: ''
+      }
     }
   },
   watch: {
@@ -456,6 +463,69 @@ export default {
     _that = this
   },
   methods: {
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatestockinvoice2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.$emit('rest', true)
+            this.editVisible = false
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockinvoice2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.$emit('rest', true)
+                  this.editVisible = false
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()

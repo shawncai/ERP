@@ -1969,6 +1969,7 @@ export default {
     workCenterId: 'production center'
   },
   CheckReport: {
+    color: 'color',
     checkItemId: 'inspection items',
     checkContent: 'inspection standards',
     checkTools: 'inspection tools',

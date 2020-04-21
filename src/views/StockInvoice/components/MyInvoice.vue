@@ -75,58 +75,47 @@
         style="width: 100%;"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange">
-        <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <span class="link-type">{{ scope.row.number }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.invoiceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
+            <span>{{ scope.row.invoiceNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
+            <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.isRed')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.acceptPersonName }}</span>
+            <span>{{ scope.row.isRed | isRedFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" prop="deliveryPersonName" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.createDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
+        <el-table-column :label="$t('StockInvoice.payDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterPersonName }}</span>
+            <span>{{ scope.row.payDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" prop="endDate" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.enterDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" prop="stockEnterDetails" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.summary }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.receiptStat')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
@@ -143,6 +132,7 @@
 <script>
 import { stockenterlist } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
+import { stockInvoiceList } from '@/api/StockInvoice'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import MyRepository from './MyRepository'
@@ -181,9 +171,16 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgxq'),
-        3: _that.$t('Hmodule.Nosource')
+        1: _that.$t('updates.cgdhd'),
+        2: _that.$t('Hmodule.Nosource'),
+        3: _that.$t('updates.cgrkd')
+      }
+      return statusMap[status]
+    },
+    isRedFilter(status) {
+      const statusMap = {
+        1: '否',
+        2: '是'
       }
       return statusMap[status]
     }
@@ -249,12 +246,10 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
-        judgeStat: 2,
+        pageNum: 1,
+        pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
-        isActive: 1,
         supplierId: this.supp
       },
       visible2: {},
@@ -364,23 +359,23 @@ export default {
     getlist() {
       // 采购入库单列表数据
       this.listLoading = true
-      stockenterlist(this.getemplist).then(res => {
+      stockInvoiceList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let j = 0; j < this.list[i].stockEnterDetailVos.length; j++) {
-              if (this.list[i].stockEnterDetailVos[j].invoiceQuantity === this.list[i].stockEnterDetailVos[j].actualEnterQuantity) {
-                this.list[i].stockEnterDetailVos.splice(j, 1)
-                j--
-              }
-            }
-          }
-          for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].stockEnterDetailVos.length === 0) {
-              this.list.splice(i, 1)
-              i--
-            }
-          }
+          // for (let i = 0; i < this.list.length; i++) {
+          //   for (let j = 0; j < this.list[i].stockEnterDetailVos.length; j++) {
+          //     if (this.list[i].stockEnterDetailVos[j].invoiceQuantity === this.list[i].stockEnterDetailVos[j].actualEnterQuantity) {
+          //       this.list[i].stockEnterDetailVos.splice(j, 1)
+          //       j--
+          //     }
+          //   }
+          // }
+          // for (let i = 0; i < this.list.length; i++) {
+          //   if (this.list[i].stockEnterDetailVos.length === 0) {
+          //     this.list.splice(i, 1)
+          //     i--
+          //   }
+          // }
           this.total = res.data.data.content.totalCount
           this.memoryChecked()
         }
@@ -462,82 +457,7 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
-      // const enterdata = this.choosedata.stockEnterDetailVos
-      // const number = this.choosedata.enterNumber
-      const enterdata = []
-      for (const i in this.moreaction) {
-        for (let j = 0; j < this.moreaction[i].stockEnterDetailVos.length; j++) {
-          this.moreaction[i].stockEnterDetailVos[j].sourceNumber = this.moreaction[i].enterNumber
-          enterdata.push(this.moreaction[i].stockEnterDetailVos[j])
-        }
-        // this.moreaction[i].stockEnterDetailVos.sourceNumber = this.moreaction[i].enterNumber
-        // enterdata.push(this.moreaction[i].stockEnterDetailVos)
-      }
-      const enterDetail = enterdata.map(function(item) {
-        return {
-          productCode: item.productCode,
-          productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          typeId: item.typeId,
-          unit: item.unit,
-          color: item.color,
-          arrivalQuantity: item.arrivalQuantity,
-          retreatQuantity: 0,
-          retreatReason: '',
-          sourceNumber: item.sourceNumber,
-          sourceSerialNumber: item.id,
-          remark: item.remark,
-          quantity: item.actualEnterQuantity,
-          quantity2: item.actualEnterQuantity,
-          price: item.enterPrice,
-          includeTaxPrice: (item.enterPrice * (1 + item.taxRate)).toFixed(2),
-          taxRate: item.taxRate,
-          money: item.money,
-          includeTaxMoney: item.includeTaxMoney,
-          taxMoney: item.taxMoney,
-          discountMoney: 0.0,
-          discountRate: 0.0,
-          orderNumber: item.orderNumber,
-          actualEnterQuantity: item.actualEnterQuantity,
-          invoiceQuantity: item.invoiceQuantity
-        }
-      })
-      console.log('enterDetail==============================>', enterDetail)
-      for (let i = 0; i < enterDetail.length; i++) {
-        for (let j = 0; j < this.checklistprop.length; j++) {
-          if (enterDetail[i].sourceNumber === this.checklistprop[j]) {
-            console.log('i======================>', enterDetail[i].sourceNumber)
-            // enterDetail.splice(i, 1)
-            // i--
-          }
-        }
-      }
-      const myenterDetail = enterDetail
-      const obj = {}
-      const processaction = this.moreaction.reduce((cur, next) => {
-        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
-        return cur
-      }, [])
-      console.log('processaction', processaction)
-      const cancelid = []
-      console.log('添加标志=====================>', this.flagarr)
-      // checklistprop在flagarr有在moreaction没有说明取消，否则未取消
-      this.checklistprop.forEach(item => {
-        console.log(item)
-        var index = processaction.findIndex(myindex => myindex.enterNumber === item)
-        console.log('index', index)
-        console.log(this.flagarr.includes(item), !processaction.includes(item))
-        if (this.flagarr.includes(item) && index) {
-          cancelid.push(item)
-        }
-      })
-      console.log('取消的id', cancelid)
-      console.log(myenterDetail)
-      this.$store.dispatch('getmyflagApproval', cancelid)
-      this.$emit('enter', myenterDetail)
-      this.$emit('enterinfo', this.moreaction)
+      this.$emit('enterinfo', this.choosedata)
     }
     // 仓库管理员选择结束
   }
