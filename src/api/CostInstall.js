@@ -3,6 +3,9 @@ import request from '@/utils/request'
 //   添加采购退货
 export function addCostInstall(query) {
   var params = new URLSearchParams()
+  if (query.unit !== '' && query.unit !== null && query.unit !== undefined) {
+    params.append('unit', query.unit) // 你要传给后台的参数值 key/value
+  }
   if (query.costCode !== '' && query.costCode !== null && query.costCode !== undefined) {
     params.append('costCode', query.costCode) // 你要传给后台的参数值 key/value
   }
@@ -72,6 +75,9 @@ export function delateCostInstall(query, query2) {
 //  修改采购退货
 export function updateCostInstall(query, query2) {
   var params = new URLSearchParams()
+  if (query.unit !== '' && query.unit !== null && query.unit !== undefined) {
+    params.append('unit', query.unit) // 你要传给后台的参数值 key/value
+  }
   if (query.costCode !== '' && query.costCode !== null && query.costCode !== undefined) {
     params.append('costCode', query.costCode) // 你要传给后台的参数值 key/value
   }

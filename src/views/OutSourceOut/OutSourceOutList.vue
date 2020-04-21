@@ -285,6 +285,11 @@ export default {
               message: this.$t('prompt.qrcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       })

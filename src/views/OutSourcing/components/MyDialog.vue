@@ -502,7 +502,7 @@ export default {
           delete elem.quantity
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
+          elem.money = 0
         }
         if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
           delete elem.totalMoney
@@ -513,6 +513,12 @@ export default {
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          delete Data[key]
+        }
+        if (key === 'judgeStat') {
+          delete Data[key]
+        }
+        if (key === 'receiptStat') {
           delete Data[key]
         }
       }

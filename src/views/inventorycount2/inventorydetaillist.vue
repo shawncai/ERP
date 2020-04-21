@@ -23,6 +23,9 @@
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        <el-option :label="$t('otherlanguage.xss')" value="6"/>
+        <el-option :label="$t('otherlanguage.pjj')" value="7"/>
+        <el-option :label="$t('otherlanguage.hj')" value="8"/>
       </el-select>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>

@@ -468,7 +468,6 @@ export default {
     this.getTypes()
     this.getways()
   },
-
   mounted() {
     this.getinformation()
   },

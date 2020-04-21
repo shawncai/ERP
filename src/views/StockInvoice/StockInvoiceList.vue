@@ -100,7 +100,7 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
+        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="300px">
           <template slot-scope="scope">
             <el-button v-permission2="['266-257-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
@@ -109,6 +109,7 @@
             <!--            <el-button v-permission="['266-257-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>-->
             <el-button v-permission2="['266-257-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="scope.row.judgeStat === 2 && scope.row.isRed === 1" type="primary" style="width: 125px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成红字采购发票</span></el-button>
+            <el-button v-show="scope.row.judgeStat === 2" type="primary" style="width: 90px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成付款单</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -250,6 +251,11 @@ export default {
   methods: {
     clickRow(val) {
       this.$refs.table.toggleRowSelection(val)
+    },
+    handleMyReceipt2(val) {
+      console.log(val)
+      this.$store.dispatch('getempcontract', val)
+      this.$router.push('/payment/AddPayment')
     },
     handleMyReceipt1(val) {
       console.log(val)
