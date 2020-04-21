@@ -805,7 +805,7 @@ export default {
       this.$refs.editable.clear()
       console.log('newnewarr======>', newnewarr)
       for (let i = 0; i < newnewarr.length; i++) {
-        newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity).toFixed(2)
+        newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity - newnewarr[i].unJudgeQuantity).toFixed(2)
         this.$refs.editable.insert(newnewarr[i])
       }
       this.$store.dispatch('getmyflagApproval', '')
