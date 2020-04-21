@@ -496,10 +496,11 @@ export default {
   methods: {
     getcurrency() {
       const mycountry = this.$store.getters.countryId
+      console.log('mycountry=====', mycountry)
       if (mycountry === 1) {
-        this.personalForm.currency = '3'
-      } else if (mycountry === 2) {
         this.personalForm.currency = '1'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '3'
       }
     },
     handlepaythis(row) {
