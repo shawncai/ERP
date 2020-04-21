@@ -737,7 +737,8 @@ export default {
     costName: 'cost name',
     subjectId: 'corresponding subject',
     isEffective: 'initiated mode',
-    createId: 'Creator'
+    createId: 'Creator',
+    unit: 'unit'
   },
   SubjectFinance: {
     subjectNumber: 'subject no.',

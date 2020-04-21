@@ -360,7 +360,7 @@ export const asyncRouterMap = [
       {
         path: 'AddRedStockInvoice',
         component: () => import('@/views/StockInvoice/AddRedStockInvoice'),
-        hidden: true,
+        // hidden: true,
         name: 'AddRedStockInvoice',
         meta: { title: 'AddRedStockInvoice', noCache: false }
       },

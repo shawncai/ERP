@@ -451,7 +451,8 @@ export default {
         offsetAdvance: 0,
         moneyThis: 0,
         payDate: null,
-        picids: []
+        picids: [],
+        currency: null
       },
       // 采购申请单规则数据
       personalrules: {
@@ -507,7 +508,7 @@ export default {
       console.log(row)
       const judgemoney = Number(row.payThis) + Number(row.advanceMoney)
       console.log(judgemoney)
-      if (judgemoney > row.shouldMoney) {
+      if (judgemoney > row.payingMoney) {
         console.log(123)
         this.$notify.error({
           title: 'wrong',
@@ -689,7 +690,7 @@ export default {
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
             detailList[i].shouldPayId = detailList[i].id
-            detailList[i].payThis = detailList[i].shouldMoney
+            detailList[i].payThis = detailList[i].payingMoney
             this.$refs.editable.insert(detailList[i])
           }
         }

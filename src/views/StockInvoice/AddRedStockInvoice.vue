@@ -23,7 +23,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.invoiceNumber" disabled style="margin-left: 18px;width:200px" clearable/>
+                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
@@ -37,7 +37,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" disabled clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
@@ -98,12 +98,12 @@
               <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" disabled style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
+                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.deptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" disabled clearable style="margin-left: 18px;width: 200px">
+                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
@@ -131,7 +131,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >红字采购发票明细</h2>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <!--          <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>-->
+          <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail"/>
@@ -336,6 +336,14 @@ export default {
     }
     const validatePass4 = (rule, value, callback) => {
       console.log(this.supplierId)
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('请输入发票号'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(this.supplierId)
       if (this.personalForm.deptId === undefined || this.personalForm.deptId === null || this.personalForm.deptId === '') {
         callback(new Error('请选择部门'))
       } else {
@@ -429,7 +437,7 @@ export default {
           { required: true, message: '请选择退货日期', trigger: 'change' }
         ],
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'blur' }
+          { required: true, validator: validatePass5, trigger: 'blur' }
         ],
         deptId: [
           { required: true, validator: validatePass4, trigger: 'change' }
@@ -526,6 +534,7 @@ export default {
           this.list2[i].quantity2 = this.list2[i].quantity
           this.list2[i].sourceNumber = this.$store.getters.empcontract.number
           this.list2[i].taxRate = this.list2[i].taxRate2
+          this.list2[i].discountRate = this.list2[i].discountRate * 100
         }
         this.$store.dispatch('getempcontract', '')
       }
@@ -709,27 +718,33 @@ export default {
       }
     },
     enterinfo(val) {
-    //   this.personalForm.sourceNumber = val.number
-    //   this.personalForm.supplierId = val.supplierId
-    //   this.supplierId = val.supplierName
-    //   if (val.stockTypeId !== null && val.stockTypeId !== undefined && val.stockTypeId !== '') {
-    //     this.personalForm.stockTypeId = val.stockTypeId
-    //   }
-    //   this.personalForm.isVat = val.isVat
-    //   if (val.handlePersonId !== null && val.handlePersonId !== undefined && val.handlePersonId !== '') {
-    //     this.personalForm.handlePersonId = val.handlePersonId
-    //     this.handlePersonId = val.stockPersonName
-    //   }
-    //   if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
-    //     this.personalForm.payMode = val.payMode
-    //   }
-    //   if (val.deliveryModeId !== null && val.deliveryModeId !== undefined && val.deliveryModeId !== '') {
-    //     this.personalForm.deliveryModeId = val.deliveryModeId
-    //   }
-    //   if (val.currencyId !== null && val.currencyId !== undefined && val.currencyId !== '') {
-    //     this.personalForm.currencyId = String(val.currencyId)
-    //   }
-    //   this.getTypes()
+      this.personalForm.invoiceNumber = val.invoiceNumber
+      this.personalForm.invoiceType = val.invoiceType
+      this.personalForm.supplierId = val.supplierId
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.address = val.address
+      this.personalForm.taxNumber = val.taxNumber
+      this.personalForm.bank = val.bank
+      this.personalForm.handlePersonId = val.handlePersonId
+      this.personalForm.deptId = val.deptId
+      this.personalForm.subject = val.subject
+      this.personalForm.payDate = val.payDate
+      this.supplierId = val.supplierName
+      this.handlePersonId = val.handlePersonName
+      if (this.personalForm.currency !== null && this.personalForm.currency !== '' && this.personalForm.currency !== undefined) {
+        this.personalForm.currency = String(val.currency)
+      }
+      if (this.personalForm.invoiceType !== null) {
+        this.personalForm.invoiceType = String(val.invoiceType)
+      }
+      this.personalForm.sourceType = '2'
+      this.personalForm.isRed = 2
+      this.list2 = val.stockInvoiceDetailVos
+      for (let i = 0; i < this.list2.length; i++) {
+        this.list2[i].quantity2 = this.list2[i].quantity
+        this.list2[i].sourceNumber = val.number
+        this.list2[i].taxRate = this.list2[i].taxRate2
+      }
     },
     // 更新类型
     updatecountry() {
