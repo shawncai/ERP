@@ -509,7 +509,17 @@ export default {
         }
         return elem
       })
+      const EnterDetail2 = this.$refs.editable2.getRecords()
+      if (EnterDetail2.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.nonedetail'),
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
+      const parms3 = JSON.stringify(EnterDetail2)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -523,7 +533,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updateoutsourcing(parms, parms2).then(res => {
+      updateoutsourcing(parms, parms3, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),
