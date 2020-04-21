@@ -198,12 +198,13 @@ export default {
       // 部门数据
       depts: [],
       // 收款人回显
-      receiptPersonId: '',
+      receiptPersonId: this.$store.getters.name,
       // 控制收款人
       stockControl: false,
       // 收入单信息数据
       // 登陆者数据
       personalForm: {
+        receiptPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         currency: '1',
@@ -429,6 +430,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        receiptPersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         currency: '1',
@@ -436,7 +438,7 @@ export default {
         regionId: this.$store.getters.regionId,
         receiptDate: null
       }
-      this.receiptPersonId = null
+      this.receiptPersonId = this.$store.getters.name
       this.getcurrency()
     },
     // 保存操作

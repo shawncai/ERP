@@ -299,7 +299,7 @@ import { addpayment } from '@/api/payment'
 import { shouldPayList } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
-import { searchCategory } from '@/api/Supplier'
+import { searchCategory, search2 } from '@/api/Supplier'
 import MyEmp from './components/MyEmp'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
@@ -430,7 +430,7 @@ export default {
       // 部门数据
       depts: [],
       // 执行人回显
-      handlePersonId: '',
+      handlePersonId: this.$store.getters.name,
       // 控制执行人
       stockControl: false,
       // 类别数据
@@ -444,6 +444,7 @@ export default {
       control: false,
       // 采购申请单信息数据
       personalForm: {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -494,7 +495,53 @@ export default {
   beforeCreate() {
     _that = this
   },
+  mounted() {
+    this.getinformation()
+  },
   methods: {
+    async getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.supplierId = this.$store.getters.empcontract.supplierName
+        this.personalForm.supplierId = this.$store.getters.empcontract.supplierId
+        // this.personalForm.payAccount = val.account
+        // this.personalForm.payAccountNumber = val.accountName
+        // this.yufu = val.advanceMoney
+        const param = {}
+        param.id = this.$store.getters.empcontract.supplierId
+        param.pagenum = 1
+        param.pagesize = 1
+        search2(param).then(res => {
+          if (res.data.ret === 200) {
+            this.$refs.editable.clear()
+            console.log('res', res.data.data.content)
+            this.personalForm.payAccount = res.data.data.content.list[0].account
+            this.personalForm.payAccountNumber = res.data.data.content.list[0].accountName
+            this.yufu = res.data.data.content.list[0].advanceMoney
+          }
+        })
+        shouldPayList(this.$store.getters.empcontract.supplierId).then(res => {
+          if (res.data.ret === 200) {
+            this.$refs.editable.clear()
+            console.log('res', res.data.data.content)
+            const detailList = res.data.data.content.list
+            for (let i = 0; i < detailList.length; i++) {
+              console.log('this.$store.getter.empcontract', this.$store.getters.empcontract)
+              console.log('this.$store.getter.empcontract.number', this.$store.getters.empcontract.number)
+              console.log('detailList[i].sourceNumber', detailList[i].sourceNumber)
+              if (detailList[i].sourceNumber === this.$store.getters.empcontract.number) {
+                console.log(123)
+                detailList[i].shouldPayId = detailList[i].id
+                detailList[i].payThis = detailList[i].shouldMoney
+                this.$refs.editable.insert(detailList[i])
+                this.$store.dispatch('getempcontract', '')
+                break
+              }
+            }
+          }
+        })
+      }
+    },
     getcurrency() {
       const mycountry = this.$store.getters.countryId
       if (mycountry === 1) {
@@ -737,12 +784,14 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         isVat: 1
       }
+      this.handlePersonId = this.$store.getters.name
       this.getcurrency()
       this.getdatatime()
       this.supplierId = null
