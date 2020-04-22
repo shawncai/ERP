@@ -315,7 +315,8 @@ export default {
       const OrderNumber = this.choosedata.number
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {
-          actualEnterQuantity: item.quantity,
+          reportCheckingQuantity: item.reportCheckingQuantity,
+          actualEnterQuantity: item.quantity - item.enterQuantity,
           qualifyQuantity: item.qualifyQuantity,
           productCode: item.productCode,
           productName: item.productName,

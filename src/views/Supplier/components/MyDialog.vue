@@ -232,8 +232,31 @@
               <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
             </template>
           </el-editable-column>
-          <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.price"
+                @input="getprice(scope.row)"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.includeTaxPrice"
+                @input="getincludeTaxPrice(scope.row)"/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                v-model="scope.row.taxRate"
+                @input="gettaxRate(scope.row)"/>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -495,6 +518,23 @@ export default {
     _that = this
   },
   methods: {
+    // 计算单价
+    getprice(row) {
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+    },
+    // 通过税率计算含税价
+    gettaxRate(row) {
+      if (row.includeTaxPrice !== 0) {
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      }
+    },
+    // 通过含税价计算税率
+    getincludeTaxPrice(row) {
+      if (row.price !== 0) {
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        console.log(row.taxRate)
+      }
+    },
     handleConfirm() {
       console.log('this.list', this.list)
       let num = 0
