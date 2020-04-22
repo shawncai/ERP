@@ -771,6 +771,7 @@ export default {
       }
     },
     enter(val) {
+      console.log('val==========', val)
       const myval = this.$store.getters.myflagApproval
       for (let i = 0; i < this.checklist.length; i++) {
         for (let j = 0; j < myval.length; j++) {

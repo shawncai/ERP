@@ -99,19 +99,24 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="200">
+        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="200">
+        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
             <span>{{ scope.row.planQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.unit }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
@@ -348,7 +353,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5) {
+      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
         return {
           rowspan: _row,
           colspan: _col
