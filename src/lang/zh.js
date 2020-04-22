@@ -3119,6 +3119,10 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    oldTaxRate: '原税率',
+    newTaxRate: '新税率',
+    oldIncludeTaxPrice: '原含税价',
+    newIncludeTaxPrice: '新含税价',
     stockrequrenumber: '采购需求编号',
     sfgouxuanqubqx: '是否勾选全部权限',
     jldwzbh: '计量单位组编号',

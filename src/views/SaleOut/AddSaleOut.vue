@@ -296,7 +296,7 @@
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
-                  @change="queryStock(scope.row)"
+                  @change="queryStock(scope.row, scope)"
                 />
                 <!-- <el-input v-if="isEdit2(scope.row)" v-model="personalForm.carCode" clearable/> -->
                 <span v-else>{{ scope.row.quantity }}</span>
@@ -1236,7 +1236,26 @@ export default {
         this.ableSubmission = true
       }
     },
-    queryStock(row) {
+    queryStock(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.quantity !== '' && row.quantity !== null && row.quantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].quantity)
+            if (this.list2[i].quantity === 1 || this.list2[i].quantity === null || this.list2[i].quantity === '' || this.list2[i].quantity === undefined) {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              const re = this.list2[i].productCode.slice(0, 2)
+              if (re !== '01' && re !== '05') {
+                this.list2[i].quantity = row.quantity
+              }
+            }
+          }
+          console.log(row)
+        }
+      }
       if (row.location === null || row.location === '' || row.location === undefined) {
         this.$notify.error({
           title: 'wrong',

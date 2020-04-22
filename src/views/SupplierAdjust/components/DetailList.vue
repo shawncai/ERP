@@ -63,6 +63,10 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.cgdyj')" prop="oldPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
