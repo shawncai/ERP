@@ -52,10 +52,11 @@ export function searchoutsourcing(query) {
 }
 
 // 修改外包单
-export function updateoutsourcing(query, query2) {
+export function updateoutsourcing(query, query2, query3) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
+  params.append('enterDetailJson', query3) // 你要传给后台的参数值 key/value
   return request({
     url: '/outsourcing/update',
     method: 'post',
