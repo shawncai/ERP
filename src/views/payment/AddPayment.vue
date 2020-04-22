@@ -533,6 +533,7 @@ export default {
                 console.log(123)
                 detailList[i].shouldPayId = detailList[i].id
                 detailList[i].payThis = detailList[i].shouldMoney
+                console.log('detailList[i]', detailList[i])
                 this.$refs.editable.insert(detailList[i])
                 this.$store.dispatch('getempcontract', '')
                 break
