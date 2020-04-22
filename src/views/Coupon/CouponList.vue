@@ -252,7 +252,9 @@ export default {
   },
   methods: {
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     // 新增数据
     handleAdd3(val) {

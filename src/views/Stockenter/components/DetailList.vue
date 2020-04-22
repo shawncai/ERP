@@ -353,6 +353,9 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      for (const i in this.personalForm.stockEnterDetailVos) {
+        delete this.personalForm.stockEnterDetailVos[i].stockEnterDetailVos
+      }
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.deliveryPersonId = this.personalForm.deliveryPersonName

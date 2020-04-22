@@ -120,7 +120,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" />-->
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
+            <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" />
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" >
               <template slot-scope="scope">
@@ -129,6 +129,21 @@
             </el-editable-column>
             <!--            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />-->
           </el-editable>
+        </div>
+      </el-card>
+      <!-- 合计信息 -->
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.dhslzj')" style="width: 100%;">
+                  <span> {{ personalForm.allQuantity }} </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px">
@@ -279,6 +294,12 @@ export default {
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.enterPersonId = this.personalForm.enterPersonName
       this.list2 = this.personalForm.outsourceEnterDetailVos
+      let count = 0
+      for (let i = 0; i < this.list2.length; i++) {
+        // this.personalForm.allQuantity =
+        count += this.list2[i].actualEnterQuantity
+      }
+      this.personalForm.allQuantity = count
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

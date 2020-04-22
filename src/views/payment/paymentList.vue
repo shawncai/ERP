@@ -300,7 +300,9 @@ export default {
   },
   methods: {
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     handleEdit2(row) {
       this.reviewParms = {}

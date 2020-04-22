@@ -250,7 +250,9 @@ export default {
   },
   methods: {
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     // 仓库列表focus事件触发
     handlechooseRep() {

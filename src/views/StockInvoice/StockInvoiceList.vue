@@ -22,6 +22,7 @@
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item v-permission="['266-257-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item style="text-align: left" command="review"><svg-icon icon-class="renwu" style="width: 40px"/>{{ $t('public.review') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
@@ -250,7 +251,9 @@ export default {
   },
   methods: {
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     handleMyReceipt2(val) {
       console.log(val)
@@ -562,7 +565,7 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const ids = this.moreaction.length && this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -590,6 +593,76 @@ export default {
             type: 'info',
             message: this.$t('prompt.yqxsc')
           })
+        })
+      }
+      if (command === 'review') {
+        this.reviewParms = {}
+        this.reviewParms.judgePersonId = this.$store.getters.userId
+        this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+          distinguishCancelAndClose: true,
+          confirmButtonText: this.$t('prompt.tg'),
+          cancelButtonText: this.$t('prompt.btg'),
+          type: 'warning'
+        }).then(() => {
+          this.reviewParms.judgeStat = 2
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].judgeStat !== 0) {
+              this.$message.error(`第${i + 1}条数据已经审核`)
+              break
+            }
+            this.reviewParms.id = this.list[i].id
+            const parms = JSON.stringify(this.reviewParms)
+            updatestockinvoice2(parms).then(res => {
+              if (res.data.ret === 200) {
+                this.$message({
+                  type: 'success',
+                  message: this.$t('prompt.shcg')
+                })
+                this.getlist()
+              }
+            }).catch(err => {
+              this.$message.error(err)
+              return false
+            })
+          }
+        }).catch(action => {
+          if (action === 'cancel') {
+          // 取消弹框
+            this.$confirm('是否确认审核不通过？', 'Warning', {
+              distinguishCancelAndClose: true,
+              confirmButtonText: '确认',
+              cancelButtonText: '取消'
+            })
+              .then(() => {
+                this.reviewParms.judgeStat = 3
+                for (let i = 0; i < this.list.length; i++) {
+                  if (this.list[i].judgeStat !== 0) {
+                    this.$message.error(`第${i + 1}条数据已经审核`)
+                    break
+                  }
+                  this.reviewParms.id = this.list[i].id
+                  const parms = JSON.stringify(this.reviewParms)
+                  updatestockinvoice2(parms).then(res => {
+                    if (res.data.ret === 200) {
+                      this.$message({
+                        type: 'success',
+                        message: this.$t('prompt.shcg')
+                      })
+                      this.getlist()
+                    }
+                  })
+                }
+              })
+              .catch(action => {
+                this.$message({
+                  type: 'info',
+                  message: action === 'cancel'
+                    ? '确认取消'
+                    : '停留在当前页面'
+                })
+              })
+          // ================取消弹框结束
+          }
         })
       }
     },

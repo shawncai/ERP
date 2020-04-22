@@ -336,7 +336,9 @@ export default {
       }
     },
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     handlechooseSupplier() {
       this.empcontrol = true

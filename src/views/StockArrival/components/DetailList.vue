@@ -518,6 +518,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      console.log('this.personalForm=============', this.personalForm)
       for (const i in this.personalForm.stockArrivalDetailVos) {
         delete this.personalForm.stockArrivalDetailVos[i].stockArrivalDetailVos
       }
