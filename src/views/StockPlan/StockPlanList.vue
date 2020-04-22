@@ -85,7 +85,7 @@
         <el-table-column
           :selectable="selectInit"
           type="selection"
-          width="55"
+          width="40"
           fixed="left"
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
@@ -104,47 +104,57 @@
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planQuantity }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.planPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockPlan.allMoney')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockPlan.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('StockPlan.planDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.planDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockPlan.isused')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('StockPlan.isused')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.isused">已调用</span>
             <span v-else>未调用</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('public.receiptStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['104-108-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
@@ -338,7 +348,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 3) {
+      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5) {
         return {
           rowspan: _row,
           colspan: _col

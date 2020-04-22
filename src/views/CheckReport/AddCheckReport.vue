@@ -534,7 +534,6 @@ export default {
         } else {
           this.personalForm.sampleQuantity = 5
         }
-        this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
         this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
@@ -732,7 +731,6 @@ export default {
         } else {
           this.personalForm.sampleQuantity = 5
         }
-        this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
         this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
@@ -784,7 +782,6 @@ export default {
         } else {
           this.personalForm.sampleQuantity = 5
         }
-        this.personalForm.sampleQuantity = 5
       }
       if (Number(this.personalForm.checkQuantity) >= 101) {
         this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
@@ -890,8 +887,9 @@ export default {
         if (Number(this.personalForm.checkQuantity) <= 100) {
           if (Number(this.personalForm.checkQuantity) <= 5) {
             this.personalForm.sampleQuantity = this.personalForm.checkQuantity
+          } else {
+            this.personalForm.sampleQuantity = 5
           }
-          this.personalForm.sampleQuantity = 5
         }
         if (Number(this.personalForm.checkQuantity) >= 101) {
           this.personalForm.sampleQuantity = Math.round(Number(this.personalForm.checkQuantity) * 0.05)
