@@ -67,24 +67,25 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="55"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
+          width="55"
+          fixed="left"/>
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.materialsRequireNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('inventorydetaillist.repositoryName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('inventorydetaillist.repositoryName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.repositoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockRequire.productName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRequire.productName')" :resizable="false" align="center" fixed="left" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockRequire.productCode')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRequire.productCode')" :resizable="false" align="center" fixed="left" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productCode }}</span>
           </template>
@@ -127,6 +128,16 @@
         <el-table-column :label="$t('StockRequire.planedQuantity')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.planedQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('stockTrackList.enterQuantity')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.alreadyEnterQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('countlist.onStock')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planedQuantity - scope.row.alreadyEnterQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockRequire.stockAdvanceday')" :resizable="false" align="center" min-width="150">
