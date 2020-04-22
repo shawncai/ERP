@@ -278,8 +278,20 @@ export default {
     outSourceDetail(val) {
       console.log(val)
       this.$refs.editable.clear()
+      let flag = 0
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        if (val[i].qualifyQuantity > 0 && val[i].actualEnterQuantity > 0) {
+          flag++
+          this.$refs.editable.insert(val[i])
+        }
+      }
+      if (flag === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先质检再入库',
+          offset: 100
+        })
+        return false
       }
     },
     outSource(val) {
