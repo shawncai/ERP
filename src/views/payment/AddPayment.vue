@@ -495,7 +495,7 @@ export default {
   beforeCreate() {
     _that = this
   },
-  mounted() {
+  activated() {
     this.getinformation()
   },
   methods: {
@@ -511,7 +511,7 @@ export default {
         param.id = this.$store.getters.empcontract.supplierId
         param.pagenum = 1
         param.pagesize = 1
-        search2(param).then(res => {
+        await search2(param).then(res => {
           if (res.data.ret === 200) {
             this.$refs.editable.clear()
             console.log('res', res.data.data.content)
@@ -520,25 +520,32 @@ export default {
             this.yufu = res.data.data.content.list[0].advanceMoney
           }
         })
-        shouldPayList(this.$store.getters.empcontract.supplierId).then(res => {
+        await shouldPayList(this.$store.getters.empcontract.supplierId).then(res => {
           if (res.data.ret === 200) {
             this.$refs.editable.clear()
             console.log('res', res.data.data.content)
             const detailList = res.data.data.content.list
-            for (let i = 0; i < detailList.length; i++) {
-              console.log('this.$store.getter.empcontract', this.$store.getters.empcontract)
-              console.log('this.$store.getter.empcontract.number', this.$store.getters.empcontract.number)
-              console.log('detailList[i].sourceNumber', detailList[i].sourceNumber)
-              if (detailList[i].sourceNumber === this.$store.getters.empcontract.number) {
-                console.log(123)
-                detailList[i].shouldPayId = detailList[i].id
-                detailList[i].payThis = detailList[i].shouldMoney
-                console.log('detailList[i]', detailList[i])
-                this.$refs.editable.insert(detailList[i])
-                this.$store.dispatch('getempcontract', '')
-                break
+            this.$nextTick(() => {
+              for (let i = 0; i < detailList.length; i++) {
+                console.log('this.$store.getter.empcontract', this.$store.getters.empcontract)
+                console.log('this.$store.getter.empcontract.number', this.$store.getters.empcontract.number)
+                console.log('detailList[i].sourceNumber', detailList[i].sourceNumber)
+                if (detailList[i].sourceNumber === this.$store.getters.empcontract.number) {
+                  console.log(123)
+                  detailList[i].shouldPayId = detailList[i].id
+                  detailList[i].payThis = detailList[i].shouldMoney
+                  console.log('detailList[i]', detailList[i])
+                  const list = []
+                  list.push(detailList[i])
+                  this.list2 = list
+                  console.log('list', list)
+                  console.log('list2', this.list2)
+                  // this.$refs.editable.insert(detailList[i])
+                  this.$store.dispatch('getempcontract', '')
+                  break
+                }
               }
-            }
+            })
           }
         })
       }

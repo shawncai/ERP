@@ -77,6 +77,11 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('saleBillList.money')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.invoiceMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('CostInvoice.payDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.payDate }}</span>
