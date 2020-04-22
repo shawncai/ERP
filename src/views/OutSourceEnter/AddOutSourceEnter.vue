@@ -128,6 +128,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/>
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
@@ -337,7 +338,7 @@ export default {
       this.$refs.editable.clear()
       let flag = 0
       for (let i = 0; i < val.length; i++) {
-        if (val[i].qualifyQuantity > 0) {
+        if (val[i].qualifyQuantity > 0 && val[i].actualEnterQuantity > 0) {
           flag++
           this.$refs.editable.insert(val[i])
         }
