@@ -110,16 +110,31 @@
             <span>{{ scope.row.productName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="100">
+        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.dhsl')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.arrivalQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.unit }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column :label="$t('StockArrival.stockTypeId')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>
           </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="100">
+        </el-table-column> -->
+        <!-- <el-table-column :label="$t('StockArrival.sourceType')" :resizable="false" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('StockArrival.stockPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockPersonName }}</span>
@@ -145,7 +160,7 @@
             <span>{{ scope.row.allDiscountMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -154,7 +169,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="600">
           <template slot-scope="scope">
             <el-button v-permission2="['104-116-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
@@ -357,21 +372,6 @@ export default {
           colspan: _col
         }
       } else if (columnIndex === 2) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      } else if (columnIndex === 4) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      } else if (columnIndex === 5) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      } else if (columnIndex === 6) {
         return {
           rowspan: _row,
           colspan: _col
@@ -664,15 +664,6 @@ export default {
           }
           this.list = newarr2
           this.getSpanArr(this.list)
-
-          // this.list = res.data.data.content.list
-          // for (const j in this.list) {
-          //   const newarr = []
-          //   for (const i in this.list[j].stockArrivalDetailVos) {
-          //     newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
-          //   }
-          //   this.list[j].presentdata = newarr.join('      ||     ')
-          // }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

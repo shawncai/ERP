@@ -501,10 +501,10 @@ export default {
           discountRate: 0.0,
           orderNumber: item.orderNumber,
           actualEnterQuantity: item.actualEnterQuantity,
-          invoiceQuantity: item.invoiceQuantity
+          invoiceQuantity: item.invoiceQuantity,
+          unJudgeQuantity: item.unJudgeQuantity
         }
       })
-      console.log('enterDetail==============================>', enterDetail)
       for (let i = 0; i < enterDetail.length; i++) {
         for (let j = 0; j < this.checklistprop.length; j++) {
           if (enterDetail[i].sourceNumber === this.checklistprop[j]) {

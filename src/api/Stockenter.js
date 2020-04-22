@@ -52,6 +52,9 @@ export function stockenterlist(query) {
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }

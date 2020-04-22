@@ -25,6 +25,12 @@
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
+        <el-select v-model="getemplist.judgeStat" size="small" placeholder="请选择审核状态" clearable style="width: 40%;float: right;margin-right: 20px;margin-top: 28px" @focus="updatedept">
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
+        </el-select>
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -64,7 +70,6 @@
     </el-card>
 
     <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
-
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -72,17 +77,18 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
+        :span-method="arraySpanMethod"
+        size="small"
         border
         fit
         highlight-current-row
         style="width: 100%;"
         @row-click="clickRow"
-
         @selection-change="handleSelectionChange">
         <el-table-column
           :selectable="selectInit"
           type="selection"
-          width="55"
+          width="40"
           fixed="left"
           align="center"/>
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
@@ -94,6 +100,26 @@
         <el-table-column :label="$t('Stockenter.supplierId')" :resizable="false" fixed="left" prop="title" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
+          <template slot-scope="scope">
+            <span>{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.rksl')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.actualEnterQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.unit }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
@@ -136,7 +162,7 @@
             <span>{{ scope.row.summary }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
+        <!-- <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -145,7 +171,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="300">
           <template slot-scope="scope">
             <el-button v-permission="['131-132-133-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
@@ -260,7 +286,8 @@ export default {
       // 控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      supplierId: null
     }
   },
   activated() {
@@ -279,6 +306,35 @@ export default {
     _that = this
   },
   methods: {
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].enterId === data[i - 1].enterId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     clickRow(val) {
       this.$refs.table.toggleRowSelection(val)
     },
@@ -490,7 +546,66 @@ export default {
       this.listLoading = true
       stockenterlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          const needlist = res.data.data.content.list
+          const newarr = res.data.data.content.list.map(item => {
+            return item.stockEnterDetailVos
+          })
+          const newarr2 = [].concat.apply([], newarr)
+          for (const i in needlist) {
+            for (const j in newarr2) {
+              if (needlist[i].id === newarr2[j].enterId) {
+                newarr2[j].acceptPersonId = needlist[i].acceptPersonId
+                newarr2[j].acceptPersonName = needlist[i].acceptPersonName
+                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
+                newarr2[j].batch = needlist[i].batch
+                newarr2[j].countryId = needlist[i].countryId
+                newarr2[j].countryName = needlist[i].countryName
+                newarr2[j].createDate = needlist[i].createDate
+                newarr2[j].createPersonId = needlist[i].createPersonId
+                newarr2[j].createPersonName = needlist[i].createPersonName
+                newarr2[j].deliveryPersonId = needlist[i].deliveryPersonId
+                newarr2[j].deliveryPersonName = needlist[i].deliveryPersonName
+                newarr2[j].endDate = needlist[i].endDate
+                newarr2[j].endPersonId = needlist[i].endPersonId
+                newarr2[j].endPersonName = needlist[i].endPersonName
+                newarr2[j].enterDate = needlist[i].enterDate
+                newarr2[j].enterDeptId = needlist[i].enterDeptId
+                newarr2[j].enterDeptName = needlist[i].enterDeptName
+                newarr2[j].enterNumber = needlist[i].enterNumber
+                newarr2[j].enterPersonId = needlist[i].enterPersonId
+                newarr2[j].enterPersonName = needlist[i].enterPersonName
+                newarr2[j].enterRepositoryId = needlist[i].enterRepositoryId
+                newarr2[j].enterRepositoryName = needlist[i].enterRepositoryName
+                newarr2[j].extraMoney = needlist[i].extraMoney
+                newarr2[j].extraPersonId = needlist[i].extraPersonId
+                newarr2[j].id = needlist[i].id
+                newarr2[j].judgeDate = needlist[i].judgeDate
+                newarr2[j].judgePersonId = needlist[i].judgePersonId
+                newarr2[j].judgePersonName = needlist[i].judgePersonName
+                newarr2[j].judgeStat = needlist[i].judgeStat
+                newarr2[j].modifyDate = needlist[i].modifyDate
+                newarr2[j].modifyPersonId = needlist[i].modifyPersonId
+                newarr2[j].modifyPersonName = needlist[i].modifyPersonName
+                newarr2[j].receiptStat = needlist[i].receiptStat
+                newarr2[j].repositoryTypeId = needlist[i].repositoryTypeId
+                newarr2[j].sourceNumber = needlist[i].sourceNumber
+                newarr2[j].sourceType = needlist[i].sourceType
+                newarr2[j].stat = needlist[i].stat
+                newarr2[j].stockDeptId = needlist[i].stockDeptId
+                newarr2[j].stockDeptName = needlist[i].stockDeptName
+                newarr2[j].stockEnterDetailVos = needlist[i].stockEnterDetailVos
+                newarr2[j].stockPersonId = needlist[i].stockPersonId
+                newarr2[j].stockPersonName = needlist[i].stockPersonName
+                newarr2[j].summary = needlist[i].summary
+                newarr2[j].supplierId = needlist[i].supplierId
+                newarr2[j].supplierName = needlist[i].supplierName
+                newarr2[j].title = needlist[i].title
+              }
+            }
+          }
+          console.log('newarr2============', newarr2)
+          this.list = newarr2
+          this.getSpanArr(this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -524,15 +639,16 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      stockenterlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getemplist()
+      // stockenterlist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 修改操作
     handleEdit(row) {

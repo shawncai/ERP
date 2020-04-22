@@ -63,7 +63,6 @@
         ref="table"
         :key="tableKey"
         :data="list"
-        :span-method="arraySpanMethod"
         :height="tableHeight"
         border
         size="small"
