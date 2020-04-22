@@ -61,9 +61,12 @@
     <el-table
       v-loading="listLoading"
       ref="multipleTable"
+      :height="tableHeight"
       :data="list"
+
       :key="tableKey"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -216,7 +219,8 @@ export default {
       // 小区经理选择框控制
       regionManagerVisible: false,
       flagarr: [],
-      myarr: []
+      myarr: [],
+      tableHeight: 200
     }
   },
   watch: {
@@ -229,6 +233,9 @@ export default {
       }, 0)
       this.flagarr = []
       this.moreaction = []
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.multipleTable.$el.offsetTop - 180
+      }, 100)
     },
     checklist() {
       this.checklistprop = this.checklist.map(item => {

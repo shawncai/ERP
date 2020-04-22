@@ -56,8 +56,12 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="table"
       :data="list"
+
       :key="tableKey"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -139,6 +143,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 职位搜索时参数
       jobCat: {
         type: 2,
@@ -199,6 +205,10 @@ export default {
   watch: {
     entercontrol() {
       this.employeeVisible = this.entercontrol
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {

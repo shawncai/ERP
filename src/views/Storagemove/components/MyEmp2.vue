@@ -56,9 +56,14 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="table"
       :data="list"
+
       :key="tableKey"
+      :height="tableHeight"
       :row-key="getRowKeys"
+
+      size="small"
       border
       fit
       highlight-current-row
@@ -152,6 +157,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       getRowKeys(row) {
         return row.id
       },
@@ -220,6 +227,9 @@ export default {
       this.employeeVisible = this.control
       console.log(this.control)
       this.gitemplist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {

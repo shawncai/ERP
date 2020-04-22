@@ -56,8 +56,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -156,6 +159,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 外包工厂回显
       outFactoryId: '',
       // 控制外包工厂
@@ -225,6 +230,10 @@ export default {
     outsourcecontrol() {
       this.employeeVisible = this.outsourcecontrol
       this.getlist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

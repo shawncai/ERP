@@ -56,8 +56,11 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="table"
       :data="list"
       :key="tableKey"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -193,13 +196,18 @@ export default {
       // 员工选择框控制
       employeeVisible: this.control,
       // 小区经理选择框控制
-      regionManagerVisible: false
+      regionManagerVisible: false,
+      tableHeight: 200
+
     }
   },
   watch: {
     control() {
       this.employeeVisible = this.control
       this.gitemplist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

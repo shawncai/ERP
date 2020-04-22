@@ -8,19 +8,6 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockArrival.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="采购订单" />
-                    <el-option value="2" label="无来源" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" :supp2.sync="supp2" @supplierName="supplierName"/>
@@ -43,6 +30,20 @@
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockArrival.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockArrival.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
+                    <el-option value="1" label="采购订单" />
+                    <el-option value="2" label="无来源" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('StockArrival.stockTypeId')" prop="stockType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-select v-model="personalForm.stockTypeId" size="mini" style="margin-left: 18px;width: 200px" @focus="updatecountry">

@@ -8,6 +8,18 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('StockInquiry.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
+                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockInquiry.inquiryPersonId')" prop="inquiryPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="inquiryPersonId" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
+                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockInquiry.inquiryTitle')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.inquiryTitle" size="mini" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -19,18 +31,6 @@
                     <el-option value="2" label="采购计划" />
                     <el-option value="3" label="无来源" />
                   </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockInquiry.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockInquiry.inquiryPersonId')" prop="inquiryPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="inquiryPersonId" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

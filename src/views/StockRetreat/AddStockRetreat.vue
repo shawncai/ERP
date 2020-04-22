@@ -8,6 +8,12 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -21,12 +27,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-                </el-form-item>
-              </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
@@ -114,7 +115,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height:57px">
                 <el-form-item :label="$t('StockRetreat.isVat')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>

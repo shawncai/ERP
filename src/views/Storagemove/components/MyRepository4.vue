@@ -43,9 +43,11 @@
     <el-table
       v-loading="listLoading"
       ref="multipleTable"
+      :height="tableHeight"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -133,6 +135,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       getRowKeys(row) {
         return row.id
       },
@@ -202,6 +206,9 @@ export default {
       this.moreaction = []
       this.delearr = []
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.multipleTable.$el.offsetTop - 180
+      }, 100)
     },
     checkdata() {
       this.checknewarrdata = this.checkdata

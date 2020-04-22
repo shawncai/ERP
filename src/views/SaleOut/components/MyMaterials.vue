@@ -44,8 +44,11 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -139,6 +142,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -193,6 +198,10 @@ export default {
       this.productVisible = this.materialcontrol
       console.log(this.control)
       this.getlist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {

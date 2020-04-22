@@ -14,6 +14,18 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="salePersonId" style="width: 200px" @focus="handlechooseStock"/>
+                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseSource">
                     <el-option :label="$t('prompt.wly')" value="1" />
@@ -89,18 +101,7 @@
               <!--                    style="width: 200px"/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.salePersonId')" prop="salePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="salePersonId" style="width: 200px" @focus="handlechooseStock"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-                </el-form-item>
-              </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.roleId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="roleId" style="width: 200px" disabled/>

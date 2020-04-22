@@ -47,10 +47,13 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
-      ref="multipleTable"
+      ref="table"
+      :height="tableHeight"
       :key="tableKey"
+
       :data="list"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -154,6 +157,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       getRowKeys(row) {
         return row.code
       },
@@ -202,6 +207,9 @@ export default {
       this.productVisible = this.control
       console.log(this.control)
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {
@@ -316,7 +324,7 @@ export default {
         })
       }))
       console.log(productDetail)
-      this.$refs.multipleTable.clearSelection()
+      this.$refs.table.clearSelection()
       this.$emit('product', productDetail)
     }
   }
