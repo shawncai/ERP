@@ -596,7 +596,17 @@ export default {
           for (let i = 0; i < this.list.length; i++) {
             if (this.list[i].judgeStat !== 0) {
               this.$message.error(`第${i + 1}条数据已经审核`)
-              break
+              continue
+            }
+            if (this.list[i].approvalUseVos !== '' && this.list[i].approvalUseVos !== null && this.list[i].approvalUseVos !== undefined && this.list[i].approvalUseVos.length !== 0) {
+              const approvalUse = this.list[i].approvalUseVos
+              const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+              console.log(approvalUse[approvalUse.length - 1].stepHandler)
+              console.log(index)
+              if (!(index > -1 && (this.list[i].judgeStat === 1 || this.list[i].judgeStat === 0))) {
+                this.$message.error(`第${i + 1}条数据无权审核`)
+                continue
+              }
             }
             this.reviewParms.id = this.list[i].id
             const parms = JSON.stringify(this.reviewParms)
@@ -626,7 +636,17 @@ export default {
                 for (let i = 0; i < this.list.length; i++) {
                   if (this.list[i].judgeStat !== 0) {
                     this.$message.error(`第${i + 1}条数据已经审核`)
-                    break
+                    continue
+                  }
+                  if (this.list[i].approvalUseVos !== '' && this.list[i].approvalUseVos !== null && this.list[i].approvalUseVos !== undefined && this.list[i].approvalUseVos.length !== 0) {
+                    const approvalUse = this.list[i].approvalUseVos
+                    const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+                    console.log(approvalUse[approvalUse.length - 1].stepHandler)
+                    console.log(index)
+                    if (!(index > -1 && (this.list[i].judgeStat === 1 || this.list[i].judgeStat === 0))) {
+                      this.$message.error(`第${i + 1}条数据无权审核`)
+                      continue
+                    }
                   }
                   this.reviewParms.id = this.list[i].id
                   const parms = JSON.stringify(this.reviewParms)

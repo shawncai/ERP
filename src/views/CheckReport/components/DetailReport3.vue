@@ -2,8 +2,10 @@
   <el-dialog :visible.sync="editVisible" :reportcontrol3="reportcontrol3" :reportdata3="reportdata3" :close-on-press-escape="false" top="10px" title="生产任务单明细" append-to-body @close="$emit('update:reportcontrol3', false)">
     <!-- 列表开始 -->
     <el-table
+      ref="table"
       :key="tableKey"
       :data.sync="list"
+      :height="tableHeight"
       border
       fit
       highlight-current-row
@@ -62,6 +64,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -81,6 +84,11 @@ export default {
   watch: {
     reportcontrol3() {
       this.editVisible = this.reportcontrol3
+      if (this.reportcontrol3) {
+        setTimeout(() => {
+          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+        }, 100)
+      }
     },
     reportdata3() {
       this.list = this.reportdata3
