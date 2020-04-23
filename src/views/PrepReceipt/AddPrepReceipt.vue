@@ -1,3 +1,4 @@
+
 <template>
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">

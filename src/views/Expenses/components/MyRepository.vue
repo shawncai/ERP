@@ -42,8 +42,11 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -123,6 +126,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       searchregion: this.regionid,
       // 仓库弹窗控制
       repositoryVisible: this.repositorycontrol,
@@ -174,6 +179,9 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     },
     regionid() {
       this.searchregion = this.regionid
