@@ -257,7 +257,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: '采购到货',
+        1: '采购入库',
         2: '采购发票'
       }
       return statusMap[status]

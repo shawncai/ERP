@@ -53,8 +53,11 @@
     </div>
     <el-table
       v-loading="listLoading"
+      ref="table"
       :data="list"
       :key="tableKey"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -135,6 +138,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 转化数据
       choosedata: '',
       // 仓库管理员回显数据
@@ -188,6 +193,10 @@ export default {
     control() {
       this.employeeVisible = this.control
       this.gitemplist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

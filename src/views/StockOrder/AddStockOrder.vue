@@ -8,21 +8,6 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('StockOrder.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('StockOrder.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
-                    <el-option value="1" label="采购申请" />
-                    <el-option value="2" label="采购计划" />
-                    <el-option value="3" label="采购询价单" />
-                    <el-option value="5" label="无来源" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="supplierId" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
@@ -40,6 +25,22 @@
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOrder.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('StockOrder.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
+                    <el-option value="1" label="采购申请" />
+                    <el-option value="2" label="采购计划" />
+                    <el-option value="3" label="采购询价单" />
+                    <el-option value="5" label="无来源" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
               <el-col :span="6">
                 <el-form-item :label="$t('StockOrder.stockType')" prop="stockType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-select v-model="personalForm.stockTypeId" :disabled="isedit" size="mini" style="margin-left: 18px;width: 200px" @focus="updatecountry">
@@ -115,7 +116,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('StockOrder.isVat')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-radio-group v-model="personalForm.isVat" style="margin-left: 18px;width:200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>

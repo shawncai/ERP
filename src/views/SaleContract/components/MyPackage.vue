@@ -37,8 +37,11 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -108,6 +111,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 主商品数据
       query: this.productnumber,
       // 供应商回显
@@ -146,6 +151,9 @@ export default {
     packagecontrol() {
       this.productVisible = this.packagecontrol
       console.log(this.packagecontrol)
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     },
     productnumber() {
       this.query = this.productnumber

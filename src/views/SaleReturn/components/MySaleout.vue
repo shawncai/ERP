@@ -69,8 +69,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -179,6 +182,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 接受数据
       querydata: this.personaldata,
       // 选择框控制
@@ -259,6 +264,10 @@ export default {
       this.employeeVisible = this.saleoutcontrol
       this.getlist()
       console.log(this.querydata)
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     },
     personaldata() {
       console.log(this.personaldata)

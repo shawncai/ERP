@@ -76,6 +76,11 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('saleBillList.money')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allIncludeTaxMoney - scope.row.allDiscountMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockInvoice.isRed')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.isRed | isRedFilter }}</span>
@@ -169,7 +174,7 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgdhd'),
+        1: _that.$t('updates.cgrkd'),
         2: _that.$t('Hmodule.Nosource'),
         3: _that.$t('updates.cgrkd')
       }

@@ -42,9 +42,12 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :height="tableHeight"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -126,6 +129,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       getRowKeys(row) {
         return row.id
       },
@@ -183,6 +188,9 @@ export default {
     repositorycontrol() {
       this.repositoryVisible = this.repositorycontrol
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

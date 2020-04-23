@@ -8,6 +8,12 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="planRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="planRepositoryId" placeholder="请选择采购仓库" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                </el-form-item>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockPlan.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -66,12 +72,7 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('collectAndPayDetail.cgck')" prop="planRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="planRepositoryId" placeholder="请选择采购仓库" size="mini" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
-                </el-form-item>
-                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-              </el-col>
+
             </el-row>
           </el-form>
         </div>

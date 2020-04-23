@@ -42,8 +42,11 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
       :key="tableKey"
       :data="list"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -120,6 +123,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 转化数据
       choosedata: '',
       // 仓库弹窗控制
@@ -170,6 +175,10 @@ export default {
     depotcontrol() {
       this.repositoryVisible = this.depotcontrol
       this.getlist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

@@ -53,8 +53,8 @@
       v-loading="listLoading"
       ref="table"
       :key="tableKey"
-      :data="list"
-      :max-height="tableHeight"
+      :height="tableHeight"
+      size="small"
       border
       fit
       highlight-current-row
@@ -194,7 +194,7 @@ export default {
       this.getlist()
       if (this.control) {
         setTimeout(() => {
-          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
         }, 100)
       }
     }

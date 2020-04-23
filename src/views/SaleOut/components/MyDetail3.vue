@@ -45,9 +45,11 @@
     <el-table
       v-loading="listLoading"
       ref="multipleTable"
+      :height="tableHeight"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -158,6 +160,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       getRowKeys(row) {
         return row.code
       },
@@ -236,6 +240,9 @@ export default {
         console.log('this.formValidate.serviceIdList============2222', this.formValidate.serviceIdList)
       }
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.multipleTable.$el.offsetTop - 180
+      }, 100)
     },
     personalform() {
       this.query = this.personalform

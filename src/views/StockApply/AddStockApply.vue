@@ -8,6 +8,12 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('inventorydetaillist.repositoryName')" prop="applyRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="applyRepositoryId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockApply.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
@@ -59,12 +65,6 @@
                     default-value
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width:200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('inventorydetaillist.repositoryName')" prop="applyRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                  <el-input v-model="applyRepositoryId" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handlechooseRep"/>
-                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
             </el-row>

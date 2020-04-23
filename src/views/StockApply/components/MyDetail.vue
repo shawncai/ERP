@@ -47,8 +47,11 @@
     <!-- 列表开始 -->
     <el-table
       v-loading="listLoading"
+      ref="table"
+      :height="tableHeight"
       :key="tableKey"
       :data="list"
+      size="small"
       border
       fit
       highlight-current-row
@@ -185,7 +188,9 @@ export default {
         Productid: '',
         pagenum: 1,
         pagesize: 10
-      }
+      },
+      tableHeight: 200
+
     }
   },
   watch: {
@@ -193,6 +198,9 @@ export default {
       this.productVisible = this.control
       console.log(this.control)
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {

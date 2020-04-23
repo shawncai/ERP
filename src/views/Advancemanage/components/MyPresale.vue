@@ -57,8 +57,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -183,6 +186,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 选择框控制
       employeeVisible: this.presalecontrol,
       // 类别获取参数
@@ -245,6 +250,10 @@ export default {
     presalecontrol() {
       this.employeeVisible = this.presalecontrol
       this.getlist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {

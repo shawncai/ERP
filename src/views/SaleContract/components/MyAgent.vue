@@ -80,8 +80,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -175,6 +178,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 选择框控制
       employeeVisible: this.agentcontrol,
       // 更多搜索条件问题
@@ -241,6 +246,9 @@ export default {
       this.employeeVisible = this.agentcontrol
       this.getlist()
       this.getCategory()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {
