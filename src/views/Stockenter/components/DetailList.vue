@@ -281,7 +281,7 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: null,
+      personalForm: this.detaildata,
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,

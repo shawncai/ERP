@@ -553,61 +553,62 @@ export default {
             return item.stockEnterDetailVos
           })
           const newarr2 = [].concat.apply([], newarr)
+          const processarr = this._.cloneDeep(newarr2)
           for (const i in needlist) {
-            for (const j in newarr2) {
-              if (needlist[i].id === newarr2[j].enterId) {
-                newarr2[j].acceptPersonId = needlist[i].acceptPersonId
-                newarr2[j].acceptPersonName = needlist[i].acceptPersonName
-                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
-                newarr2[j].batch = needlist[i].batch
-                newarr2[j].countryId = needlist[i].countryId
-                newarr2[j].countryName = needlist[i].countryName
-                newarr2[j].createDate = needlist[i].createDate
-                newarr2[j].createPersonId = needlist[i].createPersonId
-                newarr2[j].createPersonName = needlist[i].createPersonName
-                newarr2[j].deliveryPersonId = needlist[i].deliveryPersonId
-                newarr2[j].deliveryPersonName = needlist[i].deliveryPersonName
-                newarr2[j].endDate = needlist[i].endDate
-                newarr2[j].endPersonId = needlist[i].endPersonId
-                newarr2[j].endPersonName = needlist[i].endPersonName
-                newarr2[j].enterDate = needlist[i].enterDate
-                newarr2[j].enterDeptId = needlist[i].enterDeptId
-                newarr2[j].enterDeptName = needlist[i].enterDeptName
-                newarr2[j].enterNumber = needlist[i].enterNumber
-                newarr2[j].enterPersonId = needlist[i].enterPersonId
-                newarr2[j].enterPersonName = needlist[i].enterPersonName
-                newarr2[j].enterRepositoryId = needlist[i].enterRepositoryId
-                newarr2[j].enterRepositoryName = needlist[i].enterRepositoryName
-                newarr2[j].extraMoney = needlist[i].extraMoney
-                newarr2[j].extraPersonId = needlist[i].extraPersonId
-                newarr2[j].id = needlist[i].id
-                newarr2[j].judgeDate = needlist[i].judgeDate
-                newarr2[j].judgePersonId = needlist[i].judgePersonId
-                newarr2[j].judgePersonName = needlist[i].judgePersonName
-                newarr2[j].judgeStat = needlist[i].judgeStat
-                newarr2[j].modifyDate = needlist[i].modifyDate
-                newarr2[j].modifyPersonId = needlist[i].modifyPersonId
-                newarr2[j].modifyPersonName = needlist[i].modifyPersonName
-                newarr2[j].receiptStat = needlist[i].receiptStat
-                newarr2[j].repositoryTypeId = needlist[i].repositoryTypeId
-                newarr2[j].sourceNumber = needlist[i].sourceNumber
-                newarr2[j].sourceType = needlist[i].sourceType
-                newarr2[j].stat = needlist[i].stat
-                newarr2[j].stockDeptId = needlist[i].stockDeptId
-                newarr2[j].stockDeptName = needlist[i].stockDeptName
-                newarr2[j].stockEnterDetailVos = this._.cloneDeep(needlist[i].stockEnterDetailVos)
-                newarr2[j].stockPersonId = needlist[i].stockPersonId
-                newarr2[j].stockPersonName = needlist[i].stockPersonName
-                newarr2[j].summary = needlist[i].summary
-                newarr2[j].supplierId = needlist[i].supplierId
-                newarr2[j].supplierName = needlist[i].supplierName
-                newarr2[j].title = needlist[i].title
+            for (const j in processarr) {
+              if (needlist[i].id === processarr[j].enterId) {
+                processarr[j].acceptPersonId = needlist[i].acceptPersonId
+                processarr[j].acceptPersonName = needlist[i].acceptPersonName
+                processarr[j].approvalUseVos = needlist[i].approvalUseVos
+                processarr[j].batch = needlist[i].batch
+                processarr[j].countryId = needlist[i].countryId
+                processarr[j].countryName = needlist[i].countryName
+                processarr[j].createDate = needlist[i].createDate
+                processarr[j].createPersonId = needlist[i].createPersonId
+                processarr[j].createPersonName = needlist[i].createPersonName
+                processarr[j].deliveryPersonId = needlist[i].deliveryPersonId
+                processarr[j].deliveryPersonName = needlist[i].deliveryPersonName
+                processarr[j].endDate = needlist[i].endDate
+                processarr[j].endPersonId = needlist[i].endPersonId
+                processarr[j].endPersonName = needlist[i].endPersonName
+                processarr[j].enterDate = needlist[i].enterDate
+                processarr[j].enterDeptId = needlist[i].enterDeptId
+                processarr[j].enterDeptName = needlist[i].enterDeptName
+                processarr[j].enterNumber = needlist[i].enterNumber
+                processarr[j].enterPersonId = needlist[i].enterPersonId
+                processarr[j].enterPersonName = needlist[i].enterPersonName
+                processarr[j].enterRepositoryId = needlist[i].enterRepositoryId
+                processarr[j].enterRepositoryName = needlist[i].enterRepositoryName
+                processarr[j].extraMoney = needlist[i].extraMoney
+                processarr[j].extraPersonId = needlist[i].extraPersonId
+                processarr[j].id = needlist[i].id
+                processarr[j].judgeDate = needlist[i].judgeDate
+                processarr[j].judgePersonId = needlist[i].judgePersonId
+                processarr[j].judgePersonName = needlist[i].judgePersonName
+                processarr[j].judgeStat = needlist[i].judgeStat
+                processarr[j].modifyDate = needlist[i].modifyDate
+                processarr[j].modifyPersonId = needlist[i].modifyPersonId
+                processarr[j].modifyPersonName = needlist[i].modifyPersonName
+                processarr[j].receiptStat = needlist[i].receiptStat
+                processarr[j].repositoryTypeId = needlist[i].repositoryTypeId
+                processarr[j].sourceNumber = needlist[i].sourceNumber
+                processarr[j].sourceType = needlist[i].sourceType
+                processarr[j].stat = needlist[i].stat
+                processarr[j].stockDeptId = needlist[i].stockDeptId
+                processarr[j].stockDeptName = needlist[i].stockDeptName
+                processarr[j].stockEnterDetailVos = this._.cloneDeep(needlist[i].stockEnterDetailVos)
+                processarr[j].stockPersonId = needlist[i].stockPersonId
+                processarr[j].stockPersonName = needlist[i].stockPersonName
+                processarr[j].summary = needlist[i].summary
+                processarr[j].supplierId = needlist[i].supplierId
+                processarr[j].supplierName = needlist[i].supplierName
+                processarr[j].title = needlist[i].title
               }
             }
           }
           console.log('newarr2============', newarr2)
-          this.list = newarr2
-          this.getSpanArr(this.list)
+          this.list = processarr
+          this.getSpanArr(processarr)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
