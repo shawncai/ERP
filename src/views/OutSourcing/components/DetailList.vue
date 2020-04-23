@@ -104,6 +104,7 @@
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
             <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">

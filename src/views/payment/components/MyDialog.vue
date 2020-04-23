@@ -472,7 +472,7 @@ export default {
       this.empcontrol = true
     },
     // 供应商列表返回数据
-    supplierName(val) {
+    async supplierName(val) {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
@@ -480,11 +480,22 @@ export default {
       this.personalForm.payAccount = val.account
       this.personalForm.payAccountNumber = val.accountName
       this.yufu = val.advanceMoney
-      shouldPayList(val.id).then(res => {
+      await shouldPayList(val.id).then(res => {
         if (res.data.ret === 200) {
+          let advanceMoney = this.yufu
           this.$refs.editable.clear()
+          console.log('res', res.data.data.content)
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
+            detailList[i].shouldPayId = detailList[i].id
+            console.log('advanceMoney - this.personalForm.offsetAdvance', advanceMoney - this.personalForm.offsetAdvance)
+            if (detailList[i].payingMoney <= advanceMoney - this.personalForm.offsetAdvance) {
+              detailList[i].advanceMoney = detailList[i].payingMoney
+            } else {
+              detailList[i].advanceMoney = advanceMoney - this.personalForm.offsetAdvance
+            }
+            detailList[i].payThis = detailList[i].payingMoney - detailList[i].advanceMoney
+            advanceMoney = advanceMoney - detailList[i].advanceMoney
             this.$refs.editable.insert(detailList[i])
           }
         }
