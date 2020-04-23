@@ -279,7 +279,9 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       for (const i in this.personalForm.stockEnterDetailVos) {
-        delete this.personalForm.stockEnterDetailVos[i].stockEnterDetailVos
+        if (this.personalForm.stockEnterDetailVos[i].stockEnterDetailVos) {
+          delete this.personalForm.stockEnterDetailVos[i].stockEnterDetailVos
+        }
       }
       this.supplierId = this.personalForm.supplierName
       this.enterDate = this.personalForm.enterDate

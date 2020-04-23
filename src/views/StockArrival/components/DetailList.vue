@@ -520,7 +520,9 @@ export default {
       this.personalForm = this.detaildata
       console.log('this.personalForm=============', this.personalForm)
       for (const i in this.personalForm.stockArrivalDetailVos) {
-        delete this.personalForm.stockArrivalDetailVos[i].stockArrivalDetailVos
+        if (this.personalForm.stockArrivalDetailVos[i].stockArrivalDetailVos) {
+          delete this.personalForm.stockArrivalDetailVos[i].stockArrivalDetailVos
+        }
       }
       this.list2 = this.personalForm.stockArrivalDetailVos
       this.reviewList = []

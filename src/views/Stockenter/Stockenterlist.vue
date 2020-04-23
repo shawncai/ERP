@@ -595,7 +595,7 @@ export default {
                 newarr2[j].stat = needlist[i].stat
                 newarr2[j].stockDeptId = needlist[i].stockDeptId
                 newarr2[j].stockDeptName = needlist[i].stockDeptName
-                newarr2[j].stockEnterDetailVos = needlist[i].stockEnterDetailVos
+                newarr2[j].stockEnterDetailVos = this._.cloneDeep(needlist[i].stockEnterDetailVos)
                 newarr2[j].stockPersonId = needlist[i].stockPersonId
                 newarr2[j].stockPersonName = needlist[i].stockPersonName
                 newarr2[j].summary = needlist[i].summary
