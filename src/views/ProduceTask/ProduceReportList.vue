@@ -227,7 +227,9 @@ export default {
   },
   methods: {// 判断反审批按钮
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     isReview4(row) {
       console.log(row)

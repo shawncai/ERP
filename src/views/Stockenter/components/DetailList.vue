@@ -281,7 +281,7 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata,
+      personalForm: null,
       locationlistparms: {
         pageNum: 1,
         pageSize: 1999,
@@ -352,7 +352,16 @@ export default {
       this.editVisible = this.detailcontrol
     },
     detaildata() {
-      this.personalForm = this.detaildata
+      console.log('this.detaildata==', this.detaildata)
+      this.personalForm = this._.cloneDeep(this.detaildata)
+      for (const i in this.personalForm.stockEnterDetailVos) {
+        console.log('this.personalForm==22222222222', this.personalForm.stockEnterDetailVos[i].stockEnterDetailVos)
+        for (const key in this.personalForm.stockEnterDetailVos[i]) {
+          if (key === 'stockEnterDetailVos') {
+            delete this.personalForm.stockEnterDetailVos[i][key]
+          }
+        }
+      }
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
       this.deliveryPersonId = this.personalForm.deliveryPersonName
@@ -584,6 +593,7 @@ export default {
     },
     handlecancel() {
       this.editVisible = false
+      console.log('关闭的数据====================', this.personalForm)
     },
     cutnull(data) {
       for (const x in data) {

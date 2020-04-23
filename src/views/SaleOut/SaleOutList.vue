@@ -320,7 +320,9 @@ export default {
   },
   methods: {
     clickRow(val) {
-      this.$refs.table.toggleRowSelection(val)
+      if (val.judgeStat === 0) {
+        this.$refs.table.toggleRowSelection(val)
+      }
     },
     // 判断结单按钮
     isReview2(row) {

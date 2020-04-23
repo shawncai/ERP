@@ -650,6 +650,7 @@ export default {
                 newarr2[j].supplierName = needlist[i].supplierName
                 newarr2[j].allMoney = needlist[i].allMoney
                 newarr2[j].allTaxMoney = needlist[i].allTaxMoney
+                newarr2[j].allQuantity = needlist[i].allQuantity
                 newarr2[j].id = needlist[i].id
                 newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
                 newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
