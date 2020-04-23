@@ -53,7 +53,7 @@
           </el-form-item>
           <el-form-item :label="$t('CostInstall.unit')" label-width="100px">
             <el-select v-model="addCategoryForm.unit" filterable style="width: 300px">
-              <el-option v-for="(item, index) in measurements" :key="index" :value="item.id" :label="item.categoryName"/>
+              <el-option v-for="(item, index) in measurements" :key="index" :value="item.categoryName" :label="item.categoryName"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -103,6 +103,11 @@
             <span>{{ scope.row.subjectName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" align="center" min-width="350">
+          <template slot-scope="scope">
+            <span>{{ scope.row.unit }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('CostInstall.isEffective')" :resizable="false" align="center" min-width="250">
           <template slot-scope="scope">
             <span>{{ scope.row.isEffective | isEffectiveFilter }}</span>
@@ -142,7 +147,7 @@
           </el-form-item>
           <el-form-item :label="$t('CostInstall.unit')" label-width="100px">
             <el-select v-model="editCategoryForm.unit" filterable style="width: 300px">
-              <el-option v-for="(item, index) in measurements" :key="index" :value="item.id" :label="item.categoryName"/>
+              <el-option v-for="(item, index) in measurements" :key="index" :value="item.categoryName" :label="item.categoryName"/>
             </el-select>
           </el-form-item>
         </el-form>
@@ -418,7 +423,7 @@ export default {
       this.editcategoryVisible = true
       this.editCategoryForm = Object.assign({}, row)
       this.editCategoryForm.isEffective = String(row.isEffective)
-      this.editCategoryForm.unit = Number(row.unit)
+      this.editCategoryForm.unit = row.unit
     },
     // 取消修改
     handleNo() {

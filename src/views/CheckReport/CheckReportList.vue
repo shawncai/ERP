@@ -25,7 +25,7 @@
         </el-select>
         <el-input v-model="supplierId" size="small" placeholder="供应商" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter3" @focus="handlechoose"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-        <el-select v-model="personalForm.checkType" size="small" placeholder="质检类型" style="width: 40%;float: right;margin-right: 20px">
+        <el-select v-model="personalForm.checkType" size="small" placeholder="质检类型" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px">
           <el-option value="1" label="来料质检"/>
           <el-option value="2" label="送样质检"/>
           <el-option value="3" label="生产质检"/>
@@ -33,6 +33,16 @@
         <el-select v-model="getemplist.checkMode" :value="getemplist.checkMode" size="small" placeholder="检验方式" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option value="1" label="抽样"/>
         </el-select>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          size="mini"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -44,7 +54,7 @@
 
     </el-card>
     <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
-      <!-- 批量操作 -->
+      <!-- 批量操作132 -->
       <el-dropdown @command="handleCommand">
         <el-button v-waves class="filter-item" size="small" style="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
@@ -433,6 +443,14 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
+      if (this.date === null || this.date === '') {
+        this.getemplist.beginTime = null
+        this.getemplist.endTime = null
+      } else {
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
+      }
+      console.log('this.getemplist====', this.getemplist)
       checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -471,15 +489,16 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      checkreportlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // checkreportlist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 报检员focus事件
     handlechooseStock() {
