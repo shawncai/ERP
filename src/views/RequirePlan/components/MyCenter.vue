@@ -38,8 +38,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -124,6 +127,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 员工选择框控制
       employeeVisible: this.control,
       // 部门数据
@@ -160,6 +165,9 @@ export default {
     control() {
       this.employeeVisible = this.control
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {
