@@ -42,9 +42,11 @@
     <el-table
       v-loading="listLoading"
       ref="multipleTable"
+      :height="tableHeight"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
+      size="small"
       border
       fit
       highlight-current-row
@@ -119,6 +121,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       list2: [],
       // 供应商回显
       supplierid: '',
@@ -181,6 +185,9 @@ export default {
         }
       }
       this.getlist()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   created() {

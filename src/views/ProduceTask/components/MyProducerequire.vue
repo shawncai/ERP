@@ -91,8 +91,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -231,6 +234,8 @@ export default {
           return time.getTime() < new Date(this.getemplist.beginTime).getTime() - 8.64e7
         }
       },
+      tableHeight: 200,
+
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -292,6 +297,10 @@ export default {
     prorequirecontrol() {
       this.employeeVisible = this.prorequirecontrol
       this.getlist()
+
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {
