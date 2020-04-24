@@ -457,10 +457,14 @@ export default {
       }
     },
     isReview4(row) {
-      // console.log(row)
-      if (row.judgeStat === 2 && row.confirmPersonId === null) {
+      // 测试阶段临时
+      if (row.judgeStat === 2) {
         return true
       }
+      // 正式时放开
+      // if (row.judgeStat === 2 && row.confirmPersonId === null) {
+      //   return true
+      // }
     },
     // 确认操作
     handleEdit2(row) {
