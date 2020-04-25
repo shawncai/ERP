@@ -14,8 +14,8 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.typeId')" prop="typeId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select ref="clear" v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 200px" @focus="updateType">
-                    <el-option v-show="false" label="" value=""/>
+                  <el-select ref="clear" v-model="personalForm.typeId" placeholder="请选择供应商类别" style="width: 200px" filterable @focus="updateType">
+                    <el-option v-show="judgeflag" label="" value="" disabled/>
                     <el-option
                       v-for="(item, index) in typeIds"
                       :key="index"
@@ -432,6 +432,7 @@ export default {
   components: { MyDetail, MyEmp },
   data() {
     return {
+      judgeflag: false,
       // 是否显示添加按钮
       isshow: false,
       // 控制可提供商品明细
@@ -658,7 +659,7 @@ export default {
           }
         }
         filterdata[i].discountRate = 0
-        filterdata[i].price = filterdata[i].purchasePrice
+        // filterdata[i].price = filterdata[i].purchasePrice
         if (m === 1) {
           this.$refs.editable.insert(filterdata[i])
         }
