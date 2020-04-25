@@ -658,7 +658,7 @@ export default {
             // return false
           }
         }
-        filterdata[i].discountRate = 0
+        // filterdata[i].discountRate = 0
         // filterdata[i].price = filterdata[i].purchasePrice
         if (m === 1) {
           this.$refs.editable.insert(filterdata[i])
