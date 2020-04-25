@@ -67,6 +67,8 @@
             <el-editable-column :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

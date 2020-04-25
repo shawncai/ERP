@@ -3119,6 +3119,8 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    oldSalePrice: '原销售价',
+    newSalePrice: '新销售价',
     oldTaxRate: '原税率',
     newTaxRate: '新税率',
     oldIncludeTaxPrice: '原含税价',
