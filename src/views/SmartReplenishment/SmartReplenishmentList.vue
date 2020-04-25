@@ -27,7 +27,7 @@
       <!-- 表格导出操作 -->
       <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <el-button v-waves size="small" class="filter-item2" icon="el-icon-document" style="width: 86px" @click="handleStoragemove">{{ $t('SmartReplenishmentList.Storagemove') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
