@@ -232,7 +232,7 @@
               <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+          <el-editable-column v-if="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -394,12 +394,14 @@ import { searchCategory, searchGroup, update, supplierDetail, updateSupplierDeta
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import waves from '@/directive/waves'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 // import { forEach } from '../../../../../../OA前台代码/nwow_oa/src/lib/util' // Waves directive
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  directives: { waves },
+  directives: { waves, permission },
   components: { MyDetail, MyEmp },
+
   props: {
     editcontrol: {
       type: Boolean,
@@ -518,6 +520,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     // 计算单价
     getprice(row) {
       row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
