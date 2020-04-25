@@ -95,7 +95,7 @@
       </el-dialog>
 
       <!-- 打印操作 -->
-      <el-button v-permission="['1-31-33-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['1-31-33-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
       <!-- 更新价格 -->
       <el-button v-permission="['1-31-33-7']" v-waves size="small" class="filter-item2" icon="el-icon-refresh" style="width: 86px" @click="handleUpload">{{ $t('public.plgx') }}</el-button>
