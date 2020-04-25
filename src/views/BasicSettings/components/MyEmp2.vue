@@ -265,7 +265,7 @@ export default {
     }
   },
   created() {
-    this.gitemplist()
+    // this.gitemplist()
   },
   beforeCreate() {
     _that = this
@@ -287,9 +287,10 @@ export default {
       console.log('this.checklistprop', this.checklistprop)
     },
     memoryChecked() {
-      console.log('我执行啦')
+      console.log('我执行啦', this.checklistprop)
       this.list.forEach((row, index) => {
         if (this.checklistprop.includes(row.id)) {
+          console.log('选中的id==========', row.id)
           this.$refs.multipleTable.toggleRowSelection(row, true)
           // myarr = []
           this.myarr.push(row.id)

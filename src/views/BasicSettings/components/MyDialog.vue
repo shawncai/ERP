@@ -58,7 +58,7 @@
         <!--<el-editable-column :edit-render="{name: 'ElInput'}" prop="handlerName" align="center" label="步骤处理人" width="200px"/>-->
         <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="handlerName" align="center" label="步骤处理人" min-width="500px">
           <template slot="edit" slot-scope="scope">
-            <el-input v-model="scope.row.handlerName" style="margin-top: 8px;" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)"/>
+            <el-input v-model="scope.row.stepHandlerName" style="margin-top: 8px;" @focus="handlechoose(scope)" @input="$refs.editable.updateStatus(scope)"/>
           </template>
         </el-editable-column>
         <my-emp :control.sync="empcontrol" @chuli="chuli(scope, $event)"/>

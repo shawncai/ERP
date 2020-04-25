@@ -772,41 +772,6 @@ export default {
         })
         return false
       }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          elem.basicQuantity = 0
-        }
-        if (elem.requireQuantity === null || elem.requireQuantity === '' || elem.requireQuantity === undefined) {
-          elem.requireQuantity = 0
-        }
-        if (elem.applyQuantity === null || elem.applyQuantity === '' || elem.applyQuantity === undefined) {
-          delete elem.applyQuantity
-        }
-        if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
-          delete elem.requireDate
-        }
-        if (elem.applyReason === null || elem.applyReason === '' || elem.applyReason === undefined) {
-          delete elem.applyReason
-        }
-        if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
-          elem.planQuantity = 0
-        }
-        return elem
-      })
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -843,7 +808,6 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(EnterDetail2)
-      const parms3 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -864,7 +828,7 @@ export default {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
             this.canClick = true
-            addstockapply(parms, parms2, this.personalForm, parms3).then(res => {
+            addstockapply(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {
                 this.canClick = false

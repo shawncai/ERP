@@ -58,7 +58,6 @@ export function stocapplylist(query) {
 export function addstockapply(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('stockApplyJson', query) // 你要传给后台的参数值 key/value
-  params.append('stockApplySourceDetailJson', query4) // 你要传给后台的参数值 key/value
   params.append('stockApplyDetailJson', query2) // 你要传给后台的参数值 key/value
   if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
     params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value

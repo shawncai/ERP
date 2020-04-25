@@ -63,7 +63,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmxly') }}</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
@@ -71,7 +71,7 @@
       </div>
       <div class="container">
         <el-editable
-          ref="editable"
+          ref="editable2"
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
@@ -104,7 +104,7 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
+    <!-- <el-card class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmx') }}</h2>
       <div class="container">
         <el-editable
@@ -145,7 +145,7 @@
           <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
         </el-editable>
       </div>
-    </el-card>
+    </el-card> -->
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
         <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -351,7 +351,7 @@ export default {
       return objClone
     },
     // 两表联动
-    async changeDate2() {
+    async changeDate3() {
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []
@@ -417,6 +417,7 @@ export default {
         // }
       }
     },
+    changeDate2() {},
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -479,7 +480,7 @@ export default {
     productdetail(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable2.insert(val[i])
       }
     },
     productdetail2(val) {
@@ -602,7 +603,7 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       this.$refs.editable2.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
