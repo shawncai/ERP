@@ -54,6 +54,7 @@
       ref="table"
       :key="tableKey"
       :height="tableHeight"
+      :data="list"
       size="small"
       border
       fit
