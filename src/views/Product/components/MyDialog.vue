@@ -268,17 +268,17 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Product.costprice')" style="width: 100%;">
-              <el-input v-model="personalForm.costPrice" placeholder="请输入成本价" style="margin-left: 18px;width: 200px" clearable/>
+              <el-input v-model="personalForm.costPrice" placeholder="请输入成本价" disabled style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Product.tradeprice')" style="width: 100%;">
-              <el-input v-model="personalForm.tradePrice" placeholder="请输入批发价" style="margin-left: 18px;width: 200px" clearable/>
+              <el-input v-model="personalForm.tradePrice" placeholder="请输入批发价" disabled style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
-              <el-input v-model="personalForm.salePrice" placeholder="请输入零售价" style="margin-left: 18px;width: 200px" clearable/>
+              <el-input v-model="personalForm.salePrice" placeholder="请输入零售价" disabled style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
           <!--<el-form-item :label="$t('Product.purchaseprice')" prop="purchaseprice" style="width: 40%;margin-top:1%">-->
@@ -286,12 +286,12 @@
           <!--</el-form-item>-->
           <el-col :span="12">
             <el-form-item :label="$t('Product.lowerprice')" style="width: 100%;">
-              <el-input v-model="personalForm.lowerPrice" placeholder="请输入最低价" style="margin-left: 18px;width: 200px" clearable/>
+              <el-input v-model="personalForm.lowerPrice" placeholder="请输入最低价" disabled style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
           <el-col v-permission="['1-31-33-115']" :span="12">
             <el-form-item :label="$t('collectAndPayDetail.cbj')" style="width: 100%;">
-              <el-input v-model="personalForm.memberPrice" style="margin-left: 18px;width: 200px" clearable/>
+              <el-input v-model="personalForm.memberPrice" disabled style="margin-left: 18px;width: 200px" clearable/>
             </el-form-item>
           </el-col>
         </el-form>
