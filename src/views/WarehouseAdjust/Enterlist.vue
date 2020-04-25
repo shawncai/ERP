@@ -529,6 +529,7 @@ export default {
                   ? '确认取消'
                   : '停留在当前页面'
               })
+              this.reviewStat = false
             })
           // ================取消弹框结束
         }
