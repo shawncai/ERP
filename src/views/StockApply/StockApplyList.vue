@@ -743,12 +743,17 @@ export default {
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
+        const approvalUse2 = approvalUse[approvalUse.length - 1]
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         console.log(approvalUse[approvalUse.length - 1].stepHandler)
         console.log('asdasdasdasdadasdasda', index)
         console.log('row.createPersonDept', row.createPersonDept)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          if (row.createPersonDept === this.$store.getters.deptId) {
+          if (approvalUse2.step === 1) {
+            if (row.createPersonDept === this.$store.getters.deptId) {
+              return true
+            }
+          } else {
             return true
           }
         }

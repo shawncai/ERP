@@ -55,7 +55,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm2"/>
         </el-table-column>
         <el-table-column :label="$t('SupplierAdjust.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -222,6 +222,7 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      personalForm2: {},
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
@@ -524,7 +525,7 @@ export default {
     handleDetail(row) {
       console.log(row)
       this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      this.personalForm2 = Object.assign({}, row)
     },
     // 判断审核按钮
     isReview(row) {
