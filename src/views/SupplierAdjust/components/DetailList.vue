@@ -285,22 +285,28 @@ export default {
         }
       }).join(',')
       console.log(handleperson)
-      const tata = document.execCommand(printJS({
-        printable: arr,
-        type: 'json',
-        properties: [
-          { field: 'step', displayName: '行号', columnSize: `100px` },
-          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
-          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
-          { field: 'productType', displayName: '规格型号', columnSize: `100px` },
-          { field: 'unit', displayName: '单位', columnSize: `100px` },
-          { field: 'stockQuantity', displayName: '数量', columnSize: `100px` },
-          { field: 'includeTaxPrice', displayName: '单价', columnSize: `100px` },
-          { field: 'includeTaxMoney', displayName: '金额', columnSize: `100px` },
-          { field: 'deliveryDate', displayName: '交货日期', columnSize: `100px` },
-          { field: 'remarks', displayName: '备注', columnSize: `100px` }
-        ],
-        header: `<div class="pringtitle">
+      this.$confirm('该单据只能打印一次，是否确认打印？（此操作为不可逆操作）', 'Warning', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确认',
+        cancelButtonText: '取消'
+      })
+        .then(() => {
+          printJS({
+            printable: arr,
+            type: 'json',
+            properties: [
+              { field: 'step', displayName: '行号', columnSize: `100px` },
+              { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
+              { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+              { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+              { field: 'unit', displayName: '单位', columnSize: `100px` },
+              { field: 'stockQuantity', displayName: '数量', columnSize: `100px` },
+              { field: 'includeTaxPrice', displayName: '单价', columnSize: `100px` },
+              { field: 'includeTaxMoney', displayName: '金额', columnSize: `100px` },
+              { field: 'deliveryDate', displayName: '交货日期', columnSize: `100px` },
+              { field: 'remarks', displayName: '备注', columnSize: `100px` }
+            ],
+            header: `<div class="pringtitle">
                     <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
                       <br>
                       <div class="ordername">采购订单</div>
@@ -322,7 +328,7 @@ export default {
                           </div>
                           </div>
                         </div>`,
-        bottom: `<div>
+            bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
                   <div class="allmoneyname" style="margin-right: 10%">合计</div>
                   <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allIncludeTaxMoney}</div>
@@ -346,8 +352,8 @@ export default {
                     </div>
                    </div>
                   </div>`,
-        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
-        style: '.custom-p {font-size:20px;text-align: center; }' +
+            bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+            style: '.custom-p {font-size:20px;text-align: center; }' +
           ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
           '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
           '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
@@ -359,10 +365,19 @@ export default {
           '.itemcontent2 {width: 80%}' +
           '.itemname { width: 40% }' +
           '.itemcontent {width: 80%}',
-        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
-        repeatTableHeader: true
-      }))
+            gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+            gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+            repeatTableHeader: true
+          })
+        })
+        .catch(action => {
+          this.$message({
+            type: 'info',
+            message: action === 'cancel'
+              ? '确认取消'
+              : '停留在当前页面'
+          })
+        })
       // 点击取消后执行的操作
     },
     handleMyReceipt2() {
