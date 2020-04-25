@@ -601,8 +601,8 @@ export default {
             // return false
           }
         }
-        val[i].discountRate = 0
-        val[i].price = val[i].purchasePrice
+        // val[i].discountRate = 0
+        // val[i].price = val[i].purchasePrice
         if (m === 1) {
           this.$refs.editable.insert(val[i])
         }

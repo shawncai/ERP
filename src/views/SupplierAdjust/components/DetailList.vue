@@ -239,6 +239,11 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
+      if (this.editVisible) {
+        window.addEventListener('afterprint', () => {
+          console.log('打印完成==========')
+        }, true)
+      }
     },
     detaildata() {
       this.personalForm = this.detaildata
@@ -280,7 +285,7 @@ export default {
         }
       }).join(',')
       console.log(handleperson)
-      printJS({
+      const tata = document.execCommand(printJS({
         printable: arr,
         type: 'json',
         properties: [
@@ -357,7 +362,8 @@ export default {
         gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
         gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
         repeatTableHeader: true
-      })
+      }))
+      // 点击取消后执行的操作
     },
     handleMyReceipt2() {
       console.log(this.detaildata)
