@@ -339,13 +339,13 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockAlarmName', 'StockAlarmShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['仓库', '商品编码', '物品名称', '现有库存', '型号', '种类', '颜色', '货位名称', '货位编号', '可用库存']
+          const filterVal = ['repositoryName', 'code', 'productName', 'existStock', 'typeName', 'categoryName', 'color', 'locationName', 'locationCode', 'ableStock']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '库存信息表'
           })
           this.downloadLoading = false
         })
