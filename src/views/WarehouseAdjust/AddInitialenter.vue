@@ -87,7 +87,15 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input
+                  :ref="scope.row.productCode"
+                  v-model.number="scope.row.enterQuantity"
+                  style="text-align:center;"
+                  @keyup.native.prevent ="mykeyevent(scope.row,scope.$index, $event)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
@@ -197,6 +205,28 @@ export default {
     _that = this
   },
   methods: {
+    mykeyevent(row, index, e) {
+      const keyCode = e.keyCode || e.which || e.charCode
+      const oldvalue = row.enterQuantity
+      // arrowdown
+      if (keyCode === 40) {
+        // 表格ref属性从第四开始
+        // this.$refs[row.productCode].blur()
+        if (Object.keys(this.$refs).length - 1 === index) {
+          index = -1
+        }
+        this.$refs[Object.keys(this.$refs)[index + 5]].focus()
+        // row.enterQuantity = oldvalue + 1
+      }
+      // arrowup
+      if (keyCode === 38) {
+        if (Object.keys(this.$refs).length - 1 === index) {
+          index = -1
+        }
+        this.$refs[Object.keys(this.$refs)[index + 3]].focus()
+        // row.enterQuantity = oldvalue - 1
+      }
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
