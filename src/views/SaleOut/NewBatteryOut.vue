@@ -186,7 +186,7 @@
             <el-editable-column v-if="false" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150"/>
             <el-editable-column v-if="false" :label="$t('updates.cbj')" prop="costPrice" align="center" min-width="150"/>
             <!-- <el-editable-column prop="taxprice" align="center" :label="$t('updates.hsj')" min-width="150px"> -->
-            <el-editable-column :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckj')" prop="taxprice" align="center" min-width="150">
               <template slot-scope="scope">
                 <span>{{ gettaxprice(scope.row) }}</span>
               </template>
@@ -221,7 +221,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
@@ -780,6 +780,19 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      if (this.$store.getters.countryId === 2) {
+        return true
+      }
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     getdiffprice() {
       searchDiffPrice(this.getemplist).then(res => {
         if (res.data.ret === 200) {

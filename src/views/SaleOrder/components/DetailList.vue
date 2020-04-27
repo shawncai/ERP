@@ -146,13 +146,13 @@
             <el-editable-column :label="$t('updates.ythsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <!--            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />-->
             <!--            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" />-->
-            <el-editable-column :label="$t('updates.xsdj')" prop="taxprice" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.xsdj')" prop="taxprice" align="center" />
             <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" /> -->
             <!-- <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
-            <el-editable-column :label="$t('updates.sxje')" prop="includeTaxCostMoney" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.sxje')" prop="includeTaxCostMoney" align="center" />
             <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" />
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.yxdcgsl')" prop="alreadyApplicationQuantity" align="center" />
@@ -552,6 +552,19 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      if (this.$store.getters.countryId === 2) {
+        return true
+      }
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     getsaleOutLis() {
       searchsaleOut(this.saleOutparms).then(res => {
         if (res.data.ret === 200) {

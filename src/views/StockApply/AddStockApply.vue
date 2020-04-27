@@ -71,7 +71,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
+      <!--子件信息123-->
       <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 15px" shadow="never">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgsqdmxly') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -137,6 +137,8 @@
             :data.sync="list3"
             :edit-config="{ showIcon: false, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
+            show-summary
             class="click-table1"
             stripe
             border
@@ -351,6 +353,38 @@ export default {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return (prev).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[10] = ''
+      return sums
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },

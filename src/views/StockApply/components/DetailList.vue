@@ -91,6 +91,8 @@
             ref="editable2"
             :data.sync="list3"
             :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries"
+            show-summary
             class="click-table1"
             border
             size="small"
@@ -265,6 +267,38 @@ export default {
   methods: {
     handlecancel() {
       this.editVisible = false
+    },
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return (prev).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[10] = ''
+      return sums
     }
   }
 }
