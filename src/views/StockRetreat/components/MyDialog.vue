@@ -180,10 +180,10 @@
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
+          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
@@ -405,6 +405,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     // 处理汇率
     changeRate() {
       console.log(123)
@@ -434,7 +444,6 @@ export default {
       console.log(this.actualilNumber, this.allNumber)
       console.log(scope.row)
       if (scope.row.retreatQuantity > scope.row.arrivalQuantity) {
-        // scope.row.retreatQuantity = scope.row.arrivalQuantity
         this.$refs.editable.revert(scope.row)
         this.$notify.error({
           title: 'wrong',

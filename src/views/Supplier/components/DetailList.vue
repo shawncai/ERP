@@ -157,7 +157,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
-            <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
+            <el-editable-column v-if="jundgeprice()" prop="price" align="center" label="价格" min-width="150px"/>
             <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="150px"/>
@@ -533,9 +533,11 @@ import { stockorderlist } from '@/api/StockOrder'
 import { paylist } from '@/api/AdvancePay'
 import { searchstockArrival } from '@/api/StockArrival'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import permission from '@/directive/permission/index.js' // 权限判断指令
 var _that
 export default {
   components: { Pagination },
+  directives: { permission },
   filters: {
     isHotFilter(status) {
       const statusMap = {
@@ -729,6 +731,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {

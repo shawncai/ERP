@@ -200,7 +200,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="2"
@@ -225,7 +225,7 @@
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
@@ -541,6 +541,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },

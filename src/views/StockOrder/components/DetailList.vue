@@ -114,10 +114,10 @@
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" />
             <el-editable-column :label="$t('updates.jhrq')" prop="deliveryDate" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="tax" align="center" />
             <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" />
@@ -394,6 +394,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     cutnull(data) {
       for (const x in data) {
         if (data[x] === null) { // 如果是null 把直接内容转为 ''

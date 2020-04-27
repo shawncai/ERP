@@ -111,10 +111,10 @@
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
             <el-editable-column :label="$t('updates.thyy')" prop="retreatReason" align="center" />
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" />
@@ -332,6 +332,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     // 计算税额
     getTaxMoney2(row) {
       row.taxMoney = row.price * row.taxRate

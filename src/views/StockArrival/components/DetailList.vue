@@ -117,10 +117,10 @@
                 <span >{{ timestampToTime(scope.row.giveDate) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center" />
@@ -466,6 +466,16 @@ export default {
   },
   data() {
     return {
+      jundgeprice() {
+        const value = ['1-22-24-115']
+        const roles = this.$store.getters && this.$store.getters.roles
+        const permissionRoles = value
+        const hasPermission = roles.some(role => {
+          return permissionRoles.includes(role)
+        })
+        console.log('hasPermission=======', hasPermission)
+        return hasPermission
+      },
       // 转换时间格式
       timestampToTime(timestamp) {
         var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
