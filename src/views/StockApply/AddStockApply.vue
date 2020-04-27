@@ -568,6 +568,25 @@ export default {
 
     // 两表联动
     async changeDate2(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.requireDate !== '' && row.requireDate !== null && row.requireDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== 1 && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              // this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireDate = row.requireDate
+            }
+          }
+          console.log(row)
+        }
+      }
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       for (let i = 0; i < this.list2.length; i++) {
         if (EnterDetail[i].requireQuantity === '' || EnterDetail[i].requireQuantity === null || EnterDetail[i].requireQuantity === undefined || EnterDetail[i].requireDate === '' || EnterDetail[i].requireDate === null || EnterDetail[i].requireDate === undefined) {
