@@ -435,7 +435,7 @@ export default {
     },
     // 删除数据
     deleteEdit() {
-      this.$refs.editable.removeSelecteds()
+      this.$refs.editable2.removeSelecteds()
       this.changeDate2()
     },
     deleteChange(val) {
