@@ -98,11 +98,6 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockApply.title')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>
@@ -126,6 +121,11 @@
         <el-table-column :label="$t('StockApply.applyDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.applyDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockApply.title')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -749,6 +749,7 @@ export default {
         console.log('asdasdasdasdadasdasda', index)
         console.log('row.createPersonDept', row.createPersonDept)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+          console.log('approvalUse2.step', approvalUse2.step)
           if (approvalUse2.step === 1) {
             if (row.createPersonDept === this.$store.getters.deptId) {
               return true
