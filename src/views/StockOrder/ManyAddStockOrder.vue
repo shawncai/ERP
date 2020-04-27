@@ -1350,6 +1350,8 @@ export default {
         return false
       }
       let ll = 1
+      let ll3 = 1
+      let ll4 = ''
       console.log('ll', ll)
       EnterDetail.map(function(elem) {
         return elem
@@ -1357,7 +1359,19 @@ export default {
         if (elem.stockQuantity === 0) {
           ll = 2
         }
+        if (elem.price === 0) {
+          ll3 = 2
+          ll4 = elem.productName
+        }
       })
+      if (ll3 === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: ll4 + '的采购单价不能为0',
+          offset: 100
+        })
+        return false
+      }
       console.log('ll', ll)
       if (ll === 2) {
         this.$notify.error({
