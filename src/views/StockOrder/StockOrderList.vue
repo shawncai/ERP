@@ -172,11 +172,11 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>

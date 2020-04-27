@@ -98,11 +98,6 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockInquiry.inquiryTitle')" :resizable="false" fixed="left" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.inquiryTitle }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('StockInquiry.inquiryPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.inquiryPersonName }}</span>
@@ -141,6 +136,11 @@
         <el-table-column :label="$t('StockInquiry.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockInquiry.inquiryTitle')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.inquiryTitle }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
