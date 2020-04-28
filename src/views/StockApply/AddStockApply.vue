@@ -71,7 +71,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
+      <!--子件信息123-->
       <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 15px" shadow="never">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgsqdmxly') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -137,6 +137,8 @@
             :data.sync="list3"
             :edit-config="{ showIcon: false, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
+            show-summary
             class="click-table1"
             stripe
             border
@@ -351,6 +353,38 @@ export default {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return (prev).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[10] = ''
+      return sums
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },
@@ -534,6 +568,25 @@ export default {
 
     // 两表联动
     async changeDate2(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.requireDate !== '' && row.requireDate !== null && row.requireDate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log(this.list2[i].requireDate)
+            if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== 1 && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              // this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].requireDate = row.requireDate
+            }
+          }
+          console.log(row)
+        }
+      }
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       for (let i = 0; i < this.list2.length; i++) {
         if (EnterDetail[i].requireQuantity === '' || EnterDetail[i].requireQuantity === null || EnterDetail[i].requireQuantity === undefined || EnterDetail[i].requireDate === '' || EnterDetail[i].requireDate === null || EnterDetail[i].requireDate === undefined) {

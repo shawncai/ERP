@@ -302,7 +302,7 @@
               />
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
+          <el-editable-column v-if="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
           <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" min-width="150px">
             <template slot-scope="scope">
@@ -333,7 +333,7 @@
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
@@ -613,6 +613,19 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      if (this.$store.getters.countryId === 2) {
+        return true
+      }
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
     },
