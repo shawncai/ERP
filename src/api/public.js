@@ -1,5 +1,40 @@
 import request from '@/utils/request'
 
+// 获取打印记录
+export function getPrintCount(query) {
+  var params = new URLSearchParams()
+  if (query.receiptTypeId !== '' && query.receiptTypeId !== null && query.receiptTypeId !== undefined) {
+    params.append('receiptTypeId', query.receiptTypeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptId !== '' && query.receiptId !== null && query.receiptId !== undefined) {
+    params.append('receiptId', query.receiptId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/printNum/getPrintCount',
+    method: 'post',
+    params: params
+  })
+}
+
+// 添加打印记录
+export function addPrint(query) {
+  var params = new URLSearchParams()
+  if (query.receiptTypeId !== '' && query.receiptTypeId !== null && query.receiptTypeId !== undefined) {
+    params.append('receiptTypeId', query.receiptTypeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptId !== '' && query.receiptId !== null && query.receiptId !== undefined) {
+    params.append('receiptId', query.receiptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.opreaterId !== '' && query.opreaterId !== null && query.opreaterId !== undefined) {
+    params.append('opreaterId', query.opreaterId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/printNum/addPrint',
+    method: 'post',
+    params: params
+  })
+}
+
 // 销售出库库存快照
 export function vehicleInfo(query) {
   var params = new URLSearchParams()
