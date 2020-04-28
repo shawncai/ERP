@@ -293,15 +293,23 @@ export default {
       const param = {}
       param.receiptId = this.personalForm.id
       param.receiptTypeId = 80
-      await getPrintCount(param).then(res => {
-        if (res.data.ret === 200) {
-          const res2 = res.data.data.content
-          if (res2 !== null && res2.printCount > 0) {
-            this.$message.error('打印次数已经消耗完')
-            return false
-          }
+      // let res = await getPrintCount(param).then(res => {
+      //   if (res.data.ret === 200) {
+      //     const res2 = res.data.data.content
+      //     if (res2 !== null && res2.printCount > 0) {
+      //       this.$message.error('打印次数已经消耗完')
+      //       return false
+      //     }
+      //   }
+      // })
+      const printres = await getPrintCount(param)
+      if (printres.data.ret === 200) {
+        const res2 = printres.data.data.content
+        if (res2 !== null && res2.printCount > 0) {
+          this.$message.error('打印次数已经消耗完')
+          return false
         }
-      })
+      }
       // 有权限跳过管理
       const value = ['1-386-32']
       const roles = this.$store.getters && this.$store.getters.roles
