@@ -152,6 +152,7 @@
 
 <script>
 import { searchstockArrival } from '@/api/StockArrival'
+import { getPrintCount, addPrint } from '@/api/public'
 import printJS from 'print-js'
 var _that
 export default {
@@ -276,7 +277,7 @@ export default {
       }
       return data
     },
-    printdata() {
+    async printdata() {
       const arr = this.cutnull(this.list2)
       for (const i in arr) {
         arr[i].step = Number(i) + 1
@@ -293,6 +294,27 @@ export default {
         cancelButtonText: '取消'
       })
         .then(() => {
+          // 先根据权限判断
+          // 权限没有再判断次数是否可以打印
+          const param = {}
+          param.receiptId = this.personalForm.id
+          param.receiptTypeId = 80
+          // 加await
+          getPrintCount(param).then(res => {
+            if (res.data.ret === 200) {
+              const res = res.data.data.content
+              if (res !== null && res.printCount > 0) {
+                return false
+              }
+              console.log('res', res)
+            }
+          })
+          addPrint(param).then(res => {
+            if (res.data.ret === 200) {
+              const res = res.data.data.content
+              console.log('res', res)
+            }
+          })
           printJS({
             printable: arr,
             type: 'json',
