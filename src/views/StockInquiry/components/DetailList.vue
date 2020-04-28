@@ -321,7 +321,7 @@ export default {
       // 权限没有再判断次数是否可以打印
       const param = {}
       param.receiptId = this.personalForm.id
-      param.receiptTypeId = 9
+      param.receiptTypeId = 7
       // 有权限跳过管理
       const value = ['1-386-82']
       const roles = this.$store.getters && this.$store.getters.roles

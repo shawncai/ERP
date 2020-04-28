@@ -409,6 +409,7 @@
 </template>
 
 <script>
+import { getPrintCount, addPrint } from '@/api/public'
 import { locationlist } from '@/api/WarehouseAdjust'
 import { updateStoragemove } from '@/api/Storagemove'
 import { getdeptlist } from '@/api/BasicSettings'
