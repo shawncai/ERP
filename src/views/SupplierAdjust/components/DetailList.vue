@@ -295,8 +295,8 @@ export default {
       param.receiptTypeId = 80
       await getPrintCount(param).then(res => {
         if (res.data.ret === 200) {
-          const res = res.data.data.content
-          if (res !== null && res.printCount > 0) {
+          const res2 = res.data.data.content
+          if (res2 !== null && res2.printCount > 0) {
             this.$message.error('打印次数已经消耗完')
             return false
           }
