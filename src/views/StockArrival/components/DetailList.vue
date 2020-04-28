@@ -644,7 +644,7 @@ export default {
       }
       const handleperson = this.reviewList.map(item => {
         if (item.actualStepHandler) {
-          return item.actualStepHandler
+          return item.stepHandlerName
         }
       }).join(',')
       console.log(handleperson)
@@ -688,9 +688,9 @@ export default {
                         <div class="itemcontent">${this.personalForm.supplierName}</div>
                         </div>
                         <div class="item">
-                         <div class="itemname">到货日期：</div>
-                        <div class="itemcontent">${this.timestampToTime(this.personalForm.giveDate)}</div>
-                          </div>
+                         <div class="itemname">制单时间：</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                          </div>c
                         <div class="item">
                          <div class="itemname">编号：</div>
                         <div class="itemcontent">${this.personalForm.number}</div>

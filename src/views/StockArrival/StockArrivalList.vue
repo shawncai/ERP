@@ -628,7 +628,7 @@ export default {
       this.getlist()
     },
     getlist() {
-      // 物料需求计划列表数据
+      // 物料需求计划列表数据123
       this.listLoading = true
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -638,34 +638,44 @@ export default {
           })
           console.table('newarr==============', newarr)
           const newarr2 = [].concat.apply([], newarr)
+          const processarr = this._.cloneDeep(newarr2)
           console.table('newarr2==============', newarr2)
           for (const i in needlist) {
-            for (const j in newarr2) {
-              if (needlist[i].id === newarr2[j].stockArrivalId) {
-                newarr2[j].number = needlist[i].number
-                newarr2[j].title = needlist[i].title
-                newarr2[j].stockTypeName = needlist[i].stockTypeName
-                newarr2[j].sourceType = needlist[i].sourceType
-                newarr2[j].stockPersonName = needlist[i].stockPersonName
-                newarr2[j].supplierName = needlist[i].supplierName
-                newarr2[j].allMoney = needlist[i].allMoney
-                newarr2[j].allTaxMoney = needlist[i].allTaxMoney
-                newarr2[j].allQuantity = needlist[i].allQuantity
-                newarr2[j].id = needlist[i].id
-                newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
-                newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
-                newarr2[j].judgeStat = needlist[i].judgeStat
-                newarr2[j].receiptStat = needlist[i].receiptStat
-                newarr2[j].stockArrivalDetailVos = needlist[i].stockArrivalDetailVos
-                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
-                newarr2[j].settleModeName = needlist[i].settleModeName
-                newarr2[j].supplierId = needlist[i].supplierId
-                newarr2[j].createPersonName = needlist[i].createPersonName
+            for (const j in processarr) {
+              if (needlist[i].id === processarr[j].stockArrivalId) {
+                processarr[j].number = needlist[i].number
+                processarr[j].title = needlist[i].title
+                processarr[j].stockTypeName = needlist[i].stockTypeName
+                processarr[j].sourceType = needlist[i].sourceType
+                processarr[j].stockPersonName = needlist[i].stockPersonName
+                processarr[j].supplierName = needlist[i].supplierName
+                processarr[j].allMoney = needlist[i].allMoney
+                processarr[j].allTaxMoney = needlist[i].allTaxMoney
+                processarr[j].allQuantity = needlist[i].allQuantity
+                processarr[j].id = needlist[i].id
+                processarr[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                processarr[j].allDiscountMoney = needlist[i].allDiscountMoney
+                processarr[j].judgeStat = needlist[i].judgeStat
+                processarr[j].receiptStat = needlist[i].receiptStat
+                processarr[j].stockArrivalDetailVos = needlist[i].stockArrivalDetailVos
+                processarr[j].approvalUseVos = needlist[i].approvalUseVos
+                processarr[j].settleModeName = needlist[i].settleModeName
+                processarr[j].supplierId = needlist[i].supplierId
+                processarr[j].createPersonName = needlist[i].createPersonName
+                processarr[j].arrivalRepositoryName = needlist[i].arrivalRepositoryName
+                processarr[j].deptName = needlist[i].deptName
+                processarr[j].acceptDate = needlist[i].acceptDate
+                processarr[j].arrivalDate = needlist[i].arrivalDate
+                processarr[j].acceptPersonName = needlist[i].acceptPersonName
+                processarr[j].deliveryModeName = needlist[i].deliveryModeName
+                processarr[j].payModeName = needlist[i].payModeName
+                processarr[j].isVat = needlist[i].isVat
+                processarr[j].currencyId = needlist[i].currencyId
               }
             }
           }
-          this.list = newarr2
-          this.getSpanArr(this.list)
+          this.list = processarr
+          this.getSpanArr(processarr)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

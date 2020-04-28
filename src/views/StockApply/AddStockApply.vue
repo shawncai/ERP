@@ -577,7 +577,6 @@ export default {
             console.log(this.list2[i].requireDate)
             if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== 1 && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
               // this.list2[i].requireDate = row.requireDate
-              // this.list2[i].requireQuantity = row.requireQuantity
             } else {
               console.log(222)
               // this.list2[i].requireDate = row.requireDate
@@ -611,11 +610,11 @@ export default {
             console.log(this.list2[i].requireDate)
             if (this.list2[i].requireDate !== null && this.list2[i].requireDate !== '' && this.list2[i].requireDate !== undefined) {
               this.list2[i].requireDate = row.requireDate
-              this.list2[i].requireQuantity = row.requireQuantity
+              // this.list2[i].requireQuantity = row.requireQuantity
             } else {
               console.log(222)
               this.list2[i].requireDate = row.requireDate
-              this.list2[i].requireQuantity = row.requireQuantity
+              // this.list2[i].requireQuantity = row.requireQuantity
             }
           }
           console.log(row)
