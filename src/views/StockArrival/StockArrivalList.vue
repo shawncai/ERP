@@ -371,7 +371,7 @@ export default {
           rowspan: _row,
           colspan: _col
         }
-      } else if (columnIndex === 2) {
+      } else if (columnIndex === 6) {
         return {
           rowspan: _row,
           colspan: _col

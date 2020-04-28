@@ -348,7 +348,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
+      if (columnIndex !== 2 && columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5) {
         return {
           rowspan: _row,
           colspan: _col
