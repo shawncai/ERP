@@ -359,6 +359,7 @@ export default {
       }
       const applyDetail = orderdata.map(function(item) {
         return {
+          requireQuantity2: item.requireQuantity,
           applyQuantity: item.applyQuantity,
           productCode: item.productCode,
           productName: item.productName,
@@ -402,6 +403,7 @@ export default {
       for (const i in list2) {
         for (const j in applyDetail) {
           if (list2[i].productCode === applyDetail[j].productCode) {
+            list2[i].requireQuantity2 = applyDetail[j].requireQuantity2
             list2[i].sourceSerialNumber = applyDetail[j].sourceSerialNumber
             list2[i].stockRequireId = applyDetail[j].stockRequireId
             list2[i].orderQuantity = applyDetail[j].orderQuantity

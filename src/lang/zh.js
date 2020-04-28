@@ -3119,6 +3119,7 @@ export default {
     qsrmm: '请输入密码'
   },
   updates: {
+    ysxqsl: '原始需求数量',
     oldSalePrice: '原销售价',
     newSalePrice: '新销售价',
     oldTaxRate: '原税率',
