@@ -385,7 +385,7 @@ export default {
       }
       const handleperson = this.reviewList.map(item => {
         if (item.actualStepHandler) {
-          return item.actualStepHandler
+          return item.stepHandlerName
         }
       }).join(',')
       console.log(handleperson)
@@ -393,7 +393,7 @@ export default {
       // 权限没有再判断次数是否可以打印
       const param = {}
       param.receiptId = this.personalForm.id
-      param.receiptTypeId = 9
+      param.receiptTypeId = 14
       // 有权限跳过管理
       const value = ['1-386-82']
       const roles = this.$store.getters && this.$store.getters.roles

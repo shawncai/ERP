@@ -427,11 +427,7 @@ export default {
       for (const i in arr) {
         arr[i].step = Number(i) + 1
       }
-      const handleperson = this.reviewList.map(item => {
-        if (item.actualStepHandler) {
-          return item.actualStepHandler
-        }
-      }).join(',')
+      const handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
       console.log(handleperson)
       // 先根据权限判断
       // 权限没有再判断次数是否可以打印

@@ -233,6 +233,7 @@
 <script>
 import printJS from 'print-js'
 import { locationlist } from '@/api/WarehouseAdjust'
+import { getPrintCount, addPrint } from '@/api/public'
 import { updatestockenter } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyRepository from './MyRepository'
@@ -612,7 +613,7 @@ export default {
       }
       return data
     },
-    printdata() {
+    async printdata() {
       const arr = this.cutnull(this.list2)
       for (const i in arr) {
         arr[i].step = Number(i) + 1
@@ -623,19 +624,33 @@ export default {
         }
       }).join(',')
       console.log(handleperson)
-      printJS({
-        printable: arr,
-        type: 'json',
-        properties: [
-          { field: 'step', displayName: '行号', columnSize: `100px` },
-          { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
-          { field: 'productName', displayName: '物料名称', columnSize: `100px` },
-          { field: 'productType', displayName: '规格型号', columnSize: `100px` },
-          { field: 'unit', displayName: '单位', columnSize: `100px` },
-          { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
-          { field: 'remarks', displayName: '备注', columnSize: `100px` }
-        ],
-        header: `<div class="pringtitle">
+      // 先根据权限判断
+      // 权限没有再判断次数是否可以打印
+      const param = {}
+      param.receiptId = this.personalForm.id
+      param.receiptTypeId = 45
+      // 有权限跳过管理
+      const value = ['1-386-82']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      if (hasPermission) {
+        printJS({
+          printable: arr,
+          type: 'json',
+          properties: [
+            { field: 'step', displayName: '行号', columnSize: `100px` },
+            { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
+            { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+            { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+            { field: 'unit', displayName: '单位', columnSize: `100px` },
+            { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
+            { field: 'remarks', displayName: '备注', columnSize: `100px` }
+          ],
+          header: `<div class="pringtitle">
                     <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
                       <br>
                       <div class="ordername">采购入库单</div>
@@ -661,7 +676,7 @@ export default {
                         </div>
                           </div>
                         </div>`,
-        bottom: `<div>
+          bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
@@ -683,8 +698,8 @@ export default {
                     </div>
                    </div>
                   </div>`,
-        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
-        style: '.custom-p {font-size:20px;text-align: center; }' +
+          bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+          style: '.custom-p {font-size:20px;text-align: center; }' +
           ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
           '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
           '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
@@ -696,10 +711,121 @@ export default {
           '.itemcontent2 {width: 80%}' +
           '.itemname { width: 15% }' +
           '.itemcontent {width: 80%}',
-        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
-        repeatTableHeader: true
-      })
+          gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+          gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+          repeatTableHeader: true
+        })
+      } else {
+        const printres = await getPrintCount(param)
+        if (printres.data.ret === 200) {
+          const res2 = printres.data.data.content
+          if (res2 !== null && res2.printCount > 0) {
+            this.$message.error('打印次数已经消耗完')
+            return false
+          }
+        }
+        this.$confirm('该单据只能打印一次，是否确认打印？（此操作为不可逆操作）', 'Warning', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        })
+          .then(() => {
+            param.opreaterId = this.$store.getters.userId
+            // 加await
+            addPrint(param).then(res => {
+              if (res.data.ret === 200) {
+                const res = res.data.data.content
+                console.log('res', res)
+              }
+            })
+            printJS({
+              printable: arr,
+              type: 'json',
+              properties: [
+                { field: 'step', displayName: '行号', columnSize: `100px` },
+                { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
+                { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+                { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+                { field: 'unit', displayName: '单位', columnSize: `100px` },
+                { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
+                { field: 'remarks', displayName: '备注', columnSize: `100px` }
+              ],
+              header: `<div class="pringtitle">
+                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                      <br>
+                      <div class="ordername">采购入库单</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">供应商：</div>
+                        <div class="itemcontent">${this.personalForm.supplierName}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">日期：</div>
+                        <div class="itemcontent">${this.personalForm.enterDate}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">编号：</div>
+                        <div class="itemcontent">${this.personalForm.enterNumber}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">入库仓库：</div>
+                        <div class="itemcontent">${this.personalForm.enterRepositoryName}</div>
+                        </div>
+                          </div>
+                        </div>`,
+              bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">审核：</div>
+                        <div class="bottomname" >${handleperson}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">部门：</div>
+                        <div class="bottomname">${this.personalForm.stockDeptName || ''}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">业务员：</div>
+                        <div class="bottomname">${this.personalForm.stockPersonName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">制单：</div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                   </div>
+                  </div>`,
+              bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+              style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
+          '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
+          '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
+          '.item { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 50% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 15% }' +
+          '.itemcontent {width: 80%}',
+              gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+              gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+              repeatTableHeader: true
+            })
+          })
+          .catch(action => {
+            this.$message({
+              type: 'info',
+              message: action === 'cancel'
+                ? '确认取消'
+                : '停留在当前页面'
+            })
+          })
+      }
+      // 点击取消后执行的操作
     }
     // 修改操作结束 -------------------------------------------------
   }

@@ -638,6 +638,10 @@ export default {
       return data
     },
     async printdata() {
+      for (const i in arr) {
+        const temp = arr[i].productCode
+        arr[i].productCode = temp.split('-').join('')
+      }
       const arr = this.cutnull(this.list2)
       for (const i in arr) {
         arr[i].step = Number(i) + 1
@@ -652,7 +656,7 @@ export default {
       // 权限没有再判断次数是否可以打印
       const param = {}
       param.receiptId = this.personalForm.id
-      param.receiptTypeId = 9
+      param.receiptTypeId = 13
       // 有权限跳过管理
       const value = ['1-386-82']
       const roles = this.$store.getters && this.$store.getters.roles
