@@ -678,7 +678,7 @@ export default {
                         </div>
                         <div class="item">
                          <div class="itemname">到货日期：</div>
-                        <div class="itemcontent">${this.personalForm.arrivalDate}</div>
+                        <div class="itemcontent">${this.timestampToTime(this.personalForm.giveDate)}</div>
                           </div>
                         <div class="item">
                          <div class="itemname">编号：</div>

@@ -660,6 +660,7 @@ export default {
                 newarr2[j].approvalUseVos = needlist[i].approvalUseVos
                 newarr2[j].settleModeName = needlist[i].settleModeName
                 newarr2[j].supplierId = needlist[i].supplierId
+                newarr2[j].createPersonName = needlist[i].createPersonName
               }
             }
           }
