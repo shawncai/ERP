@@ -104,6 +104,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('CheckReport.checkResult')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.checkResult | checkResultFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('CheckReport.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
@@ -228,6 +233,13 @@ export default {
         2: _that.$t('updates.cgdhd'),
         3: _that.$t('updates.zscrw'),
         4: '外包单'
+      }
+      return statusMap[status]
+    },
+    checkResultFilter(status) {
+      const statusMap = {
+        1: _that.$t('updates.pass'),
+        2: _that.$t('updates.unpass')
       }
       return statusMap[status]
     },

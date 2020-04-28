@@ -3430,6 +3430,8 @@ export default {
     yrksl: '已入库数量',
     bjsl: '报检数量',
     sjsl: '实检数量',
+    pass: '合格',
+    unpass: '不合格',
     hgsl: '合格数量',
     bhgsl: '不合格数量',
     dhslzj: '到货数量总计',

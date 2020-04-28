@@ -3418,6 +3418,8 @@ export default {
     yrksl: 'stock in qty.',
     bjsl: 'declared inspection qty.',
     sjsl: 'actual inspected qty.',
+    pass: 'pass',
+    unpass: 'unpass',
     hgsl: 'qualified qty.',
     bhgsl: 'unqualified qty.',
     dhslzj: 'total product arrivals',

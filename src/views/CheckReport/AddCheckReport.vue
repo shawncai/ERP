@@ -904,7 +904,7 @@ export default {
         this.personalForm.sampleQuantity = this.personalForm.checkQuantity
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
           this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
@@ -928,7 +928,7 @@ export default {
       if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
           this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
@@ -940,7 +940,7 @@ export default {
       if (this.personalForm.checkMode === '2') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
           this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
@@ -948,7 +948,7 @@ export default {
       } else if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
           this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
