@@ -701,7 +701,7 @@ export default {
         return 0
       }
     },
-    printdata() {
+    async printdata() {
       const arr = this.cutnull(this.list2)
       const itemslengt = this.list2.length
       for (const i in arr) {
@@ -730,20 +730,34 @@ export default {
         handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
       }
       console.log(handleperson)
-
-      printJS({
-        printable: arr,
-        type: 'json',
-        properties: [
-          { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
-          { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
-          { field: 'productName', displayName: '名称', columnSize: `100px` },
-          { field: 'color', displayName: 'Color', columnSize: `100px` },
-          { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
-          { field: 'check', displayName: 'Out Check', columnSize: `100px` },
-          { field: 'check', displayName: 'In Check', columnSize: `100px` }
-        ],
-        header: `<div class="pringtitle">
+      console.log(handleperson)
+      // 先根据权限判断
+      // 权限没有再判断次数是否可以打印
+      const param = {}
+      param.receiptId = this.personalForm.id
+      param.receiptTypeId = 997
+      // 有权限跳过管理
+      const value = ['1-386-82']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      if (hasPermission) {
+        printJS({
+          printable: arr,
+          type: 'json',
+          properties: [
+            { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+            { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+            { field: 'productName', displayName: '名称', columnSize: `100px` },
+            { field: 'color', displayName: 'Color', columnSize: `100px` },
+            { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+            { field: 'check', displayName: 'Out Check', columnSize: `100px` },
+            { field: 'check', displayName: 'In Check', columnSize: `100px` }
+          ],
+          header: `<div class="pringtitle">
                     <div class="custom-p"></div>
                       <br>
                       <div class="ordername">${this.personalForm.moveInRepositoryName} Transfer list/ 送货单</div>
@@ -764,7 +778,7 @@ export default {
                           </div>
                           </div>
                         </div>`,
-        bottom: `<div>
+          bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
                   <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
                   <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
@@ -795,8 +809,8 @@ export default {
                    </div>
                    </div>
                   </div>`,
-        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
-        style: '.custom-p {font-size:20px;text-align: center; }' +
+          bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+          style: '.custom-p {font-size:20px;text-align: center; }' +
           ' .ordername {text-align: center; font-size:25px;}' +
           '.pringtitle { line-height: 10px; }' +
           '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
@@ -808,13 +822,127 @@ export default {
           '.itemcontent2 {width: 80%}' +
           '.itemname { width: 90%; text-align: right }' +
           '.itemcontent {width: 85%}',
-        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
-        repeatTableHeader: true
-      })
+          gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+          gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+          repeatTableHeader: true
+        })
+      } else {
+        const printres = await getPrintCount(param)
+        if (printres.data.ret === 200) {
+          const res2 = printres.data.data.content
+          if (res2 !== null && res2.printCount > 0) {
+            this.$message.error('打印次数已经消耗完')
+            return false
+          }
+        }
+        this.$confirm('该单据只能打印一次，是否确认打印？（此操作为不可逆操作）', 'Warning', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        })
+          .then(() => {
+            param.opreaterId = this.$store.getters.userId
+            // 加await
+            addPrint(param).then(res => {
+              if (res.data.ret === 200) {
+                const res = res.data.data.content
+                console.log('res', res)
+              }
+            })
+            printJS({
+              printable: arr,
+              type: 'json',
+              properties: [
+                { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+                { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+                { field: 'productName', displayName: '名称', columnSize: `100px` },
+                { field: 'color', displayName: 'Color', columnSize: `100px` },
+                { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+                { field: 'check', displayName: 'Out Check', columnSize: `100px` },
+                { field: 'check', displayName: 'In Check', columnSize: `100px` }
+              ],
+              header: `<div class="pringtitle">
+                    <div class="custom-p"></div>
+                      <br>
+                      <div class="ordername">${this.personalForm.moveInRepositoryName} Transfer list/ 送货单</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">Stock Out / 调出仓库：</div>
+                        <div class="itemcontent">${this.personalForm.moveOutRepositoryName}</div>
+                        </div>
+                        <div class="item">
+                         <div class="itemname">Stock In / 调入仓库：</div>
+                        <div class="itemcontent">${this.personalForm.moveInRepositoryName}</div>
+                          </div>
+                        <div class="item">
+                         <div class="itemname">Date / 日期：</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                          </div>
+                          </div>
+                        </div>`,
+              bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
+                  <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
+                  <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
+                  <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
+                  </div>
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;">
+                  <div>Remark/备注</div>
+                  <div>${remarks}</div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-between;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Hander: </div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Bill Id:</div>
+                        <div class="bottomname">${this.personalForm.moveNumber}</div>
+                    </div>
+                   </div>
+                   <div class="morebottom" style="width: 60%;display:flex;align-items: center;justify-content: space-between;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">Delivery By:</div>
+                   <div style="font-size: 25px">送货人</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">Branch Received By:</div>
+                   <div style="font-size: 25px">店面签收人</div>
+                   </div>
+                   </div>
+                  </div>`,
+              bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+              style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;}' +
+          '.pringtitle { line-height: 10px; }' +
+          '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
+          '.item { width: 40%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 90%; text-align: right }' +
+          '.itemcontent {width: 85%}',
+              gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+              gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+              repeatTableHeader: true
+            })
+          })
+          .catch(action => {
+            this.$message({
+              type: 'info',
+              message: action === 'cancel'
+                ? '确认取消'
+                : '停留在当前页面'
+            })
+          })
+      }
+      // 点击取消后执行的操作
     },
-
-    printdata2() {
+    async printdata2() {
       const arr = this.cutnull(this.list2)
       const itemslengt = this.list2.length
       for (const i in arr) {
@@ -843,21 +971,34 @@ export default {
         handleperson = this.reviewList[this.reviewList.length - 1].stepHandlerName
       }
       console.log(handleperson)
+      // 先根据权限判断
+      // 权限没有再判断次数是否可以打印
+      const param = {}
+      param.receiptId = this.personalForm.id
+      param.receiptTypeId = 998
+      // 有权限跳过管理
+      const value = ['1-386-82']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      if (hasPermission) {
+        printJS({
+          printable: arr,
+          type: 'json',
+          properties: [
+            { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+            { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+            { field: 'productName', displayName: '名称', columnSize: `100px` },
+            { field: 'color', displayName: 'Color', columnSize: `100px` },
+            { field: 'check', displayName: 'Location', columnSize: `100px` },
+            { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+            { field: 'check', displayName: 'Mark', columnSize: `100px` }
 
-      printJS({
-        printable: arr,
-        type: 'json',
-        properties: [
-          { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
-          { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
-          { field: 'productName', displayName: '名称', columnSize: `100px` },
-          { field: 'color', displayName: 'Color', columnSize: `100px` },
-          { field: 'check', displayName: 'Location', columnSize: `100px` },
-          { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
-          { field: 'check', displayName: 'Mark', columnSize: `100px` }
-
-        ],
-        header: `<div class="pringtitle">
+          ],
+          header: `<div class="pringtitle">
                     <div class="custom-p"></div>
                       <br>
                       <div class="ordername">${this.personalForm.moveInRepositoryName} New order/ 店面订货单</div>
@@ -878,7 +1019,7 @@ export default {
                           </div>
                           </div>
                         </div>`,
-        bottom: `<div>
+          bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
                   <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
                   <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
@@ -889,8 +1030,8 @@ export default {
                   <div>${remarks}</div>
                   </div>
                   </div>`,
-        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
-        style: '.custom-p {font-size:20px;text-align: center; }' +
+          bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+          style: '.custom-p {font-size:20px;text-align: center; }' +
           ' .ordername {text-align: center; font-size:25px;}' +
           '.pringtitle { line-height: 10px; }' +
           '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
@@ -902,12 +1043,107 @@ export default {
           '.itemcontent2 {width: 80%}' +
           '.itemname { width: 90%; text-align: right }' +
           '.itemcontent {width: 85%}',
-        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
-        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
-        repeatTableHeader: true
-      })
-    },
+          gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+          gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+          repeatTableHeader: true
+        })
+      } else {
+        const printres = await getPrintCount(param)
+        if (printres.data.ret === 200) {
+          const res2 = printres.data.data.content
+          if (res2 !== null && res2.printCount > 0) {
+            this.$message.error('打印次数已经消耗完')
+            return false
+          }
+        }
+        this.$confirm('该单据只能打印一次，是否确认打印？（此操作为不可逆操作）', 'Warning', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        })
+          .then(() => {
+            param.opreaterId = this.$store.getters.userId
+            // 加await
+            addPrint(param).then(res => {
+              if (res.data.ret === 200) {
+                const res = res.data.data.content
+                console.log('res', res)
+              }
+            })
+            printJS({
+              printable: arr,
+              type: 'json',
+              properties: [
+                { field: 'productCode', displayName: 'Product ID', columnSize: `100px` },
+                { field: 'productName', displayName: 'Product Name', columnSize: `100px` },
+                { field: 'productName', displayName: '名称', columnSize: `100px` },
+                { field: 'color', displayName: 'Color', columnSize: `100px` },
+                { field: 'check', displayName: 'Location', columnSize: `100px` },
+                { field: 'applyQuantity', displayName: 'Qty.', columnSize: `100px` },
+                { field: 'check', displayName: 'Mark', columnSize: `100px` }
 
+              ],
+              header: `<div class="pringtitle">
+                    <div class="custom-p"></div>
+                      <br>
+                      <div class="ordername">${this.personalForm.moveInRepositoryName} New order/ 店面订货单</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">Branch：</div>
+                        <div class="itemcontent">${this.personalForm.moveInRepositoryName}</div>
+                        </div>
+                        <div class="item">
+                         <div class="itemname">Date：</div>
+                        <div class="itemcontent">${this.personalForm.createDate}</div>
+                          </div>
+                        <div class="item">
+                         <div class="itemname">Slip No：</div>
+                        <div class="itemcontent">${this.personalForm.moveNumber}</div>
+                          </div>
+                          </div>
+                        </div>`,
+              bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 100%;height: 40px;align-items: center;border:1px solid;border-top: none;">
+                  <div class="allmoneyname" style="width: 29%;margin-right:-10px">Total Items: ${itemslengt}</div>
+                  <div class="allmoneynum" style="width: 43%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">Total Qty.: ${totalqty}</div>
+                  <div class="allmoneynum" style="width: 28%;height: 40px;display: flex;align-items: center;justify-content: center;">合计:${daxiemoney} ¥ ${totalMoneys}</div>
+                  </div>
+                  <div style="width: 100%;height: 80px;border:1px solid;border-top: none;">
+                  <div>Remark</div>
+                  <div>${remarks}</div>
+                  </div>
+                  </div>`,
+              bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+              style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;}' +
+          '.pringtitle { line-height: 10px; }' +
+          '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
+          '.item { width: 40%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 90%; text-align: right }' +
+          '.itemcontent {width: 85%}',
+              gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+              gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+              repeatTableHeader: true
+            })
+          })
+          .catch(action => {
+            this.$message({
+              type: 'info',
+              message: action === 'cancel'
+                ? '确认取消'
+                : '停留在当前页面'
+            })
+          })
+      }
+      // 点击取消后执行的操作
+    },
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
       n = n.toString()

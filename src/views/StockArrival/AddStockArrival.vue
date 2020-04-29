@@ -724,11 +724,11 @@ export default {
       for (let i = 0; i < val.length; i++) {
         // allarrivalQuantity 到货数量
         if ((val[i].allarrivalQuantity - val[i].returnQuantity) >= val[i].stockQuantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: val[i].productCode + '总到货数量-退货数量已达到订单数量',
-            duration: 0
-          })
+          // this.$notify.error({
+          //   title: 'wrong',
+          //   message: val[i].productCode + '总到货数量-退货数量已达到订单数量',
+          //   duration: 0
+          // })
         } else {
           val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
           this.$refs.editable.insert(val[i])
