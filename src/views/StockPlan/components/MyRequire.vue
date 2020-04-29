@@ -360,7 +360,8 @@ export default {
           sourceSerialNumber: item.id,
           requireQuantity: item.requireQuantity,
           planedQuantity: item.planedQuantity,
-          planQuantity: item.shouldStockQuantity - item.planedQuantity
+          planQuantity: item.shouldStockQuantity - item.planedQuantity,
+          inventoryQuantity: item.inventoryQuantity
         }
       })
       const list = await Promise.all(requireDetail.map(function(item) {
