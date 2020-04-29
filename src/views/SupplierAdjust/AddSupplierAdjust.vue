@@ -336,10 +336,22 @@ export default {
   methods: {
     // 计算单价
     getprice(row) {
-      row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+      row.priceflag = 1
+      if (row.taxPriceFlag === 1) {
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.taxRateFlag === 1) {
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      }
     },
     // 通过税率计算含税价
     gettaxRate(row, scope) {
+      row.taxRateFlag = 1
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
         if (row.newTaxRate !== '' && row.newTaxRate !== null && row.newTaxRate !== undefined) {
           for (let i = 0; i < this.list2.length; i++) {
@@ -356,15 +368,31 @@ export default {
           console.log(row)
         }
       }
-      if (row.newIncludeTaxPrice !== 0) {
+      if (row.taxPriceFlag === 1) {
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100).toFixed(2)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.priceflag === 1) {
         row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row, scope) {
-      if (row.newPrice !== 0) {
+      row.taxPriceFlag = 1
+      if (row.taxRateFlag === 1) {
+        row.newPrice = row.newIncludeTaxPrice / (row.newTaxRate / 100 + 1).toFixed(2)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.priceflag === 1) {
         row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
-        console.log(row.newTaxRate)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
       }
     },
     checkStock(row) {

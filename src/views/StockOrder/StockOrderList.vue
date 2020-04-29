@@ -187,9 +187,14 @@
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="75">
+        <el-table-column :label="$t('updates.cgsl')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
             <span>{{ scope.row.stockQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.dhsl')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.actualArrivalQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
