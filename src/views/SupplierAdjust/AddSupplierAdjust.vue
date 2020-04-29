@@ -104,7 +104,7 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.newTaxRate"
-                  @input="gettaxRate(scope.row, scope)"/>
+                  @change="gettaxRate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
@@ -366,6 +366,7 @@ export default {
             } else {
               console.log(222)
               this.list2[i].newTaxRate = row.newTaxRate
+              this.list2[i].taxRateFlag = 1
             }
           }
           console.log(row)
