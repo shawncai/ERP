@@ -671,6 +671,7 @@ export default {
                 processarr[j].payModeName = needlist[i].payModeName
                 processarr[j].isVat = needlist[i].isVat
                 processarr[j].currencyId = needlist[i].currencyId
+                processarr[j].createDate = needlist[i].createDate
               }
             }
           }

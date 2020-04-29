@@ -96,7 +96,7 @@
               <el-table :data="scope.row.stockArrivalDetailVos" border size="small">
                 <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
                 <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
-                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="typeName       "/>
                 <el-table-column :label="$t('updates.dhsl')" min-width="100" property="arrivalQuantity"/>
                 <!-- <el-table-column :label="$t('updates.jhrq')" min-width="200" property="deliveryDate"/> -->
                 <el-table-column :label="$t('updates.ys')" min-width="100" property="color"/>

@@ -90,12 +90,12 @@
             </el-editable-column>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.newIncludeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row)"/>
+                  @input="getincludeTaxPrice(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
@@ -104,7 +104,7 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.newTaxRate"
-                  @input="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
@@ -339,13 +339,29 @@ export default {
       row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
     },
     // 通过税率计算含税价
-    gettaxRate(row) {
+    gettaxRate(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.newTaxRate !== '' && row.newTaxRate !== null && row.newTaxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            if (this.list2[i].newTaxRate !== null && this.list2[i].newTaxRate !== 0 && this.list2[i].newTaxRate !== '' && this.list2[i].newTaxRate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+            } else {
+              console.log(222)
+              this.list2[i].newTaxRate = row.newTaxRate
+            }
+          }
+          console.log(row)
+        }
+      }
       if (row.newIncludeTaxPrice !== 0) {
         row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
       }
     },
     // 通过含税价计算税率
-    getincludeTaxPrice(row) {
+    getincludeTaxPrice(row, scope) {
       if (row.newPrice !== 0) {
         row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
         console.log(row.newTaxRate)
