@@ -72,10 +72,10 @@
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+            <el-editable-column fixed="left" type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="type" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
@@ -85,7 +85,7 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.newPrice"
-                  @input="getprice(scope.row)"/>
+                  @change="getprice(scope.row)"/>
               </template>
             </el-editable-column>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
@@ -95,7 +95,7 @@
                 <el-input-number
                   :precision="2"
                   v-model="scope.row.newIncludeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row, scope)"/>
+                  @change="getincludeTaxPrice(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
@@ -336,14 +336,15 @@ export default {
   methods: {
     // 计算单价
     getprice(row) {
+      console.log('row========price', row)
       row.priceflag = 1
       if (row.taxPriceFlag === 1) {
-        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100)
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
       } else if (row.taxRateFlag === 1) {
-        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
@@ -351,6 +352,7 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row, scope) {
+      console.log('row========tax', row)
       row.taxRateFlag = 1
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
         if (row.newTaxRate !== '' && row.newTaxRate !== null && row.newTaxRate !== undefined) {
@@ -358,6 +360,7 @@ export default {
             this.list2[i].temp = i
           }
           for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].newTaxRate)
             if (this.list2[i].newTaxRate !== null && this.list2[i].newTaxRate !== 0 && this.list2[i].newTaxRate !== '' && this.list2[i].newTaxRate !== undefined) {
               // this.list2[i].requireDate = row.requireDate
             } else {
@@ -369,12 +372,12 @@ export default {
         }
       }
       if (row.taxPriceFlag === 1) {
-        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100).toFixed(2)
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
       } else if (row.priceflag === 1) {
-        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
@@ -382,14 +385,15 @@ export default {
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row, scope) {
+      console.log('row========taxprice', row)
       row.taxPriceFlag = 1
       if (row.taxRateFlag === 1) {
-        row.newPrice = row.newIncludeTaxPrice / (row.newTaxRate / 100 + 1).toFixed(2)
+        row.newPrice = row.newIncludeTaxPrice / (row.newTaxRate / 100 + 1)
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
       } else if (row.priceflag === 1) {
-        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100)
         row.priceflag = 0
         row.taxPriceFlag = 0
         row.taxRateFlag = 0
@@ -518,6 +522,9 @@ export default {
         val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
         val.supplierDetailVos[i].oldIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
         val.supplierDetailVos[i].oldTaxRate = val.supplierDetailVos[i].taxRate
+        val.supplierDetailVos[i].newPrice = 0
+        val.supplierDetailVos[i].newIncludeTaxPrice = 0
+        val.supplierDetailVos[i].newTaxRate = 0
         this.$refs.editable.insert(val.supplierDetailVos[i])
       }
       this.supplierId = val.supplierName
