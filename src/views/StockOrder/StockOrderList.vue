@@ -415,6 +415,7 @@ export default {
     }, 100)
   },
   mounted() {
+    this.getinformation()
     this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -424,6 +425,15 @@ export default {
     _that = this
   },
   methods: {
+    getinformation() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.getemplist.supplierId = this.$store.getters.empcontract.supplierId
+        this.getemplist.beginTime = this.$store.getters.empcontract.beginTime
+        this.getemplist.endTime = this.$store.getters.empcontract.endTime
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     handleMyReceipt1(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)

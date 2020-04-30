@@ -3312,9 +3312,15 @@ export const asyncRouterMap = [
       title: 'Stockcount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-317-337-4', '311-317-338-4', '311-317-339-4', '311-317-340-4', '311-317-341-4', '311-317-342-4', '311-317-343-4', '311-317-344-4', '311-317-345-4']
+      roles: ['311-317-387-4', '311-317-337-4', '311-317-338-4', '311-317-339-4', '311-317-340-4', '311-317-341-4', '311-317-342-4', '311-317-343-4', '311-317-344-4', '311-317-345-4']
     },
     children: [
+      {
+        path: 'orderReport',
+        component: () => import('@/views/StockCount/orderReport'),
+        name: 'orderReport',
+        meta: { title: 'orderReport', noCache: false, roles: ['311-317-387-4'] }
+      },
       {
         path: 'stockOrderCount',
         component: () => import('@/views/StockCount/stockOrderCount'),

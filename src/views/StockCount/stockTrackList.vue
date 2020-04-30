@@ -80,6 +80,16 @@
           prop="money"
           width="200"
           align="center"/>
+        <el-table-column
+          :label="$t('report.arrivalQuantity')"
+          prop="arrivalQuantity"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('report.arrivalMoney')"
+          prop="arrivalMoney"
+          width="200"
+          align="center"/>
         <el-table-column :label="$t('stockTrackList.enter')" align="center">
           <el-table-column
             :label="$t('stockTrackList.enterQuantity')"

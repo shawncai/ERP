@@ -14,60 +14,59 @@
         :height="tableHeight"
         :data="list"
         size="small"
-
         border
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
-          :label="$t('stockTrackList.receiptDate')"
-          prop="receiptDate"
+          :label="$t('report.supplierName')"
+          prop="supplierName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.orderNumber')"
-          prop="orderNumber"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockDetailCount.productName')"
+          :label="$t('report.productName')"
           prop="productName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.unit')"
+          :label="$t('report.productType')"
+          prop="productType"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('report.unit')"
           prop="unit"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.quantity')"
-          prop="stockQuantity"
+          :label="$t('report.invoiceQuantity')"
+          prop="invoiceQuantity"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.price')"
-          prop="price"
+          :label="$t('report.invoiceMoney')"
+          prop="invoiceMoney"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.money')"
-          prop="money"
+          :label="$t('report.maxPrice')"
+          prop="maxPrice"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.supplierName')"
-          prop="supplierName"
+          :label="$t('report.avgPrice')"
+          prop="avgPrice"
           width="200"
           align="center"/>
-          <!-- <el-table-column
-          :label="$t('productStockFluid.repositoryName')"
-          prop="repositoryName"
+        <el-table-column
+          :label="$t('report.minPrice')"
+          prop="minPrice"
           width="200"
-          align="center"/> -->
+          align="center"/>
+        <el-table-column
+          :label="$t('report.recentlyPrice')"
+          prop="recentlyPrice"
+          width="200"
+          align="center"/>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />

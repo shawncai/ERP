@@ -1,5 +1,6 @@
 export default {
   route: {
+    orderReport: '采购订单查询表',
     wuxiinventorychangelist: '无锡库存月报表',
     EndReceipt: '月结管理',
     AddOutSourceOut: '新增委外出库单',
@@ -4284,5 +4285,28 @@ export default {
     outFactoryName: '往来单位',
     xgss: '修改委外入库单',
     xgsss: '修改委外出库单'
+  },
+  report: {
+    orderCount: '总订单数',
+    arrivalCount: '验收单数',
+    arrivalRate: '订单送货率（%）',
+    productCount: '总订单品项数',
+    arrivalProduct: '到货品项数',
+    arrivalProductRate: '到货品项占比（%）',
+    totalOrderQuantity: '总订货量',
+    totalArivalQuantity: '到货量',
+    totalRate: '到货占比（%）',
+    arrivalQuantity: '到货数量',
+    arrivalMoney: '到货金额',
+    supplierName: '供应商',
+    productName: '物料名称',
+    productType: '规格型号',
+    unit: '单位',
+    invoiceQuantity: '发票数量',
+    invoiceMoney: '发票金额',
+    maxPrice: '最高价格',
+    avgPrice: '平均价格',
+    minPrice: '最低价格',
+    recentlyPrice: '最新价格'
   }
 }
