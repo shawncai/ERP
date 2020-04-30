@@ -564,7 +564,8 @@ export default {
               sourceSerialNumber: item.id,
               requireQuantity: item.requireQuantity,
               planedQuantity: item.planedQuantity,
-              planQuantity: item.shouldStockQuantity - item.planedQuantity
+              planQuantity: item.shouldStockQuantity - item.planedQuantity,
+              inventoryQuantity: item.inventoryQuantity
             }
           })
           const list = await Promise.all(requireDetail.map(function(item) {
@@ -581,7 +582,6 @@ export default {
             for (let m = 0; m < list[i].length; m++) {
               list[i][m].basicPrice = list[i][m].price
               list[i][m].requireQuantity = list[i][m].quantity
-              // list[i][m].planQuantity = list[i][m].quantity
               list[i][m].basicQuantity = list[i][m].quantity
               list2.push(list[i][m])
             }

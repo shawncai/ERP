@@ -393,6 +393,7 @@ export default {
             list2[i].stockRequireId = requireDetail[j].stockRequireId
             list2[i].orderQuantity = requireDetail[j].orderQuantity
             list2[i].planQuantity = requireDetail[j].planQuantity
+            list2[i].inventoryQuantity = requireDetail[j].inventoryQuantity
             list3.push(list2[i])
           }
         }
