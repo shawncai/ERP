@@ -1,7 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card :body-style="{ padding: '10px' }" class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('StockOrder.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.orderNumber" :placeholder="$t('updates.cgdh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="stockPersonId" :placeholder="$t('StockOrder.stockPersonId')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
