@@ -113,6 +113,7 @@
                 <p>{{ basicPrice(scope.row) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ysxqsl')" prop="requireQuantity2" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>
@@ -228,7 +229,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index:2000;">
-        <el-button v-no-more-click size="mini" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click :loading="canclick" size="mini" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" size="mini" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -443,7 +444,8 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      canclick: false
     }
   },
   created() {
@@ -563,7 +565,8 @@ export default {
               sourceSerialNumber: item.id,
               requireQuantity: item.requireQuantity,
               planedQuantity: item.planedQuantity,
-              planQuantity: item.shouldStockQuantity - item.planedQuantity
+              planQuantity: item.shouldStockQuantity - item.planedQuantity,
+              inventoryQuantity: item.inventoryQuantity
             }
           })
           const list = await Promise.all(requireDetail.map(function(item) {
@@ -580,7 +583,6 @@ export default {
             for (let m = 0; m < list[i].length; m++) {
               list[i][m].basicPrice = list[i][m].price
               list[i][m].requireQuantity = list[i][m].quantity
-              // list[i][m].planQuantity = list[i][m].quantity
               list[i][m].basicQuantity = list[i][m].quantity
               list2.push(list[i][m])
             }
@@ -1037,11 +1039,13 @@ export default {
         planDate: null
       }
       this.getdatatime()
+      this.planRepositoryId = this.$store.getters.repositoryName
       this.planPersonId = this.$store.getters.name
       this.stockPersonId = this.$store.getters.name
     },
     // 保存操作
     handlesave() {
+      this.canclick = true
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
       console.log('EnterDetail2', EnterDetail2)
@@ -1052,6 +1056,7 @@ export default {
           message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
+        this.canclick = false
         return false
       }
       EnterDetail2.map(function(elem) {
@@ -1105,6 +1110,7 @@ export default {
           message: '请选择供应商',
           offset: 100
         })
+        this.canclick = false
         return false
       }
       const parms2 = JSON.stringify(EnterDetail)
@@ -1128,6 +1134,7 @@ export default {
                     type: 'success',
                     offset: 100
                   })
+                  this.canclick = false
                   this.restAllForm()
                   this.$refs.editable.clear()
                   this.$refs.editable2.clear()
@@ -1139,6 +1146,7 @@ export default {
                     message: res.data.msg,
                     offset: 100
                   })
+                  this.canclick = false
                 }
               })
             } else {
@@ -1147,6 +1155,7 @@ export default {
                 message: 'Information is incomplete',
                 offset: 100
               })
+              this.canclick = false
               return false
             }
           })
@@ -1156,6 +1165,7 @@ export default {
             message: 'Information is incomplete',
             offset: 100
           })
+          this.canclick = false
           return false
         }
       })

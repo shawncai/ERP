@@ -801,10 +801,12 @@ export default {
         applyDate: null
       }
       this.applyPersonId = this.$store.getters.name
+      this.applyRepositoryId = ''
       this.getdatatime()
     },
     // 保存操作
     handlesave() {
+      this.canClick = true
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
       for (let i = 0; i < EnterDetail.length; i++) {
@@ -879,7 +881,6 @@ export default {
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {
-            this.canClick = true
             addstockapply(parms, parms2, this.personalForm).then(res => {
               console.log(res)
               if (res.data.ret === 200) {

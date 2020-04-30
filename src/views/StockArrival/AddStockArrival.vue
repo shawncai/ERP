@@ -897,10 +897,12 @@ export default {
         regionId: this.$store.getters.regionId,
         isVat: 1,
         arrivalDate: null,
-        sourceType: '1'
+        sourceType: '1',
+        arrivalRepositoryId: this.$store.getters.repositoryName
       }
       this.getdatatime()
       this.supplierId = null
+      this.arrivalRepositoryId = this.$store.getters.repositoryId
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
       this.ourContractorId = null

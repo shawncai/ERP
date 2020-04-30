@@ -1,7 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card :body-style="{ padding: '10px' }" class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.title" :placeholder="$t('StockOrder.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('updates.wlmc')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.orderNumber" :placeholder="$t('updates.cgdh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="stockPersonId" :placeholder="$t('StockOrder.stockPersonId')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -187,9 +187,14 @@
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="75">
+        <el-table-column :label="$t('updates.cgsl')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
             <span>{{ scope.row.stockQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.dhsl')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.actualArrivalQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">

@@ -863,9 +863,11 @@ export default {
         deptId: this.$store.getters.deptId,
         stockPersonId: this.$store.getters.userId,
         retreatDate: null,
-        isVat: 1
+        isVat: 1,
+        retreatRepositoryId: this.$store.getters.repositoryId
       }
       this.getdatatime()
+      this.retreatRepositoryId = this.$store.getters.repositoryName
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
