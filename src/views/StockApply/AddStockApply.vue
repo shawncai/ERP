@@ -801,6 +801,7 @@ export default {
         applyDate: null
       }
       this.applyPersonId = this.$store.getters.name
+      this.applyRepositoryId = ''
       this.getdatatime()
     },
     // 保存操作

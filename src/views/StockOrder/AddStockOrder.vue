@@ -1354,6 +1354,7 @@ export default {
         exchangeRate: '1.0000'
       }
       this.getdatatime()
+      this.stockRepositoryId = ''
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name

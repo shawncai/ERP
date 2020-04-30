@@ -1038,6 +1038,7 @@ export default {
         planDate: null
       }
       this.getdatatime()
+      this.planRepositoryId = this.$store.getters.repositoryName
       this.planPersonId = this.$store.getters.name
       this.stockPersonId = this.$store.getters.name
     },
