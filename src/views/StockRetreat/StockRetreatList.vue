@@ -64,6 +64,7 @@
         :key="tableKey"
         :data="list"
         :height="tableHeight"
+        :span-method="arraySpanMethod"
         border
         size="small"
         fit
@@ -82,29 +83,29 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('StockRetreat.stockTypeId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockTypeName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockRetreat.sourceType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockRetreat.stockPersonId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.stockPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('StockRetreat.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockRetreat.supplierId')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockRetreat.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.thsl')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.retreatQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
+          <template slot-scope="scope">
+            <span>{{ scope.row.unit }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('StockRetreat.allRetreatMoney')" :resizable="false" align="center" min-width="150">
@@ -112,7 +113,7 @@
             <span>{{ scope.row.allRetreatMoney }}</span>
           </template>
         </el-table-column> -->
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -121,7 +122,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['104-118-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
@@ -275,7 +276,7 @@ export default {
           this.pos = 0
         } else {
           // 判断当前元素与上一个元素是否相同
-          if (data[i].stockArrivalId === data[i - 1].stockArrivalId) {
+          if (data[i].stockRetreatId === data[i - 1].stockRetreatId) {
             this.spanArr[this.pos] += 1
             this.spanArr.push(0)
           } else {
@@ -289,7 +290,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 3) {
+      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
         return {
           rowspan: _row,
           colspan: _col
@@ -346,7 +347,7 @@ export default {
         return true
       }
     },
-    // 反结单操作
+    // 反结单操作123
     handleReview3(row) {
       this.reviewParms = {}
       this.reviewParms.id = row.id
@@ -429,20 +430,75 @@ export default {
       this.listLoading = true
       searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const list = res.data.data.content.list
-          // const needlist = res.data.data.content.list
-          // for (let i = 0; i < needlist.length; i++) {
-          //   for (let j = 0; j < needlist[i].stockRetreatDetailVos.length; j++) {
-          //     needlist[i].stockRetreatDetailVos[j].taxRate = needlist[i].stockRetreatDetailVos[j].taxRate * 100
-          //   }
-          // }
-          // const newarr = needlist.map(item => {
-          //   return item.stockRetreatDetailVos
-          // })
-          // console.table('newarr==============', newarr)
-          // const newarr2 = [].concat.apply([], newarr)
-          // console.table('newarr2==============', newarr2)
-          // this.list = newarr2
+          // const list = res.data.data.content.list
+          const needlist = res.data.data.content.list
+          for (let i = 0; i < needlist.length; i++) {
+            for (let j = 0; j < needlist[i].stockRetreatDetailVos.length; j++) {
+              needlist[i].stockRetreatDetailVos[j].taxRate = needlist[i].stockRetreatDetailVos[j].taxRate * 100
+            }
+          }
+          const newarr = needlist.map(item => {
+            return item.stockRetreatDetailVos
+          })
+          const newarr2 = [].concat.apply([], newarr)
+          const processarr = this._.cloneDeep(newarr2)
+          for (const i in needlist) {
+            for (const j in processarr) {
+              if (needlist[i].id === processarr[j].stockRetreatId) {
+                processarr[j].taxRate = needlist[i].taxRate
+                processarr[j].number = needlist[i].number
+                processarr[j].acceptAddress = needlist[i].acceptAddress
+                processarr[j].allMoney = needlist[i].allMoney
+                processarr[j].allQuantity = needlist[i].allQuantity
+                processarr[j].allRetreatMoney = needlist[i].allRetreatMoney
+                processarr[j].allTaxMoney = needlist[i].allTaxMoney
+                processarr[j].approvalUseVos = needlist[i].approvalUseVos
+                processarr[j].countryId = needlist[i].countryId
+                processarr[j].createDate = needlist[i].createDate
+                processarr[j].createPersonId = needlist[i].createPersonId
+                processarr[j].createPersonName = needlist[i].createPersonName
+                processarr[j].currencyId = needlist[i].currencyId
+                processarr[j].deliveryMode = needlist[i].deliveryMode
+                processarr[j].deliveryModeName = needlist[i].deliveryModeName
+                processarr[j].deptId = needlist[i].deptId
+                processarr[j].deptName = needlist[i].deptName
+                processarr[j].endDate = needlist[i].endDate
+                processarr[j].endPersonId = needlist[i].endPersonId
+                processarr[j].id = needlist[i].id
+                processarr[j].isVat = needlist[i].isVat
+                processarr[j].judgeDate = needlist[i].judgeDate
+                processarr[j].judgePersonId = needlist[i].judgePersonId
+                processarr[j].judgeStat = needlist[i].judgeStat
+                processarr[j].modifyDate = needlist[i].modifyDate
+                processarr[j].modifyPersonId = needlist[i].modifyPersonId
+                processarr[j].offsetMoney = needlist[i].offsetMoney
+                processarr[j].otherMoney = needlist[i].otherMoney
+                processarr[j].payMode = needlist[i].payMode
+                processarr[j].payModeName = needlist[i].payModeName
+                processarr[j].receiptPeopleId = needlist[i].receiptPeopleId
+                processarr[j].receiptStat = needlist[i].receiptStat
+                processarr[j].retreatDate = needlist[i].retreatDate
+                processarr[j].retreatRepositoryId = needlist[i].retreatRepositoryId
+                processarr[j].settleMode = needlist[i].settleMode
+                processarr[j].settleModeName = needlist[i].settleModeName
+                processarr[j].sourceNumber = needlist[i].sourceNumber
+                processarr[j].sourceType = needlist[i].sourceType
+                processarr[j].stockPersonId = needlist[i].stockPersonId
+                processarr[j].stockPersonName = needlist[i].stockPersonName
+                processarr[j].stockRetreatDetailVos = needlist[i].stockRetreatDetailVos
+                processarr[j].stockTypeId = needlist[i].stockTypeId
+                processarr[j].stockTypeName = needlist[i].stockTypeName
+                processarr[j].summary = needlist[i].summary
+                processarr[j].supplierId = needlist[i].supplierId
+                processarr[j].supplierName = needlist[i].supplierName
+                processarr[j].title = needlist[i].title
+                processarr[j].transportModeId = needlist[i].transportModeId
+                processarr[j].transportModeName = needlist[i].transportModeName
+              }
+            }
+          }
+          this.list = processarr
+          this.getSpanArr(processarr)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -474,20 +530,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockRetreat(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let j = 0; j < this.list[i].stockRetreatDetailVos.length; j++) {
-              this.list[i].stockRetreatDetailVos[j].taxRate = this.list[i].stockRetreatDetailVos[j].taxRate * 100
-            }
-          }
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
     },
     // 采购人focus事件
     handlechooseStock() {
