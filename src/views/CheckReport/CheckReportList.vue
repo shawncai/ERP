@@ -8,6 +8,8 @@
 
       <el-input v-model="inspectionPersonId" :placeholder="$t('CheckReport.inspectionPersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
 
+      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('LogisticsCar.sourcenumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
       <el-popover
