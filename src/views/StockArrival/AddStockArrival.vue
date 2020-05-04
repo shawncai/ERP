@@ -898,11 +898,11 @@ export default {
         isVat: 1,
         arrivalDate: null,
         sourceType: '1',
-        arrivalRepositoryId: this.$store.getters.repositoryName
+        arrivalRepositoryId: this.$store.getters.repositoryId
       }
       this.getdatatime()
       this.supplierId = null
-      this.arrivalRepositoryId = this.$store.getters.repositoryId
+      this.arrivalRepositoryId = this.$store.getters.repositoryName
       this.inquiryPersonId = null
       this.stockPersonId = this.$store.getters.name
       this.ourContractorId = null
