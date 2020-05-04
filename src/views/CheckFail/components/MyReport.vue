@@ -19,6 +19,11 @@
             </el-form-item>
             <my-emp :control.sync="stockControl" @stockName="stockName"/>
           </el-col>
+          <el-col :span="3" style="margin-left: 5px">
+            <el-form-item>
+              <el-input v-model="getemplist.sourceNumber" placeholder="源单编号" clearable @keyup.enter.native="handleFilter"/>
+            </el-form-item>
+          </el-col>
           <!--更多搜索条件-->
           <el-col :span="3" style="margin-left: 30px">
             <el-popover
