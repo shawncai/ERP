@@ -467,6 +467,7 @@ export default {
       const number = this.choosedata.enterNumber
       const enterDetail = enterdata.map(function(item) {
         return {
+          enterQuantity: item.actualEnterQuantity,
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
