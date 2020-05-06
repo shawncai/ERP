@@ -208,6 +208,7 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
+        isActive: 2,
         judgeStat: 2,
         receiptStat: 2,
         pageNum: 1,

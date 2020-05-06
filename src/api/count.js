@@ -1,5 +1,79 @@
 import request from '@/utils/request'
 
+// 采购明细
+export function stockOrderlist(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.orderNumber !== '' && query.orderNumber !== null && query.orderNumber !== undefined) {
+    params.append('orderNumber', query.orderNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/stockcount/stockOrderlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 采购汇总
+export function purchaseCount(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.orderNumber !== '' && query.orderNumber !== null && query.orderNumber !== undefined) {
+    params.append('orderNumber', query.orderNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/stockcount/purchaseCount',
+    method: 'post',
+    data: params
+  })
+}
+
 // 订单查询报表
 export function orderReport(query) {
   var params = new URLSearchParams()
