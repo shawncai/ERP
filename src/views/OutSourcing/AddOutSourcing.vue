@@ -276,10 +276,11 @@ export default {
       this.$refs.editable.removeSelecteds()
       const nowlistdata2 = this.deepClone(this.$refs.editable2.getRecords())
       this.$refs.editable2.clear()
-      for (const j in nowlistdata2) {
-        for (const i in this.deleteselectdata) {
+      for (let j = 0; j < this.nowlistdata2.length; j++) {
+        for (let i = 0; i < this.deleteselectdata.length; i++) {
           if (this.deleteselectdata[i] === nowlistdata2[j].idx) {
             nowlistdata2.splice(j, 1)
+            j--
           }
         }
       }
@@ -391,25 +392,50 @@ export default {
     productdetail4(val) {
       console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      nowlistdata.forEach(item => {
-        const index = val.findIndex(items => items.productCode === item.productCode)
-        if (index > -1) {
-          val.splice(index, 1, item)
-        }
-      })
-      this.list2 = val
+      // nowlistdata.forEach(item => {
+      //   const index = val.findIndex(items => items.productCode === item.productCode)
+      //   if (index > -1) {
+      //     val.splice(index, 1, item)
+      //   }
+      // })
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      this.list2 = filterdata
       console.log('this.list2=====================================', this.list2)
     },
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
-      nowlistdata.forEach(item => {
-        const index = val.findIndex(items => items.productCode === item.productCode)
-        if (index > -1) {
-          val.splice(index, 1, item)
-        }
-      })
+      // nowlistdata.forEach(item => {
+      //   const index = val.findIndex(items => items.productCode === item.productCode)
+      //   if (index > -1) {
+      //     val.splice(index, 1, item)
+      //   }
+      // })
+      // const alldata = [...val, ...nowlistdata]
+      // const filterdata = this.uniqueArray(alldata, 'productCode')
+
+      const alldata = [...val, ...nowlistdata]
+      console.log('alldata=============', val, alldata)
+      const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')
+      // const newArr = []
+      // console.log('nowlistdata', nowlistdata)
+      // alldata.forEach(el => {
+      //   console.log('el', el)
+      //   const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
+      //   console.log('result', result)
+      //   if (result !== -1) {
+      //     if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
+      //       newArr[result].quantity = newArr[result].quantity + el.quantity
+      //     } else {
+      //       newArr.push(el)
+      //     }
+      //   } else {
+      //     newArr.push(el)
+      //   }
+      // })
+      console.log('newArr', alldata)
       console.log('val===================', val)
-      this.list3 = val
+      this.list3 = filterdata
     },
     // 两表联动
     changelistdata() {
