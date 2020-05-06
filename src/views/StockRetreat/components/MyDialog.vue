@@ -459,13 +459,26 @@ export default {
     jungleNumbers(scope) {
       console.log(this.actualilNumber, this.allNumber)
       console.log(scope.row)
-      if (scope.row.retreatQuantity > scope.row.arrivalQuantity) {
-        this.$refs.editable.revert(scope.row)
-        this.$notify.error({
-          title: 'wrong',
-          message: '退货数量不能大于到货数量',
-          offset: 100
-        })
+      if (this.personalForm.sourceType === '1') {
+        if (scope.row.retreatQuantity > scope.row.arrivalQuantity) {
+        // scope.row.retreatQuantity = scope.row.arrivalQuantity
+          this.$refs.editable.revert(scope.row)
+          this.$notify.error({
+            title: 'wrong',
+            message: '退货数量不能大于到货数量',
+            offset: 100
+          })
+        }
+      } else if (this.personalForm.sourceType === '3') {
+        if (scope.row.retreatQuantity > scope.row.enterQuantity) {
+        // scope.row.retreatQuantity = scope.row.arrivalQuantity
+          this.$refs.editable.revert(scope.row)
+          this.$notify.error({
+            title: 'wrong',
+            message: '退货数量不能大于入库数量',
+            offset: 100
+          })
+        }
       }
     },
     // 总计
