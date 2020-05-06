@@ -205,17 +205,16 @@ export default {
     // 根据id选中
     selectFromId(showList, selectList) {
       console.log('selectList', selectList)
-      this.$nextTick(() => {
-        if (selectList) {
-          for (const i in showList) {
-            if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
-              console.log('showList[i]', showList[i])
-              // this.$refs.multipleTable.toggleAllSelection()
-              this.$refs.multipleTable.toggleRowSelection(showList[i], true)
-            }
-          }
-        }
-      })
+      // this.$nextTick(() => {
+      //   if (selectList) {
+      //     for (const i in showList) {
+      //       if (selectList.findIndex(item => item.productCode === showList[i].productCode) > -1) {
+      //         console.log('showList[i]', showList[i])
+      //         this.$refs.multipleTable.toggleRowSelection(showList[i], true)
+      //       }
+      //     }
+      //   }
+      // })
       return showList
     },
     // 物料清单列表数据
@@ -323,6 +322,7 @@ export default {
           idx: item.id
         }
       })
+      console.log('productDetail=================11111', productDetail)
       const promises = productDetail.map((item) => {
         return this.getInfo(item.productCode, item.idx)
       })
@@ -350,7 +350,7 @@ export default {
             baseQuantity: item.quantity
           }
         })
-        console.log(productDetail)
+        console.log('finalproduct=====', finalproduct)
         this.$emit('detailproduct', finalproduct)
         this.$emit('product4', productDetail)
       }).catch((err) => {
@@ -359,6 +359,7 @@ export default {
     },
     // 接口请求
     getInfo(productCode, id) {
+      console.log('productCode=================22222', productCode, id)
       return new Promise((resolve, reject) => {
         const querylist = {
           pageNum: 1,
