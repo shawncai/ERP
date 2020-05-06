@@ -64,6 +64,9 @@
         <el-dropdown-menu slot="dropdown" style="width: 140px">
           <el-dropdown-item style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
           <el-dropdown-item style="text-align: left" command="review"><svg-icon icon-class="renwu" style="width: 40px"/>{{ $t('public.review') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['227-231-17']" style="text-align: left" command="reverse"><svg-icon icon-class="zuzhuang" style="width: 40px"/>{{ $t('updates.fjd') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['227-231-76']" style="text-align: left" command="antiaudit"><svg-icon icon-class="zhinengbuhuo" style="width: 40px"/>{{ $t('updates.fsp') }}</el-dropdown-item>
+
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
@@ -90,7 +93,6 @@
         @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -635,7 +637,76 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
+      const canfjd = this.moreaction.filter(item => {
+        return item.receiptStat === 3
+      })
+      const canfsp = this.moreaction.filter(item => {
+        return (item.judgeStat === 2 || item.judgeStat === 3)
+      })
+      console.log('canfjd', canfjd)
       const ids = this.moreaction.length && this.moreaction.map(item => item.id).join()
+
+      if (command === 'antiaudit') {
+        this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
+          distinguishCancelAndClose: true,
+          confirmButtonText: this.$t('prompt.fsp'),
+          type: 'warning'
+        }).then(() => {
+          for (const i in canfsp) {
+            const parms = {}
+            parms.id = canfsp[i].id
+            parms.endPersonId = this.$store.getters.userId
+            parms.judgeStat = 0
+            const sendparms = JSON.stringify(parms)
+            updatecheckreport2(sendparms).then(res => {
+              if (res.data.ret === 200) {
+                if (res.data.data.result === false) {
+                  this.$message({
+                    type: 'error',
+                    message: this.$t('prompt.fspsb')
+                  })
+                } else {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.fspcg')
+                  })
+                }
+                this.getlist()
+              } else {
+                this.$message({
+                  type: 'success',
+                  message: this.$t('prompt.fspcg')
+                })
+              }
+            })
+          }
+        })
+      }
+
+      if (command === 'reverse') {
+        this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
+          distinguishCancelAndClose: true,
+          confirmButtonText: this.$t('prompt.fjd'),
+          type: 'warning'
+        }).then(() => {
+          for (const i in canfjd) {
+            const parms = {}
+            parms.id = canfjd[i].id
+            parms.endPersonId = this.$store.getters.userId
+            parms.receiptStat = 2
+            const sendparms = JSON.stringify(parms)
+            updatecheckreport2(sendparms).then(res => {
+              if (res.data.ret === 200) {
+                this.$message({
+                  type: 'success',
+                  message: this.$t('prompt.fjdcg')
+                })
+                this.getlist()
+              }
+            })
+          }
+        })
+      }
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
