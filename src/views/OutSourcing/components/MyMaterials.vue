@@ -178,6 +178,8 @@ export default {
       this.productVisible = this.materialcontrol
       console.log(this.selectlist, this.selected)
       if (this.materialcontrol) {
+        this.moreaction = this.selected
+        console.log('this.moreaction============', this.moreaction)
         try {
           this.$refs.multipleTable.clearSelection()
         } catch (error) {
@@ -186,7 +188,7 @@ export default {
       }
       this.getlist()
       setTimeout(() => {
-        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+        this.tableHeight = window.innerHeight - this.$refs.multipleTable.$el.offsetTop - 180
       }, 100)
     }
   },
@@ -271,7 +273,6 @@ export default {
           }
         }
       }
-      console.log('arr', arr)
       return arr
     },
     // 批量操作
@@ -367,7 +368,9 @@ export default {
         materialslist(querylist).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.list && res.data.data.content.list.length > 0) {
-              res.data.data.content.list[0].idx = id
+              for (const i in res.data.data.content.list) {
+                res.data.data.content.list[i].idx = id
+              }
             }
             resolve(res.data.data.content.list)
           }

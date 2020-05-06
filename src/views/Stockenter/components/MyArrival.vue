@@ -307,7 +307,7 @@ export default {
           // console.log('处理前', this.list)
           for (let i = 0; i < this.list.length; i++) {
             for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
-              if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0 && this.list[i].productCode.slice(0, 2) !== '04') {
+              if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0 && this.list[i].stockArrivalDetailVos[j].productCode.slice(0, 2) !== '04') {
                 this.list[i].stockArrivalDetailVos.splice(j, 1)
                 j--
               }
