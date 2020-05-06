@@ -307,7 +307,7 @@ export default {
           // console.log('处理前', this.list)
           for (let i = 0; i < this.list.length; i++) {
             for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
-              if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0) {
+              if (this.list[i].stockArrivalDetailVos[j].qualifyQuantity - this.list[i].stockArrivalDetailVos[j].hadStorageQuantity <= 0 && this.list[i].productCode.slice(0, 2) !== '04') {
                 this.list[i].stockArrivalDetailVos.splice(j, 1)
                 j--
               }
@@ -350,15 +350,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
     },
     // 采购人focus事件
     handlechooseStock() {

@@ -114,7 +114,6 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
-            :height="tableHeight"
             class="click-table1"
             stripe
             border
