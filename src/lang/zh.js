@@ -3354,7 +3354,7 @@ export default {
     zx: '执行',
     zd: '制单',
     jd: '结单',
-    fjd: 'fjd',
+    fjd: '反结单',
     spi: '审批',
     fsp: '反审批',
     jc: '进程',

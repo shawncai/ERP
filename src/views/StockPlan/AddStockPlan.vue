@@ -1159,6 +1159,14 @@ export default {
               return false
             }
           })
+            .catch(res => {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'Information is incomplete',
+                offset: 100
+              })
+              this.canclick = false
+            })
         } else {
           this.$notify.error({
             title: 'wrong',
