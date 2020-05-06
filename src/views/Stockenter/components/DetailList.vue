@@ -658,22 +658,28 @@ export default {
                         <div class="line1"></div>
                         <div class="line2"></div>
                         <div class="supplier">
+
+                        <div class="lineitem">
                         <div class="item">
                         <div class="itemname">供应商：</div>
                         <div class="itemcontent">${this.personalForm.supplierName}</div>
                         </div>
-                        <div class="item">
+                        <div class="item2">
                         <div class="itemname">日期：</div>
                         <div class="itemcontent">${this.personalForm.enterDate}</div>
                         </div>
+                        </div>
+                        <div class="lineitem">
                         <div class="item">
                         <div class="itemname">编号：</div>
                         <div class="itemcontent">${this.personalForm.enterNumber}</div>
                         </div>
-                        <div class="item">
-                        <div class="itemname">入库仓库：</div>
+                        <div class="item2">
+                        <div class="itemname2">入库仓库：</div>
                         <div class="itemcontent">${this.personalForm.enterRepositoryName}</div>
                         </div>
+                        </div>
+
                           </div>
                         </div>`,
           bottom: `<div>
@@ -702,13 +708,14 @@ export default {
           '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
           '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
           '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
-          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
-          '.item { width: 50%; justify-content: center; align-items: center; display: flex}' +
-          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
-          '.itemname2 { width: 50% }' +
+          '.supplier {display: flex;justify-content: space-between; align-items: center;margin-top: 10px;flex-wrap: wrap;width: 100% }' +
+          '.lineitem {display: flex; justify-content: space-between; align-items: center; width: 100% }' +
+          '.item { width: 90%; justify-content: center; align-items: center; display: flex}' +
+          '.item2 { width: 40%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 60% }' +
           '.itemcontent2 {width: 80%}' +
-          '.itemname { width: 15% }' +
-          '.itemcontent {width: 80%}',
+          '.itemname { width: 30% }' +
+          '.itemcontent {width: 100%}',
           gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
           gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
           repeatTableHeader: true
