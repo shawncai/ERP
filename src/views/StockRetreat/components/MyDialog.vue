@@ -16,7 +16,8 @@
                 <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
-                    <el-option value="2" label="无来源" />
+                    <!--                    <el-option value="2" label="无来源" />-->
+                    <el-option value="3" label="采购入库单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -30,6 +31,7 @@
                 <el-form-item :label="$t('StockRetreat.sourceNumber')" :required="personalForm.sourceType === 2" prop="sourceNumber" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                  <my-enter :entercontrol.sync="entercontrol" @enter="enter" @enterinfo="enterinfo"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -268,10 +270,11 @@ import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyOrder from './MyOrder'
 import MyArrival from './MyArrival'
+import MyEnter from './MyEnter'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyEnter, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -299,6 +302,7 @@ export default {
       }
     }
     return {
+      entercontrol: false,
       IsCurrency: false,
       // 结算方式
       settleModes: [],
@@ -405,6 +409,18 @@ export default {
     _that = this
   },
   methods: {
+    enter(val) {
+      console.log('enter', val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        console.log('val', val[i])
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    enterinfo(val) {
+      console.log('enterinfo', val)
+      this.personalForm.sourceNumber = val.enterNumber
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -562,7 +578,11 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.arrivalcontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.arrivalcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.entercontrol = true
+      }
     },
     arrival(val) {
       this.$refs.editable.clear()

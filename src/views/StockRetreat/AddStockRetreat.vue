@@ -32,6 +32,7 @@
                 <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                  <my-enter :entercontrol.sync="entercontrol" @enter="enter" @enterinfo="enterinfo"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -315,10 +316,11 @@ import MyOrder from './components/MyOrder'
 import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
 import MyRetreat from './components/MyRetreat'
+import MyEnter from './components/MyEnter'
 var _that
 export default {
   name: 'AddStockRetreat',
-  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyRetreat },
+  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyRetreat, MyEnter },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.stockPersonId)
@@ -357,6 +359,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      entercontrol: false,
       // 收货人回显
       retreatPerson: '',
       // 回显仓库
@@ -507,6 +510,20 @@ export default {
     _that = this
   },
   methods: {
+    enter(val) {
+      console.log('enter', val)
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        console.log('val', val[i])
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    enterinfo(val) {
+      console.log('enterinfo', val)
+      this.personalForm.sourceNumber = val.enterNumber
+      this.personalForm.supplierId = val.supplierId
+      this.supplierId = val.supplierName
+    },
     // 处理汇率
     changeRate() {
       console.log(123)
@@ -725,7 +742,11 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      this.arrivalcontrol = true
+      if (this.personalForm.sourceType === '1') {
+        this.arrivalcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.entercontrol = true
+      }
     },
     arrival(val) {
       console.log('val', val)

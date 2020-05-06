@@ -187,9 +187,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgxq'),
-        3: _that.$t('Hmodule.Nosource')
+        1: _that.$t('updates.cgdd'),
+        2: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }
