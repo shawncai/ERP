@@ -397,8 +397,6 @@ export default {
           val.splice(index, 1, item)
         }
       })
-      // const alldata = [...val, ...nowlistdata]
-      // const filterdata = this.uniqueArray(alldata, 'productCode')
       this.list2 = val
       console.log('this.list2=====================================', this.list2)
     },
