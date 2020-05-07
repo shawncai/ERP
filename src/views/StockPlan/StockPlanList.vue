@@ -831,7 +831,7 @@ export default {
                 stockPersonId: row.planPersonId,
                 createPersonId: row.planPersonId,
                 countryId: this.$store.getters.countryId,
-                repositoryId: this.$store.getters.repositoryId,
+                repositoryId: c[z].planRepositoryId,
                 regionId: this.$store.getters.regionId,
                 isVat: 1,
                 settleMode: 4,
