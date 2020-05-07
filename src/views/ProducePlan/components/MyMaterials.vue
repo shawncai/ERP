@@ -322,7 +322,7 @@ export default {
                       console.log('num2', num2)
                     }
                   }
-                  productDetail[i].quantity = ((productDetail[i].quantity) * num2).toFixed(2)
+                  productDetail[i].quantity = ((productDetail[i].quantity) * num2).toFixed(6)
                   console.log(productDetail[i].quantity)
                 }
                 setTimeout(() => {

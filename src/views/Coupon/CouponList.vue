@@ -4,7 +4,7 @@
 
       <el-row>
         <el-input v-model="getemplist.name" :placeholder="$t('updates.yhjmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-        <el-input-number v-model="getemplist.money" :placeholder="$t('Coupon.money')" :precision="2" :controls="false" :step="0.1" :min="0" size="small" class="filter-item"/>
+        <el-input-number v-model="getemplist.money" :placeholder="$t('Coupon.money')" :precision="6" :controls="false" :step="0.1" :min="0" size="small" class="filter-item"/>
         <el-select v-model="getemplist.type" :placeholder="$t('collectAndPay.type')" :value="getemplist.receiptStat" clearable size="small" class="filter-item">
           <el-option value="1" label="全部门店"/>
           <el-option value="2" label="部分门店"/>

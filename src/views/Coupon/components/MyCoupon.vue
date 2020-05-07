@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input-number v-model="getemplist.money" :placeholder="$t('Coupon.money')" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 160px"/>
+              <el-input-number v-model="getemplist.money" :placeholder="$t('Coupon.money')" :precision="6" :controls="false" :step="0.1" :min="0" style="width: 160px"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">

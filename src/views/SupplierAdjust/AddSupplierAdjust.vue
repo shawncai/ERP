@@ -80,38 +80,38 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="type" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.newPrice"
                   @change="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.newIncludeTaxPrice"
                   @change="getincludeTaxPrice(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.newTaxRate"
                   @change="gettaxRate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.newSalePrice"
                 />
               </template>
@@ -458,9 +458,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''

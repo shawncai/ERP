@@ -497,7 +497,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -528,17 +528,17 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.retreatQuantity * row.price).toFixed(2)
+      row.money = (row.retreatQuantity * row.price).toFixed(6)
       return row.money
     },
     getways() {
@@ -600,7 +600,7 @@ export default {
     arrival(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
+        val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
       if (val.length === 0) {
@@ -775,37 +775,37 @@ export default {
               delete elem.includeTaxPrice
             }
             if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
               delete elem.taxRate
             }
             if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = (elem.taxRate / 100).toFixed(2)
+              elem.taxRate = (elem.taxRate / 100).toFixed(6)
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               delete elem.discountRate
             }
             if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = (elem.discountRate).toFixed(2)
+              elem.discountRate = (elem.discountRate).toFixed(6)
             }
             if (elem.money === null || elem.money === '' || elem.money === undefined) {
               delete elem.money
             }
             if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-              elem.money = (Number(elem.money)).toFixed(2)
+              elem.money = (Number(elem.money)).toFixed(6)
             }
             if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
               delete elem.includeTaxMoney
             }
             if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-              elem.includeTaxMoney = Number(elem.includeTaxMoney).toFixed(2)
+              elem.includeTaxMoney = Number(elem.includeTaxMoney).toFixed(6)
             }
             if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
               delete elem.taxMoney
             }
             if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-              elem.taxMoney = Number(elem.taxMoney).toFixed(2)
+              elem.taxMoney = Number(elem.taxMoney).toFixed(6)
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
               delete elem.discountRate
@@ -814,7 +814,7 @@ export default {
               delete elem.discountMoney
             }
             if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-              elem.discountMoney = Number(elem.discountMoney).toFixed(2)
+              elem.discountMoney = Number(elem.discountMoney).toFixed(6)
             }
             if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
               delete elem.remark

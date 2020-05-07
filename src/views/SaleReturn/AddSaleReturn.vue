@@ -649,9 +649,9 @@ export default {
     returnDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
-        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
-        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(6)
+        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(6)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -673,9 +673,9 @@ export default {
     saleOutDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
-        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(2)
-        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(2)
-        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(2)
+        // val[i].taxMoney = (val[i].salePrice / (1 + val[i].taxRate) * val[i].taxRate * val[i].returnQuantity).toFixed(6)
+        val[i].discountMoney = (val[i].OriginalDiscountMont * val[i].returnQuantity).toFixed(6)
+        // val[i].returnQuantity = (val[i].quantity - val[i].retreatQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -814,9 +814,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -841,11 +841,11 @@ export default {
     },
     // 通过折扣额计算折扣
     // getdiscountMoney(row) {
-    //   row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+    //   row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(6)
     // },
     // 通过折扣计算折扣额
     // getdiscount(row) {
-    //   row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+    //   row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(6)
     // },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
@@ -864,36 +864,36 @@ export default {
         console.log('row.returnQuantity', row.returnQuantity)
         console.log('row.taxMoney', row.taxMoney)
         row.taxMoney = row.salePrice * row.returnQuantity * (row.taxRate / 100)
-        row.money = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
-        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
-        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
+        row.money = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(6)
+        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(6)
+        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(6)
         return row.returnQuantity
       } else {
         row.taxMoney = row.salePrice * row.returnQuantity * (row.taxRate / 100)
-        row.money = (row.salePrice * row.returnQuantity + Number(row.taxMoney)).toFixed(2)
-        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(2)
-        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(2)
+        row.money = (row.salePrice * row.returnQuantity + Number(row.taxMoney)).toFixed(6)
+        row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(6)
+        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(6)
         return row.returnQuantity
       }
 
-      // row.taxMoney = (row.salePrice / (1 + (row.taxRate / 100)) * (row.taxRate / 100) * row.returnQuantity).toFixed(2)
+      // row.taxMoney = (row.salePrice / (1 + (row.taxRate / 100)) * (row.taxRate / 100) * row.returnQuantity).toFixed(6)
     },
     // 计算含税价
     // gettaxprice(row) {
-    //   row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+    //   row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
     //   return row.taxprice
     // },
     // 通过税率计算税额
     // gettaxRate(row) {
     //   if (row.taxRate !== 0) {
-    //     row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
+    //     row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(6)
     //   }
     //   return row.taxRate
     // },
     // 通过税额计算税率
     // gettaxMoney(row) {
     //   if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
-    //     row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
+    //     row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(6)
     //   }
     //   return row.taxMoney
     // },

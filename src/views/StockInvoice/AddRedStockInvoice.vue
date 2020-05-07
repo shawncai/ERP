@@ -159,10 +159,10 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :max="scope.row.quantity2"
                   v-model="scope.row.quantity"/>
               </template>
@@ -170,23 +170,23 @@
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.price"
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.includeTaxPrice"
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.taxRate"
                   @input="gettaxRate(scope.row)"/>
               </template>
@@ -209,7 +209,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.discountRate"
                   @change="getdiscountRate(scope.row)"/>
               </template>
@@ -217,7 +217,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row)"/>
               </template>
@@ -579,7 +579,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -608,7 +608,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(6)) * 100).toFixed(6)
       }
     },
     // 通过折扣计算折扣额
@@ -616,30 +616,30 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.quantity * (1 - row.discountRate / 100)).toFixed(6)
       }
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
-        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(6)
         console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
     },
     // 计算税额
     getTaxMoney2(row) {
       if (row.quantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(2)
+        row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(6)
       } else {
         row.tax = 0
       }
@@ -647,12 +647,12 @@ export default {
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.price).toFixed(2)
+      row.money = (row.quantity * row.price).toFixed(6)
       return row.money
     },
     getways() {
@@ -911,7 +911,7 @@ export default {
             delete elem.includeTaxPrice
           }
           if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-            elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+            elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
           }
           if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
             delete elem.taxRate

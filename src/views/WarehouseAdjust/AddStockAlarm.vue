@@ -67,7 +67,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.upStock')" prop="upStock" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="0"
                   v-model="scope.row.upStock"/>
@@ -76,7 +76,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.downStock')" prop="downStock" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="0"
                   v-model="scope.row.downStock"/>
@@ -85,7 +85,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('WarehouseAdjust.safeStock')" prop="safeStock" align="center" min-width="170">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="0"
                   v-model="scope.row.safeStock"/>

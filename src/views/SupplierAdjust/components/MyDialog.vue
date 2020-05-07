@@ -75,38 +75,38 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.cgdyj')" prop="oldPrice" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 2,controls:false}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.newPrice"
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.newIncludeTaxPrice"
                 @input="getincludeTaxPrice(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.newTaxRate"
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.newSalePrice"
               />
             </template>
@@ -367,9 +367,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -427,7 +427,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.stockQuantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(6)) * 100).toFixed(6)
       }
     },
     // 通过折扣计算折扣额
@@ -435,29 +435,29 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.includeTaxPrice * row.stockQuantity
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (1 - row.discountRate / 100)).toFixed(6)
       }
     },
     // 计算单价
     getprice(row) {
-      row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+      row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(6)
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.newIncludeTaxPrice !== 0) {
-        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(2)
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(6)
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.newPrice !== 0) {
-        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(2)
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(6)
         console.log(row.newTaxRate)
       }
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.stockQuantity * row.price).toFixed(2)
+      row.money = (row.stockQuantity * row.price).toFixed(6)
       return row.money
     },
     // 选择源单类型事件

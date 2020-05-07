@@ -188,7 +188,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.quantity')" prop="quantity" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :disabled="scope.row.isdisable2"
                 v-model="scope.row.quantity"
               />
@@ -197,7 +197,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.money')" prop="money" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :disabled="scope.row.isdisable2"
                 v-model="scope.row.money"
               />
@@ -206,7 +206,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.actualQuantity"
                 disabled
               />
@@ -215,7 +215,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 v-model="scope.row.actualMoney"
                 disabled
               />
@@ -890,7 +890,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -921,11 +921,11 @@ export default {
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
-      row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(2)
+      row.discount = ((1 - row.discountMoney / row.salePrice / row.quantity) * 100).toFixed(6)
     },
     // 通过折扣计算折扣额
     getdiscount(row) {
-      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+      row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(6)
     },
     // 通过数量计算成本金额， 含税金额， 金额， 含税成本金额
     getquantity(row) {
@@ -933,30 +933,30 @@ export default {
       row.includeTaxMoney = row.returnQuantity * row.taxprice
       row.money = row.returnQuantity * row.salePrice
       row.includeTaxCostMoney = row.includeTaxMoney + row.costMoney
-      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(2)
+      row.taxMoney = ((row.taxRate / 100) * row.salePrice * row.returnQuantity).toFixed(6)
       if (row.returnQuantity !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(2)
-        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(2)
+        row.taxRate = ((row.taxMoney / (row.salePrice * row.returnQuantity)) * 100).toFixed(6)
+        row.discount = (1 - row.discountMoney / row.salePrice / row.returnQuantity).toFixed(6)
       }
-      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(2)
+      row.discountMoney = (row.salePrice * row.returnQuantity * (1 - row.discount)).toFixed(6)
       return row.returnQuantity
     },
     // 计算含税价
     gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       return row.taxprice
     },
     // 通过税率计算税额
     gettaxRate(row) {
       if (row.taxRate !== 0) {
-        row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(2)
+        row.taxMoney = (row.salePrice * row.taxRate * row.quantity / 100).toFixed(6)
       }
       return row.taxRate
     },
     // 通过税额计算税率
     gettaxMoney(row) {
       if (row.taxMoney !== 0 && row.quantity !== 0 && row.salePrice !== 0) {
-        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(2)
+        row.taxRate = ((row.taxMoney / (row.salePrice * row.quantity)) * 100).toFixed(6)
       }
       return row.taxMoney
     },

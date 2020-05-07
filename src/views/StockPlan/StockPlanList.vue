@@ -343,7 +343,7 @@ export default {
           }
         }
       }
-      console.log('this.spanArr=================', this.spanArr)
+      // console.log('this.spanArr=================', this.spanArr)
     },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
@@ -622,7 +622,7 @@ export default {
         return item.stockPlanDetailVos
       })
       const newarr2 = [].concat.apply([], newarr)
-      console.log('newarr2=========', newarr2)
+      // console.log('newarr2=========', newarr2)
       for (const i in processdata) {
         for (const j in newarr2) {
           if (processdata[i].id === newarr2[j].planId) {
@@ -668,7 +668,7 @@ export default {
       this.list = newarr2
       this.getSpanArr(this.list)
       this.listLoading = false
-      console.log('数据数据数据', processdata)
+      // console.log('数据数据数据', processdata)
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -769,11 +769,49 @@ export default {
             })
             this.getlist()
             console.log('row.stockPlanDetailVos', row.stockPlanDetailVos)
+            const arr = row.stockPlanDetailVos
+            // var map = {}
+            // var dest = []
+            // for (var i = 0; i < arr.length; i++) {
+            //   var ai = arr[i]
+            //   if (!map[ai.supplierId]) {
+            //     dest.push({
+            //       supplierId: ai.supplierId,
+
+            //       data: [ai]
+            //     })
+            //     map[ai.supplierId] = ai
+            //   } else {
+            //     for (var j = 0; j < dest.length; j++) {
+            //       var dj = dest[j]
+            //       if (dj.supplierId === ai.supplierId && dj.planDeliveryDate === ai.planDeliveryDate) {
+            //         dj.data.push(ai)
+            //         break
+            //       } else
+            //     }
+            //   }
+            // }
+
+            // console.log('dest', dest)
+
             var b = {}
             var c = []
             row.stockPlanDetailVos.forEach(v => {
+              // console.log('b[v.supplierId]', b[v.supplierId])
               !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
+              // if (!b[v.supplierId]) {
+              //   b[v.supplierId] = [v]
+              // } else {
+              //   console.log('b[v.supplierId]', b[v.supplierId])
+              //   console.log('v', v)
+
+              //   if (b[v.supplierId].planDeliveryDate === v.planDeliveryDate) {
+              //     // b[v.supplierId].push(v)
+              //     console.log(b[v.supplierId])
+              //   }
+              // }
             })
+            console.log('b', b)
             var i = 0
             for (var o in b) {
               c[i] = {
@@ -783,6 +821,7 @@ export default {
               i++
             }
             console.log('c', c)
+
             for (const z in c) {
               // console.log('c[z]', c[z])
               const arr = []
@@ -827,11 +866,11 @@ export default {
               }
               const stockorderparms1 = {
                 title: '自动生成采购订单',
-                stockRepositoryId: 8,
+                stockRepositoryId: c[z].oarr[0].planRepositoryId,
                 stockPersonId: row.planPersonId,
                 createPersonId: row.planPersonId,
                 countryId: this.$store.getters.countryId,
-                repositoryId: c[z].planRepositoryId,
+                repositoryId: this.$store.getters.repositoryId,
                 regionId: this.$store.getters.regionId,
                 isVat: 1,
                 settleMode: 4,
@@ -846,8 +885,8 @@ export default {
               const orderparms = JSON.stringify(stockorderparms1)
 
               const parms2 = JSON.stringify(arr)
-              // console.log('arr', arr)
-              // console.log('stockorderparms1', stockorderparms1)
+              console.log('arr', arr)
+              console.log('stockorderparms1', stockorderparms1)
               setTimeout(function() {
                 addstockorder(orderparms, parms2, stockorderparms1).then(res => {
                   if (res.data.ret === 200) {

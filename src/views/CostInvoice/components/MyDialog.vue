@@ -143,15 +143,15 @@
           <el-editable-column :label="$t('updates.fydm')" prop="costCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.fylx')" prop="costCategory" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.jldw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('updates.kdyse')" prop="deduTaxMoney" align="center" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.kdyse')" prop="deduTaxMoney" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.bhsje')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
@@ -411,7 +411,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -437,17 +437,17 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.includeTaxMoney - row.deduTaxMoney).toFixed(2)
+      row.money = (row.includeTaxMoney - row.deduTaxMoney).toFixed(6)
       return row.money
     },
     getways() {

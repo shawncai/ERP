@@ -454,7 +454,7 @@ export default {
     produce(val) {
       for (let i = 0; i < val.length; i++) {
         if (val[i].workCenterId === this.personalForm.workCenterId) {
-          val[i].finishQuantity = (val[i].produceQuantity - val[i].alreadyProduceQuantity).toFixed(2)
+          val[i].finishQuantity = (val[i].produceQuantity - val[i].alreadyProduceQuantity).toFixed(6)
           this.$refs.editable.insert(val[i])
         }
       }

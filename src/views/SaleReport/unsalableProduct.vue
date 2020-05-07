@@ -362,7 +362,7 @@ export default {
             if (this.list[i].productCategory === null) {
               this.list[i].productCategory = ''
             }
-            this.list[i].quantity2 = (this.list[i].orderQuantity - this.list[i].enterQuantity).toFixed(2)
+            this.list[i].quantity2 = (this.list[i].orderQuantity - this.list[i].enterQuantity).toFixed(6)
             if (this.getemplist.type === '1') {
               this.list[i].name = this.list[i].supplierTypeName
             }

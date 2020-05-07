@@ -243,7 +243,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''

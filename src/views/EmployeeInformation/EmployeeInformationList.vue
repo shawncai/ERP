@@ -175,7 +175,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" fixed="right" align="center" min-width="180">
           <template slot-scope="scope">
-            <el-button v-permission2="['1-2-4-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['1-2-4-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['1-2-4-9']" v-show="scope.row.stat === 1" title="停用" size="mini" type="warning" icon="el-icon-close" circle @click="handleDisable(scope.row)"/>
             <el-button v-permission="['1-2-4-8']" v-show="scope.row.stat === 2" title="启用" size="mini" type="success" icon="el-icon-check" circle @click="handleEnable(scope.row)"/>
             <el-button v-permission="['1-2-4-2']" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>

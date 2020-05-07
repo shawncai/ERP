@@ -352,7 +352,7 @@ export default {
       this.$refs.editCategoryForm.validate((valid) => {
         if (valid) {
           if (this.editCategoryForm.rate !== null || this.editCategoryForm.rate !== '' || this.editCategoryForm.rate !== undefined) {
-            this.editCategoryForm.rate = (this.editCategoryForm.rate / 100).toFixed(2)
+            this.editCategoryForm.rate = (this.editCategoryForm.rate / 100).toFixed(6)
           }
           const parms = JSON.stringify(this.editCategoryForm)
           updateinstallmentrate(parms).then(res => {
@@ -402,7 +402,7 @@ export default {
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
           if (this.addCategoryForm.rate !== null || this.addCategoryForm.rate !== '' || this.addCategoryForm.rate !== undefined) {
-            this.addCategoryForm.rate = (this.addCategoryForm.rate / 100).toFixed(2)
+            this.addCategoryForm.rate = (this.addCategoryForm.rate / 100).toFixed(6)
           }
           const parms = JSON.stringify(this.addCategoryForm)
           addinstallmentrate(parms).then(res => {

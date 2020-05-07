@@ -117,7 +117,7 @@
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ysxqsl')" prop="requireQuantity2" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 2}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: -0.01, precision: 6}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ planMoney(scope.row) }}</p>
@@ -635,7 +635,7 @@ export default {
     planQuantity(row) {
       console.log('行', row)
       if (row.planQuantity !== null && row.planQuantity !== '' && row.planQuantity !== undefined) {
-        return Number(row.planQuantity).toFixed(2)
+        return Number(row.planQuantity).toFixed(6)
       } else {
         return Number(row.planQuantity)
       }
@@ -661,7 +661,7 @@ export default {
     },
     // 计划金额
     planMoney(row) {
-      row.planMoney = (row.basicPrice * row.planQuantity).toFixed(2)
+      row.planMoney = (row.basicPrice * row.planQuantity).toFixed(6)
       return row.planMoney
     },
     // 转化单价
@@ -682,9 +682,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -933,13 +933,13 @@ export default {
       //     for (let j = 0; j < list2.length; j++) {
       //       list2[j].basicPrice = 0
       //       console.log('val[i]', val[i])
-      //       list2[j].planQuantity = (Number(list2[j].quantity) * (Number(val[i].applyQuantity) - Number(val[i].planQuantity))).toFixed(2)
+      //       list2[j].planQuantity = (Number(list2[j].quantity) * (Number(val[i].applyQuantity) - Number(val[i].planQuantity))).toFixed(6)
       //       // - val.alre
       //       console.log(list2[j])
       //       this.$refs.editable.insert(list2[j])
       //     }
       //   } else {
-      //     val[i].planQuantity = (Number(val[i].applyQuantity) - Number(val[i].planQuantity)).toFixed(2)
+      //     val[i].planQuantity = (Number(val[i].applyQuantity) - Number(val[i].planQuantity)).toFixed(6)
       //     this.$refs.editable.insert(val[i])
       //   }
       // }

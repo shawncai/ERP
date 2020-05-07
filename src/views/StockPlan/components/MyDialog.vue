@@ -107,7 +107,7 @@
           <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ planMoney(scope.row) }}</p>
@@ -418,7 +418,7 @@ export default {
       }
     },
     planQuantity(row) {
-      return (row.planQuantity).toFixed(2)
+      return (row.planQuantity).toFixed(6)
     },
     // 重置一下下拉
     change() {
@@ -441,7 +441,7 @@ export default {
     },
     // 计划金额
     planMoney(row) {
-      row.planMoney = (row.basicPrice * row.planQuantity).toFixed(2)
+      row.planMoney = (row.basicPrice * row.planQuantity).toFixed(6)
       return row.planMoney
     },
     // 总计
@@ -458,9 +458,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''

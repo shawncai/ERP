@@ -108,11 +108,11 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
           <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible'}" :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="scope.row.isnew === 3"
-                :precision="2"
+                :precision="6"
                 :controls="true"
                 :min="0.00"
                 v-model="scope.row.sendQuantity"
@@ -120,11 +120,11 @@
               <span v-else>{{ scope.row.sendQuantity }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="actualQuantity" align="center" label="实际数量" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible'}" prop="actualQuantity" align="center" label="实际数量" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="scope.row.isnew !== 0"
-                :precision="2"
+                :precision="6"
                 :controls="true"
                 :min="0.00"
                 v-model="scope.row.actualQuantity"

@@ -127,7 +127,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 :min="1.00"
                 v-model="scope.row.quantity"

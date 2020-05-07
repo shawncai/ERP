@@ -165,7 +165,7 @@
           <template slot-scope="scope">
             <el-button v-show="scope.row.isEffective === 2" title="启用" type="primary" size="mini" icon="el-icon-check" circle @click="top(scope.row)"/>
             <el-button v-show="scope.row.isEffective === 1" title="停用" type="primary" size="mini" icon="el-icon-close" circle @click="bottom(scope.row)"/>
-            <el-button v-permission2="['1-22-24-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['1-22-24-3']" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <!-- <el-button v-permission2="['1-22-24-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/> -->
           </template>
         </el-table-column>

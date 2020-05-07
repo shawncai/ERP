@@ -343,9 +343,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
+            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(6)
+            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(6)
+            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(6)
           }
           this.total = res.data.data.content.totalCount
         }
@@ -383,9 +383,9 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(2)
-            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(2)
-            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(2)
+            this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(6)
+            this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(6)
+            this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(6)
           }
           this.total = res.data.data.content.totalCount
           // this.restFilter()

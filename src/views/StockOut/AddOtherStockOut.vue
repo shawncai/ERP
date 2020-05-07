@@ -128,10 +128,10 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cksli')" prop="outQuantity" align="center" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 6}, type: 'visible'}" :label="$t('updates.cksli')" prop="outQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="true"
                   :min="1.00"
                   v-model="scope.row.outQuantity"
@@ -511,7 +511,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.taxprice * row.outQuantity
       } else {
-        row.discountMoney = (row.taxprice * row.outQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.outQuantity * (1 - row.discountRate / 100)).toFixed(6)
       }
     },
     getLocationData(row) {

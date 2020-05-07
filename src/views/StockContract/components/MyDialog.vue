@@ -444,7 +444,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -508,7 +508,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.plannedQuantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
+        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(6)) * 100).toFixed(6)
       }
     },
     // 通过折扣计算折扣额
@@ -516,40 +516,40 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = row.includeTaxPrice * row.plannedQuantity
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(6)
       }
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
-        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(6)
         console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.plannedQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.plannedQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.plannedQuantity * row.includeTaxPrice).toFixed(2)
-      row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.includeTaxMoney = (row.plannedQuantity * row.includeTaxPrice).toFixed(6)
+      row.discountMoney = (row.includeTaxPrice * row.plannedQuantity * (1 - row.discountRate / 100)).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.plannedQuantity * row.price).toFixed(2)
+      row.money = (row.plannedQuantity * row.price).toFixed(6)
       return row.money
     },
     // 选择源单类型事件

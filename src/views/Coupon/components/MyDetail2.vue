@@ -283,7 +283,7 @@ export default {
           typeName: item.productType,
           color: item.color,
           unit: item.purMeasu,
-          salePrice: (item.salePrice).toFixed(2),
+          salePrice: (item.salePrice).toFixed(6),
           money: '0.00',
           quantity: 0
         }

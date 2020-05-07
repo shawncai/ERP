@@ -182,7 +182,7 @@
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="isEdit3(scope.row)"
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 :min="1.00"
                 v-model="scope.row.quantity"
@@ -201,7 +201,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 v-model="scope.row.taxRate"
                 @input="gettaxRate(scope.row)"/>
@@ -212,7 +212,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discount" align="center" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 v-model="scope.row.discount"
                 @change="getdiscountRate(scope.row)"/>
@@ -221,7 +221,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 v-model="scope.row.discountMoney"
                 @change="getdiscountMoney(scope.row)"/>
@@ -417,7 +417,7 @@ export default {
         }
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(2)
+        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
       },
       deep: true,
       immediate: true
@@ -435,7 +435,7 @@ export default {
         console.log('list3', this.list3)
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(2)
+        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
       },
       deep: true,
       immediate: true
@@ -544,7 +544,7 @@ export default {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
         if (row.includeTaxCostMoney !== 0) {
-          row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+          row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
         } else {
           row.discount = 0
         }
@@ -555,19 +555,19 @@ export default {
       if (row.discount === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(6)
       }
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.taxprice !== 0) {
-        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
         row.discountMoney = row.includeTaxCostMoney * row.discount
       }
       if (row.discount === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(6)
       }
     },
     queryStock(row) {
@@ -655,7 +655,7 @@ export default {
       if (row.discount === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(6)
       }
     },
     isEdit3(row) {
@@ -777,7 +777,7 @@ export default {
       }
       console.log('money1', money1)
       console.log('money2', money2)
-      this.personalForm.diffMoney = (money1 - money2).toFixed(2)
+      this.personalForm.diffMoney = (money1 - money2).toFixed(6)
     },
     chooserep() {
       this.repositorycontrol = true

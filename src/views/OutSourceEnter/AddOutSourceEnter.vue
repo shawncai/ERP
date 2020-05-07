@@ -130,7 +130,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <!-- <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/> -->
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>-->
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
@@ -524,7 +524,7 @@ export default {
     },
     // 入库金额计算
     getSize(quan, pric) {
-      return (quan * pric).toFixed(2)
+      return (quan * pric).toFixed(6)
     },
     // 清空记录
     restAllForm() {

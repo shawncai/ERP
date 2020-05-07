@@ -99,11 +99,11 @@
             <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible', events: {change: changeDate2}}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible', events: {change: changeDate2}}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.requireQuantity"
@@ -165,7 +165,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {precision: 2}}" :label="$t('updates.yxdsl')" prop="planQuantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.planQuantity"
                   size="mini"
                   disabled/>
@@ -369,7 +369,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -530,7 +530,7 @@ export default {
     // 两表联动
     changeDate(scope, value) {
       console.log(scope)
-      scope.row.applyQuantity = (scope.row.requireQuantity).toFixed(2)
+      scope.row.applyQuantity = (scope.row.requireQuantity).toFixed(6)
       this.$refs.editable2.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < nowlistdata.length; i++) {
@@ -651,7 +651,7 @@ export default {
           planQuantity: item.planQuantity,
           sourceSerialNumber: item.sourceSerialNumber,
           requireDate: item.requireDate,
-          applyQuantity: Number(item.requireQuantity).toFixed(2)
+          applyQuantity: Number(item.requireQuantity).toFixed(6)
         }
       })
       console.log('result2', result2)
@@ -665,8 +665,8 @@ export default {
           const list2 = list.data.data.content
           for (let j = 0; j < list2.length; j++) {
             list2[j].basicPrice = 0
-            list2[j].applyQuantity = (Number(list2[j].requireQuantity)).toFixed(2)
-            list2[j].requireQuantity = (Number(list2[j].planQuantity)).toFixed(2)
+            list2[j].applyQuantity = (Number(list2[j].requireQuantity)).toFixed(6)
+            list2[j].requireQuantity = (Number(list2[j].planQuantity)).toFixed(6)
             list2[j].planQuantity = 0
             list2[j].requireDate = result2[i].requireDate
             list2[j].sourceSerialNumber = result2[i].sourceSerialNumber
@@ -675,7 +675,7 @@ export default {
             const result = myeditable2.findIndex(ol => { return list2[j].requireDate === ol.requireDate && list2[j].productCode === ol.productCode })
             console.log('result', result)
             if (result !== -1) {
-              console.log('(Number(myeditable2[result].applyQuantity)).toFixed(2)', (Number(myeditable2[result].applyQuantity)))
+              console.log('(Number(myeditable2[result].applyQuantity)).toFixed(6)', (Number(myeditable2[result].applyQuantity)))
               console.log('list2[j].applyQuantity', (Number(list2[j].applyQuantity)))
               myeditable2[result].applyQuantity = (Number(myeditable2[result].applyQuantity)) + (Number(list2[j].applyQuantity))
             } else {
@@ -684,13 +684,13 @@ export default {
             // this.$refs.editable2.insert(list2[j])
           }
         } else {
-          // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+          // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(6)
           result2[i].requireQuantity = result2[i].applyQuantity
           result2[i].planQuantity = 0
           const result = myeditable2.findIndex(ol => { return result2[i].requireDate === ol.requireDate && result2[i].productCode === ol.productCode })
           console.log('result', result)
           if (result !== -1) {
-            console.log('(Number(myeditable2[result].applyQuantity)).toFixed(2)', (Number(myeditable2[result].applyQuantity)))
+            console.log('(Number(myeditable2[result].applyQuantity)).toFixed(6)', (Number(myeditable2[result].applyQuantity)))
             console.log('list2[j].applyQuantity', (Number(result2[i].applyQuantity)))
             myeditable2[result].applyQuantity = (Number(myeditable2[result].applyQuantity)) + (Number(result2[i].applyQuantity))
           } else {
@@ -699,7 +699,7 @@ export default {
         }
         console.log('myeditable2', myeditable2)
         // } else {
-        //   // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(2)
+        //   // result2[i].planQuantity = (Number(result2[i].applyQuantity) - Number(result2[i].planQuantity)).toFixed(6)
         //   this.$refs.editable2.insert(result2[i])
         // }
       }

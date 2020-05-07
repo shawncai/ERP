@@ -166,7 +166,7 @@
             min-width="170px"
           >  <template slot="edit" slot-scope="scope">
             <el-input-number
-              :precision="2"
+              :precision="6"
               v-model="scope.row.advanceMoney"
               @change="handlechange(scope.row)"/>
           </template>
@@ -369,7 +369,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
