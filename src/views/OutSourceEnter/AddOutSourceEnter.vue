@@ -149,7 +149,7 @@
       <!--操作123-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click v-loading="issure" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -233,6 +233,7 @@ export default {
       // }
     }
     return {
+      issure: false,
       IsNumber: true,
       outsourcecontrol: false,
       // 部门数据
@@ -544,6 +545,7 @@ export default {
     },
     // 保存操作
     handlesave() {
+      this.issure = true
       const EnterDetail = this.$refs.editable.getRecords()
       console.log(EnterDetail)
       for (const i in EnterDetail) {
@@ -553,6 +555,7 @@ export default {
             message: '商品数量不能为0',
             offset: 100
           })
+          this.issure = false
           return false
         }
       }
@@ -570,6 +573,7 @@ export default {
           message: '商品货位不能为空',
           offset: 100
         })
+        this.issure = false
         return false
       }
       console.log(this.personalForm)
@@ -580,6 +584,7 @@ export default {
           message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
+        this.issure = false
         return false
       }
       EnterDetail.map(function(elem) {
@@ -645,6 +650,7 @@ export default {
                     type: 'success',
                     offset: 100
                   })
+                  this.issure = false
                   this.restAllForm()
                   this.$refs.editable.clear()
                   this.$refs.personalForm.clearValidate()
@@ -655,6 +661,7 @@ export default {
                     message: res.data.msg,
                     offset: 100
                   })
+                  this.issure = false
                 }
               })
             }
@@ -664,6 +671,7 @@ export default {
               message: 'Information is incomplete',
               offset: 100
             })
+            this.issure = false
             return false
           })
         } else {
@@ -672,6 +680,7 @@ export default {
             message: 'Information is incomplete',
             offset: 100
           })
+          this.issure = false
           return false
         }
       })
