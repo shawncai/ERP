@@ -21,6 +21,9 @@ export function addstockplan(query, query2, query3) {
 // 采购计划列表
 export function stockplanlist(query) {
   var params = new URLSearchParams()
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
