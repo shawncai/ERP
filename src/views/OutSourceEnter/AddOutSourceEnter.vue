@@ -342,6 +342,7 @@ export default {
           flag++
           this.$refs.editable.insert(val[i])
         }
+        console.log('i=======================', i, flag)
       }
       if (flag === 0) {
         this.$notify.error({

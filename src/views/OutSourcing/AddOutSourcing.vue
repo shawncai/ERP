@@ -276,8 +276,10 @@ export default {
       this.$refs.editable.removeSelecteds()
       const nowlistdata2 = this.deepClone(this.$refs.editable2.getRecords())
       this.$refs.editable2.clear()
-      for (let j = 0; j < this.nowlistdata2.length; j++) {
+      console.log('nowlistdata2=========', nowlistdata2)
+      for (let j = 0; j < nowlistdata2.length; j++) {
         for (let i = 0; i < this.deleteselectdata.length; i++) {
+          console.log('删除操作======', this.deleteselectdata[i], nowlistdata2[j])
           if (this.deleteselectdata[i] === nowlistdata2[j].idx) {
             nowlistdata2.splice(j, 1)
             j--
@@ -392,12 +394,6 @@ export default {
     productdetail4(val) {
       console.log('val', val)
       const nowlistdata = this.$refs.editable.getRecords()
-      // nowlistdata.forEach(item => {
-      //   const index = val.findIndex(items => items.productCode === item.productCode)
-      //   if (index > -1) {
-      //     val.splice(index, 1, item)
-      //   }
-      // })
       const alldata = [...val, ...nowlistdata]
       const filterdata = this.uniqueArray(alldata, 'productCode')
       this.list2 = filterdata
