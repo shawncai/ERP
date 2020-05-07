@@ -721,19 +721,42 @@ export default {
       this.ordercontrol = true
     },
     order(val) {
-      for (let i = 0; i < val.length; i++) {
+      const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray2(alldata, 'productCode', 'sourceNumber')
+      console.log('filterdata==========', filterdata)
+      for (let i = 0; i < filterdata.length; i++) {
         // allarrivalQuantity 到货数量
-        if ((val[i].allarrivalQuantity - val[i].returnQuantity) >= val[i].stockQuantity) {
+        if ((filterdata[i].allarrivalQuantity - filterdata[i].returnQuantity) >= filterdata[i].stockQuantity) {
           // this.$notify.error({
           //   title: 'wrong',
           //   message: val[i].productCode + '总到货数量-退货数量已达到订单数量',
           //   duration: 0
           // })
+          console.log('123123123123123123123123123')
         } else {
-          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
-          this.$refs.editable.insert(val[i])
+          filterdata[i].arrivalQuantity = (filterdata[i].stockQuantity - filterdata[i].allarrivalQuantity + filterdata[i].returnQuantity).toFixed(2)
+          this.$refs.editable.insert(filterdata[i])
         }
       }
+    },
+    uniqueArray2(array, key, key2) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key] && item[key2] === result[j][key2]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
     },
     allOrderinfo(val) {
       this.personalForm.sourceNumber = val.orderNumber
@@ -874,6 +897,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
         for (let j = 0; j < nowlistdata.length; j++) {
+          console.log(val[i].productCode, nowlistdata[j].productCode)
           if (val[i].productCode === nowlistdata[j].productCode) {
             this.$notify.error({
               title: 'wrong',
