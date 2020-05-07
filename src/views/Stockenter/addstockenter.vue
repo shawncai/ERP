@@ -149,7 +149,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.yssli')" prop="basicQuantity" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
@@ -424,8 +424,8 @@ export default {
     order(val) {
       console.log('ssssss', val)
       for (let i = 0; i < val.length; i++) {
-        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
-        val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(2)
+        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
+        val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -476,10 +476,10 @@ export default {
         for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
           this.$store.getters.empcontract.stockArrivalDetailVos[i].productType = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName
           this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName = this.$store.getters.empcontract.stockArrivalDetailVos[i].productType
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].basicQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(2)
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].actualEnterQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(2)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].basicQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(6)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].actualEnterQuantity = (Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].arrivalQuantity) - Number(this.$store.getters.empcontract.stockArrivalDetailVos[i].hadStorageQuantity)).toFixed(6)
           this.$store.getters.empcontract.stockArrivalDetailVos[i].enterPrice = (this.$store.getters.empcontract.stockArrivalDetailVos[i].includeTaxPrice)
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate = (this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate).toFixed(2)
+          this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate = (this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate).toFixed(6)
           this.$store.getters.empcontract.stockArrivalDetailVos[i].enterMoney = '0.00'
           this.$store.getters.empcontract.stockArrivalDetailVos[i].remarks = ''
           this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.stockArrivalDetailVos[i].id
@@ -526,7 +526,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
-          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(2)
+          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(6)
           // this.$refs.editable.insert(val[i])
           console.log('val[i]==========', val[i])
           delete val[i].stockArrivalDetailVos
@@ -852,7 +852,7 @@ export default {
     },
     // 入库金额计算
     getSize(scope, quan, pric) {
-      return (quan * pric).toFixed(2)
+      return (quan * pric).toFixed(6)
     },
     getmylocation(scope) {
       if (scope.row.flag === undefined) {

@@ -184,7 +184,7 @@
             <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible'}" :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
@@ -612,9 +612,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -647,23 +647,23 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (row.discountRate / 100)).toFixed(6)
       }
       return row.discountMoney
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.arrivalQuantity * row.price).toFixed(2)
+      row.money = (row.arrivalQuantity * row.price).toFixed(6)
       return row.money
     },
     getways() {
@@ -730,7 +730,7 @@ export default {
           //   duration: 0
           // })
         } else {
-          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
           this.$refs.editable.insert(val[i])
         }
       }
@@ -812,7 +812,7 @@ export default {
       //           list[i].stockOrderDetailVos[j].allarrivalQuantity = list[i].stockOrderDetailVos[j].arrivalQuantity
       //           list[i].stockOrderDetailVos[j].typeName = list[i].stockOrderDetailVos[j].productType
       //           list[i].stockOrderDetailVos[j].type = list[i].stockOrderDetailVos[j].typeId
-      //           list[i].stockOrderDetailVos[j].arrivalQuantity = (Number(list[i].stockOrderDetailVos[j].stockQuantity) - Number(list[i].stockOrderDetailVos[j].arrivalQuantity) + Number(list[i].stockOrderDetailVos[j].returnQuantity)).toFixed(2)
+      //           list[i].stockOrderDetailVos[j].arrivalQuantity = (Number(list[i].stockOrderDetailVos[j].stockQuantity) - Number(list[i].stockOrderDetailVos[j].arrivalQuantity) + Number(list[i].stockOrderDetailVos[j].returnQuantity)).toFixed(6)
       //           list[i].stockOrderDetailVos[j].giveDate = list[i].stockOrderDetailVos[j].deliveryDate
       //           list[i].stockOrderDetailVos[j].taxMoney = list[i].stockOrderDetailVos[j].tax
       //           list[i].stockOrderDetailVos[j].remark = list[i].stockOrderDetailVos[j].remarks
@@ -824,7 +824,7 @@ export default {
       //           list[i].stockOrderDetailVos[j].unqualifyQuantity = 0
       //           if ((list[i].stockOrderDetailVos[j].allarrivalQuantity - list[i].stockOrderDetailVos[j].returnQuantity) < list[i].stockOrderDetailVos[j].stockQuantity) {
       //             console.log('list[i].stockOrderDetailVos[j]', list[i].stockOrderDetailVos[j])
-      //             list[i].stockOrderDetailVos[j].arrivalQuantity = (list[i].stockOrderDetailVos[j].stockQuantity - list[i].stockOrderDetailVos[j].allarrivalQuantity + list[i].stockOrderDetailVos[j].returnQuantity).toFixed(2)
+      //             list[i].stockOrderDetailVos[j].arrivalQuantity = (list[i].stockOrderDetailVos[j].stockQuantity - list[i].stockOrderDetailVos[j].allarrivalQuantity + list[i].stockOrderDetailVos[j].returnQuantity).toFixed(6)
       //             this.$refs.editable.insert(list[i].stockOrderDetailVos[j])
       //           }
       //         }

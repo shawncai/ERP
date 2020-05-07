@@ -150,7 +150,7 @@
           <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ggxh')" prop="typeId" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2, controls:false}}" :label="$t('updates.shul')" prop="quantity" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.shul')" prop="quantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.jxf')" prop="kpiGrade" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150px"/>
           <!--            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>-->

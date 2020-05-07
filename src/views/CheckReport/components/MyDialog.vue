@@ -409,7 +409,7 @@ export default {
     changeSampleQuantity() {
       if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -421,7 +421,7 @@ export default {
       if (this.personalForm.checkMode === '2') {
         this.personalForm.sampleQuantity = this.personalForm.checkQuantity
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -433,7 +433,7 @@ export default {
       console.log('555')
       if (this.personalForm.checkMode === '2') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -441,7 +441,7 @@ export default {
         }
       } else if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''

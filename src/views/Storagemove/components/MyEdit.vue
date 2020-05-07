@@ -166,10 +166,10 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" fixed="left" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed="left" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 6}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="true"
                 :min="1.00"
                 v-model="scope.row.applyQuantity"

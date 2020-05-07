@@ -494,9 +494,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (prev + curr).toFixed(2)
+              return (prev + curr).toFixed(6)
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -547,24 +547,24 @@ export default {
     },
     // 计算成本金额
     getcostMoney(row) {
-      row.costMoney = (row.costPrice * row.quantity).toFixed(2)
+      row.costMoney = (row.costPrice * row.quantity).toFixed(6)
       return row.costMoney
     },
     // 计算含税金额
     getincludeTaxMoney(row) {
-      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
-      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(6)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(6)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.taxprice !== 0) {
-        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       }
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(2)
+      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(6)
       return row.taxMoney
     },
     // 通过折扣计算折扣额
@@ -572,24 +572,24 @@ export default {
       if (row.discount === 0) {
         row.discountMoney = row.taxprice * row.quantity
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (1 - row.discount / 100)).toFixed(6)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(2)
+        row.discount = ((1 - row.discountMoney / row.taxprice / row.quantity) * 100).toFixed(6)
       }
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.salePrice).toFixed(2)
+      row.money = (row.quantity * row.salePrice).toFixed(6)
       return row.money
     },
     // 含税价
     gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       return row.taxprice
     },
     getincludeTaxCostMoney(row) {

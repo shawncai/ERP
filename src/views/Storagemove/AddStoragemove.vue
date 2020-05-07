@@ -172,10 +172,10 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('otherlanguage.kcsl')" prop="existStock" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 6}, type: 'visible'}" :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="true"
                   :min="1.00"
                   v-model="scope.row.applyQuantity"
@@ -235,7 +235,7 @@
             <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="true"
                   :min="1.00"
                   v-model="scope.row.moveQuantity"
@@ -322,7 +322,7 @@
             <el-editable-column prop="moveQuantity" align="center" :label="$t('updates.cksli')" min-width="150">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="true"
                   :min="1.00"
                   v-model="scope.row.moveQuantity"
@@ -360,10 +360,10 @@
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" prop="quantity" align="center" label="实际入库" min-width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible'}" prop="quantity" align="center" label="实际入库" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="0.00"
                   :value="scope.row.quantity"

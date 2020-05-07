@@ -108,7 +108,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.quantity"
                   @input="getrate(scope.row)"/>
               </template>
@@ -318,7 +318,7 @@ export default {
       console.log(row)
       console.log(this.personalForm.failedQuantity)
       if (this.personalForm.failedQuantity !== 0 && this.personalForm.failedQuantity !== null && this.personalForm.failedQuantity !== undefined) {
-        row.rate = (row.quantity / this.personalForm.failedQuantity).toFixed(2)
+        row.rate = (row.quantity / this.personalForm.failedQuantity).toFixed(6)
       }
     },
     // 检验人员focus事件触发

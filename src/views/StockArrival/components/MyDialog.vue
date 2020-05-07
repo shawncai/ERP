@@ -187,7 +187,7 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 2}, type: 'visible'}" :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible'}" :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.jhrq')" prop="giveDate" align="center" min-width="170px">
             <template slot-scope="scope">
               <span> {{ timestampToTime(scope.row.giveDate) }}</span>
@@ -538,9 +538,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -569,22 +569,22 @@ export default {
       return sums
     },
     getdiscountMoney(row) {
-      row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.discountMoney = (row.includeTaxPrice * row.arrivalQuantity * (1 - row.discountRate / 100)).toFixed(6)
       return row.discountMoney
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.arrivalQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.arrivalQuantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.arrivalQuantity * row.price).toFixed(2)
+      row.money = (row.arrivalQuantity * row.price).toFixed(6)
       return row.money
     },
     gettaxRate(row) {
@@ -665,7 +665,7 @@ export default {
           //   duration: 0
           // })
         } else {
-          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
+          val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
           this.$refs.editable.insert(val[i])
         }
       }

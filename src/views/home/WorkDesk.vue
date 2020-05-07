@@ -480,10 +480,10 @@ export default {
         if (res.data.ret === 200) {
           console.log('workDesk1', res.data)
           // this.deskdata.one = res
-          this.deskdata.nine = (res.data.data.todayQuantity).toFixed(2)
-          this.deskdata.ten = (res.data.data.todayMoney).toFixed(2)
-          this.deskdata.eleven = (res.data.data.serviceFinishToday).toFixed(2)
-          this.deskdata.twelve = (res.data.data.nowStockQuantity).toFixed(2)
+          this.deskdata.nine = (res.data.data.todayQuantity).toFixed(6)
+          this.deskdata.ten = (res.data.data.todayMoney).toFixed(6)
+          this.deskdata.eleven = (res.data.data.serviceFinishToday).toFixed(6)
+          this.deskdata.twelve = (res.data.data.nowStockQuantity).toFixed(6)
           console.log('twelve', this.deskdata.twelve)
           this.deskdata.thirteen = '----'
           this.deskdata.rateFive = '----'
@@ -492,22 +492,22 @@ export default {
             this.deskdata.rateThree = '----'
             console.log(this.deskdata.rateThree)
           } else {
-            this.deskdata.rateThree = (res.data.data.ChangeRateService).toFixed(2)
+            this.deskdata.rateThree = (res.data.data.ChangeRateService).toFixed(6)
           }
           if (res.data.data.changRateStock === 'Infinity' || res.data.data.changRateStock === 'NaN') {
             this.deskdata.rateFour = '----'
           } else {
-            this.deskdata.rateFour = (res.data.data.changRateStock).toFixed(2)
+            this.deskdata.rateFour = (res.data.data.changRateStock).toFixed(6)
           }
           if (res.data.data.changRateMoney === 'NaN' || res.data.data.changRateMoney === 'Infinity') {
             this.deskdata.rateTwo = '----'
           } else {
-            this.deskdata.rateTwo = (res.data.data.changRateMoney).toFixed(2)
+            this.deskdata.rateTwo = (res.data.data.changRateMoney).toFixed(6)
           }
           if (res.data.data.changRateQuantity === 'NaN' || res.data.data.changRateQuantity === 'Infinity') {
             this.deskdata.rateOne = '----'
           } else {
-            this.deskdata.rateOne = (res.data.data.changRateQuantity).toFixed(2)
+            this.deskdata.rateOne = (res.data.data.changRateQuantity).toFixed(6)
           }
         }
         setTimeout(() => {
@@ -534,17 +534,17 @@ export default {
       workDesk2(this.getemplist2).then(res => {
         if (res.data.ret === 200) {
           console.log('workDesk2', res.data)
-          this.deskdata.one = (res.data.data.saleQuantity).toFixed(2)
+          this.deskdata.one = (res.data.data.saleQuantity).toFixed(6)
           this.deskdata.two = '----'
           this.deskdata.three = '----'
           this.deskdata.four = '----'
           this.deskdata.five = '----'
-          this.deskdata.six = (res.data.data.orderNumber).toFixed(2)
-          this.deskdata.seven = (res.data.data.shouldPay).toFixed(2)
+          this.deskdata.six = (res.data.data.orderNumber).toFixed(6)
+          this.deskdata.seven = (res.data.data.shouldPay).toFixed(6)
           this.deskdata.eight = '----'
           this.deskdata.sixteen = '----'
-          this.deskdata.fourteen = (res.data.data.orderNumber).toFixed(2)
-          this.deskdata.fifteen = (res.data.data.shouldReceipt).toFixed(2)
+          this.deskdata.fourteen = (res.data.data.orderNumber).toFixed(6)
+          this.deskdata.fifteen = (res.data.data.shouldReceipt).toFixed(6)
         }
         setTimeout(() => {
           this.listLoading = false

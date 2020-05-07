@@ -503,7 +503,7 @@ export default {
       return quan * pric
     },
     getSize2(quan, pric) {
-      return (quan - pric).toFixed(2)
+      return (quan - pric).toFixed(6)
     },
     // 修改和取消按钮
     // 修改按钮

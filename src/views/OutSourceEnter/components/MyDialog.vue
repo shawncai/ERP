@@ -314,8 +314,8 @@ export default {
     order(val) {
       console.log('ssssss', val)
       for (let i = 0; i < val.length; i++) {
-        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(2)
-        val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(2)
+        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
+        val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -357,7 +357,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
-          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(2)
+          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(6)
           this.$refs.editable.insert(val[i])
           qq = 2
         }

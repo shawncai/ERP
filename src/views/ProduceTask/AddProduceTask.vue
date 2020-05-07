@@ -310,7 +310,7 @@ export default {
         for (let i = 0; i < requiredata.length; i++) {
           if (requiredata[i].materialsSource === 2) {
             this.needsdata = requiredata[i]
-            this.needsdata.produceQuantity = (requiredata[i].planQuantity - requiredata[i].issueQuantity).toFixed(2)
+            this.needsdata.produceQuantity = (requiredata[i].planQuantity - requiredata[i].issueQuantity).toFixed(6)
             this.needsdata.alreadyProduceQuantity = 0
             this.needsdata.alreadyEnterQuantity = 0
             this.needsdata.reportedCheckQuantity = 0

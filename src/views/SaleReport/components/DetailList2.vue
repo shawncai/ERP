@@ -405,7 +405,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.ProfitMargin')" style="width: 100%;">
-                  <span>{{ ((personalForm.allIncludeTaxCostMoney - personalForm.allDiscountMoney - personalForm.otherMoney - personalForm.allCostMoney) / personalForm.allCostMoney).toFixed(2) }}</span>
+                  <span>{{ ((personalForm.allIncludeTaxCostMoney - personalForm.allDiscountMoney - personalForm.otherMoney - personalForm.allCostMoney) / personalForm.allCostMoney).toFixed(6) }}</span>
                 </el-form-item>
               </el-col>
             </el-row>

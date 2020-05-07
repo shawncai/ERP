@@ -104,11 +104,11 @@
                 @change="test(scope.row,$event)"/>
             </template>
           </el-editable-column>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150px"/> -->
           <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.ybje')" prop="primevalMoney" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :disabled="scope.row.isdisable && scope.row.source === 1"
                 :min="0.00"
                 v-model="scope.row.primevalMoney"
@@ -118,13 +118,13 @@
           </el-editable-column> -->
           <el-editable-column :label="$t('Voucher.bb')" prop="currencyname" align="center" min-width="150px"/>
           <!-- <el-editable-column :label="$t('Voucher.hl')" prop="rate" align="center" min-width="150px"/> -->
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150px"/> -->
 
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.jfje')" prop="debitMoney" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :disabled="scope.row.isdisable2"
                 :min="0.00"
                 v-model="scope.row.debitMoney"
@@ -135,7 +135,7 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Voucher.dfje')" prop="creditMoney" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :disabled="scope.row.isdisable3"
                 :min="0.00"
                 v-model="scope.row.creditMoney"

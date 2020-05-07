@@ -122,7 +122,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('newupd.asdasd')" prop="deposit" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.deposit"
                   @input="jungle(scope.row)"/>

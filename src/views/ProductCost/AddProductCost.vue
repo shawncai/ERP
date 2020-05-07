@@ -37,7 +37,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.completeRate')+'%'" prop="completeRate" style="width: 100%;">
                   <!--                  <el-input v-model="personalForm.completeRate" :placeholder="placeholder" class="number__input" type="number" style="margin-left: 11px;width: 200px" clearable @input="oninput" @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.completeRate" :precision="2" :controls="false" :step="0.1" :min="0" :max="100" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.completeRate" :precision="6" :controls="false" :step="0.1" :min="0" :max="100" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -51,55 +51,55 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishQuantity')" prop="finishQuantity" style="width: 100%;">
                   <!--                  <el-input v-model="personalForm.finishQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.finishQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.finishQuantity" :precision="6" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingQuantity')" prop="producingQuantity" style="width: 100%;">
                   <!--                  <el-input v-model="personalForm.producingQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingQuantity" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingQuantity" :precision="6" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingMaterialsQuantity')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingMaterialsQuantity" :disabled="blue" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingMaterialsQuantity" :disabled="blue" :precision="6" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingSalary')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingSalary" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingSalary" :precision="2" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingSalary" :precision="6" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.producingCost')" style="width: 100%;" class="bluelable">
                   <!--                  <el-input v-model="personalForm.producingCost" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.producingCost" :precision="2" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.producingCost" :precision="6" :disabled="blue" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishMaterialsUsedQuantity')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.finishMaterialsUsedQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.finishMaterialsUsedQuantity" :disabled="red" :precision="2" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.finishMaterialsUsedQuantity" :disabled="red" :precision="6" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.finishWorkHours')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.finishWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.finishWorkHours" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.finishWorkHours" :precision="6" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endMaterialsQuantity')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.endMaterialsQuantity" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.endMaterialsQuantity" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.endMaterialsQuantity" :precision="6" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.endWorkHours')" style="width: 100%;" class="redable">
                   <!--                  <el-input v-model="personalForm.endWorkHours" style="margin-left: 11px;width: 200px" clearable @blur="completeRate()"/>-->
-                  <el-input-number v-model="personalForm.endWorkHours" :precision="2" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.endWorkHours" :precision="6" :disabled="red" :controls="false" :step="0.1" :min="0" style="margin-left: 11px;width: 200px;text-align: left" @blur="completeRate()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -144,7 +144,7 @@
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.material }}</span>
                             <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.material" style="width: 130px;" @blur="material('1')"/>-->
-                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.material" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="material('1')"/>
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.material" :precision="6" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="material('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -155,7 +155,7 @@
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.man }}</span>
                             <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.man" style="width: 130px;" @blur="man('1')" />-->
-                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.man" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="man('1')"/>
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.man" :precision="6" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="man('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -166,7 +166,7 @@
                           <template slot-scope="scope">
                             <span v-show="scope.$index >= 2" @click="getscope(scope)">{{ scope.row.produce }}</span>
                             <!--                            <el-input v-show="scope.$index < 2" v-model="scope.row.produce" style="width: 130px;" @blur="produce('1')"/>-->
-                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.produce" :precision="2" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="produce('1')"/>
+                            <el-input-number v-show="scope.$index < 2" v-model="scope.row.produce" :precision="6" :controls="false" :step="0.1" :min="0" style="width: 130px;" @blur="produce('1')"/>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -507,7 +507,7 @@ export default {
         }
         if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
-          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(6)
           console.log(Number(this.list2[0].material))
           //         1.约当产量法：
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
@@ -516,24 +516,24 @@ export default {
           //         月末在产品该项成本＝在产品数量×费用分配率
           //         或 ＝费用总额－完工产品费用
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
-          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(6)
           // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
-          const moneyRate = (Number(this.list2[2].material) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          const moneyRate = (Number(this.list2[2].material) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(6)
           // 完工产品该项成本＝完工产品数量×费用分配率
-          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(6)
           // 完工产品总成本
           this.list2[3].material = cost
           // 月末在产品成本
-          this.list2[5].material = (this.list2[2].material - this.list2[3].material).toFixed(2)
+          this.list2[5].material = (this.list2[2].material - this.list2[3].material).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
       // }
@@ -559,18 +559,18 @@ export default {
           this.list2[5].man = this.personalForm.producingSalary
           this.list2[5].produce = this.personalForm.producingCost
           // 列合计
-          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(6)
           // 完工产品成本
-          this.list2[3].material = (this.list2[2].material - this.list2[5].material).toFixed(2)
+          this.list2[3].material = (this.list2[2].material - this.list2[5].material).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
       if (this.personalForm.accountType === '3') {
@@ -596,28 +596,28 @@ export default {
           // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
           //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
           // 列合计
-          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(2)
+          this.list2[2].material = (Number(this.list2[0].material) + Number(this.list2[1].material)).toFixed(6)
           // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
-          const xiaohao = ((this.list2[2].material) / (Number(this.personalForm.finishMaterialsUsedQuantity) + Number(this.personalForm.endMaterialsQuantity))).toFixed(2)
+          const xiaohao = ((this.list2[2].material) / (Number(this.personalForm.finishMaterialsUsedQuantity) + Number(this.personalForm.endMaterialsQuantity))).toFixed(6)
           //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
-          const actualrate = (this.personalForm.finishMaterialsUsedQuantity * xiaohao).toFixed(2)
+          const actualrate = (this.personalForm.finishMaterialsUsedQuantity * xiaohao).toFixed(6)
           //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
-          const overCost = (actualrate * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(2)
+          const overCost = (actualrate * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(6)
           this.list2[3].material = overCost
           // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
-          const actualCost = (this.personalForm.endMaterialsQuantity * xiaohao).toFixed(2)
+          const actualCost = (this.personalForm.endMaterialsQuantity * xiaohao).toFixed(6)
           //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
-          const endCost = (actualCost * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(2)
+          const endCost = (actualCost * (this.personalForm.finishMaterialsUsedQuantity / this.personalForm.finishQuantity)).toFixed(6)
           this.list2[5].material = endCost
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].material = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
     },
@@ -639,7 +639,7 @@ export default {
         console.log('啊啊啊', this.list2[0].man)
         if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
-          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(6)
           console.log(Number(this.list2[0].man))
           //         1.约当产量法：
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
@@ -648,24 +648,24 @@ export default {
           //         月末在产品该项成本＝在产品数量×费用分配率
           //         或 ＝费用总额－完工产品费用
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
-          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(6)
           // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
-          const moneyRate = (Number(this.list2[2].man) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          const moneyRate = (Number(this.list2[2].man) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(6)
           // 完工产品该项成本＝完工产品数量×费用分配率
-          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(6)
           // 完工产品总成本
           this.list2[3].man = cost
           // 月末在产品成本
-          this.list2[5].man = (this.list2[2].man - this.list2[3].man).toFixed(2)
+          this.list2[5].man = (this.list2[2].man - this.list2[3].man).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
       if (this.personalForm.accountType === '2') {
@@ -690,18 +690,18 @@ export default {
           this.list2[5].man = this.personalForm.producingSalary
           this.list2[5].produce = this.personalForm.producingCost
           // 列合计
-          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(6)
           // 完工产品成本
-          this.list2[3].man = (this.list2[2].man - this.list2[5].man).toFixed(2)
+          this.list2[3].man = (this.list2[2].man - this.list2[5].man).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].man = (this.list2[3].man / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
       if (this.personalForm.accountType === '3') {
@@ -727,28 +727,28 @@ export default {
           // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
           //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
           // 列合计
-          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(2)
+          this.list2[2].man = (Number(this.list2[0].man) + Number(this.list2[1].man)).toFixed(6)
           // 消耗量分配率＝（月初在产品成本＋本月发生生产费用）÷（完工产品定额消耗量＋月末在产品定额消耗量）
-          const xiaohao = ((this.list2[2].man) / (Number(this.personalForm.finishWorkHours) + Number(this.personalForm.endWorkHours))).toFixed(2)
+          const xiaohao = ((this.list2[2].man) / (Number(this.personalForm.finishWorkHours) + Number(this.personalForm.endWorkHours))).toFixed(6)
           //  完工产品实际消耗量＝完工产品定额消耗量×消耗量分配率
-          const actualrate = (this.personalForm.finishWorkHours * xiaohao).toFixed(2)
+          const actualrate = (this.personalForm.finishWorkHours * xiaohao).toFixed(6)
           //   完工产品成本＝完工产品实际消耗量×原材料单价（完工产品定额/完工数量）
-          const overCost = (actualrate * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(2)
+          const overCost = (actualrate * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(6)
           this.list2[3].man = overCost
           // 月末在产品实际消耗量＝月末在产品定额消耗量×消耗量分配率
-          const actualCost = (this.personalForm.endWorkHours * xiaohao).toFixed(2)
+          const actualCost = (this.personalForm.endWorkHours * xiaohao).toFixed(6)
           //   月末在产品成本＝月末在产品实际消耗量×原材料单价（完工产品定额/完工数量）
-          const endCost = (actualCost * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(2)
+          const endCost = (actualCost * (this.personalForm.finishWorkHours / this.personalForm.finishQuantity)).toFixed(6)
           this.list2[5].man = endCost
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].man = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].man = (this.list2[3].material / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
       // }
@@ -768,7 +768,7 @@ export default {
         }
         if (this.list2[0].man !== 0 || this.list2[1].man !== 0 || this.list2[0].material !== 0 || this.list2[1].material !== 0 || this.list2[0].produce !== 0 || this.list2[1].produce !== 0) {
           // 列合计
-          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(6)
           console.log(Number(this.list2[0].produce))
           //         1.约当产量法：
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
@@ -777,24 +777,24 @@ export default {
           //         月末在产品该项成本＝在产品数量×费用分配率
           //         或 ＝费用总额－完工产品费用
           // 在产品约当产量＝在产品数量×完工百分比（完工率）
-          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(2)
+          const yuedang = (Number(this.personalForm.producingQuantity) * Number(this.personalForm.completeRate) / 100).toFixed(6)
           // 某项费用分配率＝该项费用总额÷（完工产品产量＋在产品约当产量）
-          const moneyRate = (Number(this.list2[2].produce) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(2)
+          const moneyRate = (Number(this.list2[2].produce) / (Number(this.personalForm.finishQuantity) + Number(yuedang))).toFixed(6)
           // 完工产品该项成本＝完工产品数量×费用分配率
-          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(2)
+          const cost = (Number(this.personalForm.finishQuantity) * moneyRate).toFixed(6)
           // 完工产品总成本
           this.list2[3].produce = cost
           // 月末在产品成本
-          this.list2[5].produce = (this.list2[2].produce - this.list2[3].produce).toFixed(2)
+          this.list2[5].produce = (this.list2[2].produce - this.list2[3].produce).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
           // }
         }
       }
@@ -820,18 +820,18 @@ export default {
           this.list2[5].man = this.personalForm.producingSalary
           this.list2[5].produce = this.personalForm.producingCost
           // 列合计
-          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(2)
+          this.list2[2].produce = (Number(this.list2[0].produce) + Number(this.list2[1].produce)).toFixed(6)
           // 完工产品成本
-          this.list2[3].produce = (this.list2[2].produce - this.list2[5].produce).toFixed(2)
+          this.list2[3].produce = (this.list2[2].produce - this.list2[5].produce).toFixed(6)
           // 单位成本=完工产品总成本/完工数量
-          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(2)
+          this.list2[4].produce = (this.list2[3].produce / this.personalForm.finishQuantity).toFixed(6)
           // 行合计
-          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(2)
-          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(2)
-          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(2)
-          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(2)
-          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(2)
-          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(2)
+          this.list2[0].total = (Number(this.list2[0].material) + Number(this.list2[0].man) + Number(this.list2[0].produce)).toFixed(6)
+          this.list2[1].total = (Number(this.list2[1].material) + Number(this.list2[1].man) + Number(this.list2[1].produce)).toFixed(6)
+          this.list2[2].total = (Number(this.list2[2].material) + Number(this.list2[2].man) + Number(this.list2[2].produce)).toFixed(6)
+          this.list2[3].total = (Number(this.list2[3].material) + Number(this.list2[3].man) + Number(this.list2[3].produce)).toFixed(6)
+          this.list2[4].total = (Number(this.list2[4].material) + Number(this.list2[4].man) + Number(this.list2[4].produce)).toFixed(6)
+          this.list2[5].total = (Number(this.list2[5].material) + Number(this.list2[5].man) + Number(this.list2[5].produce)).toFixed(6)
         }
       }
     },
@@ -1015,8 +1015,8 @@ export default {
       if (this.personalForm.checkMode === '2') {
         this.personalForm.sampleQuantity = this.personalForm.checkQuantity
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(6)
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
@@ -1026,8 +1026,8 @@ export default {
     changeSampleQuantity() {
       if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(6)
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
@@ -1040,16 +1040,16 @@ export default {
         console.log(this.personalForm.passQuantity)
         console.log(this.personalForm.checkQuantity)
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity).toFixed(6)
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''
         }
       } else if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
-          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
+          this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity).toFixed(6)
         } else {
           this.personalForm.failedQuantity = ''
           this.personalForm.passRate = ''

@@ -111,8 +111,8 @@
         style="width: 100%">
         <el-editable-column :label="$t('Hmodule.xh')" fixed min-width="55" align="center" type="index"/>
         <el-editable-column :label="$t('updates.kmmc')" fixed prop="subjectName" align="center" min-width="150px"/>
-        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" label="期初余额借方" prop="beginDebitMoney" align="center" min-width="150px"/>
-        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 2}, type: 'visible'}" label="期初余额贷方" prop="beginCreditMoney" align="center" min-width="150px"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" label="期初余额借方" prop="beginDebitMoney" align="center" min-width="150px"/>
+        <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" label="期初余额贷方" prop="beginCreditMoney" align="center" min-width="150px"/>
       </el-editable>
       <span slot="footer" class="dialog-footer">
         <el-button v-no-more-click type="primary" @click="handlesave2()">{{ $t('Hmodule.baoc') }}</el-button>

@@ -609,7 +609,7 @@ export default {
                         console.log('num2', num2)
                       }
                     }
-                    newArr[i].quantity = ((newArr[i].quantity) * num2).toFixed(2)
+                    newArr[i].quantity = ((newArr[i].quantity) * num2).toFixed(6)
                     console.log(newArr[i].quantity)
                   }
                   setTimeout(() => {

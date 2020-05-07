@@ -182,7 +182,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   v-if="isEdit3(scope.row)"
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"

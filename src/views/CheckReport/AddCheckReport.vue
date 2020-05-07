@@ -526,8 +526,8 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.type
       this.typeId = val.typeName
-      this.judgequilty = (val.quantity).toFixed(2)
-      this.personalForm.checkQuantity = (val.quantity).toFixed(2)
+      this.judgequilty = (val.quantity).toFixed(6)
+      this.personalForm.checkQuantity = (val.quantity).toFixed(6)
       if (Number(this.personalForm.checkQuantity) <= 100) {
         if (Number(this.personalForm.checkQuantity) <= 5) {
           this.personalForm.sampleQuantity = this.personalForm.checkQuantity
@@ -723,8 +723,8 @@ export default {
           this.typeId = res.data.data.content.list[0].productType
         }
       })
-      this.judgequilty = (val.checkQuantity - val.checkedQuantity).toFixed(2)
-      this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(2)
+      this.judgequilty = (val.checkQuantity - val.checkedQuantity).toFixed(6)
+      this.personalForm.checkQuantity = (val.checkQuantity - val.checkedQuantity).toFixed(6)
       if (Number(this.personalForm.checkQuantity) <= 100) {
         if (Number(this.personalForm.checkQuantity) <= 5) {
           this.personalForm.sampleQuantity = this.personalForm.checkQuantity
@@ -774,8 +774,8 @@ export default {
       this.personalForm.unit = val.unit
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
-      this.judgequilty = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
-      this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(2)
+      this.judgequilty = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(6)
+      this.personalForm.checkQuantity = (val.produceQuantity - val.alreadyProduceQuantity).toFixed(6)
       if (Number(this.personalForm.checkQuantity) <= 100) {
         if (Number(this.personalForm.checkQuantity) <= 5) {
           this.personalForm.sampleQuantity = this.personalForm.checkQuantity
@@ -903,7 +903,7 @@ export default {
       if (this.personalForm.checkMode === '2') {
         this.personalForm.sampleQuantity = this.personalForm.checkQuantity
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -927,7 +927,7 @@ export default {
     changeSampleQuantity() {
       if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null) {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -939,7 +939,7 @@ export default {
       console.log('555')
       if (this.personalForm.checkMode === '2') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.checkQuantity !== null && this.personalForm.checkQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.checkQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.checkQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -947,7 +947,7 @@ export default {
         }
       } else if (this.personalForm.checkMode === '1') {
         if (this.personalForm.passQuantity !== null && this.personalForm.passQuantity !== '' && this.personalForm.sampleQuantity !== null && this.personalForm.sampleQuantity !== '') {
-          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(2)
+          this.personalForm.failedQuantity = (this.personalForm.sampleQuantity - this.personalForm.passQuantity).toFixed(6)
           this.personalForm.passRate = (this.personalForm.passQuantity / this.personalForm.sampleQuantity) === 1 ? 1 : 0
         } else {
           this.personalForm.failedQuantity = ''
@@ -1051,7 +1051,7 @@ export default {
       for (let i = 0; i < val.stockArrivalDetailVos.length; i++) {
         console.log('val.arrivalQuantity - val.reportCheckingQuantity', val)
         if ((val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity) > 0) {
-          val.stockArrivalDetailVos[i].checkQuantity = (val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity).toFixed(2)
+          val.stockArrivalDetailVos[i].checkQuantity = (val.stockArrivalDetailVos[i].arrivalQuantity - val.stockArrivalDetailVos[i].reportCheckingQuantity).toFixed(6)
           lis.push(val.stockArrivalDetailVos[i])
         }
       }

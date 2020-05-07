@@ -363,7 +363,7 @@
                   <template slot="edit" slot-scope="scope">
                     <el-input-number
                       v-if="scope.row.planTarget === 7"
-                      :precision="2"
+                      :precision="6"
                       :disabled="scope.row.isdisable3"
                       v-model="scope.row.actualQuantity"
                     />
@@ -374,7 +374,7 @@
                   <template slot="edit" slot-scope="scope">
                     <el-input-number
                       v-if="scope.row.planTarget === 7"
-                      :precision="2"
+                      :precision="6"
                       :disabled="scope.row.isdisable3"
                       v-model="scope.row.actualMoney"
                     />

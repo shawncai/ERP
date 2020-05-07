@@ -360,7 +360,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -581,37 +581,37 @@ export default {
           delete elem.includeTaxPrice
         }
         if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-          elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+          elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
         }
         if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
           delete elem.taxRate
         }
         if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = (elem.taxRate).toFixed(2)
+          elem.taxRate = (elem.taxRate).toFixed(6)
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
         }
         if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = (elem.discountRate).toFixed(2)
+          elem.discountRate = (elem.discountRate).toFixed(6)
         }
         if (elem.money === null || elem.money === '' || elem.money === undefined) {
           delete elem.money
         }
         if (elem.money !== null || elem.money !== '' || elem.money !== undefined) {
-          elem.money = (elem.money).toFixed(2)
+          elem.money = (elem.money).toFixed(6)
         }
         if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
           delete elem.includeTaxMoney
         }
         if (elem.includeTaxMoney !== null || elem.includeTaxMoney !== '' || elem.includeTaxMoney !== undefined) {
-          elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(2)
+          elem.includeTaxMoney = (elem.includeTaxMoney).toFixed(6)
         }
         if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
           delete elem.taxMoney
         }
         if (elem.taxMoney !== null || elem.taxMoney !== '' || elem.taxMoney !== undefined) {
-          elem.taxMoney = (elem.taxMoney).toFixed(2)
+          elem.taxMoney = (elem.taxMoney).toFixed(6)
         }
         if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
           delete elem.discountRate
@@ -620,7 +620,7 @@ export default {
           delete elem.discountMoney
         }
         if (elem.discountMoney !== null || elem.discountMoney !== '' || elem.discountMoney !== undefined) {
-          elem.discountMoney = (elem.discountMoney).toFixed(2)
+          elem.discountMoney = (elem.discountMoney).toFixed(6)
         }
         if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
           delete elem.remark

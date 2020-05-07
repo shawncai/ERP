@@ -498,7 +498,7 @@ export default {
           }
           const parms = JSON.stringify(this.editCategoryForm)
           for (let j = 0; j < nowlistdata.length; j++) {
-            nowlistdata[j].proportion = (nowlistdata[j].proportion / 100).toFixed(2)
+            nowlistdata[j].proportion = (nowlistdata[j].proportion / 100).toFixed(6)
           }
           const parms2 = JSON.stringify(nowlistdata)
           updateUnitGroup(parms, parms2).then(res => {
@@ -568,7 +568,7 @@ export default {
       this.$refs.addCategoryForm.validate((valid) => {
         if (valid) {
           for (let j = 0; j < nowlistdata.length; j++) {
-            nowlistdata[j].proportion = (nowlistdata[j].proportion / 100).toFixed(2)
+            nowlistdata[j].proportion = (nowlistdata[j].proportion / 100).toFixed(6)
           }
           const parms2 = JSON.stringify(nowlistdata)
           const parms = JSON.stringify(this.addCategoryForm)

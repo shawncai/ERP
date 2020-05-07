@@ -201,10 +201,10 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 6}, type: 'visible'}" :label="$t('updates.cksli')" prop="moveQuantity" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-input-number
-                :precision="2"
+                :precision="6"
                 :controls="true"
                 :min="1.00"
                 v-model="scope.row.moveQuantity"
@@ -232,11 +232,11 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 2}}" prop="price" align="center" label="调拨成本价" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6}}" prop="price" align="center" label="调拨成本价" width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="isEdit3(scope.row)"
-                :precision="2"
+                :precision="6"
                 :controls="false"
                 :min="0.00"
                 v-model="scope.row.price"

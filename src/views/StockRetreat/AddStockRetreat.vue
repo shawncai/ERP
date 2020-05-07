@@ -659,7 +659,7 @@ export default {
             if (!isNaN(value)) {
               return prev + curr
             } else {
-              return (prev).toFixed(2)
+              return (prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -695,17 +695,17 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(2)
+      row.taxMoney = (row.price * row.taxRate / 100 * row.retreatQuantity).toFixed(6)
       return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(2)
+      row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.retreatQuantity * row.price).toFixed(2)
+      row.money = (row.retreatQuantity * row.price).toFixed(6)
       return row.money
     },
     getways() {
@@ -765,7 +765,7 @@ export default {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         console.log('val', val[i])
-        val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(2)
+        val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
       if (val.length === 0) {
@@ -960,7 +960,7 @@ export default {
               delete elem.includeTaxPrice
             }
             if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(2)
+              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
               delete elem.taxRate

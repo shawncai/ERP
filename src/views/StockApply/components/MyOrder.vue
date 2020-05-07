@@ -403,7 +403,7 @@ export default {
                       console.log('num2', num2)
                     }
                   }
-                  saleOrderdata[i].quantity = ((saleOrderdata[i].quantity) / num1 * num2).toFixed(2)
+                  saleOrderdata[i].quantity = ((saleOrderdata[i].quantity) / num1 * num2).toFixed(6)
                   console.log(saleOrderdata[i].quantity)
                 }
                 setTimeout(() => {

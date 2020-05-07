@@ -148,7 +148,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.lstzj')" prop="newSalePrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.newSalePrice"/>
               </template>
@@ -157,7 +157,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.pftzj')" prop="newTradePrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.newTradePrice"/>
               </template>
@@ -166,7 +166,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0}}" :label="$t('updates.yytzj')" prop="newMemberPrice" align="center" width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.newMemberPrice"/>
               </template>

@@ -202,7 +202,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.quantity')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :disabled="scope.row.isdisable2"
                   v-model="scope.row.quantity"
                 />
@@ -211,7 +211,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.money')" prop="money" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :disabled="scope.row.isdisable2"
                   v-model="scope.row.money"
                 />
@@ -220,7 +220,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualQuantity')" prop="actualQuantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.actualQuantity"
                   disabled
                 />
@@ -229,7 +229,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('SalePlan.actualMoney')" prop="actualMoney" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   v-model="scope.row.actualMoney"
                   disabled
                 />
@@ -1251,7 +1251,7 @@ export default {
     //         if (!isNaN(value)) {
     //           return prev + curr
     //         } else {
-    //           return (prev).toFixed(2)
+    //           return (prev).toFixed(6)
     //         }
     //       }, 0)
     //       sums[index] += ''

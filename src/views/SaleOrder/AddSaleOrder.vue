@@ -238,7 +238,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.ddsl')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
@@ -286,7 +286,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.taxRate"
                   @change="gettaxRate(scope.row)"/>
@@ -310,7 +310,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.discountRate"
                   @change="getdiscountRate(scope.row)"/>
@@ -319,7 +319,7 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
-                  :precision="2"
+                  :precision="6"
                   :controls="false"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row)"/>
@@ -703,7 +703,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(6)
       }
     },
     // 判断权限
@@ -858,9 +858,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(2)
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return (Number(prev)).toFixed(2)
+              return (Number(prev)).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -885,25 +885,25 @@ export default {
     },
     // 计算成本金额
     getcostMoney(row) {
-      row.costMoney = (row.costPrice * row.quantity).toFixed(2)
+      row.costMoney = (row.costPrice * row.quantity).toFixed(6)
       return row.costMoney
     },
     // 计算含税金额
     getincludeTaxMoney(row) {
-      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(2)
-      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(2)
+      row.includeTaxMoney = (row.taxprice * row.quantity).toFixed(6)
+      row.discountMoney = (row.taxprice * row.quantity * (1 - row.discountRate / 100)).toFixed(6)
       return row.includeTaxMoney
     },
     // 通过税率计算含税价
     gettaxRate(row) {
       if (row.taxprice !== 0) {
-        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+        row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       }
       row.discountMoney = row.includeTaxCostMoney * row.discountRate
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(2)
+      row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(6)
       return row.taxMoney
     },
     // 通过折扣计算折扣额
@@ -911,24 +911,24 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(2)
+        row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(6)
       }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
       if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(2)
+        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
       }
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.salePrice).toFixed(2)
+      row.money = (row.quantity * row.salePrice).toFixed(6)
       return row.money
     },
     // 含税价
     gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(2)
+      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       return row.taxprice
     },
     getincludeTaxCostMoney(row) {
