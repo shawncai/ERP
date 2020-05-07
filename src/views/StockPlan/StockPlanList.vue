@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 10px" shadow="never">
 
-      <el-input v-model="getemplist.title" :placeholder="$t('StockPlan.title')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.planNumber" :placeholder="$t('updates.cgjhbh')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="planPersonId" :placeholder="$t('StockPlan.planPersonId')" size="mini" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter"/>
 

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
+  <el-dialog :visible.sync="productVisible" :materialcontrol="materialcontrol" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" width="1010px" top="10px" append-to-body @close="$emit('update:materialcontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -55,7 +55,7 @@
       <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center"/>
       <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
       <el-table-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-      <el-table-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
+      <el-table-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="450px"/>
       <el-table-column :label="$t('Hmodule.gg')" prop="productTypeName" align="center" min-width="150px"/>
       <el-table-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
       <el-table-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>

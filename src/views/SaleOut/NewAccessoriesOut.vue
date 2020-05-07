@@ -2121,11 +2121,16 @@ export default {
       this.control = true
     },
     async productdetail(val) {
+      const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       console.log('val============', val)
-      for (let i = 0; i < val.length; i++) {
-        val[i].quantity = 1
-        this.$refs.editable.insert(val[i])
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata=====', filterdata)
+      // this.list2 = filterdata
+      for (let i = 0; i < filterdata.length; i++) {
+        // val[i].quantity = 1
+        this.$refs.editable.insert(filterdata[i])
       }
       // const that = this
       // this.list2 = val
@@ -2143,6 +2148,23 @@ export default {
       //   // return getPackage(param)
       // }))
       // console.log('list', list)
+    },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
     },
     // 添加赠品
     handleAddGift() {

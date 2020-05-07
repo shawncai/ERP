@@ -12,7 +12,7 @@ export default{
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      if (!hasPermission && value[1] !== store.getters.userId) {
+      if (!hasPermission || value[1] !== store.getters.userId) {
         el.parentNode && el.parentNode.removeChild(el)
       }
     } else {
