@@ -1,5 +1,7 @@
 export default {
   route: {
+    purchaseCount: '采购汇总',
+    stockOrderlist: '采购明细',
     orderReport: '采购订单查询表',
     wuxiinventorychangelist: '无锡库存月报表',
     EndReceipt: '月结管理',

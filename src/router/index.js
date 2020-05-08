@@ -3334,10 +3334,22 @@ export const asyncRouterMap = [
         meta: { title: 'stockDetailCount', noCache: false, roles: ['311-317-338-4'] }
       },
       {
+        path: 'stockOrderlist',
+        component: () => import('@/views/StockCount/stockOrderlist'),
+        name: 'stockOrderlist',
+        meta: { title: 'stockOrderlist', noCache: false, roles: ['311-317-388-4'] }
+      },
+      {
         path: 'stockBillCount',
         component: () => import('@/views/StockCount/stockBillCount'),
         name: 'stockBillCount',
         meta: { title: 'stockBillCount', noCache: false, roles: ['311-317-339-4'] }
+      },
+      {
+        path: 'purchaseCount',
+        component: () => import('@/views/StockCount/purchaseCount'),
+        name: 'purchaseCount',
+        meta: { title: 'purchaseCount', noCache: false, roles: ['311-317-389-4'] }
       },
       {
         path: 'stockBillList',
