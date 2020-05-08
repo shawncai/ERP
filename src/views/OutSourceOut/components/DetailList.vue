@@ -592,9 +592,9 @@ export default {
           printable: arr,
           type: 'json',
           properties: [
-            { field: 'step', displayName: '行号', columnSize: `100px` },
-            { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
-            { field: 'productName', displayName: '物料名称', columnSize: `100px` },
+            { field: 'step', displayName: '序号', columnSize: `100px` },
+            { field: 'productCode', displayName: '材料代码', columnSize: `100px` },
+            { field: 'productName', displayName: '材料名称', columnSize: `100px` },
             { field: 'typeIdname', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
             { field: 'locationName', displayName: '货位', columnSize: `100px` },
