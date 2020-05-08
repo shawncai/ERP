@@ -199,16 +199,16 @@ export default {
   filters: {
     statfilter(status) {
       const statusMap = {
-        1: this.$t('Hmodule.shz'),
-        2: this.$t('Hmodule.shtg'),
-        3: this.$t('Hmodule.shbtg')
+        1: _that.$t('Hmodule.shz'),
+        2: _that.$t('Hmodule.shtg'),
+        3: _that.$t('Hmodule.shbtg')
       }
       return statusMap[status]
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: this.$t('Hmodule.scrwd'),
-        2: this.$t('Hmodule.Nosource')
+        1: _that.$t('Hmodule.hw'),
+        2: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
