@@ -797,19 +797,7 @@ export default {
             var b = {}
             var c = []
             row.stockPlanDetailVos.forEach(v => {
-              // console.log('b[v.supplierId]', b[v.supplierId])
               !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
-              // if (!b[v.supplierId]) {
-              //   b[v.supplierId] = [v]
-              // } else {
-              //   console.log('b[v.supplierId]', b[v.supplierId])
-              //   console.log('v', v)
-
-              //   if (b[v.supplierId].planDeliveryDate === v.planDeliveryDate) {
-              //     // b[v.supplierId].push(v)
-              //     console.log(b[v.supplierId])
-              //   }
-              // }
             })
             console.log('b', b)
             var i = 0
