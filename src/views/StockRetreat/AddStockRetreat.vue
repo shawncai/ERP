@@ -512,7 +512,7 @@ export default {
   methods: {
     enter(val) {
       console.log('enter', val)
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         console.log('val', val[i])
         this.$refs.editable.insert(val[i])
@@ -762,7 +762,7 @@ export default {
     },
     arrival(val) {
       console.log('val', val)
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
         console.log('val', val[i])
         val[i].retreatQuantity = (val[i].arrivalQuantity - val[i].returnQuantity).toFixed(6)
