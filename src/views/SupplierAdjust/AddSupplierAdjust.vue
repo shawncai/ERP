@@ -85,7 +85,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.newPrice"
-                  @change="getprice(scope.row)"/>
+                  @keyup.enter.native = "getprice(scope.row)"/>
               </template>
             </el-editable-column>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
@@ -95,7 +95,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.newIncludeTaxPrice"
-                  @change="getincludeTaxPrice(scope.row, scope)"/>
+                  @keyup.enter.native = "getincludeTaxPrice(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
@@ -104,7 +104,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.newTaxRate"
-                  @change="gettaxRate(scope.row, scope)"/>
+                  @keyup.enter.native = "gettaxRate(scope.row, scope)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
@@ -361,13 +361,9 @@ export default {
           }
           for (let i = row.temp; i < this.list2.length; i++) {
             console.log('需求值=========', this.list2[i].newTaxRate)
-            if (this.list2[i].newTaxRate !== null && this.list2[i].newTaxRate !== 0 && this.list2[i].newTaxRate !== '' && this.list2[i].newTaxRate !== undefined) {
-              // this.list2[i].requireDate = row.requireDate
-            } else {
-              console.log(222)
-              this.list2[i].newTaxRate = row.newTaxRate
-              this.list2[i].taxRateFlag = 1
-            }
+            console.log(222)
+            this.list2[i].newTaxRate = row.newTaxRate
+            this.list2[i].taxRateFlag = 1
           }
           console.log(row)
         }
