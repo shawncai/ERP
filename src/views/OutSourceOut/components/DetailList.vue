@@ -611,7 +611,11 @@ export default {
                         <div class="supplier">
                         <div class="item">
                         <div class="itemname">加工单位：</div>
-                        <div class="itemcontent">${this.personalForm.receiverAddress || ''}</div>
+                        <div class="itemcontent">${this.personalForm.outFactoryName || ''}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">制单日期：</div>
+                        <div class="itemcontent">${this.personalForm.createDate || ''}</div>
                         </div>
                         <div class="item">
                         <div class="itemname">编号：</div>
@@ -621,6 +625,8 @@ export default {
                         </div>`,
           bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
+                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.heji}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
@@ -628,15 +634,11 @@ export default {
                         <div class="bottomname">${handleperson}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">出货部门：</div>
-                        <div class="bottomname">${this.personalForm.outDeptName}</div>
+                        <div class="ceshi">检验员：</div>
+                        <div class="bottomname">${this.personalForm.order || ''}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">出货人：</div>
-                        <div class="bottomname">${this.personalForm.outPersonName}</div>
-                    </div>
-                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
-                        <div class="ceshi">制单：</div>
+                        <div class="ceshi">制单人：</div>
                         <div class="bottomname">${this.personalForm.createPersonName || ''}</div>
                     </div>
                    </div>
