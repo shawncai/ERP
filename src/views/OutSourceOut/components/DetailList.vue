@@ -597,21 +597,20 @@ export default {
             { field: 'productName', displayName: '材料名称', columnSize: `100px` },
             { field: 'typeIdname', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
-            { field: 'locationName', displayName: '货位', columnSize: `100px` },
-            { field: 'batch', displayName: '批次', columnSize: `100px` },
-            { field: 'basicQuantity', displayName: '基本数量', columnSize: `100px` },
-            { field: 'outQuantity', displayName: '出库数量', columnSize: `100px` }
+            { field: 'outQuantity', displayName: '出库数量', columnSize: `100px` },
+            { field: 'locationCode', displayName: '货位', columnSize: `100px` },
+            { field: 'batch', displayName: '批次', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">
                     <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
                       <br>
-                      <div class="ordername">其他出库列表</div>
+                      <div class="ordername">委外出库单</div>
                         <br>
                         <div class="line1"></div>
                         <div class="line2"></div>
                         <div class="supplier">
                         <div class="item">
-                        <div class="itemname">收货地址：</div>
+                        <div class="itemname">加工单位：</div>
                         <div class="itemcontent">${this.personalForm.receiverAddress || ''}</div>
                         </div>
                         <div class="item">

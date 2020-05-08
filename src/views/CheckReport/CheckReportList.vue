@@ -469,7 +469,11 @@ export default {
       console.log('this.getemplist====', this.getemplist)
       checkreportlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          // this.list = res.data.data.content.list
+          this.list = []
+          for (const i in res.data.data.content.list) {
+            this.list.push(res.data.data.content.list[i])
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
