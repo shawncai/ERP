@@ -770,46 +770,38 @@ export default {
             this.getlist()
             console.log('row.stockPlanDetailVos', row.stockPlanDetailVos)
             const arr = row.stockPlanDetailVos
-            // var map = {}
-            // var dest = []
-            // for (var i = 0; i < arr.length; i++) {
-            //   var ai = arr[i]
-            //   if (!map[ai.supplierId]) {
-            //     dest.push({
-            //       supplierId: ai.supplierId,
-
-            //       data: [ai]
-            //     })
-            //     map[ai.supplierId] = ai
-            //   } else {
-            //     for (var j = 0; j < dest.length; j++) {
-            //       var dj = dest[j]
-            //       if (dj.supplierId === ai.supplierId && dj.planDeliveryDate === ai.planDeliveryDate) {
-            //         dj.data.push(ai)
-            //         break
-            //       } else
-            //     }
+            // var b = {}
+            // var c = []
+            // row.stockPlanDetailVos.forEach(v => {
+            //   !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
+            // })
+            // console.log('b', b)
+            // var i = 0
+            // for (var o in b) {
+            //   c[i] = {
+            //     'supplierId': o,
+            //     'oarr': b[o]
             //   }
+            //   i++
             // }
-
-            // console.log('dest', dest)
-
-            var b = {}
+            // console.log('c', c)
+            var jmap = {}
             var c = []
-            row.stockPlanDetailVos.forEach(v => {
-              !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
-            })
-            console.log('b', b)
-            var i = 0
-            for (var o in b) {
-              c[i] = {
-                'supplierId': o,
-                'oarr': b[o]
+
+            arr.forEach(function(al) {
+              var key = al.supplierId + '_' + al.planDeliveryDate
+              if (typeof jmap[key] === 'undefined') {
+                jmap[key] = []
               }
-              i++
+              jmap[key].push(al)
+            })
+
+            var keys = Object.keys(jmap)
+            for (var i = 0; i < keys.length; i++) {
+              var rs = keys[i].split('_')
+              c.push({ supplierId: rs[0], planDeliveryDate: rs[1], oarr: jmap[keys[i]] })
             }
             console.log('c', c)
-
             for (const z in c) {
               // console.log('c[z]', c[z])
               const arr = []

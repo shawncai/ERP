@@ -121,12 +121,27 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('Hmodule.llsl')" prop="accessQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('Hmodule.llsl')" prop="accessQuantity" align="center" min-width="150">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="true"
+                :min="1.00"
+                v-model="scope.row.accessQuantity"
+                @change="queryStock(scope.row)"
+              />
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('Hmodule.ytlsl')" prop="retreatQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.accessQuantity, scope.row.price, scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getmylocation(scope) }}</p>
             </template>
           </el-editable-column>
         </el-editable>
@@ -143,7 +158,7 @@
 
 <script>
 import { getDetailByTaskNumber, updateaccess } from '@/api/AccessMaterials'
-import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation } from '@/api/public'
+import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, countlist } from '@/api/public'
 import { searchEmpCategory2 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './MyDetail'
@@ -151,6 +166,7 @@ import MyRepository from './MyRepository'
 import ProduceTask from './ProduceTask'
 import MyDetail2 from './MyDetail2'
 import MyDelivery from './MyDelivery'
+import { getAllBatch } from '@/api/public'
 var _that
 export default {
   components: { MyDelivery, MyDetail2, ProduceTask, MyRepository, MyDetail },
@@ -262,6 +278,121 @@ export default {
     _that = this
   },
   methods: {
+    queryStock(row) {
+      if (row.locationCode === null || row.locationCode === '' || row.locationCode === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '仓库不存在此商品!',
+          offset: 100
+        })
+        row.accessQuantity = 1
+        return false
+      }
+      // 1.批次只有一个 不能超过总库存
+      // 2.批次有多个 不能超过单个批次数量
+      let i = 0
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === row.productCode) {
+          i++
+        }
+      })
+      if (i === 1) {
+        // 1.批次只有一个 不能超过总库存
+        countlist(this.personalForm.accessRepositoryId, 0, row.productCode).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content.list.length === 0) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '仓库内无该物品',
+                offset: 100
+              })
+              row.accessQuantity = 1
+              return false
+            }
+            if (row.accessQuantity > res.data.data.content.list[0].existStock) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.sqslcg'),
+                offset: 100
+              })
+              row.accessQuantity = res.data.data.content.list[0].existStock
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        // 2.批次有多个 不能超过单个批次数量
+        const param = {}
+        param.productCode = row.productCode
+        param.batch = row.batch
+        param.repositoryId = row.repositoryId
+        getAllBatch(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (row.accessQuantity > res.data.data.content[0].accessQuantity) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.ckslcgpcsl'),
+                offset: 100
+              })
+              row.accessQuantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getmylocation(scope) {
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.flag) {
+        if (scope.row.batch === null || scope.row.batch === '' || scope.row.batch === undefined) {
+          const parms3 = scope.row.productCode
+          batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length > 0) {
+              scope.row.batch = res.data.data.content[0]
+            }
+          })
+        } else {
+          const parms3 = scope.row.productCode
+          batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length === 0) {
+              if (scope.row.batch !== '不使用') {
+                scope.row.batch = null
+              }
+            }
+          })
+        }
+        getlocation(this.personalForm.accessRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationCode = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+      scope.row.flag = false
+    },
     // 总金额计算
     getSize(quan, pric, row) {
       row.totalMoney = quan * pric

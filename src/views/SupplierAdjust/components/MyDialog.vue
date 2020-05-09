@@ -80,7 +80,7 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.newPrice"
-                @input="getprice(scope.row)"/>
+                @keyup.enter.native = "getprice(scope.row)"/>
             </template>
           </el-editable-column>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
@@ -90,7 +90,7 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.newIncludeTaxPrice"
-                @input="getincludeTaxPrice(scope.row)"/>
+                @keyup.enter.native = "getincludeTaxPrice(scope.row, scope)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
@@ -99,10 +99,19 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.newTaxRate"
-                @input="gettaxRate(scope.row)"/>
+                @keyup.enter.native = "gettaxRate(scope.row, scope)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.bl')" prop="calcitem" align="center" min-width="170px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="6"
+                v-model="scope.row.calcitem"
+                @input="calcnewprice(scope.row, scope)"
+              />
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
@@ -349,6 +358,20 @@ export default {
     _that = this
   },
   methods: {
+    calcnewprice(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.calcitem !== '' && row.calcitem !== null && row.calcitem !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            this.list2[i].calcitem = row.calcitem
+          }
+          console.log(row)
+        }
+      }
+      row.newSalePrice = row.calcitem / 100 * row.newPrice
+    },
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -440,19 +463,64 @@ export default {
     },
     // 计算单价
     getprice(row) {
-      row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(6)
+      console.log('row========price', row)
+      row.priceflag = 1
+      if (row.taxPriceFlag === 1) {
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.taxRateFlag === 1) {
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      }
     },
     // 通过税率计算含税价
-    gettaxRate(row) {
-      if (row.newIncludeTaxPrice !== 0) {
-        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100)).toFixed(6)
+    gettaxRate(row, scope) {
+      console.log('row========tax', row)
+      row.taxRateFlag = 1
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.newTaxRate !== '' && row.newTaxRate !== null && row.newTaxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].newTaxRate)
+            console.log(222)
+            this.list2[i].newTaxRate = row.newTaxRate
+            this.list2[i].taxRateFlag = 1
+          }
+          console.log(row)
+        }
+      }
+      if (row.taxPriceFlag === 1) {
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.priceflag === 1) {
+        row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
       }
     },
     // 通过含税价计算税率
-    getincludeTaxPrice(row) {
-      if (row.newPrice !== 0) {
-        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100).toFixed(6)
-        console.log(row.newTaxRate)
+    getincludeTaxPrice(row, scope) {
+      console.log('row========taxprice', row)
+      row.taxPriceFlag = 1
+      if (row.taxRateFlag === 1) {
+        row.newPrice = row.newIncludeTaxPrice / (row.newTaxRate / 100 + 1)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
+      } else if (row.priceflag === 1) {
+        row.newTaxRate = ((row.newIncludeTaxPrice / row.newPrice - 1) * 100)
+        row.priceflag = 0
+        row.taxPriceFlag = 0
+        row.taxRateFlag = 0
       }
     },
     // 计算金额

@@ -88,7 +88,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--入库单明细-->
+      <!--入库单明细123-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
         <div ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
