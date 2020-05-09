@@ -3364,6 +3364,12 @@ export const asyncRouterMap = [
         meta: { title: 'supplierOnTimeABC', noCache: false, roles: ['311-317-391-4'] }
       },
       {
+        path: 'productABC',
+        component: () => import('@/views/StockCount/productABC'),
+        name: 'productABC',
+        meta: { title: 'productABC', noCache: false, roles: ['311-317-392-4'] }
+      },
+      {
         path: 'stockBillList',
         component: () => import('@/views/StockCount/stockBillList'),
         name: 'stockBillList',
@@ -3405,6 +3411,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCount/stockOrderExecute'),
         name: 'stockOrderExecute',
         meta: { title: 'stockOrderExecute', noCache: false, roles: ['311-317-345-4'] }
+      },
+      {
+        path: 'orderImplDetail',
+        component: () => import('@/views/StockCount/orderImplDetail'),
+        name: 'orderImplDetail',
+        meta: { title: 'orderImplDetail', noCache: false, roles: ['311-317-393-4'] }
       }
     ]
   },
