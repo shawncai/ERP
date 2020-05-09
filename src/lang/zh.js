@@ -1,5 +1,7 @@
 export default {
   route: {
+    orderImplDetail: '采购订单执行明细',
+    productABC: '物料采购结构ABC分析',
     supplierOnTimeABC: '供应商准时交货分析',
     supplierProvideABC: '供应商交货ABC分析',
     purchaseCount: '采购汇总',
@@ -4328,5 +4330,15 @@ export default {
     avgPrice: '平均价格',
     minPrice: '最低价格',
     recentlyPrice: '最新价格'
+  },
+  report2: {
+    productType: '物料类别',
+    productCode: '物料代码',
+    productName: '物料名称',
+    unit: '计量单位',
+    orderMoney: '订货金额',
+    orderQuantity: '订货数量',
+    orderRate: '占总订货额(%)',
+    level: 'ABC分类'
   }
 }
