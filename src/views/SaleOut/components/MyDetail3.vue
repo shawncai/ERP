@@ -346,7 +346,7 @@ export default {
       this.$router.push('/Product/NewProduct')
       this.productVisible = false
     },
-    // 物品选择添加
+    // 物品选择添加123
     handleAddTo() {
       this.productVisible = false
       console.log('this.formValidate.serviceIdList=================', this.formValidate.serviceIdList)
@@ -362,7 +362,8 @@ export default {
           productName: item.productName || item.productName,
           category: item.categoryId || item.category,
           categoryName: item.category || item.categoryName,
-          type: item.typeId || item.type,
+          mytype: item.typeId,
+          type: (item.typeId === null || item.typeId === undefined || item.typeId instanceof String) ? item.type : item.typeId,
           typeId: item.productType || item.typeId,
           color: item.color || item.color,
           unit: item.purMeasu || item.unit,

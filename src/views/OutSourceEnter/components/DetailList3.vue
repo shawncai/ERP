@@ -142,6 +142,11 @@
                   <span> {{ personalForm.allQuantity }} </span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.heji2')" style="width: 100%;">
+                  <span> {{ personalForm.allPrice }} </span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -297,11 +302,14 @@ export default {
       this.enterPersonId = this.personalForm.enterPersonName
       this.list2 = this.personalForm.outsourceEnterDetailVos
       let count = 0
+      let count2 = 0
       for (let i = 0; i < this.list2.length; i++) {
         // this.personalForm.allQuantity =
         count += this.list2[i].actualEnterQuantity
+        count2 += this.list2[i].enterMoney
       }
       this.personalForm.allQuantity = count
+      this.personalForm.allPrice = count2
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

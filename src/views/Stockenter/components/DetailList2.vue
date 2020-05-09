@@ -125,6 +125,25 @@
           </el-editable>
         </div>
       </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.dhslzj')" style="width: 100%;">
+                  <span> {{ personalForm.allQuantity }} </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Stockenter.heji2')" style="width: 100%;">
+                  <span> {{ personalForm.allPrice }} </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
@@ -264,6 +283,15 @@ export default {
       this.enterRepositoryId = this.personalForm.enterRepositoryName
       this.enterPersonId = this.personalForm.enterPersonName
       this.list2 = this.personalForm.produceEnterDetailVos
+      let count = 0
+      let count2 = 0
+      for (let i = 0; i < this.list2.length; i++) {
+        // this.personalForm.allQuantity =
+        count += this.list2[i].actualEnterQuantity
+        count2 += this.list2[i].enterMoney
+      }
+      this.personalForm.allQuantity = count
+      this.personalForm.allPrice = count2
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

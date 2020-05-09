@@ -1251,6 +1251,7 @@ export default {
   },
   Stockenter: {
     heji: '入库数量',
+    heji2: '入库金额',
     title: '入库单主题',
     sourceNumber: '源单编号',
     sourceType: '源单类型',

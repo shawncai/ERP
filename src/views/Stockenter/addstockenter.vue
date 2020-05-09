@@ -185,6 +185,11 @@
                   <el-input v-model="heji1" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji2" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -287,6 +292,7 @@ export default {
       ordercontrol: false,
       // 合计
       heji1: '',
+      heji2: '',
       // 中转
       mid: null,
       // 控制供应商不可以编辑
@@ -394,11 +400,14 @@ export default {
     list2: {
       handler(newval, oldval) {
         let num = 0
+        let num2 = 0
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
           num += this.list2[i].actualEnterQuantity
+          num2 += this.list2[i].enterMoney
         }
         this.heji1 = num
+        this.heji2 = num2
       },
       deep: true
     }
