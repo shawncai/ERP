@@ -2,8 +2,23 @@
   <div class="ERP-container">
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
+      <el-select v-model="getemplist.aPercent" :value="getemplist.aPercent" size="small" placeholder="A" clearable style="width: 150px;margin-top: 10px">
+        <el-option value="0.5" label="50%" />
+        <el-option value="0.6" label="60%" />
+        <el-option value="0.7" label="70%" />
+        <el-option value="0.8" label="80%" />
+        <el-option value="0.9" label="90%" />
+      </el-select>
+      <el-select v-model="getemplist.bPercent" :value="getemplist.aPercent" size="small" placeholder="B" clearable style="width: 150px;margin-top: 10px">
+        <el-option value="0.1" label="10%" />
+        <el-option value="0.2" label="20%" />
+        <el-option value="0.3" label="30%" />
+        <el-option value="0.4" label="40%" />
+      </el-select>
+      <el-select v-model="getemplist.cPercent" :value="getemplist.aPercent" size="small" placeholder="C" clearable style="width: 150px;margin-top: 10px">
+        <el-option value="0.1" label="10%" />
+        <el-option value="0.2" label="20%" />
+      </el-select>
       <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
@@ -36,43 +51,33 @@
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.orderQuantity')"
-          prop="orderQuantity"
+          :label="$t('report.orderMoney')"
+          prop="orderMoney"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceQuantity')"
-          prop="invoiceQuantity"
+          :label="$t('report.orderRate')"
+          prop="orderRate"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceMoney')"
-          prop="invoiceMoney"
+          :label="$t('report.arrivalMoney2')"
+          prop="arrivalMoney"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceTaxMoney')"
-          prop="invoiceTaxMoney"
+          :label="$t('report.arrivalRate2')"
+          prop="arrivalRate"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.enterQuantity')"
-          prop="enterQuantity"
+          :label="$t('report.provideRate')"
+          prop="provideRate"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.enterMoney')"
-          prop="enterMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffQuantity')"
-          prop="diffQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffMoney')"
-          prop="diffMoney"
+          :label="$t('report.level')"
+          prop="level"
           width="200"
           align="center"/>
       </el-table>
@@ -83,7 +88,7 @@
 </template>
 
 <script>
-import { purchaseCount } from '@/api/count'
+import { supplierProvideABC } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -211,13 +216,13 @@ export default {
     }
   },
   activated() {
-    this.getlist()
+    // this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.changeName()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -250,7 +255,7 @@ export default {
       if (this.getemplist.type === '4') {
         this.first = '种类名称'
       }
-      this.getlist()
+      // this.getlist()
     },
     checkPermission,
     // 不让勾选
@@ -284,12 +289,12 @@ export default {
     },
     // 更新采购类型
     updatecountry() {
-      this.getlist()
+      // this.getlist()
     },
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      purchaseCount(this.getemplist).then(res => {
+      supplierProvideABC(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           for (let i = 0; i < this.list.length; i++) {
@@ -319,6 +324,54 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.getemplist.aPercent === undefined || this.getemplist.aPercent === null || this.getemplist.aPercent === '') {
+        if ((Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'ABC加起来需要为1',
+            offset: 100
+          })
+          return false
+        }
+      } else if (this.getemplist.bPercent === undefined || this.getemplist.bPercent === null || this.getemplist.bPercent === '') {
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'ABC加起来需要为1',
+            offset: 100
+          })
+          return false
+        }
+      } else if (this.getemplist.cPercent === undefined || this.getemplist.cPercent === null || this.getemplist.cPercent === '') {
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent)) !== parseInt(1)) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'ABC加起来需要为1',
+            offset: 100
+          })
+          return false
+        }
+      } else {
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'ABC加起来需要为1',
+            offset: 100
+          })
+          return false
+        }
+      }
+      console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)))
+      console.log('123', 1)
+      console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) === Number(1).toFixed(0))
+      // if ((Number(Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(0)) !== Number(1).toFixed(0)) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: 'ABC加起来需要为1',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       this.getemplist.pageNum = 1
       if (this.date === null || this.date === undefined || this.date === '') {
         this.getemplist.beginTime = ''
@@ -327,11 +380,13 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      purchaseCount(this.getemplist).then(res => {
+      supplierProvideABC(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list[i].orderRate = (this.list[i].orderRate * 100).toFixed(2)
+            this.list[i].arrivalRate = (this.list[i].arrivalRate * 100).toFixed(2)
+            this.list[i].provideRate = (this.list[i].provideRate * 100).toFixed(2)
           }
           // this.total = res.data.data.content.totalCount
           // this.restFilter()
@@ -375,7 +430,7 @@ export default {
     // 修改组件修改成功后返回
     refreshlist(val) {
       if (val === true) {
-        this.getlist()
+        // this.getlist()
       }
     },
     // 详情操作
@@ -407,7 +462,7 @@ export default {
     },
     // 部门列表focus刷新
     updatedept() {
-      this.getlist()
+      // this.getlist()
     },
     // 交货人foucs事件触发
     handlechooseDelivery() {

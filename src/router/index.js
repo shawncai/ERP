@@ -3059,12 +3059,12 @@ export const asyncRouterMap = [
         name: 'productSendAndReceive',
         meta: { title: 'productSendAndReceive', noCache: false, roles: ['311-312-321-4'] }
       },
-      {
-        path: 'wuxiinventorychangelist',
-        component: () => import('@/views/inventorycount2/wuxiinventorychangelist'),
-        name: 'wuxiinventorychangelist',
-        meta: { title: 'wuxiinventorychangelist', noCache: false, roles: ['311-312-322-4'] }
-      },
+      // {
+      //   path: 'wuxiinventorychangelist',
+      //   component: () => import('@/views/inventorycount2/wuxiinventorychangelist'),
+      //   name: 'wuxiinventorychangelist',
+      //   meta: { title: 'wuxiinventorychangelist', noCache: false, roles: ['311-312-322-4'] }
+      // },
       {
         path: 'inventorychangelist',
         component: () => import('@/views/inventorycount2/inventorychangelist'),
@@ -3350,6 +3350,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/StockCount/purchaseCount'),
         name: 'purchaseCount',
         meta: { title: 'purchaseCount', noCache: false, roles: ['311-317-389-4'] }
+      },
+      {
+        path: 'supplierProvideABC',
+        component: () => import('@/views/StockCount/supplierProvideABC'),
+        name: 'supplierProvideABC',
+        meta: { title: 'supplierProvideABC', noCache: false, roles: ['311-317-390-4'] }
+      },
+      {
+        path: 'supplierOnTimeABC',
+        component: () => import('@/views/StockCount/supplierOnTimeABC'),
+        name: 'supplierOnTimeABC',
+        meta: { title: 'supplierOnTimeABC', noCache: false, roles: ['311-317-391-4'] }
       },
       {
         path: 'stockBillList',

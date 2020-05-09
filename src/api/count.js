@@ -1,5 +1,58 @@
 import request from '@/utils/request'
 
+// 供应商准时交货分析
+export function supplierOnTimeABC(query) {
+  var params = new URLSearchParams()
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/stockcount/supplierOnTimeABC',
+    method: 'post',
+    data: params
+  })
+}
+
+// 供应商交货ABC分析
+export function supplierProvideABC(query) {
+  var params = new URLSearchParams()
+  if (query.aPercent !== '' && query.aPercent !== null && query.aPercent !== undefined) {
+    params.append('aPercent', query.aPercent) // 你要传给后台的参数值 key/value
+  } else {
+    params.append('aPercent', 0) // 你要传给后台的参数值 key/value
+  }
+  if (query.bPercent !== '' && query.bPercent !== null && query.bPercent !== undefined) {
+    params.append('bPercent', query.bPercent) // 你要传给后台的参数值 key/value
+  } else {
+    params.append('bPercent', 0) // 你要传给后台的参数值 key/value
+  }
+  if (query.cPercent !== '' && query.cPercent !== null && query.cPercent !== undefined) {
+    params.append('cPercent', query.cPercent) // 你要传给后台的参数值 key/value
+  } else {
+    params.append('cPercent', 0) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/stockcount/supplierProvideABC',
+    method: 'post',
+    data: params
+  })
+}
+
 // 采购明细
 export function stockOrderlist(query) {
   var params = new URLSearchParams()
@@ -11,9 +64,6 @@ export function stockOrderlist(query) {
   }
   if (query.orderNumber !== '' && query.orderNumber !== null && query.orderNumber !== undefined) {
     params.append('orderNumber', query.orderNumber) // 你要传给后台的参数值 key/value
-  }
-  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
-    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
@@ -48,9 +98,6 @@ export function purchaseCount(query) {
   }
   if (query.orderNumber !== '' && query.orderNumber !== null && query.orderNumber !== undefined) {
     params.append('orderNumber', query.orderNumber) // 你要传给后台的参数值 key/value
-  }
-  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
-    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
