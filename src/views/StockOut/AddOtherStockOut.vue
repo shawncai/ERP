@@ -174,7 +174,7 @@
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-no-more-click v-loading="canclick" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -226,6 +226,7 @@ export default {
   components: { MyRepository, MyDetail, MyCreate, MyAccept },
   data() {
     return {
+      canclick: false,
       // 合计信息
       heji1: 0,
       heji2: 0,
@@ -607,6 +608,7 @@ export default {
     },
     // 保存操作
     handlesave() {
+      this.canclick = true
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       // 保存时同样商品不能有同一个批次
       let i = 0
@@ -628,6 +630,7 @@ export default {
           message: '同样商品不能有同一个批次',
           offset: 100
         })
+        this.canclick = false
         return false
       }
       // 批次货位不能为空
@@ -646,6 +649,7 @@ export default {
           message: this.$t('prompt.pchwbnwk'),
           offset: 100
         })
+        this.canclick = false
         return false
       }
       console.log(this.personalForm)
@@ -656,6 +660,7 @@ export default {
           message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
+        this.canclick = false
         return false
       }
       EnterDetail.map(function(elem) {
@@ -714,6 +719,7 @@ export default {
                     type: 'success',
                     offset: 100
                   })
+                  this.canclick = false
                   this.restAllForm()
                   this.$refs.editable.clear()
                   this.$refs.personalForm.clearValidate()
@@ -724,6 +730,7 @@ export default {
                     message: res.data.msg,
                     offset: 100
                   })
+                  this.canclick = false
                 }
               })
             }
@@ -733,6 +740,7 @@ export default {
               message: 'Information is incomplete',
               offset: 100
             })
+            this.canclick = false
             return false
           })
         } else {
@@ -741,6 +749,7 @@ export default {
             message: 'Information is incomplete',
             offset: 100
           })
+          this.canclick = false
           return false
         }
       })

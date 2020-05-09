@@ -94,9 +94,9 @@
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
-                    v-for="(item, index) in locationlist"
-                    :key="index"
-                    :value="item.locationCode"
+                    v-for="item in locationlist"
+                    :key="item.id"
+                    :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
               </template>
@@ -126,12 +126,27 @@
                 <p>{{ getPlanQuantity(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('Hmodule.llsl')" prop="accessQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1.00, precision: 2}, type: 'visible'}" :label="$t('Hmodule.llsl')" prop="accessQuantity" align="center" min-width="150">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="true"
+                  :min="1.00"
+                  v-model="scope.row.accessQuantity"
+                  @change="queryStock(scope.row)"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('Hmodule.ytlsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.accessQuantity, scope.row.price, scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getmylocation(scope) }}</p>
               </template>
             </el-editable-column>
           </el-editable>
@@ -149,7 +164,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { getDetailByTaskNumber, addaccessmaterials } from '@/api/AccessMaterials'
-import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, searchMea } from '@/api/public'
+import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, searchMea, countlist } from '@/api/public'
 import { searchEmpCategory3 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './components/MyDetail'
@@ -157,6 +172,7 @@ import MyRepository from './components/MyRepository'
 import ProduceTask from './components/ProduceTask'
 import MyDetail2 from './components/MyDetail2'
 import MyDelivery from './components/MyDelivery'
+import { getAllBatch } from '@/api/public'
 var _that
 export default {
   name: 'AddAccessMaterials',
@@ -250,6 +266,121 @@ export default {
     _that = this
   },
   methods: {
+    queryStock(row) {
+      if (row.locationCode === null || row.locationCode === '' || row.locationCode === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '仓库不存在此商品!',
+          offset: 100
+        })
+        row.accessQuantity = 1
+        return false
+      }
+      // 1.批次只有一个 不能超过总库存
+      // 2.批次有多个 不能超过单个批次数量
+      let i = 0
+      const EnterDetail = this.$refs.editable.getRecords()
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.productCode === row.productCode) {
+          i++
+        }
+      })
+      if (i === 1) {
+        // 1.批次只有一个 不能超过总库存
+        countlist(this.personalForm.accessRepositoryId, 0, row.productCode).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (res.data.data.content.list.length === 0) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '仓库内无该物品',
+                offset: 100
+              })
+              row.accessQuantity = 1
+              return false
+            }
+            if (row.accessQuantity > res.data.data.content.list[0].existStock) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.sqslcg'),
+                offset: 100
+              })
+              row.accessQuantity = res.data.data.content.list[0].existStock
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      } else {
+        // 2.批次有多个 不能超过单个批次数量
+        const param = {}
+        param.productCode = row.productCode
+        param.batch = row.batch
+        param.repositoryId = row.repositoryId
+        getAllBatch(param).then(res => {
+          if (res.data.ret === 200) {
+            console.log('res.data.data.content', res.data.data.content)
+            if (row.accessQuantity > res.data.data.content[0].accessQuantity) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.ckslcgpcsl'),
+                offset: 100
+              })
+              row.accessQuantity = 1
+              return false
+            }
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getmylocation(scope) {
+      if (scope.row.flag === undefined) {
+        scope.row.flag = true
+      } else {
+        return scope.row.location
+      }
+      if (scope.row.flag) {
+        if (scope.row.batch === null || scope.row.batch === '' || scope.row.batch === undefined) {
+          const parms3 = scope.row.productCode
+          batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length > 0) {
+              scope.row.batch = res.data.data.content[0]
+            }
+          })
+        } else {
+          const parms3 = scope.row.productCode
+          batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
+            if (res.data.data.content.length === 0) {
+              if (scope.row.batch !== '不使用') {
+                scope.row.batch = null
+              }
+            }
+          })
+        }
+        getlocation(this.personalForm.accessRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              this.locationlist = res.data.data.content
+              scope.row.locationCode = res.data.data.content[0].id
+            }
+          }
+        })
+      }
+      scope.row.flag = false
+    },
     // 需求数量取整
     getPlanQuantity(row) {
       console.log(row)

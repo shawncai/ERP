@@ -6,6 +6,9 @@ export function stocapplylist(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.applyNumber !== '' && query.applyNumber !== null && query.applyNumber !== undefined) {
     params.append('applyNumber', query.applyNumber) // 你要传给后台的参数值 key/value
   }

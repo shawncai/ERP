@@ -117,7 +117,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
+      <!--子件信息123-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -792,6 +792,7 @@ export default {
       return hasPermission
     },
     detailproduct(val) {
+      console.log('val==========', val)
       const nowlistdata = this.$refs.editable.getRecords()
       const alldata = [...val, ...nowlistdata]
       const newArr = []
@@ -799,7 +800,8 @@ export default {
         const result = newArr.findIndex(ol => { return el.productCode === ol.productCode })
         if (result !== -1) {
           if (el.quantity !== null && el.quantity !== '' && el.quantity !== undefined) {
-            newArr[result].quantity = newArr[result].quantity + el.quantity
+            // newArr[result].quantity = newArr[result].quantity + el.quantity
+            newArr[result].quantity = 1
           } else {
             newArr.push(el)
           }
@@ -1100,7 +1102,7 @@ export default {
           needmoney = 0
         }
         this.$set(this.personalForm, 'receivableMoney', needmoney)
-        // 未减去优惠券额的金额
+        // 未减去优惠券额的金额123
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
 
@@ -1191,7 +1193,7 @@ export default {
           }
           for (let i = row.temp; i < this.list2.length; i++) {
             console.log(this.list2[i].quantity)
-            if (this.list2[i].quantity === 1 || this.list2[i].quantity === null || this.list2[i].quantity === '' || this.list2[i].quantity === undefined) {
+            if (this.list2[i].quantity || this.list2[i].quantity === null || this.list2[i].quantity === '' || this.list2[i].quantity === undefined) {
               console.log(222)
               // this.list2[i].requireDate = row.requireDate
               const re = this.list2[i].productCode.slice(0, 2)
