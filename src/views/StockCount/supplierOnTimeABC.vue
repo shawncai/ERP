@@ -36,43 +36,28 @@
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.orderQuantity')"
-          prop="orderQuantity"
+          :label="$t('report.orderNum')"
+          prop="orderNum"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceQuantity')"
-          prop="invoiceQuantity"
+          :label="$t('report.arrivalNum')"
+          prop="arrivalNum"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceMoney')"
-          prop="invoiceMoney"
+          :label="$t('report.delayNum')"
+          prop="delayNum"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceTaxMoney')"
-          prop="invoiceTaxMoney"
+          :label="$t('report.arrivalRate3')"
+          prop="arrivalRate"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.enterQuantity')"
-          prop="enterQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.enterMoney')"
-          prop="enterMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffQuantity')"
-          prop="diffQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffMoney')"
-          prop="diffMoney"
+          :label="$t('report.level')"
+          prop="level"
           width="200"
           align="center"/>
       </el-table>
@@ -83,7 +68,7 @@
 </template>
 
 <script>
-import { purchaseCount } from '@/api/count'
+import { supplierOnTimeABC } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -289,11 +274,11 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      purchaseCount(this.getemplist).then(res => {
+      supplierOnTimeABC(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list[i].arrivalRate = (this.list[i].arrivalRate * 100).toFixed(2)
           }
           // this.total = res.data.data.content.totalCount
         }
@@ -327,11 +312,11 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      purchaseCount(this.getemplist).then(res => {
+      supplierOnTimeABC(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+            this.list[i].arrivalRate = (this.list[i].arrivalRate * 100).toFixed(2)
           }
           // this.total = res.data.data.content.totalCount
           // this.restFilter()

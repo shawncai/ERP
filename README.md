@@ -273,32 +273,47 @@ const reg = /^[A-Z0-9]{2}$/
       date.setTime(date.getTime())
       this.personalForm.enterDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 ```
-###### 完成进度  
-```text
-- 物品列表展示页面完成  2019/03/05
-03/06
-- 物品分类属性页面完成  2019/03/06  11:52
-- 物品批量导入页面完成  2019/03/06  13:20
-- 单据编号设置页面完成  2019/03/06  15:06
-- 新建价格变更单页面完成  2019/03/06 16:00
-- 价格变更单列表页面完成  2019/03/06  17:09
-- 短信模板设置页面完成  2019/03/06  19:12
-- 计量单位设置页面完成  2019/03/06  20:00
-晚安世界
-03/07
-- 参数设置页面完成  2019/03/07  14:16
-- 批次规则设置页面完成  2019/03/07
-- 审批流程设置页面完成  2019/03/07  20:39
-晚安世界
-03/08
-新增物流车辆页面结束  2019/03/08
-物流车辆列表页面结束  2019/03/08
-新增派车单页面结束  2019/03/08
-派车单列表页面结束  2019/03/08  
-新增回车单页面结束  2019/03/08
-回车单列表页面结束  2019/03/08
-晚安世界
-03/11
-采购入库单新增和采购入库单列表页面布局完成等待和后端联调   2019/03/11
+######  对json数组中两项或多项相同元素进行分类操作(通过js对象key唯一性进行处理)
+```
+const j1 = [{
+        "menuDate": 1,
+        "dinnerTime": "0",
+        "num": 5
+    },
+    {
+        "menuDate": 1,
+        "dinnerTime": "0",
+        "num": 1
+    },
+    {
+        "menuDate": 1,
+        "dinnerTime": "1",
+        "num": 3
+    },
+    {
+        "menuDate": 2,
+        "dinnerTime": "0",
+        "num": 3
+    },
+    {
+        "menuDate": 2,
+        "dinnerTime": "0",
+        "num": 6
+    }]
+var jmap = {};
+var result = [];
 
+j1.forEach(function(al){
+    var key = al.menuDate + '_' + al.dinnerTime;
+    if(typeof jmap[key] === 'undefined'){
+        jmap[key] = [];
+    }
+    jmap[key].push(al);
+})
+
+var keys = Object.keys(jmap);
+for(var i = 0; i < keys.length; i++){
+    var rs = keys[i].split('_');
+    result.push({menuDate:rs[0],dinnerTime:rs[1],value:jmap[keys[i]]});
+}
 ```

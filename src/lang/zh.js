@@ -1,5 +1,9 @@
 export default {
   route: {
+    orderImplDetail: '采购订单执行明细',
+    productABC: '物料采购结构ABC分析',
+    supplierOnTimeABC: '供应商准时交货分析',
+    supplierProvideABC: '供应商交货ABC分析',
     purchaseCount: '采购汇总',
     stockOrderlist: '采购明细',
     orderReport: '采购订单查询表',
@@ -4290,6 +4294,22 @@ export default {
     xgsss: '修改委外出库单'
   },
   report: {
+    orderNum: '到期订单批数',
+    arrivalNum: '准时交货批数',
+    delayNum: '延期交货批数',
+    arrivalRate3: '准时交货率(%)',
+    orderMoney: '订单金额',
+    orderRate: '占订货总额(%)',
+    arrivalMoney2: '供货金额',
+    arrivalRate2: '占供货总额(%)',
+    provideRate: '供货占订货(%)',
+    level: 'ABC分类',
+    enterQuantity: '入库数量',
+    enterMoney: '入库金额',
+    diffQuantity: '差异数量',
+    diffMoney: '差异金额',
+    invoiceTaxMoney: '发票含税金额',
+    orderQuantity: '订单数',
     orderCount: '总订单数',
     arrivalCount: '验收单数',
     arrivalRate: '订单送货率（%）',
@@ -4311,5 +4331,15 @@ export default {
     avgPrice: '平均价格',
     minPrice: '最低价格',
     recentlyPrice: '最新价格'
+  },
+  report2: {
+    productType: '物料类别',
+    productCode: '物料代码',
+    productName: '物料名称',
+    unit: '计量单位',
+    orderMoney: '订货金额',
+    orderQuantity: '订货数量',
+    orderRate: '占总订货额(%)',
+    level: 'ABC分类'
   }
 }

@@ -77,13 +77,13 @@
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
 
 <script>
-import { purchaseCount } from '@/api/count'
+import { orderImplDetail } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -100,7 +100,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockDetailCount',
+  name: 'OrderImplDetail',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -289,9 +289,9 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      purchaseCount(this.getemplist).then(res => {
+      orderImplDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
@@ -327,9 +327,9 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      purchaseCount(this.getemplist).then(res => {
+      orderImplDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
