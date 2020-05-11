@@ -135,9 +135,34 @@
                 </el-form-item>
                 <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
                   <span>{{ personalForm.receivableMoneyForDetail }}</span>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.shouldMoney')" style="width: 100%;">
+                  <span>{{ personalForm.shouldMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.customerPay')" style="width: 100%;">
+                  <span>{{ personalForm.customerPay }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.changeMoney')" style="width: 100%;">
+                  <span>{{ personalForm.changeMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.receivableMoney')" style="width: 100%;">
+                  <span>{{ personalForm.receivableMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.unpayMoney')" style="width: 100%;">
+                  <span>{{ personalForm.unpayMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">

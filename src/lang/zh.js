@@ -4341,5 +4341,12 @@ export default {
     orderQuantity: '订货数量',
     orderRate: '占总订货额(%)',
     level: 'ABC分类'
+  },
+  update4: {
+    shouldMoney: '应收款',
+    customerPay: '实际收到客户',
+    changeMoney: '找零',
+    receivableMoney: '已收款',
+    unpayMoney: '未收款'
   }
 }
