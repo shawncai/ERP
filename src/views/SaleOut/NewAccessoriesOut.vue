@@ -39,6 +39,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.outDate"
+                    :picker-options="pickerOptions1"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
                 </el-form-item>
@@ -117,7 +127,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息123-->
+      <!--子件信息-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
@@ -1193,9 +1203,8 @@ export default {
           }
           for (let i = row.temp; i < this.list2.length; i++) {
             console.log(this.list2[i].quantity)
-            if (this.list2[i].quantity || this.list2[i].quantity === null || this.list2[i].quantity === '' || this.list2[i].quantity === undefined) {
+            if (this.list2[i].quantity === 1 || this.list2[i].quantity === null || this.list2[i].quantity === '' || this.list2[i].quantity === undefined) {
               console.log(222)
-              // this.list2[i].requireDate = row.requireDate
               const re = this.list2[i].productCode.slice(0, 2)
               if (re !== '01' && re !== '05') {
                 this.list2[i].quantity = row.quantity

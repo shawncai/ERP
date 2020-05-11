@@ -1242,6 +1242,7 @@ export default {
   },
   Stockenter: {
     heji: 'stock in quantity',
+    heji2: 'stock in price',
     title: 'stock in form subject',
     sourceNumber: 'bill no.',
     sourceType: 'sources',

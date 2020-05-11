@@ -145,6 +145,11 @@
                   <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="heji2" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -277,6 +282,7 @@ export default {
     return {
       // 合计信息
       heji1: '',
+      heji2: '',
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -371,11 +377,14 @@ export default {
       this.list2 = this.personalForm.stockEnterDetailVos
       console.log('list2', this.list2)
       let num = 0
+      let num2 = 0
       for (const i in this.list2) {
         console.log(this.list2[i].basicQuantity)
         num += this.list2[i].basicQuantity
+        num2 += this.list2[i].enterMoney
       }
       this.heji1 = num
+      this.heji2 = num2
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
