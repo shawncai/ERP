@@ -410,10 +410,24 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 查询参数
+      countquery: ''
     }
   },
   activated() {
+    this.countquery = this.$route.query.arry
+    if (this.countquery) {
+      console.log('this.countquery====', this.countquery)
+      this.getemplist.supplierId = this.countquery.id
+      this.supplierId = this.countquery.name
+      if (this.countquery.beginTime !== '') {
+        this.getemplist.beginTime = this.countquery.beginTime
+      }
+      if (this.countquery.beginTime !== '') {
+        this.getemplist.endTime = this.countquery.endTime
+      }
+    }
     this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -421,6 +435,18 @@ export default {
   },
   mounted() {
     this.getinformation()
+    this.countquery = this.$route.query.arry
+    if (this.countquery) {
+      console.log('this.countquery====', this.countquery)
+      this.getemplist.supplierId = this.countquery.id
+      this.supplierId = this.countquery.name
+      if (this.countquery.beginTime !== '') {
+        this.getemplist.beginTime = this.countquery.beginTime
+      }
+      if (this.countquery.beginTime !== '') {
+        this.getemplist.endTime = this.countquery.endTime
+      }
+    }
     this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140

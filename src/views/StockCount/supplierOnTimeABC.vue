@@ -30,11 +30,11 @@
         border
         style="width: 100%"
         @row-click="clickRow">
-        <el-table-column
-          :label="$t('report.supplierName')"
-          prop="supplierName"
-          width="200"
-          align="center"/>
+        <el-table-column :label="$t('report.supplierName')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('report.orderNum')"
           prop="orderNum"
@@ -366,8 +366,13 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const query_params = {
+        id: row.supplierId,
+        name: row.supplierName,
+        beginTime: this.date[0] || '',
+        endTime: this.date[1] || ''
+      }
+      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
     },
     // 判断审核按钮
     isReview(row) {

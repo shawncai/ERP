@@ -3353,6 +3353,7 @@ export default {
     cwxx: 'finance info.',
     fzxx: 'other info.',
     gyskh: 'supplier evaluation',
+    gyscf: 'supplier punish',
     sctjd: 'generate price adjustment form',
     tzdmx: 'adjustment form detail',
     cgdyj: 'purchase  order original price',

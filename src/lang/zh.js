@@ -3373,6 +3373,7 @@ export default {
     cwxx: '财务信息',
     fzxx: '辅助信息',
     gyskh: '供应商考核',
+    gyscf: '供应商惩罚',
     sctjd: '生成调价单',
     tzdmx: '调整单明细',
     cgdyj: '采购单原价',

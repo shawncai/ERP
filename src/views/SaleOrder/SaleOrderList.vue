@@ -435,6 +435,10 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
+      if (this.countquery) {
+        console.log('this.countquery====', this.countquery)
+        this.getemplist.supplierId = this.countquery
+      }
       searchsaleOrder(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

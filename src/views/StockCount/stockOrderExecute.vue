@@ -49,12 +49,17 @@
           prop="name"
           width="300"
           align="center"/>
-        <el-table-column
+        <!-- <el-table-column
           v-if="second"
           label="物品名称"
           prop="productName"
           width="300"
-          align="center"/>
+          align="center"/> -->
+        <el-table-column :resizable="false" label="物品名称" align="center" min-width="300">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           v-if="second"
           label="物品编码"
@@ -477,8 +482,13 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const query_params = {
+        id: row.supplierId,
+        name: row.name,
+        beginTime: this.date[0] || '',
+        endTime: this.date[1] || ''
+      }
+      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
     },
     // 判断审核按钮
     isReview(row) {

@@ -7,7 +7,7 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('StockApply.title')" style="width: 100%;">
+              <el-form-item :label="$t('StockApply.title')" prop="title" style="width: 100%;">
                 <el-input v-model="personalForm.title" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
@@ -222,6 +222,9 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        title: [
+          { required: true, message: '请填写采购主题', trigger: 'change' }
+        ],
         applyPersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
