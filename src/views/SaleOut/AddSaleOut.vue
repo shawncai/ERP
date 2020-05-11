@@ -207,11 +207,37 @@
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
                 </el-form-item>
               </el-col>
+              <!-- 前两个改变会影响后面的改变 要加change事件 -->
               <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('SaleOut.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.shouldMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.changeMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.receivableMoney }}
-                    <!-- {{ getReceivableMoney() }} -->
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.unpayMoney }}
                   </span>
                 </el-form-item>
               </el-col>
@@ -754,6 +780,7 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        customerPay: 0,
         couponSupports: [
           {
             couponSupport: 0
@@ -816,7 +843,7 @@ export default {
           { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
-      receivableMoney: 0,
+      shouldMoney: 0,
       // 订单明细数据
       list2: [],
       // 销售费用明细
@@ -838,7 +865,17 @@ export default {
       flag: true
     }
   },
+  computed: {
+    myshouldMoney() {
+      return this.personalForm.shouldMoney
+    }
+  },
   watch: {
+    myshouldMoney: {
+      handler(oldval, newval) {
+        this.updatePrice()
+      }
+    },
     list2: {
       handler(oldval, newval) {
         if (this.list2.length !== 0) {
@@ -908,6 +945,23 @@ export default {
     _that = this
   },
   methods: {
+    updatePrice() {
+      console.log('999', 999)
+      if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
+        if (this.personalForm.customerPay !== null && this.personalForm.customerPay !== '' && this.personalForm.customerPay !== undefined) {
+          // 客户给的钱多
+          if (this.personalForm.customerPay > this.personalForm.shouldMoney) {
+            this.personalForm.changeMoney = Number(this.personalForm.customerPay - this.personalForm.shouldMoney).toFixed(2)
+            this.personalForm.receivableMoney = this.personalForm.shouldMoney
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          } else {
+            this.personalForm.changeMoney = 0
+            this.personalForm.receivableMoney = this.personalForm.customerPay
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          }
+        }
+      }
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true
@@ -1023,7 +1077,7 @@ export default {
       this.Isproduct = true
       this.IsSourceNumber = false
       if (this.$store.getters.newsaleoutdata.firstMoney !== '' && this.$store.getters.newsaleoutdata.firstMoney !== null && this.$store.getters.newsaleoutdata.firstMoney !== undefined) {
-        this.receivableMoney = this.$store.getters.newsaleoutdata.firstMoney
+        this.shouldMoney = this.$store.getters.newsaleoutdata.firstMoney
       }
       this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
       this.personalForm.customerId = this.$store.getters.newsaleoutdata.customerId
@@ -1155,7 +1209,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
@@ -1165,16 +1219,16 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
-        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+      } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
+        let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
@@ -1183,7 +1237,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
@@ -1196,18 +1250,18 @@ export default {
       //   return (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.couponSupport) - Number(this.personalForm.advanceMoney))
       // }
 
-      // if (this.receivableMoney !== null && this.receivableMoney !== '' && this.receivableMoney !== undefined) {
-      //   this.personalForm.receivableMoney = this.receivableMoney
-      //   return (this.receivableMoney - Number(this.personalForm.couponSupport))
+      // if (this.shouldMoney !== null && this.shouldMoney !== '' && this.shouldMoney !== undefined) {
+      //   this.personalForm.shouldMoney = this.shouldMoney
+      //   return (this.shouldMoney - Number(this.personalForm.couponSupport))
       // } else if (this.personalForm.ridMoney !== null && this.personalForm.ridMoney !== '' && this.personalForm.ridMoney !== undefined) {
-      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
+      //   this.personalForm.shouldMoney = this.heji3 - this.heji4 - this.personalForm.ridMoney - this.personalForm.advanceMoney
       //   return (this.heji3 - this.heji4 - this.personalForm.ridMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
       // } else if (this.personalForm.ridBikeMoney !== null && this.personalForm.ridBikeMoney !== '' && this.personalForm.ridBikeMoney !== undefined) {
-      //   this.personalForm.receivableMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
+      //   this.personalForm.shouldMoney = this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - this.personalForm.advanceMoney
       //   return (this.heji3 - this.heji4 - this.personalForm.ridBikeMoney - Number(this.personalForm.couponSupport) - this.personalForm.advanceMoney)
       // } else {
       //   if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5') {
-      //     this.personalForm.receivableMoney = this.heji3 - this.heji4
+      //     this.personalForm.shouldMoney = this.heji3 - this.heji4
       //     return (this.heji3 - this.heji4 - Number(this.personalForm.couponSupport))
       //   }
       // }
@@ -1608,7 +1662,7 @@ export default {
       row.flag = false
     },
     chooseSourceType(val) {
-      this.receivableMoney = ''
+      this.shouldMoney = ''
       this.personalForm.ridMoney = ''
       this.personalForm.ridBikeMoney = ''
       if (val === '5' || val === '7' || val === undefined) {
@@ -2012,7 +2066,7 @@ export default {
       }
     },
     saleOrder(val) {
-      this.receivableMoney = ''
+      this.shouldMoney = ''
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
@@ -2093,7 +2147,7 @@ export default {
       }
     },
     opportunity(val) {
-      this.receivableMoney = ''
+      this.shouldMoney = ''
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = String(val.customerType)
       }
@@ -2124,7 +2178,7 @@ export default {
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
-      this.receivableMoney = val.firstMoney
+      this.shouldMoney = val.firstMoney
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'
       }
@@ -2304,18 +2358,18 @@ export default {
         otherMoney: '',
         saleRepositoryId: this.$store.getters.repositoryId,
         salePersonId: this.$store.getters.userId,
-        receivableMoney: 0,
+        shouldMoney: 0,
         receiveMoney: 0,
         isInvoice: 1,
         couponSupportOld: 0,
-        // receivableMoney: '',
+        // shouldMoney: '',
         couponSupports: [
           {
             couponSupport: 0
           }
         ]
       }
-      this.receivableMoney = ''
+      this.shouldMoney = ''
       this.customerId = null
       this.salePersonId = this.$store.state.user.name
       this.saleRepositoryId = this.$store.getters.repositoryName
@@ -2574,10 +2628,19 @@ export default {
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           this.personalForm.couponNumbers = couponNumbers
           // eslint-disable-next-line use-isnan
-          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
+          if (this.personalForm.shouldMoney === '' || this.personalForm.shouldMoney === undefined || this.personalForm.shouldMoney === NaN || this.personalForm.shouldMoney === null) {
             this.$notify.error({
               title: 'wrong',
               message: '本次收款金额不能为空',
+              offset: 100
+            })
+            return false
+          }
+          // eslint-disable-next-line use-isnan
+          if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '实际收到客户金额不能为空',
               offset: 100
             })
             return false
@@ -2851,14 +2914,14 @@ export default {
       couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
       this.personalForm.couponNumbers = couponNumbers
       // eslint-disable-next-line use-isnan
-      if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === NaN || this.personalForm.receivableMoney === null) {
+      if (this.personalForm.shouldMoney === '' || this.personalForm.shouldMoney === undefined || this.personalForm.shouldMoney === NaN || this.personalForm.shouldMoney === null) {
         // this.$notify.error({
         //   title: 'wrong',
         //   message: '本次收款金额不能为空',
         //   offset: 100
         // })
         // return false
-        this.personalForm.receivableMoney = 0
+        this.personalForm.shouldMoney = 0
       }
       this.personalForm.judgeStat = 4
       const Data = this.personalForm
