@@ -2,8 +2,6 @@
   <div class="ERP-container">
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
       <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
@@ -35,16 +33,16 @@
           prop="supplierName"
           width="200"
           align="center"/>
-        <el-table-column
-          :label="$t('report.orderNum')"
-          prop="orderNum"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.arrivalNum')"
-          prop="arrivalNum"
-          width="200"
-          align="center"/>
+        <el-table-column :label="$t('report.orderNum')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNum }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('report.arrivalNum')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail2(scope.row)">{{ scope.row.arrivalNum }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('report.delayNum')"
           prop="delayNum"
@@ -212,6 +210,15 @@ export default {
     _that = this
   },
   methods: {
+    handleDetail2(row) {
+      console.log('row', row)
+      const param = {}
+      param.supplierId = row.supplierId
+      param.beginTime = this.date[0]
+      param.endTime = this.date[1]
+      this.$store.dispatch('getempcontract', param)
+      this.$router.push('/StockArrival/StockArrivalList')
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -365,9 +372,13 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      console.log('row', row)
+      const param = {}
+      param.supplierId = row.supplierId
+      param.beginTime = this.date[0]
+      param.endTime = this.date[1]
+      this.$store.dispatch('getempcontract', param)
+      this.$router.push('/StockOrder/StockOrderList')
     },
     // 判断审核按钮
     isReview(row) {

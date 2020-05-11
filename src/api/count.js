@@ -77,6 +77,7 @@ export function productABC(query) {
 // 供应商准时交货分析
 export function supplierOnTimeABC(query) {
   var params = new URLSearchParams()
+
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }
