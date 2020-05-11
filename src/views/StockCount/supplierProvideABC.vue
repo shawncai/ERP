@@ -9,13 +9,13 @@
         <el-option value="0.8" label="80%" />
         <el-option value="0.9" label="90%" />
       </el-select>
-      <el-select v-model="getemplist.bPercent" :value="getemplist.aPercent" size="small" placeholder="B" clearable style="width: 150px;margin-top: 10px">
+      <el-select v-model="getemplist.bPercent" :value="getemplist.bPercent" size="small" placeholder="B" clearable style="width: 150px;margin-top: 10px">
         <el-option value="0.1" label="10%" />
         <el-option value="0.2" label="20%" />
         <el-option value="0.3" label="30%" />
         <el-option value="0.4" label="40%" />
       </el-select>
-      <el-select v-model="getemplist.cPercent" :value="getemplist.aPercent" size="small" placeholder="C" clearable style="width: 150px;margin-top: 10px">
+      <el-select v-model="getemplist.cPercent" :value="getemplist.cPercent" size="small" placeholder="C" clearable style="width: 150px;margin-top: 10px">
         <el-option value="0.1" label="10%" />
         <el-option value="0.2" label="20%" />
       </el-select>
@@ -105,7 +105,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockDetailCount',
+  name: 'SupplierProvideABC',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -324,8 +324,12 @@ export default {
     },
     // 搜索
     handleFilter() {
+      console.log('aPercent', this.getemplist.aPercent)
+      console.log('bPercent', this.getemplist.bPercent)
+      console.log('cPercent', this.getemplist.cPercent)
       if (this.getemplist.aPercent === undefined || this.getemplist.aPercent === null || this.getemplist.aPercent === '') {
-        if ((Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+        console.log('123', 11)
+        if ((Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(1) !== '1.0') {
           this.$notify.error({
             title: 'wrong',
             message: 'ABC加起来需要为1',
@@ -334,7 +338,8 @@ export default {
           return false
         }
       } else if (this.getemplist.bPercent === undefined || this.getemplist.bPercent === null || this.getemplist.bPercent === '') {
-        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+        console.log('123', 12)
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.cPercent)).toFixed(1) !== '1.0') {
           this.$notify.error({
             title: 'wrong',
             message: 'ABC加起来需要为1',
@@ -343,7 +348,8 @@ export default {
           return false
         }
       } else if (this.getemplist.cPercent === undefined || this.getemplist.cPercent === null || this.getemplist.cPercent === '') {
-        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent)) !== parseInt(1)) {
+        console.log('123', 13)
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent)).toFixed(1) !== '1.0') {
           this.$notify.error({
             title: 'wrong',
             message: 'ABC加起来需要为1',
@@ -352,7 +358,10 @@ export default {
           return false
         }
       } else {
-        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) !== parseInt(1)) {
+        console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(1))
+        console.log('123', '1.0')
+        console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(1) === parseInt(1))
+        if ((Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(1) !== '1.0') {
           this.$notify.error({
             title: 'wrong',
             message: 'ABC加起来需要为1',
@@ -361,9 +370,6 @@ export default {
           return false
         }
       }
-      console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)))
-      console.log('123', 1)
-      console.log('123', (Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)) === Number(1).toFixed(0))
       // if ((Number(Number(this.getemplist.aPercent) + Number(this.getemplist.bPercent) + Number(this.getemplist.cPercent)).toFixed(0)) !== Number(1).toFixed(0)) {
       //   this.$notify.error({
       //     title: 'wrong',
