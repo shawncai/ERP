@@ -89,6 +89,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('Receipt.receiptRepositoryId')" style="width: 100%;">
+                  <span>{{ personalForm.receiptRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('Receipt.receiptDate')" style="width: 100%;">
                   <span>{{ personalForm.receiptDate }}</span>
                 </el-form-item>
