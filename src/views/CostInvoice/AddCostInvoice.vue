@@ -151,7 +151,14 @@
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="6"
+                  v-model="scope.row.taxRate"
+                  @input="gettaxRate(scope.row, scope)"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.kdyse')" prop="deduTaxMoney" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.bhsje')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -402,6 +409,21 @@ export default {
     _that = this
   },
   methods: {
+    gettaxRate(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.taxRate !== '' && row.taxRate !== null && row.taxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].taxRate)
+            console.log(222)
+            this.list2[i].taxRate = row.taxRate
+          }
+          console.log(row)
+        }
+      }
+    },
     getcurrency() {
       const mycountry = this.$store.getters.countryId
       if (mycountry === 1) {

@@ -35,11 +35,16 @@
           prop="id"
           width="200"
           align="center"/>
-        <el-table-column
+        <!-- <el-table-column
           :label="first"
           prop="name"
           width="300"
-          align="center"/>
+          align="center"/> -->
+        <el-table-column :label="first" :resizable="false" align="center" min-width="300">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('stockOrderCount.order')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
@@ -377,8 +382,11 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const query_params = {
+        id: row.id,
+        name: row.name
+      }
+      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
     },
     // 判断审核按钮
     isReview(row) {

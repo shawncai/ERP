@@ -70,6 +70,15 @@
                 <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-date-picker
+                  v-model="personalForm.enterDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="width: 200px"/>
+              </el-form-item>
+            </el-col>
             <!--            <el-col :span="12">-->
             <!--              <el-form-item :label="$t('Stockenter.newOrOld')" style="width: 100%;">-->
             <!--                <el-radio-group v-model="personalForm.newOrOld" style="width: 200px;margin-left: 19px">-->

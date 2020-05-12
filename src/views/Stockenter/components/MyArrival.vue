@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import { searchstockArrival } from '@/api/StockArrival'
+import { searchstockArrival2 } from '@/api/StockArrival'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -215,6 +215,10 @@ export default {
     arrivalcontrol: {
       type: Boolean,
       default: false
+    },
+    repositoryid: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -282,8 +286,9 @@ export default {
   watch: {
     arrivalcontrol() {
       this.employeeVisible = this.arrivalcontrol
-      this.getlist()
-
+      if (this.arrivalcontrol) {
+        this.getlist()
+      }
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
       }, 100)
@@ -300,7 +305,11 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchstockArrival(this.getemplist).then(res => {
+      if (this.repositoryid) {
+        console.log('repositoryid', this.repositoryid)
+        this.getemplist.repositoryId = this.repositoryid.enterRepositoryId
+      }
+      searchstockArrival2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           // 判断数组中产品过检数量 - 已入库数量是否小于0
@@ -397,7 +406,7 @@ export default {
           unit: item.unit,
           color: item.color,
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(6),
-          actualEnterQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(6),
+          actualEnterQuantity: (item.arrivalQuantity - item.hadStorageQuantity).toFixed(6),
           enterPrice: item.includeTaxPrice,
           taxRate: (item.taxRate).toFixed(6),
           enterMoney: '0.00',
@@ -406,8 +415,14 @@ export default {
           passQuantity: item.qualifyQuantity,
           orderNumber: item.sourceNumber,
           sourceNumber: number,
-          arrivalQuantity: item.arrivalQuantity,
-          hadStorageQuantity: item.hadStorageQuantity
+          // arrivalQuantity: item.arrivalQuantity,
+          discountMoney: item.discountMoney,
+          discountRate: item.discountRate,
+          includeTaxMoney: item.includeTaxMoney,
+          includeTaxPrice: item.includeTaxPrice,
+          money: item.money,
+          price: item.price,
+          taxMoney: item.taxMoney
         }
       })
       console.log('arrivalDetail', arrivalDetail)

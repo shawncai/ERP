@@ -26,33 +26,47 @@
         ref="table"
         :height="tableHeight"
         :data="list"
+        :span-method="arraySpanMethod"
         size="small"
         border
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
           :label="$t('report.supplierName')"
+          fixed="left"
           prop="supplierName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.orderQuantity')"
-          prop="orderQuantity"
+          :label="$t('public.id')"
+          fixed="left"
+          prop="orderNumber"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceQuantity')"
-          prop="invoiceQuantity"
+          :label="$t('StockArrival.presentdata')"
+          fixed="left"
+          prop="productName"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceMoney')"
-          prop="invoiceMoney"
+          :label="$t('updates.ys')"
+          prop="color"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceTaxMoney')"
-          prop="invoiceTaxMoney"
+          :label="$t('Hmodule.dw')"
+          prop="unit"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('updates.cgsl')"
+          prop="stockQuantity"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('updates.dhsl')"
+          prop="actualArrivalQuantity"
           width="200"
           align="center"/>
         <el-table-column
@@ -61,18 +75,8 @@
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.enterMoney')"
-          prop="enterMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffQuantity')"
-          prop="diffQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffMoney')"
-          prop="diffMoney"
+          :label="$t('stockTrackList.deliveryDate')"
+          prop="deliveryDate"
           width="200"
           align="center"/>
       </el-table>
@@ -90,7 +94,7 @@ import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
-import checkPermission from '@/utils/permission' // 权限判断函数
+import checkPermission from '@/utils/permission' // 权限判断函数11
 import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
@@ -139,7 +143,6 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
       first: '',
       step1: '',
       step2: '',
@@ -286,16 +289,110 @@ export default {
     updatecountry() {
       this.getlist()
     },
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].orderId === data[i - 1].orderId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 2 && columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6 && columnIndex !== 7 && columnIndex !== 8) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
       orderImplDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+          const list = res.data.data.content.list
+          for (let i = 0; i < list.length; i++) {
+            list[i].heji = list[i].totalMoney + list[i].taxMoney
           }
-          // this.total = res.data.data.content.totalCount
+          const needlist = list
+          const newarr = list.map(item => {
+            return item.stockOrderDetailVos
+          })
+          const newarr2 = [].concat.apply([], newarr)
+          const processarr = this._.cloneDeep(newarr2)
+          for (const i in needlist) {
+            for (const j in processarr) {
+              if (needlist[i].id === processarr[j].orderId) {
+                processarr[j].id = needlist[i].id
+                processarr[j].allDiscountMoney = needlist[i].allDiscountMoney
+                processarr[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
+                processarr[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                processarr[j].allMoney = needlist[i].allMoney
+                processarr[j].allQuantity = needlist[i].allQuantity
+                processarr[j].allTaxMoney = needlist[i].allTaxMoney
+                processarr[j].approvalUseVos = needlist[i].approvalUseVos
+                processarr[j].arrivalDate = needlist[i].arrivalDate
+                processarr[j].countryId = needlist[i].countryId
+                processarr[j].countryName = needlist[i].countryName
+                processarr[j].createDate = needlist[i].createDate
+                processarr[j].createPersonId = needlist[i].createPersonId
+                processarr[j].createPersonName = needlist[i].createPersonName
+                processarr[j].currency = needlist[i].currency
+                processarr[j].deliveryMode = needlist[i].deliveryMode
+                processarr[j].deliveryModeName = needlist[i].deliveryModeName
+                processarr[j].deptId = needlist[i].deptId
+                processarr[j].deptName = needlist[i].deptName
+                processarr[j].endDate = needlist[i].endDate
+                processarr[j].endPersonId = needlist[i].endPersonId
+                processarr[j].endPersonName = needlist[i].endPersonName
+                processarr[j].isVat = needlist[i].isVat
+                processarr[j].judgeDate = needlist[i].judgeDate
+                processarr[j].judgePersonId = needlist[i].judgePersonId
+                processarr[j].judgePersonName = needlist[i].judgePersonName
+                processarr[j].judgeStat = needlist[i].judgeStat
+                processarr[j].modifyDate = needlist[i].modifyDate
+                processarr[j].modifyPersonId = needlist[i].modifyPersonId
+                processarr[j].modifyPersonName = needlist[i].modifyPersonName
+                processarr[j].orderDate = needlist[i].orderDate
+                processarr[j].orderNumber = needlist[i].orderNumber
+                processarr[j].otherMoney = needlist[i].otherMoney
+                processarr[j].payMode = needlist[i].payMode
+                processarr[j].payModeName = needlist[i].payModeName
+                processarr[j].receiptStat = needlist[i].receiptStat
+                processarr[j].settleMode = needlist[i].settleMode
+                processarr[j].settleModeName = needlist[i].settleModeName
+                processarr[j].signPersonId = needlist[i].signPersonId
+                processarr[j].signPersonName = needlist[i].signPersonName
+                processarr[j].sourceType = needlist[i].sourceType
+                processarr[j].stockPersonId = needlist[i].stockPersonId
+                processarr[j].stockPersonName = needlist[i].stockPersonName
+                processarr[j].stockRepositoryId = needlist[i].stockRepositoryId
+                processarr[j].stockRepositoryName = needlist[i].stockRepositoryName
+                processarr[j].stockType = needlist[i].stockType
+                processarr[j].stockTypeId = needlist[i].stockTypeId
+                processarr[j].supplierId = needlist[i].supplierId
+                processarr[j].supplierName = needlist[i].supplierName
+                processarr[j].supplierNumber = needlist[i].supplierNumber
+                processarr[j].title = needlist[i].title
+                // processarr[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
+              }
+            }
+          }
+          this.list = processarr
+          this.getSpanArr(processarr)
         }
         setTimeout(() => {
           this.listLoading = false
@@ -327,18 +424,19 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      orderImplDetail(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          // this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // orderImplDetail(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     for (let i = 0; i < this.list.length; i++) {
+      //       this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+      //     }
+      //     // this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 采购人focus事件
     handlechooseStock() {

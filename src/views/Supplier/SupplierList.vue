@@ -67,7 +67,7 @@
       </el-dropdown>
       <!-- 新建分组 -->
       <el-button v-permission="['1-22-24-64']" v-waves size="small" class="filter-item2" type="primary" style="width: 100px" @click="handleGroup">{{ $t('Supplier.supplierGroup') }}</el-button>
-      <el-button v-waves size="small" class="filter-item2" type="primary" style="width: 100px" @click="handlePunish">{{ $t('updates.gyskh') }}</el-button>
+      <el-button v-waves size="small" class="filter-item2" type="primary" style="width: 100px" @click="handlePunish">{{ $t('updates.gyscf') }}</el-button>
       <el-button v-waves size="small" class="filter-item2" type="primary" style="width: 100px" @click="handleModify">{{ $t('updates.sctjd') }}</el-button>
       <my-punishment :punishcontrol.sync="punishcontrol" :punishdata="punishdata" @rest="refreshlist"/>
       <el-dialog :visible.sync="GroupVisible" title="新建分组" class="normal" width="600px" center>

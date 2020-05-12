@@ -155,7 +155,7 @@
           </el-form>
         </div>
       </el-card>
-      <!--子件信息-->
+      <!--子件信息12-->
       <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 15px" shadow="never">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgdhdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">

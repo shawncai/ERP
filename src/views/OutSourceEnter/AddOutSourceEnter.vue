@@ -66,6 +66,16 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.enterDate"
+                    :picker-options="pickerOptions2"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
               <!--              <el-col :span="6">-->
               <!--                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="width: 200px" clearable/>-->
@@ -233,6 +243,20 @@ export default {
       // }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          // 只能选择当月
+          var date = new Date()
+          const startd = date.setDate(1)
+          var currentMonth = date.getMonth()
+          var nextMonth = ++currentMonth
+          var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1)
+          var oneDay = 1000 * 60 * 60 * 24
+          var lastTime = new Date(nextMonthFirstDay).getTime()
+          console.log(startd, lastTime)
+          return time.getTime() < startd - 8.64e7 || time.getTime() > lastTime - 8.64e7
+        }
+      },
       issure: false,
       IsNumber: true,
       outsourcecontrol: false,
@@ -258,6 +282,7 @@ export default {
       control: false,
       // 入库信息数据
       personalForm: {
+        enterDate: null,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -290,6 +315,9 @@ export default {
         ],
         enterRepositoryId: [
           { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        enterDate: [
+          { required: true, message: '请选择入库日期', trigger: 'change' }
         ]
       },
       // 入库单明细数据
@@ -310,12 +338,45 @@ export default {
   },
 
   mounted() {
+    this.getdatatime()
     this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getCurrentMonthLast() {
+      var date = new Date()
+      var currentMonth = date.getMonth()
+      var nextMonth = ++currentMonth
+      var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1)
+      var oneDay = 1000 * 60 * 60 * 24
+      var lastTime = new Date(nextMonthFirstDay - oneDay)
+      var month = parseInt(lastTime.getMonth() + 1)
+      var day = lastTime.getDate()
+      if (month < 10) {
+        month = '0' + month
+      }
+      if (day < 10) {
+        day = '0' + day
+      }
+      return date.getFullYear() + '-' + month + '-' + day
+    },
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.enterDate = currentdate
+    },
     getmylocation(scope) {
       if (scope.row.flag === undefined) {
         scope.row.flag = true
@@ -542,6 +603,7 @@ export default {
       this.enterPersonId = this.$store.getters.name
       this.acceptPersonId = null
       this.deliveryPersonId = null
+      this.getdatatime()
     },
     // 保存操作
     handlesave() {

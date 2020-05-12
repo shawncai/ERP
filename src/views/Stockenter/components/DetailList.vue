@@ -122,6 +122,34 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" />
             <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" />
+            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <!-- <p>{{ getMoney(scope.row) }}</p> -->
+                <p>{{ scope.row.money }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ scope.row.includeTaxMoney }}</p>
+                <!-- <p>{{ getTaxMoney(scope.row) }}</p> -->
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ scope.row.taxMoney }}</p>
+                <!-- <p>{{ getTaxMoney2(scope.row) }}</p> -->
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ scope.row.discountMoney }}</p>
+                <!-- <p>{{ getdiscountMoney(scope.row) }}</p> -->
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
@@ -142,12 +170,32 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji')" style="width: 100%;">
-                  <el-input v-model="heji1" style="margin-left: 18px;width: 200px" disabled/>
+                  <el-input v-model="heji1" size="mini" style="margin-left: 18px;width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="heji2" style="width: 200px" disabled/>
+                  <el-input v-model="heji2" size="mini" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allIncludeTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allDiscountMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allMoneyMoveDiscount" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -283,6 +331,10 @@ export default {
       // 合计信息
       heji1: '',
       heji2: '',
+      allTaxMoney: '',
+      allIncludeTaxMoney: '',
+      allDiscountMoney: '',
+      allMoneyMoveDiscount: '',
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -378,13 +430,23 @@ export default {
       console.log('list2', this.list2)
       let num = 0
       let num2 = 0
+      let num3 = 0
+      let num4 = 0
+      let num5 = 0
       for (const i in this.list2) {
         console.log(this.list2[i].basicQuantity)
         num += this.list2[i].basicQuantity
         num2 += this.list2[i].enterMoney
+        num3 += this.list2[i].includeTaxMoney
+        num4 += this.list2[i].taxMoney
+        num5 += this.list2[i].discountMoney
       }
       this.heji1 = num
       this.heji2 = num2
+      this.allTaxMoney = num3
+      this.allIncludeTaxMoney = num4
+      this.allDiscountMoney = num5
+      this.allMoneyMoveDiscount = num4 - num5
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

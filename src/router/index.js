@@ -3124,6 +3124,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/inventorycount2/Inventorydetaillist'),
         name: 'Inventorydetaillist',
         meta: { title: 'Inventorydetaillist', noCache: false, roles: ['311-312-323-4'] }
+      },
+      {
+        path: 'InventorySluggishAnalysisTable',
+        component: () => import('@/views/inventorycount2/InventorySluggishAnalysisTable'),
+        name: 'InventorySluggishAnalysisTable',
+        meta: { title: 'InventorySluggishAnalysisTable', noCache: false, roles: ['311-312-397-4'] }
+      },
+      {
+        path: 'InventoryMatchingAnalysisTable',
+        component: () => import('@/views/inventorycount2/InventorySluggishAnalysisTable'),
+        name: 'InventoryMatchingAnalysisTable',
+        meta: { title: 'InventoryMatchingAnalysisTable', noCache: false, roles: ['311-312-398-4'] }
       }
     ]
   },

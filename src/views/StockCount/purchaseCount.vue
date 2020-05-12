@@ -6,7 +6,10 @@
 
       <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-
+      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('stockOrderCount.type')" size="small" class="filter-item" @keyup.enter.native="handleFilter" @change="changeName">
+        <el-option value="1" label="供应商类别分组"/>
+        <el-option value="2" label="供应商+物品名称分组"/>
+      </el-select>
       <el-date-picker
         v-model="date"
         type="daterange"
@@ -21,7 +24,7 @@
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
-      <!-- 列表开始 -->
+      <!-- 列表开始1 -->
       <el-table
         ref="table"
         :height="tableHeight"
@@ -30,10 +33,27 @@
         border
         style="width: 100%"
         @row-click="clickRow">
-        <el-table-column
+        <!-- <el-table-column
           :label="$t('report.supplierName')"
           prop="supplierName"
           width="200"
+          align="center"/> -->
+        <el-table-column :label="$t('report.supplierName')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          v-if="second"
+          label="物品名称"
+          prop="productName"
+          width="300"
+          align="center"/>
+        <el-table-column
+          v-if="second"
+          label="物品编码"
+          prop="productCode"
+          width="300"
           align="center"/>
         <el-table-column
           :label="$t('report.orderQuantity')"
@@ -139,7 +159,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      second: false,
       first: '',
       step1: '',
       step2: '',
@@ -243,12 +263,7 @@ export default {
       }
       if (this.getemplist.type === '2') {
         this.first = '经办人名称'
-      }
-      if (this.getemplist.type === '3') {
-        this.first = '品牌名称'
-      }
-      if (this.getemplist.type === '4') {
-        this.first = '种类名称'
+        this.second = true
       }
       this.getlist()
     },
@@ -381,8 +396,13 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const query_params = {
+        id: row.supplierId,
+        name: row.supplierName,
+        beginTime: this.date[0] || '',
+        endTime: this.date[1] || ''
+      }
+      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
     },
     // 判断审核按钮
     isReview(row) {

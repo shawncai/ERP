@@ -31,7 +31,7 @@
                 <el-form-item label="源单编号" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.sourceNumber" style="width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
-                <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+                <my-arrival :arrivalcontrol.sync="arrivalcontrol" :repositoryid="personalForm" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                 <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
               </el-col>
               <el-col :span="6">
@@ -114,6 +114,8 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
+            show-summary
             class="click-table1"
             stripe
             border
@@ -152,12 +154,36 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p>{{ getdiscountMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+            <el-editable-column v-show="false" label="123" prop="id" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getmylocation(scope) }}</p>
               </template>
@@ -182,12 +208,32 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="heji1" style="width: 200px" disabled/>
+                  <el-input v-model="heji1" size="mini" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="heji2" style="width: 200px" disabled/>
+                  <el-input v-model="heji2" size="mini" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allIncludeTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allDiscountMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-input v-model="allMoneyMoveDiscount" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -196,7 +242,6 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
-
         <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -393,7 +438,11 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      allTaxMoney: '',
+      allIncludeTaxMoney: '',
+      allDiscountMoney: '',
+      allMoneyMoveDiscount: ''
     }
   },
   watch: {
@@ -403,8 +452,8 @@ export default {
         let num2 = 0
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
-          num += this.list2[i].actualEnterQuantity
-          num2 += this.list2[i].enterMoney
+          num += Number(this.list2[i].actualEnterQuantity)
+          num2 += Number(this.list2[i].enterMoney)
         }
         this.heji1 = num
         this.heji2 = num2
@@ -430,6 +479,72 @@ export default {
     _that = this
   },
   methods: {
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[7] = ''
+      sums[8] = ''
+      sums[11] = ''
+      sums[13] = ''
+      sums[17] = ''
+      sums[21] = ''
+      sums[22] = ''
+      sums[23] = ''
+      this.allTaxMoney = sums[16]
+      this.allIncludeTaxMoney = sums[15]
+      this.allDiscountMoney = sums[18]
+      this.allMoneyMoveDiscount = sums[15] - sums[18]
+      return sums
+    },
+    // 计算金额
+    getMoney(row) {
+      console.log(row.actualEnterQuantity, row.price)
+      row.money = (Number(row.actualEnterQuantity) * Number(row.price)).toFixed(6)
+      return row.money
+    },
+    // 计算含税金额
+    getTaxMoney(row) {
+      row.includeTaxMoney = (Number(row.actualEnterQuantity) * Number(row.includeTaxPrice)).toFixed(6)
+      return row.includeTaxMoney
+    },
+    getdiscountMoney(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (Number(row.includeTaxPrice) * Number(row.actualEnterQuantity) * (Number(row.discountRate) / 100)).toFixed(6)
+      }
+      return row.discountMoney
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (Number(row.price) * Number(row.taxRate) / 100 * Number(row.actualEnterQuantity)).toFixed(6)
+      return row.taxMoney
+    },
     order(val) {
       console.log('ssssss', val)
       for (let i = 0; i < val.length; i++) {
@@ -522,6 +637,15 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
+      console.log(this.enterRepositoryId)
+      if (this.enterRepositoryId === '' || this.enterRepositoryId === null || this.enterRepositoryId === undefined) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择入库仓库',
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.sourceType === '1') {
         this.arrivalcontrol = true
       } else {
@@ -529,15 +653,13 @@ export default {
       }
     },
     arrival(val) {
-      console.log('初始值==================', val)
       this.$refs.editable.clear()
       let qq = 1
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
-          val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(6)
+          // val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(6)
           // this.$refs.editable.insert(val[i])
-          console.log('val[i]==========', val[i])
           delete val[i].stockArrivalDetailVos
           this.list2.push(val[i])
           this.$refs.editable.insert(val[i])
@@ -864,6 +986,7 @@ export default {
       return (quan * pric).toFixed(6)
     },
     getmylocation(scope) {
+      console.log(1231231231231)
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {

@@ -14,7 +14,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockApply.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                <el-form-item :label="$t('StockApply.title')" prop="title" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.title" size="mini" style="margin-left: 18px;width:200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -303,6 +303,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        title: [
+          { required: true, message: '请填写采购主题', trigger: 'change' }
+        ],
         applyRepositoryId: [
           { required: true, validator: validatePass6, trigger: 'change' }
         ],
