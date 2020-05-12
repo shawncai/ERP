@@ -187,7 +187,7 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.taxRate"
-                @input="gettaxRate(scope.row)"/>
+                @input="gettaxRate(scope.row, scope)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -210,7 +210,7 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.discountRate"
-                @change="getdiscountRate(scope.row)"/>
+                @change="getdiscountRate(scope.row, scope)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
@@ -627,7 +627,20 @@ export default {
       }
     },
     // 通过折扣计算折扣额
-    getdiscountRate(row) {
+    getdiscountRate(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].discountRate)
+            console.log(222)
+            this.list2[i].discountRate = row.discountRate
+          }
+          console.log(row)
+        }
+      }
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
@@ -635,7 +648,20 @@ export default {
       }
     },
     // 通过税率计算含税价
-    gettaxRate(row) {
+    gettaxRate(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.taxRate !== '' && row.taxRate !== null && row.taxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].taxRate)
+            console.log(222)
+            this.list2[i].taxRate = row.taxRate
+          }
+          console.log(row)
+        }
+      }
       if (row.includeTaxPrice !== 0) {
         row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       }

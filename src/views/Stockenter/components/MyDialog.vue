@@ -136,7 +136,29 @@
           <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
           <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.slv')" prop="taxRate" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTaxMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getTaxMoney2(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+          <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <template slot-scope="scope">
+              <p>{{ getdiscountMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
@@ -302,6 +324,30 @@ export default {
     _that = this
   },
   methods: {
+    // 计算金额
+    getMoney(row) {
+      console.log(row.actualEnterQuantity, row.price)
+      row.money = (Number(row.actualEnterQuantity) * Number(row.price)).toFixed(6)
+      return row.money
+    },
+    // 计算含税金额
+    getTaxMoney(row) {
+      row.includeTaxMoney = (Number(row.actualEnterQuantity) * Number(row.includeTaxPrice)).toFixed(6)
+      return row.includeTaxMoney
+    },
+    getdiscountMoney(row) {
+      if (row.discountRate === 0) {
+        row.discountMoney = 0
+      } else {
+        row.discountMoney = (Number(row.includeTaxPrice) * Number(row.actualEnterQuantity) * (Number(row.discountRate) / 100)).toFixed(6)
+      }
+      return row.discountMoney
+    },
+    // 计算税额
+    getTaxMoney2(row) {
+      row.taxMoney = (Number(row.price) * Number(row.taxRate) / 100 * Number(row.actualEnterQuantity)).toFixed(6)
+      return row.taxMoney
+    },
     order(val) {
       console.log('ssssss', val)
       for (let i = 0; i < val.length; i++) {

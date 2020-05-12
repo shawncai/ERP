@@ -141,6 +141,8 @@ export default {
     AddLocationAdjust: '新建货位调整单',
     LocationAdjustList: '货位调整单列表',
     Inventorydetaillist: '库存明细统计表',
+    InventorySluggishAnalysisTable: '库存呆滞料分析表',
+    InventoryMatchingAnalysisTable: '库存配套分析表',
     ProduceRequire: '生产需求',
     MaterialsList: '物料清单',
     AddMaterialsList: '新建物料清单',

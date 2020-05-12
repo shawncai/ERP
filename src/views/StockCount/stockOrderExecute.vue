@@ -55,7 +55,7 @@
           prop="productName"
           width="300"
           align="center"/> -->
-        <el-table-column :resizable="false" label="物品名称" align="center" min-width="300">
+        <el-table-column v-if="second" :resizable="false" label="物品名称" align="center" min-width="300">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.productName }}</span>
           </template>

@@ -183,6 +183,9 @@ export function purchaseCount(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
   if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
     params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   }
@@ -1434,6 +1437,27 @@ export function installmentAnalyze(query) {
   }
   return request({
     url: '/installmentCount/installmentAnalyze',
+    method: 'post',
+    data: params
+  })
+}
+// 库存呆滞分析表
+export function SluggishAnalysisTable(query) {
+  var params = new URLSearchParams()
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  if (query.time !== '' && query.time !== null && query.time !== undefined) {
+    params.append('time', query.time) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentCount/installmentComplete',
     method: 'post',
     data: params
   })

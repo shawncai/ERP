@@ -6,10 +6,7 @@
 
       <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('stockOrderCount.type')" size="small" class="filter-item" @keyup.enter.native="handleFilter" @change="changeName">
-        <el-option value="1" label="供应商类别分组"/>
-        <el-option value="2" label="供应商+物品名称分组"/>
-      </el-select>
+
       <el-date-picker
         v-model="date"
         type="daterange"
@@ -24,7 +21,7 @@
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
-      <!-- 列表开始1 -->
+      <!-- 列表开始 -->
       <el-table
         ref="table"
         :height="tableHeight"
@@ -33,77 +30,67 @@
         border
         style="width: 100%"
         @row-click="clickRow">
-        <!-- <el-table-column
-          :label="$t('report.supplierName')"
-          prop="supplierName"
+        <el-table-column
+          :label="$t('stockDetailCount.productCode')"
+          prop="productCode"
           width="200"
-          align="center"/> -->
-        <el-table-column :label="$t('report.supplierName')" :resizable="false" align="center" min-width="200">
-          <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.supplierName }}</span>
-          </template>
+          align="center"/>
+        <el-table-column
+          :label="$t('stockDetailCount.productName')"
+          prop="productName"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockDetailCount.productType')"
+          prop="productType"
+          width="200"
+          align="center"/>
+        <el-table-column
+          :label="$t('stockDetailCount.unit')"
+          prop="unit"
+          width="200"
+          align="center"/>
+        <el-table-column :label="$t('stockOrderCount.order')" align="center">
+          <el-table-column
+            :label="$t('stockOrderCount.orderQuantity')"
+            prop="orderQuantity"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.totalMoney')"
+            prop="totalMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.taxMoney')"
+            prop="taxMoney"
+            width="200"
+            align="center"/>
+          <el-table-column
+            :label="$t('stockOrderCount.heji')"
+            prop="heji"
+            width="200"
+            align="center"/>
         </el-table-column>
         <el-table-column
-          v-if="second"
-          label="物品名称"
-          prop="productName"
-          width="300"
-          align="center"/>
-        <el-table-column
-          v-if="second"
-          label="物品编码"
-          prop="productCode"
-          width="300"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.orderQuantity')"
-          prop="orderQuantity"
+          :label="$t('stockOrderCount.arrivedQuantity')"
+          prop="arrivedQuantity"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('report.invoiceQuantity')"
-          prop="invoiceQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.invoiceMoney')"
-          prop="invoiceMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.invoiceTaxMoney')"
-          prop="invoiceTaxMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.enterQuantity')"
-          prop="enterQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.enterMoney')"
-          prop="enterMoney"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffQuantity')"
-          prop="diffQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('report.diffMoney')"
-          prop="diffMoney"
+          :label="$t('stockOrderCount.notArrivedQuantity')"
+          prop="notArrivedQuantity"
           width="200"
           align="center"/>
       </el-table>
       <!-- 列表结束 -->
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
 
 <script>
-import { purchaseCount } from '@/api/count'
+import { stockDetailCount } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -120,7 +107,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockDetailCount',
+  name: 'InventorySluggishAnalysisTable',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -159,7 +146,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-      second: false,
+
       first: '',
       step1: '',
       step2: '',
@@ -263,7 +250,12 @@ export default {
       }
       if (this.getemplist.type === '2') {
         this.first = '经办人名称'
-        this.second = true
+      }
+      if (this.getemplist.type === '3') {
+        this.first = '品牌名称'
+      }
+      if (this.getemplist.type === '4') {
+        this.first = '种类名称'
       }
       this.getlist()
     },
@@ -304,13 +296,13 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      purchaseCount(this.getemplist).then(res => {
+      stockDetailCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
-          // this.total = res.data.data.content.totalCount
+          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -342,13 +334,13 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      purchaseCount(this.getemplist).then(res => {
+      stockDetailCount(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
+          this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {
             this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
           }
-          // this.total = res.data.data.content.totalCount
+          this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()
@@ -396,13 +388,8 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      const query_params = {
-        id: row.supplierId,
-        name: row.supplierName,
-        beginTime: this.date[0] || '',
-        endTime: this.date[1] || ''
-      }
-      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
+      this.detailvisible = true
+      this.personalForm = Object.assign({}, row)
     },
     // 判断审核按钮
     isReview(row) {

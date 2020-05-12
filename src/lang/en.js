@@ -128,6 +128,8 @@ export default {
     AddLocationAdjust: 'new form',
     LocationAdjustList: 'adjustment list',
     Inventorydetaillist: 'stocks detail list',
+    InventorySluggishAnalysisTable: 'InventorySluggishAnalysisTable',
+    InventoryMatchingAnalysisTable: 'InventoryMatchingAnalysisTable',
     ProduceRequire: 'production requirement',
     MaterialsList: 'material list',
     AddMaterialsList: 'new material list',
