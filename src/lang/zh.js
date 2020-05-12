@@ -1,5 +1,10 @@
 export default {
   route: {
+    SaleReceipt: '销售收款单',
+    SaleReceiptList: '销售收款单列表',
+    AddSaleReceipt: '新建销售收款单',
+    CustomerCollect: '客户应收款',
+    CustomerCollectList: '客户应收款列表',
     orderImplDetail: '采购订单执行明细',
     productABC: '物料采购结构ABC分析',
     supplierOnTimeABC: '供应商准时交货分析',
@@ -4343,6 +4348,13 @@ export default {
     level: 'ABC分类'
   },
   update4: {
+    shouldMoney: '应收款',
+    customerPay: '实际收到客户',
+    changeMoney: '找零',
+    receivableMoney: '已收款',
+    unpayMoney: '未收款'
+  },
+  CustomerCollectList: {
     shouldMoney: '应收款',
     customerPay: '实际收到客户',
     changeMoney: '找零',

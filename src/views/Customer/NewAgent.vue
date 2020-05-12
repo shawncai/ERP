@@ -1,7 +1,7 @@
 <template>
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
-      <!--零售客户-->
+      <!--零售客户123-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
         <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 25px">

@@ -1969,6 +1969,54 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/CustomerCollect',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'CustomerCollect',
+    alwaysShow: true,
+    meta: {
+      title: 'CustomerCollect',
+      icon: 'xiaoshoudingdan',
+      type: 3,
+      roles: ['54-394-4']
+    },
+    children: [
+      {
+        path: 'CustomerCollectList',
+        component: () => import('@/views/CustomerCollect/CustomerCollectList'),
+        name: 'CustomerCollectList',
+        meta: { title: 'CustomerCollectList', noCache: false, roles: ['54-394-4'] }
+      }
+    ]
+  },
+  {
+    path: '/SaleReceipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'SaleReceipt',
+    alwaysShow: true,
+    meta: {
+      title: 'SaleReceipt',
+      icon: 'shoukuan',
+      type: 3,
+      roles: ['54-396-4', '54-395-1']
+    },
+    children: [
+      {
+        path: 'AddSaleReceipt',
+        component: () => import('@/views/SaleReceipt/AddReceipt'),
+        name: 'AddSaleReceipt',
+        meta: { title: 'AddSaleReceipt', noCache: false, roles: ['54-395-1'] }
+      },
+      {
+        path: 'SaleReceiptList',
+        component: () => import('@/views/SaleReceipt/ReceiptList'),
+        name: 'SaleReceiptList',
+        meta: { title: 'SaleReceiptList', noCache: false, roles: ['54-396-1', '54-396-2', '54-396-3', '54-396-4', '54-396-5', '54-396-6', '54-396-7', '54-396-16'] }
+      }
+    ]
+  },
+  {
     path: '/SaleReturn',
     component: Layout,
     redirect: 'noredirect',
