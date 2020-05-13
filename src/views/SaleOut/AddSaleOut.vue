@@ -146,7 +146,7 @@
                 </el-form-item>
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('SaleOut.saleRepositoryId')" prop="saleRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -220,28 +220,28 @@
                   <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.changeMoney }}
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.receivableMoney }}
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.unpayMoney }}
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>

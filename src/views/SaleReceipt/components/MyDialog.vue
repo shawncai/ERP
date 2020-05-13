@@ -40,7 +40,7 @@
                 <el-input v-model="personalForm.totalLackMoney" style="width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12" style="height: 57px">
+            <el-col :span="12" style="height: 56px">
               <el-form-item :label="$t('Receipt.receiptMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <span style="margin-left: 20px;">
                   {{ personalForm.receiptMoney }}
@@ -191,7 +191,7 @@
                 <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
               </el-form-item>
             </el-col>
-            <el-col :span="6" style="height: 57px">
+            <el-col :span="6" style="height: 56px">
               <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <span style="margin-left: 20px;">
                   {{ personalForm.changeMoney }}

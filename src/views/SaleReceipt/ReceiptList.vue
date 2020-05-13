@@ -747,7 +747,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/Receipt/AddReceipt')
+      this.$router.push('/SaleReceipt/AddSaleReceipt')
     },
     // 导出
     handleExport() {

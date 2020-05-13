@@ -43,7 +43,7 @@
                   <el-input v-model="personalForm.totalLackMoney" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56x">
                 <el-form-item :label="$t('Receipt.receiptMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.receiptMoney }}
@@ -204,7 +204,7 @@
                   <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.changeMoney }}
@@ -435,9 +435,6 @@ export default {
   activated() {
     this.setinstallmentdata()
     this.setinformation()
-    this.getinformation()
-    this.getinformation2()
-    this.getinformation3()
     this.getdatatime()
   },
   beforeCreate() {
@@ -640,38 +637,23 @@ export default {
       this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
     },
     setinformation() {
-      if (this.$store.getters.newreceiptdata) {
-        this.isshow = false
-        const val = this.$store.getters.newreceiptdata
-        this.personalForm.customerType = '2'
-        this.customerId = this.$store.getters.newreceiptdata.customerName
-        this.personalForm.customerId = this.$store.getters.newreceiptdata.customerId
+      if (this.$store.getters.empcontract) {
+        const val = this.$store.getters.empcontract
+        this.customerId = this.$store.getters.empcontract.customerName
+        this.personalForm.customerId = this.$store.getters.empcontract.customerId
         const valmap = []
         valmap.push(val)
-        const InstallmentDetail = valmap.map(function(item) {
+        const Detail = valmap.map(function(item) {
           return {
-            installmentDetailId: item.id,
-            presentCount: item.idx,
-            returnMoney: item.shouldMoney,
+            customerCollectId: item.id,
             shouldMoney: item.shouldMoney,
-            returnSource: item.capitalMoney,
-            reward: item.reward,
-            penalty: item.penalty,
-            returnInterest: item.interestMoney,
-            paidmoney: item.paidMoney,
-            unpay: item.shouldMoney - item.paidMoney,
-            collectedMoney: item.paidMoney,
-            uncollectedMoney: item.shouldMoney - item.paidMoney,
-            thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
-            installmentId: item.installmentId
+            collectedMoney: item.collectedMoney,
+            uncollectedMoney: item.uncollectedMoney,
+            thisMoney: item.uncollectedMoney
           }
         })
-        console.log('InstallmentDetail', InstallmentDetail)
-        // for (const i in InstallmentDetail) {
-        //   this.$refs.editable2.insert(InstallmentDetail[i])
-        // }
-        this.list2 = InstallmentDetail
-        this.$store.dispatch('getnewreceiptdata', '')
+        this.list2 = Detail
+        this.$store.dispatch('getempcontract', '')
       }
     },
     getinformation() {
