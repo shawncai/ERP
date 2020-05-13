@@ -160,11 +160,11 @@
                   <span>{{ personalForm.receivableMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('update4.unpayMoney')" style="width: 100%;">
                   <span>{{ personalForm.unpayMoney }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
                   <span>{{ personalForm.advanceMoney }}</span>

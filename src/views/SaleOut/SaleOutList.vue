@@ -97,7 +97,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm2"/>
         </el-table-column>
         <el-table-column :label="$t('SaleOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -297,6 +297,7 @@ export default {
       },
       // 传给组件的数据
       personalForm: {},
+      personalForm2: {},
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
@@ -672,7 +673,17 @@ export default {
     handleDetail(row) {
       console.log(row)
       this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      this.personalForm = this._.cloneDeep(row)
+      this.personalForm2 = this._.cloneDeep(row)
+      // this.personalForm = Object.assign({}, row)
+      console.log('row', row)
+      console.log('this.personalForm', this.personalForm2)
+    },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
     },
     // 判断审核按钮
     isReview(row) {
