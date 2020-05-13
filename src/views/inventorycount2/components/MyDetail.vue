@@ -53,11 +53,8 @@
       fit
       highlight-current-row
       style="width: 100%;"
+      @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"/>
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
@@ -166,6 +163,7 @@ export default {
       visible2: false,
       // 批量操作
       moreaction: '',
+      currentRow: '',
       // 表格数据
       list: [],
       // 表格数据条数
@@ -246,6 +244,9 @@ export default {
     handleSelectionChange(val) {
       this.moreaction = val
     },
+    handleCurrentChange(val) {
+      this.currentRow = val
+    },
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
@@ -273,36 +274,8 @@ export default {
     // 物品选择添加
     handleAddTo() {
       this.productVisible = false
-      console.log(this.moreaction)
-      const productDetail = this.moreaction.map(function(item) {
-        return {
-          productCode: item.code,
-          productName: item.productName,
-          Categoryid: item.category,
-          productCategory: item.categoryId,
-          productType: item.typeId,
-          typeId: item.productType,
-          color: item.color,
-          unit: item.purMeasu,
-          performanceScore: item.kpiGrade,
-          productScore: item.point,
-          quantity: 0,
-          salePrice: (item.salePrice).toFixed(6),
-          costPrice: (item.costPrice).toFixed(6),
-          costMoney: 0,
-          includeTaxMoney: 0,
-          taxRate: 0,
-          taxMoney: 0,
-          money: 0,
-          includeTaxCostMoney: '0.00',
-          discount: 0,
-          discountMoney: 0,
-          taxprice: '0.00',
-          alreadyApplicationQuantity: 0,
-          alreadyProduceQuantity: 0
-        }
-      })
-      console.log(productDetail)
+      console.log(this.currentRow)
+      const productDetail = this.currentRow.code
       this.$emit('product', productDetail)
     }
   }

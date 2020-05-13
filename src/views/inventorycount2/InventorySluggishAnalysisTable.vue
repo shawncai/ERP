@@ -1,16 +1,37 @@
 <template>
   <div class="ERP-container">
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
-
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbm')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
-      <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" size="small" class="filter-item" clearable @focus="handleproduct"/>
+      <el-input v-model="getemplist.unChange" placeholder="没有发生改变的期限" size="small" class="filter-item" clearable/>
+      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.lx')" size="small" filterable class="filter-item" clearable>
+        <el-option v-for="item in typeList" :key="item.id" :value="item.id" :label="item.typeName"/>
+      </el-select>
+      <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" size="small" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" size="small" class="filter-item" clearable>
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.xhp')" value="4"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        <el-option :label="$t('otherlanguage.xss')" value="6"/>
+        <el-option :label="$t('otherlanguage.pjj')" value="7"/>
+        <el-option :label="$t('otherlanguage.hj')" value="8"/>
+      </el-select>
+      <!-- <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/> -->
+      <!-- <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/> -->
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-
     </el-card>
-
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
@@ -82,7 +103,7 @@
 
 <script>
 import { SluggishAnalysisTable } from '@/api/count'
-import { searchStockCategory } from '@/api/StockCategory'
+import { searchEmpCategory2 } from '@/api/Product'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -95,12 +116,13 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
+import MyDetail from './components/MyDetail'
 
 var _that
 export default {
   name: 'InventorySluggishAnalysisTable',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination, MyDetail },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -136,8 +158,10 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
       tableHeight: 200,
-
+      // 控制商品列表窗口
+      control: false,
       first: '',
       step1: '',
       step2: '',
@@ -160,6 +184,10 @@ export default {
       },
       // 采购类别数据
       types: [],
+      typeList: [
+        { id: 1, typeName: '未进未出' },
+        { id: 2, typeName: '只进未出' }
+      ],
       // 申请部门数据
       depts: [],
       // 审核传参
@@ -192,13 +220,12 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
+      repositoryId: this.$store.getters.repositoryName,
       // 采购申请查询加展示参数
       getemplist: {
-        pageNum: 1,
-        pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
-        type: '1'
+        type: 1
       },
       // 传给组件的数据
       personalForm: {},
@@ -209,13 +236,11 @@ export default {
     }
   },
   activated() {
-    this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
-    this.getlist()
     this.changeName()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -229,6 +254,9 @@ export default {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
       }
+    },
+    productdetail(val) {
+      this.getemplist.productCode = val
     },
     supplierName(val) {
       console.log(val)
@@ -296,7 +324,7 @@ export default {
         }, 0.5 * 100)
       })
       // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
+      searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
@@ -313,21 +341,17 @@ export default {
     },
     // 搜索
     handleFilter() {
-      this.getemplist.pageNum = 1
-      if (this.date === null || this.date === undefined || this.date === '') {
-        this.getemplist.beginTime = ''
-        this.getemplist.endTime = ''
-      } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+      if (this.getemplist.unChange === '' || this.getemplist.unChange === undefined || this.getemplist.unChange === null) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请输入未改变的年限',
+          offset: 100
+        })
+        return false
       }
       SluggishAnalysisTable(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()
@@ -346,6 +370,10 @@ export default {
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
+    },
+    // 选择物品
+    handleproduct() {
+      this.control = true
     },
     // 修改操作
     handleEdit(row) {
@@ -396,8 +424,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

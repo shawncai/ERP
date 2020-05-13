@@ -831,15 +831,15 @@ export default {
                   discountMoney: 0,
                   arrivalQuantity: 0,
                   price: c[z].oarr[k].basicPrice,
-                  includeTaxPrice: c[z].oarr[k].basicPrice,
+                  includeTaxPrice: c[z].oarr[k].includeTaxPrice,
                   supplierId: c[z].oarr[k].supplierId,
                   returnQuantity: 0,
-                  tax: 0,
+                  tax: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice) - Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
                   actualArrivalQuantity: 0,
                   stockQuantity: c[z].oarr[k].planQuantity,
-                  taxRate: 0,
+                  taxRate: c[z].oarr[k].taxRate,
                   money: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
-                  includeTaxMoney: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
+                  includeTaxMoney: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice),
                   typeId: c[z].oarr[k].typeId
                 }
                 arr.push(stockorderparms2)

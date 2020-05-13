@@ -212,8 +212,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
-                  v-model="scope.row.includeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row)"/>
+                  v-model="scope.row.includeTaxPrice"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
@@ -221,6 +220,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.taxRate"
+                  disabled
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
@@ -347,7 +347,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { addstockorder } from '@/api/StockOrder'
+import { addstockorder, querytax } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -842,9 +842,30 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
-      if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.taxRate
       }
+      // 默认批次
+      if (row.flag) {
+        if (this.personalForm.sourceType === '5') {
+          // 查询供应商价格
+          querytax(this.personalForm.supplierId, row.productCode).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.taxRate = res.data.data.content[0].taxRate || 0
+              row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: '未查询到商品',
+                duration: 0
+              })
+            }
+          })
+        }
+      }
+      row.flag = false
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {

@@ -130,3 +130,14 @@ export function updatestockorder2(query) {
     data: params
   })
 }
+// 查询税率
+export function querytax(query, query2) {
+  var params = new URLSearchParams()
+  params.append('supplierId', query) // 你要传给后台的参数值 key/value
+  params.append('productCode', query2) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/supplier/getSupplierDetailByProduct',
+    method: 'post',
+    data: params
+  })
+}
