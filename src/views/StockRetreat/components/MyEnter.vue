@@ -19,6 +19,10 @@
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           </el-col>
+          <el-col :span="3" style="margin-left: 20px">
+            <el-input v-model="supplierId" placeholder="供应商" clearable @focus="handlechoose" @clear="restFilter"/>
+            <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+          </el-col>
           <!--更多搜索条件-->
           <!--          <el-col :span="3" style="margin-left: 30px">-->
           <!--            <el-popover-->
@@ -147,10 +151,11 @@ import MyEmp from './MyEmp'
 import MyDelivery from './MyDelivery'
 import MyDetail from './MyDetail'
 import DetailList from './DetailList'
+
 var _that
 export default {
   directives: { waves },
-  components: { DetailList, Pagination, MyRepository, MySupplier, MyEmp, MyDelivery, MyDetail },
+  components: { MySupplier, DetailList, Pagination, MyRepository, MyEmp, MyDelivery, MyDetail },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -235,6 +240,7 @@ export default {
       stockPersonId: '',
       // 批量操作
       moreaction: '',
+      empcontrol: false,
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -315,6 +321,12 @@ export default {
     _that = this
   },
   methods: {
+    // 供应商列表返回数据
+    supplierName(val) {
+      console.log(val)
+      this.supplierId = val.supplierName
+      this.getemplist.supplierId = val.id
+    },
     // 默认选中
     memoryChecked() {
       console.log('我执行啦')
@@ -393,6 +405,10 @@ export default {
           this.depts = res.data.data.content
         }
       })
+    },
+    // 供应商输入框focus事件触发
+    handlechoose() {
+      this.empcontrol = true
     },
     // 清空搜索条件
     restFilter() {
