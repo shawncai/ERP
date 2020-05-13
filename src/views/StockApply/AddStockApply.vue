@@ -827,6 +827,7 @@ export default {
           message: this.$t('prompt.mxbbnwk'),
           offset: 100
         })
+        this.canClick = false
         return false
       }
       EnterDetail2.map(function(elem) {
@@ -905,10 +906,12 @@ export default {
                   message: res.data.msg,
                   offset: 100
                 })
+                this.canClick = false
               }
             })
           }).catch(valid => {
             console.log('error submit!!')
+            this.canClick = false
           })
         } else {
           this.$notify.error({
@@ -916,6 +919,7 @@ export default {
             message: 'Information is incomplete',
             offset: 100
           })
+          this.canClick = false
           return false
         }
       })

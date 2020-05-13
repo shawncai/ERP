@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :punishcontrol="punishcontrol" :punishdata="punishdata" :close-on-press-escape="false" class="normal" width="600px" center title="供应商考核" append-to-body @close="$emit('update:punishcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :punishcontrol="punishcontrol" :punishdata="punishdata" :close-on-press-escape="false" class="normal" width="600px" center title="供应商惩罚" append-to-body @close="$emit('update:punishcontrol', false)">
     <!-- 列表开始 -->
     <div class="container" style="margin-top: 37px">
       <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">

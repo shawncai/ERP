@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="supplierId" style="width: 200px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="width: 200px" clearable @focus="handlechoose" @clear="clearinfo"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
@@ -779,7 +779,7 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+      if (this.supplierId === null || this.supplierId === undefined || this.supplierId === '') {
         this.$notify.error({
           title: 'wrong',
           message: '请先选择供应商',
@@ -906,6 +906,14 @@ export default {
     // 供应商输入框focus事件触发
     handlechoose() {
       this.empcontrol = true
+    },
+    clearinfo() {
+      this.personalForm.taxNumber = ''
+      this.personalForm.address = ''
+      this.personalForm.bank = ''
+      this.supplierId = ''
+      this.supp = ''
+      this.personalForm.supplierId = ''
     },
     // 供应商列表返回数据
     supplierName(val) {

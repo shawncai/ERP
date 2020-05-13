@@ -260,6 +260,7 @@ export default {
     changeName() {
       if (this.getemplist.type === '1') {
         this.first = '供应商名称'
+        this.second = false
       }
       if (this.getemplist.type === '2') {
         this.first = '经办人名称'

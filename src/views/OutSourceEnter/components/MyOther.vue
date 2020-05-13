@@ -70,13 +70,14 @@
                 <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <el-date-picker
                   v-model="personalForm.enterDate"
+                  :picker-options="pickerOptions2"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  style="width: 200px"/>
+                  style="width: 150px"/>
               </el-form-item>
             </el-col>
             <!--            <el-col :span="12">-->
@@ -194,6 +195,20 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+        // 只能选择当月
+          var date = new Date()
+          const startd = date.setDate(1)
+          var currentMonth = date.getMonth()
+          var nextMonth = ++currentMonth
+          var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1)
+          var oneDay = 1000 * 60 * 60 * 24
+          var lastTime = new Date(nextMonthFirstDay).getTime()
+          console.log(startd, lastTime)
+          return time.getTime() < startd - 8.64e7 || time.getTime() > lastTime - 8.64e7
+        }
+      },
       IsNumber: true,
       outsourcecontrol: false,
       // 弹窗组件的控制
@@ -236,6 +251,9 @@ export default {
         ],
         enterRepositoryId: [
           { required: true, validator: validatePass2, trigger: 'change' }
+        ],
+        enterDate: [
+          { required: true, message: '请选择入库日期', trigger: 'change' }
         ]
       },
       // 入库单明细数据
