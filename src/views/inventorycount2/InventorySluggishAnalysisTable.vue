@@ -3,19 +3,10 @@
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
       <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbm')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-
-      <el-date-picker
-        v-model="date"
-        type="daterange"
-        range-separator="-"
-        unlink-panels
-        size="small"
-        value-format="yyyy-MM-dd"
-        style="width: 250px"/>
-
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
@@ -83,14 +74,14 @@
           width="200"
           align="center"/>
       </el-table>
-      <!-- 列表结束 -->
+      <!-- 列表结束1 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
 
 <script>
-import { stockDetailCount } from '@/api/count'
+import { SluggishAnalysisTable } from '@/api/count'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyRepository from './components/MyRepository'
 import waves from '@/directive/waves' // Waves directive
@@ -296,13 +287,9 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockDetailCount(this.getemplist).then(res => {
+      SluggishAnalysisTable(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -334,7 +321,7 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      stockDetailCount(this.getemplist).then(res => {
+      SluggishAnalysisTable(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           for (let i = 0; i < this.list.length; i++) {

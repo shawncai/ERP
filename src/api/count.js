@@ -1444,20 +1444,47 @@ export function installmentAnalyze(query) {
 // 库存呆滞分析表
 export function SluggishAnalysisTable(query) {
   var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
-  if (query.time !== '' && query.time !== null && query.time !== undefined) {
-    params.append('time', query.time) // 你要传给后台的参数值 key/value
+  if (query.unChange !== '' && query.unChange !== null && query.unChange !== undefined) {
+    params.append('unChange', query.unChange) // 你要传给后台的参数值 key/value
   }
-  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
-    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
-  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
-    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
+    params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
   }
   return request({
-    url: '/installmentCount/installmentComplete',
+    url: '/countinven/inventoryRetention',
+    method: 'post',
+    data: params
+  })
+}
+// 库存配套分析表
+export function inventoryMatch(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.quantity !== '' && query.quantity !== null && query.quantity !== undefined) {
+    params.append('quantity', query.quantity) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/countinven/inventoryMatch',
     method: 'post',
     data: params
   })
