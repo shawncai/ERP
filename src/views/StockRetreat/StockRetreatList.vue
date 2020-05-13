@@ -30,6 +30,10 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
+        <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" :placeholder="$t('StockRetreat.sourceType')" size="mini" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option label="采购到货单" value="1"/>
+          <el-option label="采购入库单" value="2"/>
+        </el-select>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" size="mini" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
