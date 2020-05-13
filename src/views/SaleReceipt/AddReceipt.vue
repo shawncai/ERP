@@ -51,18 +51,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('update4.customerPay')" prop="customerPay" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.changeMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="$t('payment.payMode')" prop="payMode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.payMode" style="width: 200px">
                     <el-option
@@ -204,6 +192,27 @@
             <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
             <!-- <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/> -->
           </el-editable>
+        </div>
+      </el-card>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 40px;">
+        <div ref="geren" class="form-name">{{ $t('update4.skxx') }}</div>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.customerPay')" prop="customerPay" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.changeMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <!--操作-->
@@ -1026,6 +1035,14 @@ export default {
       const parms = JSON.stringify(Data)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
+          if (this.personalForm.customerPay === null || this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '请填写客户付款金额',
+              offset: 100
+            })
+            return false
+          }
           if (Number(this.personalForm.customerPay) < Number(this.personalForm.receiptMoney)) {
             this.$notify.error({
               title: 'wrong',
@@ -1046,6 +1063,8 @@ export default {
               this.$refs.editable.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
               this.$store.dispatch('getnewreceiptdata', '')
             } else {
               this.$notify.error({

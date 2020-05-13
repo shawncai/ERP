@@ -4,7 +4,7 @@
 
       <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" size="small" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/>
+      <!-- <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" size="small" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/> -->
 
       <el-input v-model="getemplist.title" :placeholder="$t('updates.skdzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
@@ -61,7 +61,7 @@
       <!-- 打印操作 -->
       <!-- <el-button v-permission="['200-213-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
 
-      <el-button v-permission="['54-396-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" size="small" class="filter-item2" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
+      <!-- <el-button v-permission="['54-396-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" size="small" class="filter-item2" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button> -->
 
       <el-dialog :visible.sync="categoryVisible" :title="$t('otherlanguage.newvoucher')" class="normal" width="600px" center>
         <el-form ref="addCategoryForm" :model="voucherparms" class="demo-ruleForm" style="margin: 0 auto; width: 400px">

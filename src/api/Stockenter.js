@@ -667,11 +667,11 @@ export function updatestockenter3(query, query2, query3) {
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('enterId', query.id) // 你要传给后台的参数值 key/value
   }
-  if (query3 !== '' && query3 !== null && query3 !== undefined) {
-    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
-  }
   if (query2 !== '' && query2 !== null && query2 !== undefined) {
     params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/stockenter/updatestockenter',

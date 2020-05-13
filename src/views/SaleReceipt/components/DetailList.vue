@@ -43,16 +43,6 @@
                   <span>{{ personalForm.receiptMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.customerPay')" style="width: 100%;">
-                  <span>{{ personalForm.customerPay }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.changeMoney')" style="width: 100%;">
-                  <span>{{ personalForm.changeMoney }}</span>
-                </el-form-item>
-              </el-col>
               <!-- <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
                   <span>{{ personalForm.couponSupport }}</span>
@@ -126,6 +116,25 @@
             <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
           </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" style="margin-top: 20px" shadow="never">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('update4.skxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.customerPay')" style="width: 100%;">
+                  <span>{{ personalForm.customerPay }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.changeMoney')" style="width: 100%;">
+                  <span>{{ personalForm.changeMoney }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">

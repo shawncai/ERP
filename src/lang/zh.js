@@ -4351,13 +4351,7 @@ export default {
     level: 'ABC分类'
   },
   update4: {
-    shouldMoney: '应收款',
-    customerPay: '实际收到客户',
-    changeMoney: '找零',
-    receivableMoney: '已收款',
-    unpayMoney: '未收款'
-  },
-  CustomerCollectList: {
+    skxx: '结算信息',
     shouldMoney: '应收款',
     customerPay: '实际收到客户',
     changeMoney: '找零',

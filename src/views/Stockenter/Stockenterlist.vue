@@ -711,7 +711,7 @@ export default {
             cancelButtonText: '取消'
           })
             .then(() => {
-              updatestockenter3(row, 1, this.$store.getters.userId).then(res => {
+              updatestockenter3(row, 3, this.$store.getters.userId).then(res => {
                 if (res.data.ret === 200) {
                   this.$message({
                     type: 'success',
