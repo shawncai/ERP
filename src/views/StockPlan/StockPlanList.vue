@@ -605,67 +605,55 @@ export default {
       }))
       const processdata = needdata.data.data.content.list
       this.total = needdata.data.data.content.totalCount
-      // console.log('processdata', processdata)
-      // const lists = await Promise.all(processdata.map((item) => {
-      //   return stockorderlist2({
-      //     sourceNumber: item.planNumber,
-      //     regionIds
-      //   })
-      // }))
-      // for (let i = 0; i < lists.length; i++) {
-      //   if (lists[i].data.data.content.list.length > 0) {
-      //     processdata[i].isused = 1
-      //   }
-      // }
-      // this.list = processdata
       const newarr = processdata.map(item => {
         return item.stockPlanDetailVos
       })
       const newarr2 = [].concat.apply([], newarr)
+      const processdata2 = this._.cloneDeep(newarr2)
       // console.log('newarr2=========', newarr2)
       for (const i in processdata) {
         for (const j in newarr2) {
-          if (processdata[i].id === newarr2[j].planId) {
-            newarr2[j].parentid = processdata[i].id
-            newarr2[j].planNumber = processdata[i].planNumber
-            newarr2[j].title = processdata[i].title
-            newarr2[j].stockType = processdata[i].stockType
-            newarr2[j].planPersonId = processdata[i].planPersonId
-            newarr2[j].stockDeptId = processdata[i].stockDeptId
-            newarr2[j].stockPersonId = processdata[i].stockPersonId
-            newarr2[j].planDate = processdata[i].planDate
-            newarr2[j].sourceType = processdata[i].sourceType
-            newarr2[j].totalQuantity = processdata[i].totalQuantity
-            newarr2[j].allMoney = processdata[i].allMoney
-            newarr2[j].receiptStat = processdata[i].receiptStat
-            newarr2[j].judgeStat = processdata[i].judgeStat
-            newarr2[j].createPersonId = processdata[i].createPersonId
-            newarr2[j].createDate = processdata[i].createDate
-            newarr2[j].judgePersonId = processdata[i].judgePersonId
-            newarr2[j].judgeDate = processdata[i].judgeDate
-            newarr2[j].endPersonId = processdata[i].endPersonId
-            newarr2[j].endDate = processdata[i].endDate
-            newarr2[j].summary = processdata[i].summary
-            newarr2[j].countryId = processdata[i].countryId
-            newarr2[j].planRepositoryId = processdata[i].planRepositoryId
-            newarr2[j].planPersonName = processdata[i].planPersonName
-            newarr2[j].planRepositoryName = processdata[i].planRepositoryName
-            newarr2[j].stockDeptName = processdata[i].stockDeptName
-            newarr2[j].stockPersonName = processdata[i].stockPersonName
-            newarr2[j].planRepositoryName = processdata[i].planRepositoryName
-            newarr2[j].createPersonName = processdata[i].createPersonName
-            newarr2[j].judgePersonName = processdata[i].judgePersonName
-            newarr2[j].endPersonName = processdata[i].endPersonName
-            newarr2[j].modifyPersonName = processdata[i].modifyPersonName
-            newarr2[j].countryName = processdata[i].countryName
-            newarr2[j].stockTypeName = processdata[i].stockTypeName
-            newarr2[j].isused = processdata[i].isused
-            newarr2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
-            newarr2[j].approvalUseVos = processdata[i].approvalUseVos
+          if (processdata[i].id === processdata2[j].planId) {
+            processdata2[j].parentid = processdata[i].id
+            processdata2[j].planNumber = processdata[i].planNumber
+            processdata2[j].title = processdata[i].title
+            processdata2[j].stockType = processdata[i].stockType
+            processdata2[j].planPersonId = processdata[i].planPersonId
+            processdata2[j].stockDeptId = processdata[i].stockDeptId
+            processdata2[j].stockPersonId = processdata[i].stockPersonId
+            processdata2[j].planDate = processdata[i].planDate
+            processdata2[j].sourceType = processdata[i].sourceType
+            processdata2[j].totalQuantity = processdata[i].totalQuantity
+            processdata2[j].allMoney = processdata[i].allMoney
+            processdata2[j].receiptStat = processdata[i].receiptStat
+            processdata2[j].judgeStat = processdata[i].judgeStat
+            processdata2[j].createPersonId = processdata[i].createPersonId
+            processdata2[j].createDate = processdata[i].createDate
+            processdata2[j].judgePersonId = processdata[i].judgePersonId
+            processdata2[j].judgeDate = processdata[i].judgeDate
+            processdata2[j].endPersonId = processdata[i].endPersonId
+            processdata2[j].endDate = processdata[i].endDate
+            processdata2[j].summary = processdata[i].summary
+            processdata2[j].countryId = processdata[i].countryId
+            processdata2[j].planRepositoryId = processdata[i].planRepositoryId
+            processdata2[j].planPersonName = processdata[i].planPersonName
+            processdata2[j].planRepositoryName = processdata[i].planRepositoryName
+            processdata2[j].stockDeptName = processdata[i].stockDeptName
+            processdata2[j].stockPersonName = processdata[i].stockPersonName
+            processdata2[j].planRepositoryName = processdata[i].planRepositoryName
+            processdata2[j].createPersonName = processdata[i].createPersonName
+            processdata2[j].judgePersonName = processdata[i].judgePersonName
+            processdata2[j].endPersonName = processdata[i].endPersonName
+            processdata2[j].modifyPersonName = processdata[i].modifyPersonName
+            processdata2[j].countryName = processdata[i].countryName
+            processdata2[j].stockTypeName = processdata[i].stockTypeName
+            processdata2[j].isused = processdata[i].isused
+            processdata2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
+            processdata2[j].approvalUseVos = processdata[i].approvalUseVos
           }
         }
       }
-      this.list = newarr2
+      this.list = processdata2
       this.getSpanArr(this.list)
       this.listLoading = false
       // console.log('数据数据数据', processdata)
