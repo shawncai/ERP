@@ -217,11 +217,6 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
               <template slot-scope="scope">
-                <!-- <el-input-number
-                  :precision="6"
-                  v-model="scope.row.taxRate"
-                  disabled
-                  @input="gettaxRate(scope.row)"/> -->
                 <p>{{ gettaxRate(scope.row) }}</p>
               </template>
             </el-editable-column>
@@ -1427,6 +1422,8 @@ export default {
             let ll = 1
             let ll3 = 1
             let ll4 = ''
+            let ll5 = 1
+            let ll6 = ''
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -1437,11 +1434,23 @@ export default {
                 ll3 = 2
                 ll4 = elem.productName
               }
+              if (Number(elem.discountRate) === 0 && (elem.remarks === '' || elem.remarks === undefined || elem.remarks === null)) {
+                ll5 = 2
+                ll6 = elem.productName
+              }
             })
             if (ll3 === 2) {
               this.$notify.error({
                 title: 'wrong',
                 message: ll4 + '的采购单价不能为0',
+                offset: 100
+              })
+              return false
+            }
+            if (ll5 === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: ll6 + '修改折扣后备注不能为空',
                 offset: 100
               })
               return false
