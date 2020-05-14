@@ -15,7 +15,7 @@
         style="width: 250px"/>
 
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-
+      <el-button v-permission="['1-14-16-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -43,11 +43,26 @@
             <span class="link-type" @click="handleDetail2(scope.row)">{{ scope.row.arrivalNum }}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          :label="$t('report.delayNum')"
-          prop="delayNum"
-          width="200"
-          align="center"/>
+        <el-table-column :label="$t('report.delayNum')" prop="delayNum" width="200" align="center">
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.orderDelayVos" border size="small">
+                <el-table-column label="订单编号" min-width="200" property="orderNumber"/>
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column label="延迟天数" min-width="100" property="days"/>
+                <el-table-column label="实际到货日期" min-width="100" property="actualDate"/>
+                <el-table-column label="应到货日期" min-width="100" property="shouldDate"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper link-type">
+                {{ scope.row.delayNum }}
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('report.arrivalRate3')"
           prop="arrivalRate"
@@ -194,14 +209,12 @@ export default {
     }
   },
   activated() {
-    this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
-    this.getlist()
-    this.changeName()
+    // this.changeName()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -210,6 +223,55 @@ export default {
     _that = this
   },
   methods: {
+    cutnull(data) {
+      for (let x = 0; x < data.length; x++) {
+        if (data[x] === null || data[x] === undefined || data[x] === '') { // 如果是null 把直接内容转为 ''
+          data.splice(x, 1)
+          x--
+        } else {
+          if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+            data[x] = data[x].map(z => {
+              return this.cutnull(z)
+            })
+          }
+          if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+            data[x] = this.cutnull(data[x])
+          }
+        }
+      }
+      return data
+    },
+    handleExport() {
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].orderDelayVos) {
+          for (let j = 0; j < this.list[i].orderDelayVos.length; j++) {
+            this.list[i].orderDelayVos[j].supplierName = this.list[i].supplierName
+          }
+        }
+      }
+      const newarr = this.list.map(item => {
+        return item.orderDelayVos
+      })
+      const newarr2 = this.cutnull([].concat.apply([], newarr))
+      console.log('newarr2=', newarr2)
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['供应商', '订单编号', '物品名称', '物品编码', '延迟天数', '实际到货日期', '应到货日期']
+          const filterVal = ['supplierName', 'orderNumber', 'productName', 'productCode', 'days', 'actualDate', 'shouldDate']
+          const data = this.formatJson(filterVal, newarr2)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '客户资料表'
+          })
+          this.downloadLoading = false
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     handleDetail2(row) {
       console.log('row', row)
       const param = {}
@@ -311,6 +373,14 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date.length < 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择日期',
+          offset: 100
+        })
+        return false
+      }
       this.getemplist.pageNum = 1
       if (this.date === null || this.date === undefined || this.date === '') {
         this.getemplist.beginTime = ''

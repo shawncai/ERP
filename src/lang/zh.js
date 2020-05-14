@@ -662,7 +662,10 @@ export default {
     notinvoiceQuantity: '未开票数',
     invoiceMoney: '已开票额',
     notinvoiceMoney: '未开票额',
-    invoice: '开票'
+    invoice: '开票',
+    deliveryNumber: '到货单号',
+    arrivalTime: '到货时间',
+    warehouseReceiptNumber: '入库单号'
   },
   supplierPunishmentCount: {
     supplierName: '供应商名称',

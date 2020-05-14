@@ -34,22 +34,62 @@
           :label="$t('stockTrackList.supplierName')"
           prop="supplierName"
           width="200"
+          fixed="left"
           align="center"/>
         <el-table-column
           :label="$t('stockTrackList.receiptDate')"
           prop="receiptDate"
           width="200"
+          fixed="left"
           align="center"/>
         <el-table-column
           :label="$t('stockTrackList.orderNumber')"
           prop="orderNumber"
+          fixed="left"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
+          fixed="left"
           width="200"
           align="center"/>
+        <!-- 新增四列开始 -->
+        <el-table-column
+          :label="$t('stockTrackList.arrivalTime')"
+          prop="orderArrivalVos.arrivalDate"
+          width="200"
+          align="center">
+          <template slot-scope="scope">
+            <p> {{ scope.row.orderArrivalVos[0].arrivalDate }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('stockTrackList.deliveryNumber')"
+          prop="orderArrivalVos.arrivalNumber"
+          width="200"
+          align="center">
+          <template slot-scope="scope">
+            <p> {{ scope.row.orderArrivalVos[0].arrivalNumber }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('stockTrackList.warehouseReceiptNumber')" prop="delayNum" width="200" align="center">
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.orderEnterVos" border size="small">
+                <el-table-column label="订单编号" min-width="200" property="enterNumber"/>
+                <el-table-column label="入库日期" min-width="200" property="enterDate"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper link-type">
+                {{ scope.row.orderEnterVos.length > 0 ? scope.row.orderEnterVos.length > 1 ? '...' : scope.row.orderEnterVos[0].enterNumber : '无' }}
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <!-- 新增四列结束 -->
         <el-table-column
           :label="$t('stockTrackList.deliveryDate')"
           prop="deliveryDate"
