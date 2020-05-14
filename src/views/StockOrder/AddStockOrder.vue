@@ -216,12 +216,13 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
+              <template slot-scope="scope">
+                <!-- <el-input-number
                   :precision="6"
                   v-model="scope.row.taxRate"
                   disabled
-                  @input="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"/> -->
+                <p>{{ gettaxRate(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -842,6 +843,7 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      console.log('row==============110', row.flag)
       if (row.flag === undefined) {
         row.flag = true
       } else {
@@ -849,7 +851,9 @@ export default {
       }
       // 默认批次
       if (row.flag) {
+        console.log('执行')
         if (this.personalForm.sourceType === '5') {
+          console.log('执行22222')
           // 查询供应商价格
           querytax(this.personalForm.supplierId, row.productCode).then(res => {
             if (res.data.data.content.length > 0) {
