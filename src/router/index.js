@@ -3136,6 +3136,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/inventorycount2/InventorySluggishAnalysisTable'),
         name: 'InventoryMatchingAnalysisTable',
         meta: { title: 'InventoryMatchingAnalysisTable', noCache: false, roles: ['311-312-398-4'] }
+      },
+      {
+        path: 'batchTrack',
+        component: () => import('@/views/inventorycount2/batchTrack'),
+        name: 'batchTrack',
+        meta: { title: 'batchTrack', noCache: false, roles: ['311-312-399-4'] }
+      },
+      {
+        path: 'productSendAndReceiveDetail',
+        component: () => import('@/views/inventorycount2/productSendAndReceiveDetail'),
+        name: 'productSendAndReceiveDetail',
+        meta: { title: 'productSendAndReceiveDetail', noCache: false, roles: ['311-312-400-4'] }
       }
     ]
   },
