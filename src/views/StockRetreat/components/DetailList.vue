@@ -111,14 +111,14 @@
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
             <el-editable-column :label="$t('updates.thyy')" prop="retreatReason" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
-            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" />
-            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />

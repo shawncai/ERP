@@ -197,25 +197,25 @@
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getdiscountMoney(scope.row) }}</p>
               </template>
@@ -510,6 +510,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     enter(val) {
       console.log('enter', val)
       // this.$refs.editable.clear()

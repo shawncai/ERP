@@ -208,7 +208,7 @@
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
@@ -220,22 +220,22 @@
                 <p>{{ gettaxRate(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
@@ -243,7 +243,7 @@
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
@@ -259,7 +259,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-bottom:20px;">
+      <el-card v-show="jundgeprice()" :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-bottom:20px;">
         <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -597,6 +597,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },

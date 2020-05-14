@@ -232,7 +232,7 @@
               <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
             </template>
           </el-editable-column>
-          <el-editable-column v-if="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"

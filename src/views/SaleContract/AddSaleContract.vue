@@ -323,7 +323,7 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
             <!--            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" min-width="150px">
               <template slot-scope="scope">
@@ -349,7 +349,7 @@
                   @change="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
