@@ -46,13 +46,13 @@
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockTrackList.deliveryDate')"
-          prop="deliveryDate"
+          :label="$t('stockDetailCount.productCode')"
+          prop="productCode"
           width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockDetailCount.productCode')"
-          prop="productCode"
+          :label="$t('stockTrackList.deliveryDate')"
+          prop="deliveryDate"
           width="200"
           align="center"/>
         <el-table-column

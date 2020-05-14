@@ -23,6 +23,7 @@
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        v-loading="listLoading"
         ref="table"
         :height="tableHeight"
         :data="list"
@@ -392,6 +393,7 @@ export default {
             }
           }
           this.list = processarr
+          this.total = res.data.data.content.totalCount
           this.getSpanArr(processarr)
         }
         setTimeout(() => {
