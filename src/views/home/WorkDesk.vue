@@ -6,63 +6,96 @@
       </div>
       <el-row :gutter="20" style="margin-bottom: 20px" >
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.one }}</div>
-          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.zxsyj') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:white">{{ deskdata.one }}</div>
+          <div class="shipei4" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.zxsyj') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.two }}</div>
-          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.zhzye') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+             <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:white">{{ deskdata.two }}</div>
+          <div class="shipei4" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.zhzye') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:white"> {{ deskdata.three }}</div>
-          <div class="shipei4" style="width:50%; color:white">{{ $t('updates.byszc') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:white"> {{ deskdata.three }}</div>
+          <div class="shipei4" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.byszc') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.four }}</div>
-          <div class="shipei5" style="width:50%; color:white">{{ $t('updates.byzc') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:white">{{ deskdata.four }}</div>
+          <div class="shipei5" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.byzc') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:46%;margin-left: 37%;margin-top: 22%; color:white">{{ deskdata.five }}</div>
-          <div class="shipei5" style="width:37%; color:white">{{ $t('updates.bylr') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+             <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:white">{{ deskdata.five }}</div>
+          <div class="shipei5" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.bylr') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:41%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.six }} </div>
-          <div class="shipei3" style="width:62%; color:black">{{ $t('updates.wfkdd') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:black">{{ deskdata.six }} </div>
+          <div class="shipei3" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.wfkdd') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.seven }}</div>
-          <div class="shipei22" style="margin-left: 30%;width:74%; color:black">{{ $t('updates.wfkje') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+             <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:black">{{ deskdata.seven }}</div>
+          <div class="shipei22" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.wfkje') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.eight }}</div>
-          <div class="shipei22" style="margin-left: 30%;width:78%; color:black">{{ $t('updates.jzbyyf') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div style="width:100%;text-align:center;font-size: 12px;margin-top: 22%; color:black">{{ deskdata.eight }}</div>
+          <div class="shipei22" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.jzbyyf') }}</div></div>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:90%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrxl') }}</div><div style="width: 67%; color:white" >{{ deskdata.nine }} </div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateOne }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #2daeef;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.jrxl') }}</div>
+            <div style="width:100%;text-align:center;font-size: 14px; color:white" >{{ deskdata.nine }} </div>
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.tbzr') }}</div>
+            <div style="color: white">{{ deskdata.rateOne }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrxsje') }}</div><div style="width: 67%; color:white">{{ deskdata.ten }}</div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateTwo }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #f36e5d;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.jrxsje') }}</div>
+            <div style="width:100%;text-align:center;font-size: 12px; color:white">{{ deskdata.ten }}</div>
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateTwo }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrwxl') }}</div><div style="width: 67%; color:white">{{ deskdata.eleven }}</div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateThree }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #a48df5;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.jrwxl') }}</div>
+            <div style="width:100%;text-align:center;font-size: 12px; color:white">{{ deskdata.eleven }}</div>
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.tbzr') }}</div>
+            <div style="color: white">{{ deskdata.rateThree }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div class="shipei2" style="width:82%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.bycgl') }}</div><div style="width: 67%; color:white">{{ deskdata.twelve }}</div><div class="shipei2" style="width: 66%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateFour }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #22d3b9;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+             <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.bycgl') }}</div>
+             <div style="width:100%;text-align:center;font-size: 12px; color:white">{{ deskdata.twelve }}</div>
+             <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.tbzr') }}</div>
+             <div style="color: white">{{ deskdata.rateFour }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div class="shipei2" style="width:80%;margin-left: 10px;margin-top: 5px; color:white">{{ $t('updates.jrpm') }}</div><div style="width: 67%; color:white">{{ deskdata.thirteen }} </div><div class="shipei2" style="width: 64%; color:white">{{ $t('updates.tbzr') }}</div><div style="color: white">{{ deskdata.rateFive }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: #6f8aff;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.jrpm') }}</div>
+            <div style="width:100%;text-align:center;font-size: 12px; color:white">{{ deskdata.thirteen }} </div>
+            <div class="shipei2" style="width:100%;text-align:center;font-size: 14px; color:white">{{ $t('updates.tbzr') }}</div>
+            <div style="color: white">{{ deskdata.rateFive }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fourteen }}</div><div class="shipei3" style="width:63%; color:black">{{ $t('updates.wskdd') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div style="width:100%;text-align:center;font-size: 12px; color:black">{{ deskdata.fourteen }}</div>
+            <div class="shipei3" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.wskdd') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > <div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.fifteen }}</div><div class="shipei22" style="margin-left: 30%;width:71%; color:black">{{ $t('updates.wskje') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" > 
+            <div style="width:100%;text-align:center;font-size: 12px; color:black">{{ deskdata.fifteen }}</div>
+            <div class="shipei22" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.wskje') }}</div></div>
         </el-col>
         <el-col :span="3">
-          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" ><div style="width:52%;margin-left: 37%;margin-top: 22%; color:black">{{ deskdata.sixteen }} </div><div class="shipei22" style="margin-left: 30%;width:79%; color:black">{{ $t('updates.jzbyys') }}</div></div>
+          <div class="shipei" style="width: 100%; height: 150px;background: white;display: flex;align-items: center;justify-content: center;flex-wrap: wrap" >
+            <div style="width:100%;text-align:center;font-size: 12px; color:black">{{ deskdata.sixteen }} </div>
+            <div class="shipei22" style="width:100%;text-align:center;font-size: 14px; color:black">{{ $t('updates.jzbyys') }}</div></div>
         </el-col>
       </el-row>
 

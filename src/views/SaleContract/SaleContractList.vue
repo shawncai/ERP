@@ -7,6 +7,8 @@
         <el-option value="1" label="零售"/>
         <el-option value="2" label="批发"/>
       </el-select>
+      <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -17,9 +19,6 @@
           <el-option :label="$t('prompt.jxs')" value="1"/>
           <el-option :label="$t('prompt.ls')" value="2"/>
         </el-select>
-        <el-input v-model="customerName" :placeholder="$t('SaleContract.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
-        <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-        <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -31,7 +30,6 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" size="small" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <el-date-picker
           v-model="date"
           type="daterange"
