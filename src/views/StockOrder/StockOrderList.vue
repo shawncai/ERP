@@ -416,6 +416,7 @@ export default {
     }
   },
   activated() {
+    this.getinformation()
     this.countquery = this.$route.query.arry
     if (this.countquery) {
       console.log('this.countquery====', this.countquery)
@@ -434,7 +435,6 @@ export default {
     }, 100)
   },
   mounted() {
-    this.getinformation()
     this.countquery = this.$route.query.arry
     if (this.countquery) {
       console.log('this.countquery====', this.countquery)
@@ -469,6 +469,7 @@ export default {
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
+        console.log('1111111', 111111111)
         this.getemplist.supplierId = this.$store.getters.empcontract.supplierId
         this.getemplist.beginTime = this.$store.getters.empcontract.beginTime
         this.getemplist.endTime = this.$store.getters.empcontract.endTime
@@ -476,13 +477,12 @@ export default {
       }
     },
     handleMyReceipt1(val) {
-      console.log(val)
       this.$store.dispatch('getempcontract', val)
       this.$router.push('/AdvancePay/AddAdvancePay')
     },
     // 判断反审批按钮
     isReview4(row) {
-      console.log(row)
+      // console.log(row)
       if (row.judgeStat === 2 && row.receiptStat !== 3) {
         return true
       }
@@ -525,7 +525,7 @@ export default {
     },
     // 判断反结单按钮
     isReview3(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat === 3) {
         return true
       }
@@ -561,7 +561,7 @@ export default {
     },
     // 判断结单按钮
     isReview2(row) {
-      console.log(row)
+      // console.log(row)
       if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
         return true
       }
@@ -653,7 +653,7 @@ export default {
     // 进程操作
     handleReceipt(row) {
       this.receiptVisible = true
-      console.log('row', row)
+      // console.log('row', row)
       checkReceiptOrder(row.orderNumber).then(res => {
         if (res.data.ret === 200) {
           console.log('res.data.data', res.data.data)
@@ -698,7 +698,7 @@ export default {
           }
         }
       }
-      console.log('this.spanArr=================', this.spanArr)
+      // console.log('this.spanArr=================', this.spanArr)
     },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
@@ -711,7 +711,7 @@ export default {
       }
     },
     getlist() {
-      console.log('this.getemplist', this.getemplist)
+      // console.log('this.getemplist', this.getemplist)
       // 物料需求计划列表数据1212
       this.listLoading = true
       stockorderlist(this.getemplist).then(res => {
@@ -781,7 +781,7 @@ export default {
           }
           this.list = newarr2
           this.getSpanArr(this.list)
-          console.log('this.list==================', this.list)
+          // console.log('this.list==================', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -846,13 +846,13 @@ export default {
     },
     // 供应商列表返回数据
     supplierName(val) {
-      console.log(val)
+      // console.log(val)
       this.supplierId = val.supplierName
       this.getemplist.supplierId = val.id
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
+      // console.log(row)
       this.editVisible = true
       this.personalForm = Object.assign({}, row)
       this.personalForm.sourceType = String(row.sourceType)

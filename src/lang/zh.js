@@ -1,5 +1,7 @@
 export default {
   route: {
+    batchTrack: '物料批次跟踪报表',
+    productSendAndReceiveDetail: '物料收发明细',
     SaleReceipt: '销售收款单',
     SaleReceiptList: '销售收款单列表',
     AddSaleReceipt: '新建销售收款单',
@@ -4359,6 +4361,21 @@ export default {
     customerPay: '实际收到客户',
     changeMoney: '找零',
     receivableMoney: '已收款',
-    unpayMoney: '未收款'
+    unpayMoney: '未收款',
+    accessDate: '领料日期',
+    accessNumber: '领料单编号',
+    productType: '物品型号',
+    accessQuantity: '领料数量',
+    yearAndMonth: '会计期间',
+    productCode: '物品编码',
+    productName: '物品名称',
+    receiptType: '单据类型',
+    receiptDate: '单据日期',
+    receiptNumber: '单据编号',
+    unit: '单位',
+    beginQuantity: '期初数量',
+    receiveQuantity: '收到数量',
+    sendQuantity: '发出数量',
+    endQuantity: '结余'
   }
 }
