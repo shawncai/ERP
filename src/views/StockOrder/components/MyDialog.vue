@@ -200,7 +200,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" min-width="150px"/>
-          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -208,7 +208,7 @@
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -217,7 +217,7 @@
                 @input="getincludeTaxPrice(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -225,22 +225,22 @@
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+          <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -248,7 +248,7 @@
                 @change="getdiscountRate(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+          <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -264,7 +264,7 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 10px">
+    <el-card v-show="jundgeprice()" :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 10px">
       <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
       <div class="container" style="margin-top: 37px">
         <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -318,7 +318,7 @@
 </template>
 
 <script>
-import { updatestockorder } from '@/api/StockOrder'
+import { updatestockorder, querytax } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -716,9 +716,33 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
-      if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+      // if (row.includeTaxPrice !== 0) {
+      //   row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+      // }
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return false
       }
+      // 默认批次
+      if (row.flag) {
+        if (this.personalForm.sourceType === '5') {
+          // 查询供应商价格
+          querytax(this.personalForm.supplierId, row.productCode).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.taxRate = res.data.data.content[0].taxRate || 0
+              row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: '未查询到商品',
+                duration: 0
+              })
+            }
+          })
+        }
+      }
+      row.flag = false
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {

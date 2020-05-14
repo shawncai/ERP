@@ -117,14 +117,14 @@
                 <span >{{ timestampToTime(scope.row.giveDate) }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
-            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center" />
-            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.zk')" prop="discountRate" align="center" />
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
@@ -137,7 +137,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+      <el-card v-show="jundgeprice()" class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">

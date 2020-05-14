@@ -208,38 +208,34 @@
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
-                  v-model="scope.row.includeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row)"/>
+                  v-model="scope.row.includeTaxPrice"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
-                <el-input-number
-                  :precision="6"
-                  v-model="scope.row.taxRate"
-                  @input="gettaxRate(scope.row)"/>
+              <template slot-scope="scope">
+                <p>{{ gettaxRate(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
@@ -247,7 +243,7 @@
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
@@ -263,7 +259,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-bottom:20px;">
+      <el-card v-show="jundgeprice()" :body-style="{ padding: '5px' }" class="box-card" shadow="never" style="margin-bottom:20px;">
         <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -347,7 +343,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { addstockorder } from '@/api/StockOrder'
+import { addstockorder, querytax } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -601,6 +597,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },
@@ -842,9 +848,33 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
-      if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+      console.log('row==============110', row.flag)
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.taxRate
       }
+      // 默认批次
+      if (row.flag) {
+        console.log('执行')
+        if (this.personalForm.sourceType === '5') {
+          console.log('执行22222')
+          // 查询供应商价格
+          querytax(this.personalForm.supplierId, row.productCode).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.taxRate = res.data.data.content[0].taxRate || 0
+              row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: '未查询到商品',
+                duration: 0
+              })
+            }
+          })
+        }
+      }
+      row.flag = false
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
@@ -1402,6 +1432,8 @@ export default {
             let ll = 1
             let ll3 = 1
             let ll4 = ''
+            let ll5 = 1
+            let ll6 = ''
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -1412,11 +1444,23 @@ export default {
                 ll3 = 2
                 ll4 = elem.productName
               }
+              if (Number(elem.discountRate) === 0 && (elem.remarks === '' || elem.remarks === undefined || elem.remarks === null)) {
+                ll5 = 2
+                ll6 = elem.productName
+              }
             })
             if (ll3 === 2) {
               this.$notify.error({
                 title: 'wrong',
                 message: ll4 + '的采购单价不能为0',
+                offset: 100
+              })
+              return false
+            }
+            if (ll5 === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: ll6 + '修改折扣后备注不能为空',
                 offset: 100
               })
               return false
