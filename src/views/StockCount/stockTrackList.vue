@@ -61,7 +61,7 @@
           width="200"
           align="center">
           <template slot-scope="scope">
-            <p> {{ scope.row.orderArrivalVos[0].arrivalDate }}</p>
+            <p> {{ scope.row.orderArrivalVos.length > 0 ? scope.row.orderArrivalVos[0].arrivalDate : '未建到货单' }}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -70,7 +70,7 @@
           width="200"
           align="center">
           <template slot-scope="scope">
-            <p> {{ scope.row.orderArrivalVos[0].arrivalNumber }}</p>
+            <p> {{ scope.row.orderArrivalVos.length > 0 ? scope.row.orderArrivalVos[0].arrivalNumber : '未建到货单' }}</p>
           </template>
         </el-table-column>
         <el-table-column :label="$t('stockTrackList.warehouseReceiptNumber')" prop="delayNum" width="200" align="center">
