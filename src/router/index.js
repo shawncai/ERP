@@ -3132,10 +3132,10 @@ export const asyncRouterMap = [
         meta: { title: 'InventorySluggishAnalysisTable', noCache: false, roles: ['311-312-397-4'] }
       },
       {
-        path: 'InventoryMatchingAnalysisTable',
-        component: () => import('@/views/inventorycount2/InventorySluggishAnalysisTable'),
-        name: 'InventoryMatchingAnalysisTable',
-        meta: { title: 'InventoryMatchingAnalysisTable', noCache: false, roles: ['311-312-398-4'] }
+        path: 'InventoryMatch',
+        component: () => import('@/views/inventorycount2/InventoryMatch'),
+        name: 'InventoryMatch',
+        meta: { title: 'InventoryMatch', noCache: false, roles: ['311-312-398-4'] }
       },
       {
         path: 'batchTrack',

@@ -268,9 +268,9 @@
             <el-editable-column :label="$t('updates.ythsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <!--            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/>-->
             <!--            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.xsdj')" prop="taxprice" align="center" min-width="150px">
+            <el-editable-column :label="$t('updates.xsdj')" prop="taxprice" align="center" min-width="150px">
               <template slot-scope="scope">
-                <span>{{ gettaxprice(scope.row) }}</span>
+                <span v-show="jundgeprice()">{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
             <el-editable-column v-if="false" prop="costMoney" align="center" label="成本金额" min-width="150px">
@@ -302,9 +302,9 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.sxje')" prop="includeTaxCostMoney" align="center" min-width="170px">
+            <el-editable-column :label="$t('updates.sxje')" prop="includeTaxCostMoney" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+                <p v-show="jundgeprice()">{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">

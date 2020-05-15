@@ -205,14 +205,14 @@
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" />
             <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" />
             <el-editable-column :label="$t('updates.ddsl')" prop="quantity" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" />
             <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" />-->
             <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" />
             <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" />-->
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
             <!--          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.hscbje')" />-->
             <el-editable-column :label="$t('updates.ckl')" prop="discount" align="center" />
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
