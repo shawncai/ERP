@@ -157,6 +157,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
+            <el-editable-column :label="$t('CarStatList.orderNumber')" prop="orderNumber" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
             <el-editable-column :label="$t('collectAndPayDetail.fjf')" prop="extraMoney" align="center" />
           </el-editable>

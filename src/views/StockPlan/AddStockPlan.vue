@@ -1107,7 +1107,7 @@ export default {
       if (mm === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择供应商',
+          message: '请选择计划交货日期和供应商',
           offset: 100
         })
         this.canclick = false

@@ -458,18 +458,81 @@ export default {
         this.getemplist.beginTime = this.date[0]
         this.getemplist.endTime = this.date[1]
       }
-      // stockOrderlist(this.getemplist).then(res => {
-      //   if (res.data.ret === 200) {
-      //     this.list = res.data.data.content.list
-      //     for (let i = 0; i < this.list.length; i++) {
-      //       this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-      //     }
-      //     this.total = res.data.data.content.totalCount
-      //     // this.restFilter()
-      //   } else {
-      //     // this.restFilter()
-      //   }
-      // })
+      stockOrderlist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          const list = res.data.data.content.list
+          for (let i = 0; i < list.length; i++) {
+            list[i].heji = list[i].totalMoney + list[i].taxMoney
+          }
+          const needlist = list
+          const newarr = list.map(item => {
+            return item.stockOrderDetailVos
+          })
+          const newarr2 = [].concat.apply([], newarr)
+          const processarr = this._.cloneDeep(newarr2)
+          for (const i in needlist) {
+            for (const j in processarr) {
+              if (needlist[i].id === processarr[j].orderId) {
+                processarr[j].id = needlist[i].id
+                processarr[j].allDiscountMoney = needlist[i].allDiscountMoney
+                processarr[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
+                processarr[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                processarr[j].allMoney = needlist[i].allMoney
+                processarr[j].allQuantity = needlist[i].allQuantity
+                processarr[j].allTaxMoney = needlist[i].allTaxMoney
+                processarr[j].approvalUseVos = needlist[i].approvalUseVos
+                processarr[j].arrivalDate = needlist[i].arrivalDate
+                processarr[j].countryId = needlist[i].countryId
+                processarr[j].countryName = needlist[i].countryName
+                processarr[j].createDate = needlist[i].createDate
+                processarr[j].createPersonId = needlist[i].createPersonId
+                processarr[j].createPersonName = needlist[i].createPersonName
+                processarr[j].currency = needlist[i].currency
+                processarr[j].deliveryMode = needlist[i].deliveryMode
+                processarr[j].deliveryModeName = needlist[i].deliveryModeName
+                processarr[j].deptId = needlist[i].deptId
+                processarr[j].deptName = needlist[i].deptName
+                processarr[j].endDate = needlist[i].endDate
+                processarr[j].endPersonId = needlist[i].endPersonId
+                processarr[j].endPersonName = needlist[i].endPersonName
+                processarr[j].isVat = needlist[i].isVat
+                processarr[j].judgeDate = needlist[i].judgeDate
+                processarr[j].judgePersonId = needlist[i].judgePersonId
+                processarr[j].judgePersonName = needlist[i].judgePersonName
+                processarr[j].judgeStat = needlist[i].judgeStat
+                processarr[j].modifyDate = needlist[i].modifyDate
+                processarr[j].modifyPersonId = needlist[i].modifyPersonId
+                processarr[j].modifyPersonName = needlist[i].modifyPersonName
+                processarr[j].orderDate = needlist[i].orderDate
+                processarr[j].orderNumber = needlist[i].orderNumber
+                processarr[j].otherMoney = needlist[i].otherMoney
+                processarr[j].payMode = needlist[i].payMode
+                processarr[j].payModeName = needlist[i].payModeName
+                processarr[j].receiptStat = needlist[i].receiptStat
+                processarr[j].settleMode = needlist[i].settleMode
+                processarr[j].settleModeName = needlist[i].settleModeName
+                processarr[j].signPersonId = needlist[i].signPersonId
+                processarr[j].signPersonName = needlist[i].signPersonName
+                processarr[j].sourceType = needlist[i].sourceType
+                processarr[j].stockPersonId = needlist[i].stockPersonId
+                processarr[j].stockPersonName = needlist[i].stockPersonName
+                processarr[j].stockRepositoryId = needlist[i].stockRepositoryId
+                processarr[j].stockRepositoryName = needlist[i].stockRepositoryName
+                processarr[j].stockType = needlist[i].stockType
+                processarr[j].stockTypeId = needlist[i].stockTypeId
+                processarr[j].supplierId = needlist[i].supplierId
+                processarr[j].supplierName = needlist[i].supplierName
+                processarr[j].supplierNumber = needlist[i].supplierNumber
+                processarr[j].title = needlist[i].title
+                // processarr[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
+              }
+            }
+          }
+          this.list = processarr
+          this.total = res.data.data.content.totalCount
+          this.getSpanArr(processarr)
+        }
+      })
     },
     // 采购人focus事件
     handlechooseStock() {

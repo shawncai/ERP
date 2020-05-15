@@ -1534,11 +1534,11 @@ export default {
               if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
                 elem.includeTaxPrice = 0
               }
-              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-                elem.taxRate = 0
-              }
               if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
                 elem.taxRate = elem.taxRate / 100
+              }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                elem.taxRate = 0
               }
               if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
                 elem.discountRate = 0

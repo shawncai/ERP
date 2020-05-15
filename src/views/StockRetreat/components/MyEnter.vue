@@ -412,8 +412,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.enterRepositoryId = ''
-      this.getemplist.enterRepositoryId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     restFilter2() {
       this.deliveryPersonId = ''
