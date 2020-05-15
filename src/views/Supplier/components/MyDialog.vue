@@ -232,18 +232,27 @@
               <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.price"
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                v-show="jundgeprice()"
+                :precision="6"
+                v-model="scope.row.discountRate"/>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.includeTaxPrice"
                 @input="getincludeTaxPrice(scope.row)"/>
@@ -252,6 +261,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.taxRate"
                 @input="gettaxRate(scope.row)"/>

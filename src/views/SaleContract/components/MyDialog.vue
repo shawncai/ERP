@@ -302,7 +302,11 @@
               />
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.lsj')" prop="salePrice" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <span v-show="jundgeprice()">{{ gettaxprice(scope.row) }}</span>
+            </template>
+          </el-editable-column>
           <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" min-width="150px">
             <template slot-scope="scope">
@@ -333,9 +337,9 @@
               <p>{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <!--          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.hscbje')" min-width="170px">-->

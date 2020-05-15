@@ -227,22 +227,22 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-show="jundgeprice()" :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-show="jundgeprice()" :label="$t('StockOrder.allTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allTaxMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-show="jundgeprice()" :label="$t('StockOrder.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allIncludeTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-show="jundgeprice()" :label="$t('StockOrder.discountMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.discountMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allDiscountMoney }}</span>
           </template>

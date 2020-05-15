@@ -114,14 +114,14 @@
             <el-editable-column :label="$t('updates.cgsl')" prop="stockQuantity" align="center" />
             <el-editable-column :label="$t('updates.jhrq')" prop="deliveryDate" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" />
-            <el-editable-column v-show="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
             <el-editable-column :label="$t('updates.ydhsl')" prop="arrivalQuantity" align="center" />
@@ -130,7 +130,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card v-show="jundgeprice()" class="box-card" shadow="never" style="margin-top: 10px">
+      <el-card v-if="jundgeprice()" class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -140,32 +140,32 @@
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                   <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.cqtfyzchjgjhj')" style="width: 100%;">
                   <span>{{ personalForm.otherMoney }}</span>
                 </el-form-item>

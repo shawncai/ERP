@@ -791,7 +791,7 @@ export default {
             }
             console.log('c', c)
             for (const z in c) {
-              // console.log('c[z]', c[z])
+              console.log('c[z]', c[z])
               const arr = []
               for (const k in c[z].oarr) {
                 let orderQuantity = 0

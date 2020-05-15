@@ -149,7 +149,11 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getmylocation(scope) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.yssli')" prop="basicQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
@@ -183,11 +187,6 @@
                 <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-show="false" label="123" prop="id" align="center" width="150px">
-              <template slot-scope="scope">
-                <p>{{ getmylocation(scope) }}</p>
-              </template>
-            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
@@ -208,12 +207,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="heji1" size="mini" style="width: 200px" disabled/>
+                  <el-input v-model="heji1" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="heji2" size="mini" style="width: 200px" disabled/>
+                  <el-input v-model="heji2" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -990,7 +989,7 @@ export default {
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {
-        return scope.row.location
+        return scope.row.unit
       }
       if (scope.row.flag) {
         getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
@@ -1003,6 +1002,7 @@ export default {
         })
       }
       scope.row.flag = false
+      return scope.row.unit
     }
   }
 }

@@ -111,7 +111,11 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getmylocation(scope) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px">
             <template slot-scope="scope">
@@ -137,11 +141,6 @@
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.accessQuantity, scope.row.price, scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getmylocation(scope) }}</p>
             </template>
           </el-editable-column>
         </el-editable>
@@ -362,7 +361,7 @@ export default {
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {
-        return scope.row.location
+        return scope.row.productCode
       }
       if (scope.row.flag) {
         if (scope.row.batch === null || scope.row.batch === '' || scope.row.batch === undefined) {
@@ -392,6 +391,7 @@ export default {
         })
       }
       scope.row.flag = false
+      return scope.row.productCode
     },
     // 总金额计算
     getSize(quan, pric, row) {

@@ -182,28 +182,44 @@
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
-          <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
-          <el-editable-column v-show="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ scope.row.price }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+          <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
-          <el-editable-column v-show="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getdiscountMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ scope.row.discountRate }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getdiscountMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" min-width="150px"/>
@@ -222,12 +238,12 @@
                 <el-input v-model="allNumber" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                 <el-input v-model="allMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                 <el-input v-model="allTaxMoney" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
