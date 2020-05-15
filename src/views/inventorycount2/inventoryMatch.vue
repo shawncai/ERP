@@ -5,6 +5,7 @@
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" size="small" class="filter-item" clearable @focus="handleproduct"/>
       <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <el-input v-model="getemplist.quantity" placeholder="请输入套数" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/> -->
       <!-- <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/> -->
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
@@ -318,10 +319,26 @@ export default {
     },
     // 搜索
     handleFilter() {
-      if (this.getemplist.unChange === '' || this.getemplist.unChange === undefined || this.getemplist.unChange === null) {
+      if (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === undefined || this.getemplist.repositoryId === null) {
         this.$notify.error({
           title: 'wrong',
-          message: '请输入未改变的年限',
+          message: '请选择仓库',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.productCode === '' || this.getemplist.productCode === undefined || this.getemplist.productCode === null) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择商品',
+          offset: 100
+        })
+        return false
+      }
+      if (this.getemplist.quantity === '' || this.getemplist.quantity === undefined || this.getemplist.quantity === null) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请输入套数',
           offset: 100
         })
         return false

@@ -201,7 +201,7 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
             <!--            <el-editable-column prop="stockNumber" align="center" label="库存" min-width="150px"/>-->
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
+              <template slot-scope="scope">
                 <el-input-number
                   v-show="jundgeprice()"
                   :precision="6"
@@ -210,7 +210,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
-              <template slot="edit" slot-scope="scope">
+              <template slot-scope="scope">
                 <el-input-number
                   v-show="jundgeprice()"
                   :precision="6"
