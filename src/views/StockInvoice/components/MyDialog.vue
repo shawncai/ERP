@@ -168,30 +168,39 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="200px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
             <template slot-scope="scope">
-              <el-input-number
-                v-show="jundgeprice()"
-                :precision="6"
-                v-model="scope.row.price"
-                @input="getprice(scope.row)"/>
+              <p v-show="jundgeprice()">{{ scope.row.price }}</p>
             </template>
+            <!-- <template slot-scope="scope">
+                <el-input-number
+                  v-show="jundgeprice()"
+                  :precision="6"
+                  v-model="scope.row.price"
+                  @input="getprice(scope.row)"/>
+              </template> -->
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
             <template slot-scope="scope">
-              <el-input-number
-                v-show="jundgeprice()"
-                :precision="6"
-                v-model="scope.row.includeTaxPrice"
-                @input="getincludeTaxPrice(scope.row)"/>
+              <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
             </template>
+            <!-- <template slot-scope="scope">
+                <el-input-number
+                  v-show="jundgeprice()"
+                  :precision="6"
+                  v-model="scope.row.includeTaxPrice"
+                  @input="getincludeTaxPrice(scope.row)"/>
+              </template> -->
           </el-editable-column>
-          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="200px">
+          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot-scope="scope">
-              <el-input-number
-                v-show="jundgeprice()"
-                :precision="6"
-                v-model="scope.row.taxRate"
-                @input="gettaxRate(scope.row, scope)"/>
+              <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
             </template>
+            <!-- <template slot-scope="scope">
+                <el-input-number
+                  v-show="jundgeprice()"
+                  :precision="6"
+                  v-model="scope.row.taxRate"
+                  @input="gettaxRate(scope.row, scope)"/>
+              </template> -->
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
