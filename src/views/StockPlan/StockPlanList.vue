@@ -656,7 +656,7 @@ export default {
       this.list = processdata2
       this.getSpanArr(this.list)
       this.listLoading = false
-      // console.log('数据数据数据', processdata)
+      console.log('数据数据数据22222222', processdata2)
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -730,6 +730,7 @@ export default {
     },
     // 审批操作123
     handleReview(row) {
+      var _that = this
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -834,7 +835,7 @@ export default {
               }
               const stockorderparms1 = {
                 title: '自动生成采购订单',
-                stockRepositoryId: c[z].oarr[0].planRepositoryId,
+                stockRepositoryId: row.planRepositoryId,
                 stockPersonId: row.planPersonId,
                 createPersonId: row.planPersonId,
                 countryId: this.$store.getters.countryId,
@@ -859,7 +860,7 @@ export default {
                 addstockorder(orderparms, parms2, stockorderparms1).then(res => {
                   if (res.data.ret === 200) {
                     loading.close()
-                    this.$notify({
+                    _that.$notify({
                       title: 'successful',
                       message: 'save successful',
                       type: 'succzess',
