@@ -116,7 +116,11 @@
           style="width: 100%">
           <el-editable-column type="selection" fixed width="55" align="center"/>
           <el-editable-column type="index" fixed align="center" label="编号" width="150px" />
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getmylocation(scope) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" width="150px"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
@@ -135,38 +139,49 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" prop="actualEnterQuantity" align="center" label="实收数量" width="150px"/>
-          <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ scope.row.enterPrice }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.slv')" prop="taxRate" align="center" width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
+          <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ scope.row.discountRate }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p>{{ getdiscountMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getdiscountMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
+          <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ scope.row.price }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">
-              <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getmylocation(scope) }}</p>
+              <p v-show="jundgeprice()">{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -324,6 +339,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     // 计算金额
     getMoney(row) {
       console.log(row.actualEnterQuantity, row.price)
@@ -552,7 +577,7 @@ export default {
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {
-        return scope.row.location
+        return scope.row.productCode
       }
       if (scope.row.flag) {
         getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
@@ -565,6 +590,7 @@ export default {
         })
       }
       scope.row.flag = false
+      return scope.row.productCode
     },
     // 深拷贝
     deepClone(obj) {

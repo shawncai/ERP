@@ -115,7 +115,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             :summary-method="getSummaries"
-            show-summary
+            :show-summary="jundgeprice()"
             class="click-table1"
             stripe
             border
@@ -156,35 +156,55 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.yssli')" prop="basicQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('updates.rkdj')" prop="enterPrice" align="center" width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.enterPrice }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
+                <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getTaxMoney(scope.row) }}</p>
+                <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getTaxMoney2(scope.row) }}</p>
+                <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.ckl')" prop="discountRate" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p>{{ getdiscountMoney(scope.row) }}</p>
+                <p v-show="jundgeprice()">{{ getdiscountMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.price }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
-                <p>{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+                <p v-show="jundgeprice()">{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -210,27 +230,27 @@
                   <el-input v-model="heji1" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('Stockenter.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="heji2" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="allTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="allIncludeTaxMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="allDiscountMoney" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="allMoneyMoveDiscount" size="mini" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
@@ -478,6 +498,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     getSummaries(param) {
       const { columns, data } = param
       const sums = []

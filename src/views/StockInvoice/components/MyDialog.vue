@@ -151,8 +151,8 @@
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           :summary-method="getSummaries"
+          :show-summary="jundgeprice()"
           class="click-table1"
-          show-summary
           stripe
           border
           size="small"
@@ -167,24 +167,27 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="200px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
-            <template slot="edit" slot-scope="scope">
+            <template slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.price"
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
-            <template slot="edit" slot-scope="scope">
+            <template slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.includeTaxPrice"
                 @input="getincludeTaxPrice(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="200px">
-            <template slot="edit" slot-scope="scope">
+            <template slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.taxRate"
                 @input="gettaxRate(scope.row, scope)"/>
@@ -192,22 +195,23 @@
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
+              <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.discountRate"
                 @change="getdiscountRate(scope.row, scope)"/>
@@ -216,6 +220,7 @@
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
+                v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.discountMoney"
                 @change="getdiscountMoney(scope.row)"/>
@@ -235,27 +240,27 @@
                   <el-input v-model="allNumber" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <el-input v-model="allMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <el-input v-model="allTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                   <el-input v-model="allIncludeTaxMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                   <el-input v-model="allDiscountMoney" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
@@ -463,6 +468,16 @@ export default {
     _that = this
   },
   methods: {
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
     // 审批操作
     handleReview() {
       this.reviewParms = {}

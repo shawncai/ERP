@@ -196,7 +196,11 @@
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ scope.row.price }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
