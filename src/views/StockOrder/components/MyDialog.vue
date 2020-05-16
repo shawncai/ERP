@@ -166,8 +166,8 @@
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           :summary-method="getSummaries"
+          :show-summary="jundgeprice()"
           class="click-table1"
-          show-summary
           stripe
           border
           size="small"
@@ -224,7 +224,7 @@
               </template> -->
           </el-editable-column>
           <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
-            <template slot="edit" slot-scope="scope">
+            <template slot-scope="scope">
               <el-input-number
                 v-show="jundgeprice()"
                 :precision="6"
