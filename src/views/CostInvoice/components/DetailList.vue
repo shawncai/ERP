@@ -34,6 +34,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('Invoice.invoiceType')" prop="invoiceType" style="width: 100%;">
+                  <span>{{ personalForm.invoiceType | invoiceTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('CostInvoice.supplierId')" prop="deptId" style="width: 100%;">
                   <span>{{ personalForm.supplierName }}</span>
                 </el-form-item>
@@ -192,6 +197,16 @@
 var _that
 export default {
   filters: {
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '增值税专用发票',
+        2: '增值税普通发票',
+        3: '普通发票',
+        4: '无票',
+        5: '其他'
+      }
+      return statusMap[status]
+    },
     currencyFilter(status) {
       const statusMap = {
         1: 'PHP',

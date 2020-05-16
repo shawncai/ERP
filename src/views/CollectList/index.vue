@@ -158,7 +158,7 @@
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <!--修改结束=================================================-->
+      <!--修改结束123=================================================-->
     </el-card>
     <el-dialog :visible.sync="isvisible" :title="$t('CollectList.Dispatch')" class="normal" width="40%" center lock-scroll>
       <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">

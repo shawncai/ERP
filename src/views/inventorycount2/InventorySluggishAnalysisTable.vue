@@ -43,56 +43,34 @@
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
+          :label="$t('updates.repository')"
+          prop="repositoryName"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
-          width="200"
+          min-width="200"
           align="center"/>
         <el-table-column
           :label="$t('stockDetailCount.productName')"
           prop="productName"
-          width="200"
+          min-width="200"
           align="center"/>
         <el-table-column
           :label="$t('stockDetailCount.productType')"
           prop="productType"
-          width="200"
+          min-width="200"
           align="center"/>
         <el-table-column
           :label="$t('stockDetailCount.unit')"
           prop="unit"
-          width="200"
-          align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
-          <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
-            width="200"
-            align="center"/>
-          <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
-            width="200"
-            align="center"/>
-        </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
-          width="200"
+          min-width="200"
           align="center"/>
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
-          width="200"
+          :label="$t('stockTrackList.quantity')"
+          prop="quantity"
+          min-width="200"
           align="center"/>
       </el-table>
       <!-- 列表结束1 -->

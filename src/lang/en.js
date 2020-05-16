@@ -700,7 +700,11 @@ export default {
     taxMoney: 'tax amount',
     heji: 'total',
     arrivedQuantity: 'arrived quantity',
-    notArrivedQuantity: 'not arrived quantity'
+    notArrivedQuantity: 'not arrived quantity',
+    unitQuantity: 'unit Quantity',
+    matchQuantity: 'match Quantity',
+    exsitQuantity: 'exsit Quantity',
+    diffQuantity: 'diff Quantity'
   },
   operation: {
     context: 'operate content',

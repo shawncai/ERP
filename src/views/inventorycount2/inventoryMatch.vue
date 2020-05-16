@@ -21,6 +21,11 @@
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
+          :label="$t('stockOrderCount.notArrivedQuantity')"
+          prop="repositoryName"
+          width="200"
+          align="center"/>
+        <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
           width="200"
@@ -40,38 +45,28 @@
           prop="unit"
           width="200"
           align="center"/>
-        <el-table-column :label="$t('stockOrderCount.order')" align="center">
+        <el-table-column :label="$t('stockOrderCount.orderQuantity')" align="center">
           <el-table-column
-            :label="$t('stockOrderCount.orderQuantity')"
-            prop="orderQuantity"
+            :label="$t('stockOrderCount.unitQuantity')"
+            prop="unitQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
+            :label="$t('stockOrderCount.matchQuantity')"
+            prop="matchQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.taxMoney')"
-            prop="taxMoney"
+            :label="$t('stockOrderCount.exsitQuantity')"
+            prop="exsitQuantity"
             width="200"
             align="center"/>
           <el-table-column
-            :label="$t('stockOrderCount.heji')"
-            prop="heji"
+            :label="$t('stockOrderCount.diffQuantity')"
+            prop="diffQuantity"
             width="200"
             align="center"/>
         </el-table-column>
-        <el-table-column
-          :label="$t('stockOrderCount.arrivedQuantity')"
-          prop="arrivedQuantity"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
-          prop="notArrivedQuantity"
-          width="200"
-          align="center"/>
       </el-table>
       <!-- 列表结束1 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -201,7 +196,6 @@ export default {
       repositoryId: this.$store.getters.repositoryName,
       // 采购申请查询加展示参数
       getemplist: {
-        repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
         type: 1
       },
@@ -219,7 +213,7 @@ export default {
     }, 100)
   },
   mounted() {
-    this.changeName()
+    // this.changeName()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -310,8 +304,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
     },
     restFilter2() {
       this.stockPersonId = ''

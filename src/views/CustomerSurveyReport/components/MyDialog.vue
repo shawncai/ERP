@@ -78,7 +78,7 @@
         </el-form>
       </div>
     </el-card>
-    <!--子件信息-->
+    <!--子件信息1-->
     <el-card class="box-card" shadow="never">
       <h2 ref="geren" class="form-name">{{ $t('updates.khdcbgmx') }}</h2>
       <div class="container" style="margin-top: 37px">
@@ -87,34 +87,34 @@
             <el-col :span="24">
               <el-form-item :label="$t('CustomerSurveyReport.liveStatus')" prop="title" style="width: 100%;">
                 <el-radio-group v-model="personalForm.liveStatus">
-                  <el-radio label="1">自有住房</el-radio>
-                  <el-radio label="2">租房</el-radio>
-                  <el-radio label="3">和亲戚住</el-radio>
+                  <el-radio label="1">{{ $t('prompt.zyzf') }}</el-radio>
+                  <el-radio label="2">{{ $t('prompt.zf') }}</el-radio>
+                  <el-radio label="3">{{ $t('prompt.hqqyqz') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item :label="$t('CustomerSurveyReport.liveType')" prop="title" style="width: 100%;">
                 <el-radio-group v-model="personalForm.liveType">
-                  <el-radio label="1">旧的</el-radio>
-                  <el-radio label="2">新建筑</el-radio>
-                  <el-radio label="3">高档公寓</el-radio>
-                  <el-radio label="4">小隔间</el-radio>
-                  <el-radio label="5">普通公寓</el-radio>
-                  <el-radio label="6">双层楼建筑</el-radio>
-                  <el-radio label="7">低成本住房</el-radio>
+                  <el-radio label="1"> {{ $t('prompt.jiude') }}</el-radio>
+                  <el-radio label="2"> {{ $t('prompt.xjianz') }}</el-radio>
+                  <el-radio label="3"> {{ $t('prompt.gdgy') }}</el-radio>
+                  <el-radio label="4"> {{ $t('prompt.xgj') }}</el-radio>
+                  <el-radio label="5"> {{ $t('prompt.ptgy') }}</el-radio>
+                  <el-radio label="6"> {{ $t('prompt.scljz') }}</el-radio>
+                  <el-radio label="7">{{ $t('prompt.dcbzf') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item :label="$t('CustomerSurveyReport.personalProperty')" prop="title" style="width: 100%;">
                 <el-checkbox-group v-model="personalProperty">
-                  <el-checkbox label="1">电视</el-checkbox>
-                  <el-checkbox label="2">家庭影院</el-checkbox>
-                  <el-checkbox label="3">冰箱</el-checkbox>
-                  <el-checkbox label="4">洗衣机</el-checkbox>
-                  <el-checkbox label="5">空调</el-checkbox>
-                  <el-checkbox label="6">电脑</el-checkbox>
+                  <el-checkbox label="1"> {{ $t('prompt.ds') }}</el-checkbox>
+                  <el-checkbox label="2"> {{ $t('prompt.jtyy') }}</el-checkbox>
+                  <el-checkbox label="3">{{ $t('prompt.bx') }}</el-checkbox>
+                  <el-checkbox label="4">{{ $t('prompt.xyj') }}</el-checkbox>
+                  <el-checkbox label="5">{{ $t('prompt.kt') }}</el-checkbox>
+                  <el-checkbox label="6">{{ $t('prompt.dn') }}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
