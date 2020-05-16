@@ -72,7 +72,6 @@
                     style="margin-left: 18px;width:200px"/>
                 </el-form-item>
               </el-col>
-
             </el-row>
           </el-form>
         </div>
@@ -530,18 +529,6 @@ export default {
         if (this.$store.getters.empcontract.length) {
           this.personalForm.sourceType = '2'
           this.chooseType()
-          // this.$store.getters.empcontract[i].basicQuantity = this.$store.getters.empcontract[i].requireQuantity
-          // this.$store.getters.empcontract[i].planQuantity = this.$store.getters.empcontract[i].requireQuantity
-          // this.$store.getters.empcontract[i].planDeliveryDate = this.$store.getters.empcontract[i].requireDate
-          // this.$store.getters.empcontract[i].applyReason = ''
-          // this.$store.getters.empcontract[i].sourceNumber = this.$store.getters.empcontract[i].materialsRequireNumber
-          // this.$store.getters.empcontract[i].supplierId = ''
-          // this.$store.getters.empcontract[i].supplierName = ''
-          // this.$store.getters.empcontract[i].basicPrice = 0
-          // this.$store.getters.empcontract[i].planMoney = '0.00'
-          // this.$store.getters.empcontract[i].orderQuantity = '0.00'
-          // this.$store.getters.empcontract[i].stockRequireId = this.$store.getters.empcontract[i].id
-          // this.$store.getters.empcontract[i].sourceSerialNumber = this.$store.getters.empcontract[i].id
           const requiredata = this.$store.getters.empcontract
           const requireDetail = requiredata.map(function(item) {
             return {
@@ -604,7 +591,11 @@ export default {
           // this.$refs.editable.insert(this.$store.getters.empcontract[i])
           // this.$refs.editable2.insert(this.$store.getters.empcontract[i])
           console.log('list3', list3)
-          this.list2 = list3
+          for (let i = 0; i < list3.length; i++) {
+            console.log('val[i]', list3[i])
+            this.$refs.editable.insert(list3[i])
+          }
+          // this.list2 = list3
           this.list3 = list3
           console.log('this.$refs.editable', this.list2)
           console.log('this.$refs.editable2', this.list3)
@@ -723,6 +714,8 @@ export default {
     },
     // 两表联动
     changeDate(scope) {
+      console.log('scope.row', scope.row)
+      console.log('scope.$index', scope.$index)
       if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
         if (scope.row.planDeliveryDate !== '' && scope.row.planDeliveryDate !== null && scope.row.planDeliveryDate !== undefined) {
           for (let i = 0; i < this.list2.length; i++) {
@@ -731,11 +724,10 @@ export default {
           for (let i = scope.row.temp; i < this.list2.length; i++) {
             console.log(this.list2[i].requireDate)
             if (this.list2[i].planDeliveryDate !== null && this.list2[i].planDeliveryDate !== '' && this.list2[i].planDeliveryDate !== undefined) {
-              // this.list2[i].requireDate = row.requireDate
+              console.log(111)
               this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
             } else {
               console.log(222)
-              // this.list2[i].requireDate = row.requireDate
               this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
             }
           }
