@@ -150,7 +150,7 @@
             :edit-rules="validRules"
             :summary-method="getSummaries"
             :class="click-table1"
-            show-summary="jundgeprice()"
+            :show-summary="jundgeprice()"
             stripe
             border
             size="small"
