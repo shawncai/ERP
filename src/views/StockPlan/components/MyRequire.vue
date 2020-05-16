@@ -340,6 +340,8 @@ export default {
       const requiredata = this.choosedata
       const requireDetail = requiredata.map(function(item) {
         return {
+          requireQuantity2: item.requireQuantity,
+          requireDate: item.requireDate,
           productCode: item.productCode,
           productName: item.productName,
           productType: item.productType,
@@ -356,7 +358,7 @@ export default {
           planMoney: '0.00',
           orderQuantity: '0.00',
           stockRequireId: item.id,
-          requireDate: item.requireDate,
+          // requireDate: item.requireDate,
           sourceSerialNumber: item.id,
           requireQuantity: item.requireQuantity,
           planedQuantity: item.planedQuantity,
@@ -394,6 +396,8 @@ export default {
             list2[i].orderQuantity = requireDetail[j].orderQuantity
             list2[i].planQuantity = requireDetail[j].planQuantity
             list2[i].inventoryQuantity = requireDetail[j].inventoryQuantity
+            list2[i].requireQuantity2 = requireDetail[j].requireQuantity2
+            list2[i].requireDate = requireDetail[j].requireDate
             list3.push(list2[i])
           }
         }
