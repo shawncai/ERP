@@ -385,7 +385,7 @@ export default {
       this.list2 = this.personalForm.stockOrderDetailVos
       if (this.list2 !== '' && this.list2 !== undefined && this.list2 !== null) {
         for (let i = 0; i < this.list2.length; i++) {
-          this.list2[i].taxRate2 = this.list2[i].taxRate * 100
+          this.list2[i].taxRate2 = this.list2[i].taxRate
         }
       }
       this.reviewList = this.personalForm.approvalUseVos
