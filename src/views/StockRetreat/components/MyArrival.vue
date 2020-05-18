@@ -284,6 +284,20 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
+              if (this.list[i].stockArrivalDetailVos[j].unqualifyQuantity === 0) {
+                this.list[i].stockArrivalDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].stockArrivalDetailVos.length === 0) {
+              this.list.splice(i, 1)
+              i--
+            }
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

@@ -723,7 +723,11 @@ export default {
     taxMoney: '税额',
     heji: '合计',
     arrivedQuantity: '已到货数量',
-    notArrivedQuantity: '未到货数量'
+    notArrivedQuantity: '未到货数量',
+    unitQuantity: '单位数量',
+    matchQuantity: '配套数量',
+    exsitQuantity: '库存数量',
+    diffQuantity: '差异数量'
   },
   operation: {
     context: '操作内容',

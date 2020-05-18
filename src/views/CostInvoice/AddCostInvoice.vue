@@ -60,6 +60,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('Invoice.invoiceType')" prop="invoiceType" style="width: 100%;">
+                  <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px">
+                    <el-option value="1" label="增值税专用发票" />
+                    <el-option value="2" label="增值税普通发票" />
+                    <el-option value="3" label="普通发票" />
+                    <el-option value="4" label="无票" />
+                    <el-option value="5" label="其他" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('CostInvoice.supplierId')" prop="supplierId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="supplierId" style="width: 200px" clearable @focus="handlechoose"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -371,6 +382,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        invoiceType: [
+          { required: true, message: '请选择发票类型', trigger: 'change' }
+        ],
         supplierId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],

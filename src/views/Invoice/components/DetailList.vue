@@ -182,8 +182,11 @@ export default {
     },
     invoiceTypeFilter(status) {
       const statusMap = {
-        1: '增值税',
-        2: '普通'
+        1: '增值税专用发票',
+        2: '增值税普通发票',
+        3: '普通发票',
+        4: '无票',
+        5: '其他'
       }
       return statusMap[status]
     }

@@ -28,8 +28,11 @@
               <el-col :span="12">
                 <el-form-item :label="$t('Invoice.invoiceType')" prop="invoiceType" style="width: 100%;">
                   <el-select v-model="personalForm.invoiceType" style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="增值税" />
-                    <el-option value="2" label="普通" />
+                    <el-option value="1" label="增值税专用发票" />
+                    <el-option value="2" label="增值税普通发票" />
+                    <el-option value="3" label="普通发票" />
+                    <el-option value="4" label="无票" />
+                    <el-option value="5" label="其他" />
                   </el-select>
                 </el-form-item>
               </el-col>
