@@ -63,7 +63,6 @@
       ref="multipleTable"
       :height="tableHeight"
       :data="list"
-
       :key="tableKey"
       :row-key="getRowKeys"
       size="small"
@@ -265,7 +264,7 @@ export default {
     }
   },
   created() {
-    // this.gitemplist()
+    this.gitemplist()
   },
   beforeCreate() {
     _that = this

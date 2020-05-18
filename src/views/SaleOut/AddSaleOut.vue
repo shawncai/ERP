@@ -409,6 +409,18 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.chargeCode" clearable/>
+                <span v-else>{{ scope.row.chargeCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.controlCode" clearable/>
+                <span v-else>{{ scope.row.controlCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
           </el-editable>
@@ -2427,7 +2439,7 @@ export default {
           }).forEach(function(elem) {
             const re = elem.productCode.slice(0, 2)
             if (re === '01') {
-              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '' || elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '' || elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '') {
                 m = 2
               }
             }

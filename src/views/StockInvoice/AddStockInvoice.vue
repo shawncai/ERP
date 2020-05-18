@@ -123,6 +123,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('update4.invoiceDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.invoiceDate"
+                    :picker-options="pickerOptions1"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.summary" style="width: 200px" clearable/>
                 </el-form-item>

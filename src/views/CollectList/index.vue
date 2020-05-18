@@ -265,6 +265,8 @@ export default {
       // 申请部门数据
       depts: [],
       options2: [],
+      form: {
+      },
       // 审核传参
       reviewParms: {
         id: '',

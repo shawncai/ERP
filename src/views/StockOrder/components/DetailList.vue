@@ -116,7 +116,7 @@
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate2" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" />
@@ -386,6 +386,11 @@ export default {
         delete this.personalForm.stockOrderDetailVos[i].stockOrderDetailVos
       }
       this.list2 = this.personalForm.stockOrderDetailVos
+      if (this.list2 !== '' && this.list2 !== undefined && this.list2 !== null && this.list2.length > 0) {
+        for (let i = 0; i < this.list2.length; i++) {
+          this.list2[i].taxRate2 = this.list2[i].taxRate * 100
+        }
+      }
       this.reviewList = this.personalForm.approvalUseVos
       this.stockArrivaldata.sourceNumber = this.personalForm.orderNumber
       this.getstockArrivalList()
