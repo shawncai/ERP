@@ -4376,6 +4376,7 @@ export default {
     beginQuantity: '期初数量',
     receiveQuantity: '收到数量',
     sendQuantity: '发出数量',
-    endQuantity: '结余'
+    endQuantity: '结余',
+    invoiceDate: '发票日期'
   }
 }

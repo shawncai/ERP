@@ -30,6 +30,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('update4.invoiceDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.invoiceDate"
+                    :picker-options="pickerOptions1"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('StockInvoice.subject')" prop="type" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.subject" filterable style="width: 200px">
                     <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
@@ -71,7 +81,7 @@
                   <el-input v-model="personalForm.bank" disabled style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('CostInvoice.currency')" prop="currency" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.currency" clearable style="width: 200px" @change="change()">
                     <el-option value="1" label="PHP"/>
@@ -79,7 +89,7 @@
                     <el-option value="3" label="RMB"/>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('CostInvoice.handlePersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="handlePersonId" style="width: 200px" @focus="handlechooseStock"/>
@@ -96,11 +106,11 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('Recycling.exchangeRate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.currencyRate" style="width: 200px" disabled/>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('Repository.countryId')" prop="countryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.countryId" placeholder="请选择国家" style="width: 200px">
@@ -166,6 +176,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remark" align="center" min-width="170px"/>
+            <el-editable-column :edit-render="{name: 'ElSelect',options: currencys ,type: 'visible'}" :label="$t('CostInvoice.currency')" prop="currency" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.fykm')" prop="subjectName" align="center" min-width="170px"/>
           </el-editable>
         </div>
@@ -307,6 +318,7 @@ export default {
       // 运送方式
       transportIds: [],
       costs: [],
+      currencys: [{ value: 1, label: 'PHP' }, { value: 2, label: 'USD' }, { value: 3, label: 'RMB' }],
       cost: {},
       // 结算方式
       settleModes: [],
@@ -455,6 +467,12 @@ export default {
       const row = this.$refs.editable.insertAt('', -1)
       this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'name'))
       this.list2[0].quantity = 1
+      const mycountry = this.$store.getters.countryId
+      if (mycountry === 1) {
+        this.list2[0].currency = 3
+      } else if (mycountry === 2) {
+        this.list2[0].currency = 1
+      }
     },
     // 重置一下下拉
     change() {

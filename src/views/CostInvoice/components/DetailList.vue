@@ -19,6 +19,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('update4.invoiceDate')" style="width: 100%;">
+                  <span>{{ personalForm.invoiceDate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('CostInvoice.subject')" prop="supplierId" style="width: 100%;">
                   <span>{{ personalForm.subjectName }}</span>
                 </el-form-item>
@@ -53,11 +58,11 @@
                   <span>{{ personalForm.bank }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('CostInvoice.currency')" style="width: 100%;">
                   <span>{{ personalForm.currency | currencyFilter }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('CostInvoice.handlePersonId')" prop="currency" style="width: 100%;">
                   <span>{{ personalForm.handlePersonName }}</span>
@@ -68,11 +73,11 @@
                   <span>{{ personalForm.deptName }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item :label="$t('Recycling.exchangeRate')" style="width: 100%;">
                   <span>{{ personalForm.currencyRate }}</span>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="12">
                 <el-form-item :label="$t('Repository.countryId')" style="width: 100%;">
                   <span>{{ personalForm.countryName }}</span>
@@ -106,6 +111,7 @@
             <el-editable-column :label="$t('updates.kdyse')" prop="deduTaxMoney" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.bhsje')" prop="money" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('CostInvoice.currency')" prop="mycurrency" align="center" min-width="170px"/>
             <el-editable-column :label="$t('updates.fykm')" prop="subjectName" align="center" min-width="170px"/>
           </el-editable>
         </div>
@@ -277,6 +283,18 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      if (this.personalForm.costInvoiceDetailVos !== null && this.personalForm.costInvoiceDetailVos !== '' && this.personalForm.costInvoiceDetailVos !== undefined && this.personalForm.costInvoiceDetailVos.length !== 0) {
+        for (let i = 0; i < this.personalForm.costInvoiceDetailVos.length; i++) {
+          if (this.personalForm.costInvoiceDetailVos[i].currency === 1) {
+            this.personalForm.costInvoiceDetailVos[i].mycurrency = 'PHP'
+          } else if (this.personalForm.costInvoiceDetailVos[i].currency === 2) {
+            this.personalForm.costInvoiceDetailVos[i].mycurrency = 'USD'
+          } else {
+            this.personalForm.costInvoiceDetailVos[i].mycurrency = 'RMB'
+          }
+        }
+      }
+
       this.list2 = this.personalForm.costInvoiceDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
