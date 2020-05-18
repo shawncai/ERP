@@ -690,6 +690,7 @@ export default {
     notArrivedQuantity: 'not arrived quantity'
   },
   stockOrderCount: {
+    repositoryName: 'repository',
     type: 'summary type',
     date: 'bill date',
     order: 'order',

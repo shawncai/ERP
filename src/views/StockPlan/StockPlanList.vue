@@ -826,7 +826,7 @@ export default {
                   tax: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice) - Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
                   actualArrivalQuantity: 0,
                   stockQuantity: c[z].oarr[k].planQuantity,
-                  taxRate: c[z].oarr[k].taxRate,
+                  taxRate: Number(c[z].oarr[k].taxRate) / 100,
                   money: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
                   includeTaxMoney: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice),
                   typeId: c[z].oarr[k].typeId
@@ -844,7 +844,7 @@ export default {
                 isVat: 1,
                 settleMode: 4,
                 sourceType: '2',
-                currency: '1',
+                currency: '3',
                 orderDate: this.todaytime,
                 deptId: this.$store.getters.deptId,
                 exchangeRate: '1.0000',

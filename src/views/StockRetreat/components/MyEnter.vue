@@ -86,9 +86,28 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="160">
+        <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="200">
+          <!-- <template slot-scope="scope">
+            <span>{{ scope.row.orderNumber }}</span>
+          </template> -->
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.stockEnterDetailVos" border size="small">
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <el-table-column :label="$t('updates.rksl')" min-width="100" property="actualEnterQuantity"/>
+                <!-- <el-table-column :label="$t('updates.jhrq')" min-width="200" property="deliveryDate"/> -->
+                <el-table-column :label="$t('updates.ys')" min-width="100" property="color"/>
+                <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="small">{{ scope.row.enterNumber }}</el-tag>
+              </div>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">

@@ -93,12 +93,6 @@
             <span>{{ scope.row.orderNumber }}</span>
           </template> -->
           <template slot-scope="scope">
-            <!-- <el-popover trigger="hover" placement="right">
-              <p v-for="(item, index) in scope.row.stockOrderDetailVos" :key="index">物品编码: {{ item.productCode }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag>{{ scope.row.orderNumber }}</el-tag>
-              </div>
-            </el-popover> -->
             <el-popover
               placement="right"
               width="720"

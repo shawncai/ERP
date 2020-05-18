@@ -598,6 +598,7 @@ export default {
   },
 
   mounted() {
+    this.getcurrency()
     this.getinformation()
   },
   activated() {
@@ -607,6 +608,15 @@ export default {
     _that = this
   },
   methods: {
+    getcurrency() {
+      const mycountry = this.$store.getters.countryId
+      console.log('mycountry============', mycountry)
+      if (mycountry === 1) {
+        this.personalForm.currency = '3'
+      } else if (mycountry === 2) {
+        this.personalForm.currency = '1'
+      }
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -1393,6 +1403,7 @@ export default {
         deptId: this.$store.getters.deptId,
         exchangeRate: '1.0000'
       }
+      this.getcurrency()
       this.getdatatime()
       this.stockRepositoryId = ''
       this.supplierId = null

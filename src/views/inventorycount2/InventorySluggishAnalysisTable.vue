@@ -6,7 +6,9 @@
       <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" size="small" class="filter-item" clearable @focus="handleproduct"/>
       <el-input v-model="getemplist.unChange" placeholder="没有发生改变的期限" size="small" class="filter-item" clearable/>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
+      <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4"/>
+
       <el-select v-model="getemplist.type" :value="getemplist.type" :placeholder="$t('updates.lx')" size="small" filterable class="filter-item" clearable>
         <el-option v-for="item in typeList" :key="item.id" :value="item.id" :label="item.typeName"/>
       </el-select>
@@ -35,6 +37,7 @@
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        v-loading="mytable"
         ref="table"
         :height="tableHeight"
         :data="list"
@@ -95,12 +98,13 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 import MyDetail from './components/MyDetail'
+import MyMaterials from './components/MyMaterials'
 
 var _that
 export default {
   name: 'InventorySluggishAnalysisTable',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination, MyDetail },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination, MyDetail, MyMaterials },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -136,10 +140,11 @@ export default {
   },
   data() {
     return {
+      mytable: false,
       repositorycontrol: false,
       tableHeight: 200,
       // 控制商品列表窗口
-      control: false,
+      materialcontrol: false,
       first: '',
       step1: '',
       step2: '',
@@ -236,6 +241,9 @@ export default {
     productdetail(val) {
       this.getemplist.productCode = val
     },
+    productdetail4(val) {
+      this.getemplist.productCode = val
+    },
     supplierName(val) {
       console.log(val)
       this.supplierId = val.supplierName
@@ -319,19 +327,24 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.mytable = true
       if (this.getemplist.unChange === '' || this.getemplist.unChange === undefined || this.getemplist.unChange === null) {
         this.$notify.error({
           title: 'wrong',
           message: '请输入未改变的年限',
           offset: 100
         })
+        this.mytable = false
         return false
       }
       SluggishAnalysisTable(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content
+          this.mytable = false
           // this.restFilter()
         } else {
+          this.mytable = false
+
           // this.restFilter()
         }
       })
@@ -351,7 +364,7 @@ export default {
     },
     // 选择物品
     handleproduct() {
-      this.control = true
+      this.materialcontrol = true
     },
     // 修改操作
     handleEdit(row) {

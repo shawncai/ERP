@@ -4,7 +4,8 @@
       <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" size="small" class="filter-item" clearable @focus="handleproduct"/>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+      <!-- <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/> -->
+      <my-materials :materialcontrol.sync="materialcontrol" @product4="productdetail4"/>
       <el-input v-model="getemplist.quantity" placeholder="请输入套数" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" @focus="handlechoose" @clear="restFilter"/> -->
       <!-- <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/> -->
@@ -13,6 +14,7 @@
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
+        v-loading="mytable"
         ref="table"
         :height="tableHeight"
         :data="list"
@@ -21,7 +23,7 @@
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
-          :label="$t('stockOrderCount.notArrivedQuantity')"
+          :label="$t('stockOrderCount.repositoryName')"
           prop="repositoryName"
           width="200"
           align="center"/>
@@ -90,12 +92,13 @@ import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MySupplier from './components/MySupplier'
 import MyDetail from './components/MyDetail'
+import MyMaterials from './components/MyMaterials'
 
 var _that
 export default {
   name: 'InventoryMatch',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination, MyDetail },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination, MyDetail, MyMaterials },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -131,10 +134,11 @@ export default {
   },
   data() {
     return {
+      mytable: false,
       repositorycontrol: false,
       tableHeight: 200,
       // 控制商品列表窗口
-      control: false,
+      materialcontrol: false,
       first: '',
       step1: '',
       step2: '',
@@ -230,6 +234,9 @@ export default {
     productdetail(val) {
       this.getemplist.productCode = val
     },
+    productdetail4(val) {
+      this.getemplist.productCode = val
+    },
     supplierName(val) {
       console.log(val)
       this.supplierId = val.supplierName
@@ -289,7 +296,7 @@ export default {
       this.listLoading = true
       inventoryMatch(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content
         }
         setTimeout(() => {
           this.listLoading = false
@@ -313,12 +320,14 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.mytable = true
       if (this.getemplist.repositoryId === '' || this.getemplist.repositoryId === undefined || this.getemplist.repositoryId === null) {
         this.$notify.error({
           title: 'wrong',
           message: '请选择仓库',
           offset: 100
         })
+        this.mytable = false
         return false
       }
       if (this.getemplist.productCode === '' || this.getemplist.productCode === undefined || this.getemplist.productCode === null) {
@@ -327,6 +336,8 @@ export default {
           message: '请选择商品',
           offset: 100
         })
+        this.mytable = false
+
         return false
       }
       if (this.getemplist.quantity === '' || this.getemplist.quantity === undefined || this.getemplist.quantity === null) {
@@ -335,13 +346,19 @@ export default {
           message: '请输入套数',
           offset: 100
         })
+        this.mytable = false
+
         return false
       }
       inventoryMatch(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content
+          this.mytable = false
+
           // this.restFilter()
         } else {
+          this.mytable = false
+
           // this.restFilter()
         }
       })
@@ -361,7 +378,7 @@ export default {
     },
     // 选择物品
     handleproduct() {
-      this.control = true
+      this.materialcontrol = true
     },
     // 修改操作
     handleEdit(row) {

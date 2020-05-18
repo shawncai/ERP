@@ -713,6 +713,7 @@ export default {
     notArrivedQuantity: '未到货数量'
   },
   stockOrderCount: {
+    repositoryName: '仓库',
     type: '汇总方式',
     date: '开单日期',
     order: '订货',
