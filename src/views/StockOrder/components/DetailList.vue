@@ -382,9 +382,6 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      for (const i in this.personalForm.stockOrderDetailVos) {
-        delete this.personalForm.stockOrderDetailVos[i].stockOrderDetailVos
-      }
       this.list2 = this.personalForm.stockOrderDetailVos
       if (this.list2 !== '' && this.list2 !== undefined && this.list2 !== null) {
         for (let i = 0; i < this.list2.length; i++) {

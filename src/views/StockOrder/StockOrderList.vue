@@ -722,65 +722,66 @@ export default {
             return item.stockOrderDetailVos
           })
           const newarr2 = [].concat.apply([], newarr)
+          const process = this._.cloneDeep(newarr2)
           for (const i in needlist) {
-            for (const j in newarr2) {
-              if (needlist[i].id === newarr2[j].orderId) {
-                newarr2[j].parentId = needlist[i].id
-                newarr2[j].orderNumber = needlist[i].orderNumber
-                newarr2[j].title = needlist[i].title
-                newarr2[j].sourceType = needlist[i].sourceType
-                newarr2[j].stockTypeId = needlist[i].stockTypeId
-                newarr2[j].supplierId = needlist[i].supplierId
-                newarr2[j].stockRepositoryId = needlist[i].stockRepositoryId
-                newarr2[j].stockPersonId = needlist[i].stockPersonId
-                newarr2[j].deptId = needlist[i].deptId
-                newarr2[j].payMode = needlist[i].payMode
-                newarr2[j].orderDate = needlist[i].orderDate
-                newarr2[j].isVat = needlist[i].isVat
-                newarr2[j].deliveryMode = needlist[i].deliveryMode
-                newarr2[j].settleMode = needlist[i].settleMode
-                newarr2[j].signPersonId = needlist[i].signPersonId
-                newarr2[j].currency = needlist[i].currency
-                newarr2[j].receiptStat = needlist[i].receiptStat
-                newarr2[j].judgeStat = needlist[i].judgeStat
-                newarr2[j].createPersonId = needlist[i].createPersonId
-                newarr2[j].createDate = needlist[i].createDate
-                newarr2[j].judgePersonId = needlist[i].judgePersonId
-                newarr2[j].judgeDate = needlist[i].judgeDate
-                newarr2[j].endPersonId = needlist[i].endPersonId
-                newarr2[j].endDate = needlist[i].endDate
-                newarr2[j].modifyPersonId = needlist[i].modifyPersonId
-                newarr2[j].modifyDate = needlist[i].modifyDate
-                newarr2[j].countryId = needlist[i].countryId
-                newarr2[j].otherMoney = needlist[i].otherMoney
-                newarr2[j].supplierNumber = needlist[i].supplierNumber
-                newarr2[j].arrivalDate = needlist[i].arrivalDate
-                newarr2[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
-                newarr2[j].approvalUseVos = needlist[i].approvalUseVos
-                newarr2[j].stockType = needlist[i].stockType
-                newarr2[j].supplierName = needlist[i].supplierName
-                newarr2[j].stockPersonName = needlist[i].stockPersonName
-                newarr2[j].deptName = needlist[i].deptName
-                newarr2[j].signPersonName = needlist[i].signPersonName
-                newarr2[j].createPersonName = needlist[i].createPersonName
-                newarr2[j].judgePersonName = needlist[i].judgePersonName
-                newarr2[j].endPersonName = needlist[i].endPersonName
-                newarr2[j].modifyPersonName = needlist[i].modifyPersonName
-                newarr2[j].countryName = needlist[i].countryName
-                newarr2[j].stockRepositoryName = needlist[i].stockRepositoryName
-                newarr2[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
-                newarr2[j].allMoney = needlist[i].allMoney
-                newarr2[j].allTaxMoney = needlist[i].allTaxMoney
-                newarr2[j].settleModeName = needlist[i].settleModeName
-                newarr2[j].allQuantity = needlist[i].allQuantity
-                newarr2[j].allDiscountMoney = needlist[i].allDiscountMoney
-                newarr2[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
-                newarr2[j].deliveryModeName = needlist[i].deliveryModeName
-                newarr2[j].payModeName = needlist[i].payModeName
+            for (const j in process) {
+              if (needlist[i].id === process[j].orderId) {
+                process[j].parentId = needlist[i].id
+                process[j].orderNumber = needlist[i].orderNumber
+                process[j].title = needlist[i].title
+                process[j].sourceType = needlist[i].sourceType
+                process[j].stockTypeId = needlist[i].stockTypeId
+                process[j].supplierId = needlist[i].supplierId
+                process[j].stockRepositoryId = needlist[i].stockRepositoryId
+                process[j].stockPersonId = needlist[i].stockPersonId
+                process[j].deptId = needlist[i].deptId
+                process[j].payMode = needlist[i].payMode
+                process[j].orderDate = needlist[i].orderDate
+                process[j].isVat = needlist[i].isVat
+                process[j].deliveryMode = needlist[i].deliveryMode
+                process[j].settleMode = needlist[i].settleMode
+                process[j].signPersonId = needlist[i].signPersonId
+                process[j].currency = needlist[i].currency
+                process[j].receiptStat = needlist[i].receiptStat
+                process[j].judgeStat = needlist[i].judgeStat
+                process[j].createPersonId = needlist[i].createPersonId
+                process[j].createDate = needlist[i].createDate
+                process[j].judgePersonId = needlist[i].judgePersonId
+                process[j].judgeDate = needlist[i].judgeDate
+                process[j].endPersonId = needlist[i].endPersonId
+                process[j].endDate = needlist[i].endDate
+                process[j].modifyPersonId = needlist[i].modifyPersonId
+                process[j].modifyDate = needlist[i].modifyDate
+                process[j].countryId = needlist[i].countryId
+                process[j].otherMoney = needlist[i].otherMoney
+                process[j].supplierNumber = needlist[i].supplierNumber
+                process[j].arrivalDate = needlist[i].arrivalDate
+                process[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
+                process[j].approvalUseVos = needlist[i].approvalUseVos
+                process[j].stockType = needlist[i].stockType
+                process[j].supplierName = needlist[i].supplierName
+                process[j].stockPersonName = needlist[i].stockPersonName
+                process[j].deptName = needlist[i].deptName
+                process[j].signPersonName = needlist[i].signPersonName
+                process[j].createPersonName = needlist[i].createPersonName
+                process[j].judgePersonName = needlist[i].judgePersonName
+                process[j].endPersonName = needlist[i].endPersonName
+                process[j].modifyPersonName = needlist[i].modifyPersonName
+                process[j].countryName = needlist[i].countryName
+                process[j].stockRepositoryName = needlist[i].stockRepositoryName
+                process[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+                process[j].allMoney = needlist[i].allMoney
+                process[j].allTaxMoney = needlist[i].allTaxMoney
+                process[j].settleModeName = needlist[i].settleModeName
+                process[j].allQuantity = needlist[i].allQuantity
+                process[j].allDiscountMoney = needlist[i].allDiscountMoney
+                process[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
+                process[j].deliveryModeName = needlist[i].deliveryModeName
+                process[j].payModeName = needlist[i].payModeName
               }
             }
           }
-          this.list = newarr2
+          this.list = process
           this.getSpanArr(this.list)
           // console.log('this.list==================', this.list)
           this.total = res.data.data.content.totalCount

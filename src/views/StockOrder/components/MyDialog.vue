@@ -535,9 +535,6 @@ export default {
       this.signPersonId = this.personalForm.signPersonName
       this.stockRepositoryId = this.personalForm.stockRepositoryName
       this.personalForm.id = this.personalForm.parentId
-      for (const i in this.personalForm.stockOrderDetailVos) {
-        delete this.personalForm.stockOrderDetailVos[i].stockOrderDetailVos
-      }
       this.list2 = this.personalForm.stockOrderDetailVos
       this.changeRate()
     }
