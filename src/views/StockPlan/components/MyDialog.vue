@@ -167,7 +167,7 @@
               <p>{{ planQuantity(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px"/>
+          <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px"/> -->
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" min-width="170px"/>
           <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
