@@ -77,7 +77,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
             <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" />
-            <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" />
+            <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" /> -->
             <el-editable-column :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" />
             <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
@@ -106,7 +106,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
             <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" />
-            <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" />
+            <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" /> -->
             <el-editable-column :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center"/>
             <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
