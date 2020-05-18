@@ -170,7 +170,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalFormdetail"/>
         </el-table-column>
         <!-- <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -349,6 +349,7 @@ export default {
   },
   data() {
     return {
+      personalFormdetail: {},
       tableHeight: 200,
       step1: '',
       step2: '',
@@ -870,7 +871,7 @@ export default {
     handleDetail(row) {
       console.log(row)
       this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      this.personalFormdetail = Object.assign({}, row)
     },
     // 判断审核按钮
     isReview(row) {
