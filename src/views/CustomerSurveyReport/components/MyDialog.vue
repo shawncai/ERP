@@ -14,7 +14,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
-                  <el-option value="2" label="分期申请" />
+                  <el-option :label="$t('updates.fqsq')" value="2" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -149,9 +149,9 @@
                 <el-input
                   :autosize="{ minRows: 3}"
                   v-model="personalForm.reason"
+                  :placeholder="$t('SalePlan.xzmd')"
                   type="textarea"
-                  style="width:300px;"
-                  placeholder="请输入内容"/>
+                  style="width:300px;"/>
               </el-form-item>
             </el-col>
           </el-row>

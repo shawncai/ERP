@@ -264,7 +264,7 @@ export default {
       list3: [],
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
-      // 供应商信息数据
+      // 供应商信息数据11
       personalForm: this.detaildata
     }
   },
@@ -285,22 +285,22 @@ export default {
       }
       let pro = ''
       if (this.personalForm.personalProperty.indexOf('1') !== -1) {
-        pro = pro + '电视'
+        pro = pro + _that.$t('prompt.ds')
       }
       if (this.personalForm.personalProperty.indexOf('2') !== -1) {
-        pro = pro + ' ' + '   家庭影院'
+        pro = pro + '  ,' + _that.$t('prompt.jtyy')
       }
       if (this.personalForm.personalProperty.indexOf('3') !== -1) {
-        pro = pro + ' ' + '   冰箱'
+        pro = pro + '  ,' + _that.$t('prompt.bx')
       }
       if (this.personalForm.personalProperty.indexOf('4') !== -1) {
-        pro = pro + ' ' + '  洗衣机'
+        pro = pro + '  ,' + _that.$t('prompt.xyj')
       }
       if (this.personalForm.personalProperty.indexOf('5') !== -1) {
-        pro = pro + ' ' + '   空调'
+        pro = pro + '  ,' + _that.$t('prompt.kt')
       }
       if (this.personalForm.personalProperty.indexOf('6') !== -1) {
-        pro = pro + ' ' + '   电脑'
+        pro = pro + '  ,' + _that.$t('prompt.dn')
       }
       this.personalForm.personalProperty2 = pro
       // this.personalForm.personalProperty = ''
