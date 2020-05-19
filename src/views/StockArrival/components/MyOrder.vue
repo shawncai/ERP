@@ -423,7 +423,7 @@ export default {
           giveDate: item.deliveryDate,
           price: (Number(item.price)).toFixed(6),
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: (Number(item.taxRate)).toFixed(6),
+          taxRate: (Number(item.taxRate) * 100).toFixed(6),
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.tax,
