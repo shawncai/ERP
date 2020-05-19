@@ -4361,6 +4361,7 @@ export default {
     level: 'ABC分类'
   },
   update4: {
+    qsrshijshk: '请输入实际收款',
     skxx: '结算信息',
     shouldMoney: '应收款',
     customerPay: '实际收到客户',

@@ -181,12 +181,11 @@
               </el-form-item>
               <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('SaleOut.receivableMoney')" style="width: 100%;">
-                <!-- <el-input v-model="personalForm.receivableMoney" style="margin-left: 18px;width: 200px" disabled/> -->
                 {{ personalForm.receivableMoney }}
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col v-for="(item, index) in personalForm2.couponSupports" :key="index" :span="12">
               <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="width: 100%;">
                 <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
@@ -215,7 +214,39 @@
                 </el-radio-group>
               </el-form-item>
             </el-col> -->
-
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <span style="margin-left: 20px;">
+                  {{ personalForm.shouldMoney }}
+                </span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <span style="margin-left: 20px;">
+                  {{ personalForm.changeMoney }}
+                </span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <span style="margin-left: 20px;">
+                  {{ personalForm.receivableMoney }}
+                </span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <span style="margin-left: 20px;">
+                  {{ personalForm.unpayMoney }}
+                </span>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
                 <span>{{ personalForm.isFree | isFreeTypeFilter }}</span>
@@ -795,7 +826,17 @@ export default {
       }
     }
   },
+  computed: {
+    myshouldMoney() {
+      return this.personalForm.shouldMoney
+    }
+  },
   watch: {
+    myshouldMoney: {
+      handler(oldval, newval) {
+        this.updatePrice()
+      }
+    },
     editcontrol() {
       this.editVisible = this.editcontrol
       // this.chooseSourceType()
@@ -944,6 +985,23 @@ export default {
     _that = this
   },
   methods: {
+    updatePrice() {
+      console.log('999', 999)
+      if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
+        if (this.personalForm.customerPay !== null && this.personalForm.customerPay !== '' && this.personalForm.customerPay !== undefined) {
+          // 客户给的钱多
+          if (this.personalForm.customerPay > this.personalForm.shouldMoney) {
+            this.personalForm.changeMoney = Number(this.personalForm.customerPay - this.personalForm.shouldMoney).toFixed(2)
+            this.personalForm.receivableMoney = this.personalForm.shouldMoney
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          } else {
+            this.personalForm.changeMoney = 0
+            this.personalForm.receivableMoney = this.personalForm.customerPay
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          }
+        }
+      }
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true
@@ -2629,6 +2687,24 @@ export default {
             })
             return false
           }
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
+          // eslint-disable-next-line use-isnan
+          if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '实际收到客户金额不能为空',
+              offset: 100
+            })
+            return false
+          }
+
           if (this.personalForm.isFree === 1) {
             console.log('進入了2')
             this.personalForm.taxMoney = 0
