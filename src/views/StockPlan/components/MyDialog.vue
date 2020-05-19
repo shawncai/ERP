@@ -104,15 +104,15 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/>
+          <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0.00, precision: 6}, type: 'visible' ,events: {change: changeDate}}" :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px">
+          <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ planMoney(scope.row) }}</p>
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible', events: {change: changeDate}}" :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-date-picker
@@ -161,7 +161,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/>
+          <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px">
             <template slot-scope="scope">
               <p>{{ planQuantity(scope.row) }}</p>
@@ -182,11 +182,11 @@
       <div class="container" style="margin-top: 25px">
         <el-form ref="personalForm2" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
-            <el-col :span="6">
+            <!-- <el-col :span="6">
               <el-form-item :label="$t('StockPlan.heji1')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                 <el-input v-model="heji1" size="mini" style="margin-left: 18px;width:200px" disabled/>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="6">
               <el-form-item :label="$t('StockPlan.heji2')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                 <el-input v-model="heji2" size="mini" style="margin-left: 18px;width:200px" disabled/>
