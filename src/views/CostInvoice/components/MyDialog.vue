@@ -380,6 +380,7 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.handlePersonId = this.personalForm.handlePersonName
       this.ourContractorId = this.personalForm.ourContractorName
+      this.personalForm.invoiceType = String(this.personalForm.invoiceType)
       this.list2 = this.personalForm.costInvoiceDetailVos
     }
   },
