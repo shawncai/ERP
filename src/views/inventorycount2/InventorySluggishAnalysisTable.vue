@@ -318,8 +318,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
     },
     restFilter2() {
       this.stockPersonId = ''
