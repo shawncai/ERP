@@ -532,7 +532,7 @@ export default {
         this.form.taskcontent = '分期申请调查'
         this.form.sourceNumber = row.applyNumber
         this.form.createId = row.createPersonId
-        this.form.remark = ''
+        this.form.remarks = ''
         this.options2 = res.data.data.content.list
       })
     },
