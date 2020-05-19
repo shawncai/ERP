@@ -2789,6 +2789,14 @@ export default {
           console.log('couponNumbers', couponNumbers)
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
           this.personalForm.couponNumbers = couponNumbers
           if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
             this.$notify.error({

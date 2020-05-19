@@ -195,21 +195,21 @@
                 <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
               </el-form-item>
             </el-col>
-            <el-col :span="12" style="height: 57px">
+            <el-col :span="12">
               <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <span style="margin-left: 20px;">
                   {{ personalForm.changeMoney }}
                 </span>
               </el-form-item>
             </el-col>
-            <el-col :span="12" style="height: 57px">
+            <el-col :span="12">
               <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <span style="margin-left: 20px;">
                   {{ personalForm.receivableMoney }}
                 </span>
               </el-form-item>
             </el-col>
-            <el-col :span="12" style="height: 57px">
+            <el-col :span="12">
               <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <span style="margin-left: 20px;">
                   {{ personalForm.unpayMoney }}
@@ -2775,6 +2775,14 @@ export default {
             this.$notify.error({
               title: 'wrong',
               message: '本次收款金额不能为空',
+              offset: 100
+            })
+            return false
+          }
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.qsrshijshk'),
               offset: 100
             })
             return false
