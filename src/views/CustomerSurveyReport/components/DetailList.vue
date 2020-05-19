@@ -156,28 +156,28 @@ export default {
   filters: {
     resultFilter(status) {
       const statusMap = {
-        1: '通过',
-        2: '不通过'
+        1: _that.$t('prompt.tg'),
+        2: _that.$t('prompt.btg')
       }
       return statusMap[status]
     },
     liveStatusFilter(status) {
       const statusMap = {
-        1: '自有住房',
-        2: '租房',
-        3: '和亲戚住'
+        1: _that.$t('prompt.zyzf'),
+        2: _that.$t('prompt.zf'),
+        3: _that.$t('prompt.hqqyqz')
       }
       return statusMap[status]
     },
     liveTypeFilter(status) {
       const statusMap = {
-        1: '旧的',
-        2: '新建筑',
-        3: '高档公寓',
-        4: '小隔间',
-        5: '普通公寓',
-        6: '双层楼建筑',
-        7: '低成本住房'
+        1: _that.$t('prompt.jiude'),
+        2: _that.$t('prompt.xjianz'),
+        3: _that.$t('prompt.gdgy'),
+        4: _that.$t('prompt.xgj'),
+        5: _that.$t('prompt.ptgy'),
+        6: _that.$t('prompt.scljz'),
+        7: _that.$t('prompt.dcbzf')
       }
       return statusMap[status]
     },

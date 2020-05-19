@@ -203,11 +203,11 @@ export default {
       tableKey: 0,
       // 加载表格
       listLoading: true,
+      // repositoryId: this.$store.getters.repositoryName,
       repositoryId: this.$store.getters.repositoryName,
       // 采购申请查询加展示参数
       getemplist: {
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds,
         type: 1
       },
       // 传给组件的数据
@@ -318,8 +318,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.supplierId = ''
-      this.getemplist.supplierId = ''
+      this.repositoryId = ''
+      this.getemplist.repositoryId = ''
     },
     restFilter2() {
       this.stockPersonId = ''
