@@ -417,6 +417,7 @@ export default {
     },
     outSource(val) {
       console.log(val)
+      this.personalForm.outFactoryName = val.outFactoryName
       this.personalForm.sourceNumber = val.number
     },
     // 控制源单类型
