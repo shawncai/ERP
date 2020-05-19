@@ -726,6 +726,7 @@ export default {
               if (list2 !== '' && list2 !== undefined && list2 !== null) {
                 for (let j = 0; j < list2.length; j++) {
                   list2[j].taxRate = list2[j].taxRate * 100
+                  list2[j].discountRate = list2[j].discountRate * 100
                   console.log('list2[j].taxRate', list2[j].taxRate)
                 }
               }

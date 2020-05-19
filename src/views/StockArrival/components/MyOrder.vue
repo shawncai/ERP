@@ -427,7 +427,7 @@ export default {
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.tax,
-          discountRate: (Number(item.discountRate)).toFixed(6),
+          discountRate: (Number(item.discountRate) * 100).toFixed(6),
           discountMoney: (Number(item.discountMoney)).toFixed(6),
           remark: item.remarks,
           sourceNumber: item.sourceNumber,
