@@ -464,7 +464,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getinformation() {
@@ -717,6 +717,20 @@ export default {
       this.listLoading = true
       stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log('res.data.data.content.list', res.data.data.content.list)
+          if (res.data.data.content.list !== '' && res.data.data.content.list !== undefined && res.data.data.content.list !== null) {
+            for (let i = 0; i < res.data.data.content.list.length; i++) {
+              console.log('res.data.data.content.list[i].stockOrderDetailVos', res.data.data.content.list[i].stockOrderDetailVos)
+              const list2 = res.data.data.content.list[i].stockOrderDetailVos
+              console.log('list2', list2)
+              if (list2 !== '' && list2 !== undefined && list2 !== null) {
+                for (let j = 0; j < list2.length; j++) {
+                  list2[j].taxRate = list2[j].taxRate * 100
+                  console.log('list2[j].taxRate', list2[j].taxRate)
+                }
+              }
+            }
+          }
           const needlist = res.data.data.content.list
           const newarr = res.data.data.content.list.map(item => {
             return item.stockOrderDetailVos

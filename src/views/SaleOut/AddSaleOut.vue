@@ -2648,6 +2648,15 @@ export default {
             })
             return false
           }
+
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
           // eslint-disable-next-line use-isnan
           if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
             this.$notify.error({

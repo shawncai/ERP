@@ -12,7 +12,6 @@
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
@@ -73,14 +72,48 @@
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <!-- <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <span style="margin-left: 20px;">
                     {{ personalForm.receivableMoney }}
-                    <!-- {{ getReceivableMoney() }} -->
+                  </span>
+                </el-form-item>
+              </el-col> -->
+
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.shouldMoney }}
                   </span>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.changeMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.receivableMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.unpayMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
@@ -108,7 +141,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('tongyo.useMonth')" prop="useMonth" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.useMonth" style="width: 200px" @change="getReceivableMoney">
-                    <el-option v-for="(item, index) in diffpricelist" :key="index" :value="item.useMonth" :label="item.useMonth"/>
+                    <el-option v-for="(item, index) in mouesitems" :key="index" :value="item" :label="item"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -510,6 +543,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      mouesitems: [],
       diffpricelist: [],
       control2: false,
       // 退货入库数据
@@ -606,6 +640,8 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        unpayMoney: 0,
+        customerPay: 0,
         couponSupports: [
           {
             couponSupport: 0
@@ -703,6 +739,11 @@ export default {
     }
   },
   watch: {
+    myshouldMoney: {
+      handler(oldval, newval) {
+        this.updatePrice()
+      }
+    },
     list2: {
       handler(oldval, newval) {
         console.log(this.list2.length)
@@ -780,6 +821,23 @@ export default {
     _that = this
   },
   methods: {
+    updatePrice() {
+      console.log('999', 999)
+      if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
+        if (this.personalForm.customerPay !== null && this.personalForm.customerPay !== '' && this.personalForm.customerPay !== undefined) {
+          // 客户给的钱多
+          if (this.personalForm.customerPay > this.personalForm.shouldMoney) {
+            this.personalForm.changeMoney = Number(this.personalForm.customerPay - this.personalForm.shouldMoney).toFixed(2)
+            this.personalForm.receivableMoney = this.personalForm.shouldMoney
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          } else {
+            this.personalForm.changeMoney = 0
+            this.personalForm.receivableMoney = this.personalForm.customerPay
+            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+          }
+        }
+      }
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true
@@ -793,10 +851,21 @@ export default {
       console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
+    unique(arr) {
+      return Array.from(new Set(arr))
+    },
     getdiffprice() {
       searchDiffPrice(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.diffpricelist = res.data.data.content.list
+          const temparr = res.data.data.content.list.map(item => {
+            return item.useMonth
+          })
+
+          this.mouesitems = this.unique(temparr)
+          this.mouesitems.sort((x, y) => {
+            return x - y// 升序
+          })
         }
       })
     },
@@ -1186,7 +1255,8 @@ export default {
         this.personalForm.couponSupportOld = 0
       }
       if (this.list2.length === 0) {
-        this.$set(this.personalForm, 'receivableMoney', 0)
+        this.$set(this.personalForm, 'shouldMoney', 0)
+        // this.$set(this.personalForm, 'receivableMoney', 0)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', 0)
       } else {
@@ -1212,11 +1282,15 @@ export default {
           if (needmoney < 0) {
             needmoney = 0
           }
-          this.$set(this.personalForm, 'receivableMoney', needmoney)
+          // this.$set(this.personalForm, 'receivableMoney', needmoney)
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
+
           // 未减去优惠券额的金额
           this.$set(this.personalForm, 'receivableMoney2', needmoney2)
         } else {
-          this.$set(this.personalForm, 'receivableMoney', 0)
+          // this.$set(this.personalForm, 'receivableMoney', 0)
+          this.$set(this.personalForm, 'shouldMoney', 0)
+
           // 未减去优惠券额的金额
           this.$set(this.personalForm, 'receivableMoney2', 0)
         }
@@ -2897,6 +2971,24 @@ export default {
             this.$notify.error({
               title: 'wrong',
               message: '本次收款金额不能为空',
+              offset: 100
+            })
+            return false
+          }
+
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
+          // eslint-disable-next-line use-isnan
+          if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '实际收到客户金额不能为空',
               offset: 100
             })
             return false
