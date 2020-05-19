@@ -285,22 +285,22 @@ export default {
       }
       let pro = ''
       if (this.personalForm.personalProperty.indexOf('1') !== -1) {
-        pro = pro + '电视'
+        pro = pro + this.$t('prompt.ds')
       }
       if (this.personalForm.personalProperty.indexOf('2') !== -1) {
-        pro = pro + ' ' + '   家庭影院'
+        pro = pro + ' ' + '   ' + this.$t('prompt.jtyy')
       }
       if (this.personalForm.personalProperty.indexOf('3') !== -1) {
-        pro = pro + ' ' + '   冰箱'
+        pro = pro + ' ' + '   ' + this.$t('prompt.bx')
       }
       if (this.personalForm.personalProperty.indexOf('4') !== -1) {
-        pro = pro + ' ' + '  洗衣机'
+        pro = pro + ' ' + '  ' + this.$t('prompt.xyj')
       }
       if (this.personalForm.personalProperty.indexOf('5') !== -1) {
-        pro = pro + ' ' + '   空调'
+        pro = pro + ' ' + '   ' + this.$t('prompt.kt')
       }
       if (this.personalForm.personalProperty.indexOf('6') !== -1) {
-        pro = pro + ' ' + '   电脑'
+        pro = pro + ' ' + '   ' + this.$t('prompt.dn')
       }
       this.personalForm.personalProperty2 = pro
       // this.personalForm.personalProperty = ''
