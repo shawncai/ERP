@@ -3096,6 +3096,12 @@ export const asyncRouterMap = [
         meta: { title: 'moveDetailList', noCache: false, roles: ['311-312-319-4'] }
       },
       {
+        path: 'moveCount',
+        component: () => import('@/views/inventorycount2/moveCount'),
+        name: 'moveCount',
+        meta: { title: 'moveCount', noCache: false, roles: ['311-312-405-4'] }
+      },
+      {
         path: 'inventoryFluid',
         component: () => import('@/views/inventorycount2/inventoryFluid'),
         name: 'inventoryFluid',

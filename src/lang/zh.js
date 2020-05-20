@@ -1,5 +1,6 @@
 export default {
   route: {
+    moveCount: '调拨汇总表',
     outSourceCount: '委外出入库汇总',
     outSourceDetail: '委外出入库明细',
     accessCount: '领料汇总',

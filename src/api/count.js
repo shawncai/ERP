@@ -1661,3 +1661,31 @@ export function moveDetail(query) {
     data: params
   })
 }
+
+// 调拨汇总报表
+export function moveCount(query) {
+  var params = new URLSearchParams()
+  if (query.outRepositoryId !== '' && query.outRepositoryId !== null && query.outRepositoryId !== undefined) {
+    params.append('moveOnRepositoryId', query.outRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.enterRepositoryId !== '' && query.enterRepositoryId !== null && query.enterRepositoryId !== undefined) {
+    params.append('moveInRepositoryId', query.enterRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/countinven/moveCount',
+    method: 'post',
+    data: params
+  })
+}
