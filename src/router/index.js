@@ -3148,6 +3148,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/inventorycount2/productSendAndReceiveDetail'),
         name: 'productSendAndReceiveDetail',
         meta: { title: 'productSendAndReceiveDetail', noCache: false, roles: ['311-312-400-4'] }
+      },
+      {
+        path: 'outSourceDetail',
+        component: () => import('@/views/inventorycount2/outSourceDetail'),
+        name: 'outSourceDetail',
+        meta: { title: 'outSourceDetail', noCache: false, roles: ['311-312-402-4'] }
+      },
+      {
+        path: 'outSourceCount',
+        component: () => import('@/views/inventorycount2/outSourceCount'),
+        name: 'outSourceCount',
+        meta: { title: 'outSourceCount', noCache: false, roles: ['311-312-403-4'] }
       }
     ]
   },
@@ -3315,6 +3327,12 @@ export const asyncRouterMap = [
       roles: ['311-315-330-4', '311-315-331-4', '311-315-332-4']
     },
     children: [
+      {
+        path: 'accessCount',
+        component: () => import('@/views/countProduce/accessCount'),
+        name: 'accessCount',
+        meta: { title: 'accessCount', noCache: false, roles: ['311-312-401-4'] }
+      },
       {
         path: 'accessStatus',
         component: () => import('@/views/countProduce/accessStatus'),

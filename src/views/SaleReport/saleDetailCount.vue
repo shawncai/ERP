@@ -572,7 +572,7 @@ export default {
       }
       console.log('this.getemplist.repositoryId', this.getemplist.repositoryId)
       console.log('this.getemplist.regionId', this.getemplist.regionId)
-      if ((this.getemplist.saleRepositoryId === '' && this.getemplist.saleRepositoryId === null && this.getemplist.saleRepositoryId === undefined)) {
+      if ((this.getemplist.saleRepositoryId === '' || this.getemplist.saleRepositoryId === null || this.getemplist.saleRepositoryId === undefined)) {
         this.$notify.error({
           title: 'wrong',
           message: '请选择门店',

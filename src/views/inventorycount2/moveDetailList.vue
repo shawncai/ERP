@@ -1,6 +1,9 @@
 <template>
   <div class="ERP-container">
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+      <el-input v-model="getemplist.productCode" :placeholder="$t('saleBillList.productCode')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoosepro" @clear="restFilter3"/>
+      <my-detail :control.sync="control" @product="productdetail"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" class="filter-item" clearable @keyup.enter.native="handleFilter" />
 
       <el-input v-model="outRepositoryId" :placeholder="$t('updates.dcck')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
@@ -8,7 +11,7 @@
       <el-input v-model="enterRepositoryId" :placeholder="$t('updates.drck')" size="small" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>
 
-      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" size="small" class="filter-item" clearable>
+      <!-- <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" size="small" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
@@ -17,16 +20,16 @@
         <el-option :label="$t('otherlanguage.xss')" value="6"/>
         <el-option :label="$t('otherlanguage.pjj')" value="7"/>
         <el-option :label="$t('otherlanguage.hj')" value="8"/>
-      </el-select>
+      </el-select> -->
 
       <el-date-picker
         v-model="date"
-        :placeholder="$t('Hmodule.xzrq')"
-        size="small"
-        class="filter-item"
-        type="date"
+        :default-time="['00:00:00', '23:59:59']"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
         value-format="yyyy-MM-dd"
-      />
+        style="width: 250px"/>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -43,65 +46,59 @@
         style="width: 100%"
         @row-click="clickRow">
         <el-table-column
-          :label="$t('inventoryCollect.receiptNumber')"
-          prop="receiptNumber"
-          width="200"
+          :label="$t('update4.receiptDate')"
+          prop="receiptDate"
+          sortable
+          align="center"/>
+        <el-table-column
+          :label="$t('update4.receiptNumber')"
+          prop="receitNumber"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.productCode')"
           prop="productCode"
-          width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.productName')"
           prop="productName"
-          width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.productType')"
-          prop="typeName"
-          width="200"
-          align="center"/>
-        <el-table-column
-          :label="$t('inventoryCollect.color')"
-          prop="color"
-          width="200"
+          prop="productType"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.unit')"
           prop="unit"
-          width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('moveDetailList.moveQuantity')"
-          prop="moveQuantity"
-          width="200"
+          prop="quantity"
+          sortable
           align="center"/>
         <el-table-column
-          :label="$t('moveDetailList.price')"
-          prop="movePrice"
-          width="200"
+          :label="$t('update4.moveInRepositoryName')"
+          prop="moveInRepositoryName"
+          sortable
           align="center"/>
         <el-table-column
-          :label="$t('moveDetailList.totalMoney')"
-          prop="totalMoney"
-          width="200"
+          :label="$t('update4.moveOutRepositoryName')"
+          prop="moveOutRepositoryName"
+          sortable
           align="center"/>
-          <!-- <el-table-column
-          :label="$t('moveDetailList.moveDiff')"
-          prop="moveDiff"
-          width="200"
-          align="center"/> -->
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
 
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
-import { moveDetailList } from '@/api/count'
+import { moveDetail } from '@/api/count'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -116,12 +113,13 @@ import MyRepository from './components/MyRepository'
 import MyRepository2 from './components/MyRepository2'
 import MyTree from './components/MyTree'
 import MySupplier from './components/MySupplier'
+import MyDetail from './components/MyDetail'
 
 var _that
 export default {
   name: 'MoveDetailList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyRepository, MyRepository2, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
+  components: { MyDialog, MyDetail, DetailList, MyRepository, MyRepository2, MySupplier, MyEmp, MyCustomer, MyTree, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -158,7 +156,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      control: false,
       categoryId: '',
       outRepositoryId: '',
       enterRepositoryId: '',
@@ -235,14 +233,11 @@ export default {
     }
   },
   activated() {
-    this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
-    this.getlist()
-    this.changeName()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -251,6 +246,16 @@ export default {
     _that = this
   },
   methods: {
+    restFilter3() {
+      this.getemplist.productCode = ''
+    },
+    handlechoosepro() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log('val', val)
+      this.getemplist.productCode = val
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -320,18 +325,18 @@ export default {
       })
       // 物料需求计划列表数据
       this.listLoading = true
-      moveDetailList(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
+      // moveDetailList(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     for (let i = 0; i < this.list.length; i++) {
+      //       this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
+      //     }
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      //   setTimeout(() => {
+      //     this.listLoading = false
+      //   }, 0.5 * 100)
+      // })
     },
     // 清空搜索条件
     restFilter() {
@@ -344,30 +349,22 @@ export default {
     },
     // 搜索
     handleFilter() {
-      if (this.date === null || this.date === undefined || this.date === '') {
-        this.getemplist.date = ''
-      } else {
-        this.getemplist.date = this.date
+      if (this.date.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择日期开始搜索',
+          offset: 100
+        })
+        return false
       }
-      this.getemplist.pageNum = 1
-      if (this.date === null || this.date === undefined || this.date === '') {
-        this.getemplist.beginTime = ''
-        this.getemplist.endTime = ''
-      } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
-      }
-      moveDetailList(this.getemplist).then(res => {
+      this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+      this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      this.listLoading = true
+      moveDetail(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            this.list[i].heji = this.list[i].totalMoney + this.list[i].taxMoney
-          }
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
+          this.list = res.data.data.content
         }
+        this.listLoading = false
       })
     },
     // 采购人focus事件

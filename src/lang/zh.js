@@ -1,5 +1,8 @@
 export default {
   route: {
+    outSourceCount: '委外出入库汇总',
+    outSourceDetail: '委外出入库明细',
+    accessCount: '领料汇总',
     batchTrack: '物料批次跟踪报表',
     productSendAndReceiveDetail: '物料收发明细',
     SaleReceipt: '销售收款单',
@@ -375,7 +378,7 @@ export default {
     stockOrderExecute: '采购订单执行情况表',
     inventorycount: '库存统计',
     inventoryCollect: '商品库存汇总表',
-    moveDetailList: '商品调拨明细表',
+    moveDetailList: '调拨明细报表',
     inventoryFluid: '商品库存流水表',
     productSendAndReceive: '物料收发汇总',
     inventorychangelist: '库存月报表',
@@ -4383,6 +4386,15 @@ export default {
     receiveQuantity: '收到数量',
     sendQuantity: '发出数量',
     endQuantity: '结余',
-    invoiceDate: '发票日期'
+    invoiceDate: '发票日期',
+    wwrk: '委外入库',
+    wwck: '委外出库 ',
+    outQuantity: '出库数量',
+    enterQuantity: '入库数量',
+    processFactory: '加工单位',
+    repositoryName: '门店名称',
+    repositoryId: '门店id',
+    moveInRepositoryName: '调入仓库',
+    moveOutRepositoryName: '调出仓库'
   }
 }
