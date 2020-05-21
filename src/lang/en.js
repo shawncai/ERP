@@ -4361,7 +4361,7 @@ export default {
     level: 'ABC classification'
   },
   update4: {
-    qsrshijshk: 'Please enter the actual receipt',
+    qsrshijshk: 'Please enter the Actually  received ',
     skxx: 'Billing information',
     shouldMoney: 'shouldMoney',
     customerPay: 'Actually received the customer',

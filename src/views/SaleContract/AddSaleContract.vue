@@ -1477,7 +1477,7 @@ export default {
               elem.taxRate = elem.taxRate / 100
             }
             if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-              delete elem.discount
+              elem.discount = 0
             }
             if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
               elem.discount = elem.discount / 100
@@ -1492,10 +1492,10 @@ export default {
               delete elem.taxMoney
             }
             if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
+              elem.discountRate = 0
             }
             if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
+              elem.discountMoney = 0
             }
             return elem
           })
@@ -1510,27 +1510,27 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
+          // createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
+          //   console.log(res)
+          //   if (res.data.ret === 200) {
+          //     this.$notify({
+          //       title: 'successful',
+          //       message: 'save successful',
+          //       type: 'success',
+          //       offset: 100
+          //     })
+          //     this.restAllForm()
+          //     this.$refs.editable.clear()
+          //     this.$refs.personalForm.clearValidate()
+          //     this.$refs.personalForm.resetFields()
+          //   } else {
+          //     this.$notify.error({
+          //       title: 'wrong',
+          //       message: res.data.msg,
+          //       offset: 100
+          //     })
+          //   }
+          // })
         } else {
           this.$notify.error({
             title: 'wrong',

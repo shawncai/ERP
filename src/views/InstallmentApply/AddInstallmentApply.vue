@@ -704,8 +704,8 @@ export default {
       }
       setTimeout(() => {
         console.log(String(value).length)
-        if (String(value).length !== 11) {
-          callback(new Error('请输入正确手机号码'))
+        if (String(value).length !== 10) {
+          callback(new Error('请输入正确电话号码'))
         } else {
           callback()
         }
@@ -1478,7 +1478,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         gender: 1,
-        firstMoney: 0.0
+        firstMoney: 0.0,
+        picids: []
       }
       this.productForm = {}
       this.personalForm.applyDate = new Date()
@@ -1537,6 +1538,7 @@ export default {
       }
       const parms2 = JSON.stringify(Data2)
       this.personalForm.judgeStat = 4
+      this.$refs.upload.submit()
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -1547,7 +1549,6 @@ export default {
       this.isclick = true
       // this.$refs.personalForm.validate((valid) => {
       //   if (valid) {
-      this.$refs.upload.submit()
       addinstallmentapply(parms, parms2, this.personalForm).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
@@ -1644,16 +1645,18 @@ export default {
         }
       }
       const parms2 = JSON.stringify(Data2)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.upload.submit()
+          console.log('this.personalForm', this.personalForm)
+          const Data = this.personalForm
+          for (const key in Data) {
+            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+              delete Data[key]
+            }
+          }
+          const parms = JSON.stringify(Data)
           addinstallmentapply(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

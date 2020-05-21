@@ -132,7 +132,7 @@
               </el-col>
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('collectAndPay.isfree')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-radio-group v-model="personalForm.isFree" style="width: 200px">
+                  <el-radio-group v-model="personalForm.isFree" style="width: 200px" @change="changefree">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
@@ -830,6 +830,10 @@ export default {
     _that = this
   },
   methods: {
+    changefree() {
+      this.updatePrice()
+      this.getReceivableMoney()
+    },
     updatePrice() {
       console.log('999', 999)
       if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
@@ -1137,42 +1141,49 @@ export default {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
-      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
+
+      if (this.personalForm.isFree === 2) {
+        if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+          let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+          let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
+          let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
+          // 未减去优惠券额的金额
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        } else {
+          let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+          const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          if (needmoney < 0) {
+            needmoney = 0
+          }
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
+          // 未减去优惠券额的金额123
+          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
         }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
-        let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else {
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
+      } else if (this.personalForm.isFree === 1) {
+        this.$set(this.personalForm, 'shouldMoney', 0)
         // 未减去优惠券额的金额123
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', 0)
       }
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
