@@ -28,6 +28,10 @@
         trigger="click">
         <el-input v-model="enterPersonId" :placeholder="$t('WarehouseAdjust.enterPersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery"/>
         <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+        <el-input v-model="getemplist.productCode" :placeholder="$t('saleBillList.productCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoosepro" @clear="restFilter3"/>
+        <my-detail :control.sync="control" @product="productdetail"/>
+        <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" />
+
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -37,7 +41,7 @@
           start-placeholder="Start"
           end-placeholder="End"
           value-format="yyyy-MM-dd"
-          style="margin-top: 20px;margin-left: 20px"/>
+          style="margin-left: 10px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" size="small" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -159,12 +163,13 @@ import MyDialog from './components/MyDialog'
 import MyDelivery from './components/MyDelivery'
 import DetailList from './components/DetailList'
 import MyRepository from './components/MyRepository'
+import MyDetail from './components/MyDetail4'
 
 var _that
 export default {
   name: 'Enterlist',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyDelivery, Pagination, MyDialog, MyRepository },
+  components: { DetailList, MyDelivery, Pagination, MyDialog, MyRepository, MyDetail },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -187,6 +192,8 @@ export default {
   },
   data() {
     return {
+      control: false,
+
       tableHeight: 200,
       reviewStat: false,
       repositoryId: '',
@@ -252,6 +259,16 @@ export default {
     _that = this
   },
   methods: {
+    restFilter3() {
+      this.getemplist.productCode = ''
+    },
+    handlechoosepro() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log('val', val)
+      this.getemplist.productCode = val
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

@@ -63,8 +63,13 @@
       <el-button v-permission="['104-114-6']" v-waves :loading="downloadLoading" size="mini" class="filter-item" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['104-114-7']" v-waves size="mini" class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-select v-model="getemplist.sortId" :value="getemplist.sortId" :placeholder="$t('update4.sortId')" size="mini" class="filter-item" @change="handlesort">
+        <el-option :label="$t('update4.dhsjpx')" value="1"/>
+        <el-option :label="$t('update4.ddbh')" value="2"/>
+      </el-select>
       <!-- 新建操作 -->
       <el-button v-permission="['104-114-1']" v-waves size="mini" class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+
     </el-card>
 
     <el-card :body-style="{ padding: '10px' }" class="box-card" style="margin-top: 10px" shadow="never">
@@ -401,6 +406,7 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
+        sortId: '1',
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,
@@ -457,6 +463,9 @@ export default {
     _that = this
   },
   methods: {
+    handlesort() {
+      this.getlist()
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles

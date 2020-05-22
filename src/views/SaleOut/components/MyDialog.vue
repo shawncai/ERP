@@ -231,6 +231,16 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('update4.isAppService')" style="width: 100%;">
+                <span>{{ personalForm.isAppService | isFreeTypeFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.appDiscount')" style="width: 100%;">
+                <span>{{ personalForm.appDiscount }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('otherlanguage.yskdk')" style="width: 100%;">
                 <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>

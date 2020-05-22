@@ -30,6 +30,9 @@ export function stockorderlist(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.sortId !== '' && query.sortId !== null && query.sortId !== undefined) {
+    params.append('sortId', query.sortId) // 你要传给后台的参数值 key/value
+  }
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
   }

@@ -15,14 +15,18 @@
         width="500"
         size="small"
         trigger="click">
-        <el-select v-model="getemplist.countDeptId" size="small" placeholder="请选择盘点部门" clearable style="width: 40%;float: right;margin-right: 20px">
+        <el-input v-model="getemplist.productCode" :placeholder="$t('saleBillList.productCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoosepro" @clear="restFilter3"/>
+        <my-detail :control.sync="control" @product="productdetail"/>
+        <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" />
+
+        <el-select v-model="getemplist.countDeptId" size="small" placeholder="请选择盘点部门" clearable class="filter-item">
           <el-option
             v-for="(item, index) in depts"
             :key="index"
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="countRepositoryId" size="small" placeholder="请选择盘点仓库" style="width: 40%;float: left;margin-left: 20px" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+        <el-input v-model="countRepositoryId" size="small" placeholder="请选择盘点仓库" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
         <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
         <el-date-picker
           v-model="date"
@@ -33,7 +37,7 @@
           end-placeholder="End"
           size="small"
           value-format="yyyy-MM-dd"
-          style="margin-top: 20px;margin-left: 20px"/>
+          style="margin-left: 10px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" size="small" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -162,6 +166,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
+import MyDetail from './components/MyDetail2'
 import MyCreate from '../LogisticsCar/components/MyCreate'
 import MyRepository from '../Inventorydamaged/components/MyRepository'
 import DetailList from './components/DetailList'
@@ -170,7 +175,7 @@ var _that
 export default {
   name: 'InventoryCountList',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyRepository, MyCreate, Pagination, MyDialog },
+  components: { DetailList, MyRepository, MyCreate, Pagination, MyDialog, MyDetail },
   filters: {
     judgeStatFileter(status) {
       const statusMap = {
@@ -200,7 +205,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      control: false,
       // 审核传参
       reviewParms: {
         id: '',
@@ -265,6 +270,16 @@ export default {
     _that = this
   },
   methods: {
+    restFilter3() {
+      this.getemplist.productCode = ''
+    },
+    handlechoosepro() {
+      this.control = true
+    },
+    productdetail(val) {
+      console.log('val', val)
+      this.getemplist.productCode = val
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

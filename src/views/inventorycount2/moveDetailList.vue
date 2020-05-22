@@ -52,7 +52,7 @@
           align="center"/>
         <el-table-column
           :label="$t('update4.receiptNumber')"
-          prop="receitNumber"
+          prop="receiptNumber"
           sortable
           align="center"/>
         <el-table-column

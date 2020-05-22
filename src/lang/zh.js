@@ -633,7 +633,9 @@ export default {
     moveQuantity: '调拨数量',
     price: '调拨单价',
     totalMoney: '调拨金额',
-    moveDiff: '调拨差额'
+    moveDiff: '调拨差额',
+    inQuantity: '调入数量',
+    outQuantity: '调出数量'
   },
   // 单据编号，单据类型，仓库编号，仓库名称，批次，物品编号，货位，物品名称，单位，规格型号，颜色，出入库时间，出入库数量，结存数量，创建人
   inventoryFluid: {
@@ -4396,6 +4398,11 @@ export default {
     repositoryName: '门店名称',
     repositoryId: '门店id',
     moveInRepositoryName: '调入仓库',
-    moveOutRepositoryName: '调出仓库'
+    moveOutRepositoryName: '调出仓库',
+    isAppService: '是否是app维修',
+    appDiscount: 'app维修折扣',
+    sortId: '排序',
+    dhsjpx: '到货时间',
+    ddbh: '订单编号'
   }
 }

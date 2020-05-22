@@ -67,13 +67,18 @@
           sortable
           align="center"/>
         <el-table-column
-          :label="$t('moveDetailList.moveQuantity')"
+          :label="$t('moveDetailList.inQuantity')"
           prop="inQuantity"
           sortable
           align="center"/>
         <el-table-column
           :label="$t('update4.moveInRepositoryName')"
           prop="moveInRepositoryName"
+          sortable
+          align="center"/>
+        <el-table-column
+          :label="$t('moveDetailList.outQuantity')"
+          prop="outQuantity"
           sortable
           align="center"/>
         <el-table-column
@@ -260,7 +265,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
+      if (columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6 && columnIndex !== 7) {
         return {
           rowspan: _row,
           colspan: _col
@@ -304,6 +309,7 @@ export default {
           }
           this.list = replist
           this.getSpanArr(this.list)
+          console.log(this.list)
         }
         this.listLoading = false
       })

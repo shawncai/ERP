@@ -582,7 +582,7 @@
         <div class="upload" style="margin-top: 25px">
           <el-upload
             ref="upload"
-            :auto-upload="false"
+            :auto-upload="true"
             :action="`${uploadapi}/upload/uploadpic`"
             :data="paperData"
             :on-success="handlepicsuccess"
@@ -1648,7 +1648,7 @@ export default {
 
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          this.$refs.upload.submit()
+          // this.$refs.upload.submit()
           console.log('this.personalForm', this.personalForm)
           const Data = this.personalForm
           for (const key in Data) {
@@ -1656,7 +1656,9 @@ export default {
               delete Data[key]
             }
           }
+          console.log('Data2', Data)
           const parms = JSON.stringify(Data)
+          console.log('parms', parms)
           addinstallmentapply(parms, parms2, this.personalForm).then(res => {
             console.log(res)
             if (res.data.ret === 200) {

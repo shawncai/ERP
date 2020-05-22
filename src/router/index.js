@@ -3084,6 +3084,12 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'accessCount',
+        component: () => import('@/views/countProduce/accessCount'),
+        name: 'accessCount',
+        meta: { title: 'accessCount', noCache: false, roles: ['311-312-401-4'] }
+      },
+      {
         path: 'inventoryCollect',
         component: () => import('@/views/inventorycount2/inventoryCollect'),
         name: 'inventoryCollect',
@@ -3333,12 +3339,6 @@ export const asyncRouterMap = [
       roles: ['311-315-330-4', '311-315-331-4', '311-315-332-4']
     },
     children: [
-      {
-        path: 'accessCount',
-        component: () => import('@/views/countProduce/accessCount'),
-        name: 'accessCount',
-        meta: { title: 'accessCount', noCache: false, roles: ['311-312-401-4'] }
-      },
       {
         path: 'accessStatus',
         component: () => import('@/views/countProduce/accessStatus'),
