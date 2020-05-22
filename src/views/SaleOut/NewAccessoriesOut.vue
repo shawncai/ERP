@@ -3161,7 +3161,7 @@ export default {
             })
             return false
           }
-          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.personalForm.isFree === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),

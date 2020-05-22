@@ -226,7 +226,8 @@ export default {
       editVisible: false,
       // 开始时间到结束时间
       date: null,
-      spanArr: []
+      spanArr: [],
+      pos: ''
     }
   },
   activated() {
@@ -297,7 +298,24 @@ export default {
           })
           const firstlist2 = [].concat.apply([], firstlist)
           const secondlist2 = [].concat.apply([], secondlist)
-          const replist = [...firstlist2, ...secondlist2]
+          console.log('firstlist2', firstlist2)
+          console.log('secondlist2', secondlist2)
+          var replist = []
+          if (firstlist2.length > secondlist2.length) {
+            for (let i = 0; i < firstlist2.length; i++) {
+              replist.push(Object.assign(firstlist2[i], secondlist2[i]))
+            }
+          } else if (firstlist2.length < secondlist2.length) {
+            for (let i = 0; i < secondlist2.length; i++) {
+              replist.push(Object.assign(firstlist2[i], secondlist2[i]))
+            }
+          } else {
+            for (let i = 0; i < firstlist2.length; i++) {
+              replist.push(Object.assign(firstlist2[i], secondlist2[i]))
+            }
+          }
+
+          console.log('replist', replist)
           for (const i in mainlist) {
             for (const j in replist) {
               if (mainlist[i].productCode === replist[j].productCode) {

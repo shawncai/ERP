@@ -317,3 +317,69 @@ for(var i = 0; i < keys.length; i++){
     result.push({menuDate:rs[0],dinnerTime:rs[1],value:jmap[keys[i]]});
 }
 ```
+
+#### 合并两个数组（把一个数组中的一项加入到另外一个数组中）
+
+```
+let a = [
+
+{
+    'id': 1,
+    'name': 'zhangsan'
+},
+{
+    'id': 2,
+    'name': 'lisi'
+},
+{
+    'id': 3,
+    'name': 'wangwu'
+}
+]
+
+let b = [
+
+{
+    'age': 12
+},
+{
+    'age': 20
+},
+{
+    'age': 24
+}
+]
+
+合并成：
+let c = [
+
+{
+    'id': 1,
+    'name': 'zhangsan',
+    'age': 12
+},
+{
+    'id': 2,
+    'name': 'lisi',
+    'age': 20
+},
+{
+    'id': 3,
+    'name': 'wangwu'
+    'age': 24
+}
+]
+
+一种方法：
+var c = []
+for(var i = 0;i<a.length;i++){
+    c.push(Object.assign(a[i],b[i]))
+}
+console.log(c);
+
+二种方法：
+
+for (i in a){
+    a[i] = Object.assign(a[i],b[i])
+}
+```

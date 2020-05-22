@@ -1,5 +1,9 @@
 export default {
   route: {
+    moveCount: '调拨汇总表',
+    outSourceCount: '委外出入库汇总',
+    outSourceDetail: '委外出入库明细',
+    accessCount: '领料汇总',
     batchTrack: 'Material batch tracking report',
     productSendAndReceiveDetail: 'Material collection details',
     SaleReceipt: 'Sales receipt',
@@ -629,7 +633,9 @@ export default {
     moveQuantity: 'transfer quantity',
     price: 'transfer unit price',
     totalMoney: 'transfer amount',
-    moveDiff: 'transfer amount difference'
+    moveDiff: 'transfer amount difference',
+    inQuantity: 'inQuantity',
+    outQuantity: 'outQuantity'
   },
   // 单据编号，单据类型，仓库编号，仓库名称，批次，物品编号，货位，物品名称，单位，规格型号，颜色，出入库时间，出入库数量，结存数量，创建人
   inventoryFluid: {
@@ -4383,6 +4389,20 @@ export default {
     receiveQuantity: 'receiveQuantity',
     sendQuantity: 'sendQuantity',
     endQuantity: 'endQuantity',
-    invoiceDate: 'invoiceDate'
+    invoiceDate: 'invoiceDate',
+    wwrk: 'Insourcing',
+    wwck: 'Outsourcing ',
+    outQuantity: 'outQuantity',
+    enterQuantity: 'enterQuantity',
+    processFactory: 'processFactory',
+    repositoryName: 'repositoryName',
+    repositoryId: 'repositoryId',
+    moveInRepositoryName: 'moveInRepositoryName',
+    moveOutRepositoryName: 'moveOutRepositoryName',
+    isAppService: 'isAppService',
+    appDiscount: 'appDiscount',
+    sortId: 'sortId',
+    dhsjpx: 'Arrival time',
+    ddbh: 'Order number'
   }
 }

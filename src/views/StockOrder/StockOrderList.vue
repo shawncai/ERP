@@ -807,7 +807,7 @@ export default {
           }
           this.list = process
           this.getSpanArr(this.list)
-          // console.log('this.list==================', this.list)
+          console.log('this.list==================', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
