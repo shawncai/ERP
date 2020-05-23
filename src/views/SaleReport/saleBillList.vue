@@ -22,7 +22,6 @@
         change-on-select
         filterable
         clearable
-        class="filter-item"
         @change="handlechange4"
       />
 

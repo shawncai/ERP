@@ -133,7 +133,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" /> -->
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
     </el-card>
   </div>
 </template>
@@ -184,7 +184,7 @@ export default {
       // 预警列表传参数据
       getemplist: {
         pageNum: 1,
-        pageSize: 999999999,
+        pageSize: 10,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds
@@ -202,7 +202,9 @@ export default {
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true
+      listLoading: true,
+      totalExist: 0,
+      totalOnStock: 0
     }
   },
   activated() {
@@ -253,20 +255,28 @@ export default {
           sums[index] = ''
           return
         }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(6)
-            } else {
-              return (Number(prev)).toFixed(6)
-            }
-          }, 0)
-          sums[index] += ''
-        } else {
-          sums[index] = ''
+        if (index === 10) {
+          sums[index] = this.totalExist
+          return
         }
+        if (index === 11) {
+          sums[index] = this.totalOnStock
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        // if (!values.every(value => isNaN(value))) {
+        //   sums[index] = values.reduce((prev, curr) => {
+        //     const value = Number(curr)
+        //     if (!isNaN(value)) {
+        //       return (Number(prev) + Number(curr)).toFixed(6)
+        //     } else {
+        //       return (Number(prev)).toFixed(6)
+        //     }
+        //   }, 0)
+        //   sums[index] += ''
+        // } else {
+        //   sums[index] = ''
+        // }
       })
       return sums
     },
@@ -299,6 +309,8 @@ export default {
             return item.existStock !== 0
           })
           this.total = res.data.data.content.totalCount
+          this.totalExist = res.data.data.total.totalExist
+          this.totalOnStock = res.data.data.total.totalOnStock
           this.listLoading = false
         }
         setTimeout(() => {
@@ -320,6 +332,8 @@ export default {
             return item.existStock !== 0
           })
           this.total = res.data.data.content.totalCount
+          this.totalExist = res.data.data.total.totalExist
+          this.totalOnStock = res.data.data.total.totalOnStock
           // this.restFilter()
         } else {
           this.$notify.error({

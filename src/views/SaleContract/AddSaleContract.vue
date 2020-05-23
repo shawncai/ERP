@@ -1510,27 +1510,27 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
-          // createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
-          //   console.log(res)
-          //   if (res.data.ret === 200) {
-          //     this.$notify({
-          //       title: 'successful',
-          //       message: 'save successful',
-          //       type: 'success',
-          //       offset: 100
-          //     })
-          //     this.restAllForm()
-          //     this.$refs.editable.clear()
-          //     this.$refs.personalForm.clearValidate()
-          //     this.$refs.personalForm.resetFields()
-          //   } else {
-          //     this.$notify.error({
-          //       title: 'wrong',
-          //       message: res.data.msg,
-          //       offset: 100
-          //     })
-          //   }
-          // })
+          createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
+            console.log(res)
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: 'successful',
+                message: 'save successful',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
         } else {
           this.$notify.error({
             title: 'wrong',

@@ -16,7 +16,17 @@
 
       <el-input v-model="saleRepositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
-
+      <el-cascader
+        :options="regions"
+        :props="props"
+        v-model="getemplist.region"
+        :show-all-levels="false"
+        :placeholder="$t('Hmodule.xzqy')"
+        change-on-select
+        filterable
+        clearable
+        @change="handlechange4"
+      />
       <el-select v-model="getemplist.saleType" :placeholder="$t('saleBillList.saleType')" :value="getemplist.saleType" clearable class="filter-item" @keyup.enter.native="handleFilter">
         <el-option value="1" label="现金销售"/>
         <el-option value="2" label="分期销售"/>
@@ -210,6 +220,7 @@
 </template>
 
 <script>
+import { getregionlistbyreid } from '@/api/public'
 import { searchsaleOut } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchEmpCategory2 } from '@/api/Product'
@@ -358,7 +369,7 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionIds
+        regionIds: ''
       },
       // 传给组件的数据
       personalForm: {},
@@ -444,7 +455,7 @@ export default {
       console.log(val)
       const finalid = val[val.length - 1]
       console.log(finalid)
-      this.getemplist.regionId = finalid
+      this.getemplist.regionIds = finalid
       // searchRepository(finalid).then(res => {
       //   console.log(res)
       //   if (res.data.ret === 200) {
@@ -493,7 +504,9 @@ export default {
       }))
     },
     gettype() {
-      regionlist().then(res => {
+      const param = {}
+      param.regionIds = this.$store.getters.regionId
+      getregionlistbyreid(param).then(res => {
         if (res.data.ret === 200) {
           this.regions = this.tranKTree(res.data.data.content)
           // this.getarrs()
@@ -572,10 +585,18 @@ export default {
       }
       console.log('this.getemplist.repositoryId', this.getemplist.repositoryId)
       console.log('this.getemplist.regionId', this.getemplist.regionId)
-      if ((this.getemplist.saleRepositoryId === '' || this.getemplist.saleRepositoryId === null || this.getemplist.saleRepositoryId === undefined)) {
+      if ((this.getemplist.saleRepositoryId === '' || this.getemplist.saleRepositoryId === null || this.getemplist.saleRepositoryId === undefined) && (this.getemplist.regionIds === '' || this.getemplist.regionIds === null || this.getemplist.regionIds === undefined)) {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择门店',
+          message: '请选择区域或者门店开始搜索',
+          offset: 100
+        })
+        return false
+      }
+      if ((this.getemplist.saleRepositoryId !== '' && this.getemplist.saleRepositoryId !== null && this.getemplist.saleRepositoryId !== undefined) && (this.getemplist.regionIds !== '' && this.getemplist.regionIds !== null && this.getemplist.regionIds !== undefined)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '区域，门店选择其一',
           offset: 100
         })
         return false
