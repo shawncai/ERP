@@ -44,6 +44,7 @@
         <el-table-column
           v-if="getemplist.type !== '1'"
           :label="first"
+          sortable
           prop="time"
           width="240"
           fixed
@@ -52,6 +53,7 @@
           v-if="getemplist.type === '1'"
           :label="first"
           prop="name"
+          sortable
           width="240"
           fixed
           align="center"/>
@@ -63,52 +65,62 @@
         <el-table-column
           :label="$t('collectAndPay.saleOut')"
           prop="saleOut"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.stockRetreat')"
           prop="stockRetreat"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.collectMoney')"
           prop="collectMoney"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.income')"
           prop="income"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.repaireOut')"
           prop="repaireOut"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.advanceCollect')"
           prop="advanceCollect"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.totalCollect')"
           prop="totalCollect"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.saleReturn')"
           prop="saleReturn"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.payment')"
           prop="payment"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPayDetail.transferExpense')"
           prop="transferExpense"
           width="240"
+          sortable
           align="center">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail2(scope.row)">{{ scope.row.transferExpense }}</span>
@@ -118,16 +130,19 @@
           :label="$t('collectAndPay.totalPay')"
           prop="totalPay"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.balance')"
           prop="balance"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPayDetail.transferReceipt')"
           prop="transferReceipt"
           width="240"
+          sortable
           align="center">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.transferReceipt }}</span>
@@ -136,12 +151,14 @@
         <el-table-column
           :label="$t('collectAndPay.outlay')"
           prop="outlay"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.balance')"
           prop="transferBalance"
           width="240"
+          sortable
           align="center"/>
       </el-table>
       <!-- 列表结束 -->

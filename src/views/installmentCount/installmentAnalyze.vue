@@ -39,36 +39,43 @@
         <el-table-column
           :label="$t('installmentAnalyze.repositoryId')"
           prop="repositoryId"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.repositoryName')"
           prop="repositoryName"
+          sortable
           width="300"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.yearAndMonth')"
           prop="yearAndMonth"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.beginMoney')"
           prop="beginMoney"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.saleAdd')"
           prop="saleAdd"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.collectLess')"
           prop="collectLess"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentAnalyze.change')"
           prop="changeCount"
+          sortable
           width="200"
           align="center"/>
         <el-table-column :label="$t('installmentAnalyze.rewardPenalty')" align="center">
@@ -76,11 +83,13 @@
             :label="$t('installmentAnalyze.reward')"
             prop="reward"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('installmentAnalyze.penalty')"
             prop="penalty"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
         <el-table-column :label="$t('installmentAnalyze.badMoney')" align="center">
@@ -88,12 +97,14 @@
             :label="$t('installmentAnalyze.bad')"
             prop="bad"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
         <el-table-column
           :label="$t('installmentAnalyze.endMoney')"
           prop="endMoney"
           width="200"
+          sortable
           align="center"/>
       </el-table>
       <!-- 列表结束 -->

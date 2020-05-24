@@ -49,6 +49,7 @@
         <el-table-column
           :label="$t('tongyo.repositoryName')"
           :resizable="false"
+          sortable
           prop="repositoryName"
           width="240"
           align="center"
@@ -58,6 +59,7 @@
           :label="$t('tongyo.profit')"
           :resizable="false"
           prop="profit"
+          sortable
           width="240"
           align="center"
         />
@@ -66,6 +68,7 @@
           :resizable="false"
           prop="totalIncome"
           width="240"
+          sortable
           align="center"
 
         />
@@ -75,7 +78,7 @@
           prop="beginQuantity"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.enterQuantity')"
@@ -83,7 +86,7 @@
           prop="enterQuantity"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.outQuantity')"
@@ -91,7 +94,7 @@
           prop="outQuantity"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.retreatQuantity')"
@@ -99,7 +102,7 @@
           prop="retreatQuantity"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.endQuantity')"
@@ -107,7 +110,7 @@
           prop="endQuantity"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.beginMoney')"
@@ -115,7 +118,7 @@
           prop="beginMoney"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.enterMoney')"
@@ -123,7 +126,7 @@
           prop="enterMoney"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.outMoney')"
@@ -131,7 +134,7 @@
           prop="outMoney"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.retreatMoney')"
@@ -139,7 +142,7 @@
           prop="retreatMoney"
           width="240"
           align="center"
-
+          sortable
         />
         <el-table-column
           :label="$t('tongyo.endMoney')"
@@ -147,7 +150,7 @@
           prop="endMoney"
           width="240"
           align="center"
-
+          sortable
         />
       </el-table>
       <!-- 列表结束 -->

@@ -71,7 +71,7 @@
       </el-table-column>
     </el-table>
     <!-- 列表结束 -->
-    <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" />
+    <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" /> -->
     <span slot="footer" class="dialog-footer">
       <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
     </span>
@@ -106,7 +106,7 @@ export default {
       default: null
     },
     packagerepository: {
-      type: String,
+      type: Number,
       default: null
     }
   },
@@ -152,11 +152,13 @@ export default {
     packagecontrol() {
       this.productVisible = this.packagecontrol
       console.log(this.packagecontrol)
-    },
-    productnumber() {
+      console.log('this.productnumber', this.productnumber)
       this.query.productCode = this.productnumber
       this.query.repositoryId = this.packagerepository
       this.getlist()
+    },
+    productnumber() {
+
     }
   },
   beforeCreate() {
@@ -171,7 +173,7 @@ export default {
       getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
-          this.total = res.data.data.content.totalCount
+          // this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false

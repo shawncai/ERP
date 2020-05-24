@@ -45,36 +45,43 @@
           :label="$t('shouldPayDetail.financeDate')"
           prop="financeDate"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.receiptType')"
           prop="receiptType"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.receiptNumber')"
           prop="receiptNumber"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.deptName')"
           prop="deptName"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.handlePersonName')"
           prop="handlePersonName"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.shouldPay')"
           prop="shouldPay"
           width="250"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayDetail.paid')"
           prop="paid"
           width="250"
+          sortable
           align="center"/>
       </el-table>
     </el-card>

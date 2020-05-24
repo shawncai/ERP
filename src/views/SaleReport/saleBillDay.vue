@@ -73,11 +73,13 @@
         <el-table-column
           :label="first"
           prop="name"
+          sortable
           width="300"
           align="center"/>
         <el-table-column
           v-if="second"
           label="物品类别"
+          sortable
           prop="productCategory"
           width="300"
           align="center"/>
@@ -85,21 +87,25 @@
           :label="$t('stockDetailCount.unit')"
           prop="unit"
           width="200"
+          sortable
           align="center"/>
         <el-table-column :label="$t('stockOrderExecute.orderNum')" align="center">
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
             prop="orderQuantity"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('stockOrderExecute.price')"
             prop="orderPrice"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
             prop="orderMoney"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -107,11 +113,13 @@
           <el-table-column
             :label="$t('stockDetailCount.unit')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
             prop="enterQuantity"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -119,12 +127,14 @@
           <el-table-column
             :label="$t('stockDetailCount.unit')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
             prop="quantity2"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
         <!-- <el-table-column

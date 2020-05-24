@@ -35,41 +35,49 @@
         <el-table-column
           :label="$t('recoveryCarDetail.repositoryName')"
           prop="repositoryName"
+          sortable
           width="210"
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.receivePersonName')"
           prop="receivePersonName"
+          sortable
           width="210"
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.customerName')"
           prop="customerName"
           width="210"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.createDate')"
           prop="createDate"
+          sortable
           width="210"
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.receiptNumber')"
           prop="receiptNumber"
+          sortable
           width="210"
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.carCode')"
           prop="carCode"
+          sortable
           width="210"
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.motorCode')"
           prop="motorCode"
           width="210"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('recoveryCarDetail.batteryCode')"
           prop="batteryCode"
+          sortable
           width="210"
           align="center"/>
       </el-table>

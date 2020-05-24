@@ -27,66 +27,79 @@
           :label="$t('collectAndPay.payModeName')"
           prop="payModeName"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.saleOut')"
           prop="saleOut"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.stockRetreat')"
           prop="stockRetreat"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.collectMoney')"
           prop="collectMoney"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.income')"
           prop="income"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.repaireOut')"
           prop="repaireOut"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.advanceCollect')"
           prop="advanceCollect"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.totalCollect')"
           prop="totalCollect"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.saleReturn')"
           prop="saleReturn"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.payment')"
           prop="payment"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.outlay')"
           prop="outlay"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.totalPay')"
           prop="totalPay"
           width="240"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('collectAndPay.balance')"
           prop="balance"
           width="240"
+          sortable
           align="center"/>
       </el-table>
       <!-- 列表结束 -->

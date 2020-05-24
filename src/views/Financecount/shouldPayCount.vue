@@ -45,46 +45,55 @@
           :label="$t('shouldPayCount.supplierId')"
           prop="supplierId"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.supplierName')"
           prop="supplierName"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.time')"
           prop="time"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.begin')"
           prop="begin"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.shouldPay')"
           prop="shouldPay"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.paid')"
           prop="paid"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.thisYearShould')"
           prop="thisYearShould"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.thisYearPaid')"
           prop="thisYearPaid"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('shouldPayCount.end')"
           prop="end"
           width="200"
+          sortable
           align="center"/>
       </el-table>
     </el-card>

@@ -1051,6 +1051,7 @@ export default {
       this.moreaction[0].salePrice = val
     },
     packagedata(val) {
+      this.$refs.editable2.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable2.insert(val[i])

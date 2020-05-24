@@ -32,21 +32,25 @@
         <el-table-column
           :label="first"
           prop="value"
+          sortable
           width="420"
           align="center"/>
         <el-table-column
           :label="$t('installmentComplete.shouldMoney')"
           prop="shouldMoney"
+          sortable
           width="420"
           align="center"/>
         <el-table-column
           :label="$t('installmentComplete.collectedMOney')"
           prop="collectedMOney"
+          sortable
           width="420"
           align="center"/>
         <el-table-column
           :label="$t('installmentComplete.finishRate')"
           prop="finishRate"
+          sortable
           width="420"
           align="center"/>
       </el-table>

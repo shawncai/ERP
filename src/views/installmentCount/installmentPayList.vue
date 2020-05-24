@@ -50,91 +50,109 @@
         <el-table-column
           :label="$t('saleBillList.repositoryName')"
           prop="repositoryName"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.productName')"
           prop="productName"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.productCode')"
           prop="productCode"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.createDate')"
           prop="createDate"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.customerName')"
           prop="customerName"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.address')"
           prop="address"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.customerPhone')"
           prop="customerPhone"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.recoveryCarDetail')"
           prop="recoveryCarDetail"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.carCode')"
           prop="carCode"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.motorCode')"
           prop="motorCode"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.batteryCode')"
           prop="batteryCode"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.color')"
           prop="color"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.totalMoney')"
           prop="totalMoney"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.firstMoney')"
           prop="firstMoney"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.paidMoney')"
           prop="paidMoney"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.unpaidMoney')"
           prop="unpaidMoney"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.monthlyMoney')"
           prop="monthlyMoney"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.day')"
           prop="day"
+          sortable
           width="200"
           align="center"/>
       </el-table>

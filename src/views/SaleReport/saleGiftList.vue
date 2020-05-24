@@ -73,6 +73,7 @@
         <el-table-column
           :label="first"
           prop="name"
+          sortable
           width="300"
           align="center"/>
         <el-table-column
@@ -80,10 +81,12 @@
           label="物品类别"
           prop="productCategory"
           width="300"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('stockDetailCount.unit')"
           prop="unit"
+          sortable
           width="200"
           align="center"/>
         <el-table-column :label="$t('stockOrderExecute.orderNum')" align="center">
@@ -91,15 +94,18 @@
             :label="$t('stockOrderCount.orderQuantity')"
             prop="orderQuantity"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('stockOrderExecute.price')"
             prop="orderPrice"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
             prop="orderMoney"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -107,11 +113,13 @@
           <el-table-column
             :label="$t('stockDetailCount.unit')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
             prop="enterQuantity"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -119,11 +127,13 @@
           <el-table-column
             :label="$t('stockDetailCount.unit')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.orderQuantity')"
             prop="quantity2"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>

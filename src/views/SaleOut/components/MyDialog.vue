@@ -442,7 +442,7 @@
         <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
         <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -759,6 +759,7 @@ export default {
       }
     }
     return {
+      packagerepository: '',
       materialcontrol: false,
       personalForm2: {
         couponSupports: [
@@ -1426,6 +1427,7 @@ export default {
     },
     packagedata(val) {
       console.log('val1222222', val)
+      this.$refs.editable2.clear()
       for (let i = 0; i < val.length; i++) {
         val[i].quantity = 1
         this.$refs.editable2.insert(val[i])
@@ -1441,6 +1443,8 @@ export default {
         })
       } else {
         this.productnumber = this.moreaction[0].productCode
+        this.packagerepository = this.personalForm.saleRepositoryId
+
         this.packagecontrol = true
       }
     },

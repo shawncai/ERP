@@ -33,10 +33,12 @@
         <el-table-column
           :label="$t('searchSaleOrderReport.id')"
           prop="id"
+          sortable
           width="240"
           align="center"/>
         <el-table-column
           :label="first"
+          sortable
           prop="name"
           width="240"
           align="center"/>
@@ -44,21 +46,25 @@
           <el-table-column
             :label="$t('searchSaleReport.money')"
             prop="outMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.saleOut')"
             prop="outTaxMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.discountMoney')"
             prop="outDiscountMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.totalMoney')"
             prop="outActualMoney"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -66,21 +72,25 @@
           <el-table-column
             :label="$t('searchSaleReport.money')"
             prop="returnMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.taxMoney')"
             prop="returnTaxMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.discountMoney')"
             prop="returnDiscountMoney"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.totalMoney')"
             prop="returnActualMoney"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
@@ -88,21 +98,25 @@
           <el-table-column
             :label="$t('searchSaleReport.money')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.taxMoney')"
             prop="quantity2"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.discountMoney')"
             prop="unit"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('searchSaleReport.totalMoney')"
             prop="quantity2"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>

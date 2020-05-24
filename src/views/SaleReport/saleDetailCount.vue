@@ -154,6 +154,7 @@
           fixed="left"
           prop="outNumber"
           width="200"
+          sortable
           align="center">
           <template slot-scope="scope">
             <span class="link-type" @click="handleReceipt2(scope.row.outNumber)">{{ scope.row.outNumber }}</span>
@@ -165,52 +166,59 @@
           fixed="left"
           prop="customerName"
           width="200"
+          sortable
           align="center"/>
         <el-table-column
           :label="$t('tongyo.receiptDate')"
-
+          sortable
           prop="receiptDate"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.quantity')"
-
+          sortable
           prop="quantity"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.includeTaxMoney')"
-
+          sortable
           prop="includeTaxMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.thisMoney')"
+          sortable
           prop="thisMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.discountMoney')"
+          sortable
           prop="discountMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.fistMoney')"
+          sortable
           prop="firstMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.shouldMoney')"
+          sortable
           prop="shouldMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.paidMoney')"
+          sortable
           prop="paidMoney"
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('tongyo.unPaidMoney')"
+          sortable
           prop="unPaidMoney"
           width="200"
           align="center"/>

@@ -89,11 +89,13 @@
           :label="$t('saleBillList.productName')"
           fixed="left"
           prop="productName"
+          sortable
           width="200"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.productCode')"
           fixed="left"
+          sortable
           prop="productCode"
           width="200"
           align="center">
@@ -105,6 +107,7 @@
           :label="$t('saleBillList.color')"
           fixed="left"
           prop="color"
+          sortable
           width="200"
           align="center"/>
         <el-table-column :label="$t('saleBillList.saleout')" align="center">
@@ -112,11 +115,13 @@
             :label="$t('saleBillList.money')"
             prop="outActualMoney"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.quantity')"
             prop="outQuantity"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
         <el-table-column :label="$t('saleBillList.salereurn')" align="center">
@@ -124,11 +129,13 @@
             :label="$t('saleBillList.money')"
             prop="returnActualMoney"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.quantity')"
             prop="returnQuantity"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
 
@@ -137,21 +144,25 @@
             :label="$t('saleBillList.serviceMoney')"
             prop="serviceMoney"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.serviceQuantity')"
             prop="serviceQuantity"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.freeQuantity')"
             prop="serviceQuantity"
             width="200"
+            sortable
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.freeMoney')"
             prop="serviceQuantity"
             width="200"
+            sortable
             align="center"/>
         </el-table-column>
 
@@ -159,11 +170,13 @@
           <el-table-column
             :label="$t('saleBillList.actualMoney')"
             prop="money"
+            sortable
             width="200"
             align="center"/>
           <el-table-column
             :label="$t('saleBillList.quantity')"
             prop="quantity"
+            sortable
             width="200"
             align="center"/>
         </el-table-column>
