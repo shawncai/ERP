@@ -304,7 +304,8 @@
                   :controls="false"
                   :min="0"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row, $event, scope)"/>
+                  @change="getdiscountMoney(scope.row, $event, scope)"
+                  @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -1891,6 +1892,9 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
         // row.discountMoney = row.includeTaxCostMoney * row.discountRate
@@ -1912,6 +1916,14 @@ export default {
         // row.discountMoney = 0
       } else {
         // row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(6)
+      }
+    },
+    notundefined(row) {
+      if (row.discountRate === undefined) {
+        this.$set(row, 'discountRate', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
       }
     },
     // 通过折扣额计算折扣

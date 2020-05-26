@@ -47,6 +47,12 @@
         border
         style="width: 100%">
         <el-table-column
+          :label="$t('searchSaleOrderReport.id')"
+          type="index"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('searchSaleOrderDetailReport.productCode')"
           prop="productCode"
           sortable

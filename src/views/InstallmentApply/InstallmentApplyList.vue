@@ -201,6 +201,7 @@
 </template>
 
 <script>
+import { searchsaleContract } from '@/api/SaleContract'
 import { checkReceiptApply2 } from '@/api/public'
 import { getremplist2 } from '@/api/repair'
 import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
@@ -473,8 +474,28 @@ export default {
           return false
         }
       }
-      this.$store.dispatch('getempcontract', this.moreaction)
-      this.$router.push('/SaleContract/AddSaleContract')
+      const parms = {
+        sourceNumber: this.moreaction[0].applyNumber,
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+
+      }
+      searchsaleContract(parms).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content.list.length === 0) {
+            this.$store.dispatch('getempcontract', this.moreaction)
+            this.$router.push('/SaleContract/AddSaleContract')
+          } else if (res.data.data.content.list.length === 1) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.yjscht'),
+              offset: 100
+            })
+          }
+        }
+      })
     },
     // 打开客户报告
     handlerdetail(row) {

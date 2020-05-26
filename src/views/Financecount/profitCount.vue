@@ -47,6 +47,13 @@
         highlight-current-row
       >
         <el-table-column
+          :label="$t('searchSaleOrderReport.id')"
+          type="index"
+          fixed="left"
+          sortable
+          width="50"
+          align="center"/>
+        <el-table-column
           :label="$t('tongyo.repositoryName')"
           :resizable="false"
           sortable

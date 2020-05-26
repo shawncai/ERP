@@ -27,17 +27,17 @@ function judgeiscar() {
 const selectcompany = localStorage.getItem('selectcompany')
 let imgurl = ''
 if (selectcompany === '1' || selectcompany === 1) {
-  imgurl = '/static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png'
+  imgurl = 'static/print/2607d2ec-a7d4-4900-a726-9c360bc0c8f4.001.png'
 } else if (selectcompany === '2' || selectcompany === 2) {
-  imgurl = '/static/print/printimg2.png'
+  imgurl = 'static/print/printimg2.png'
 } else if (selectcompany === '3' || selectcompany === 3) {
-  imgurl = '/static/print/printimg3.png'
+  imgurl = 'static/print/printimg3.png'
 } else if (selectcompany === '4' || selectcompany === 4) {
-  imgurl = '/static/print/printimg4.png'
+  imgurl = 'static/print/printimg4.png'
 } else if (selectcompany === '5' || selectcompany === 5) {
-  imgurl = '/static/print/printimg5.png'
+  imgurl = 'static/print/printimg5.png'
 } else if (selectcompany === '6' || selectcompany === 6) {
-  imgurl = '/static/print/printimg6.png'
+  imgurl = 'static/print/printimg6.png'
 }
 
 judgeiscar()

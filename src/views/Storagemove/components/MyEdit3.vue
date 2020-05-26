@@ -231,6 +231,19 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit5(scope.row)" v-model="scope.row.controlCode" clearable @blur="getInfo2(scope.row)"/>
+              <span v-else>{{ scope.row.controlCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit6(scope.row)" v-model="scope.row.chargeCode" clearable @blur="getInfo2(scope.row)"/>
+              <span v-else>{{ scope.row.chargeCode }}</span>
+            </template>
+          </el-editable-column>
+
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6}}" prop="price" align="center" label="调拨成本价" width="150px">
             <template slot="edit" slot-scope="scope">
@@ -428,7 +441,7 @@ export default {
     // 不让勾选
     selectInit(row, index) {
       const re = row.productCode.slice(0, 2)
-      if (re === '01' && row.stat === 1) { return true } else { return false }
+      if (row.stat === 1) { return true } else { return false }
     },
     iscars(row) {
       const re = row.productCode.slice(0, 2)
@@ -510,7 +523,8 @@ export default {
       updateOutDetail(this.personalForm.id, editoutproduct).then(res => {
         if (res.data.ret === 200) {
           this.$refs.editable2.clear()
-          const listdata = res.data.data.content
+          const listdata = needarr
+          console.log('listdata', listdata)
           // this.list3 = res.data.data.content
           for (const i in listdata) {
             this.$refs.editable2.insert(listdata[i])
@@ -639,15 +653,40 @@ export default {
     // 判断整车或者电池
     isEdit4(row) {
       // console.log('222', row)
+
       if (row.stat === 2) {
         return false
       }
       const re = row.productCode.slice(0, 2)
+      // const re = row.productCode.slice(0, 2)
       // if (re === '01') {
       //   row.quantity = 1
       //   return row.quantity
       // }
-      if (re === '01' || re === '05') { return true } else { return false }
+      if (re === '05') { return true } else { return false }
+    },
+    // 判断控制器
+    isEdit5(row) {
+      if (row.stat === 2) {
+        return false
+      }
+      const re = row.productCode.slice(2, 4)
+      const re2 = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re2 === '01' || re === '11') { return true } else { return false }
+    },
+    // 判断充电器
+    isEdit6(row) {
+      // console.log('222', row)
+      if (row.stat === 2) {
+        return false
+      }
+      const re = row.productCode.slice(2, 4)
+
+      if (re === '13') { return true } else { return false }
     },
     // 保存修改
     handleEdit(row) {
@@ -665,7 +704,11 @@ export default {
       const EnterDetail = this.deepClone(row.data)
       let m = 1
       let b = 1
+      let c = 1
+      let d = 1
       const re = EnterDetail.productCode.slice(0, 2)
+      const re2 = EnterDetail.productCode.slice(2, 4)
+
       if (re === '01') {
         if (EnterDetail.carCode === null || EnterDetail.carCode === undefined || EnterDetail.carCode === '' || EnterDetail.motorCode === null || EnterDetail.motorCode === undefined || EnterDetail.motorCode === '') {
           m = 2
@@ -676,6 +719,38 @@ export default {
         if (EnterDetail.batteryCode === null || EnterDetail.batteryCode === undefined || EnterDetail.batteryCode === '') {
           b = 2
         }
+      }
+
+      if (re2 === '11') {
+        if (EnterDetail.controlCode === null || EnterDetail.controlCode === undefined || EnterDetail.controlCode === '') {
+          c = 2
+        }
+      }
+
+      if (re2 === '13') {
+        if (EnterDetail.chargeCode === null || EnterDetail.chargeCode === undefined || EnterDetail.chargeCode === '') {
+          d = 2
+        }
+      }
+
+      if (d === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.cdqbmwtx'),
+          offset: 100
+        })
+        this.ischeck = false
+        return false
+      }
+
+      if (c === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('tongyo.kzqbmwtx'),
+          offset: 100
+        })
+        this.ischeck = false
+        return false
       }
 
       if (m === 2) {

@@ -137,3 +137,17 @@ export function updatesaleOut2(query) {
     data: params
   })
 }
+
+// 检查客户是否当天购买商品
+export function getCustomerOutCount(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/saleOut/getCustomerOutCount',
+    method: 'post',
+    data: params
+  })
+}
+

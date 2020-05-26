@@ -1862,6 +1862,9 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
         // row.discountMoney = row.includeTaxCostMoney * row.discountRate

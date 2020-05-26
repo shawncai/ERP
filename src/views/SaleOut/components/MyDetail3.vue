@@ -119,6 +119,7 @@
     <!-- 列表结束 -->
     <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" />
     <span slot="footer" class="dialog-footer">
+      <div style="padding-top: 10px; text-align: left;">{{ $t('update4.yxz') }}{{ tiaoshu }}{{ $t('update4.tiao') }} </div>
       <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
     </span>
   </el-dialog>
@@ -160,6 +161,8 @@ export default {
   },
   data() {
     return {
+      tiaoshu: 0,
+
       tableHeight: 200,
 
       getRowKeys(row) {
@@ -312,6 +315,8 @@ export default {
     // 批量操作
     handleSelectionChange(rows) {
       this.moreaction = rows
+      this.tiaoshu = this.moreaction.length
+
       this.select_order_number = this.moreaction.length
       this.select_orderId = []
       if (rows) {

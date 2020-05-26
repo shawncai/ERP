@@ -205,20 +205,22 @@
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" />
             <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" />
             <el-editable-column :label="$t('updates.ddsl')" prop="quantity" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.lsj')" prop="salePrice" align="center" />
+            <el-editable-column v-if="jundgeprice()&& personalForm.saleType === '1'" :label="$t('updates.lsj')" prop="salePrice" align="center" />
             <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" />-->
-            <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" />
+            <el-editable-column v-if="personalForm.saleType === '1'" :label="$t('updates.hsj')" prop="taxprice" align="center" />
             <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" />-->
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
+            <el-editable-column v-if="personalForm.saleType === '1'" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" />
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
-            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" />
+            <el-editable-column v-if="personalForm.saleType === '1'" :label="$t('updates.se')" prop="taxMoney" align="center" />
+            <el-editable-column v-if="jundgeprice() && personalForm.saleType === '1'" :label="$t('Hmodule.je')" prop="money" align="center" />
             <!--          <el-editable-column prop="includeTaxCostMoney" align="center" :label="$t('updates.hscbje')" />-->
             <el-editable-column :label="$t('updates.ckl')" prop="discount" align="center" />
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
           </el-editable>
         </div>
       </el-card>
@@ -257,27 +259,27 @@
                   <span>{{ personalForm.allQuantity }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-show="personalForm.saleType === '1'" :span="12">
                 <el-form-item :label="$t('updates.hehj')" style="width: 100%;">
                   <span>{{ personalForm.allMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.saleType === '1'" :span="12">
                 <el-form-item :label="$t('updates.sehj')" style="width: 100%;">
                   <span>{{ personalForm.allTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.saleType === '1'" :span="12">
                 <el-form-item :label="$t('updates.hsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.saleType === '1'" :span="12">
                 <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
                   <span>{{ personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.saleType === '1'" :span="12">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxDiscountMoney }}</span>
                 </el-form-item>
@@ -455,6 +457,7 @@ export default {
           this.reviewList.push(review[i])
         }
       }
+      console.log(this.personalForm)
     }
   },
   beforeCreate() {

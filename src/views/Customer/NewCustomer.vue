@@ -90,8 +90,8 @@
           </el-form-item> -->
                 <el-form-item :label="$t('Customer.newold')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="customerForm.newold" :value="customerForm.newold" :placeholder="$t('updates.qxz')" style="width: 200px">
-                    <el-option label="本店客户" value="1"/>
-                    <el-option label="非本店客户" value="2"/>
+                    <el-option :label="$t('update4.bdkh')" value="1"/>
+                    <el-option :label="$t('update4.fbdkh')" value="2"/>
                   </el-select>
                 </el-form-item>
               </el-col>

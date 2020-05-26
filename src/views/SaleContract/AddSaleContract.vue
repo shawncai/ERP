@@ -51,7 +51,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleContract.saleType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.saleType" style="width: 200px">
+                  <el-select v-model="personalForm.saleType" style="width: 200px" @change="changesaletype">
                     <el-option :label="$t('prompt.xj')" value="1" />
                     <el-option :label="$t('prompt.fq')" value="2" />
                   </el-select>
@@ -331,7 +331,7 @@
             <!--            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
             <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" min-width="150px">
               <template slot-scope="scope">
-                <span>{{ gettaxprice(scope.row) }}</span>
+                <span v-show="personalForm.saleType === '1'">{{ gettaxprice(scope.row) }}</span>
               </template>
             </el-editable-column>
             <!--            <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">-->
@@ -341,7 +341,7 @@
             <!--            </el-editable-column>-->
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getincludeTaxMoney(scope.row) }}</p>
+                <p v-show="personalForm.saleType === '1'">{{ getincludeTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
@@ -360,12 +360,12 @@
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
               <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
+                <p v-show="personalForm.saleType === '1'">{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.hscbje')" prop="includeTaxCostMoney" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
+                <p v-show="personalForm.saleType === '1'">{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.ckl')" prop="discount" align="center" min-width="170px">
@@ -384,7 +384,8 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row, $event, scope)"/>
+                  @change="getdiscountMoney(scope.row, $event, scope)"
+                  @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -403,6 +404,18 @@
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.batteryCode" clearable/>
                 <span v-else>{{ scope.row.batteryCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit4(scope.row)" v-model="scope.row.controlCode" clearable/>
+                <span v-else>{{ scope.row.controlCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="batteryCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit5(scope.row)" v-model="scope.row.chargeCode" clearable/>
+                <span v-else>{{ scope.row.chargeCode }}</span>
               </template>
             </el-editable-column>
           </el-editable>
@@ -643,6 +656,7 @@ export default {
         signDate: null,
         sourceType: '3',
         taxRate: 0,
+        saleType: '1',
         contractStat: '1'
       },
       needarr: [],
@@ -703,7 +717,15 @@ export default {
     _that = this
   },
   methods: {
+    changesaletype() {
+      if (this.personalForm.sourceType === '2') {
+        this.personalForm.saleType = '2'
+      }
+    },
     jundgeprice() {
+      if (this.personalForm.saleType === '2') {
+        return false
+      }
       if (this.$store.getters.countryId === 2) {
         return true
       }
@@ -750,6 +772,25 @@ export default {
       // }
       if (re === '01') { return true } else { return false }
     },
+    isEdit4(row) {
+      const re = row.productCode.slice(2, 4)
+      const re2 = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re2 === '01' || re === '11') { return true } else { return false }
+    },
+    isEdit5(row) {
+      const re = row.productCode.slice(2, 4)
+      const re2 = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re2 === '01' || re === '13') { return true } else { return false }
+    },
+
     salePrice(val) {
       console.log('val1222222', val)
       this.moreaction[0].salePrice = val
@@ -1000,6 +1041,15 @@ export default {
           sums[index] = '总计'
           return
         }
+        if (this.personalForm.saleType === '2') {
+          sums[11] = ''
+          sums[12] = ''
+          sums[13] = ''
+          sums[14] = ''
+          sums[16] = ''
+          sums[17] = ''
+          sums[18] = ''
+        }
         const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
@@ -1075,6 +1125,9 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       }
@@ -1083,6 +1136,14 @@ export default {
     getTaxMoney2(row) {
       row.taxMoney = (row.salePrice * row.taxRate / 100 * row.quantity).toFixed(6)
       return row.taxMoney
+    },
+    notundefined(row) {
+      if (row.discount === undefined) {
+        this.$set(row, 'discount', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
+      }
     },
     // 通过折扣计算折扣额
     getdiscountRate(row) {
@@ -1402,6 +1463,7 @@ export default {
         signDate: null,
         sourceType: '3',
         taxRate: 0,
+        saleType: '1',
         contractStat: '1'
       }
       this.supplierId = null

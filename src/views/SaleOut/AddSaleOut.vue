@@ -388,7 +388,8 @@
                   :controls="false"
                   :min="0"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row, $event, scope)"/>
+                  @change="getdiscountMoney(scope.row, $event, scope)"
+                  @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -605,7 +606,7 @@ import { returnMoney } from '@/api/Coupon'
 import { materialslist2 } from '@/api/MaterialsList'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
-import { createsaleOut } from '@/api/SaleOut'
+import { createsaleOut, getCustomerOutCount } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
@@ -1067,7 +1068,7 @@ export default {
         })
       } else {
         this.productnumber = this.moreaction[0].productCode
-        this.packagerepository = this.personalForm.saleRepositoryId
+        this.packagerepository = String(this.personalForm.saleRepositoryId)
         this.packagecontrol = true
       }
     },
@@ -1870,6 +1871,10 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      console.log('rorw', row)
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
         // row.discountMoney = row.includeTaxCostMoney * row.discountRate
@@ -1892,6 +1897,14 @@ export default {
       // } else {
       //   row.discountMoney = (row.taxprice * row.quantity * (row.discountRate / 100)).toFixed(6)
       // }
+    },
+    notundefined(row) {
+      if (row.discountRate === undefined) {
+        this.$set(row, 'discountRate', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
+      }
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row, val, scope) {
@@ -2398,6 +2411,9 @@ export default {
     },
     // 保存操作
     handlesave() {
+      // getCustomerOutCount(this.personalForm.customerId).then(res => {
+      //   console.log('res', res)
+      // })
       const EnterDetailgift = this.deepClone(this.$refs.editable2.getRecords())
       // 批次货位不能为空
       let j = 1
@@ -2677,6 +2693,7 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
+          console.log('123')
           createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({

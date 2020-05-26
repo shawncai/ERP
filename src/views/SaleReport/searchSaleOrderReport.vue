@@ -31,7 +31,7 @@
         style="width: 100%">
         <el-table-column
           :label="$t('searchSaleOrderReport.id')"
-          prop="id"
+          type="index"
           sortable
           width="240"
           align="center"/>

@@ -28,7 +28,7 @@
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col v-show="isoffice" :span="6">
                 <el-form-item :label="$t('Expenses.deptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.deptId" style="width: 200px" @focus="change">
                     <el-option
@@ -77,7 +77,7 @@
                   <el-input v-model="personalForm.expensesAccount" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col> -->
-              <el-col :span="6">
+              <el-col v-show="isoffice" :span="6">
                 <el-form-item :label="$t('Expenses.expensesAccount')" prop="transferInAccount" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.expensesAccount" style="width: 200px" @focus="getaccounts">
                     <el-option
@@ -188,6 +188,7 @@ export default {
       }
     }
     return {
+      isoffice: false,
       accountcodes: [],
       accounts: [],
       accountsparm: {
@@ -291,6 +292,7 @@ export default {
     getitemList() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
       if (this.$store.getters.repositoryId === 0) {
+        this.isoffice = true
         const parms = {
           subjectId: 138
         }
@@ -305,6 +307,8 @@ export default {
           }
         })
       } else {
+        this.isoffice = false
+
         const parms = {
           subjectId: 137
         }

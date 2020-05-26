@@ -4403,6 +4403,11 @@ export default {
     appDiscount: 'app维修折扣',
     sortId: '排序',
     dhsjpx: '到货时间',
-    ddbh: '订单编号'
+    ddbh: '订单编号',
+    bdkh: '本店客户',
+    fbdkh: '非本店客户',
+    yxz: '已选中 ',
+    tiao: '条 ',
+    yjscht: '已经生成合同'
   }
 }

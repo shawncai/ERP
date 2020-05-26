@@ -540,9 +540,24 @@ export default {
     },
     handleDispatch3(row) {
       // console.log('row==============================>', row)
-      this.editVisible3 = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.businessStat = String(row.businessStat)
+      const parms = {
+        pageNum: 1,
+        pageSize: 10,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        moveNumber: row.moveNumber
+      }
+
+      searchlist(parms).then(res => {
+        console.log('res', res)
+        if (res.data.ret === 200) {
+          this.editVisible3 = true
+          this.personalForm = res.data.data.content.list[0]
+          this.personalForm.businessStat = String(res.data.data.content.list[0].businessStat)
+        }
+      })
+
       // console.log('personalForm==============================>', this.personalForm)
     },
     handleDispatch2(row) {
@@ -680,10 +695,23 @@ export default {
     },
     // 调入操作
     handlemove(row) {
-      // console.log('rowmove==============================>', row)
-      this.moveVisible = true
-      // console.log('personalFormmove==============================>', this.personalForm)
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        pageNum: 1,
+        pageSize: 10,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        moveNumber: row.moveNumber
+      }
+
+      searchlist(parms).then(res => {
+        console.log('res', res)
+        if (res.data.ret === 200) {
+          this.moveVisible = true
+          this.personalForm = res.data.data.content.list[0]
+          this.personalForm.businessStat = String(res.data.data.content.list[0].businessStat)
+        }
+      })
     },
     // 部门列表数据
     getdeptlist() {
@@ -782,9 +810,23 @@ export default {
     // 详情操作
     handleDetail(row) {
       // console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.businessStat = String(row.businessStat)
+      const parms = {
+        pageNum: 1,
+        pageSize: 10,
+        countryId: this.$store.getters.countryId,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        moveNumber: row.moveNumber
+      }
+
+      searchlist(parms).then(res => {
+        console.log('res', res)
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = res.data.data.content.list[0]
+          this.personalForm.businessStat = String(res.data.data.content.list[0].businessStat)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

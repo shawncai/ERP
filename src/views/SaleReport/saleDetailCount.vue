@@ -150,6 +150,12 @@
         show-summary
         style="width: 100%">
         <el-table-column
+          :label="$t('searchSaleOrderReport.id')"
+          type="index"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('tongyo.outNumber')"
           fixed="left"
           prop="outNumber"

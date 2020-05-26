@@ -403,6 +403,8 @@ export default {
           carCode: item.carCode,
           motorCode: item.motorCode,
           batteryCode: item.batteryCode,
+          controlCode: item.controlCode,
+          chargeCode: item.chargeCode,
           sourceNumber: contractNumber,
           sourceSerialNumber: item.id
         }

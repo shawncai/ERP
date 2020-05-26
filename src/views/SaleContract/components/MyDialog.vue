@@ -49,7 +49,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleContract.saleType')" style="width: 100%;">
-                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" disabled>
                   <el-option :label="$t('prompt.xj')" value="1" />
                   <el-option :label="$t('prompt.fq')" value="2" />
                 </el-select>
@@ -266,7 +266,7 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px; margin-bottom： 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</h2>
       <div class="container">
         <el-editable
@@ -310,7 +310,7 @@
           <!--          <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" min-width="150px"/>-->
           <el-editable-column :label="$t('updates.hsj')" prop="taxprice" align="center" min-width="150px">
             <template slot-scope="scope">
-              <span>{{ gettaxprice(scope.row) }}</span>
+              <span v-show="personalForm.saleType === '1'">{{ gettaxprice(scope.row) }}</span>
             </template>
           </el-editable-column>
           <!--          <el-editable-column prop="costMoney" align="center" label="成本金额" min-width="150px">-->
@@ -320,7 +320,7 @@
           <!--          </el-editable-column>-->
           <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ getincludeTaxMoney(scope.row) }}</p>
+              <p v-show="personalForm.saleType === '1'">{{ getincludeTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
@@ -334,7 +334,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p>{{ getTaxMoney2(scope.row) }}</p>
+              <p v-show="personalForm.saleType === '1'">{{ getTaxMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -618,6 +618,9 @@ export default {
   },
   methods: {
     jundgeprice() {
+      if (this.personalForm.saleType === '2') {
+        return false
+      }
       if (this.$store.getters.countryId === 2) {
         return true
       }
@@ -760,6 +763,15 @@ export default {
         if (index === 0) {
           sums[index] = '总计'
           return
+        }
+        if (this.personalForm.saleType === '2') {
+          sums[11] = ''
+          sums[12] = ''
+          sums[13] = ''
+          sums[14] = ''
+          sums[16] = ''
+          sums[17] = ''
+          sums[18] = ''
         }
         const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {

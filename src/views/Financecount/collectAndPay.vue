@@ -42,6 +42,13 @@
         <!--          width="240"-->
         <!--          align="center"/>-->
         <el-table-column
+          :label="$t('searchSaleOrderReport.id')"
+          type="index"
+          fixed="left"
+          sortable
+          width="50"
+          align="center"/>
+        <el-table-column
           v-if="getemplist.type !== '1'"
           :label="first"
           sortable
