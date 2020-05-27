@@ -495,7 +495,7 @@ import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
-import { createsaleOut } from '@/api/SaleOut'
+import { createsaleOut, getCustomerOutCount } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
@@ -2735,6 +2735,18 @@ export default {
     },
     // 保存操作
     async handlesave() {
+      const judgecustomer = await getCustomerOutCount(this.personalForm.customerId).then(res => {
+        return res.data.data.content
+      })
+
+      console.log('judgecustomer', judgecustomer)
+      if (judgecustomer !== 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+      }
       if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
         this.$refs.editable2.clear()
       }

@@ -1,5 +1,7 @@
 export default {
   route: {
+    ReviewPackage: '审核套餐包',
+    NewReviewPackage: '新建审核套餐包',
     moveCount: '调拨汇总表',
     outSourceCount: '委外出入库汇总',
     outSourceDetail: '委外出入库明细',
@@ -4408,6 +4410,9 @@ export default {
     fbdkh: '非本店客户',
     yxz: '已选中 ',
     tiao: '条 ',
-    yjscht: '已经生成合同'
+    yjscht: '已经生成合同',
+    gkhygmdc: '该客户已重复购买',
+    gjz: '关键字',
+    remarks: '主题'
   }
 }

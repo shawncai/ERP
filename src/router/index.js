@@ -765,6 +765,12 @@ export const asyncRouterMap = [
       //   meta: { title: 'BatchRules', noCache: false, roles: ['1-39-52-1'] }
       // },
       {
+        path: 'ReviewPackage',
+        component: () => import('@/views/BasicSettings/ReviewPackage'),
+        name: 'ReviewPackage',
+        meta: { title: 'ReviewPackage', noCache: false, roles: ['1-39-45-4'] }
+      },
+      {
         path: 'UnitGroup',
         component: () => import('@/views/BasicSettings/UnitGroup'),
         name: 'UnitGroup',

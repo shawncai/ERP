@@ -2410,10 +2410,19 @@ export default {
       return objClone
     },
     // 保存操作
-    handlesave() {
-      // getCustomerOutCount(this.personalForm.customerId).then(res => {
-      //   console.log('res', res)
-      // })
+    async handlesave() {
+      const judgecustomer = await getCustomerOutCount(this.personalForm.customerId).then(res => {
+        return res.data.data.content
+      })
+
+      console.log('judgecustomer', judgecustomer)
+      if (judgecustomer !== 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+      }
       const EnterDetailgift = this.deepClone(this.$refs.editable2.getRecords())
       // 批次货位不能为空
       let j = 1
@@ -2694,31 +2703,31 @@ export default {
           }
           const parms = JSON.stringify(Data)
           console.log('123')
-          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
+          // createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+          //   if (res.data.ret === 200) {
+          //     this.$notify({
+          //       title: 'successful',
+          //       message: 'save successful',
+          //       type: 'success',
+          //       offset: 100
+          //     })
+          //     this.restAllForm()
+          //     this.$refs.editable.clear()
+          //     this.$refs.editable2.clear()
+          //     this.$refs.personalForm.clearValidate()
+          //     this.$refs.personalForm.resetFields()
+          //     this.$refs.personalForm2.clearValidate()
+          //     this.$refs.personalForm2.resetFields()
+          //     this.$refs.personalForm3.clearValidate()
+          //     this.$refs.personalForm3.resetFields()
+          //   } else {
+          //     this.$notify.error({
+          //       title: 'wrong',
+          //       message: res.data.msg,
+          //       offset: 100
+          //     })
+          //   }
+          // })
         } else {
           this.$notify.error({
             title: 'wrong',
@@ -2730,7 +2739,19 @@ export default {
       })
     },
     // 保存操作
-    handlesave2() {
+    async handlesave2() {
+      const judgecustomer = await getCustomerOutCount(this.personalForm.customerId).then(res => {
+        return res.data.data.content
+      })
+
+      console.log('judgecustomer', judgecustomer)
+      if (judgecustomer !== 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+      }
       if (this.personalForm.sourceType === '5') {
         if (this.personalForm.saleType === '2') {
           this.$notify.error({

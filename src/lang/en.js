@@ -1,5 +1,7 @@
 export default {
   route: {
+    ReviewPackage: 'ReviewPackage',
+    NewReviewPackage: 'NewReviewPackage',
     moveCount: 'moveCount',
     outSourceCount: 'outSourceCount',
     outSourceDetail: 'outSourceDetail',
@@ -4408,6 +4410,9 @@ export default {
     fbdkh: 'other brand customers',
     yxz: 'have selected  ',
     tiao: '  data',
-    yjscht: 'Contract has been generated'
+    yjscht: 'Contract has been generated',
+    gkhygmdc: 'The customer has repeated purchases',
+    gjz: 'key words',
+    remarks: 'title'
   }
 }

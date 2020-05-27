@@ -748,3 +748,118 @@ export function deletedept(query, query2) {
     data: params
   })
 }
+
+// 添加审批流程包
+export function addApprovalPackage(query) {
+  var params = new URLSearchParams()
+  if (query.processIds !== '' && query.processIds !== null && query.processIds !== undefined) {
+    params.append('processIds', query.processIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.processNames !== '' && query.processNames !== null && query.processNames !== undefined) {
+    params.append('processNames', query.processNames) // 你要传给后台的参数值 key/value
+  }
+  if (query.remark !== '' && query.remark !== null && query.remark !== undefined) {
+    params.append('remark', query.remark) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/addApprovalPackage',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改审批流程包
+export function updateApprovalPackage(query) {
+  var params = new URLSearchParams()
+  if (query.processIds !== '' && query.processIds !== null && query.processIds !== undefined) {
+    params.append('processIds', query.processIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.processNames !== '' && query.processNames !== null && query.processNames !== undefined) {
+    params.append('processNames', query.processNames) // 你要传给后台的参数值 key/value
+  }
+  if (query.remark !== '' && query.remark !== null && query.remark !== undefined) {
+    params.append('remark', query.remark) // 你要传给后台的参数值 key/value
+  }
+  if (query.packageId !== '' && query.packageId !== null && query.packageId !== undefined) {
+    params.append('packageId', query.packageId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/updateApprovalPackage',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除审批流程包
+export function deleteApprovalPackage(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('packageId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/deleteApprovalPackage',
+    method: 'post',
+    data: params
+  })
+}
+
+// 获取审批流程包
+export function approvalPackageList(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('condition', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/approvalPackageList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 审批包分配给员工（会自动更新审批流程审批人员）
+export function packageToEmp(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('empId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('packageId', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/packageToEmp',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除员工审批包（会自动更新审批流程审批人员）
+export function deleteEmpPackage(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('empId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('packageId', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/deleteEmpPackage',
+    method: 'post',
+    data: params
+  })
+}
+
+// 获取员工审批包
+export function getEmpPackage(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('empId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/approvalPackage/getEmpPackage',
+    method: 'post',
+    data: params
+  })
+}
