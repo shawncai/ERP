@@ -417,6 +417,7 @@ export default {
       this.formValidate.serviceIdList = this._.union(otherPageIds, this.curPageSelected)
       this.formValidate.serviceIdList = this.deWeightTwo(this.formValidate.serviceIdList)
       console.log('选中的项目', this.formValidate.serviceIdList)
+      this.tiaoshu = this.formValidate.serviceIdList.length
     },
     // 根据id选中
     selectFromId(showList, selectList) {

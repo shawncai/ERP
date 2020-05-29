@@ -88,7 +88,7 @@
               </el-col>
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('Supplier.groupId')" prop="groupId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.groupId" multiple placeholder="请选择供应商分组" style="width: 200px" @focus="updateGroup">
+                  <el-select v-model="personalForm.groupId" filterable multiple placeholder="请选择供应商分组" style="width: 200px" @focus="updateGroup">
                     <el-option
                       v-for="(item, index) in groupIds"
                       :key="index"

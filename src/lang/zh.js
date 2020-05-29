@@ -4413,6 +4413,10 @@ export default {
     yjscht: '已经生成合同',
     gkhygmdc: '该客户已重复购买',
     gjz: '关键字',
-    remarks: '主题'
+    remarks: '主题',
+    fpshb: '分配审核包',
+    shb: '审核包',
+    bmpx: '编码排序',
+    xhpx: '序号排序'
   }
 }

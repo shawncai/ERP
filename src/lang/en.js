@@ -4413,6 +4413,10 @@ export default {
     yjscht: 'Contract has been generated',
     gkhygmdc: 'The customer has repeated purchases',
     gjz: 'key words',
-    remarks: 'title'
+    remarks: 'title',
+    fpshb: 'Distribute approvl packages',
+    shb: 'approvl packages',
+    bmpx: 'Coding order',
+    xhpx: 'Sort by number'
   }
 }

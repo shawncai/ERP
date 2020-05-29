@@ -712,7 +712,7 @@ export default {
       return objClone
     },
     // 两表联动
-    changeDate(scope) {
+    async changeDate(scope) {
       console.log('scope', scope)
       if (scope !== '' && scope !== null && scope !== undefined) {
         if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
@@ -734,6 +734,23 @@ export default {
           }
         }
       }
+      if (!scope.row.sourceSerialNumber && !scope.row.supplierId) {
+        const suppdata = await getStockInfoByProduct(scope.row.productCode, scope.row.planQuantity).then(res => {
+          return res
+        })
+        console.log('suppdata', suppdata)
+        if (suppdata.data.data.content.length !== 0) {
+          const newparms = scope.row
+          for (const i in suppdata.data.data.content) {
+            newparms.supplierName = suppdata.data.data.content[i].supplierName
+            newparms.supplierId = suppdata.data.data.content[i].supplierId
+            newparms.planQuantity = suppdata.data.data.content[i].quantity
+            this.$refs.editable.insertAt(newparms)
+          }
+          this.$refs.editable.remove(scope.row)
+        }
+      }
+
       console.log('ooooo')
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())

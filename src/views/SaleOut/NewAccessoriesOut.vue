@@ -2740,11 +2740,12 @@ export default {
       })
 
       console.log('judgecustomer', judgecustomer)
-      if (judgecustomer !== 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.pchwbnwk'),
-          offset: 100
+      if (judgecustomer > 0) {
+        this.$notify({
+          type: 'warning',
+          message: this.$t('update4.gkhygmdc'),
+          offset: 100,
+          duration: 5000
         })
       }
       if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {

@@ -79,6 +79,13 @@
                   <span>{{ personalForm.content.roleName }}</span>
                 </el-form-item>
               </el-col>
+
+              <el-col v-permission="['1-39-46-1']" :span="12">
+                <el-form-item :label="$t('update4.shb')" style="width: 100%;">
+                  <span>{{ packagesname }}</span>
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -475,9 +482,14 @@
 
 <script>
 import { getEmpStockInfo, getEmpCollect, getEmpVisitInfo, getEmpRepairInfo, getComplaintInfo, getCommissionInfo } from '@/api/EmployeeInformation'
+import { getEmpPackage } from '@/api/BasicSettings'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import permission2 from '@/directive/permission2/index.js' // 权限判断指令
+import checkPermission from '@/utils/permission' // 权限判断函数
 var _that
 export default {
+  directives: { permission, permission2 },
   components: { Pagination },
   filters: {
     genderFilter(status) {
@@ -559,6 +571,7 @@ export default {
   },
   data() {
     return {
+      packagesname: '',
       // 维修信息
       RepairInfo: {},
       // 投诉信息
@@ -635,6 +648,7 @@ export default {
       if (this.personalForm.contract !== '' && this.personalForm.contract !== null && this.personalForm.contract !== undefined) {
         this.contracts = this.personalForm.contract
       }
+      this.getpackagename()
     },
     detailid() {
       this.getstocklist.id = this.detailid
@@ -655,6 +669,17 @@ export default {
     _that = this
   },
   methods: {
+    getpackagename() {
+      getEmpPackage(this.personalForm.content.id).then(res => {
+        if (res.data.ret === 200) {
+          this.packagesname = res.data.data.content.processNames
+          console.log('res', res)
+        } else {
+          this.packagesname = ''
+        }
+      })
+    },
+    checkPermission,
     // 格式化日期，如月、日、时、分、秒保证为2位数
     formatNumber(n) {
       n = n.toString()

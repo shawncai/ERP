@@ -80,6 +80,24 @@
       <el-button v-permission="['1-2-4-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 60px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
       <el-button v-permission="['1-2-4-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <el-button v-permission="['1-39-46-1']" v-waves size="small" class="filter-item2" icon="el-icon-printer" @click="handleSend">{{ $t('update4.fpshb') }}</el-button>
+      <el-dialog :visible.sync="categoryVisible" :title="$t('update4.fpshb')" class="normal" width="300px" center @close="closetag">
+        <div style="margin: 0 auto;width: 200px; padding: 0 10px">
+          <el-select v-model="packageparms" style="width: 100%">
+            <el-option
+              v-for="(item, index) in packageLists"
+              :key="index"
+              :label="item.processNames"
+              :value="item.id"
+            />
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handlesendok()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 新建操作 -->
       <el-button v-permission="['1-2-4-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -193,6 +211,8 @@
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
 import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
 import { getrolelist } from '@/api/employee'
+import { approvalPackageList, packageToEmp } from '@/api/BasicSettings'
+
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -231,6 +251,9 @@ export default {
       }
     }
     return {
+      packageLists: [],
+      packageparms: '',
+      categoryVisible: false,
       tableHeight: 200,
       // 判断是否能点击
       selected: true,
@@ -421,6 +444,58 @@ export default {
     _that = this
   },
   methods: {
+    handlesendok() {
+      console.log('packageparms', this.packageparms)
+      if (!this.packageparms) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择审核包',
+          offset: 100
+        })
+        return false
+      }
+      const filterarr = this.moreaction.filter(item => {
+        return item.stat === 1
+      })
+
+      for (const i in filterarr) {
+        packageToEmp(filterarr[i].id, this.packageparms).then(res => {
+          if (res.data.ret === 200) {
+            this.$notify({
+              title: 'successful',
+              message: '分配成功',
+              type: 'success',
+              offset: 100
+            })
+          }
+          this.categoryVisible = false
+        })
+      }
+    },
+    getpackagelist() {
+      approvalPackageList().then(res => {
+        if (res.data.ret === 200) {
+          this.packageLists = res.data.data.content
+        }
+      })
+    },
+    closetag() {
+      this.packageparms = ''
+      this.categoryVisible = false
+    },
+    handleSend() {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择员工',
+          offset: 100
+        })
+        return false
+      }
+      this.getpackagelist()
+      this.packageparms = ''
+      this.categoryVisible = true
+    },
     checkPermission,
     // 详情操作
     handleDetail(row) {
@@ -790,6 +865,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

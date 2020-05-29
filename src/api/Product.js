@@ -412,6 +412,9 @@ export function productlist(query) {
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
+  if (query.sortId !== '' && query.sortId !== null && query.sortId !== undefined) {
+    params.append('sortId', query.sortId) // 你要传给后台的参数值 key/value
+  }
   if (query.productname !== '' && query.productname !== null && query.productname !== undefined) {
     params.append('productname', query.productname) // 你要传给后台的参数值 key/value
   }

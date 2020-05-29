@@ -99,6 +99,10 @@
       <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
       <!-- 更新价格 -->
       <el-button v-permission="['1-31-33-7']" v-waves size="small" class="filter-item2" icon="el-icon-refresh" style="width: 86px" @click="handleUpload">{{ $t('public.plgx') }}</el-button>
+      <el-select v-model="getemplist.sortId" :value="getemplist.sortId" :placeholder="$t('update4.sortId')" class="filter-item" @change="handleFilter">
+        <el-option :label="$t('update4.bmpx')" value="1"/>
+        <el-option :label="$t('update4.xhpx')" value="2"/>
+      </el-select>
       <!-- 新建操作 -->
       <el-button v-permission="['1-31-33-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -292,6 +296,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
+        sortId: '1',
         pagenum: 1,
         pagesize: 10
       },
@@ -786,6 +791,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
 .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

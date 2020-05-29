@@ -264,6 +264,18 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit6(scope.row)" v-model="scope.row.chargeCode" clearable/>
+                <span v-else>{{ scope.row.chargeCode }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-if="isEdit7(scope.row)" v-model="scope.row.controlCode" clearable/>
+                <span v-else>{{ scope.row.controlCode }}</span>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.ycksl')" prop="alreadyOutQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ythsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <!--            <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" min-width="150px"/>-->
@@ -289,7 +301,7 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.taxRate"
-                  @change="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px">
@@ -313,6 +325,7 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discountRate"
+                  disable
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
@@ -322,7 +335,8 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"/>
+                  @change="getdiscountMoney(scope.row)"
+                  @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.yxdcgsl')" prop="alreadyApplicationQuantity" align="center" min-width="150px"/>
@@ -650,6 +664,14 @@ export default {
     _that = this
   },
   methods: {
+    notundefined(row) {
+      if (row.discountRate === undefined) {
+        this.$set(row, 'discountRate', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
+      }
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true
@@ -679,7 +701,7 @@ export default {
       //   row.quantity = 1
       //   return row.quantity
       // }
-      if (re === '05' && this.personalForm.customerType === '2') { return true } else { return false }
+      if ((re === '05' || re === '01') && this.personalForm.customerType === '2') { return true } else { return false }
     },
     isEdit5(row) {
       console.log('222', row)
@@ -688,7 +710,25 @@ export default {
       //   row.quantity = 1
       //   return row.quantity
       // }
-      if (re === '05' && this.personalForm.customerType === '2') { return true } else { return false }
+      if ((re === '05' || re === '01') && this.personalForm.customerType === '2') { return true } else { return false }
+    },
+    isEdit6(row) {
+      const re = row.productCode.slice(2, 4)
+      const re2 = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re2 === '01' || re === '13') { return true } else { return false }
+    },
+    isEdit7(row) {
+      const re = row.productCode.slice(2, 4)
+      const re2 = row.productCode.slice(0, 2)
+      // if (re === '01') {
+      //   row.quantity = 1
+      //   return row.quantity
+      // }
+      if (re2 === '01' || re === '11') { return true } else { return false }
     },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
@@ -896,6 +936,9 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       }
@@ -1091,6 +1134,39 @@ export default {
             return false
           }
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          let m = 1
+          EnterDetail.map(function(elem) {
+            return elem
+          }).forEach(function(elem) {
+            const re = elem.productCode.slice(0, 2)
+            if (re === '01') {
+              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '' || elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '' || elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '') {
+                m = 2
+              }
+            }
+            if (re === '05') {
+              if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                m = 3
+              }
+            }
+          })
+
+          if (m === 3) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('prompt.dcckytbm'),
+              offset: 100
+            })
+            return false
+          }
+          if (m === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('prompt.zcckytbm'),
+              offset: 100
+            })
+            return false
+          }
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',

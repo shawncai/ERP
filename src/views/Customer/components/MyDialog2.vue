@@ -22,7 +22,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Customer.phone')" prop="phoneNumber" style="width: 100%">
+              <el-form-item :label="$t('Customer.phone')" prop="phone" style="width: 100%">
                 <el-input v-model="customerForm.phone" placeholder="请输入客户电话" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
@@ -167,6 +167,20 @@ export default {
     }
   },
   data() {
+    const validatePass12 = (rule, value, callback) => {
+      console.log('value', value)
+      if (!this.customerForm.phone) {
+        return callback(new Error('手机号不能为空'))
+      }
+      setTimeout(() => {
+        console.log(String(this.customerForm.phone).length)
+        if (String(this.customerForm.phone).length !== 11) {
+          callback(new Error('请输入11位正确手机号码'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     return {
       // 选择的区域数据
       regionId: [],
@@ -187,8 +201,8 @@ export default {
       // 客户信息数据
       // 客户信息规则数据
       customerFormrules: {
-        phoneNumber: [
-          { required: true, message: '请输入电话', trigger: 'blur' }
+        phone: [
+          { required: true, validator: validatePass12, trigger: 'blur' }
         ],
         lastName: [
           { required: true, message: '请输入姓氏', trigger: 'blur' }

@@ -208,7 +208,7 @@
 <script>
 import { updatestockplan } from '@/api/StockPlan'
 import { getdeptlist } from '@/api/BasicSettings'
-import { search2 } from '@/api/Supplier'
+import { search2, getStockInfoByProduct } from '@/api/Supplier'
 // import { productlist } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
 import MyEmp from './MyEmp'
@@ -496,7 +496,23 @@ export default {
       return objClone
     },
     // 两表联动
-    changeDate() {
+    async  changeDate(scope) {
+      if (!scope.row.sourceSerialNumber && !scope.row.supplierId) {
+        const suppdata = await getStockInfoByProduct(scope.row.productCode, scope.row.planQuantity).then(res => {
+          return res
+        })
+        console.log('suppdata', suppdata)
+        if (suppdata.data.data.content.length !== 0) {
+          const newparms = scope.row
+          for (const i in suppdata.data.data.content) {
+            newparms.supplierName = suppdata.data.data.content[i].supplierName
+            newparms.supplierId = suppdata.data.data.content[i].supplierId
+            newparms.planQuantity = suppdata.data.data.content[i].quantity
+            this.$refs.editable.insertAt(newparms)
+          }
+          this.$refs.editable.remove(scope.row)
+        }
+      }
       this.$refs.editable2.clear()
       const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
       const newArr = []

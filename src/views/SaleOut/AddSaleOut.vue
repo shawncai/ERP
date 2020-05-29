@@ -2416,11 +2416,12 @@ export default {
       })
 
       console.log('judgecustomer', judgecustomer)
-      if (judgecustomer !== 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.pchwbnwk'),
-          offset: 100
+      if (judgecustomer > 0) {
+        this.$notify({
+          type: 'warning',
+          message: this.$t('update4.gkhygmdc'),
+          offset: 100,
+          duration: 5000
         })
       }
       const EnterDetailgift = this.deepClone(this.$refs.editable2.getRecords())
@@ -2703,31 +2704,31 @@ export default {
           }
           const parms = JSON.stringify(Data)
           console.log('123')
-          // createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
-          //   if (res.data.ret === 200) {
-          //     this.$notify({
-          //       title: 'successful',
-          //       message: 'save successful',
-          //       type: 'success',
-          //       offset: 100
-          //     })
-          //     this.restAllForm()
-          //     this.$refs.editable.clear()
-          //     this.$refs.editable2.clear()
-          //     this.$refs.personalForm.clearValidate()
-          //     this.$refs.personalForm.resetFields()
-          //     this.$refs.personalForm2.clearValidate()
-          //     this.$refs.personalForm2.resetFields()
-          //     this.$refs.personalForm3.clearValidate()
-          //     this.$refs.personalForm3.resetFields()
-          //   } else {
-          //     this.$notify.error({
-          //       title: 'wrong',
-          //       message: res.data.msg,
-          //       offset: 100
-          //     })
-          //   }
-          // })
+          createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+            if (res.data.ret === 200) {
+              this.$notify({
+                title: 'successful',
+                message: 'save successful',
+                type: 'success',
+                offset: 100
+              })
+              this.restAllForm()
+              this.$refs.editable.clear()
+              this.$refs.editable2.clear()
+              this.$refs.personalForm.clearValidate()
+              this.$refs.personalForm.resetFields()
+              this.$refs.personalForm2.clearValidate()
+              this.$refs.personalForm2.resetFields()
+              this.$refs.personalForm3.clearValidate()
+              this.$refs.personalForm3.resetFields()
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: res.data.msg,
+                offset: 100
+              })
+            }
+          })
         } else {
           this.$notify.error({
             title: 'wrong',
