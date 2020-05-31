@@ -223,8 +223,9 @@ export default {
         type: '',
         pagenum: 1,
         pagesize: 10,
-        repositoryid: '',
-        source: ''
+        source: '',
+        repositoryid: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
       },
       // 部门列表
       depts: [],
@@ -308,6 +309,8 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
+      this.getemplist.repositoryId = 0
+      this.getemplist.regionIds = ''
       customerlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

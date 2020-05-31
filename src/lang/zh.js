@@ -4417,6 +4417,8 @@ export default {
     fpshb: '分配审核包',
     shb: '审核包',
     bmpx: '编码排序',
-    xhpx: '序号排序'
+    xhpx: '序号排序',
+    isSecondApply: '是否二次分期',
+    ecfqzzdywly: '二次分期只针对于无来源'
   }
 }

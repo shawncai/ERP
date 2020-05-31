@@ -1,23 +1,23 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :ordercontrol="ordercontrol" :close-on-press-escape="false" top="10px" title="选择销售订单" append-to-body width="1100px" @close="$emit('update:ordercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :contractcontrol="contractcontrol" :close-on-press-escape="false" top="10px" title="选择销售合同" append-to-body width="1100px" @close="$emit('update:contractcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('SaleOrder.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.title" :placeholder="$t('SaleContract.title')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.number" placeholder="订单单号" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.number" placeholder="合同单号" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
-              <el-select v-model="getemplist.sendType" :value="getemplist.sendType" clearable @keyup.enter.native="handleFilter">
-                <el-option value="1" label="已发货"/>
-                <el-option value="2" label="未发货"/>
+              <el-select v-model="getemplist.saleType" :value="getemplist.saleType" :placeholder="$t('SaleContract.saleType')" clearable @keyup.enter.native="handleFilter">
+                <el-option value="1" label="零售"/>
+                <el-option value="2" label="批发"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -28,11 +28,11 @@
               placement="bottom"
               width="500"
               trigger="click">
-              <el-select v-model="getemplist.customerType" :placeholder="$t('SaleOrder.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
+              <el-select v-model="getemplist.customerType" :placeholder="$t('SaleContract.customerType')" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="经销商"/>
                 <el-option value="2" label="零售"/>
               </el-select>
-              <el-input v-model="customerName" :placeholder="$t('SaleOrder.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
+              <el-input v-model="customerName" :placeholder="$t('SaleContract.customerName')" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
               <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
               <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
@@ -46,15 +46,15 @@
                 <el-option :label="$t('updates.shtg')" value="2"/>
                 <el-option :label="$t('updates.shptg')" value="3"/>
               </el-select>
-              <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="-"
-                unlink-panels
-                start-placeholder="销售日期"
-                end-placeholder="销售日期"
-                value-format="yyyy-MM-dd"
-                style="margin-top: 20px;margin-left: 20px"/>
+              <!--<el-date-picker-->
+              <!--v-model="date"-->
+              <!--type="daterange"-->
+              <!--range-separator="-"-->
+              <!--unlink-panels-->
+              <!--start-placeholder="销售日期"-->
+              <!--end-placeholder="销售日期"-->
+              <!--value-format="yyyy-MM-dd"-->
+              <!--style="margin-top: 20px;margin-left: 20px"/>-->
               <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
                 <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
               </div>
@@ -90,34 +90,34 @@
             <span>{{ scope.row.number }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleContract.title')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.customerName')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleContract.sourceNumber')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.sourceNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SaleContract.salePersonId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.salePersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('SaleContract.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.transDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleContract.customerPhone')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.transDate }}</span>
+            <span>{{ scope.row.customerPhone }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.heji6')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('SaleContract.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxDiscountMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('SaleOrder.sendType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sendType | sendTypeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('SaleOrder.backMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.backMoney }}</span>
+            <span>{{ scope.row.allMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -140,20 +140,18 @@
 </template>
 
 <script>
-import { searchsaleOrder } from '@/api/SaleOrder'
+import { searchsaleContract } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
-import DetailList from './DetailList'
-import MyDialog from './MyDialog'
 import MyCustomer from './MyCustomer'
 import MyAgent from './MyAgent'
 var _that
 export default {
   directives: { waves },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -187,7 +185,7 @@ export default {
     }
   },
   props: {
-    ordercontrol: {
+    contractcontrol: {
       type: Boolean,
       default: false
     }
@@ -197,7 +195,7 @@ export default {
       tableHeight: 200,
 
       // 选择框控制
-      employeeVisible: this.ordercontrol,
+      employeeVisible: this.contractcontrol,
       // 回显客户
       customerName: '',
       // 控制客户
@@ -246,10 +244,9 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
-        isActive: 1
+        inquirePersonId: this.$store.getters.userId
       },
       // 传给组件的数据
       personalForm: {},
@@ -260,8 +257,8 @@ export default {
     }
   },
   watch: {
-    ordercontrol() {
-      this.employeeVisible = this.ordercontrol
+    contractcontrol() {
+      this.employeeVisible = this.contractcontrol
       this.getlist()
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
@@ -300,10 +297,12 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleOrder(this.getemplist).then(res => {
+      searchsaleContract(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content.list.filter(item => {
+            return (item.isSecondApply === 1 && item.judgeStat === 0)
+          })
+          this.total = this.list.length
         }
         setTimeout(() => {
           this.listLoading = false
@@ -334,10 +333,12 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchsaleOrder(this.getemplist).then(res => {
+      searchsaleContract(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content.list.filter(item => {
+            return (item.isSecondApply === 1 && item.judgeStat === 0)
+          })
+          this.total = this.list.length
           // this.restFilter()
         } else {
           // this.restFilter()
@@ -365,57 +366,53 @@ export default {
     },
     // 新增数据
     handleAdd() {
-      this.$router.push('/SaleOrder/AddSaleOrder')
+      this.$router.push('/SaleContract/AddSaleContract')
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
       this.choosedata = val
-      console.log('tczjx', val)
     },
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      console.log(this.choosedata)
-      const saleOrderdata = this.choosedata.saleOrderDetailVos
-      const OrderNumber = this.choosedata.number
-      const saleOrderDetail = saleOrderdata.map(function(item) {
-        return {
-          productCode: item.productCode,
-          productName: item.productName,
-          categoryName: item.productCategoryName,
-          category: item.productCategory,
-          unit: item.unit,
-          typeName: item.productTypeName,
-          type: item.productType,
-          color: item.color,
-          kpiGrade: '0.00',
-          point: '0.00',
-          allQuantity: item.quantity,
-          salePrice: (item.salePrice).toFixed(6),
-          costPrice: (item.costPrice).toFixed(6),
-          taxprice: (item.salePrice).toFixed(6),
-          costMoney: (item.costMoney).toFixed(6),
-          includeTaxMoney: (item.includeTaxMoney).toFixed(6),
-          taxRate: item.taxRate,
-          taxMoney: item.taxMoney,
-          money: (item.money).toFixed(6),
-          includeTaxCostMoney: (item.includeTaxCostMoney).toFixed(6),
-          discountRate: item.discountRate,
-          discountMoney: item.discountMoney,
-          motorCode: item.motorCode,
-          carCode: item.carCode,
-          batteryCode: item.batteryCode,
-          controlCode: item.controlCode,
-          chargeCode: item.chargeCode,
-          sourceNumber: OrderNumber,
-          sourceSerialNumber: item.id,
-          quantity: item.quantity,
-          alreadyOutQuantity: item.alreadyOutQuantity
-        }
-      })
-      console.log(58520, saleOrderDetail)
-      this.$emit('saleOrderDetail', saleOrderDetail)
-      this.$emit('saleOrder', this.choosedata)
+      console.log('销售合同', this.choosedata)
+      // const salecontractdata = this.choosedata.saleContractDetailVos
+      // const contractNumber = this.choosedata.number
+      // const salecontractDetail = salecontractdata.map(function(item) {
+      //   return {
+      //     productCode: item.productCode,
+      //     productName: item.productName,
+      //     categoryName: item.productCategoryName,
+      //     category: item.productCategory,
+      //     unit: item.unit,
+      //     typeName: item.productTypeName,
+      //     type: item.productType,
+      //     color: item.color,
+      //     kpiGrade: '0.00',
+      //     point: '0.00',
+      //     quantity: item.quantity,
+      //     salePrice: item.salePrice,
+      //     costPrice: item.costPrice,
+      //     taxprice: item.salePrice,
+      //     // costMoney: (item.costMoney).toFixed(6),
+      //     includeTaxMoney: (item.includeTaxMoney).toFixed(6),
+      //     taxRate: item.taxRate,
+      //     taxMoney: item.taxMoney,
+      //     money: (item.money).toFixed(6),
+      //     // includeTaxCostMoney: (item.includeTaxCostMoney).toFixed(6),
+      //     discount: item.discount,
+      //     discountMoney: item.discountMoney,
+      //     carCode: item.carCode,
+      //     motorCode: item.motorCode,
+      //     batteryCode: item.batteryCode,
+      //     controlCode: item.controlCode,
+      //     chargeCode: item.chargeCode,
+      //     sourceNumber: contractNumber,
+      //     sourceSerialNumber: item.id
+      //   }
+      // })
+      // this.$emit('salecontractDetail', salecontractDetail)
+      this.$emit('salecontract', this.choosedata)
     }
     // 仓库管理员选择结束
   }

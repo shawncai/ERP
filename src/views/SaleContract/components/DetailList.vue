@@ -128,6 +128,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('update4.isSecondApply')" style="width: 100%;">
+                  <span>{{ personalForm.isSecondApply | isSecondApplyFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
                   <span>{{ personalForm.installmentCount }}</span>
                 </el-form-item>
@@ -338,6 +343,13 @@ import printJS from 'print-js'
 var _that
 export default {
   filters: {
+    isSecondApplyFilter(status) {
+      const statusMap = {
+        1: _that.$t('updates.yes'),
+        2: _that.$t('updates.no')
+      }
+      return statusMap[status]
+    },
     customerTypeFilter(status) {
       const statusMap = {
         1: '经销商',

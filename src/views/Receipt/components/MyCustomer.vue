@@ -224,8 +224,9 @@ export default {
         type: '',
         pagenum: 1,
         pagesize: 10,
-        repositoryid: '',
-        source: ''
+        source: '',
+        repositoryid: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
       },
       // 部门列表
       depts: [],

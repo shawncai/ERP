@@ -202,7 +202,7 @@ export default {
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       totalExist: 0,
       totalOnStock: 0
     }

@@ -696,7 +696,6 @@ export default {
         return res
       }))
       const processdata = needdata.data.data.content.list
-      this.total = needdata.data.data.content.totalCount
       const lists = await Promise.all(processdata.map(function(item) {
         return checkReceiptApply2(item.applyNumber)
       }))
@@ -727,6 +726,7 @@ export default {
 
       console.log('processdata', processdata)
       this.list = processdata
+      this.total = needdata.data.data.content.totalCount
       this.listLoading = false
       // 部门列表数据
       getdeptlist().then(res => {
@@ -749,15 +749,16 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      applylist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // applylist(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 供应商输入框focus事件触发
     handlechoose() {

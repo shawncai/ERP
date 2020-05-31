@@ -1076,13 +1076,14 @@ export default {
     getinformation4() {
       if (this.$store.getters.newsaleoutdata) {
         this.personalForm.sourceType = '2'
-        this.personalForm.saleType = '2'
+        this.personalForm.saleType = String(this.$store.getters.newsaleoutdata.saleType)
         this.installappley(this.$store.getters.newsaleoutdata)
         this.getReceivableMoney()
         this.$store.dispatch('getnewsaleoutdata', '')
       }
     },
     installappley(val) {
+      console.log('val', val)
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
@@ -1090,7 +1091,7 @@ export default {
       this.heji10 = 0
       this.Isproduct = true
       this.IsSourceNumber = false
-      if (this.$store.getters.newsaleoutdata.firstMoney !== '' && this.$store.getters.newsaleoutdata.firstMoney !== null && this.$store.getters.newsaleoutdata.firstMoney !== undefined) {
+      if (this.$store.getters.newsaleoutdata.firstMoney !== 0 && this.$store.getters.newsaleoutdata.firstMoney !== '' && this.$store.getters.newsaleoutdata.firstMoney !== null && this.$store.getters.newsaleoutdata.firstMoney !== undefined) {
         this.shouldMoney = this.$store.getters.newsaleoutdata.firstMoney
       }
       this.personalForm.customerType = this.$store.getters.newsaleoutdata.customerType.toString()
@@ -1218,6 +1219,7 @@ export default {
         this.personalForm.couponSupportOld = 0
       }
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+        console.log('1')
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.advanceMoney)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1227,7 +1229,7 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
-        ('123', 123)
+        console.log('firstmoney')
         let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1236,7 +1238,9 @@ export default {
         this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
+      } else if (this.shouldMoney !== '' && this.shouldMoney !== null && this.shouldMoney !== undefined) {
+        console.log('3')
+        console.log('this.shouldMoney', this.shouldMoney)
         let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -1246,6 +1250,7 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
+        console.log('4')
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
@@ -2201,6 +2206,7 @@ export default {
       }
     },
     salecontract(val) {
+      console.log('valcontract', val)
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
@@ -2228,6 +2234,7 @@ export default {
       if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
         this.personalForm.payType = String(val.payType)
       }
+
       this.getReceivableMoney()
     },
     recyclingdata(val) {

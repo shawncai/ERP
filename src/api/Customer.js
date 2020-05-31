@@ -38,6 +38,9 @@ export function customerlist(query) {
   if (query.customerphone !== '' && query.customerphone !== null && query.customerphone !== undefined) {
     params.append('customerphone', query.customerphone) // 你要传给后台的参数值 key/value
   }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({
@@ -561,6 +564,42 @@ export function manyinsert(query) {
   }
   return request({
     url: '/customer/manyinsert',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分期客户列表
+export function customerlistapply(query) {
+  var params = new URLSearchParams()
+  if (query.customername !== '' && query.customername !== null && query.customername !== undefined) {
+    params.append('customername', query.customername) // 你要传给后台的参数值 key/value
+  }
+  if (query.level !== '' && query.level !== null && query.level !== undefined) {
+    params.append('level', query.level) // 你要传给后台的参数值 key/value
+  }
+  if (query.createtime !== '' && query.createtime !== null && query.createtime !== undefined) {
+    params.append('createtime', query.createtime) // 你要传给后台的参数值 key/value
+  }
+  if (query.type !== '' && query.type !== null && query.type !== undefined) {
+    params.append('type', query.type) // 你要传给后台的参数值 key/value
+  }
+  // if (query.repositoryid !== '' && query.repositoryid !== null && query.repositoryid !== undefined) {
+  //   params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
+  // }
+  if (query.source !== '' && query.source !== null && query.source !== undefined) {
+    params.append('source', query.source) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerphone !== '' && query.customerphone !== null && query.customerphone !== undefined) {
+    params.append('customerphone', query.customerphone) // 你要传给后台的参数值 key/value
+  }
+  // if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+  //   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  // }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customer/customerlist2',
     method: 'post',
     data: params
   })

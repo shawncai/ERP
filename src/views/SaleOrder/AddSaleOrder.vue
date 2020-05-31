@@ -335,7 +335,7 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"
+                  @change="getdiscountMoney(scope.row, $event, scope)"
                   @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
@@ -506,6 +506,8 @@ import { countlist, getRate } from '@/api/public'
 import { createsaleOrder } from '@/api/SaleOrder'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
+import { searchRoleDiscount } from '@/api/BasicSettings'
+
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -958,10 +960,77 @@ export default {
       }
     },
     // 通过折扣额计算折扣
-    getdiscountMoney(row) {
-      console.log(row)
-      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+    getdiscountMoney(row, val, scope) {
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') {
+        const discountparms = {
+          typeId: row.type,
+          roleId: this.$store.getters.roleId,
+          category: 1,
+          pageNum: 1,
+          pageSize: 1
+        }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
+            } else {
+              const isoverdiscount = val / row.quantity
+              if (res.data.data.content.list[0].discountMoney < isoverdiscount) {
+                row.discountMoney = 0
+                row.discountRate = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              }
+            }
+          }
+          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+          }
+        })
+      } else {
+        const discountparms = {
+          roleId: this.$store.getters.roleId,
+          category: 2,
+          pageNum: 1,
+          pageSize: 1
+        }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              row.discountMoney = 0
+              row.discountRate = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
+            } else {
+              const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
+              if (isoverdiscount < val) {
+                row.discountMoney = 0
+                row.discountRate = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              }
+            }
+          }
+          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+          }
+        })
       }
     },
     // 计算金额

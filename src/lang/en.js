@@ -4417,6 +4417,8 @@ export default {
     fpshb: 'Distribute approvl packages',
     shb: 'approvl packages',
     bmpx: 'Coding order',
-    xhpx: 'Sort by number'
+    xhpx: 'Sort by number',
+    isSecondApply: 'isSecondApply',
+    ecfqzzdywly: 'The second installment is only for non-sourced'
   }
 }

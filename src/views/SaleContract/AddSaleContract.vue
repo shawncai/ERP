@@ -42,6 +42,7 @@
                   <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
+                  <my-customer2 :customercontrol.sync="customercontrol2" @customerdata="customerdata2"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -180,7 +181,15 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.isSecondApply')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isSecondApply" style="width: 200px" @change="changeIsSecond">
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.installmentCount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="width: 200px" @change="change">
                     <el-option
@@ -191,7 +200,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.dayOfMonth')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.dayOfMonth" :disabled="isinstallappley" :controls="false" :min="1" :max="31" style="width: 200px" placeholder="号"/>
                 </el-form-item>
@@ -201,35 +210,35 @@
               <!--<el-input v-model="personalForm.installmentAllMoney" style="width: 200px" clearable/>-->
               <!--</el-form-item>-->
               <!--</el-col>-->
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.installmentBegintime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.installmentBegintime"
                     :picker-options="pickerOptions0"
-                    :disabled="isinstallappley"
+                    disabled
                     type="month"
                     value-format="yyyy-MM"
                     style="width: 200px"
                     @change="clearfinal"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.installmentEndtime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.installmentEndtime"
                     :picker-options="pickerOptions1"
-                    :disabled="isinstallappley"
+                    disabled
                     type="month"
                     value-format="yyyy-MM"
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.notaryPerson')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.notaryPerson" :disabled="isinstallappley" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.notaryDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.notaryDate"
@@ -240,9 +249,19 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.firstMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.firstMoney" :precision="6" :controls="false" :disabled="isinstallappley" style="width: 200px" clearable/>
+                  <el-input-number v-model="personalForm.firstMoney" :precision="6" :controls="false" :disabled="isinstallappley" style="width: 200px" clearable @change="changefirstmoney"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.totalMoney" disabled style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleContract.eachMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.eachMoney" disabled style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -264,16 +283,6 @@
                   </el-upload>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.installmentAllMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.totalMoney" :disabled="isinstallappley" style="width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.eachMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.eachMoney" :disabled="isinstallappley" style="width: 200px" clearable/>
-                </el-form-item>
-              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -287,6 +296,8 @@
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
+          <el-button :disabled="isinstallappley" type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+
         </div>
         <div class="container">
           <el-editable
@@ -480,11 +491,12 @@ import MyInstallmentapply from './components/MyInstallmentapply'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
 import MyPackage from './components/MyPackage'
+import MyCustomer2 from './components/MyCustomer2'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddSaleContract',
-  components: { MyAgent, MyPackage, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyAgent, MyPackage, MyCustomer, MyCustomer2, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
@@ -518,6 +530,7 @@ export default {
       }
     }
     return {
+      rate: 0,
       pickerOptions4: {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.personalForm.signDate).getTime() - 8.64e7
@@ -542,6 +555,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      customercontrol2: false,
       picidsData: {
         type: 26
       },
@@ -637,6 +651,7 @@ export default {
       },
       // 控制商品列表窗口
       control: false,
+      price: 0,
       // 采购申请单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
@@ -657,7 +672,10 @@ export default {
         sourceType: '3',
         taxRate: 0,
         saleType: '1',
-        contractStat: '1'
+        contractStat: '1',
+        isSecondApply: 2,
+        totalMoney: 0,
+        firstMoney: 0
       },
       needarr: [],
       // 采购申请单规则数据
@@ -701,6 +719,21 @@ export default {
       moreaction: []
     }
   },
+  watch: {
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        for (const i in this.list2) {
+          num += Number(this.list2[i].includeTaxMoney)
+        }
+        if (this.personalForm.isSecondApply === 1) {
+          this.price = num
+          this.changefirstmoney()
+        }
+      },
+      deep: true
+    }
+  },
   created() {
     this.getTypes()
     this.getways()
@@ -717,8 +750,70 @@ export default {
     _that = this
   },
   methods: {
+    geteachmoney() {
+      const date = new Date()
+      let byear = 0
+      let bmonth = 0
+      let eyear = 0
+      let emonth = 0
+      if (date.getMonth() + 2 >= 12) {
+        byear = date.getFullYear() + 1
+        bmonth = date.getMonth() - 10
+      } else {
+        byear = date.getFullYear()
+        bmonth = date.getMonth() + 2
+      }
+      if (bmonth + this.personalForm.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12) + 1
+        emonth = bmonth + this.personalForm.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12)
+        emonth = bmonth + this.personalForm.installmentCount % 12
+      }
+      this.personalForm.installmentBegintime = `${byear}-${bmonth}`
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+    },
+    clearinstallinformation() {
+      this.personalForm.isSecondApply = 2
+      this.personalForm.totalMoney = 0
+      this.personalForm.firstMoney = 0
+      this.personalForm.installmentCount = ''
+      this.personalForm.dayOfMonth = ''
+      this.personalForm.eachMoney = ''
+      this.personalForm.installmentEndtime = null
+      this.personalForm.installmentBegintime = null
+      this.rate = 0
+      this.price = 0
+    },
+    changeIsSecond(val) {
+      console.log('val', val)
+      if (val === 1 && this.personalForm.sourceType === '3') {
+        this.isinstallappley = false
+        this.personalForm.saleType = '2'
+        if (this.personalForm.totalMoney !== 0) {
+          this.clearinstallinformation()
+        }
+      } else if (val === 2 && this.personalForm.sourceType === '3') {
+        this.isinstallappley = true
+        if (this.personalForm.totalMoney !== 0) {
+          this.clearinstallinformation()
+        }
+      }
+
+      if (this.personalForm.sourceType !== '3' && val === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'The second installment is only for non-sourced',
+          offset: 100
+        })
+        this.personalForm.isSecondApply = 2
+      }
+    },
     changesaletype() {
       if (this.personalForm.sourceType === '2') {
+        this.personalForm.saleType = '2'
+      } else if (this.personalForm.sourceType === '3' && this.personalForm.isSecondApply === 1) {
         this.personalForm.saleType = '2'
       }
     },
@@ -820,6 +915,7 @@ export default {
       if (this.$store.getters.empcontract) {
         this.personalForm.sourceType = '2'
         this.personalForm.saleType = '2'
+        this.personalForm.isSecondApply = 2
         this.isinstallappley = true
         this.installappley(this.$store.getters.empcontract[0])
         console.log('empcontract', this.$store.getters.empcontract)
@@ -963,23 +1059,73 @@ export default {
     //   this.personalForm.signDate = currentdate
     //   this.personalForm.installmentBegintime = currentdate
     // },
-    change() {
-      this.$forceUpdate()
-      console.log('期数', this.personalForm.installmentCount)
-      console.log('开始时间', this.personalForm.installmentBegintime.split('-'))
-      const byear = Number(this.personalForm.installmentBegintime.split('-')[0])
-      const bmonth = Number(this.personalForm.installmentBegintime.split('-')[1])
-      let eyear = 0
-      let emonth = 0
-      if (bmonth + this.personalForm.installmentCount % 12 >= 12) {
-        eyear = byear + parseInt(this.personalForm.installmentCount / 12) + 1
-        emonth = bmonth + this.personalForm.installmentCount % 12 - 12
-      } else {
-        eyear = byear + parseInt(this.personalForm.installmentCount / 12)
-        emonth = bmonth + this.personalForm.installmentCount % 12
+    changefirstmoney() {
+      console.log('首付款', this.personalForm.firstMoney)
+      if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
+        if (this.price != null && this.price !== '' && this.price !== undefined) {
+          if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
+            }
+          }
+        }
       }
-      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
-      this.personalForm.eachMoney = ((this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount).toFixed(6)
+      this.geteachmoney()
+    },
+    change(val) {
+      console.log('首付款', this.personalForm.firstMoney)
+      // console.log('val', val)
+      // console.log('this.installmentCounts', this.installmentCounts)
+      const needval = this.installmentCounts.find(item => {
+        if (item.installmentCount === val) {
+          return (item)
+        }
+      })
+      console.log('needval', needval)
+      this.rate = needval.rate
+      console.log('this.rate', this.rate)
+      this.rate = needval.rate
+      console.log('折扣2', this.rate)
+      if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
+        if (this.price != null && this.price !== '' && this.price !== undefined) {
+          if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined) {
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
+            }
+          }
+        }
+      }
+      this.geteachmoney()
+      console.log('this.personalForm.totalMoney', this.personalForm.totalMoney)
+
+      // this.$forceUpdate()
+      // console.log('期数', this.personalForm.installmentCount)
+      // console.log('开始时间', this.personalForm.installmentBegintime.split('-'))
+      // const byear = Number(this.personalForm.installmentBegintime.split('-')[0])
+      // const bmonth = Number(this.personalForm.installmentBegintime.split('-')[1])
+      // let eyear = 0
+      // let emonth = 0
+      // if (bmonth + this.personalForm.installmentCount % 12 >= 12) {
+      //   eyear = byear + parseInt(this.personalForm.installmentCount / 12) + 1
+      //   emonth = bmonth + this.personalForm.installmentCount % 12 - 12
+      // } else {
+      //   eyear = byear + parseInt(this.personalForm.installmentCount / 12)
+      //   emonth = bmonth + this.personalForm.installmentCount % 12
+      // }
+      // this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      // this.personalForm.eachMoney = ((this.personalForm.totalMoney - this.personalForm.firstMoney) / this.personalForm.installmentCount).toFixed(6)
     },
     // 获取分期期数
     getratelist() {
@@ -1000,12 +1146,20 @@ export default {
       if (this.personalForm.customerType === '1') {
         this.agentcontrol = true
         this.$forceUpdate()
-      } else if (this.personalForm.customerType === '2') {
+      } else if (this.personalForm.customerType === '2' && this.personalForm.isSecondApply === 2) {
         this.customercontrol = true
+        this.$forceUpdate()
+      } else if (this.personalForm.customerType === '2' && this.personalForm.isSecondApply === 1) {
+        this.customercontrol2 = true
         this.$forceUpdate()
       }
     },
     customerdata(val) {
+      this.personalForm.customerId = val.id
+      this.customerId = val.customerName
+      this.personalForm.customerPhone = val.phoneNumber
+    },
+    customerdata2(val) {
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
@@ -1260,13 +1414,20 @@ export default {
         this.personalForm.installmentCount = ''
         this.isinstallappley = true
         this.canclick = true
-      } else if (this.personalForm.sourceType === '3') {
+      } else if (this.personalForm.sourceType === '3' && this.personalForm.isSecondApply === 2) {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
         this.isinstallappley = true
         this.canclick = false
+      } else if (this.personalForm.sourceType === '3' && this.personalForm.isSecondApply === 1) {
+        this.$refs.editable.clear()
+        this.personalForm.sourceNumber = ''
+        this.personalForm.installmentCount = ''
+        this.isinstallappley = false
+        this.canclick = false
       }
+      this.clearinstallinformation()
     },
     // 从源单中添加商品
     handleAddSouce() {
@@ -1464,8 +1625,13 @@ export default {
         sourceType: '3',
         taxRate: 0,
         saleType: '1',
-        contractStat: '1'
+        contractStat: '1',
+        isSecondApply: 2,
+        totalMoney: 0,
+        firstMoney: 0
       }
+      this.rate = 0
+      this.price = 0
       this.supplierId = null
       this.inquiryPersonId = null
       this.stockPersonId = null
@@ -1481,6 +1647,28 @@ export default {
     },
     // 保存操作
     handlesave() {
+      if (this.personalForm.isSecondApply === 1 && !this.personalForm.installmentCount) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'installment terms is empty',
+          offset: 100
+        })
+        return false
+      } else if (this.personalForm.isSecondApply === 1 && !this.personalForm.dayOfMonth) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'due date is empty',
+          offset: 100
+        })
+        return false
+      } else if (this.personalForm.isSecondApply === 1 && !this.personalForm.firstMoney) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'down payment is empty',
+          offset: 100
+        })
+        return false
+      }
       this.personalForm.installmentAllMoney = this.personalForm.totalMoney
       const EnterDetail2 = this.$refs.editable.getRecords()
       console.log('EnterDetail', EnterDetail2)

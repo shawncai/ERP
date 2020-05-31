@@ -161,6 +161,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('update4.isSecondApply')" style="width: 100%;">
+                <span>{{ personalForm.isSecondApply | isSecondApplyFilter }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('SaleContract.installmentCount')" style="width: 100%;">
                 <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="margin-left: 18px;width: 200px" @change="change">
                   <el-option
@@ -329,7 +334,7 @@
                 :precision="6"
                 :controls="false"
                 v-model="scope.row.taxRate"
-                @change="gettaxRate(scope.row)"/>
+                @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="170px">
@@ -363,7 +368,8 @@
                 :precision="6"
                 :controls="false"
                 v-model="scope.row.discountMoney"
-                @change="getdiscountMoney(scope.row, $event, scope)"/>
+                @change="getdiscountMoney(scope.row, $event, scope)"
+                @input="notundefined(scope.row)"/>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
@@ -404,6 +410,15 @@ import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
 var _that
 export default {
   components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyAgent },
+  filters: {
+    isSecondApplyFilter(status) {
+      const statusMap = {
+        1: _that.$t('updates.yes'),
+        2: _that.$t('updates.no')
+      }
+      return statusMap[status]
+    }
+  },
   props: {
     editcontrol: {
       type: Boolean,
@@ -842,6 +857,9 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      if (row.taxRate === undefined) {
+        this.$set(row, 'taxRate', 0)
+      }
       if (row.taxprice !== 0) {
         row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       }
@@ -857,6 +875,14 @@ export default {
         // row.discountMoney = row.taxprice * row.quantity
       } else {
         // row.discountMoney = (row.taxprice * row.quantity * (row.discount / 100)).toFixed(6)
+      }
+    },
+    notundefined(row) {
+      if (row.discount === undefined) {
+        this.$set(row, 'discount', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
       }
     },
     // 通过折扣额计算折扣

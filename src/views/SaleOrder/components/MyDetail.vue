@@ -307,6 +307,7 @@ export default {
           productTypeName: item.productType,
           productType: item.typeId,
           typeId: item.typeId,
+          type: item.typeId,
           color: item.color,
           unit: item.saleMeasu,
           performanceScore: item.kpiGrade,

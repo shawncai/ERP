@@ -136,8 +136,23 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span v-if="scope.row.InvestigationResult">{{ $t('prompt.ydc') }}</span>
+            <span v-else>{{ $t('prompt.wdc') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('InstallmentApply.investigationDetail')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span v-if="scope.row.InvestigationResult" class="link-type" @click="handlerdetail(scope.row)">{{ scope.row.InvestigationResult | resultFilter }}</span>
+            <span v-else>{{ $t('prompt.wu') }}</span>
+          </template>
+          <detail-list2 :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm2"/>
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
+            <el-button v-show="scope.row.inquirePersonId !== null && scope.row.judgeStat === 0 && scope.row.isSecondApply === 1" size="mini" type="primary" @click="handleDispatch2(scope.row)">{{ $t('otherlanguage.zcfp') }}</el-button>
+            <el-button v-show="scope.row.inquirePersonId === null && scope.row.judgeStat !== 4 && scope.row.isSecondApply === 1" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
             <el-button v-permission2="['54-65-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['54-65-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
@@ -152,6 +167,23 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <el-dialog :visible.sync="isvisible" title="分派调查员" append-to-body width="600px" class="normal" center lock-scroll>
+        <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
+          <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
+            <el-select v-model="dispatchform.id" filterable>
+              <el-option
+                v-for="(item, index) in options2"
+                :key="index"
+                :label="item.personName"
+                :value="item.id"/>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="isvisible = false">{{ $t('repair.cancel') }}</el-button>
+          <el-button type="primary" @click="dispatch">{{ $t('repair.ok') }}</el-button>
+        </div>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -161,6 +193,9 @@ import { searchsaleContract, deletesaleContract, updatesaleContract2 } from '@/a
 import { searchsaleOut } from '@/api/SaleOut'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { CustomerSurveyReportList2 } from '@/api/CustomerSurveyReport'
+import { getremplist2, addtaskoffline } from '@/api/repair'
+import { updateapply2 } from '@/api/InstallmentApply'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -171,13 +206,21 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import DetailList2 from './components/DetailList2'
 
 var _that
 export default {
   name: 'SaleContractList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, DetailList2 },
   filters: {
+    resultFilter(status) {
+      const statusMap = {
+        1: _that.$t('prompt.tg'),
+        2: _that.$t('prompt.btg')
+      }
+      return statusMap[status]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),
@@ -211,6 +254,15 @@ export default {
   },
   data() {
     return {
+      // 用户调查数据
+      personalForm2: {},
+      detailvisible2: false,
+      dispatchform: {
+        id: ''
+      },
+      formLabelWidth: '150px',
+      options2: [],
+      isvisible: false,
       tableHeight: 200,
       // 回显客户
       customerName: '',
@@ -268,7 +320,9 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      // 自动创建列表
+      form: {}
     }
   },
   activated() {
@@ -287,6 +341,72 @@ export default {
     _that = this
   },
   methods: {
+    handlerdetail(row) {
+      console.log(row)
+      this.detailvisible2 = true
+      this.personalForm2 = Object.assign({}, row.InvestigationDetailvos[0])
+    },
+    handleDispatch(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.form.taskType = 3
+        this.form.taskname = '分期收款任务'
+        this.form.repositoryId = row.saleRepositoryId
+        this.form.customerName = row.firstName + ' ' + row.middleName + ' ' + row.lastName
+        this.form.taskaddress = row.currentAddress
+        this.form.employeeId = row.inquirePersonId
+        this.form.taskcontent = '分期申请调查'
+        this.form.sourceNumber = row.applyNumber
+        this.form.createId = row.createPersonId
+        this.form.remarks = ''
+        this.options2 = res.data.data.content.list
+      })
+    },
+    restdispatchform() {
+      this.dispatchform = {
+        id: ''
+      }
+    },
+    handleDispatch2(row) {
+      this.restdispatchform()
+      this.formdata = Object.assign({}, row)
+      this.isvisible = true
+      console.log(row)
+      getremplist2(this.$store.getters.repositoryId, this.$store.getters.regionId).then(res => {
+        this.options2 = res.data.data.content.list
+      })
+    },
+    dispatch() {
+      const tempData = Object.assign({}, this.formdata)
+      this.reviewParms.id = tempData.id
+      this.reviewParms.inquirePersonId = this.dispatchform.id
+      for (const key in this.reviewParms) {
+        if (key === 'judgePersonId' || key === 'judgeStat') {
+          delete this.reviewParms[key]
+        }
+      }
+      const parms = JSON.stringify(this.reviewParms)
+      updatesaleContract2(parms).then(res => {
+        if (res.data.ret === 200) {
+          // 自动生成线下任务单
+          this.form.employeeId = this.dispatchform.id
+          addtaskoffline(this.form).then(res => {
+            console.log(res)
+          })
+          this.isvisible = false
+          this.$notify({
+            title: 'successful',
+            message: 'successful',
+            type: 'success',
+            duration: 1000
+          })
+          this.getlist()
+        }
+      })
+    },
     // 反审核
     handleReview4(row) {
       this.reviewParms = {}
@@ -451,18 +571,46 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    getlist() {
+    async getlist() {
+      const regionIds = this.$store.getters.regionId
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleContract(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
+
+      const listdata = await searchsaleContract(this.getemplist).then(res => {
+        return res.data.data.content
       })
+      console.log('listdata', listdata)
+      const reportdata = await Promise.all(listdata.list.map(function(item) {
+        return CustomerSurveyReportList2({
+          applyNumber: item.number,
+          regionIds: regionIds
+        })
+      }))
+      console.log('reportdata', reportdata)
+      for (const i in listdata.list) {
+        for (const j in reportdata) {
+          if (reportdata[j].data.data.content.list.length > 0) {
+            if (listdata.list[i].number === reportdata[j].data.data.content.list[0].sourceNumber) {
+              listdata.list[i].InvestigationResult = reportdata[j].data.data.content.list[0].result
+              listdata.list[i].InvestigationDetailvos = reportdata[j].data.data.content.list
+            }
+          }
+        }
+      }
+      console.log('listdata', listdata)
+      this.listLoading = false
+      this.list = listdata.list
+      this.total = listdata.totalCount
+
+      // searchsaleContract(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     this.total = res.data.data.content.totalCount
+      //   }
+      //   setTimeout(() => {
+      //     this.listLoading = false
+      //   }, 0.5 * 100)
+      // })
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -575,7 +723,13 @@ export default {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
+          if (row.InvestigationResult === 1 && row.isSecondApply === 1) {
+            return true
+          } else if (row.InvestigationResult === 2 && row.isSecondApply === 1) {
+            return false
+          } else {
+            return true
+          }
         }
       }
     },

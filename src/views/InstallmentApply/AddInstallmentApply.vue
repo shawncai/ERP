@@ -174,7 +174,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="28.00" :controls="false" style="width: 200px" clearable/>
+                  <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="31.00" :controls="false" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -1713,10 +1713,27 @@ export default {
   }
 }
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .ERP-container{
     margin-right: 0;
+  }
     .form-name{
       font-weight: bold;
       font-size: 18px;
@@ -1730,5 +1747,5 @@ export default {
     .el-button+.el-button{
       width: 98px;
     }
-  }
+
 </style>

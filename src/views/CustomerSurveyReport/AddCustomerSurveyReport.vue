@@ -17,6 +17,8 @@
                 <el-form-item :label="$t('CustomerSurveyReport.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <el-option :label="$t('prompt.fqsq')" value="2" />
+                    <el-option :label="$t('prompt.xsht')" value="3"/>
+
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -26,6 +28,8 @@
                 </el-form-item>
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
                 <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
+                <my-contract :contractcontrol.sync="contractcontrol" @salecontract="salecontract"/>
+
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerSurveyReport.customerName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -184,10 +188,12 @@ import MyOpportunity from './components/MyOpportunity'
 import MyInstallmentapply from './components/MyInstallmentapply'
 import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
+import MyContract from './components/MyContract'
+
 var _that
 export default {
   name: 'AddCustomerSurveyReport',
-  components: { MyAgent, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyAgent, MyContract, MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
@@ -245,6 +251,7 @@ export default {
           return time.getTime() >= new Date().getTime() - 8.64e7
         }
       },
+      contractcontrol: false,
       picidsData: {
         type: 25
       },
@@ -532,8 +539,8 @@ export default {
       this.personalForm.installmentEndtime = null
     },
     chooseData() {
-      if (this.personalForm.sourceType === '1') {
-        this.opportunitycontrol = true
+      if (this.personalForm.sourceType === '3') {
+        this.contractcontrol = true
       } else if (this.personalForm.sourceType === '2') {
         this.installappleycontrol = true
       }
@@ -661,11 +668,14 @@ export default {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
+        this.personalForm.customerName = ''
         this.isinstallappley = true
       } else if (this.personalForm.sourceType === '2') {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
+        this.personalForm.customerName = ''
+
         this.isinstallappley = false
       }
     },
@@ -720,6 +730,13 @@ export default {
         }
         this.$refs.editable.insert(val[i])
       }
+    },
+    salecontract(val) {
+      console.log('val', val)
+      this.personalForm.sourceNumber = val.number
+      this.personalForm.customerName = val.customerName
+      this.personalForm.surveyPersonId = val.inquirePersonId
+      this.surveyPersonId = val.inquirePersonName
     },
     installappley(val) {
       console.log('val', val)
