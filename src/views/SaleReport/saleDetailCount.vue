@@ -17,6 +17,7 @@
       <el-input v-model="saleRepositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-cascader
+        v-show="ishidden"
         :options="regions"
         :props="props"
         v-model="getemplist.region"
@@ -303,6 +304,7 @@ export default {
   },
   data() {
     return {
+      ishidden: false,
       tableHeight: 50,
       // 更多搜索条件问题
       visible2: false,
@@ -397,6 +399,7 @@ export default {
 
   mounted() {
     this.gettype()
+    this.judgehidden()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
     }, 100)
@@ -405,6 +408,13 @@ export default {
     _that = this
   },
   methods: {
+    judgehidden() {
+      if (this.$store.getters.repositoryId === 0) {
+        this.ishidden = true
+      } else {
+        this.ishidden = false
+      }
+    },
     // 清空搜索条件
     restFilter() {
       this.createPersonId = ''

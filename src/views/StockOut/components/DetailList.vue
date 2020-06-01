@@ -572,7 +572,7 @@ export default {
           { field: 'outQuantity', displayName: '出库数量', columnSize: `100px` }
         ],
         header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
                       <div class="ordername">其他出库列表</div>
                         <br>

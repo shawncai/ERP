@@ -701,7 +701,7 @@ export default {
             { field: 'deliveryDate', displayName: '需求日期', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
                       <div class="ordername">销售订单列表</div>
                         <br>
@@ -797,7 +797,7 @@ export default {
                 { field: 'deliveryDate', displayName: '需求日期', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
                       <div class="ordername">销售订单列表</div>
                         <br>

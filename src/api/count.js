@@ -934,6 +934,12 @@ export function searchSaleOrderReport(query) {
   if (query.customerType !== '' && query.customerType !== null && query.customerType !== undefined) {
     params.append('customerType', query.customerType) // 你要传给后台的参数值 key/value
   }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
     params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   }
@@ -957,6 +963,9 @@ export function searchSaleOrderDetailReport(query) {
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.productCategory !== '' && query.productCategory !== null && query.productCategory !== undefined) {
     params.append('productCategory', query.productCategory) // 你要传给后台的参数值 key/value
@@ -993,6 +1002,12 @@ export function searchSaleReport(query) {
   }
   if (query.customerType !== '' && query.customerType !== null && query.customerType !== undefined) {
     params.append('customerType', query.customerType) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
     params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value

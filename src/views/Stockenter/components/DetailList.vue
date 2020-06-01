@@ -733,7 +733,7 @@ export default {
             { field: 'remarks', displayName: '备注', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
                       <div class="ordername">采购入库单</div>
                         <br>
@@ -838,7 +838,7 @@ export default {
                 { field: 'remarks', displayName: '备注', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
-                    <div class="custom-p"> 江苏新世窗国际贸易有限公司 </div>
+                    <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
                       <div class="ordername">采购入库单</div>
                         <br>

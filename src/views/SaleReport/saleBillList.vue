@@ -12,8 +12,8 @@
         <el-option :label="$t('otherlanguage.pjj')" value="7"/>
         <el-option :label="$t('otherlanguage.hj')" value="8"/>
       </el-select>
-
       <el-cascader
+        v-show="ishidden"
         :options="regions"
         :props="props"
         v-model="getemplist.region"
@@ -24,7 +24,6 @@
         clearable
         @change="handlechange4"
       />
-
       <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
@@ -303,6 +302,7 @@ export default {
   },
   data() {
     return {
+      ishidden: false,
       props: {
         value: 'id',
         label: 'regionName',
@@ -388,6 +388,7 @@ export default {
 
   mounted() {
     this.gettype()
+    this.judgehidden()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 150
     }, 100)
@@ -396,6 +397,13 @@ export default {
     _that = this
   },
   methods: {
+    judgehidden() {
+      if (this.$store.getters.repositoryId === 0) {
+        this.ishidden = true
+      } else {
+        this.ishidden = false
+      }
+    },
     handleReceipt2(row) {
       this.getemplist.productCode = row.productCode
       saleBillListDetail(this.getemplist).then(res => {

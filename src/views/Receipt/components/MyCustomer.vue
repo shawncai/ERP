@@ -311,6 +311,15 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
+      this.getemplist.regionIds = ''
+      if (!this.getemplist.repositoryid) {
+        this.getemplist.repositoryid = 0
+      }
+
+      if (!this.getemplist.customername && !this.getemplist.customerphone && !this.getemplist.type && !this.getemplist.source && !this.getemplist.level) {
+        this.getemplist.repositoryId = this.$store.getters.repositoryId
+        this.getemplist.regionIds = this.$store.getters.regionIds
+      }
       customerlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

@@ -84,7 +84,7 @@
           <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
           <el-button :disabled="addsouce" size="mini" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @apply2="apply2" @allinfo="allinfo"/>
-          <my-require :requirecontrol.sync="requirecontrol" @require="requiredata" @require2="requiredata2"/>
+          <my-require :requirecontrol.sync="requirecontrol" :requirerep.sync="requirerep" @require="requiredata" @require2="requiredata2"/>
           <el-button type="danger" size="mini" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" size="mini" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -341,6 +341,7 @@ export default {
       }
     }
     return {
+      requirerep: '',
       repositorycontrol: false,
       planRepositoryId: this.$store.getters.repositoryName,
       suppliers: [],
@@ -921,6 +922,11 @@ export default {
       if (this.personalForm.sourceType === '1') {
         this.applycontrol = true
       } else if (this.personalForm.sourceType === '2') {
+        if (!this.personalForm.planRepositoryId) {
+          this.requirerep = String(this.$store.getters.repositoryId)
+        } else {
+          this.requirerep = String(this.personalForm.planRepositoryId)
+        }
         this.requirecontrol = true
       }
     },
