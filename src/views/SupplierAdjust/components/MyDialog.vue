@@ -49,7 +49,7 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 5px;margin-bottom: 20px" shadow="never">
+    <el-card class="box-card" style="margin-top: 5px;margin-bottom: 160px" shadow="never">
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订货单明细</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
@@ -85,11 +85,12 @@
           </el-editable-column>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.cgdxj')" prop="newPrice" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
                 v-model="scope.row.newIncludeTaxPrice"
+                @input="calcnewprice(scope.row, scope)"
                 @keyup.enter.native = "getincludeTaxPrice(scope.row, scope)"/>
             </template>
           </el-editable-column>
@@ -370,7 +371,7 @@ export default {
           console.log(row)
         }
       }
-      row.newSalePrice = row.calcitem / 100 * row.newPrice
+      row.newSalePrice = row.calcitem / 100 * row.newIncludeTaxPrice
     },
     // 重置一下下拉
     change() {
@@ -870,6 +871,11 @@ export default {
         val.supplierDetailVos[i].typeId = val.supplierDetailVos[i].type
         val.supplierDetailVos[i].type = val.supplierDetailVos[i].productTypeName
         val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
+        val.supplierDetailVos[i].oldIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
+        val.supplierDetailVos[i].oldTaxRate = val.supplierDetailVos[i].taxRate
+        val.supplierDetailVos[i].newPrice = val.supplierDetailVos[i].price
+        val.supplierDetailVos[i].newIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
+        val.supplierDetailVos[i].newTaxRate = val.supplierDetailVos[i].taxRate
         this.$refs.editable.insert(val.supplierDetailVos[i])
       }
       this.supplierId = val.supplierName

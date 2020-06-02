@@ -366,6 +366,7 @@ export default {
             offset: 100
           })
         }
+        this.$refs.newApprovalTable.clear()
         this.saveloding = false
         this.clearNewParms()
         this.getlist()

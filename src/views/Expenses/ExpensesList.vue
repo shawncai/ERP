@@ -151,6 +151,11 @@
             <span>{{ scope.row.expensesAccount }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.hzje')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.resultmoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('income.currency')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.currency | currencyFilter }}</span>
@@ -639,6 +644,19 @@ export default {
       searchexpenses(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          const listdata = res.data.data.content.list.map(item => {
+            return item.expensesDetailVos
+          })
+          const dataarr = [].concat.apply([], listdata)
+          const obj = this.trans(dataarr)
+          for (const i in this.list) {
+            for (const j in obj) {
+              if (this.list[i].id === obj[j].primaryTableId) {
+                this.list[i].resultmoney = obj[j].money
+              }
+            }
+          }
+
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -651,6 +669,25 @@ export default {
           this.colseTypes = res.data.data.content.list
         }
       })
+    },
+    trans(arr) {
+      const obj = {}
+      const result = []
+      arr.forEach(({ primaryTableId, money }) => {
+        const cur = obj[primaryTableId]
+        if (cur) {
+          const index = cur.index
+          result[index].money += money
+        } else {
+          const index = result.length
+          obj[primaryTableId] = {
+            primaryTableId,
+            index
+          }
+          result.push({ primaryTableId, money })
+        }
+      })
+      return result
     },
     // 清空搜索条件
     restFilter() {
@@ -671,6 +708,18 @@ export default {
       searchexpenses(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          const listdata = res.data.data.content.list.map(item => {
+            return item.expensesDetailVos
+          })
+          const dataarr = [].concat.apply([], listdata)
+          const obj = this.trans(dataarr)
+          for (const i in this.list) {
+            for (const j in obj) {
+              if (this.list[i].id === obj[j].primaryTableId) {
+                this.list[i].resultmoney = obj[j].money
+              }
+            }
+          }
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

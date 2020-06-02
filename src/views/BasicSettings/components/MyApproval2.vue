@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="repositoryVisible" :repositorycontrol="repositorycontrol" :close-on-press-escape="false" top="10px" title="选择仓库" append-to-body @close="$emit('update:repositorycontrol', false)">
+  <el-dialog :visible.sync="repositoryVisible" :repositorycontrol="repositorycontrol" :close-on-press-escape="false" top="10px" title="选择单据" append-to-body @close="$emit('update:repositorycontrol', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.process_name" :placeholder="$t('BasicSettings.process_name')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>

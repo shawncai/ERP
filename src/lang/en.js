@@ -4419,6 +4419,8 @@ export default {
     bmpx: 'Coding order',
     xhpx: 'Sort by number',
     isSecondApply: 'isSecondApply',
-    ecfqzzdywly: 'The second installment is only for non-sourced'
+    ecfqzzdywly: 'The second installment is only for non-sourced',
+    hzje: 'Aggregate amount'
+
   }
 }

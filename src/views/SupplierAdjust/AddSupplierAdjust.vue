@@ -95,6 +95,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.newIncludeTaxPrice"
+                  @input="calcnewprice(scope.row, scope)"
                   @keyup.enter.native = "getincludeTaxPrice(scope.row, scope)"/>
               </template>
             </el-editable-column>
@@ -356,7 +357,7 @@ export default {
           console.log(row)
         }
       }
-      row.newSalePrice = row.calcitem / 100 * row.newPrice
+      row.newSalePrice = row.calcitem / 100 * row.newIncludeTaxPrice
     },
     // 计算单价
     getprice(row) {
@@ -543,9 +544,9 @@ export default {
         val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
         val.supplierDetailVos[i].oldIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
         val.supplierDetailVos[i].oldTaxRate = val.supplierDetailVos[i].taxRate
-        val.supplierDetailVos[i].newPrice = 0
-        val.supplierDetailVos[i].newIncludeTaxPrice = 0
-        val.supplierDetailVos[i].newTaxRate = 0
+        val.supplierDetailVos[i].newPrice = val.supplierDetailVos[i].price
+        val.supplierDetailVos[i].newIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
+        val.supplierDetailVos[i].newTaxRate = val.supplierDetailVos[i].taxRate
         this.$refs.editable.insert(val.supplierDetailVos[i])
       }
       this.supplierId = val.supplierName

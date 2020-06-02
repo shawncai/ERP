@@ -383,3 +383,29 @@ for (i in a){
     a[i] = Object.assign(a[i],b[i])
 }
 ```
+
+#### json中key值相同时把其他值相加合并
+
+```
+function trans (arr) {
+  let obj = {}
+  let result = []
+  arr.forEach(({name, value}) => {
+    let cur = obj[name]
+    if (cur) {
+      let index = cur.index
+      result[index].value += value
+    } else {
+      let index = result.length
+      obj[name] = {
+        name,
+        index
+      }
+      result.push({name, value})
+    }
+  })
+  return result
+}
+var arr = [{name: "上海", value: 1},{name: "上海", value: 2},{name: "北京", value: 3},{name: "杭州", value: 2}]
+trans(arr)
+```

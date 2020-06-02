@@ -727,7 +727,9 @@ export default {
             return true
           } else if (row.InvestigationResult === 2 && row.isSecondApply === 1) {
             return false
-          } else {
+          } else if (!row.InvestigationResult && row.isSecondApply === 1) {
+            return false
+          } else if (!row.InvestigationResult && row.isSecondApply === 2) {
             return true
           }
         }

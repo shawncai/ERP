@@ -98,6 +98,11 @@
             <span>{{ scope.row.transferTicket }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.hzje')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.resultmoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Transfer.transferMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.transferMoney }}</span>
@@ -421,6 +426,18 @@ export default {
           // const detaildata = res.data.data.content.list.map(item => {
           //   return item.approvalUseVos
           // })
+          const listdata = res.data.data.content.list.map(item => {
+            return item.transferDetailVos
+          })
+          const dataarr = [].concat.apply([], listdata)
+          const obj = this.trans(dataarr)
+          for (const i in this.list) {
+            for (const j in obj) {
+              if (this.list[i].id === obj[j].transferId) {
+                this.list[i].resultmoney = obj[j].money
+              }
+            }
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -433,6 +450,25 @@ export default {
           this.colseTypes = res.data.data.content.list
         }
       })
+    },
+    trans(arr) {
+      const obj = {}
+      const result = []
+      arr.forEach(({ transferId, money }) => {
+        const cur = obj[transferId]
+        if (cur) {
+          const index = cur.index
+          result[index].money += money
+        } else {
+          const index = result.length
+          obj[transferId] = {
+            transferId,
+            index
+          }
+          result.push({ transferId, money })
+        }
+      })
+      return result
     },
     // 清空搜索条件
     restFilter() {

@@ -24,7 +24,18 @@
       <!-- 表格导出操作 -->
       <el-button v-permission="['104-114-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
+      <el-button v-permission="['104-114-7']" v-waves size="small" class="filter-item2" style="width: 86px" @click="handleImport"> <svg-icon icon-class="daochu"/>{{ $t('updates.drsj') }}</el-button>
       <!-- <el-button v-permission="['104-114-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
+      <el-dialog
+        :visible.sync="dialogVisible"
+        title="导入数据"
+        class="normal"
+        width="600px">
+        <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload"/>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
       <!-- 新建操作 -->
       <el-button v-permission="['1-22-255-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -108,7 +119,7 @@
 </template>
 
 <script>
-import { SupplierAdjustlist, deleteSupplierAdjust, updateSupplierAdjust2 } from '@/api/SupplierAdjust'
+import { SupplierAdjustlist, deleteSupplierAdjust, updateSupplierAdjust2, addSupplierAdjust } from '@/api/SupplierAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { checkReceiptOrder } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -121,12 +132,13 @@ import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
+import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 
 var _that
 export default {
   name: 'SupplierAdjustList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier, UploadExcelComponent },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -164,6 +176,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       tableHeight: 200,
       step1: '',
       step2: '',
@@ -202,7 +215,7 @@ export default {
       // 采购人控制框
       stockControl: false,
       // 批量操作
-      moreaction: '',
+      moreaction: [],
       // 加载操作控制
       downloadLoading: false,
       // 表格数据
@@ -226,7 +239,10 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      tableData: [],
+      tableHeader: [],
+      uploadHead: []
     }
   },
   activated() {
@@ -245,6 +261,119 @@ export default {
     _that = this
   },
   methods: {
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    handleSuccess({ results, header }) {
+      this.tableData = results
+      this.tableHeader = ['主题', '申请人', '申请人id', '部门', '部门id', '供应商', '供应商id', '申请日期', '物品编号', '物品名称', '规格', '颜色', '单位', '采购单原价', '采购单现价', '原含税价', '新含税价', '原税率', '新税率', '比例', '原销售价', '新销售价']
+      this.uploadHead = results.map(function(item) {
+        return {
+          title: item.主题,
+          applyPersonName: item.申请人,
+          applyPersonId: item.申请人id,
+          deptName: item.部门,
+          deptId: item.部门id,
+          supplierName: item.供应商,
+          supplierId: item.供应商id,
+          applyDate: item.申请日期,
+          productCode: item.物品编号,
+          productName: item.物品名称,
+          productType: item.规格,
+          color: item.颜色,
+          unit: item.单位,
+          oldPrice: item.采购单原价,
+          newPrice: item.采购单现价,
+          oldIncludeTaxPrice: item.原含税价,
+          newIncludeTaxPrice: item.新含税价,
+          oldTaxRate: item.原税率,
+          newTaxRate: item.新税率,
+          calcitem: item.比例,
+          oldSalePrice: item.原销售价,
+          newSalePrice: item.新销售价
+        }
+      })
+      console.log('this.uploadHead', this.uploadHead)
+      const detaildata = this.uploadHead.map(item => {
+        return {
+          mainid: item.supplierId,
+          productCode: item.productCode,
+          productName: item.productName,
+          productType: item.productType,
+          color: item.color,
+          unit: item.unit,
+          oldPrice: item.oldPrice,
+          newPrice: item.newPrice,
+          oldIncludeTaxPrice: item.oldIncludeTaxPrice,
+          newIncludeTaxPrice: item.newIncludeTaxPrice,
+          oldTaxRate: item.oldTaxRate,
+          newTaxRate: item.newTaxRate,
+          calcitem: item.calcitem,
+          oldSalePrice: item.oldSalePrice,
+          newSalePrice: item.newSalePrice
+
+        }
+      })
+
+      const maindata = this.uploadHead.map(item => {
+        return {
+          mainid: item.supplierId,
+          title: item.title,
+          applyPersonId: item.applyPersonId,
+          deptId: item.deptId,
+          supplierId: item.supplierId,
+          applyDate: item.applyDate
+        }
+      })
+
+      var jmap = {}
+      var result = []
+
+      this.uploadHead.forEach(function(al) {
+        var key = al.supplierId + '_' + al.supplierName
+        if (typeof jmap[key] === 'undefined') {
+          jmap[key] = []
+        }
+        jmap[key].push(al)
+      })
+
+      var keys = Object.keys(jmap)
+      for (var i = 0; i < keys.length; i++) {
+        var rs = keys[i].split('_')
+        result.push({ supplierId: rs[0], title: jmap[keys[i]][0].title, applyPersonId: jmap[keys[i]][0].applyPersonId, deptId: jmap[keys[i]][0].deptId, value: jmap[keys[i]] })
+      }
+
+      console.log('result', result)
+      for (const i in result) {
+        const parms = {
+          mainid: result[i].supplierId,
+          title: result[i].title,
+          applyPersonId: result[i].applyPersonId,
+          deptId: result[i].deptId,
+          supplierId: result[i].supplierId,
+          applyDate: result[i].applyDate
+        }
+        const parms2 = result[i].value
+        const sendparms = JSON.stringify(parms)
+        const sendparms2 = JSON.stringify(parms2)
+        addSupplierAdjust(sendparms, sendparms2, this.getemplist).then(res => {
+          console.log('res', res)
+        })
+      }
+    },
+    handleImport() {
+      this.dialogVisible = true
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -434,7 +563,7 @@ export default {
     // 不让勾选
     selectInit(row, index) {
       if (row.judgeStat !== 0) {
-        return false
+        return true
       } else {
         return true
       }
@@ -607,7 +736,10 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const needdeletedata = this.moreaction.filter(item => {
+        return item.judgeStat === 0
+      })
+      const ids = needdeletedata.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -674,15 +806,43 @@ export default {
     },
     // 导出
     handleExport() {
+      if (this.moreaction.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择要导出数据',
+          offset: 100
+        })
+        return false
+      }
       this.downloadLoading = true
+      const maindata = this.moreaction
+      const detaildata = this.moreaction.map(item => {
+        return item.supplierAdjustDetailVos
+      })
+      const needdetaildata = [].concat.apply([], detaildata)
+      for (const i in maindata) {
+        for (const j in needdetaildata) {
+          if (maindata[i].id === needdetaildata[j].adjustId) {
+            needdetaildata[j].title = maindata[i].title
+            needdetaildata[j].applyPersonName = maindata[i].applyPersonName
+            needdetaildata[j].deptName = maindata[i].deptName
+            needdetaildata[j].supplierName = maindata[i].supplierName
+            needdetaildata[j].applyDate = maindata[i].applyDate
+            needdetaildata[j].applyPersonId = maindata[i].applyPersonId
+            needdetaildata[j].deptId = maindata[i].deptId
+            needdetaildata[j].supplierId = maindata[i].supplierId
+          }
+        }
+      }
+
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'SupplierAdjustName', 'SupplierAdjustShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
+          const tHeader = ['主题', '申请人', '申请人id', '部门', '部门id', '供应商', '供应商id', '申请日期', '物品编号', '物品名称', '规格', '颜色', '单位', '采购单原价', '采购单现价', '原含税价', '新含税价', '原税率', '新税率', '比例', '原销售价', '新销售价']
+          const filterVal = ['title', 'applyPersonName', 'applyPersonId', 'deptName', 'deptId', 'supplierName', 'supplierId', 'applyDate', 'productCode', 'productName', 'productType', 'color', 'unit', 'oldPrice', 'newPrice', 'oldIncludeTaxPrice', 'newIncludeTaxPrice', 'oldTaxRate', 'newTaxRate', 'calcitem', 'oldSalePrice', 'newSalePrice']
+          const data = this.formatJson(filterVal, needdetaildata)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '供应商调价单资料表'
           })
           this.downloadLoading = false
         })
@@ -730,6 +890,23 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
   .app-container >>> .el-table .cell {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
