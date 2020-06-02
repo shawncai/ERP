@@ -863,7 +863,7 @@ export default {
                     _that.$notify({
                       title: 'successful',
                       message: 'save successful',
-                      type: 'succzess',
+                      type: 'success',
                       offset: 100
                     })
                   }

@@ -275,6 +275,13 @@ export default {
       return false
     },
     handleSuccess({ results, header }) {
+      var _that = this
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       this.tableData = results
       this.tableHeader = ['主题', '申请人', '申请人id', '部门', '部门id', '供应商', '供应商id', '申请日期', '物品编号', '物品名称', '规格', '颜色', '单位', '采购单原价', '采购单现价', '原含税价', '新含税价', '原税率', '新税率', '比例', '原销售价', '新销售价']
       this.uploadHead = results.map(function(item) {
@@ -354,6 +361,10 @@ export default {
       }
 
       console.log('result', result)
+      const needparms = {
+        repositoryId: this.$store.getters.repositoryId,
+        regionId: this.$store.getters.regionIds
+      }
       for (const i in result) {
         const parms = {
           mainid: result[i].supplierId,
@@ -366,8 +377,23 @@ export default {
         const parms2 = result[i].value
         const sendparms = JSON.stringify(parms)
         const sendparms2 = JSON.stringify(parms2)
-        addSupplierAdjust(sendparms, sendparms2, this.getemplist).then(res => {
-          console.log('res', res)
+        addSupplierAdjust(sendparms, sendparms2, needparms).then(res => {
+          if (res.data.ret === 200) {
+            _that.$notify({
+              title: 'successful',
+              message: '导入成功',
+              type: 'success',
+              offset: 100
+            })
+          } else {
+            _that.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+          _that.getlist()
+          loading.close()
         })
       }
     },

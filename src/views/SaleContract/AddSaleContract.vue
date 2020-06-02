@@ -29,6 +29,14 @@
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
                 <my-installmentapply :installappleycontrol.sync = "installappleycontrol" @installappleyDetail="installappleyDetail" @installappley="installappley"/>
               </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.isSecondApply')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isSecondApply" style="width: 200px" @change="changeIsSecond">
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.customerType')" prop="customerType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.customerType" style="width: 200px" @change="clearCustomer">
@@ -181,14 +189,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.isSecondApply')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-radio-group v-model="personalForm.isSecondApply" style="width: 200px" @change="changeIsSecond">
-                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
-                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
+
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleContract.installmentCount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.installmentCount" :disabled="isinstallappley" clearable style="width: 200px" @change="change">
@@ -809,6 +810,9 @@ export default {
         })
         this.personalForm.isSecondApply = 2
       }
+
+      this.customerId = ''
+      this.personalForm.customerId = ''
     },
     changesaletype() {
       if (this.personalForm.sourceType === '2') {
