@@ -328,6 +328,9 @@ export function searchmoverepository(query) {
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
     params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   }

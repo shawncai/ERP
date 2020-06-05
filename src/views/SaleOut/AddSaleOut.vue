@@ -173,74 +173,6 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
-              </el-col>
-              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
-                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
-                </el-form-item>
-              </el-col>
-              <!-- 前两个改变会影响后面的改变 要加change事件 -->
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.shouldMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 56px">
-                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.changeMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 56px">
-                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.receivableMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 56px">
-                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.unpayMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
               <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
@@ -495,6 +427,85 @@
         </div>
       </el-card>
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+
+        <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('update4.skxx') }}</div>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" label-position="left" size="mini" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
+                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+                </el-form-item>
+              </el-col>
+              <!-- 前两个改变会影响后面的改变 要加change事件 -->
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.shouldMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.changeMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.receivableMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.unpayMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 30px">
 
         <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
@@ -1699,6 +1710,7 @@ export default {
         this.Isproduct = true
         this.IsSourceNumber = false
         this.personalForm.saleType = '2'
+        this.$refs.editable.clear()
       } else {
         this.Isproduct = true
         this.IsSourceNumber = false
@@ -2476,6 +2488,9 @@ export default {
               if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '' || elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '' || elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '') {
                 m = 2
               }
+              if (!elem.sourceNumber && this.personalForm.sourceType === '2') {
+                m = 4
+              }
             }
             if (re === '05') {
               if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
@@ -2483,6 +2498,14 @@ export default {
               }
             }
           })
+          if (m === 4) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.gwpbslyyxsht'),
+              offset: 100
+            })
+            return false
+          }
           if (m === 3) {
             this.$notify.error({
               title: 'wrong',

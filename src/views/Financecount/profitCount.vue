@@ -297,6 +297,8 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       // 传给组件的数据
       personalForm: {},

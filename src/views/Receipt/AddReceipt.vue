@@ -319,7 +319,8 @@ export default {
         totalLackMoney: 0,
         couponSupport: 0,
         couponMoney: 0,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        customerType: '1'
       },
       allpenalty: 0,
       // 商品信息

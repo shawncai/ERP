@@ -17,6 +17,13 @@
           <el-option value="1" label="经销商"/>
           <el-option value="2" label="零售"/>
         </el-select>
+        <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+          <el-option
+            v-for="(item, index) in repositories"
+            :key="index"
+            :label="item.repositoryName"
+            :value="item.id"/>
+        </el-select>
         <el-input v-model="customerName" :placeholder="$t('SaleReturn.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
         <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
         <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
@@ -177,6 +184,8 @@
 import { voucherlist, addReturnVoucher } from '@/api/voucher'
 import { searchsaleReturn, deletesaleReturn, updatesaleReturn2 } from '@/api/SaleReturn'
 import { getdeptlist } from '@/api/BasicSettings'
+import { searchRepository } from '@/api/public'
+
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -229,6 +238,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       tableHeight: 200,
       downloadLoading2: false,
       // 回显客户
@@ -292,12 +302,15 @@ export default {
   },
   activated() {
     this.getlist()
+    this.handlechange4()
+
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getlist()
+    this.handlechange4()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -306,6 +319,19 @@ export default {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    handlechange4() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

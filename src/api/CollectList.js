@@ -27,6 +27,9 @@ export function collectlist(query) {
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

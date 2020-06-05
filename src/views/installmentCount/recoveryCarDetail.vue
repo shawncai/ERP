@@ -204,7 +204,9 @@ export default {
       getemplist: {
         pageNum: 1,
         pageSize: 10,
-        type: '1'
+        type: '1',
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
       },
       receivePersonId: '',
       // 传给组件的数据

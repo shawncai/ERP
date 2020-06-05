@@ -136,7 +136,7 @@
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('InstallmentApply.isInvestigation')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('update4.isSecondApplyResult')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.InvestigationResult">{{ $t('prompt.ydc') }}</span>
             <span v-else>{{ $t('prompt.wdc') }}</span>

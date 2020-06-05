@@ -24,17 +24,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Customer.phone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model.number="customerForm.phone" clearable style="width: 200px"/>
+                  <el-input v-model="customerForm.phone" clearable style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Customer.phone12')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model.number="customerForm.phone2" clearable style="width: 200px"/>
+                  <el-input v-model="customerForm.phone2" clearable style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Customer.phone13')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model.number="customerForm.phone3" clearable style="width: 200px"/>
+                  <el-input v-model="customerForm.phone3" clearable style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

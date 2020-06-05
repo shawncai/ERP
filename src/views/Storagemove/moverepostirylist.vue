@@ -4,7 +4,13 @@
 
       <el-input v-model="emoloyeeName" :placeholder="$t('updates.ygmc')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlesearchName"/>
       <my-accept2 :accetpcontrol.sync="personcontrol" @acceptName="acceptName2"/>
-
+      <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -183,6 +189,7 @@ import MyRepository from './components/MyRepository2'
 import MyRepository2 from './components/MyRepository3'
 import '@/directive/noMoreClick/index.js'
 import { searchmoverepository, addmoverepository, editmoverepository, deletemoverepository } from '@/api/Storagemove'
+import { searchRepository } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -224,6 +231,7 @@ export default {
       }
     }
     return {
+      repositories: [],
       list3: [],
       editpropdata: {},
       allpersonsids: [],
@@ -300,15 +308,30 @@ export default {
   },
   activated() {
     this.getlist()
+    this.handlechange4()
   },
   mounted() {
     // this.getlist2()
     this.getlist()
+    this.handlechange4()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    handlechange4() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     acceptName2(val) {
       this.emoloyeeName = val.personName
       this.getemplist.emoloyeeId = val.id

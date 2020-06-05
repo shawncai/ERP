@@ -111,6 +111,11 @@
             <span>{{ scope.row.transDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('otherlanguage.bcskje')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiveMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('SaleOrder.heji6')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allIncludeTaxDiscountMoney }}</span>

@@ -10,6 +10,13 @@
 
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
+      <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -189,7 +196,7 @@ import { searchtransfer, updatetransfer2, deletetransfer, addTransferVoucher } f
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail } from '@/api/voucher'
-import { regionlist } from '@/api/public'
+import { regionlist, searchRepository } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -242,6 +249,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       tableHeight: 200,
       regions: [],
       // 结算方式数据
@@ -318,6 +326,7 @@ export default {
   mounted() {
     this.getlist()
     this.getreginons()
+    this.handlechange4()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -326,6 +335,19 @@ export default {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    handlechange4() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

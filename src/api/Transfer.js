@@ -34,6 +34,9 @@ export function searchtransfer(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }

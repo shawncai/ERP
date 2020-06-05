@@ -134,8 +134,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottm: 20px">
-
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-bottom: 30px">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.hcmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>

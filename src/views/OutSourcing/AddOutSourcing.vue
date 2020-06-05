@@ -131,7 +131,7 @@
                   :controls="false"
                   :min="1.00"
                   v-model="scope.row.quantity"
-                  @change="handelechangequantity()"
+                  @change="handelechangequantity(scope.row, scope)"
                 />
               </template>
             </el-editable-column>
@@ -290,7 +290,18 @@ export default {
         this.$refs.editable2.insert(nowlistdata2[j])
       }
     },
-    handelechangequantity() {
+    handelechangequantity(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.quantity !== '' && row.quantity !== null && row.quantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            this.list2[i].quantity = row.quantity
+          }
+          console.log(row)
+        }
+      }
       this.changelistdata()
     },
     // 外包工厂focus事件
@@ -346,7 +357,7 @@ export default {
           sums[index] = ''
         }
       })
-      this.heji = sums[8]
+      this.heji = sums[9]
       sums[2] = ''
       sums[4] = ''
       sums[6] = ''
@@ -398,6 +409,7 @@ export default {
       const filterdata = this.uniqueArray(alldata, 'productCode')
       this.list2 = filterdata
       console.log('this.list2=====================================', this.list2)
+      this.changelistdata()
     },
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()

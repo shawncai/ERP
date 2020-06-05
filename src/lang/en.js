@@ -241,11 +241,11 @@ export default {
     CheckFail: 'unqualified disposal form',
     AddCheckFail: 'new unqualified disposal form',
     CheckFailList: 'unqualified disposal form list',
-    Advancemanage: 'reservation',
-    AddAdvanceProduct: 'new reserved product',
-    AdvanceProductList: 'reserved list',
-    AddAdvanceOrder: 'new reservation form',
-    AdvanceOrderList: 'reservation list',
+    Advancemanage: 'UpComing Product Manage',
+    AddAdvanceProduct: 'new UpComing product',
+    AdvanceProductList: 'UpComing Product list',
+    AddAdvanceOrder: 'new UpComing form',
+    AdvanceOrderList: 'UpComing list',
     AddPrepReturn: 'new refund form',
     PrepReturnList: 'refund list',
     SaleOut: 'stock out form',
@@ -285,9 +285,9 @@ export default {
     Transfer: 'transfer voucher',
     AddTransfer: 'new transfer voucher',
     TransferList: 'transfer voucher list',
-    Recycling: '2nd hand return',
-    AddRecycling: 'new return form',
-    RecyclingList: '2nd hand return list',
+    Recycling: 'Interchange unit',
+    AddRecycling: 'new Interchange unit',
+    RecyclingList: 'Interchange unit list',
     PrepReceipt: 'advances',
     AddPrepReceipt: 'new advances',
     PrepReceiptList: 'advances list',
@@ -315,8 +315,8 @@ export default {
     rewardRules: 'rebate rules',
     Collection: 'delay reminders',
     CollectionList: 'follow up list',
-    AddRecoverVehicle: 'new repo form',
-    RecoverVehicleList: 'repo list',
+    AddRecoverVehicle: 'new pullout form',
+    RecoverVehicleList: 'pullout list',
     CustomerSurveyReport: 'CI report',
     AddCustomerSurveyReport: 'new CI report',
     CustomerSurveyReportList: 'CI report list',
@@ -438,7 +438,7 @@ export default {
     AddDiscountsetting: 'AddDiscountsetting',
     Discountsetting: 'Discountsetting',
     DiffPrice: 'DiffPrice',
-    NewBatteryOut: 'NewBatteryOut'
+    NewBatteryOut: 'Battery Swap'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -3591,7 +3591,7 @@ export default {
     zssp: 'freebies',
     spxx: 'product info.',
     gzxx: 'work info.',
-    zxrxx: 'referral info.',
+    zxrxx: 'Reference info.',
     zjsc: 'upload Id',
     khdcbgmx: 'CI report detail',
     zhjg: 'CI result',
@@ -4021,7 +4021,7 @@ export default {
     jhg: 'companion info.',
     vff: 'applicant',
     ddc: 'companion',
-    fdss: 'add',
+    fdss: 'add Reference',
     asds: 'co-maker info.',
     oijn: 'collection',
     pkj: 'follow up'
@@ -4420,7 +4420,8 @@ export default {
     xhpx: 'Sort by number',
     isSecondApply: 'isSecondApply',
     ecfqzzdywly: 'The second installment is only for non-sourced',
-    hzje: 'Aggregate amount'
-
+    hzje: 'Aggregate amount',
+    isSecondApplyResult: 'Second installment survey',
+    gwpbslyyxsht: 'The item is not from a sales contract'
   }
 }

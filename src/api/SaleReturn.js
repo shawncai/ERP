@@ -30,6 +30,9 @@ export function searchsaleReturn(query) {
   if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
     params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
   }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.payType !== '' && query.payType !== null && query.payType !== undefined) {
     params.append('payType', query.payType) // 你要传给后台的参数值 key/value
   }

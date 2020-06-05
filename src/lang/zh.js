@@ -4420,6 +4420,8 @@ export default {
     xhpx: '序号排序',
     isSecondApply: '是否二次分期',
     ecfqzzdywly: '二次分期只针对于无来源',
-    hzje: '汇总金额'
+    hzje: '汇总金额',
+    isSecondApplyResult: '二次分期调查',
+    gwpbslyyxsht: '该物品不是来源于销售合同'
   }
 }

@@ -230,6 +230,9 @@ export function profitCount(query) {
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   if (query.date !== '' && query.date !== null && query.date !== undefined) {
     params.append('date', query.date) // 你要传给后台的参数值 key/value
   }
@@ -341,7 +344,10 @@ export function saleDetailCount2(query) {
 export function expensesInfo(query) {
   var params = new URLSearchParams()
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
-    params.append('repositoryId ', query.repositoryId) // 你要传给后台的参数值 key/value
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
@@ -363,6 +369,9 @@ export function collectAndPay(query) {
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
@@ -1399,6 +1408,12 @@ export function produceFailCount(query) {
 
 export function installmentComplete(query) {
   var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
@@ -1428,6 +1443,9 @@ export function recoveryCarDetail(query) {
   }
   if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   if (query.receivePersonId !== '' && query.receivePersonId !== null && query.receivePersonId !== undefined) {
     params.append('receivePersonId', query.receivePersonId) // 你要传给后台的参数值 key/value
@@ -1482,6 +1500,12 @@ export function installmentPayList(query) {
   }
   if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
     params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/installmentCount/installmentPayList',

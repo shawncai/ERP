@@ -315,7 +315,7 @@ export default {
           unit: item.unit,
           productType: item.productTypeName,
           quantity: 1,
-          money: 0,
+          money: item.price,
           totalMoney: 0,
           enterQuantity: 0,
           damageQuantity: 0,
@@ -326,7 +326,9 @@ export default {
       const promises = productDetail.map((item) => {
         return this.getInfo(item.productCode, item.idx)
       })
+      console.log('promises', promises)
       Promise.all(promises).then((allData) => {
+        console.log('allData', allData)
         const yuan = [].concat.apply([], allData).map(item => {
           item.materialsListDetailVos[0].idx = item.idx
           return item.materialsListDetailVos[0]
@@ -350,6 +352,15 @@ export default {
             baseQuantity: item.quantity
           }
         })
+
+        for (const i in productDetail) {
+          for (const j in finalproduct) {
+            if (productDetail[i].idx === finalproduct[j].idx) {
+              finalproduct[j].money = productDetail[i].money
+              console.log('productDetail[i].money', productDetail[i].money)
+            }
+          }
+        }
         console.log('finalproduct=====', finalproduct)
         this.$emit('detailproduct', finalproduct)
         this.$emit('product4', productDetail)

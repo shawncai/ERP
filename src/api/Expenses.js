@@ -21,6 +21,9 @@ export function createexpenses(query, query2, query4) {
 // 查询支出单
 export function searchexpenses(query) {
   var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
