@@ -13,8 +13,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable @blur="judgeinvoce"/>
                 </el-form-item>
               </el-col>
 
@@ -53,41 +53,6 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
-                </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
-              </el-col>
-              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
-                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
-                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
-                </el-form-item>
-              </el-col>
               <el-col v-show="ischina === 2" :span="6" style="height: 57px">
                 <el-form-item :label="$t('update4.isAppService')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isAppService" style="width: 200px" @change="changeAppDiscount">
@@ -96,55 +61,14 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col v-show="ischina === 2" :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.appDiscount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.appDiscount }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <!-- 前两个改变会影响后面的改变 要加change事件 -->
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.shouldMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.changeMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.receivableMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 57px">
-                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <span style="margin-left: 20px;">
-                    {{ personalForm.unpayMoney }}
-                  </span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6" style="height: 57px">
+              <!-- <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('collectAndPay.isfree')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isFree" style="width: 200px" @change="changefree">
@@ -417,6 +341,93 @@
           </el-editable>
         </div>
       </el-card>
+
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+        <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('update4.skxx') }}</div>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" label-position="left" size="mini" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
+                </el-form-item>
+                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              </el-col>
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+                <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
+                  <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
+                </el-form-item>
+              </el-col>
+              <el-col v-show="ischina === 2" :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.appDiscount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.appDiscount }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <!-- 前两个改变会影响后面的改变 要加change事件 -->
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.shouldMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.shouldMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.changeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.changeMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.receivableMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.receivableMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.unpayMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.unpayMoney }}
+                  </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-card>
+
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
         <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</div>
         <div class="container" style="margin-top: 37px">
@@ -495,7 +506,7 @@ import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
-import { createsaleOut, getCustomerOutCount } from '@/api/SaleOut'
+import { createsaleOut, getCustomerOutCount, checkInvoiceExist } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
@@ -731,6 +742,9 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, message: 'please input', trigger: 'blur' }
+        ],
         saleType: [
           { required: true, validator: validatePass8, trigger: 'change' }
         ],
@@ -850,6 +864,21 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
     changeAppDiscount() {
       this.updatePrice()
       this.getReceivableMoney()
@@ -1753,6 +1782,7 @@ export default {
       //   })
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
+      this.judgeinvoce()
     },
     // 出库人focus事件触发
     handlechooseAccept() {
@@ -2722,8 +2752,8 @@ export default {
           this.$refs.personalForm.resetFields()
           this.$refs.personalForm2.clearValidate()
           this.$refs.personalForm2.resetFields()
-          // this.$refs.personalForm3.clearValidate()
-          // this.$refs.personalForm3.resetFields()
+          this.$refs.personalForm3.clearValidate()
+          this.$refs.personalForm3.resetFields()
         } else {
           this.$notify.error({
             title: 'wrong',
@@ -3194,6 +3224,14 @@ export default {
             })
             return false
           }
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay) && this.$store.getters.countryId === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.bcskyw'),
+              offset: 100
+            })
+            return false
+          }
           // eslint-disable-next-line use-isnan
           if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
             this.$notify.error({
@@ -3247,8 +3285,8 @@ export default {
               this.$refs.personalForm.resetFields()
               this.$refs.personalForm2.clearValidate()
               this.$refs.personalForm2.resetFields()
-              // this.$refs.personalForm3.clearValidate()
-              // this.$refs.personalForm3.resetFields()
+              this.$refs.personalForm3.clearValidate()
+              this.$refs.personalForm3.resetFields()
             } else {
               this.$notify.error({
                 title: 'wrong',

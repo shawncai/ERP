@@ -31,8 +31,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" @blur="judgeinvoce"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -173,14 +173,14 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 56px">
+              <!-- <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-form>
         </div>
@@ -617,7 +617,7 @@ import { returnMoney } from '@/api/Coupon'
 import { materialslist2 } from '@/api/MaterialsList'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
-import { createsaleOut, getCustomerOutCount } from '@/api/SaleOut'
+import { createsaleOut, getCustomerOutCount, checkInvoiceExist } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
@@ -836,6 +836,9 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, message: 'please input', trigger: 'blur' }
+        ],
         saleType: [
           { required: true, validator: validatePass8, trigger: 'change' }
         ],
@@ -969,6 +972,21 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
     updatePrice() {
       console.log('999', 999)
       if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
@@ -1739,6 +1757,7 @@ export default {
       })
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
+      this.judgeinvoce()
       this.list2 = []
       this.list3 = []
     },
@@ -2710,6 +2729,15 @@ export default {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
+
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay) && this.$store.getters.countryId === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.bcskyw'),
               offset: 100
             })
             return false

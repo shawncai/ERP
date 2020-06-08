@@ -550,6 +550,7 @@ export default {
             })
           // ================取消弹框结束
         }
+        this.reviewStat = false
       })
     },
     // 批量操作

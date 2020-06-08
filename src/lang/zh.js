@@ -4422,6 +4422,9 @@ export default {
     ecfqzzdywly: '二次分期只针对于无来源',
     hzje: '汇总金额',
     isSecondApplyResult: '二次分期调查',
-    gwpbslyyxsht: '该物品不是来源于销售合同'
+    gwpbslyyxsht: '该物品不是来源于销售合同',
+    bcskyw: '本次收款有误',
+    qxxzdc: '请先选择出库电池',
+    fphcf: '发票号重复'
   }
 }

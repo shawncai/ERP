@@ -571,7 +571,7 @@ export default {
     quantity: 'quantity'
   },
   searchSaleOrderReport: {
-    id: 'serial no.',
+    id: 'no.',
     name: 'name',
     money: 'amount',
     discountMoney: 'discount',
@@ -4086,8 +4086,8 @@ export default {
     fjf: 'additional charge',
     cbj: 'cost price',
     fx: 'direction',
-    transferReceipt: 'branch received company deposit',
-    transferExpense: 'company received branch deposit',
+    transferReceipt: 'branch received company',
+    transferExpense: 'company received branch',
     lrqcsj: 'input beginning data',
     ygssmdm: 'employee affiliated branch'
   },
@@ -4422,6 +4422,9 @@ export default {
     ecfqzzdywly: 'The second installment is only for non-sourced',
     hzje: 'Aggregate amount',
     isSecondApplyResult: 'Second installment survey',
-    gwpbslyyxsht: 'The item is not from a sales contract'
+    gwpbslyyxsht: 'The item is not from a sales contract',
+    bcskyw: 'Actually received is wrong',
+    qxxzdc: 'please select out battery',
+    fphcf: 'Duplicate invoice number'
   }
 }

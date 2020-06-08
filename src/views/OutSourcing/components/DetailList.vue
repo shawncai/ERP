@@ -288,7 +288,7 @@ export default {
           sums[index] = ''
         }
       })
-      this.heji = sums[8]
+      this.heji = sums[10]
       sums[2] = ''
       sums[4] = ''
       sums[6] = ''

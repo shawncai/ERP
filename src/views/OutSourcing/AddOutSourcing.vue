@@ -170,7 +170,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/> -->
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>

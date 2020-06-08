@@ -29,8 +29,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
-                <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable @blur="judgeinvoce"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -553,7 +553,7 @@ import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo } from '@/api/public'
-import { updatesaleOut } from '@/api/SaleOut'
+import { updatesaleOut, checkInvoiceExist } from '@/api/SaleOut'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist } from '@/api/public'
@@ -776,6 +776,9 @@ export default {
       control: false,
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, message: 'please input', trigger: 'blur' }
+        ],
         saleType: [
           { required: true, message: '请选择销售类别', trigger: 'change' }
         ],
@@ -971,6 +974,21 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true
@@ -1712,6 +1730,7 @@ export default {
       })
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
+      this.judgeinvoce()
     },
     // 出库人focus事件触发
     handlechooseAccept() {

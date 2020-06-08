@@ -151,3 +151,19 @@ export function getCustomerOutCount(query) {
   })
 }
 
+// 检查发票是否重复同一门店
+export function checkInvoiceExist(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('invoiceNumber', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('repositoryId', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/saleOut/checkInvoiceExist',
+    method: 'post',
+    data: params
+  })
+}
+

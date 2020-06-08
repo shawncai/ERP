@@ -340,7 +340,7 @@ export default {
       // 表格识别
       tableKey: 0,
       // 加载表格
-      listLoading: true,
+      listLoading: false,
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
@@ -691,7 +691,7 @@ export default {
       const regionIds = this.$store.getters.regionId
       console.log(regionIds)
       // 物料需求计划列表数据
-      // this.listLoading = true
+      this.listLoading = true
       const needdata = await (applylist(this.getemplist).then(res => {
         return res
       }))

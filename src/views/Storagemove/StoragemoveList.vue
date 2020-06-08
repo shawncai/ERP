@@ -10,7 +10,8 @@
       <el-input v-model="moveInRepository" :placeholder="$t('Storagemove.moveInRepository')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseDep"/>
 
       <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
-
+      <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" size="small" class="filter-item" clearable @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
+      <my-depot2 :depotcontrol.sync="repositorycontrol" @depotname="getrepositoryname"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -24,8 +25,7 @@
             :value="item.id"
             :label="item.deptName"/>
         </el-select>
-        <el-input v-model="moveOutRepository" :placeholder="$t('Storagemove.moveOutRepository')" size="small" class="filter-item" clearable style="width: 40%;float: right;margin-right: 20px" @clear="restFilter2" @keyup.enter.native="handleFilter" @focus="handlechooseRep"/>
-        <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
         <el-select v-model="getemplist.requestDeptId" size="small" placeholder="请选择要货部门" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
           <el-option
             v-for="(item, index) in depts"
@@ -232,13 +232,14 @@ import MyRepository from './components/MyRepository2'
 import MyAccept from './components/MyAccept'
 import MyCreate from './components/MyCreate'
 import MyDepot from './components/MyDepot'
+import MyDepot2 from './components/MyDepot2'
 import DetailList from './components/DetailList'
 
 var _that
 export default {
   name: 'StoragemoveList',
   directives: { waves, permission, permission2 },
-  components: { DetailList, MyDepot, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2, MyEdit3 },
+  components: { DetailList, MyDepot, MyDepot2, Pagination, MyEdit, MyRepository, MyAccept, MyCreate, MyEdit2, MyEdit3 },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -733,7 +734,7 @@ export default {
     handlechooseRep() {
       this.repositorycontrol = true
     },
-    repositoryname(val) {
+    getrepositoryname(val) {
       // console.log(val)
       this.moveOutRepository = val.repositoryName
       this.getemplist.moveOutRepository = val.id

@@ -8,8 +8,8 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable @blur="judgeinvoce"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -114,14 +114,14 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="6" style="height: 57px">
+              <!-- <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
                     <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
                     <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <!-- <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.isfree')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isFree" style="width: 200px">
@@ -140,7 +140,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('tongyo.useMonth')" prop="useMonth" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.useMonth" style="width: 200px" @change="getReceivableMoney">
+                  <el-select v-model="personalForm.useMonth" style="width: 200px" @change="getReceivableMoney" @focus="getusemonth">
                     <el-option v-for="(item, index) in mouesitems" :key="index" :value="item" :label="item"/>
                   </el-select>
                 </el-form-item>
@@ -444,7 +444,7 @@ import { customerlist2 } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { getPackage } from '@/api/Package'
 import { getAllBatch, vehicleInfo, getQuantity2 } from '@/api/public'
-import { createsaleOut } from '@/api/SaleOut'
+import { createsaleOut, checkInvoiceExist } from '@/api/SaleOut'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { getlocation, locationlist, countlist, batchlist, productlist } from '@/api/public'
 import MyEmp from './components/MyEmp2'
@@ -469,7 +469,7 @@ import MyRecycling from './components/MyRecycling'
 import MyPackage from './components/MyPackage'
 var _that
 export default {
-  name: 'NewAccessoriesOut',
+  name: 'NewBatteryOut',
   components: { MyReturn, MyRecycling, MyContract, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp, MyPackage },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -672,10 +672,14 @@ export default {
         isInvoice: 1,
         couponMoney: 0,
         couponSupportOld: 0,
-        isFree: 2
+        isFree: 2,
+        useMonth: null
       },
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, message: 'please input', trigger: 'blur' }
+        ],
         useType: [
           { required: true, message: _that.$t('tongyo.qxzdcsylx'), trigger: 'change' }
         ],
@@ -779,6 +783,7 @@ export default {
         this.heji1 = num
         this.heji3 = num1
         this.heji4 = num2
+        this.personalForm.useMonth = null
         this.getReceivableMoney()
         // console.log(num)
       },
@@ -805,7 +810,7 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.chooseSourceType()
-    this.getdiffprice()
+    // this.getdiffprice()
   },
 
   mounted() {
@@ -821,6 +826,36 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
+    getusemonth() {
+      const allbattery = this.$refs.editable.getRecords()
+      console.log('allbattery', allbattery)
+      if (allbattery.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.qxxzdc'),
+          offset: 100
+        })
+        return false
+      }
+      this.getemplist.categoryId = allbattery[0].category
+      this.getemplist.iseffective = 1
+      this.getdiffprice()
+    },
     updatePrice() {
       console.log('999', 999)
       if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
@@ -2983,6 +3018,15 @@ export default {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),
+              offset: 100
+            })
+            return false
+          }
+
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay)) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.bcskyw'),
               offset: 100
             })
             return false
