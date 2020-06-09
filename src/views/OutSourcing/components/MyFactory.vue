@@ -1,33 +1,15 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :factorycontrol="factorycontrol" :close-on-press-escape="false" top="10px" title="选择外包工厂" append-to-body @close="$emit('update:factorycontrol', false)">
-    <el-card class="box-card" style="margin-top: 10px;height: 60px" shadow="never">
-      <el-row>
-        <el-form ref="getemplist" :model="getemplist" label-width="100px" style="margin-top: -9px">
-          <el-col :span="5">
-            <el-form-item :label="$t('updates.gcbh')" label-width="100px">
-              <el-input v-model="getemplist.code" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.gcmc')">
-              <el-input v-model="getemplist.factoryName" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5" style="margin-left: 10px">
-            <el-form-item :label="$t('updates.gclxr')">
-              <el-input v-model="getemplist.factoryContactName" clearable @keyup.enter.native="handleFilter"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 搜索按钮 -->
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
-          </el-col>
-          <el-col :span="3" style="margin-left: 20px">
-            <!-- 新建 -->
-            <el-button v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-          </el-col>
-        </el-form>
-      </el-row>
+  <el-dialog :visible.sync="employeeVisible" :factorycontrol="factorycontrol" :close-on-press-escape="false" width="60%" top="10px" title="选择外包工厂" append-to-body @close="$emit('update:factorycontrol', false)">
+    <el-card class="box-card" style="margin-top: 10px" shadow="never">
+      <el-input v-model="getemplist.code" :placeholder="$t('updates.gcbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.factoryName" :placeholder="$t('updates.gcmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.factoryContactName" :placeholder="$t('updates.gclxr')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <!-- 搜索按钮 -->
+      <el-button v-waves type="primary" size="small" class="filter-item" icon="el-icon-search" style="width: 86px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+
+      <el-button v-waves icon="el-icon-plus" size="small" class="filter-item" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 列表开始 -->
@@ -216,11 +198,16 @@ export default {
 
 <style scoped>
   .ERP-container {
-    margin: 50px 30px;
+    margin-left:10px;
+  }
+  .filter-container{
+    padding: 20px;
+    padding-left: 0px;
   }
   .filter-item{
-    width: 140px;
-    margin-left: 20px;
+    width: 180px;
+    margin-left: 10px;
+    padding: 10px 0;
   }
   .form-name{
     font-size: 18px;

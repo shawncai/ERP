@@ -1,5 +1,9 @@
 export default {
   route: {
+    bigStuffInventory: 'bigStuffInventory',
+    VehicleSaleCount: 'VehicleSaleCount',
+    OutSouringAdjustList: 'OutSouringAdjustList',
+    NewOutSouringAdjust: 'NewOutSouringAdjust',
     ReviewPackage: 'ReviewPackage',
     NewReviewPackage: 'NewReviewPackage',
     moveCount: 'moveCount',

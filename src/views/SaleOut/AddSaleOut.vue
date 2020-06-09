@@ -1973,11 +1973,12 @@ export default {
                   message: this.$t('tongyo.cgzdzke'),
                   offset: 100
                 })
+              } else {
+                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+                  row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+                }
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
           }
         })
       } else {
@@ -2009,9 +2010,9 @@ export default {
                 })
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            }
           }
         })
       }
@@ -2499,6 +2500,7 @@ export default {
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           // 整车出库时相关编码必填
           let m = 1
+          const that = this
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
@@ -2507,7 +2509,7 @@ export default {
               if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '' || elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '' || elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '') {
                 m = 2
               }
-              if (!elem.sourceNumber && this.personalForm.sourceType === '2') {
+              if (!elem.sourceNumber && that.personalForm.sourceType === '2') {
                 m = 4
               }
             }

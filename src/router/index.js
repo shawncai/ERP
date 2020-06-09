@@ -1464,13 +1464,25 @@ export const asyncRouterMap = [
         path: 'AddOutSourcing',
         component: () => import('@/views/OutSourcing/AddOutSourcing'),
         name: 'AddOutSourcing',
-        meta: { title: 'AddOutSourcing', noCache: false }
+        meta: { title: 'AddOutSourcing', noCache: false, roles: ['171-190-199-1'] }
       },
       {
         path: 'OutSourcingList',
         component: () => import('@/views/OutSourcing/OutSourcingList'),
         name: 'OutSourcingList',
         meta: { title: 'OutSourcingList', noCache: false, roles: ['171-190-199-1', '171-190-199-2', '171-190-199-3', '171-190-199-4', '171-190-199-5', '171-190-199-6', '171-190-199-7', '171-190-199-18', '171-190-199-56', '171-190-199-57'] }
+      },
+      {
+        path: 'NewOutSouringAdjust',
+        component: () => import('@/views/OutSourcing/NewOutSouringAdjust'),
+        name: 'NewOutSouringAdjust',
+        meta: { title: 'NewOutSouringAdjust', noCache: false, roles: ['171-190-406-1'] }
+      },
+      {
+        path: 'OutSouringAdjustList',
+        component: () => import('@/views/OutSourcing/OutSouringAdjustList'),
+        name: 'OutSouringAdjustList',
+        meta: { title: 'OutSouringAdjustList', noCache: false, roles: ['171-190-406-1', '171-190-199-2', '171-190-199-3', '171-190-199-4', '171-190-199-5', '171-190-199-6', '171-190-199-7', '171-190-199-18', '171-190-199-56', '171-190-199-57'] }
       }
     ]
   },
@@ -3090,6 +3102,12 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'bigStuffInventory',
+        component: () => import('@/views/SaleReport/bigStuffInventory'),
+        name: 'bigStuffInventory',
+        meta: { title: 'bigStuffInventory', noCache: false, roles: ['311-312-408-4'] }
+      },
+      {
         path: 'accessCount',
         component: () => import('@/views/countProduce/accessCount'),
         name: 'accessCount',
@@ -3223,6 +3241,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SaleReport/saleDetailCount'),
         name: 'SaleDetailCount',
         meta: { title: 'SaleDetailCount', noCache: false, roles: ['311-313-379-4'] }
+      },
+      {
+        path: 'VehicleSaleCount',
+        component: () => import('@/views/SaleReport/VehicleSaleCount'),
+        name: 'VehicleSaleCount',
+        meta: { title: 'VehicleSaleCount', noCache: false, roles: ['311-313-407-4'] }
       }
       // ,
       // {

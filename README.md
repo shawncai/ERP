@@ -409,3 +409,36 @@ function trans (arr) {
 var arr = [{name: "上海", value: 1},{name: "上海", value: 2},{name: "北京", value: 3},{name: "杭州", value: 2}]
 trans(arr)
 ```
+
+#### json中有一项key值相同其他项合并
+
+```
+const arr = [
+  {ERVS: 2, repositoryName: "测试"},
+  {repositoryName: "测试", 两轮车ERVS租赁: 100},
+  {repositoryName: "测试", 两轮车ERV租赁: 1},
+  {repositoryName: "组装车间", 电池（48V12AH）: 95},
+  {repositoryName: "组装车间", 电池（48V20AH）: 100},
+  {repositoryName: "组装车间", 电池（48V90AH）: 252},
+  {repositoryName: "配件", 电池（48V12AH）: 36},
+  {repositoryName: "配件", 电池（48V20AH）: 45},
+  {repositoryName: "配件", 电池（48V90AH）: 35},
+]
+
+转化为 
+const arr = [
+  {ERVS: 2, repositoryName: "测试", 两轮车ERVS租赁: 100, 两轮车ERV租赁: 1},
+  {repositoryName: "组装车间", 电池（48V12AH）: 95, 电池（48V20AH）: 100, 电池（48V90AH）: 252},
+  {repositoryName: "配件", 电池（48V12AH）: 36, 电池（48V20AH）: 45, 电池（48V90AH）: 35},
+]
+
+<!-- 通过使用冒泡方式来组成新函数 -->
+for (let i = 0, l = newarr.length; i < l - 1; i++) {
+            for (let j = i + 1; j < l; j++) {
+              if (newarr[i].repositoryName === newarr[j].repositoryName) {
+                newarr[i] = Object.assign(newarr[i], newarr[j])
+              }
+            }
+          }
+
+```

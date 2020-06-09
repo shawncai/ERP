@@ -1,5 +1,9 @@
 export default {
   route: {
+    bigStuffInventory: '大件库存统计',
+    VehicleSaleCount: '销售整车出库统计',
+    OutSouringAdjustList: '外包工厂调价单列表',
+    NewOutSouringAdjust: '新建外包工厂调价单',
     ReviewPackage: '审核套餐包',
     NewReviewPackage: '新建审核套餐包',
     moveCount: '调拨汇总表',
@@ -4425,6 +4429,16 @@ export default {
     gwpbslyyxsht: '该物品不是来源于销售合同',
     bcskyw: '本次收款有误',
     qxxzdc: '请先选择出库电池',
-    fphcf: '发票号重复'
+    fphcf: '发票号重复',
+    zt: '主题',
+    adjustDate: '调价日期',
+    oldPrice: '旧价格',
+    newPrice: '新价格',
+    md: '门店',
+    zxl: '总销量',
+    xjxs: '现金销售数量',
+    fqxssl: '分期销售数量',
+    xcxssl: '新车销售数量',
+    escxssl: '二手车销售数量'
   }
 }

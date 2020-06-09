@@ -1346,9 +1346,9 @@ export default {
                 })
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+              row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            }
           }
         })
       } else {
@@ -1382,9 +1382,9 @@ export default {
                 })
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+              row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            }
           }
         })
       }

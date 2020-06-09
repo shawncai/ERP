@@ -1596,6 +1596,14 @@ export default {
     },
     // 保存操作
     handlesave() {
+      if (Number(this.personalForm.firstMoney) === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'firstMoney is 0',
+          offset: 100
+        })
+        return false
+      }
       console.log(this.personalForm)
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
