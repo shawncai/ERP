@@ -3224,7 +3224,9 @@ export default {
             })
             return false
           }
-          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay) && this.$store.getters.countryId === 2) {
+          console.log('Number(this.personalForm.shouldMoney)', Number(this.personalForm.shouldMoney))
+          console.log('Number(this.personalForm.customerPay)', Number(this.personalForm.receivableMoney))
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.bcskyw'),

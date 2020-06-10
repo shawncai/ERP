@@ -97,12 +97,12 @@
           size="small"
           style="width: 100%"
           @selection-change="deleteChange">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column fixed="left" type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="50" align="center" type="index"/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('Hmodule.gg')" fixed="left" prop="productType" align="center" min-width="100px"/>
+          <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="100px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
@@ -122,7 +122,8 @@
                 value-format="yyyy-MM-dd"
                 @change="changeDate"/>
             </template>
-          </el-editable-column>          <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('updates.gys')" prop="supplierId" align="center" width="200px">
             <template slot-scope="scope">
@@ -135,43 +136,6 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
-        </el-editable>
-      </div>
-    </el-card>
-    <el-card :body-style="{ padding: '5px' }" class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cgjhmx') }}</h2>
-      <div class="container">
-        <el-editable
-          ref="editable2"
-          :data.sync="list3"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          :summary-method="getSummaries"
-          show-summary
-          class="click-table1"
-          stripe
-          border
-          size="small"
-          style="width: 100%">
-          <el-editable-column :label="$t('Hmodule.xh')" width="60" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" min-width="150px"/> -->
-          <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" min-width="150px">
-            <template slot-scope="scope">
-              <p>{{ planQuantity(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" min-width="150px"/> -->
-          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'default'}" :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" min-width="170px"/>
-          <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
         </el-editable>
@@ -603,13 +567,13 @@ export default {
     productdetail(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     productdetail2(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 从源单中添加商品
@@ -627,12 +591,12 @@ export default {
     apply(val) {
       this.getTypes()
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     apply2(val) {
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 采购需求数据
@@ -640,12 +604,12 @@ export default {
       this.getTypes()
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     requiredata2(val) {
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 删除数据
@@ -717,71 +681,19 @@ export default {
     handleEditok() {
       delete this.personalForm.judgeStat
       delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.stockPlanDetailVos
+
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-      const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
           message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      let mm = 1
-      EnterDetail2.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.basicPrice === null || elem.basicPrice === '' || elem.basicPrice === undefined) {
-          delete elem.basicPrice
-        }
-        if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
-          delete elem.basicQuantity
-        }
-        if (elem.planQuantity === null || elem.planQuantity === '' || elem.planQuantity === undefined) {
-          delete elem.planQuantity
-        }
-        if (elem.planMoney === null || elem.planMoney === '' || elem.planMoney === undefined) {
-          delete elem.planMoney
-        }
-        if (elem.applyReason === null || elem.applyReason === '' || elem.applyReason === undefined) {
-          delete elem.applyReason
-        }
-        if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-          delete elem.sourceNumber
-        }
-        if (elem.planDeliveryDate === null || elem.planDeliveryDate === '' || elem.planDeliveryDate === undefined) {
-          delete elem.planDeliveryDate
-        }
-        if (elem.supplierId === null || elem.supplierId === '' || elem.supplierId === undefined) {
-          delete elem.supplierId
-          mm = 2
-        }
-        return elem
-      })
-      if (mm === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '请选择计划交货日期和供应商',
           offset: 100
         })
         return false
@@ -791,14 +703,6 @@ export default {
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
           delete Data[key]
-        }
-        if (key === 'judgeStat') {
-          delete Data[key]
-        }
-      }
-      for (const key in this.personalForm) {
-        if (key === 'judgeStat') {
-          delete this.personalForm[key]
         }
       }
       console.log(this.personalForm, Data)
@@ -817,7 +721,6 @@ export default {
                 })
                 this.$emit('rest', true)
                 this.$refs.editable.clear()
-                this.$refs.editable2.clear()
                 this.$refs.personalForm.clearValidate()
                 this.$refs.personalForm.resetFields()
                 this.editVisible = false
@@ -844,7 +747,6 @@ export default {
     },
     handlecancel() {
       this.$refs.editable.clear()
-      this.$refs.editable2.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false

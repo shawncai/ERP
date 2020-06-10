@@ -973,6 +973,7 @@ export default {
   },
   methods: {
     judgeinvoce() {
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
       checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
         if (res.data.ret === 200) {
@@ -2736,7 +2737,9 @@ export default {
             return false
           }
 
-          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay) && this.$store.getters.countryId === 2) {
+          console.log('Number(this.personalForm.shouldMoney)', Number(this.personalForm.shouldMoney))
+          console.log('Number(this.personalForm.customerPay)', Number(this.personalForm.receivableMoney))
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2 && this.personalForm.customerType === '2') {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.bcskyw'),

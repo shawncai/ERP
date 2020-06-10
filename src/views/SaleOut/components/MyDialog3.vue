@@ -2733,6 +2733,14 @@ export default {
             })
             return false
           }
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.bcskyw'),
+              offset: 100
+            })
+            return false
+          }
           // eslint-disable-next-line use-isnan
           if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
             this.$notify.error({

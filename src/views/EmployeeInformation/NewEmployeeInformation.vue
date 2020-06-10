@@ -250,7 +250,7 @@ export default {
       }, 1000)
     }
     const chenckrepeat = (rule, value, callback) => {
-      console.log()
+      value = value.replace(/^\s+|\s+$/g, '')
       setTimeout(() => {
         Verifyaccount({
           account: value

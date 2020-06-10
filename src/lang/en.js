@@ -4429,6 +4429,7 @@ export default {
     gwpbslyyxsht: 'The item is not from a sales contract',
     bcskyw: 'Actually received is wrong',
     qxxzdc: 'please select out battery',
-    fphcf: 'Duplicate invoice number'
+    fphcf: 'Duplicate invoice number',
+    qxzyylx: 'please select Battery use type'
   }
 }

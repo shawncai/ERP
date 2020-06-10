@@ -132,7 +132,7 @@
               </el-col> -->
               <el-col :span="6">
                 <el-form-item :label="$t('tongyo.useType')" prop="useType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.useType" style="width: 200px" @change="getReceivableMoney">
+                  <el-select v-model="personalForm.useType" style="width: 200px" @change="changeusetype">
                     <el-option :label="$t('tongyo.jy')" value="1"/>
                     <el-option :label="$t('tongyo.yy')" value="2"/>
                   </el-select>
@@ -826,6 +826,10 @@ export default {
     _that = this
   },
   methods: {
+    changeusetype() {
+      this.personalForm.useMonth = null
+      this.getReceivableMoney()
+    },
     judgeinvoce() {
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
       checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
@@ -843,7 +847,7 @@ export default {
     },
     getusemonth() {
       const allbattery = this.$refs.editable.getRecords()
-      console.log('allbattery', allbattery)
+      console.log('this.personalForm.useType', this.personalForm.useType)
       if (allbattery.length === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -852,6 +856,16 @@ export default {
         })
         return false
       }
+
+      if (!this.personalForm.useType) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.qxzyylx'),
+          offset: 100
+        })
+        return false
+      }
+      this.getemplist.useType = this.personalForm.useType
       this.getemplist.categoryId = allbattery[0].category
       this.getemplist.iseffective = 1
       this.getdiffprice()
@@ -3023,7 +3037,9 @@ export default {
             return false
           }
 
-          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.customerPay)) {
+          console.log('Number(this.personalForm.shouldMoney)', Number(this.personalForm.shouldMoney))
+          console.log('Number(this.personalForm.customerPay)', Number(this.personalForm.receivableMoney))
+          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.bcskyw'),

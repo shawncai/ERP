@@ -316,7 +316,7 @@ export default {
           type: 'warning'
         }).then(() => {
           deletelocation(ids, this.$store.getters.userId).then(res => {
-            if (res.data.ret === 200 || res.data.ret === 100) {
+            if (res.data.ret === 200) {
               this.$notify({
                 title: this.$t('prompt.sccg'),
                 type: 'success',
@@ -326,7 +326,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: 'wrong',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -347,7 +347,7 @@ export default {
         type: 'warning'
       }).then(() => {
         deletelocation(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200 || res.data.ret === 100) {
+          if (res.data.ret === 200) {
             this.$notify({
               title: this.$t('prompt.sccg'),
               type: 'success',
@@ -357,7 +357,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: 'wrong',
+              message: res.data.msg,
               offset: 100
             })
           }

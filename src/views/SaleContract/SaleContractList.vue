@@ -8,7 +8,13 @@
         <el-option value="2" label="批发"/>
       </el-select>
       <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
+      <el-select v-model="getemplist.repositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item" @clear="clearrep">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -189,6 +195,7 @@
 </template>
 
 <script>
+import { searchRepository } from '@/api/public'
 import { searchsaleContract, deletesaleContract, updatesaleContract2 } from '@/api/SaleContract'
 import { searchsaleOut } from '@/api/SaleOut'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -254,6 +261,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       // 用户调查数据
       personalForm2: {},
       detailvisible2: false,
@@ -327,12 +335,14 @@ export default {
   },
   activated() {
     this.getlist()
+    this.getrepos()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getlist()
+    this.getrepos()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -341,6 +351,23 @@ export default {
     _that = this
   },
   methods: {
+    clearrep() {
+      console.log('123', 123)
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
+    },
+    // 根据区域选择门店
+    getrepos() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     handlerdetail(row) {
       console.log(row)
       this.detailvisible2 = true

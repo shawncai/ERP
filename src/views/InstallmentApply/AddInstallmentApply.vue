@@ -290,7 +290,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.age')" :required="personalForm.marriageStat === 2" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.mateAge" style="width: 200px" clearable/>
+                  <el-input v-model.number="personalForm.mateAge" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

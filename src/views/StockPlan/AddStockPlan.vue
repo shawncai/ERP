@@ -800,7 +800,7 @@ export default {
         }
       })
       for (let i = 0; i < result2.length; i++) {
-        this.$refs.editable2.insert(result2[i])
+        this.$refs.editable2.insertAt(result2[i], -1)
       }
     },
     // 供货商输入框focus事件触发
@@ -908,13 +908,13 @@ export default {
     productdetail(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     productdetail2(val) {
       console.log(val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 从源单中添加商品
@@ -958,13 +958,13 @@ export default {
       //   }
       // }
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     async apply2(val) {
       this.getTypes()
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 采购需求数据
@@ -973,13 +973,13 @@ export default {
       console.log('val1', val)
       for (let i = 0; i < val.length; i++) {
         console.log('val[i]', val[i])
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     requiredata2(val) {
       console.log('val2', val)
       for (let i = 0; i < val.length; i++) {
-        this.$refs.editable2.insert(val[i])
+        this.$refs.editable2.insertAt(val[i], -1)
       }
     },
     // 删除数据
@@ -1203,22 +1203,6 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin-right: 0;
-    .form-name{
-      font-size: 18px;
-      color: #373e4f;
-      margin-bottom: -20px;
-    }
-    .container{
-      margin-top: 40px;
-    }
-    .el-button+.el-button{
-      width: 98px;
-    }
-  }
-</style>
 <style rel="stylesheet/css" scoped>
   .normal >>> .el-dialog__header {
     padding: 20px 20px 10px;
@@ -1237,4 +1221,19 @@ export default {
     margin: 0 auto;
     height: auto;
   }
+.ERP-container{
+    margin-right: 0;
+}
+    .form-name{
+      font-size: 18px;
+      color: #373e4f;
+      margin-bottom: -20px;
+    }
+    .container{
+      margin-top: 40px;
+    }
+    .el-button+.el-button{
+      width: 98px;
+    }
+
 </style>

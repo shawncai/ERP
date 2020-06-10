@@ -87,35 +87,6 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgjhmx') }}</h2>
-        <div class="container">
-          <el-editable
-            ref="editable2"
-            :data.sync="list3"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            class="click-table1"
-            border
-            size="small"
-            style="width: 100%">
-            <el-editable-column :label="$t('Hmodule.xh')" class="print" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" class="print" prop="productCode" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" />
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" /> -->
-            <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" />
-            <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" /> -->
-            <el-editable-column :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center"/>
-            <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" />
-            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
-            <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
-            <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" />
-            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
-          </el-editable>
-        </div>
-      </el-card>
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>

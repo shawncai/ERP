@@ -135,7 +135,7 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+      <el-card v-if="personalForm.customerType === '2'" :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
 
         <div ref="fuzhu" class="form-name" >收款明细</div>
         <el-button type="danger" style="margin-top:25px" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -320,7 +320,7 @@ export default {
         couponSupport: 0,
         couponMoney: 0,
         couponSupportOld: 0,
-        customerType: '1'
+        customerType: '2'
       },
       allpenalty: 0,
       // 商品信息
@@ -1010,7 +1010,8 @@ export default {
         sourceType: '1',
         receiptMoney: 0,
         deductionMoney: 0,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        customerType: '2'
       }
       this.receiptPersonId = null
       this.customerId = null

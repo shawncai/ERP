@@ -4439,6 +4439,7 @@ export default {
     xjxs: '现金销售数量',
     fqxssl: '分期销售数量',
     xcxssl: '新车销售数量',
-    escxssl: '二手车销售数量'
+    escxssl: '二手车销售数量',
+    qxzyylx: '请先选择营运类型'
   }
 }
