@@ -85,7 +85,7 @@ export default{
 ::-webkit-scrollbar
 {
     width:10px;
-    height:12px;
+    height:11px;
     background-color:#F5F5F5;
 }
 /*定义滚动条轨道

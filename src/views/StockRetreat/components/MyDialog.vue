@@ -165,9 +165,7 @@
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
-          :summary-method="getSummaries"
           class="click-table1"
-          show-summary
           stripe
           border
           size="small"

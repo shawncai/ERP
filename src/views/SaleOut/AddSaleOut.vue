@@ -697,9 +697,16 @@ export default {
       }
     }
     const validatePass8 = (rule, value, callback) => {
-      (89, this.customerId)
       if (this.personalForm.saleType === undefined || this.personalForm.saleType === null || this.personalForm.saleType === '') {
         callback(new Error('请选择销售类别'))
+      } else {
+        callback()
+      }
+    }
+    const validinvoice = (rule, value, callback) => {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('please input invoiceNumber'))
       } else {
         callback()
       }
@@ -837,7 +844,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { required: true, message: 'please input', trigger: 'blur' }
+          { required: true, validator: validinvoice, trigger: 'blur' }
         ],
         saleType: [
           { required: true, validator: validatePass8, trigger: 'change' }
@@ -1975,8 +1982,11 @@ export default {
                   offset: 100
                 })
               } else {
-                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
                   row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+                } else {
+                  row.discountMoney = 0
+                  row.discountRate = 0
                 }
               }
             }
@@ -2010,9 +2020,12 @@ export default {
                   offset: 100
                 })
               }
-            }
-            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+              if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+              } else {
+                row.discountMoney = 0
+                row.discountRate = 0
+              }
             }
           }
         })

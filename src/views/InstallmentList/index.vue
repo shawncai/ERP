@@ -9,6 +9,13 @@
       <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.address" :placeholder="$t('StockInvoice.address')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-select v-model="getemplist.saleRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <!--更多搜索条件-->
       <!-- <el-col :span="3">
             <el-popover
@@ -318,6 +325,7 @@
 import { installmentlist } from '@/api/InstallmentList'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { searchRepository } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -394,6 +402,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       tableHeight: 200,
 
       // 销售员回显
@@ -471,6 +480,7 @@ export default {
   },
   mounted() {
     this.getlist()
+    this.getreops()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -479,6 +489,19 @@ export default {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    getreops() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

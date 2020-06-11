@@ -30,7 +30,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.age')" style="margin-left: 18px;width: 100%;margin-bottom: 0" class="redable">
-                  <el-input-number v-model="personalForm.age" :precision="0" :controls="false" :step="0.1" :min="1" :max="120" style="width: 200px" @blur="completeRate()"/>
+                  <el-input-number v-model="personalForm.age" :precision="0" :controls="false" :step="0.1" :min="1" :max="120" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -44,12 +44,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.applyPhone')" prop="applyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.applyPhone" :controls="false" style="width: 200px" clearable @blur="haveAccess"/>
+                  <el-input v-model="personalForm.applyPhone" :controls="false" style="width: 200px" @blur="haveAccess"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.applyCellPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.applyCellPhone" :controls="false" style="width: 200px" clearable @blur ="haveAccess2"/>
+                <el-form-item :label="$t('InstallmentApply.applyCellPhone')" prop="applyCellPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.applyCellPhone" :controls="false" style="width: 200px" @blur ="haveAccess2"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -85,8 +85,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.email')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.email" style="width: 200px" clearable/>
+                <el-form-item :label="$t('InstallmentApply.email')" prop="email" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.email" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 57px">
@@ -267,7 +267,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;padding-bottom: 10px">
 
         <div ref="geren" class="form-name">{{ $t('newupd.jhg') }}</div>
         <div class="container" style="margin-top: 25px">
@@ -288,9 +288,9 @@
                   <el-input v-model="personalForm.mateLastName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('InstallmentApply.age')" :required="personalForm.marriageStat === 2" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model.number="personalForm.mateAge" style="width: 200px" clearable/>
+                  <el-input-number v-model="personalForm.mateAge" :precision="0" :controls="false" :step="0.1" :min="1" :max="120" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -312,13 +312,13 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.matePhone')" :required="personalForm.marriageStat === 2" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.matePhone" style="width: 200px" clearable @blur="haveAccess3"/>
+                <el-form-item :label="$t('InstallmentApply.matePhone')" :required="personalForm.marriageStat === 2" prop="matePhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.matePhone" style="width: 200px" @blur="haveAccess3"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('InstallmentApply.email')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.mateEmail" style="width: 200px" clearable/>
+                <el-form-item :label="$t('InstallmentApply.email')" prop="mateEmail" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.mateEmail" style="width: 200px"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -373,34 +373,39 @@
                       <el-input v-model="personalForm.taxNumber" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.salary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.salary" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.salary" :precision="0" :controls="false" :min="0" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.otherIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.otherIncome" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.otherIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.allIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.allIncome" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.allIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.monthlyDebt')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.monthlyDebt" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.monthlyDebt" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.otherExpend')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.otherExpend" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.otherExpend" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height: 57px">
                     <el-form-item :label="$t('InstallmentApply.monthlyIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.monthlyIncome" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.monthlyIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -433,14 +438,14 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="6" style="height: 57px">
-                    <el-form-item :label="$t('InstallmentApply.workTime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateWorkTime" style="width: 200px">
+                    <el-form-item :label="$t('InstallmentApply.workTime')" prop="mateWorkTime" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                      <el-input v-model.number="personalForm.mateWorkTime" style="width: 200px">
                         <template slot="append">{{ $t('prompt.yue') }}</template>
                       </el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
-                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                    <el-form-item :label="$t('InstallmentApply.enterprisePhone')" prop="mateEnterprisePhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                       <el-input v-model="personalForm.mateEnterprisePhone" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
@@ -449,34 +454,39 @@
                       <el-input v-model="personalForm.mateTaxNumber" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.salary')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateSalary" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.mateSalary" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.otherIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateOtherIncome" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.mateOtherIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.allIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateAllIncome" style="width: 200px"/>
+
+                      <el-input-number v-model="personalForm.mateAllIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.monthlyDebt')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateMonthlyDebt" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.mateMonthlyDebt" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.otherExpend')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateOtherExpend" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.mateOtherExpend" :precision="0" :controls="false" :min="0" style="width: 200px"/>
+
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="6" style="height:57px">
                     <el-form-item :label="$t('InstallmentApply.monthlyIncome')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                      <el-input v-model="personalForm.mateMonthlyIncome" style="width: 200px"/>
+                      <el-input-number v-model="personalForm.mateMonthlyIncome" :precision="0" :controls="false" :min="0" style="width: 200px"/>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -635,6 +645,7 @@
 </template>
 
 <script>
+import { validateEmail } from '@/utils/validate'
 import '@/directive/noMoreClick/index.js'
 import { addinstallmentapply } from '@/api/InstallmentApply'
 import { ratelist } from '@/api/Installmentrate'
@@ -693,26 +704,22 @@ export default {
     }
     const validatePass5 = (rule, value, callback) => {
       if (this.personalForm.installmentCount === undefined || this.personalForm.installmentCount === null || this.personalForm.installmentCount === '') {
-        callback(new Error('请选择分期期数'))
+        callback(new Error('please select installmentCount'))
       } else {
         callback()
       }
     }
     const validatePass6 = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('手机号不能为空'))
-      }
       setTimeout(() => {
         console.log(String(value).length)
         if (String(value).length !== 10) {
-          callback(new Error('请输入正确电话号码'))
+          callback(new Error('phone number is wrong'))
         } else {
           callback()
         }
       }, 1000)
     }
     const validatePass7 = (rule, value, callback) => {
-      console.log('valueeeeeeeeeeeeeeeeeee', value)
       if (value === null || value === undefined || value === '') {
         callback()
       }
@@ -722,7 +729,61 @@ export default {
         if (flag) {
           callback()
         } else {
-          callback(new Error('请输入正确的邮箱地址'))
+          callback(new Error('please input right email'))
+        }
+      }
+    }
+    // 判断是否为数字(必填)
+    const validisnumber3 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value !== null && value !== undefined && value !== '') {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('phone number is wrong'))
+        }
+      }
+    }
+    // 判断是否为数字(非必填)
+    const validisnumber = (rule, value, callback) => {
+      console.log('value', value)
+      if (value === null || value === undefined || value === '') {
+        callback()
+      }
+      if (value !== null && value !== undefined && value !== '') {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('phone number is wrong'))
+        }
+      }
+    }
+
+    // 判断是否为数字(非必填)
+    const validisnumber2 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value === null || value === undefined || value === '') {
+        callback()
+      }
+      if (value !== null && value !== undefined && value !== '') {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          callback()
+        } else {
+          callback(new Error('phone number is wrong'))
         }
       }
     }
@@ -824,7 +885,10 @@ export default {
       // 销售订单规则数据
       personalrules: {
         applyCellPhone: [
-          { required: true, validator: validatePass6, trigger: 'blur' }
+          { validator: validisnumber, trigger: 'blur' }
+        ],
+        matePhone: [
+          { validator: validisnumber, trigger: 'blur' }
         ],
         age: [
           { required: true, message: '请输入年龄', trigger: 'blur' }
@@ -835,9 +899,9 @@ export default {
         lastName: [
           { required: true, message: '请输入姓', trigger: 'blur' }
         ],
-        // applyPhone: [
-        //   { validator: validatePass6, trigger: 'blur' }
-        // ],
+        applyPhone: [
+          { validator: validisnumber2, trigger: 'blur' }
+        ],
         provinceId: [
           { required: true, message: '请选择省', trigger: 'change' }
         ],
@@ -878,7 +942,7 @@ export default {
           { required: true, message: '请输入担保人姓名', trigger: 'blur' }
         ],
         suretyPhone: [
-          { required: true, validator: validatePass12, trigger: 'blur' }
+          { required: true, validator: validisnumber3, trigger: 'blur' }
         ],
         relationship: [
           { required: true, message: '请选择担保人关系', trigger: 'blur' }
@@ -917,17 +981,20 @@ export default {
         mateLiveStauts: [
           { message: '请输入居住状况', trigger: 'change' }
         ],
-        matePhone: [
-          { message: '请输入电话', trigger: 'change' }
-        ],
         mateEmail: [
-          { message: '请输入电子邮箱', trigger: 'change' }
+          { validator: validatePass7, trigger: 'blur' }
         ],
         enterprisePhone: [
           { validator: validatePass6, trigger: 'blur' }
         ],
+        mateEnterprisePhone: [
+          { validator: validatePass6, trigger: 'blur' }
+        ],
         workTime: [
-          { type: 'number', trigger: 'blur', message: '年龄必须为数字值' }
+          { type: 'number', trigger: 'blur', message: 'workTime must number' }
+        ],
+        mateWorkTime: [
+          { type: 'number', trigger: 'blur', message: 'mateWorkTime must number' }
         ]
       }
     }
@@ -1619,7 +1686,7 @@ export default {
         if (!flag) {
           this.$notify.error({
             title: 'wrong',
-            message: '请输入正确的邮箱地址',
+            message: 'please input right email',
             offset: 100
           })
           return false
