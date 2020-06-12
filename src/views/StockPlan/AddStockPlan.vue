@@ -113,6 +113,7 @@
               </template>
             </el-editable-column> -->
             <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.yjhsl')" prop="planedQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.xqsl')" prop="requireQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ysxqsl')" prop="requireQuantity2" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.xqrq')" prop="requireDate" align="center" min-width="150px"/>

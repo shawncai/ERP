@@ -7,13 +7,10 @@
         <el-option value="1" label="已发货"/>
         <el-option value="2" label="未发货"/>
       </el-select>
-      <el-select v-model="getemplist.repositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item" @clear="clearrep">
-        <el-option
-          v-for="(item, index) in repositories"
-          :key="index"
-          :label="item.repositoryName"
-          :value="item.id"/>
-      </el-select>
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -198,12 +195,13 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository2'
 
 var _that
 export default {
   name: 'SaleOrderList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -239,6 +237,8 @@ export default {
   },
   data() {
     return {
+      repositoryId: '',
+      repositorycontrol: false,
       repositories: [],
       tableHeight: 200,
       step1: '',
@@ -327,9 +327,18 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     clearrep() {
-      console.log('123', 123)
       this.getemplist.repositoryId = this.$store.getters.repositoryId
+      this.repositoryId = ''
     },
     // 根据区域选择门店
     getrepos() {
@@ -737,15 +746,11 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+
     // 部门列表focus刷新
     updatedept() {
       this.getlist()

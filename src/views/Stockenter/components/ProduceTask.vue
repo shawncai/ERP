@@ -337,11 +337,11 @@ export default {
     },
     // 选择主生产计划数据时的操作
     handleCurrentChange(val) {
+      console.log('val', val)
       this.choosedata = val
     },
     // 确认添加数据
     async handleConfirm() {
-      this.employeeVisible = false
       console.log('choosedata', this.choosedata)
       const producedata = this.choosedata.produceTaskDetailVos
       console.log('producedata', producedata)
@@ -354,9 +354,11 @@ export default {
           alreadyProduceQuantity: item.alreadyProduceQuantity,
           produceQuantity: item.produceQuantity,
           alreadyEnterQuantity: item.alreadyEnterQuantity,
+          color: item.color,
           workHours: 0,
           finishQuantity: 0,
-          passQuantity: 0,
+          passQuantity: item.passQuantity,
+          actualEnterQuantity: item.passQuantity,
           passRate: 0,
           workCenterId: item.workCenterId,
           unit: item.unit,
@@ -385,6 +387,7 @@ export default {
       console.log('productDetail', productDetail)
       this.$emit('productDetail', productDetail)
       this.$emit('moredata', num)
+      this.employeeVisible = false
     }
     // 仓库管理员选择结束
   }

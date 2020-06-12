@@ -189,6 +189,8 @@
             <el-button v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['200-213-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['200-213-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
         </el-table-column>
@@ -383,6 +385,49 @@ export default {
     _that = this
   },
   methods: {
+    // 反审批操作
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.parentid
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fsp'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatereceipt(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+
+                type: 'error',
+                message: this.$t('prompt.fspsb')
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: this.$t('prompt.fspcg')
+              })
+            }
+            this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+        })
+      })
+    },
+    // 判断反审批按钮
+    isReview4(row) {
+      // console.log(row)
+      if (row.judgeStat === 2 && row.receiptStat === 2) {
+        return true
+      }
+    },
     // 根据区域选择门店
     handlereps() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)

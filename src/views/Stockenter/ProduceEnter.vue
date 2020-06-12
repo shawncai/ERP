@@ -76,7 +76,7 @@
 
         <div ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
-          <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <!-- <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button> -->
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -97,7 +97,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope" edit="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)" @change="changequantity">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -106,20 +106,47 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible', events: {change: changequantity}}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: changequantity}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/> -->
             <!-- <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.price) }}</p>
               </template>
             </el-editable-column> -->
+            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
+          </el-editable>
+        </div>
+      </el-card>
+
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-rules="validRules"
+            class="click-table1"
+            stripe
+            border
+            size="small"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-editable-column type="selection" width="55" align="center"/>
+            <el-editable-column label="编号" width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -140,7 +167,7 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.sncode')" prop="batteryCode" align="center" min-width="150" >
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.sncode')" prop="snCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.snCode" clearable/>
                 <span v-else>{{ scope.row.snCode }}</span>
@@ -148,6 +175,7 @@
             </el-editable-column>
           </el-editable>
         </div>
+
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
@@ -275,6 +303,7 @@ export default {
       },
       // 生产入库单明细数据
       list2: [],
+      list3: [],
       // 生产入库明细中货位发送参数
       locationlistparms: {
         pageNum: 1,
@@ -306,6 +335,31 @@ export default {
     _that = this
   },
   methods: {
+    changequantity(scope) {
+      const newarr = []
+      const that = this
+      const val = this.$refs.editable.getRecords()
+      console.log('val', val)
+      this.$refs.editable2.clear()
+      for (let i = 0; i < val.length; i++) {
+        // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '01' && that.$store.getters.countryId === 2) {
+          const arrlength = Number(val[i].actualEnterQuantity)
+          let newobj = {}
+          for (let index = 0; index < arrlength; index++) {
+            newobj = val[i]
+            newobj.actualEnterQuantity = 1
+            newarr.push(newobj)
+          }
+        } else {
+          newarr.push(val[i])
+        }
+      }
+      for (const j in newarr) {
+        this.$refs.editable2.insert(newarr[j])
+      }
+    },
     isEdit2(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -343,22 +397,29 @@ export default {
     // 从销售订单过来数据
     productDetail(val) {
       console.log('val', val)
+      const newarr = []
+      const that = this
       this.$refs.editable.clear()
+      this.$refs.editable2.clear()
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].sourceNumber === nowlistdata[j].sourceNumber) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
-          }
-        }
-        // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
-        val[i].actualEnterQuantity = val[i].passQuantity
         this.$refs.editable.insert(val[i])
+        // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '01' && that.$store.getters.countryId === 2) {
+          const arrlength = Number(val[i].passQuantity)
+          let newobj = {}
+          for (let index = 0; index < arrlength; index++) {
+            newobj = val[i]
+            newobj.actualEnterQuantity = 1
+            newarr.push(newobj)
+          }
+        } else {
+          newarr.push(val[i])
+        }
+      }
+      for (const j in newarr) {
+        this.$refs.editable2.insert(newarr[j])
       }
     },
     moredata(val) {
@@ -476,7 +537,7 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
+      const EnterDetail = this.$refs.editable2.getRecords()
       // 整车入库时相关编码必填
       let m = 1
       // 整车入库时数量为1

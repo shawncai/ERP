@@ -111,13 +111,9 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" />
-            <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" />
+            <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" >
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
-              </template>
-            </el-editable-column>
+            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" />
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />

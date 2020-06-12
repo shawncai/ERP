@@ -505,7 +505,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getSummaries(param) {
@@ -552,7 +551,6 @@ export default {
     },
     // 计算金额
     getMoney(row) {
-      console.log(row.actualEnterQuantity, row.price)
       row.money = (Number(row.actualEnterQuantity) * Number(row.price)).toFixed(6)
       return row.money
     },
@@ -575,12 +573,29 @@ export default {
       return row.taxMoney
     },
     order(val) {
+      const that = this
       console.log('ssssss', val)
+      const newarr = []
       for (let i = 0; i < val.length; i++) {
-        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
         val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(6)
-        this.$refs.editable.insert(val[i])
+
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '05' && that.$store.getters.countryId === 2) {
+          const arrlength = Number(val[i].basicQuantity - val[i].actualArrivalQuantity)
+          let newobj = {}
+          for (let index = 0; index < arrlength; index++) {
+            newobj = val[i]
+            newobj.actualEnterQuantity = 1
+            newarr.push(newobj)
+          }
+        } else {
+          newarr.push(val[i])
+        }
       }
+      for (const j in newarr) {
+        this.$refs.editable.insert(newarr[j])
+      }
+      console.log('newarr', newarr)
     },
     allOrderinfo(val) {
       this.personalForm.enterRepositoryId = val.stockRepositoryId
@@ -684,15 +699,27 @@ export default {
     arrival(val) {
       this.$refs.editable.clear()
       let qq = 1
+      const newarr = []
+      const that = this
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].passQuantity)
         if (val[i].actualEnterQuantity > 0) {
+          delete val[i].stockArrivalDetailVos
+          qq = 2
           // val[i].actualEnterQuantity = (val[i].arrivalQuantity - val[i].hadStorageQuantity).toFixed(6)
           // this.$refs.editable.insert(val[i])
-          delete val[i].stockArrivalDetailVos
-          this.list2.push(val[i])
-          this.$refs.editable.insert(val[i])
-          qq = 2
+          const re = val[i].productCode.slice(0, 2)
+          if (re === '05' && that.$store.getters.countryId === 2) {
+            const arrlength = Number(val[i].basicQuantity)
+            let newobj = {}
+            for (let index = 0; index < arrlength; index++) {
+              newobj = val[i]
+              newobj.actualEnterQuantity = 1
+              newarr.push(newobj)
+            }
+          } else {
+            newarr.push(val[i])
+          }
         }
       }
       if (qq === 1) {
@@ -701,6 +728,9 @@ export default {
           message: '质检过的商品都已入库',
           offset: 100
         })
+      }
+      for (const j in newarr) {
+        this.$refs.editable.insert(newarr[j])
       }
     },
     // ====================
@@ -1015,7 +1045,6 @@ export default {
       return (quan * pric).toFixed(6)
     },
     getmylocation(scope) {
-      console.log(1231231231231)
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {
