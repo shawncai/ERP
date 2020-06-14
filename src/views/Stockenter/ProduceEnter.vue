@@ -97,7 +97,7 @@
             <el-editable-column label="编号" width="55" align="center" type="index"/>
             <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope" edit="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)" @change="changequantity">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)" @change="changelocation(scope.row)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -106,20 +106,22 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible', events: {change: changequantity}}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible', events: {change: changebatch}}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', events: {change: changequantity}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/> -->
-            <!-- <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.price) }}</p>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.actualEnterQuantity"
+                  @change="changequantity(scope)"/>
               </template>
-            </el-editable-column> -->
+            </el-editable-column>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
           </el-editable>
         </div>
@@ -335,11 +337,35 @@ export default {
     _that = this
   },
   methods: {
+    changebatch(row) {
+      console.log('row1', row)
+      const val = this.$refs.editable.getRecords()
+      const val2 = this.$refs.editable2.getRecords()
+      for (const i in val) {
+        for (const j in val2) {
+          if (val[i].productCode === val2[j].productCode) {
+            val2[j].batch = val[i].batch
+          }
+        }
+      }
+    },
+    changelocation(row) {
+      console.log('row1', row)
+      const val = this.$refs.editable.getRecords()
+      const val2 = this.$refs.editable2.getRecords()
+      for (const i in val) {
+        for (const j in val2) {
+          if (val[i].productCode === val2[j].productCode) {
+            val2[j].locationId = val[i].locationId
+          }
+        }
+      }
+    },
     changequantity(scope) {
       const newarr = []
       const that = this
       const val = this.$refs.editable.getRecords()
-      console.log('val', val)
+      console.log('val2', val)
       this.$refs.editable2.clear()
       for (let i = 0; i < val.length; i++) {
         // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
@@ -361,7 +387,6 @@ export default {
       }
     },
     isEdit2(row) {
-      console.log('222', row)
       const re = row.productCode.slice(0, 2)
       // if (re === '01') {
       //   row.quantity = 1

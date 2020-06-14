@@ -48,6 +48,9 @@ export function saleplanlist(query) {
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   }

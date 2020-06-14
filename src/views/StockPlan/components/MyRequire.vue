@@ -411,6 +411,7 @@ export default {
             list2[i].inventoryQuantity = requireDetail[j].inventoryQuantity
             list2[i].requireQuantity2 = requireDetail[j].requireQuantity2
             list2[i].requireDate = requireDetail[j].requireDate
+            list2[i].planedQuantity = requireDetail[j].planedQuantity
             list3.push(list2[i])
           }
         }

@@ -5,6 +5,9 @@
       <el-input v-model="getemplist.number" :placeholder="$t('updates.srdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="handlePersonId" :placeholder="$t('income.handlePersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -29,6 +32,14 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
+        <el-date-picker
+          v-model="date"
+          :default-time="['00:00:00', '23:59:59']"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          value-format="yyyy-MM-dd"
+          style="width: 60%;margin-top:10px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -223,12 +234,13 @@ import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
+import MyRepository from './components/MyRepository2'
 
 var _that
 export default {
   name: 'IncomeList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -374,6 +386,19 @@ export default {
     _that = this
   },
   methods: {
+    clearrep() {
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
+      this.repositoryId = ''
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -639,6 +664,16 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date === null) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else if (this.date.length === 0) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      }
       this.getemplist.pageNum = 1
       searchincome(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -915,15 +950,7 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
+
     // 部门列表focus刷新
     updatedept() {
       this.getlist()

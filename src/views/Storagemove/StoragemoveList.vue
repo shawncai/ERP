@@ -18,30 +18,21 @@
         width="500"
         size="small"
         trigger="click">
-        <el-select v-model="getemplist.departmentId" size="small" placeholder="请选择调货部门" style="width: 40%;float: left;margin-left: 20px" clearable >
-          <el-option
-            v-for="(item, index) in depts"
-            :key="index"
-            :value="item.id"
-            :label="item.deptName"/>
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable >
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-
-        <el-select v-model="getemplist.requestDeptId" size="small" placeholder="请选择要货部门" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable >
-          <el-option
-            v-for="(item, index) in depts"
-            :key="index"
-            :value="item.id"
-            :label="item.deptName"/>
-        </el-select>
-        <!-- <el-date-picker
+        <el-date-picker
           v-model="date"
+          :default-time="['00:00:00', '23:59:59']"
           type="daterange"
           range-separator="-"
           unlink-panels
-          start-placeholder="要求到货开始日期"
-          end-placeholder="要求到货结束日期"
           value-format="yyyy-MM-dd"
-          style="margin-top: 20px;margin-left: 20px;width: 434px"/> -->
+          style="width: 250px"/>
+
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" size="small" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -772,12 +763,15 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      if (this.date === null || this.date === '') {
-        this.getemplist.beginTime = null
-        this.getemplist.endTime = null
+      if (this.date === null) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else if (this.date.length === 0) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
       } else {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
       }
       searchlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {

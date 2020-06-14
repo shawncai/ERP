@@ -14,6 +14,14 @@
           :label="item.repositoryName"
           :value="item.id"/>
       </el-select>
+      <el-date-picker
+        v-model="date"
+        :default-time="['00:00:00', '23:59:59']"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"
+        style="width: 250px"/>
       <!--更多搜索条件-->
       <!--<el-col :span="3">-->
       <!--<el-popover-->
@@ -278,6 +286,7 @@ export default {
   },
   data() {
     return {
+      date: [],
       repositories: [],
       tableHeight: 200,
       pickerOptions1: {
@@ -360,7 +369,6 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: [],
       receiptVisible9: false,
       picPaths: []
     }
@@ -388,7 +396,7 @@ export default {
     // 反审批操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentid
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -644,6 +652,17 @@ export default {
     },
     // 搜索
     handleFilter() {
+      console.log(this.date)
+      if (this.date === null) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else if (this.date.length === 0) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      }
       this.getemplist.pageNum = 1
       searchreceipt(this.getemplist).then(res => {
         if (res.data.ret === 200) {

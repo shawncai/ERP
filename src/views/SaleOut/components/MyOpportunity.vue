@@ -137,6 +137,7 @@
 import { saleopportunitylist } from '@/api/SaleOpportunity'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { productlist } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
@@ -367,13 +368,14 @@ export default {
       this.choosedata = val
     },
     // 确认添加数据
-    handleConfirm() {
+    async handleConfirm() {
       this.employeeVisible = false
       console.log(this.choosedata)
       const opportunitydata = this.choosedata.saleOpportunityDetailVos
       const opportunityNumber = this.choosedata.opportunityNumber
       const opportunityDetail = opportunitydata.map(function(item) {
         return {
+          code: item.productCode,
           productCode: item.productCode,
           productName: item.productName,
           categoryName: item.productCategory,
@@ -405,6 +407,21 @@ export default {
           allQuantity: 0
         }
       })
+      const list2 = await Promise.all(opportunityDetail.map(function(item) {
+        return productlist(item).then(res => {
+          return res.data.data.content.list
+        })
+      }))
+      console.log('list', list)
+      const list = [].concat.apply([], list2)
+      for (const i in list) {
+        for (const j in opportunityDetail) {
+          if (list[i].code === opportunityDetail[j].productCode) {
+            opportunityDetail[j].salePrice = list[i].salePrice
+            opportunityDetail[j].taxprice = list[i].salePrice
+          }
+        }
+      }
       this.$emit('opportunityDetail', opportunityDetail)
       this.$emit('opportunity', this.choosedata)
     }

@@ -982,6 +982,9 @@ export default {
     judgeinvoce() {
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (!this.personalForm.invoiceNumber) {
+        return
+      }
       checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
         if (res.data.ret === 200) {
           if (res.data.data.content === true) {
@@ -1542,9 +1545,9 @@ export default {
         if (this.$store.getters.empcontract2.customerType !== null && this.$store.getters.empcontract2.customerType !== undefined && this.$store.getters.empcontract2.customerType !== '') {
           this.personalForm.customerType = String(this.$store.getters.empcontract2.customerType)
         }
-        // this.personalForm.customerId = val.customerId
-        this.customerId = this.$store.getters.empcontract2.customerName
-        this.personalForm.customerPhone = this.$store.getters.empcontract2.customerPhone
+        // // this.personalForm.customerId = val.customerId
+        // this.customerId = this.$store.getters.empcontract2.customerName
+        // this.personalForm.customerPhone = this.$store.getters.empcontract2.customerPhone
         this.personalForm.salePersonId = this.$store.getters.empcontract2.handlePersonId
         this.salePersonId = this.$store.getters.empcontract2.handlePersonName
         this.personalForm.handleRepositoryId = this.$store.getters.empcontract2.handleRepositoryId
@@ -2229,8 +2232,8 @@ export default {
         this.personalForm.customerType = String(val.customerType)
       }
       // this.personalForm.customerId = val.customerId
-      this.customerId = val.customerName
-      this.personalForm.customerPhone = val.customerPhone
+      // this.customerId = val.customerName
+      // this.personalForm.customerPhone = val.customerPhone
       this.personalForm.salePersonId = val.handlePersonId
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId

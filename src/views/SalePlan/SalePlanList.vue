@@ -31,6 +31,13 @@
         <el-option value="3" label="周" />
         <el-option value="4" label="日" />
       </el-select>
+      <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <el-popover v-model="visible2" placement="bottom" width="500" trigger="click">
         <el-date-picker
           v-model="date"
@@ -399,6 +406,7 @@
 import { saleplanlist, deletesaleplan, updatesaleplan2, saleplanlistDetail, updatetrace } from '@/api/SalePlan'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { searchRepository } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -460,6 +468,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       tableHeight: 200,
       list2: [],
       formLabelWidth: '130px',
@@ -538,12 +547,16 @@ export default {
   },
   activated() {
     this.getlist()
+    this.handlerep()
+
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getlist()
+    this.handlerep()
+
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -552,6 +565,19 @@ export default {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    handlerep() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

@@ -7,7 +7,13 @@
       <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="getemplist.title" :placeholder="$t('updates.gqzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
+      <el-select v-model="getemplist.saleRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
+        <el-option
+          v-for="(item, index) in repositories"
+          :key="index"
+          :label="item.repositoryName"
+          :value="item.id"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -25,15 +31,14 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <!--<el-date-picker-->
-        <!--v-model="date"-->
-        <!--type="daterange"-->
-        <!--range-separator="-"-->
-        <!--unlink-panels-->
-        <!--start-placeholder="销售日期"-->
-        <!--end-placeholder="销售日期"-->
-        <!--value-format="yyyy-MM-dd"-->
-        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <el-date-picker
+          v-model="date"
+          :default-time="['00:00:00', '23:59:59']"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          value-format="yyyy-MM-dd"
+          style="width: 60%;margin-top:10px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" size="small" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -169,6 +174,7 @@ import { voucherlist, addChangeCountVoucher } from '@/api/voucher'
 import { changelist, deletechange, updatechange2 } from '@/api/ChangeCount'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
+import { searchRepository } from '@/api/public'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -219,6 +225,7 @@ export default {
   },
   data() {
     return {
+      repositories: [],
       tableHeight: 200,
 
       downloadLoading2: false,
@@ -283,6 +290,7 @@ export default {
   },
   activated() {
     this.getlist()
+    this.handlerep()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -290,6 +298,7 @@ export default {
   mounted() {
     this.getlist()
     this.isReview()
+    this.handlerep()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -298,6 +307,19 @@ export default {
     _that = this
   },
   methods: {
+    // 根据区域选择门店
+    handlerep() {
+      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
+        searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
+          if (res.data.ret === 200) {
+            this.repositories = res.data.data.content.list
+          } else {
+            this.$message.error('出错了')
+          }
+        })
+      }
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -436,6 +458,16 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date === null) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else if (this.date.length === 0) {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      }
       this.getemplist.pageNum = 1
       changelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
