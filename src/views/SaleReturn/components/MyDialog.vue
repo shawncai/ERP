@@ -423,6 +423,12 @@ export default {
       this.saleRepositoryId = this.personalForm.saleRepositoryName
       this.personalForm.customerPhone = this.personalForm.phoneNumber
       this.list2 = this.personalForm.saleReturnDetailVos
+      this.heji1 = this.personalForm.allQuantity
+      this.heji2 = this.personalForm.allMoney
+      this.heji3 = this.personalForm.allIncludeTaxMoney
+      this.heji4 = this.personalForm.allTaxMoney
+      this.heji5 = this.personalForm.allDiscountMoney
+      this.heji6 = this.personalForm.allIncludeTaxDiscountMoney
       this.chooseSource()
       this.changeRate()
     }
@@ -833,6 +839,10 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.saleReturnDetailVos
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.receiptStat
+      delete this.personalForm.judgeStat
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId
@@ -849,7 +859,7 @@ export default {
             })
             return false
           }
-          let i = 2
+          let i = 1
           const sourceType = this.personalForm.sourceType
           EnterDetail.map(function(elem) {
             return elem

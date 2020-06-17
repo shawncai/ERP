@@ -278,6 +278,7 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
       tableHeight: 200,
       pickerOptions1: {
         disabledDate: (time) => {

@@ -3847,7 +3847,9 @@ export default {
     tjsrx: 'add income item',
     xgflsx: 'edit classification category',
     xgck: 'edit warehouse',
-    xjflsx: ', new classification category',
+    xjflsx: 'new classification category',
+    xjflmc: 'new classification Name',
+    xjfllb: 'new classification category',
     xghw: 'edit cargo location',
     xgbm: 'edit department',
     zzd: 'assemble form',
@@ -4430,6 +4432,18 @@ export default {
     bcskyw: 'Actually received is wrong',
     qxxzdc: 'please select out battery',
     fphcf: 'Duplicate invoice number',
-    qxzyylx: 'please select Battery use type'
+    zt: 'title',
+    adjustDate: 'adjustDate',
+    oldPrice: 'oldPrice',
+    newPrice: 'newPrice',
+    md: 'branch',
+    zxl: 'Total sales',
+    xjxs: 'Cash sales',
+    fqxssl: 'Number of installments',
+    xcxssl: 'New car sales',
+    escxssl: 'Number of used car sales',
+    qxzyylx: 'please select Battery use type',
+    yjhsl: 'Planned quantity',
+    lbmc: 'classification name'
   }
 }

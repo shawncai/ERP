@@ -76,7 +76,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" prop="saleRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('Advancemanage.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="saleRepositoryId" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
@@ -604,16 +604,6 @@ export default {
       this.personalForm.advanceMoney = val[0].deposit
       const nowlistdata = this.$refs.editable.getRecords()
       for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
-          }
-        }
         this.$refs.editable.insert(val[i])
       }
     },

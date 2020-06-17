@@ -18,6 +18,11 @@
         width="500"
         size="small"
         trigger="click">
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
+          <el-option :label="$t('updates.zd')" value="1"/>
+          <el-option :label="$t('updates.zx')" value="2"/>
+          <el-option :label="$t('updates.jd')" value="3"/>
+        </el-select>
         <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable >
           <el-option :label="$t('updates.wsh')" value="0"/>
           <el-option :label="$t('updates.shz')" value="1"/>

@@ -365,7 +365,7 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
           <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
-          <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+          <el-button :disabled="personalForm.sourceType === '2'" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>

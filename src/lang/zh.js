@@ -3848,6 +3848,8 @@ export default {
     xgflsx: '修改分类属性',
     xgck: '修改仓库',
     xjflsx: '新建分类属性',
+    xjflmc: '新建分类名称',
+    xjfllb: '新建分类类别',
     xghw: '修改货位',
     xgbm: '修改部门',
     zzd: '组装单',
@@ -4441,6 +4443,7 @@ export default {
     xcxssl: '新车销售数量',
     escxssl: '二手车销售数量',
     qxzyylx: '请先选择营运类型',
-    yjhsl: '已计划数量'
+    yjhsl: '已计划数量',
+    lbmc: '类别名称'
   }
 }

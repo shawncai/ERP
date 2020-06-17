@@ -30,14 +30,14 @@
       <el-button v-permission="['1-9-13-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 60px" @click="handlePrint">{{ $t('public.print') }}</el-button>
       <!-- 新建操作 -->
       <el-button v-permission="['1-9-13-1']" size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd2">{{ $t('public.add') }}</el-button>
-      <el-dialog :visible.sync="categoryVisible2" :title="$t('updates.xjflsx')" append-to-body width="600px" class="normal" center>
+      <el-dialog :visible.sync="categoryVisible2" :title="$t('updates.xjflmc')" append-to-body width="600px" class="normal" center>
         <el-form ref="addCategoryForm2" :rules="addCategoryFormRules2" :model="addCategoryForm2" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
+          <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm2.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="仓库类型" value="1"/>
               <el-option label="仓库类别" value="2"/>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="类别" label-width="100px" prop="parentId">
             <el-select v-model="addCategoryForm2.parentId" placeholder="请选择父类别" style="width: 100%" @focus="getPar">
               <el-option
@@ -64,16 +64,16 @@
         </span>
       </el-dialog>
       <!-- 新增2 -->
-      <!-- <el-button v-permission="['1-9-13-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px;float: right" @click="handleAdd">类别</el-button> -->
-      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjflsx')" append-to-body width="600px" class="normal" center>
+      <el-button v-permission="['1-9-13-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 120px" @click="handleAdd">新建类别</el-button>
+      <el-dialog :visible.sync="categoryVisible" :title="$t('updates.xjfllb')" append-to-body width="600px" class="normal" center>
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
-          <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
+          <!-- <el-form-item :label="$t('NewEmployeeInformation.type')" label-width="100px" prop="type">
             <el-select v-model="addCategoryForm.type" placeholder="请选择类别" style="width: 100%">
               <el-option label="仓库类型" value="1"/>
               <el-option label="仓库类别" value="2"/>
             </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('NewEmployeeInformation.categoryname')" label-width="100px" prop="categoryname">
+          </el-form-item> -->
+          <el-form-item :label="$t('update4.lbmc')" label-width="100px" prop="categoryname">
             <el-input v-model="addCategoryForm.categoryname" autocomplete="off"/>
           </el-form-item>
           <el-form-item :label="$t('NewEmployeeInformation.iseffective')" label-width="100px" prop="iseffective">
