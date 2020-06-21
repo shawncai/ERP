@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
+        <button v-if="personalForm.sourceType === 5" style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -651,6 +652,20 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt2() {
+      console.log('this.detaildata', this.personalForm)
+      this.editVisible = false
+      this.$store.dispatch('getsaleoutcopy', this.personalForm)
+      if (this.detaildata.isFree === 1) {
+        this.$router.push('/SaleOut/NewAccessoriesOut')
+      } else if (this.detaildata.useMonth) {
+        this.$router.push('/SaleOut/NewBatteryOut')
+      } else if (this.detaildata.isAppService === 1) {
+        this.$router.push('/SaleOut/NewAccessoriesOut')
+      } else {
+        this.$router.push('/SaleOut/AddSaleOut')
+      }
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true

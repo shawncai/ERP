@@ -12,6 +12,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable @blur="judgeinvoce"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSource">
                   <el-option :label="$t('prompt.wly')" value="1" />
@@ -447,7 +452,7 @@ import { updatesaleOrder } from '@/api/SaleOrder'
 import { searchCategory } from '@/api/Supplier'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchRoleDiscount } from '@/api/BasicSettings'
-
+import { checkInvoiceExist } from '@/api/SaleOut'
 import MyEmp from './MyEmp'
 import MyDelivery from '../../DailyAdjust/components/MyDelivery'
 import MyDetail from './MyDetail'
@@ -476,6 +481,14 @@ export default {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
         callback(new Error('请选择销售人员'))
+      } else {
+        callback()
+      }
+    }
+    const validinvoice = (rule, value, callback) => {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('please input invoiceNumber'))
       } else {
         callback()
       }
@@ -544,6 +557,9 @@ export default {
       control: false,
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, validator: validinvoice, trigger: 'blur' }
+        ],
         customerType: [
           { required: true, message: '请选择客户类别', trigger: 'change' }
         ],
@@ -595,6 +611,25 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (!this.personalForm.invoiceNumber) {
+        return
+      }
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
     isEdit6(row) {
       const re = row.productCode.slice(2, 4)
       const re2 = row.productCode.slice(0, 2)

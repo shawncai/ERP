@@ -1301,6 +1301,9 @@ export default {
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
       }
+      if (!this.personalForm.couponMoney) {
+        this.personalForm.couponMoney = 0
+      }
       console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0

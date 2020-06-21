@@ -52,6 +52,7 @@ const getters = {
   setchoosedata: state => state.publics.setchoosedata,
   myflagApproval: state => state.publics.myflagApproval,
   printdata: state => state.publics.printdata,
-  uploadApi: state => state.publics.uploadApi
+  uploadApi: state => state.publics.uploadApi,
+  saleoutcopy: state => state.publics.saleoutcopy
 }
 export default getters

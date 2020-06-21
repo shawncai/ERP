@@ -9,6 +9,11 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" @blur="judgeinvoce"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.title" style="width: 200px" clearable/>
                 </el-form-item>
@@ -464,7 +469,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index:99">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloding" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -507,7 +512,7 @@ import { createsaleOrder } from '@/api/SaleOrder'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
 import { searchRoleDiscount } from '@/api/BasicSettings'
-
+import { checkInvoiceExist } from '@/api/SaleOut'
 import MyEmp from './components/MyEmp'
 import MyDelivery from '../DailyAdjust/components/MyDelivery'
 import MyDetail from './components/MyDetail'
@@ -539,6 +544,14 @@ export default {
         callback()
       }
     }
+    const validinvoice = (rule, value, callback) => {
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('please input invoiceNumber'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -550,6 +563,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      saveloding: false,
       // 判断权限
       isshow: '',
       isshow2: '',
@@ -628,6 +642,9 @@ export default {
       },
       // 销售订单规则数据
       personalrules: {
+        invoiceNumber: [
+          { required: true, validator: validinvoice, trigger: 'blur' }
+        ],
         customerId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
@@ -661,11 +678,53 @@ export default {
     this.getTypes()
     this.getdatatime()
     this.jungleshow()
+    this.getcopydata()
+  },
+  activated() {
+    this.getcopydata()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (!this.personalForm.invoiceNumber) {
+        return
+      }
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
+    getcopydata() {
+      if (this.$store.getters.empcontract) {
+        console.log('getempcontract', this.$store.getters.empcontract)
+        this.personalForm = this.$store.getters.empcontract
+        this.personalForm.sourceType = '1'
+        this.personalForm.currency = String(this.$store.getters.empcontract.currency)
+        this.salePersonId = this.$store.state.user.name
+        this.personalForm.salePersonId = this.$store.getters.userId
+        this.saleRepositoryId = this.$store.getters.repositoryName
+        this.personalForm.customerType = String(this.$store.getters.empcontract.customerType)
+        this.customerId = this.$store.getters.empcontract.customerName
+        this.list2 = this.personalForm.saleOrderDetailVos
+        this.personalForm.createPersonId = this.$store.getters.userId
+        this.personalForm.countryId = this.$store.getters.countryId
+        this.personalForm.repositoryId = this.$store.getters.repositoryId
+        this.personalForm.regionId = this.$store.getters.regionId
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     notundefined(row) {
       if (row.discountRate === undefined) {
         this.$set(row, 'discountRate', 0)
@@ -735,6 +794,7 @@ export default {
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
+      this.judgeinvoce()
     },
     // 出库仓库focus事件触发
     handlechooseRep() {
@@ -916,13 +976,13 @@ export default {
       sums[9] = ''
       sums[23] = ''
       this.heji1 = sums[10]
-      this.heji2 = sums[16]
-      this.heji3 = sums[16]
-      this.heji4 = sums[15]
-      this.heji5 = sums[18]
-      this.heji6 = sums[16] - sums[18]
-      this.heji7 = sums[19]
-      this.heji8 = sums[14]
+      this.heji2 = sums[21]
+      this.heji3 = sums[21]
+      this.heji4 = sums[20]
+      this.heji5 = sums[23]
+      this.heji6 = sums[21] - sums[23]
+      this.heji7 = sums[21]
+      this.heji8 = sums[21]
       return sums
     },
     // 计算成本金额
@@ -990,11 +1050,15 @@ export default {
                   message: this.$t('tongyo.cgzdzke'),
                   offset: 100
                 })
+              } else {
+                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                  row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+                } else {
+                  row.discountMoney = 0
+                  row.discountRate = 0
+                }
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
           }
         })
       } else {
@@ -1024,11 +1088,15 @@ export default {
                   message: this.$t('tongyo.cgzdzke'),
                   offset: 100
                 })
+              } else {
+                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                  row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+                } else {
+                  row.discountMoney = 0
+                  row.discountRate = 0
+                }
               }
             }
-          }
-          if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-            row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
           }
         })
       }
@@ -1192,168 +1260,182 @@ export default {
     },
     // 保存操作
     handlesave() {
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          if (this.personalForm.otherMoney === null || this.personalForm.otherMoney === undefined || this.personalForm.otherMoney === '') {
-            this.$notify.error({
-              title: 'wrong',
-              message: '其他费用不能为空',
-              offset: 100
-            })
-            return false
-          }
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          let m = 1
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            const re = elem.productCode.slice(0, 2)
-            if (re === '01') {
-              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
-                m = 2
-              }
+      this.saveloding = true
+      setTimeout(() => {
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            if (this.personalForm.otherMoney === null || this.personalForm.otherMoney === undefined || this.personalForm.otherMoney === '') {
+              this.$notify.error({
+                title: 'wrong',
+                message: '其他费用不能为空',
+                offset: 100
+              })
+              this.saveloding = false
+
+              return false
             }
+            const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            let m = 1
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              const re = elem.productCode.slice(0, 2)
+              if (re === '01') {
+                if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+                  m = 2
+                }
+              }
             // if (re === '05') {
             //   if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
             //     m = 3
             //   }
             // }
-          })
+            })
 
-          if (m === 3) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.dcckytbm'),
-              offset: 100
-            })
-            return false
-          }
-          if (m === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.zcckytbm'),
-              offset: 100
-            })
-            return false
-          }
-          if (EnterDetail.length === 0) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.mxbbnwk'),
-              offset: 100
-            })
-            return false
-          }
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-              delete elem.typeId
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.performanceScore === null || elem.performanceScore === '' || elem.performanceScore === undefined) {
-              delete elem.performanceScore
-            }
-            if (elem.productScore === null || elem.productScore === '' || elem.productScore === undefined) {
-              delete elem.productScore
-            }
-            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
-            }
-            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
-            }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            return elem
-          })
-          const parms2 = JSON.stringify(EnterDetail)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          createsaleOrder(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-            } else {
+            if (m === 3) {
               this.$notify.error({
                 title: 'wrong',
-                message: res.data.msg,
+                message: this.$t('prompt.dcckytbm'),
                 offset: 100
               })
+              this.saveloding = false
+
+              return false
             }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
-      })
+            if (m === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.zcckytbm'),
+                offset: 100
+              })
+              this.saveloding = false
+
+              return false
+            }
+            if (EnterDetail.length === 0) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.mxbbnwk'),
+                offset: 100
+              })
+              this.saveloding = false
+
+              return false
+            }
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+                delete elem.productCode
+              }
+              if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+                delete elem.productName
+              }
+              if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+                delete elem.typeId
+              }
+              if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+                delete elem.unit
+              }
+              if (elem.color === null || elem.color === '' || elem.color === undefined) {
+                delete elem.color
+              }
+              if (elem.performanceScore === null || elem.performanceScore === '' || elem.performanceScore === undefined) {
+                delete elem.performanceScore
+              }
+              if (elem.productScore === null || elem.productScore === '' || elem.productScore === undefined) {
+                delete elem.productScore
+              }
+              if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+                delete elem.quantity
+              }
+              if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+                delete elem.salePrice
+              }
+              if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+                delete elem.costPrice
+              }
+              if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+                delete elem.costMoney
+              }
+              if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+                delete elem.includeTaxMoney
+              }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                delete elem.taxRate
+              }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
+              }
+              if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+                delete elem.taxMoney
+              }
+              if (elem.money === null || elem.money === '' || elem.money === undefined) {
+                delete elem.money
+              }
+              if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+                delete elem.includeTaxCostMoney
+              }
+              if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+                delete elem.discountRate
+              }
+              if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+                elem.discountRate = elem.discountRate / 100
+              }
+              if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+                delete elem.discountMoney
+              }
+              return elem
+            })
+            const parms2 = JSON.stringify(EnterDetail)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            createsaleOrder(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+                this.$refs.personalForm3.clearValidate()
+                this.$refs.personalForm3.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+              this.saveloding = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloding = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 取消操作
     handlecancel() {

@@ -160,6 +160,11 @@
             <span>{{ scope.row.receiptMoney }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Receipt.isOntime')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isOntime | isOntimeFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Receipt.receiptDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptDate }}</span>
@@ -241,6 +246,13 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {
+    isOntimeFilter(status) {
+      const statusMap = {
+        1: _that.$t('Receipt.zs'),
+        2: _that.$t('Receipt.bzs')
+      }
+      return statusMap[status]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),

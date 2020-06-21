@@ -351,11 +351,35 @@ export default {
 
   mounted() {
     this.getinformation()
+    this.getinformation2()
+  },
+  activated() {
+    this.getinformation2()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getinformation2() {
+      if (this.$store.getters.saleoutcopy) {
+        console.log('getsaleoutcopy', this.$store.getters.saleoutcopy)
+        this.personalForm = this.$store.getters.saleoutcopy
+        this.personalForm.sourceType = '1'
+        this.personalForm.id = ''
+        this.personalForm.applyNumber = ''
+        this.applyRepositoryId = this.$store.getters.saleoutcopy.applyRepositoryName
+        this.applyPersonId = this.$store.getters.saleoutcopy.applyPersonName
+        this.list2 = this.personalForm.stockApplyDetailVos
+        this.list3 = this.personalForm.stockApplyDetailVos
+        this.personalForm.createPersonId = this.$store.getters.userId
+        this.personalForm.countryId = this.$store.getters.countryId
+        this.personalForm.repositoryId = this.$store.getters.repositoryId
+        this.personalForm.regionId = this.$store.getters.regionId
+        this.changeDate2()
+
+        this.$store.dispatch('getsaleoutcopy', '')
+      }
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param

@@ -70,8 +70,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOpportunity.deptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="deptId" style="width: 200px" disabled/>
+                <el-form-item :label="$t('StockOrder.deptId')" prop="deptId" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                  <el-select v-model="personalForm.deptId" disabled>
+                    <el-option
+                      v-for="(item, index) in depts"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.deptName"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -165,6 +171,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { getdeptlist } from '@/api/BasicSettings'
 import { countlist } from '@/api/public'
 import { addsaleopportunity } from '@/api/SaleOpportunity'
 import { searchSaleCategory } from '@/api/SaleCategory'
@@ -198,6 +205,7 @@ export default {
       }
     }
     return {
+      depts: [],
       // 权限判断
       isshow: false,
       // 机会来源数据
@@ -217,9 +225,9 @@ export default {
         pagesize: 99999
       },
       // 回显部门
-      deptId: '',
+      deptId: this.$store.getters.deptId,
       // 回显门店
-      handleRepositoryId: '',
+      handleRepositoryId: this.$store.getters.repositoryName,
       // 控制源单编码是否可以选择
       IsNumber: true,
       // 控制添加商品按钮是否可以点击
@@ -241,6 +249,7 @@ export default {
       control: false,
       // 销售订单信息数据
       personalForm: {
+        deptId: this.$store.getters.deptId,
         handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -288,6 +297,7 @@ export default {
     _that = this
   },
   methods: {
+
     jungleshow() {
       const roles = this.$store.getters.roles
       this.isshow = roles.includes('54-83-1')
@@ -330,6 +340,12 @@ export default {
       searchSaleCategory(this.opportunitySourceparms).then(res => {
         if (res.data.ret === 200) {
           this.opportunitySources = res.data.data.content.list
+        }
+      })
+      // 部门列表数据
+      getdeptlist().then(res => {
+        if (res.data.ret === 200) {
+          this.depts = res.data.data.content
         }
       })
     },

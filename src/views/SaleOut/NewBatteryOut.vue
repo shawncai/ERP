@@ -818,14 +818,36 @@ export default {
     this.getinformation2()
     this.getinformation3()
     this.getinformation4()
+    this.getinformationcopy()
   },
   activated() {
-
+    this.getinformationcopy()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getinformationcopy() {
+      if (this.$store.getters.saleoutcopy) {
+        this.personalForm = this.$store.getters.saleoutcopy
+        this.personalForm.couponSupports = [{ couponSupport: 0 }]
+        this.personalForm.customerType = String(this.$store.getters.saleoutcopy.customerType)
+        this.customerId = this.personalForm.customerName
+        this.personalForm.customerPhone = this.$store.getters.saleoutcopy.phoneNumber
+        this.personalForm.outType = String(this.$store.getters.saleoutcopy.outType)
+        this.personalForm.saleType = String(this.$store.getters.saleoutcopy.saleType)
+        this.saleRepositoryId = this.$store.getters.saleoutcopy.saleRepositoryName
+        this.salePersonId = this.$store.state.user.name
+        this.personalForm.salePersonId = this.$store.getters.userId
+        this.list2 = this.personalForm.saleOutDetailVos
+        this.returnlist = this.personalForm.saleOutRetreatVos
+        this.personalForm.createPersonId = this.$store.getters.userId
+        this.personalForm.countryId = this.$store.getters.countryId
+        this.personalForm.repositoryId = this.$store.getters.repositoryId
+        this.personalForm.regionId = this.$store.getters.regionId
+        this.$store.dispatch('getempcontract', '')
+      }
+    },
     changeusetype() {
       this.personalForm.useMonth = null
       this.getReceivableMoney()

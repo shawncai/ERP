@@ -418,53 +418,42 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card class="box-card" shadow="never" style="margin-top: 10px;margin-bottom: 30px">
-        <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
-        <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm5" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyName')" prop="suretyName" style="width: 100%;">
-                  <span>{{ personalForm.suretyName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" style="width: 100%;">
-                  <span>{{ personalForm.suretyPhone }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.relationship')" prop="relationship" style="width: 100%;">
-                  <span>{{ personalForm.relationship }}</span>
-                </el-form-item>
-              </el-col>
-              <!--              <el-col :span="12">-->
-              <!--                <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">-->
-              <!--                  <span>{{ personalForm.suretyProvinceName }}</span>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
-              <!--              <el-col :span="12">-->
-              <!--                <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">-->
-              <!--                  <span>{{ personalForm.suretyCityName }}</span>-->
-              <!--                </el-form-item>-->
-              <!--              </el-col>-->
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="width: 100%;">
-                  <span>{{ personalForm.suretyAddress }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
-                  <span>{{ personalForm.suretyCertificateType | suretyCertificateTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="width: 100%;">
-                  <span>{{ personalForm.suretyCertificateNumber }}</span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+
+        <div ref="geren" class="form-name">{{ $t('newupd.asds') }}</div>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button @click="handleAddproduct2">{{ $t('update4.tjzxr') }}</el-button>
+          <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
+        <div class="container">
+          <el-editable
+            ref="editable2"
+            :data.sync="list3"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="small"
+            style="width: 100%">
+            <el-editable-column type="selection" min-width="55" align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('InstallmentApply.suretyName')" prop="suretyName" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('InstallmentApply.relationship')" prop="relationship" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('InstallmentApply.suretyAddress')" prop="suretyAddress" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('InstallmentApply.suretyCertificateType')" :resizable="false" align="center" min-width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.suretyCertificateType | suretyCertificateTypeFilter }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('InstallmentApply.suretyCertificateNumber')" prop="suretyCertificateNumber" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('InstallmentApply.suretyCertificateType')" prop="suretyCertificateType2" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <span>{{ scope.row.suretyCertificateType2 | suretyCertificateTypeFilter }}</span>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('InstallmentApply.suretyCertificateNumber')" prop="suretyCertificateNumber2" align="center" min-width="150px"/>
+          </el-editable>
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
@@ -630,18 +619,26 @@ export default {
       }
       return statusMap[status]
     },
-    suretyCertificateTypeFilter(status) {
-      const statusMap = {
-        1: '身份证',
-        2: '其他'
-      }
-      return statusMap[status]
-    },
     receiptStatFilter(status) {
       const statusMap = {
         1: _that.$t('updates.zd'),
         2: _that.$t('updates.zx'),
         3: _that.$t('updates.jd')
+      }
+      return statusMap[status]
+    },
+    suretyCertificateTypeFilter(status) {
+      const statusMap = {
+        1: 'passport',
+        2: 'voters ID',
+        3: 'UMID ID',
+        4: 'license',
+        5: 'SSS',
+        6: 'phili health',
+        7: 'Pag-big',
+        8: 'NBI',
+        9: 'POLICE ID',
+        10: 'others'
       }
       return statusMap[status]
     }
@@ -659,6 +656,7 @@ export default {
   data() {
     return {
       activeName: 'first',
+      list3: [],
       list2: [],
       // 审核数据
       reviewList: [],
@@ -707,6 +705,44 @@ export default {
         lisArr.push(lis2)
       }
       this.list2 = lisArr
+      const lisArr2 = []
+      const surobj1 = {}
+      surobj1.suretyName = this.personalForm.suretyName
+      surobj1.suretyPhone = this.personalForm.suretyPhone
+      surobj1.relationship = this.personalForm.relationship
+      surobj1.suretyAddress = this.personalForm.suretyAddress
+      surobj1.suretyCertificateType = this.personalForm.suretyCertificateType
+      surobj1.suretyCertificateNumber = this.personalForm.suretyCertificateNumber
+      surobj1.suretyCertificateType2 = this.personalForm.suretyCertificateType1
+      surobj1.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1
+      lisArr2.push(surobj1)
+
+      if (this.personalForm.suretyNameTwo) {
+        const surobj2 = {}
+        surobj2.suretyName = this.personalForm.suretyNameTwo
+        surobj2.suretyPhone = this.personalForm.suretyPhoneTwo
+        surobj2.relationship = this.personalForm.relationshipTwo
+        surobj2.suretyAddress = this.personalForm.suretyAddressTwo
+        surobj2.suretyCertificateType = this.personalForm.suretyCertificateTypeTwo
+        surobj2.suretyCertificateNumber = this.personalForm.suretyCertificateNumberTwo
+        surobj2.suretyCertificateType2 = this.personalForm.suretyCertificateType1Two
+        surobj2.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1Two
+        lisArr2.push(surobj2)
+      }
+
+      if (this.personalForm.suretyNameThree) {
+        const surobj3 = {}
+        surobj3.suretyName = this.personalForm.suretyNameThree
+        surobj3.suretyPhone = this.personalForm.suretyPhoneThree
+        surobj3.relationship = this.personalForm.relationshipThree
+        surobj3.suretyAddress = this.personalForm.suretyAddressThree
+        surobj3.suretyCertificateType = this.personalForm.suretyCertificateTypeThree
+        surobj3.suretyCertificateNumber = this.personalForm.suretyCertificateNumberThree
+        surobj3.suretyCertificateType2 = this.personalForm.suretyCertificateType1Three
+        surobj3.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1Three
+        lisArr2.push(surobj3)
+      }
+      this.list3 = lisArr2
     }
   },
   created() {

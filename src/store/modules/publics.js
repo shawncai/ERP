@@ -11,9 +11,13 @@ const publics = {
     setchoosedata: '',
     myflagApproval: '',
     printdata: '',
-    uploadApi: ''
+    uploadApi: '',
+    saleoutcopy: ''
   },
   mutations: {
+    set_saleoutcopy: (state, saleoutcopy) => {
+      state.saleoutcopy = saleoutcopy
+    },
     set_uploadApi: (state, uploadApi) => {
       state.uploadApi = uploadApi
     },
@@ -52,6 +56,9 @@ const publics = {
     }
   },
   actions: {
+    getsaleoutcopy({ commit }, saleoutcopy) {
+      commit('set_saleoutcopy', saleoutcopy)
+    },
     getuploadApi({ commit }, uploadApi) {
       commit('set_uploadApi', uploadApi)
     },

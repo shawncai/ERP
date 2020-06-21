@@ -435,7 +435,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloding" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -556,6 +556,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      saveloding: false,
       customercontrol2: false,
       picidsData: {
         type: 26
@@ -727,7 +728,7 @@ export default {
         for (const i in this.list2) {
           num += Number(this.list2[i].includeTaxMoney)
         }
-        if (this.personalForm.isSecondApply === 1) {
+        if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
           this.price = num
           this.changefirstmoney()
         }
@@ -1416,8 +1417,8 @@ export default {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
         this.personalForm.installmentCount = ''
-        this.isinstallappley = true
-        this.canclick = true
+        this.isinstallappley = false
+        this.canclick = false
       } else if (this.personalForm.sourceType === '3' && this.personalForm.isSecondApply === 2) {
         this.$refs.editable.clear()
         this.personalForm.sourceNumber = ''
@@ -1651,149 +1652,213 @@ export default {
     },
     // 保存操作
     handlesave() {
-      if (this.personalForm.isSecondApply === 1 && !this.personalForm.installmentCount) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'installment terms is empty',
-          offset: 100
-        })
-        return false
-      } else if (this.personalForm.isSecondApply === 1 && !this.personalForm.dayOfMonth) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'due date is empty',
-          offset: 100
-        })
-        return false
-      } else if (this.personalForm.isSecondApply === 1 && !this.personalForm.firstMoney) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'down payment is empty',
-          offset: 100
-        })
-        return false
-      }
-      this.personalForm.installmentAllMoney = this.personalForm.totalMoney
       const EnterDetail2 = this.$refs.editable.getRecords()
-      console.log('EnterDetail', EnterDetail2)
-      if (EnterDetail2.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
+      let needcode = ''
+      for (const i in EnterDetail2) {
+        if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
+          needcode = EnterDetail2[i].productCode
+        }
       }
-
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.price === null || elem.price === '' || elem.price === undefined) {
-              delete elem.price
-            }
-            if (elem.plannedQuantity === null || elem.plannedQuantity === '' || elem.plannedQuantity === undefined) {
-              delete elem.plannedQuantity
-            }
-            if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
-              delete elem.requireDate
-            }
-            if (elem.reason === null || elem.reason === '' || elem.reason === undefined) {
-              delete elem.reason
-            }
-            if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
-              delete elem.sourceNumber
-            }
-            if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
-              delete elem.sourceSerialNumber
-            }
-            if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
-              delete elem.includeTaxPrice
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-              elem.discount = 0
-            }
-            if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
-              elem.discount = elem.discount / 100
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              elem.discountRate = 0
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              elem.discountMoney = 0
-            }
-            return elem
-          })
-          const parms2 = JSON.stringify(EnterDetail)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
+      console.log('needcode', needcode)
+      const judgeissecond = needcode.slice(10, 12)
+      const judgecartype = needcode.slice(4, 8)
+      if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
+        if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: 'the second gb2 firstMoney is wrong',
             offset: 100
           })
           return false
         }
-      })
+        // 二手其他车
+        if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the second car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 新gb2
+        if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the gb2 firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 其他新车
+        if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the new car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+      }
+      this.saveloding = true
+
+      setTimeout(() => {
+        if ((this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') && !this.personalForm.installmentCount) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'installment terms is empty',
+            offset: 100
+          })
+          this.saveloding = false
+
+          return false
+        } else if ((this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') && !this.personalForm.dayOfMonth) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'due date is empty',
+            offset: 100
+          })
+          this.saveloding = false
+
+          return false
+        } else if ((this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') && !this.personalForm.firstMoney) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'down payment is empty',
+            offset: 100
+          })
+          this.saveloding = false
+
+          return false
+        }
+        this.personalForm.installmentAllMoney = this.personalForm.totalMoney
+
+        console.log('EnterDetail', EnterDetail2)
+        if (EnterDetail2.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.mxbbnwk'),
+            offset: 100
+          })
+          this.saveloding = false
+
+          return false
+        }
+
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+                delete elem.productCode
+              }
+              if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+                delete elem.productName
+              }
+              if (elem.type === null || elem.type === '' || elem.type === undefined) {
+                delete elem.type
+              }
+              if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+                delete elem.unit
+              }
+              if (elem.price === null || elem.price === '' || elem.price === undefined) {
+                delete elem.price
+              }
+              if (elem.plannedQuantity === null || elem.plannedQuantity === '' || elem.plannedQuantity === undefined) {
+                delete elem.plannedQuantity
+              }
+              if (elem.requireDate === null || elem.requireDate === '' || elem.requireDate === undefined) {
+                delete elem.requireDate
+              }
+              if (elem.reason === null || elem.reason === '' || elem.reason === undefined) {
+                delete elem.reason
+              }
+              if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
+                delete elem.sourceNumber
+              }
+              if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+                delete elem.sourceSerialNumber
+              }
+              if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
+                delete elem.includeTaxPrice
+              }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                delete elem.taxRate
+              }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
+              }
+              if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+                elem.discount = 0
+              }
+              if (elem.discount !== null || elem.discount !== '' || elem.discount !== undefined) {
+                elem.discount = elem.discount / 100
+              }
+              if (elem.money === null || elem.money === '' || elem.money === undefined) {
+                delete elem.money
+              }
+              if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+                delete elem.includeTaxMoney
+              }
+              if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+                delete elem.taxMoney
+              }
+              if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+                elem.discountRate = 0
+              }
+              if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+                elem.discountMoney = 0
+              }
+              return elem
+            })
+            const parms2 = JSON.stringify(EnterDetail)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            createsaleContract(parms, parms2, this.personalForm, this.needarr).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+              this.saveloding = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloding = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 取消操作
     handlecancel() {

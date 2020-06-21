@@ -6,6 +6,9 @@
       <el-input v-model="getemplist.number" :placeholder="$t('updates.hsddh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="recyclingPersonId" :placeholder="$t('Recycling.recyclingPersonId')" size="small" class="filter-item" clearable @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -174,12 +177,13 @@ import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
+import MyRepository from './components/MyRepository2'
 
 var _that
 export default {
   name: 'RecyclingList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
+  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -217,6 +221,8 @@ export default {
   },
   data() {
     return {
+      repositoryId: '',
+      repositorycontrol: false,
       tableHeight: 200,
 
       receiptVisible99: false,
@@ -300,6 +306,19 @@ export default {
     _that = this
   },
   methods: {
+    clearrep() {
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -433,6 +452,20 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
+          const list = res.data.data.content.list
+          const listdata = res.data.data.content.list.map(item => {
+            return item.recyclingDetailVos
+          })
+          const detaildata = [].concat.apply([], listdata)
+          for (const i in list) {
+            for (const j in detaildata) {
+              if (list[i].id === detaildata[j].recyclingId) {
+                list[i].productCode = detaildata[j].productCode
+                list[i].productTypeName = detaildata[j].productType
+                list[i].productCategoryName = detaildata[j].productCategory
+              }
+            }
+          }
         }
         setTimeout(() => {
           this.listLoading = false
@@ -665,15 +698,6 @@ export default {
     // 打印
     handlePrint() {
       console.log(456)
-    },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

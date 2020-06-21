@@ -640,6 +640,7 @@ export default {
       console.log(this.detaildata)
       this.$store.dispatch('getempcontract', this.detaildata)
       this.$router.push('/StockOrder/AddStockOrder')
+      this.editVisible = false
     },
     getstockArrivalList() {
       searchstockArrival(this.stockArrivaldata).then(res => {

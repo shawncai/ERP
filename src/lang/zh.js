@@ -2558,6 +2558,9 @@ export default {
     reason: '原因'
   },
   Receipt: {
+    isOntime: '是否准时',
+    zs: '准时',
+    bzs: '不准时',
     title: '收款单主题',
     number: '收款单号',
     customerType: '客户类型',
@@ -4444,6 +4447,16 @@ export default {
     escxssl: '二手车销售数量',
     qxzyylx: '请先选择营运类型',
     yjhsl: '已计划数量',
-    lbmc: '类别名称'
+    lbmc: '类别名称',
+    tjzxr: '添加担保人',
+    dbrxmwk: '担保人姓名为空',
+    dbrdhwk: '担保人手机为空',
+    dbrsjhcw: '担保人手机号错误',
+    dbrgxwk: '担保人关系为空',
+    dbrdzwk: '担保人地址为空',
+    dbrzjlxwk: '担保人证件类型为空',
+    dbrzjhmwk: '担保人证件号码为空',
+    dbrgscgsx: '担保人人数超过限制',
+    zxrwek: '担保人为空'
   }
 }

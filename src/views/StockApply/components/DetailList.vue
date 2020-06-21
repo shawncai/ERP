@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -265,6 +266,12 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt2() {
+      console.log(this.detaildata)
+      this.$store.dispatch('getsaleoutcopy', this.detaildata)
+      this.$router.push('/StockApply/AddStockApply')
+      this.editVisible = false
+    },
     handlecancel() {
       this.editVisible = false
     },

@@ -294,8 +294,10 @@ export default {
         return {
           categoryName: item.category,
           category: item.categoryId,
+          categoryId: item.categoryId,
           productName: item.productType,
           type: item.typeId,
+          typeId: item.typeId,
           productCode: item.code,
           productType: item.productType,
           typeName: item.productType,

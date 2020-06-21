@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
+        <button v-if="personalForm.sourceType === 1" style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -16,6 +17,11 @@
               <el-col :span="12">
                 <el-form-item :label="$t('SaleOrder.title')" style="width: 100%;">
                   <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="width: 100%;">
+                  <span>{{ personalForm.invoiceNumber }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -544,7 +550,7 @@ export default {
         }
       }
       this.prepReceiptData.sourceNumber = this.personalForm.number
-      this.getprepReceipt()
+      // this.getprepReceipt()
       this.saleOutparms.sourceNumber = this.personalForm.number
       this.getsaleOutLis()
     }
@@ -553,6 +559,12 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt2() {
+      console.log(this.detaildata)
+      this.$store.dispatch('getempcontract', this.detaildata)
+      this.$router.push('/SaleOrder/AddSaleOrder')
+      this.editVisible = false
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true

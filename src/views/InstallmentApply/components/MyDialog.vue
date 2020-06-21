@@ -504,68 +504,42 @@
         </el-editable>
       </div>
     </el-card>
-    <el-card class="box-card" shadow="never" style="margin-top: 10px">
-      <h2 ref="geren" class="form-name">{{ $t('newupd.asds') }}</h2>
-      <div class="container" style="margin-top: 37px">
-        <el-form ref="personalForm5" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.suretyName')" prop="suretyName" style="width: 100%;">
-                <el-input v-model="personalForm.suretyName" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" style="width: 100%;">
-                <el-input v-model="personalForm.suretyPhone" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.relationship')" prop="relationship" style="width: 100%;">
-                <el-input v-model="personalForm.relationship" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <!--            <el-col :span="6">-->
-            <!--              <el-form-item :label="$t('InstallmentApply.suretyProvinceId')" prop="suretyProvinceId" style="width: 100%;">-->
-            <!--                <el-select v-model="personalForm.suretyProvinceId" style="margin-left: 18px;width: 200px" @change="handlechangesuretyProvince">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in provinces"-->
-            <!--                    :key="index"-->
-            <!--                    :label="item.name"-->
-            <!--                    :value="item.id"/>-->
-            <!--                </el-select>-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
-            <!--            <el-col :span="6">-->
-            <!--              <el-form-item :label="$t('InstallmentApply.suretyCityId')" prop="suretyCityId" style="width: 100%;">-->
-            <!--                <el-select v-model="personalForm.suretyCityId" style="margin-left: 18px;width: 200px">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in cities3"-->
-            <!--                    :key="index"-->
-            <!--                    :label="item.name"-->
-            <!--                    :value="item.id"/>-->
-            <!--                </el-select>-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="width: 100%;">
-                <el-input v-model="personalForm.suretyAddress" style="margin-left: 18px;width: 200px"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="width: 100%;">
-                <el-select v-model="personalForm.suretyCertificateType" style="margin-left: 18px;width: 200px">
-                  <el-option :label="$t('prompt.sfz')" value="1"/>
-                  <el-option :label="$t('prompt.qt')" value="2"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="width: 100%;">
-                <el-input v-model="personalForm.suretyCertificateNumber" style="margin-left: 18px;width: 200px" clearable/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 60px">
+
+      <div ref="geren" class="form-name">{{ $t('newupd.asds') }}</div>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button @click="handleAddproduct2">{{ $t('update4.tjzxr') }}</el-button>
+        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
+      <div class="container">
+        <el-editable
+          ref="editable2"
+          :data.sync="list3"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          class="click-table1"
+          stripe
+          border
+          size="small"
+          style="width: 100%">
+          <el-editable-column type="selection" min-width="55" align="center"/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('InstallmentApply.suretyName')" prop="suretyName" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('InstallmentApply.suretyPhone')" prop="suretyPhone" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('InstallmentApply.relationship')" prop="relationship" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('InstallmentApply.suretyAddress')" prop="suretyAddress" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('InstallmentApply.suretyCertificateType')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.suretyCertificateType | suretyCertificateTypeFilter }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('InstallmentApply.suretyCertificateNumber')" prop="suretyCertificateNumber" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('InstallmentApply.suretyCertificateType')" prop="suretyCertificateType2" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <span>{{ scope.row.suretyCertificateType2 | suretyCertificateTypeFilter }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('InstallmentApply.suretyCertificateNumber')" prop="suretyCertificateNumber2" align="center" min-width="150px"/>
+        </el-editable>
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
@@ -574,6 +548,79 @@
         <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
+    <el-dialog :visible.sync="comakerVisible" :title="$t('update4.tjzxr')" class="normal" width="450px" append-to-body center>
+      <el-form :model="newcomarker" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+
+        <el-row>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyName')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.suretyName" style="width: 200px"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.suretyPhone" style="width: 200px" clearable/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.relationship')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.relationship" style="width: 200px"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyAddress')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.suretyAddress" style="width: 200px"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-select v-model="newcomarker.suretyCertificateType" style="width: 200px">
+                <el-option value="1" label="passport"/>
+                <el-option value="2" label="voters ID"/>
+                <el-option value="3" label="UMID ID"/>
+                <el-option value="4" label="license"/>
+                <el-option value="5" label="SSS"/>
+                <el-option value="6" label="phili health"/>
+                <el-option value="7" label="Pag-big"/>
+                <el-option value="8" label="NBI"/>
+                <el-option value="9" label="POLICE ID"/>
+                <el-option value="10" label="others"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.suretyCertificateNumber" style="width: 200px"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyCertificateType')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-select v-model="newcomarker.suretyCertificateType2" style="width: 200px">
+                <el-option value="1" label="passport"/>
+                <el-option value="2" label="voters ID"/>
+                <el-option value="3" label="UMID ID"/>
+                <el-option value="4" label="license"/>
+                <el-option value="5" label="SSS"/>
+                <el-option value="6" label="phili health"/>
+                <el-option value="7" label="Pag-big"/>
+                <el-option value="8" label="NBI"/>
+                <el-option value="9" label="POLICE ID"/>
+                <el-option value="10" label="others"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('InstallmentApply.suretyCertificateNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 5px">
+              <el-input v-model="newcomarker.suretyCertificateNumber2" style="width: 200px"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div class="buttons" style="margin-left: 27%;margin-top: 20px">
+        <el-button type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave4()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button type="danger" @click="cancel2()">{{ $t('Hmodule.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </el-dialog>
 </template>
 
@@ -590,6 +637,23 @@ import MyPackage from './MyPackage'
 var _that
 export default {
   components: { MyMater, MyDetail, MyEmp, MyRepository, MyPackage },
+  filters: {
+    suretyCertificateTypeFilter(status) {
+      const statusMap = {
+        1: 'passport',
+        2: 'voters ID',
+        3: 'UMID ID',
+        4: 'license',
+        5: 'SSS',
+        6: 'phili health',
+        7: 'Pag-big',
+        8: 'NBI',
+        9: 'POLICE ID',
+        10: 'others'
+      }
+      return statusMap[status]
+    }
+  },
   props: {
     editcontrol: {
       type: Boolean,
@@ -678,6 +742,18 @@ export default {
       }
     }
     return {
+      newcomarker: {
+        suretyName: '',
+        suretyPhone: '',
+        relationship: '',
+        suretyAddress: '',
+        suretyCertificateType: '',
+        suretyCertificateNumber: '',
+        suretyCertificateType2: '',
+        suretyCertificateNumber2: ''
+      },
+      comakerVisible: false,
+      list3: [],
       packagecontrol: false,
       productnumber: '',
       pickerOptions1: {
@@ -886,6 +962,44 @@ export default {
         lisArr.push(lis2)
       }
       this.list2 = lisArr
+      const lisArr2 = []
+      const surobj1 = {}
+      surobj1.suretyName = this.personalForm.suretyName
+      surobj1.suretyPhone = this.personalForm.suretyPhone
+      surobj1.relationship = this.personalForm.relationship
+      surobj1.suretyAddress = this.personalForm.suretyAddress
+      surobj1.suretyCertificateType = this.personalForm.suretyCertificateType
+      surobj1.suretyCertificateNumber = this.personalForm.suretyCertificateNumber
+      surobj1.suretyCertificateType2 = this.personalForm.suretyCertificateType1
+      surobj1.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1
+      lisArr2.push(surobj1)
+
+      if (this.personalForm.suretyNameTwo) {
+        const surobj2 = {}
+        surobj2.suretyName = this.personalForm.suretyNameTwo
+        surobj2.suretyPhone = this.personalForm.suretyPhoneTwo
+        surobj2.relationship = this.personalForm.relationshipTwo
+        surobj2.suretyAddress = this.personalForm.suretyAddressTwo
+        surobj2.suretyCertificateType = this.personalForm.suretyCertificateTypeTwo
+        surobj2.suretyCertificateNumber = this.personalForm.suretyCertificateNumberTwo
+        surobj2.suretyCertificateType2 = this.personalForm.suretyCertificateType1Two
+        surobj2.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1Two
+        lisArr2.push(surobj2)
+      }
+
+      if (this.personalForm.suretyNameThree) {
+        const surobj3 = {}
+        surobj3.suretyName = this.personalForm.suretyNameThree
+        surobj3.suretyPhone = this.personalForm.suretyPhoneThree
+        surobj3.relationship = this.personalForm.relationshipThree
+        surobj3.suretyAddress = this.personalForm.suretyAddressThree
+        surobj3.suretyCertificateType = this.personalForm.suretyCertificateTypeThree
+        surobj3.suretyCertificateNumber = this.personalForm.suretyCertificateNumberThree
+        surobj3.suretyCertificateType2 = this.personalForm.suretyCertificateType1Three
+        surobj3.suretyCertificateNumber2 = this.personalForm.suretyCertificateNumber1Three
+        lisArr2.push(surobj3)
+      }
+      this.list3 = lisArr2
     }
   },
   created() {
@@ -897,6 +1011,83 @@ export default {
     _that = this
   },
   methods: {
+    cancel2() {
+      this.comakerVisible = false
+      this.newcomarker = {}
+    },
+    handlesave4() {
+      if (!this.newcomarker.suretyName) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrxmwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (!this.newcomarker.suretyPhone) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrdhwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (this.newcomarker.suretyPhone.length !== 11) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrsjhcw'),
+          offset: 100
+        })
+        return false
+      }
+      if (!this.newcomarker.relationship) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrgxwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (!this.newcomarker.suretyAddress) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrdzwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (!this.newcomarker.suretyCertificateType || !this.newcomarker.suretyCertificateType2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrzjlxwk'),
+          offset: 100
+        })
+        return false
+      }
+      if (!this.newcomarker.suretyCertificateNumber || !this.newcomarker.suretyCertificateNumber2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrzjhmwk'),
+          offset: 100
+        })
+        return false
+      }
+      this.$refs.editable2.insert(this.newcomarker)
+      this.comakerVisible = false
+      this.newcomarker = {}
+    },
+    handleAddproduct2() {
+      const nowlistdata = this.$refs.editable2.getRecords()
+      if (nowlistdata.length === 3) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrgscgsx'),
+          offset: 100
+        })
+        return false
+      }
+      this.comakerVisible = true
+    },
     packagedata(val) {
       console.log('val1222222', val)
       this.productForm.price = val
@@ -1362,6 +1553,68 @@ export default {
           this.personalForm.consultancyAddressTwo = nowlistdata[1].consultancyAddress
         }
       }
+      const nowlistdata2 = this.$refs.editable2.getRecords()
+      if (nowlistdata2.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.zxrwek'),
+          offset: 100
+        })
+        return false
+      }
+
+      if (nowlistdata2.length === 1) {
+        this.personalForm.suretyName = nowlistdata2[0].suretyName
+        this.personalForm.suretyPhone = nowlistdata2[0].suretyPhone
+        this.personalForm.relationship = nowlistdata2[0].relationship
+        this.personalForm.suretyAddress = nowlistdata2[0].suretyAddress
+        this.personalForm.suretyCertificateType = nowlistdata2[0].suretyCertificateType
+        this.personalForm.suretyCertificateNumber = nowlistdata2[0].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1 = nowlistdata2[0].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1 = nowlistdata2[0].suretyCertificateNumber2
+      } else if (nowlistdata2.length === 2) {
+        this.personalForm.suretyName = nowlistdata2[0].suretyName
+        this.personalForm.suretyPhone = nowlistdata2[0].suretyPhone
+        this.personalForm.relationship = nowlistdata2[0].relationship
+        this.personalForm.suretyAddress = nowlistdata2[0].suretyAddress
+        this.personalForm.suretyCertificateType = nowlistdata2[0].suretyCertificateType
+        this.personalForm.suretyCertificateNumber = nowlistdata2[0].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1 = nowlistdata2[0].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1 = nowlistdata2[0].suretyCertificateNumber2
+        this.personalForm.suretyNameTwo = nowlistdata2[1].suretyName
+        this.personalForm.suretyPhoneTwo = nowlistdata2[1].suretyPhone
+        this.personalForm.relationshipTwo = nowlistdata2[1].relationship
+        this.personalForm.suretyAddressTwo = nowlistdata2[1].suretyAddress
+        this.personalForm.suretyCertificateTypeTwo = nowlistdata2[1].suretyCertificateType
+        this.personalForm.suretyCertificateNumberTwo = nowlistdata2[1].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1Two = nowlistdata2[1].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1Two = nowlistdata2[1].suretyCertificateNumber2
+      } else if (nowlistdata2.length === 3) {
+        this.personalForm.suretyName = nowlistdata2[0].suretyName
+        this.personalForm.suretyPhone = nowlistdata2[0].suretyPhone
+        this.personalForm.relationship = nowlistdata2[0].relationship
+        this.personalForm.suretyAddress = nowlistdata2[0].suretyAddress
+        this.personalForm.suretyCertificateType = nowlistdata2[0].suretyCertificateType
+        this.personalForm.suretyCertificateNumber = nowlistdata2[0].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1 = nowlistdata2[0].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1 = nowlistdata2[0].suretyCertificateNumber2
+        this.personalForm.suretyNameTwo = nowlistdata2[1].suretyName
+        this.personalForm.suretyPhoneTwo = nowlistdata2[1].suretyPhone
+        this.personalForm.relationshipTwo = nowlistdata2[1].relationship
+        this.personalForm.suretyAddressTwo = nowlistdata2[1].suretyAddress
+        this.personalForm.suretyCertificateTypeTwo = nowlistdata2[1].suretyCertificateType
+        this.personalForm.suretyCertificateNumberTwo = nowlistdata2[1].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1Two = nowlistdata2[1].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1Two = nowlistdata2[1].suretyCertificateNumber2
+        this.personalForm.suretyNameThree = nowlistdata2[2].suretyName
+        this.personalForm.suretyPhoneThree = nowlistdata2[2].suretyPhone
+        this.personalForm.relationshipThree = nowlistdata2[2].relationship
+        this.personalForm.suretyAddressThree = nowlistdata2[2].suretyAddress
+        this.personalForm.suretyCertificateTypeThree = nowlistdata2[2].suretyCertificateType
+        this.personalForm.suretyCertificateNumberThree = nowlistdata2[2].suretyCertificateNumber
+        this.personalForm.suretyCertificateType1Three = nowlistdata2[2].suretyCertificateType2
+        this.personalForm.suretyCertificateNumber1Three = nowlistdata2[2].suretyCertificateNumber2
+      }
       const Data2 = this.productForm
       for (const key in Data2) {
         if (Data2[key] === '' || Data2[key] === undefined || Data2[key] === null) {
@@ -1469,5 +1722,22 @@ export default {
   }
   .el-col-12{
     width: 49%;
+  }
+  .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
   }
 </style>

@@ -2558,6 +2558,9 @@ export default {
     reason: 'details'
   },
   Receipt: {
+    isOntime: 'isOntime',
+    zs: 'On time',
+    bzs: 'out time',
     title: 'subject',
     number: 'ID no.',
     customerType: 'customer type',
