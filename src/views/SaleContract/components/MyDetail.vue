@@ -86,6 +86,11 @@
           <span>{{ scope.row.color }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('updates.kcsl')" :resizable="false" prop="color" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.kpiGrade }}</span>
@@ -127,7 +132,7 @@
 </template>
 
 <script>
-import { productlist, searchEmpCategory2 } from '@/api/Product'
+import { productlist, searchEmpCategory2, chooseProduct } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -150,6 +155,10 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    personalform: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -157,7 +166,7 @@ export default {
       tiaoshu: 0,
 
       tableHeight: 200,
-
+      query: this.personalform,
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -205,6 +214,9 @@ export default {
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
       }, 100)
+    },
+    personalform() {
+      this.query = this.personalform
     }
   },
   created() {
@@ -217,9 +229,13 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -244,14 +260,18 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+
+      chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 批量操作

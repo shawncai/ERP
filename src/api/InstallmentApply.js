@@ -11,6 +11,9 @@ export function addinstallmentapply(query, query2, query4) {
   if (query4.regionId !== '' && query4.regionId !== null && query4.regionId !== undefined) {
     params.append('regionId', query4.regionId) // 你要传给后台的参数值 key/value
   }
+  if (query4.picids !== '' && query4.picids !== null && query4.picids !== undefined) {
+    params.append('picids', query4.picids) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/installmentapply/addinstallmentapply',
     method: 'post',

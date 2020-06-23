@@ -11,6 +11,9 @@ export function createtransfer(query, query2, query3) {
   if (query2.regionId !== '' && query2.regionId !== null && query2.regionId !== undefined) {
     params.append('regionId', query2.regionId) // 你要传给后台的参数值 key/value
   }
+  if (query2.picids !== '' && query2.picids !== null && query2.picids !== undefined) {
+    params.append('picids', query2.picids) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/transfer/create',
     method: 'post',
@@ -66,6 +69,9 @@ export function searchtransfer(query) {
   }
   if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
     params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.subjectCode !== '' && query.subjectCode !== null && query.subjectCode !== undefined) {
+    params.append('subjectCode', query.subjectCode) // 你要传给后台的参数值 key/value
   }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value

@@ -4457,6 +4457,8 @@ export default {
     dbrzjlxwk: '担保人证件类型为空',
     dbrzjhmwk: '担保人证件号码为空',
     dbrgscgsx: '担保人人数超过限制',
-    zxrwek: '担保人为空'
+    zxrwek: '担保人为空',
+    sfdk: '是否抵扣',
+    qxzkh: '请选择客户'
   }
 }

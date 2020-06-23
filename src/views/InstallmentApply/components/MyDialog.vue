@@ -1525,6 +1525,59 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      if (Number(this.personalForm.firstMoney) === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'firstMoney is 0',
+          offset: 100
+        })
+        return false
+      }
+      const judgeissecond = this.productForm.productCode.slice(10, 12)
+      const judgecartype = this.productForm.productCode.slice(3, 7)
+      console.log('judgeissecond', judgeissecond)
+      console.log('judgecartype', judgecartype)
+      console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
+
+      // 二手gb2
+      if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'the second gb2 firstMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
+      // 二手其他车
+      if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'the second car firstMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
+
+      // 新gb2
+      if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'the gb2 firstMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
+
+      // 其他新车
+      if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+        console.log('123')
+        this.$notify.error({
+          title: 'wrong',
+          message: 'the new car firstMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
           title: 'wrong',

@@ -566,7 +566,7 @@
           <el-upload
             ref="upload"
             :auto-upload="true"
-            :action="`${uploadapi}/upload/uploadpic`"
+            :action="`${uplodaapi}/upload/uploadpic`"
             :data="paperData"
             :on-success="handlepicsuccess"
             class="upload-demo"
@@ -574,7 +574,6 @@
             multiple>
             <i class="el-icon-upload"/>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div slot="tip" class="el-upload__tip">支持扩展名：.rar .zip .doc .docx...</div>
           </el-upload>
         </div>
       </el-card>
@@ -860,6 +859,7 @@ export default {
     //   }
     // }
     return {
+      uplodaapi: this.$store.getters.uploadApi,
       newcomarker: {
         suretyName: '',
         suretyPhone: '',
@@ -1832,7 +1832,11 @@ export default {
         return false
       }
       const judgeissecond = this.productForm.productCode.slice(10, 12)
-      const judgecartype = this.productForm.productCode.slice(4, 8)
+      const judgecartype = this.productForm.productCode.slice(3, 7)
+      console.log('judgeissecond', judgeissecond)
+      console.log('judgecartype', judgecartype)
+      console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
+
       // 二手gb2
       if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
@@ -1864,6 +1868,7 @@ export default {
 
       // 其他新车
       if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+        console.log('123')
         this.$notify.error({
           title: 'wrong',
           message: 'the new car firstMoney is wrong',
@@ -2008,6 +2013,7 @@ export default {
               })
               this.isclick = false
               this.restAllForm()
+              this.$refs.upload.clearFiles()
               this.$refs.editable2.clear()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()

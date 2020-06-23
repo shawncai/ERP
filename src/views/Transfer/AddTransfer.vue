@@ -194,6 +194,24 @@
           </el-editable>
         </div>
       </el-card>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+
+        <div ref="geren" class="form-name">{{ $t('updates.zjsc') }}</div>
+        <div class="upload" style="margin-top: 25px">
+          <el-upload
+            ref="upload"
+            :auto-upload="true"
+            :action="`${uplodaapi}/upload/uploadpic`"
+            :data="paperData"
+            :on-success="handlepicsuccess"
+            class="upload-demo"
+            drag
+            multiple>
+            <i class="el-icon-upload"/>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          </el-upload>
+        </div>
+      </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
@@ -234,6 +252,11 @@ export default {
       }
     }
     return {
+      uplodaapi: this.$store.getters.uploadApi,
+      // 证件额外参数
+      paperData: {
+        type: 18
+      },
       accountcodes: [],
       showaccounts: false,
       accounts: [],
@@ -292,7 +315,8 @@ export default {
         regionId: this.$store.getters.regionId,
         handlePersonId: this.$store.getters.userId,
         currency: '1',
-        transferType: '1'
+        transferType: '1',
+        picids: []
       },
       // 收入单规则数据
       personalrules: {
@@ -329,6 +353,14 @@ export default {
     _that = this
   },
   methods: {
+    // 上传图片
+    handlepicsuccess(response) {
+      const picarr = []
+      picarr.push(response.data.content.picId)
+      this.personalForm.picids.push(response.data.content.picId)
+      console.log('this.personalForm', this.personalForm)
+      console.log(response.data.content.picId)
+    },
     getcurrency() {
       const mycountry = this.$store.getters.countryId
       if (mycountry === 1) {
@@ -691,7 +723,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        transferType: '1'
+        transferType: '1',
+        picids: []
       }
       this.getcurrency()
       this.handlePersonId = this.$store.getters.name
@@ -805,6 +838,7 @@ export default {
               })
               this.$refs.editable.clear()
               this.restAllForm()
+              this.$refs.upload.clearFiles()
               this.$refs.personalForm.clearValidate()
               this.$refs.personalForm.resetFields()
             } else {

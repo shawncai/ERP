@@ -1208,6 +1208,55 @@ export default {
     // 修改按钮
     handleEditok() {
       this.personalForm.installmentAllMoney = this.personalForm.totalMoney
+      const EnterDetail2 = this.$refs.editable.getRecords()
+      let needcode = ''
+      for (const i in EnterDetail2) {
+        if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
+          needcode = EnterDetail2[i].productCode
+        }
+      }
+      console.log('needcode', needcode)
+      const judgeissecond = needcode.slice(10, 12)
+      const judgecartype = needcode.slice(3, 7)
+      if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
+        if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the second gb2 firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+        // 二手其他车
+        if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the second car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 新gb2
+        if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the gb2 firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 其他新车
+        if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the new car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+      }
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId

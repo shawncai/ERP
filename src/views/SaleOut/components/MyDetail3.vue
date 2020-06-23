@@ -6,13 +6,12 @@
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <!-- <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/> -->
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
-        <!-- <el-option :label="$t('otherlanguage.zc')" value="1"/> -->
+      <!-- <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.pj')" value="2"/>
         <el-option :label="$t('otherlanguage.jgj')" value="3"/>
         <el-option :label="$t('otherlanguage.xhp')" value="4"/>
         <el-option :label="$t('otherlanguage.dc')" value="5"/>
-      </el-select>
+      </el-select> -->
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         v-model="visible2"
@@ -83,6 +82,11 @@
       <el-table-column :label="$t('Product.color')" :resizable="false" prop="color" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.color }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('updates.kcsl')" :resizable="false" prop="existStock" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
@@ -201,7 +205,7 @@ export default {
         productid: '',
         code: '',
         productname: '',
-        categoryid: '',
+        categoryid: '100',
         typeid: '',
         isactive: '',
         Productid: '',
@@ -304,7 +308,9 @@ export default {
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           console.log(res.data.data.content.list)
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

@@ -406,7 +406,7 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
-        sortId: '1',
+        sortId: '2',
         pageNum: 1,
         pageSize: 10,
         repositoryId: this.$store.getters.repositoryId,

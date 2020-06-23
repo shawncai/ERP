@@ -88,6 +88,11 @@
           <span>{{ scope.row.color }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('updates.kcsl')" :resizable="false" prop="existStock" align="center" width="100">
+        <template slot-scope="scope">
+          <span>{{ scope.row.existStock }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.kpiGrade }}</span>
@@ -235,7 +240,9 @@ export default {
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -262,7 +269,9 @@ export default {
       this.getemplist.pagenum = 1
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

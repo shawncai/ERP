@@ -490,6 +490,16 @@
           </el-table>
         </div>
       </el-card>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div
+          style="    display: flex;
+    align-items: center;
+    justify-content: center;">
+          <div v-for="(item, index) in personalForm.picPaths" :key="index" style="text-align: center;">
+            <img :src="item" class="image" style="width: 30%">
+          </div>
+        </div>
+      </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.bzxx') }}</h2>
         <div class="container" style="margin-top: 37px">

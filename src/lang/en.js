@@ -4447,6 +4447,19 @@ export default {
     escxssl: 'Number of used car sales',
     qxzyylx: 'please select Battery use type',
     yjhsl: 'Planned quantity',
-    lbmc: 'classification name'
+    lbmc: 'classification name',
+    tjzxr: 'add co-maker',
+    dbrxmwk: 'co-maker name is empty',
+    dbrdhwk: 'co-maker phone is empty',
+    dbrsjhcw: 'co-maker phone is wrong',
+    dbrgxwk: 'co-maker relationship is empty',
+    dbrdzwk: 'co-maker address is empty',
+    dbrzjlxwk: 'co-maker valid ID is empty',
+    dbrzjhmwk: 'co-maker ID no. is empty',
+    dbrgscgsx: 'co-maker number is over',
+    zxrwek: 'co-maker is empty',
+    sfdk: 'Whether to deduct',
+    qxzkh: 'please select customer'
+
   }
 }

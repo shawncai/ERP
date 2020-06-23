@@ -16,6 +16,17 @@
           :label="item.repositoryName"
           :value="item.id"/>
       </el-select>
+      <el-cascader
+        :options="suboptions"
+        :props="props2"
+        v-model="subjectdata"
+        :show-all-levels="false"
+        :placeholder="$t('updates.kmmc')"
+        change-on-select
+        filterable
+        clearable
+        @change="handlechangesubject"
+      />
 
       <el-popover
         v-model="visible2"
@@ -296,6 +307,14 @@ export default {
   },
   data() {
     return {
+      treedata: [],
+      props2: {
+        value: 'id',
+        label: 'subjectName',
+        children: 'subjectFinanceVos'
+      },
+      suboptions: [],
+      subjectdata: [],
       repositories: [],
       tableHeight: 200,
       pickerOptions1: {
@@ -389,6 +408,7 @@ export default {
   activated() {
     this.getlist()
     this.handlerep()
+    this.gettree2()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -396,7 +416,7 @@ export default {
   mounted() {
     this.getlist()
     this.handlerep()
-
+    this.gettree2()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -405,6 +425,68 @@ export default {
     _that = this
   },
   methods: {
+    handlechangesubject(val) {
+      console.log('val', val)
+      if (val.length === 0) {
+        this.getemplist.subjectCode = ''
+      } else {
+        const finid = val[val.length - 1]
+        const needata = this.findtreedata(this.treedata, finid)
+        console.log('needata', needata)
+        this.getemplist.subjectCode = needata.subjectNumber
+      }
+    },
+    findtreedata(val, val2) {
+      let data;
+      (val || []).map(i => {
+        if (i.id === val2) {
+          data = i
+        } else {
+          const child = this.findtreedata(i.subjectFinanceVos, val2)
+          if (child) {
+            data = child
+          }
+        }
+      })
+      return data
+    },
+    switchtreedata(val) {
+      for (const i in val) {
+        if (val[i].subjectNumber === '' || val[i].subjectNumber === null) {
+          this.switchtreedata(val[i].subjectFinanceVos)
+        } else {
+          if (val[i].level > 3) {
+            this.switchtreedata(val[i].subjectFinanceVos)
+          }
+          val[i].subjectName = val[i].subjectNumber + val[i].subjectName
+        }
+      }
+    },
+    processchildren(val) {
+      for (const i in val) {
+        if (val[i].subjectFinanceVos.length === 0) {
+          delete val[i].subjectFinanceVos
+        } else {
+          this.processchildren(val[i].subjectFinanceVos)
+        }
+        // if (val[i].) {
+        // }
+      }
+      return val
+    },
+    gettree2() {
+      console.log(123)
+      subjectList().then(res => {
+        if (res.data.ret === 200) {
+          const newarr = res.data.data.content
+          console.log('newarr', newarr)
+          const testarr = this.switchtreedata(newarr)
+          this.suboptions = this.processchildren(newarr)
+          this.treedata = res.data.data.content
+        }
+      })
+      console.log(321)
+    },
     // 根据区域选择门店
     handlerep() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)

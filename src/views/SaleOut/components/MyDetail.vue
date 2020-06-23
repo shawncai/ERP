@@ -88,16 +88,16 @@
           <span>{{ scope.row.color }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
+      <el-table-column :label="$t('updates.kcsl')" :resizable="false" prop="existStock" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.kpiGrade }}</span>
+          <span>{{ scope.row.existStock }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
+      <!-- <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.point }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.salePrice }}</span>

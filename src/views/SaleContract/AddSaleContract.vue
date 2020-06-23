@@ -144,8 +144,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="saleRepositoryId" style="width: 200px" clearable/>
+                <el-form-item :label="$t('SaleContract.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0" >
+                  <el-input v-model="saleRepositoryId" style="width: 200px" clearable @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -293,11 +294,11 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
-          <el-button :disabled="isinstallappley" type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
 
         </div>
         <div class="container">
@@ -322,6 +323,7 @@
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.kcsl')" prop="existStock" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jxf')" prop="performanceScore" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.spjf')" prop="productScore" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.ddsl')" prop="quantity" align="center" min-width="150" >
@@ -493,11 +495,13 @@ import MyCustomer from '../SaleOpportunity/components/MyCustomer'
 import MyAgent from '../SaleOpportunity/components/MyAgent'
 import MyPackage from './components/MyPackage'
 import MyCustomer2 from './components/MyCustomer2'
+import MyRepository from './components/MyRepository'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddSaleContract',
-  components: { MyAgent, MyPackage, MyCustomer, MyCustomer2, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyAgent, MyRepository, MyPackage, MyCustomer, MyCustomer2, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
@@ -556,6 +560,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      repositorycontrol: false,
       saveloding: false,
       customercontrol2: false,
       picidsData: {
@@ -752,6 +757,16 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.saleRepositoryId = val.repositoryName
+      this.personalForm.saleRepositoryId = val.id
+      this.list2 = []
+      this.list3 = []
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     geteachmoney() {
       const date = new Date()
       let byear = 0
@@ -955,7 +970,15 @@ export default {
     },
     // 数量变化其他参数
     queryStock(row) {
-      console.log('1111')
+      if (row.quantity > row.existStock) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'quantity is over stock quantity',
+          offset: 100
+        })
+        row.quantity = 1
+        return false
+      }
       if (row.discountRate === 0) {
         // row.discountMoney = 0
       } else {
@@ -986,6 +1009,14 @@ export default {
     },
     // 无来源添加商品
     handleAddproduct() {
+      if (this.personalForm.saleRepositoryId === 0 || this.personalForm.saleRepositoryId === '0' || this.personalForm.saleRepositoryId === '') {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please select repository',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     // 判断权限
@@ -1398,6 +1429,10 @@ export default {
     // 含税价
     gettaxprice(row) {
       row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
+      // 查询库存数量
+      countlist(this.personalForm.saleRepositoryId, this.$store.getters.regionIds, row.productCode).then(res => {
+        row.existStock = res.data.data.content.list[0].existStock
+      })
       return row.taxprice
     },
     getincludeTaxCostMoney(row) {
@@ -1661,7 +1696,7 @@ export default {
       }
       console.log('needcode', needcode)
       const judgeissecond = needcode.slice(10, 12)
-      const judgecartype = needcode.slice(4, 8)
+      const judgecartype = needcode.slice(3, 7)
       if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
         if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
