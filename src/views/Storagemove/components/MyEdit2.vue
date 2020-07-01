@@ -209,7 +209,7 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150">
             <template slot="edit" slot-scope="scope">
               <el-select v-if="isEdit(scope.row)" v-model="scope.row.locationId" :value="scope.row.locationId" :disabled="scope.row.stat === 2" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatelocaltion($event,scope)" @change="test($event,scope.row)">
                 <el-option

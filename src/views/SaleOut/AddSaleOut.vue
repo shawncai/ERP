@@ -729,6 +729,11 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          return time.getTime() > new Date().getTime() - 8.64e7
+        }
+      },
       materialcontrol: false,
       // 赠品选择控制
       packagecontrol: false,

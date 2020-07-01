@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 添加销售出库单
-export function createsaleOut(query, query2, query3, query4, query5, query6) {
+export function createsaleOut(query, query2, query3, query4, query5, query6, query7) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
@@ -17,6 +17,9 @@ export function createsaleOut(query, query2, query3, query4, query5, query6) {
   params.append('receivableMoney2', query5) // 你要传给后台的参数值 key/value
   if (query6) {
     params.append('retreatJson', query6) // 你要传给后台的参数值 key/value
+  }
+  if (query7) {
+    params.append('serviceJson', query7) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/saleOut/create',
@@ -95,7 +98,7 @@ export function searchsaleOut(query) {
 }
 
 // 修改销售出库单
-export function updatesaleOut(query, query2, query3, query4, query5) {
+export function updatesaleOut(query, query2, query3, query4, query5, query6) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
@@ -103,6 +106,9 @@ export function updatesaleOut(query, query2, query3, query4, query5) {
   params.append('receivableMoney2', query4) // 你要传给后台的参数值 key/value
   if (query5) {
     params.append('retreatJson', query5) // 你要传给后台的参数值 key/value
+  }
+  if (query6) {
+    params.append('serviceJson', query6) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/saleOut/update',

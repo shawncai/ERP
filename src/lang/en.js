@@ -1,5 +1,6 @@
 export default {
   route: {
+    IncomeAnalysis: 'incomeAnalysis',
     bigStuffInventory: 'bigStuffInventory',
     VehicleSaleCount: 'VehicleSaleCount',
     OutSouringAdjustList: 'OutSouringAdjustList',

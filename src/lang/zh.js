@@ -1,5 +1,6 @@
 export default {
   route: {
+    IncomeAnalysis: '收入分析',
     bigStuffInventory: '大件库存统计',
     VehicleSaleCount: '销售整车出库统计',
     OutSouringAdjustList: '外包工厂调价单列表',
@@ -4459,6 +4460,27 @@ export default {
     dbrgscgsx: '担保人人数超过限制',
     zxrwek: '担保人为空',
     sfdk: '是否抵扣',
-    qxzkh: '请选择客户'
+    qxzkh: '请选择客户',
+    rq: '日期',
+    khm: '客户名',
+    ck: '仓库/门店',
+    djlx: '单据类型',
+    addMoney: '增加金额',
+    lessMoney: '减少金额',
+    djh: '单据号',
+    invoiceNumber: '发票号',
+    remark: '备注',
+    xsckd: '销售出库单',
+    xsthd: '销售退货单',
+    skd: '收款单',
+    srk: '收入单',
+    wxxm: '维修项目',
+    tjxm: '添加项目',
+    wxcx: '维修车型',
+    xmmc: '项目名称',
+    ms: '描述',
+    bdkhjg: '本店客户价格',
+    fbdkhjg: '非本店客户价格',
+    qxxzkh: '请先选择客户'
   }
 }

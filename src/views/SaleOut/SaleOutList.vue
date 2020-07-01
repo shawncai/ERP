@@ -69,7 +69,7 @@
       <!-- <el-button v-permission="['54-55-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
       <el-button v-permission="['54-55-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
-      <el-button v-permission="['54-55-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 110px" @click="handleAdd2">创建补单</el-button>
+      <!-- <el-button v-permission="['54-55-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 110px" @click="handleAdd2">创建补单</el-button> -->
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">

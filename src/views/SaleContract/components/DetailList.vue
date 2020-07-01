@@ -339,6 +339,7 @@
 
 <script>
 import printJS from 'print-js'
+import { searchRepository3 } from '@/api/Repository'
 // import datazzz from '@/utils/salecontract'
 var _that
 export default {
@@ -490,13 +491,24 @@ export default {
       return hasPermission
     },
     handleprint() {
-      this.categoryVisible = false
-      localStorage.setItem('selectcompany', this.selectcompany)
-      // console.log('this.selectcompany', this.selectcompany)
-      const routeUrl = this.$router.resolve({
-        path: '/SaleContract/download'
+      const parms = {
+        id: this.personalForm.saleRepositoryId,
+        pagenum: 1,
+        pagesize: 10
+      }
+      searchRepository3(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.categoryVisible = false
+          localStorage.setItem('selectcompany', this.selectcompany)
+          const repdata = JSON.stringify(res.data.data.content.list[0])
+          localStorage.setItem('setrepository', repdata)
+          const routeUrl = this.$router.resolve({
+            path: '/SaleContract/download'
+          })
+          window.open(routeUrl.href, '_blank')
+        }
       })
-      window.open(routeUrl.href, '_blank')
+      // console.log('this.selectcompany', this.selectcompany)
     },
     closetag() {
       this.categoryVisible = false

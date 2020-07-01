@@ -315,6 +315,29 @@
         </div>
       </el-card>
 
+      <el-card class="box-card" style="margin-top: 15px">
+        <h2 ref="fuzhu" class="form-name">{{ $t('update4.wxxm') }}</h2>
+        <div class="container">
+          <el-editable
+            ref="editable4"
+            :data.sync="itemlist"
+            :edit-config="{ showIcon: true, showStatus: true}"
+            class="click-table1"
+            stripe
+            border
+            size="small"
+            style="width: 100%">
+            <!-- <el-editable-column type="selection" width="55" align="center"/> -->
+            <el-editable-column width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('update4.wxcx')" prop="productType" align="center"/>
+            <el-editable-column :label="$t('update4.xmmc')" prop="name" align="center" min-width="200"/>
+            <el-editable-column :label="$t('update4.bdkhjg')" prop="price" align="center"/>
+            <el-editable-column :label="$t('update4.fbdkhjg')" prop="otherPrice" align="center"/>
+            <el-editable-column :label="$t('update4.ms')" prop="description" align="center"/>
+          </el-editable>
+        </div>
+      </el-card>
+
       <!--审核状态-->
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
@@ -605,6 +628,7 @@ export default {
   },
   data() {
     return {
+      itemlist: [],
       // 退货入库数据
       returnlist: [],
       huishou: '',
@@ -633,6 +657,7 @@ export default {
       console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
       this.list2 = this.personalForm.saleOutDetailVos
       this.list3 = this.personalForm.saleOutGiftVos
+      this.itemlist = this.personalForm.saleOutItems
       this.returnlist = this.personalForm.saleOutRetreatVos
       for (const i in this.list2) {
         this.list2[i].categoryName = this.list2[i].productCategoryName

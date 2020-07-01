@@ -146,7 +146,7 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{type: 'visible'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                   <el-option

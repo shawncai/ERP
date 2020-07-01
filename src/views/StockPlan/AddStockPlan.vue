@@ -625,7 +625,6 @@ export default {
       }
     },
     planQuantity(row) {
-      console.log('行', row)
       if (row.planQuantity !== null && row.planQuantity !== '' && row.planQuantity !== undefined) {
         return Number(row.planQuantity).toFixed(6)
       } else {
@@ -725,8 +724,9 @@ export default {
             for (let i = scope.row.temp; i < this.list2.length; i++) {
               console.log(this.list2[i].requireDate)
               if (this.list2[i].planDeliveryDate !== null && this.list2[i].planDeliveryDate !== '' && this.list2[i].planDeliveryDate !== undefined) {
-                console.log(111)
-                this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+                // console.log(111)
+                // this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
+                continue
               } else {
                 console.log(222)
                 this.list2[i].planDeliveryDate = scope.row.planDeliveryDate
@@ -747,7 +747,7 @@ export default {
             newparms.supplierName = suppdata.data.data.content[i].supplierName
             newparms.supplierId = suppdata.data.data.content[i].supplierId
             newparms.planQuantity = suppdata.data.data.content[i].quantity
-            this.$refs.editable.insertAt(newparms)
+            this.$refs.editable.insertAt(newparms, -1)
           }
           this.$refs.editable.remove(scope.row)
         }

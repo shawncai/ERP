@@ -3319,6 +3319,12 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'IncomeAnalysis',
+        component: () => import('@/views/Financecount/IncomeAnalysis'),
+        name: 'IncomeAnalysis',
+        meta: { title: 'IncomeAnalysis', noCache: false, roles: ['311-314-409-4'] }
+      },
+      {
         path: 'shouldPayCount',
         component: () => import('@/views/Financecount/shouldPayCount'),
         name: 'shouldPayCount',

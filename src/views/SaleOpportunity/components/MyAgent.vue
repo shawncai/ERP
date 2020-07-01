@@ -161,8 +161,8 @@ export default {
     },
     filterno(status) {
       const statusMap = {
-        1: '老客户',
-        2: '新客户'
+        1: _that.$t('update4.bdkh'),
+        2: _that.$t('update4.fbdkh')
       }
       return statusMap[status]
     }

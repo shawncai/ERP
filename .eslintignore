@@ -5,3 +5,7 @@ src/views/home
 src/views/Repair
 src/views/Employee
 src/views/layout/components/Sidebar
+src/utils/salecontract
+src/utils/salecontract2
+src/utils/*.js
+

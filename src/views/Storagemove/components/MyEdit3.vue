@@ -186,7 +186,7 @@
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="250" >
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="250" >
             <template slot="edit" slot-scope="scope">
               <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :disabled="scope.row.stat === 2" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option

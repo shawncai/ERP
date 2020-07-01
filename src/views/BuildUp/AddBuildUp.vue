@@ -139,7 +139,7 @@
         </div>
       </el-card>
       <!--组装后的商品      -->
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; marign-bottom: 20px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; marign-bottom: 40px">
 
         <div ref="fuzhu" class="form-name">{{ $t('updates.zzhdsp') }}</div>
         <div class="buttons" style="margin-top: 25px">
@@ -159,7 +159,7 @@
             stripe
             border
             size="small"
-            style="width: 100%"
+            style="width: 100%;margin-bottom: 40px"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>

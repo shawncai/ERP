@@ -1766,3 +1766,28 @@ export function bigStuffInventory(query) {
     data: params
   })
 }
+
+// 收入分析表
+export function incomeAnalysis(query) {
+  var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/SaleReport/incomeAnalysis',
+    method: 'post',
+    data: params
+  })
+}

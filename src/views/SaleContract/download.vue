@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       article: '',
+      dataprint: '',
       fullscreenLoading: true
     }
   },
@@ -25,20 +26,42 @@ export default {
     seedata() {
       var data1 = JSON.parse(localStorage.getItem('getprintdata'))
       console.log(data1)
+      const data2 = JSON.parse(localStorage.getItem('setrepository'))
+      console.log(data2)
     },
     fetchData() {
-      import('@/utils/salecontract').then(data => {
-        const { title } = data.default
-        document.title = title
-        this.article = data.default
-        console.log(data.default)
-        setTimeout(() => {
-          this.fullscreenLoading = false
-          this.$nextTick(() => {
-            window.print()
-          })
-        }, 3000)
-      })
+      this.dataprint = JSON.parse(localStorage.getItem('getprintdata'))
+      var data1 = JSON.parse(localStorage.getItem('getprintdata'))
+      console.log(data1)
+      const data2 = JSON.parse(localStorage.getItem('setrepository'))
+      console.log(data2)
+      if (this.dataprint.saleType === 2) {
+        import('@/utils/salecontract2').then(data => {
+          const { title } = data.default
+          document.title = title
+          this.article = data.default
+          console.log(data.default)
+          setTimeout(() => {
+            this.fullscreenLoading = false
+            this.$nextTick(() => {
+              window.print()
+            })
+          }, 3000)
+        })
+      } else if (this.dataprint.saleType === 1) {
+import('@/utils/salecontract').then(data => {
+  const { title } = data.default
+  document.title = title
+  this.article = data.default
+  console.log(data.default)
+  setTimeout(() => {
+    this.fullscreenLoading = false
+    this.$nextTick(() => {
+      window.print()
+    })
+  }, 3000)
+})
+      }
     }
   }
 }

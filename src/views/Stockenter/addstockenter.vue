@@ -126,7 +126,7 @@
             <el-editable-column type="index" align="center" fixed label="编号" width="150px" />
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" width="150px"/>
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <!--              <template slot="edit" slot-scope="scope">-->
               <!--                <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">-->
               <!--                  <el-option-->

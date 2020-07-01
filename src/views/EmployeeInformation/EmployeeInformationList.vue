@@ -87,14 +87,14 @@
             <el-option
               v-for="(item, index) in packageLists"
               :key="index"
-              :label="item.processNames"
+              :label="item.remark"
               :value="item.id"
             />
           </el-select>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="handlesendok()">{{ $t('Hmodule.sure') }}</el-button>
-          <el-button type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
+          <el-button :loading="sureloding" type="primary" @click="handlesendok()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button :loading="sureloding" type="danger" @click="closetag()">{{ $t('Hmodule.cancel') }}</el-button>
         </span>
       </el-dialog>
 
@@ -251,6 +251,7 @@ export default {
       }
     }
     return {
+      sureloding: false,
       packageLists: [],
       packageparms: '',
       categoryVisible: false,
@@ -444,7 +445,7 @@ export default {
     _that = this
   },
   methods: {
-    handlesendok() {
+    async  handlesendok() {
       console.log('packageparms', this.packageparms)
       if (!this.packageparms) {
         this.$notify.error({
@@ -457,20 +458,60 @@ export default {
       const filterarr = this.moreaction.filter(item => {
         return item.stat === 1
       })
-
-      for (const i in filterarr) {
-        packageToEmp(filterarr[i].id, this.packageparms).then(res => {
-          if (res.data.ret === 200) {
-            this.$notify({
-              title: 'successful',
-              message: '分配成功',
-              type: 'success',
-              offset: 100
-            })
-          }
-          this.categoryVisible = false
+      if (filterarr.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请选择在职员工',
+          offset: 100
         })
+        return false
       }
+      this.sureloding = true
+      const parms = this.packageparms
+      const list = await Promise.all(filterarr.map(function(item) {
+        return packageToEmp(item.id, parms)
+      }))
+      console.log('list', list)
+      let j = 0
+      for (const i in list) {
+        if (list[i].data.ret !== 200) {
+          j = 1
+        }
+      }
+
+      if (j === 0) {
+        this.$notify({
+          title: 'successful',
+          message: '分配成功',
+          type: 'success',
+          offset: 100
+        })
+        this.sureloding = false
+        this.categoryVisible = false
+      } else if (j === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '分配失败，请再次分配',
+          offset: 100
+        })
+        this.sureloding = false
+
+        return false
+      }
+
+      // for (const i in filterarr) {
+      //   packageToEmp(filterarr[i].id, this.packageparms).then(res => {
+      //     if (res.data.ret === 200) {
+      //       this.$notify({
+      //         title: 'successful',
+      //         message: '分配成功',
+      //         type: 'success',
+      //         offset: 100
+      //       })
+      //     }
+      //     this.categoryVisible = false
+      //   })
+      // }
     },
     getpackagelist() {
       approvalPackageList().then(res => {
@@ -481,6 +522,7 @@ export default {
     },
     closetag() {
       this.packageparms = ''
+      this.sureloding = false
       this.categoryVisible = false
     },
     handleSend() {

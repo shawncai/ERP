@@ -308,14 +308,14 @@ export default {
       // }
 
       const EnterDetail2 = this.$refs.editable3.getRecords()
-      if (EnterDetail2.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
+      // if (EnterDetail2.length === 0) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.mxbbnwk'),
+      //     offset: 100
+      //   })
+      //   return false
+      // }
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
