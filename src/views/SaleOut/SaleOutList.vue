@@ -143,8 +143,8 @@
           <template slot-scope="scope">
             <el-button v-permission="['54-55-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :loading="isconfirm" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission2="['54-55-3', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['54-55-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :loading="judgeloading" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
+            <el-button v-permission="['54-55-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :loading="fsploading" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['54-55-2', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['54-55-49']" v-waves v-show="scope.row.judgeStat === 2&&scope.row.isDeliver === 1&&scope.row.customerType ==='1' " class="filter-item" type="primary" style="width: 82px" @click="handleReceipt(scope.row)"><span style="margin-left: -15px;">生成配送单</span></el-button>
             <el-button v-permission="['54-55-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
@@ -232,6 +232,8 @@ export default {
   },
   data() {
     return {
+      fsploading: false,
+      judgeloading: false,
       isconfirm: false,
       tableHeight: 200,
       batteryreturn: false,
@@ -645,6 +647,8 @@ export default {
         this.returncontrol = true
       } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
         this.batteryreturn = true
+      } else if (row.saleOutItems.length !== 0) {
+        this.returncontrol = true
       } else {
         this.editVisible = true
       }
@@ -705,6 +709,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.judgeloading = true
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -724,6 +729,7 @@ export default {
             })
             this.getlist()
           }
+          this.judgeloading = false
         })
       }).catch(action => {
         if (action === 'cancel') {
@@ -754,11 +760,14 @@ export default {
                   : '停留在当前页面'
               })
             })
+
           // ================取消弹框结束
         }
+        this.judgeloading = false
       })
     },
     handleReview4(row) {
+      this.fsploading = true
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -789,7 +798,10 @@ export default {
               message: this.$t('prompt.fspcg')
             })
           }
+          this.fsploading = false
         })
+      }).catch(action => {
+        this.fsploading = false
       })
     },
     // 批量操作

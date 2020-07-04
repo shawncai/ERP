@@ -167,7 +167,7 @@
                 <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.outDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -426,7 +426,7 @@
           </el-editable>
         </div>
       </el-card>
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px; margin-bottom: 20px;padding-bottom: 90px">
 
         <div ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('update4.skxx') }}</div>
         <div class="container" style="margin-top: 37px">
@@ -483,7 +483,7 @@
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="height: 57px">
+              <el-col :span="6" style="height: 57px;padding-top: 27px">
                 <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
                 </el-form-item>
@@ -731,7 +731,10 @@ export default {
       },
       pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() > new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       materialcontrol: false,
@@ -955,9 +958,9 @@ export default {
           //   }
           // })
         }
-        this.heji1 = num
-        this.heji3 = num1
-        this.heji4 = num2
+        this.heji1 = Number(num)
+        this.heji3 = Number(num1)
+        this.heji4 = Number(num2)
         this.getReceivableMoney()
       },
       deep: true
@@ -967,11 +970,11 @@ export default {
         let num = 0
         let num1 = 0
         for (const i in this.list3) {
-          num += this.list3[i].quantity
-          num1 += this.list3[i].salePrice * num
+          num += Number(this.list3[i].quantity)
+          num1 += Number(this.list3[i].salePrice) * num
         }
-        this.heji9 = num
-        this.heji10 = num1
+        this.heji9 = Number(num)
+        this.heji10 = Number(num1)
       },
       deep: true
     }
@@ -1335,8 +1338,8 @@ export default {
 
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('1')
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.advanceMoney)) + Number(this.personalForm.otherMoney)
+        let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.advanceMoney)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1358,8 +1361,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('firstmoney')
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1369,8 +1372,8 @@ export default {
       } else if (this.shouldMoney !== '' && this.shouldMoney !== null && this.shouldMoney !== undefined) {
         console.log('3')
         console.log('this.shouldMoney', this.shouldMoney)
-        let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1379,8 +1382,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('4')
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1996,9 +1999,9 @@ export default {
       sums[23] = ''
       sums[24] = ''
       sums[25] = ''
-      this.heji1 = sums[14]
-      this.heji3 = sums[18]
-      this.heji4 = sums[20]
+      this.heji1 = Number(sums[14])
+      this.heji3 = Number(sums[18])
+      this.heji4 = Number(sums[20])
       // this.heji5 = sums[25]
       // this.heji6 = sums[19] - sums[25]
       // this.heji7 = sums[23]
@@ -2893,7 +2896,7 @@ export default {
               return false
             }
 
-            if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+            if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
               this.$notify.error({
                 title: 'wrong',
                 message: this.$t('update4.qsrshijshk'),
@@ -3096,6 +3099,9 @@ export default {
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
+        if (elem.batch === '不使用') {
+          delete elem.batch
+        }
         if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
           delete elem.productName
         }
@@ -3171,6 +3177,9 @@ export default {
         return elem
       }).forEach(function(elem) {
         if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+          delete elem.batch
+        }
+        if (elem.batch === '不使用') {
           delete elem.batch
         }
         if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {

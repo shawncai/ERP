@@ -263,19 +263,48 @@ export default {
       this.control = true
       this.checklist = this.$refs.editable.getRecords()
     },
+
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
-      console.log(val)
+      // console.log(val)
+      // const nowlistdata = this.$refs.editable.getRecords()
+
+      // console.log(nowlistdata)
+      // var ret4 = val.findIndex((value, index, arr) => {
+      //   return value.productCode === this.personalForm.productCode
+      // })
+
+      // console.log(ret4)
+      // this.list2 = val.filter(item => {
+      //   return item.productCode !== this.personalForm.productCode
+      // })
       const nowlistdata = this.$refs.editable.getRecords()
-
-      console.log(nowlistdata)
-      var ret4 = val.findIndex((value, index, arr) => {
-        return value.productCode === this.personalForm.productCode
-      })
-
-      console.log(ret4)
-      this.list2 = val.filter(item => {
-        return item.productCode !== this.personalForm.productCode
-      })
+      this.$refs.editable.clear()
+      console.log('val============', val)
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata=====', filterdata)
+      // this.list2 = filterdata
+      for (let i = 0; i < filterdata.length; i++) {
+        // val[i].quantity = 1
+        this.$refs.editable.insert(filterdata[i])
+      }
     },
     // 入库金额计算
     getSize(quan, pric) {

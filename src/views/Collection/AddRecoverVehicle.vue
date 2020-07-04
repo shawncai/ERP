@@ -58,6 +58,7 @@
                 <el-form-item :label="$t('Collection.receiveDate')" prop="receiveDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.receiveDate"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -261,6 +262,14 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       packagecontrol: false,
       // 控制销售出库单
       saleoutcontrol: false,

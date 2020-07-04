@@ -472,6 +472,8 @@ export default {
             newparms.supplierName = suppdata.data.data.content[i].supplierName
             newparms.supplierId = suppdata.data.data.content[i].supplierId
             newparms.planQuantity = suppdata.data.data.content[i].quantity
+            newparms.basicPrice = suppdata.data.data.content[i].price
+            newparms.includeTaxPrice = suppdata.data.data.content[i].includeTaxPrice
             this.$refs.editable.insertAt(newparms)
           }
           this.$refs.editable.remove(scope.row)

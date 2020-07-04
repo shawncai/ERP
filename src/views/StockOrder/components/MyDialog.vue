@@ -528,7 +528,11 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.applyPersonId = this.personalForm.applyPersonName
+      if (this.personalForm.sourceType === '2' || this.personalForm.sourceType === 2) {
+        this.addsouce = false
+      }
       this.supplierId = this.personalForm.supplierName
+      this.supp = this.personalForm.supplierId
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.stockRepositoryId = this.personalForm.stockRepositoryName
@@ -552,7 +556,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handlechooseRep() {
@@ -720,20 +724,22 @@ export default {
     },
     // 通过税率计算含税价
     gettaxRate(row) {
+      console.log('row', row)
       // if (row.includeTaxPrice !== 0) {
       //   row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       // }
       if (row.flag === undefined) {
         row.flag = true
       } else {
-        return false
+        return row.taxRate
       }
       // 默认批次
       if (row.flag) {
-        if (this.personalForm.sourceType === '5') {
+        if (this.personalForm.sourceType === '5' || this.personalForm.sourceType === '2') {
           // 查询供应商价格
           querytax(this.personalForm.supplierId, row.productCode).then(res => {
             if (res.data.data.content.length > 0) {
+              row.price = res.data.data.content[0].price || 0
               row.taxRate = res.data.data.content[0].taxRate || 0
               row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
             } else {
@@ -1052,6 +1058,7 @@ export default {
       console.log(val)
       const nowlistdata = this.$refs.editable.getRecords()
       const quchonggong = this.personalForm.supplierId
+      console.log('quchonggong', quchonggong)
       for (let i = 0; i < val.length; i++) {
         for (let j = 0; j < nowlistdata.length; j++) {
           if (val[i].productCode === nowlistdata[j].productCode) {
@@ -1063,10 +1070,12 @@ export default {
             return false
           }
         }
+        console.log('val[i].supplierId', val[i].supplierId)
         if (val[i].supplierId !== quchonggong) {
           console.log(1234)
           continue
         }
+        val[i].stockQuantity = (val[i].planQuantity - val[i].orderQuantity).toFixed(6)
         this.$refs.editable.insert(val[i])
       }
     },
@@ -1090,7 +1099,7 @@ export default {
         this.personalForm.stockPersonId = val.stockPersonId
         this.IsStockPersonId = true
       }
-      this.personalForm.isVat = val.isVat
+      // this.personalForm.isVat = val.isVat
     },
     // 更新类型
     updatecountry() {

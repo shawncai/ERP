@@ -877,7 +877,7 @@ export default {
       // 默认批次
       if (row.flag) {
         console.log('执行')
-        if (this.personalForm.sourceType === '5') {
+        if (this.personalForm.sourceType === '5' || this.personalForm.sourceType === '2') {
           console.log('执行22222')
           // 查询供应商价格
           querytax(this.personalForm.supplierId, row.productCode).then(res => {

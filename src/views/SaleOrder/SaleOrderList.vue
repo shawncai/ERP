@@ -152,6 +152,9 @@
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['54-57-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
+            <el-button v-permission="['54-57-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['54-57-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+
             <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2&&scope.row.flag===1" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
             <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
             <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
@@ -327,6 +330,78 @@ export default {
     _that = this
   },
   methods: {
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      // this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fjd'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOrder2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fjdcg')
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
+    isReview3(row) {
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
+    isReview4(row) {
+      // 测试阶段临时
+      if (row.judgeStat === 2) {
+        return true
+      }
+      // 正式时放开
+      // if (row.judgeStat === 2 && row.confirmPersonId === null) {
+      //   return true
+      // }
+    },
+    handleReview4(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fsp'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 0
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOrder2(parms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.result === false) {
+              this.$message({
+                type: 'error',
+                message: this.$t('prompt.fspsb')
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: this.$t('prompt.fspcg')
+              })
+            }
+            this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fspcg')
+            })
+          }
+        })
+      })
+    },
     repositoryname(val) {
       console.log(val)
       this.repositoryId = val.repositoryName

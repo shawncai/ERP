@@ -188,7 +188,7 @@
             <el-button v-show="isshow9(scope.row)" size="mini" type="success" @click="handleDispatch3(scope.row)">{{ $t('Storagemove.moveoutconfirm') }}</el-button>
             <!-- <el-button v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null" size="mini" type="success" @click="handleDispatch2(scope.row)">调入确认</el-button> -->
             <el-button v-permission="['131-141-142-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-show="isReview(scope.row)" :loading="sploading" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-show="isReview11(scope.row)" style="margin-left: 18px;" title="confirm" type="primary" size="mini" icon="el-icon-check" circle @click="confirm2(scope.row)"/>
             <el-button v-permission="['131-141-142-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-141-142-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
@@ -257,6 +257,7 @@ export default {
   },
   data() {
     return {
+      sploading: false,
       tableHeight: 200,
 
       pickerOptions1: {
@@ -864,6 +865,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.sploading = true
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -884,6 +886,7 @@ export default {
             })
             this.getlist()
           }
+          this.sploading = false
         })
       }).catch(action => {
         if (action === 'cancel') {
@@ -922,6 +925,7 @@ export default {
             })
           // ================取消弹框结束
         }
+        this.sploading = false
       })
     },
     // 批量操作

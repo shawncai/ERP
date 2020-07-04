@@ -360,10 +360,11 @@ export default {
           discountMoney: 0,
           arrivalQuantity: '0.00',
           price: item.basicPrice,
-          includeTaxPrice: item.basicPrice,
+          includeTaxPrice: item.includeTaxPrice,
           supplierId: item.supplierId,
           returnQuantity: 0,
           tax: 0,
+          taxRate: item.taxRate,
           actualArrivalQuantity: 0
         }
       })

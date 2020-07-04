@@ -198,7 +198,7 @@
                 <el-form-item :label="$t('InstallmentApply.applyDate')" prop="applyDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.applyDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -882,7 +882,10 @@ export default {
       },
       pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       // 证件额外参数
@@ -1838,7 +1841,7 @@ export default {
       console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
 
       // 二手gb2
-      if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+      if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second gb2 firstMoney is wrong',
@@ -1847,7 +1850,7 @@ export default {
         return false
       }
       // 二手其他车
-      if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+      if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second car firstMoney is wrong',
@@ -1857,7 +1860,7 @@ export default {
       }
 
       // 新gb2
-      if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+      if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the gb2 firstMoney is wrong',
@@ -1867,7 +1870,7 @@ export default {
       }
 
       // 其他新车
-      if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+      if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
         console.log('123')
         this.$notify.error({
           title: 'wrong',

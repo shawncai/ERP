@@ -203,6 +203,16 @@
                   <el-input v-model="personalForm.receiveMoney" type="number" style="width: 200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.createDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.createDate"
+                    :picker-options="pickerOptions3"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -563,6 +573,14 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       saveloding: false,
       // 判断权限
       isshow: '',
@@ -624,6 +642,7 @@ export default {
       addpro: true,
       // 销售订单信息数据
       personalForm: {
+        createDate: null,
         createPersonId: this.$store.getters.userId,
         salePersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -687,6 +706,22 @@ export default {
     _that = this
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.transDate = currentdate
+      this.personalForm.createDate = currentdate
+    },
     judgeinvoce() {
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
@@ -930,21 +965,6 @@ export default {
     // 从源单中添加商品
     handleAddSouce() {
       this.arrivalcontrol = true
-    },
-    getdatatime() { // 默认显示今天
-      var date = new Date()
-      var seperator1 = '-'
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var strDate = date.getDate()
-      if (month >= 1 && month <= 9) {
-        month = '0' + month
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = '0' + strDate
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.transDate = currentdate
     },
     // 总计
     getSummaries(param) {
@@ -1233,6 +1253,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+        createDate: null,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,

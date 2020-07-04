@@ -218,6 +218,24 @@ async handleConfirm() {
       console.log(applydata[0].price)
       this.$emit('apply', applyDetail)
     }
+
+
+    第二种方式
+
+    var promiseList = []
+      const filterarrlength = filterarr.length
+      for (let i = 0; i < filterarrlength; i++) {
+        promiseList.push(new Promise((resolve, reject) => {
+          packageToEmp(filterarr[i].id, parms).then(res => {
+            resolve(res)
+          })
+        }))
+      }
+      Promise.all(promiseList).then((rspList) => {
+        rspList.map((val) => {
+          console.log(val) // 依次输出0-9
+        })
+      })
 ```  
 ######  正则判断位数  
 ```js

@@ -4481,6 +4481,7 @@ export default {
     ms: '描述',
     bdkhjg: '本店客户价格',
     fbdkhjg: '非本店客户价格',
-    qxxzkh: '请先选择客户'
+    qxxzkh: '请先选择客户',
+    createDate: '创建日期'
   }
 }

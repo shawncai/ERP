@@ -443,8 +443,8 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;">
-        <el-button v-no-more-click v-permission="['1-31-32-1']" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button v-permission="['1-31-32-1']" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
+        <el-button v-permission="['1-31-32-1']" :loading="saveloading" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button v-permission="['1-31-32-1']" :loading="saveloading" type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
         <el-button v-permission="['1-31-32-1']" type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -506,6 +506,7 @@ export default {
       }, 1000)
     }
     return {
+      saveloading: false,
       uploadapi: this.$store.getters.uploadApi,
       numberIds: [],
       numberId: '',
@@ -1001,53 +1002,61 @@ export default {
     // 详情图上传图片结束++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++结束
     // 保存操作
     handlesave() {
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.personalForm2.validate((valid) => {
-            if (valid) {
-              createnewproduct(this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                  this.$refs.personalForm2.clearValidate()
-                  this.$refs.personalForm2.resetFields()
-                  this.$refs.detailpicupload.clearFiles()
-                  this.$refs.upload.clearFiles()
-                  this.$router.go(-1)
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: 'Information is incomplete',
-                offset: 100
-              })
-              return false
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
-      })
+      this.saveloading = true
+      setTimeout(() => {
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            this.$refs.personalForm2.validate((valid) => {
+              if (valid) {
+                createnewproduct(this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                    this.$refs.personalForm2.clearValidate()
+                    this.$refs.personalForm2.resetFields()
+                    this.$refs.detailpicupload.clearFiles()
+                    this.$refs.upload.clearFiles()
+                    this.$router.go(-1)
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.saveloading = false
+                })
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'Information is incomplete',
+                  offset: 100
+                })
+                this.saveloading = false
+
+                return false
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloading = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 清空记录
     restAllForm() {
@@ -1117,61 +1126,69 @@ export default {
     // 继续录入
     handleentry() {
       console.log(this.personalForm)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.personalForm2.validate((valid) => {
-            if (valid) {
-              createnewproduct(this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  const anchor = this.$refs.geren.offsetTop
-                  console.log(anchor)
-                  document.documentElement.scrollTop = anchor - 100
-                  this.restAllForm()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                  this.$refs.personalForm2.clearValidate()
-                  this.$refs.personalForm2.resetFields()
-                  this.$refs.detailpicupload.clearFiles()
-                  this.$refs.upload.clearFiles()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: 'Information is incomplete',
-                offset: 100
-              })
-              const anchor2 = this.$refs.lianxi.offsetTop
-              console.log(anchor2)
-              document.documentElement.scrollTop = anchor2 - 100
-              return false
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          const anchor3 = this.$refs.lianxi.offsetTop
-          console.log(anchor3)
-          document.documentElement.scrollTop = anchor3 - 100
-          return false
-        }
-      })
+      this.saveloading = true
+      setTimeout(() => {
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            this.$refs.personalForm2.validate((valid) => {
+              if (valid) {
+                createnewproduct(this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    const anchor = this.$refs.geren.offsetTop
+                    console.log(anchor)
+                    document.documentElement.scrollTop = anchor - 100
+                    this.restAllForm()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                    this.$refs.personalForm2.clearValidate()
+                    this.$refs.personalForm2.resetFields()
+                    this.$refs.detailpicupload.clearFiles()
+                    this.$refs.upload.clearFiles()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.saveloading = false
+                })
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'Information is incomplete',
+                  offset: 100
+                })
+                const anchor2 = this.$refs.lianxi.offsetTop
+                console.log(anchor2)
+                document.documentElement.scrollTop = anchor2 - 100
+                this.saveloading = false
+
+                return false
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            const anchor3 = this.$refs.lianxi.offsetTop
+            console.log(anchor3)
+            document.documentElement.scrollTop = anchor3 - 100
+            this.saveloading = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 取消操作
     handlecancel() {

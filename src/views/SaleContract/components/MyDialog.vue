@@ -273,6 +273,13 @@
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px; margin-bottom： 30px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</h2>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+        <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
       <div class="container">
         <el-editable
           ref="editable"
@@ -285,7 +292,8 @@
           stripe
           border
           size="small"
-          style="width: 100%">
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
@@ -406,10 +414,12 @@ import MyOpportunity from './MyOpportunity'
 import MyInstallmentapply from './MyInstallmentapply'
 import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
+import MyPackage from './MyPackage'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyCustomer, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyAgent },
+  components: { MyCustomer, MyPackage, MyDetail, MyInstallmentapply, MyOpportunity, MyDelivery, MyPlan, MyApply, MySupplier, MyEmp, MyAgent },
   filters: {
     isSecondApplyFilter(status) {
       const statusMap = {
@@ -474,6 +484,10 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      rate: 0,
+      moreaction: [],
+      canclick: false,
+      packagecontrol: false,
       needarr: [],
       picidsData: {
         type: 25
@@ -623,6 +637,19 @@ export default {
       this.list2 = this.personalForm.saleContractDetailVos
       this.changeRate()
       // this.getTypes()
+    },
+    list2: {
+      handler(oldval, newval) {
+        let num = 0
+        for (const i in this.list2) {
+          num += Number(this.list2[i].includeTaxMoney)
+        }
+        if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
+          this.price = num
+          this.changefirstmoney()
+        }
+      },
+      deep: true
     }
   },
   created() {
@@ -632,6 +659,83 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
+    salePrice(val) {
+      console.log('val1222222', val)
+      this.moreaction[0].salePrice = val
+    },
+    geteachmoney() {
+      const date = new Date()
+      let byear = 0
+      let bmonth = 0
+      let eyear = 0
+      let emonth = 0
+      if (date.getMonth() + 2 >= 12) {
+        byear = date.getFullYear() + 1
+        bmonth = date.getMonth() - 10
+      } else {
+        byear = date.getFullYear()
+        bmonth = date.getMonth() + 2
+      }
+      if (bmonth + this.personalForm.installmentCount % 12 >= 12) {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12) + 1
+        emonth = bmonth + this.personalForm.installmentCount % 12 - 12
+      } else {
+        eyear = byear + parseInt(this.personalForm.installmentCount / 12)
+        emonth = bmonth + this.personalForm.installmentCount % 12
+      }
+      this.personalForm.installmentBegintime = `${byear}-${bmonth}`
+      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+    },
+    changefirstmoney() {
+      const needval = this.installmentCounts.find(item => {
+        if (item.installmentCount === this.personalForm.installmentCount) {
+          return (item)
+        }
+      })
+      console.log('needval', needval)
+      this.rate = needval.rate
+      console.log('首付款', this.personalForm.firstMoney)
+      if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
+        if (this.price != null && this.price !== '' && this.price !== undefined) {
+          if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
+            if (each % 100 < 25) {
+              this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount
+            } else if (each % 100 >= 25 && each % 100 < 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 50) * this.personalForm.installmentCount
+            } else if (each % 100 >= 75) {
+              this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
+            }
+          }
+        }
+      }
+      this.geteachmoney()
+    },
+    packagedata(val) {
+      console.log('val1222222', val)
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    // 选择套餐
+    handleAddpackage() {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
+        this.$notify.error({
+          title: '请选择主商品',
+          message: '请选择主商品',
+          offset: 100
+        })
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagecontrol = true
+      }
+    },
     jundgeprice() {
       if (this.personalForm.saleType === '2') {
         return false
@@ -1162,8 +1266,16 @@ export default {
       this.ourContractorId = val.personName
       this.personalForm.ourContractorId = val.id
     },
-    // 采购申请明细来源
+    // 无来源添加商品
     handleAddproduct() {
+      if (this.personalForm.saleRepositoryId === 0 || this.personalForm.saleRepositoryId === '0' || this.personalForm.saleRepositoryId === '') {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please select repository',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {
@@ -1209,6 +1321,14 @@ export default {
     handleEditok() {
       this.personalForm.installmentAllMoney = this.personalForm.totalMoney
       const EnterDetail2 = this.$refs.editable.getRecords()
+      if (EnterDetail2.length === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please choose package',
+          offset: 100
+        })
+        return false
+      }
       let needcode = ''
       for (const i in EnterDetail2) {
         if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
@@ -1219,7 +1339,7 @@ export default {
       const judgeissecond = needcode.slice(10, 12)
       const judgecartype = needcode.slice(3, 7)
       if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
-        if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second gb2 firstMoney is wrong',
@@ -1228,7 +1348,7 @@ export default {
           return false
         }
         // 二手其他车
-        if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second car firstMoney is wrong',
@@ -1238,7 +1358,7 @@ export default {
         }
 
         // 新gb2
-        if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the gb2 firstMoney is wrong',
@@ -1248,7 +1368,7 @@ export default {
         }
 
         // 其他新车
-        if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',

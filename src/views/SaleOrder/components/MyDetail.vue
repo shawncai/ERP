@@ -226,7 +226,7 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
-      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      this.getemplist.searchRepositoryId = ''
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

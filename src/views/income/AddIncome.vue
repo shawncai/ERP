@@ -16,7 +16,7 @@
                 <el-form-item :label="$t('income.incomeDate')" prop="incomeDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.incomeDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -128,7 +128,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloading" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -165,6 +165,7 @@ export default {
       }
     }
     return {
+      saveloading: false,
       treedata: [],
       suboptions: [],
       // 区域列表
@@ -181,9 +182,12 @@ export default {
         label: 'subjectName',
         children: 'subjectFinanceVos'
       },
-      pickerOptions1: {
+      pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       // 结算方式数据
@@ -461,85 +465,95 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      let i = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.subjectCode === null || elem.subjectCode === '' || elem.subjectCode === undefined) {
-          i = 2
-        }
-        if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
-          delete elem.summary
-        }
-        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
-          delete elem.subjectFinanceId
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        return elem
-      })
-      if (i === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '科目名称必选',
-          offset: 100
-        })
-        return false
-      }
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.editable.validate().then(valid => {
-            createincome(parms, parms2, this.personalForm).then(res => {
-              console.log(res)
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: 'successful',
-                  message: 'save successful',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: 'wrong',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
-          }).catch(valid => {
-            console.log('error submit!!')
-          })
-        } else {
+      this.saveloading = true
+      setTimeout(() => {
+        const EnterDetail = this.$refs.editable.getRecords()
+        if (EnterDetail.length === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: this.$t('prompt.mxbbnwk'),
             offset: 100
           })
+          this.saveloading = false
           return false
         }
-      })
+        let i = 1
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.subjectCode === null || elem.subjectCode === '' || elem.subjectCode === undefined) {
+            i = 2
+          }
+          if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
+            delete elem.summary
+          }
+          if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
+            delete elem.subjectFinanceId
+          }
+          if (elem.money === null || elem.money === '' || elem.money === undefined) {
+            delete elem.money
+          }
+          return elem
+        })
+        if (i === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '科目名称必选',
+            offset: 100
+          })
+          this.saveloading = false
+
+          return false
+        }
+        const parms2 = JSON.stringify(EnterDetail)
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
+        }
+        const parms = JSON.stringify(Data)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            this.$refs.editable.validate().then(valid => {
+              createincome(parms, parms2, this.personalForm).then(res => {
+                console.log(res)
+                if (res.data.ret === 200) {
+                  this.$notify({
+                    title: 'successful',
+                    message: 'save successful',
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.restAllForm()
+                  this.$refs.editable.clear()
+                  this.$refs.personalForm.clearValidate()
+                  this.$refs.personalForm.resetFields()
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+                this.saveloading = false
+              })
+            }).catch(valid => {
+              console.log('error submit!!')
+              this.saveloading = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloading = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 取消操作
     handlecancel() {

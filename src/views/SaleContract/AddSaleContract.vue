@@ -1688,6 +1688,14 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail2 = this.$refs.editable.getRecords()
+      if (EnterDetail2.length === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please choose package',
+          offset: 100
+        })
+        return false
+      }
       let needcode = ''
       for (const i in EnterDetail2) {
         if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
@@ -1698,7 +1706,7 @@ export default {
       const judgeissecond = needcode.slice(10, 12)
       const judgecartype = needcode.slice(3, 7)
       if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
-        if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second gb2 firstMoney is wrong',
@@ -1707,7 +1715,7 @@ export default {
           return false
         }
         // 二手其他车
-        if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second car firstMoney is wrong',
@@ -1717,7 +1725,7 @@ export default {
         }
 
         // 新gb2
-        if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the gb2 firstMoney is wrong',
@@ -1727,7 +1735,7 @@ export default {
         }
 
         // 其他新车
-        if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',

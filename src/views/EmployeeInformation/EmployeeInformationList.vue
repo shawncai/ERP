@@ -445,6 +445,33 @@ export default {
     _that = this
   },
   methods: {
+    recurTest(j, length, filterarr, parms) {
+      packageToEmp(filterarr[j].id, parms).then(res => {
+        if (res.data.ret === 200) {
+          if (++j < length) {
+            this.recurTest(j, length, filterarr, parms)
+          } else {
+            this.$notify({
+              title: 'successful',
+              message: '分配成功',
+              type: 'success',
+              offset: 100
+            })
+            this.sureloding = false
+            this.categoryVisible = false
+            console.log('完成了', res.data.data)
+          }
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: '分配失败，请再次分配',
+            offset: 100
+          })
+          this.sureloding = false
+          console.log('错误', res.data.data)
+        }
+      })
+    },
     async  handlesendok() {
       console.log('packageparms', this.packageparms)
       if (!this.packageparms) {
@@ -468,36 +495,54 @@ export default {
       }
       this.sureloding = true
       const parms = this.packageparms
-      const list = await Promise.all(filterarr.map(function(item) {
-        return packageToEmp(item.id, parms)
-      }))
-      console.log('list', list)
-      let j = 0
-      for (const i in list) {
-        if (list[i].data.ret !== 200) {
-          j = 1
-        }
-      }
+      const length = filterarr.length
+      this.recurTest(0, length, filterarr, parms)
 
-      if (j === 0) {
-        this.$notify({
-          title: 'successful',
-          message: '分配成功',
-          type: 'success',
-          offset: 100
-        })
-        this.sureloding = false
-        this.categoryVisible = false
-      } else if (j === 1) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '分配失败，请再次分配',
-          offset: 100
-        })
-        this.sureloding = false
+      // var promiseList = []
+      // const filterarrlength = filterarr.length
+      // for (let i = 0; i < filterarrlength; i++) {
+      //   promiseList.push(new Promise((resolve, reject) => {
+      //     packageToEmp(filterarr[i].id, parms).then(res => {
+      //       resolve(res)
+      //     })
+      //   }))
+      // }
+      // Promise.all(promiseList).then((rspList) => {
+      //   rspList.map((val) => {
+      //     console.log(val) // 依次输出0-9
+      //   })
+      // })
 
-        return false
-      }
+      // const list = await Promise.all(filterarr.map(function(item) {
+      //   return packageToEmp(item.id, parms)
+      // }))
+      // console.log('list', list)
+      // let j = 0
+      // for (const i in list) {
+      //   if (list[i].data.ret !== 200) {
+      //     j = 1
+      //   }
+      // }
+
+      // if (j === 0) {
+      //   this.$notify({
+      //     title: 'successful',
+      //     message: '分配成功',
+      //     type: 'success',
+      //     offset: 100
+      //   })
+      //   this.sureloding = false
+      //   this.categoryVisible = false
+      // } else if (j === 1) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '分配失败，请再次分配',
+      //     offset: 100
+      //   })
+      //   this.sureloding = false
+
+      //   return false
+      // }
 
       // for (const i in filterarr) {
       //   packageToEmp(filterarr[i].id, this.packageparms).then(res => {

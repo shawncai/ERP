@@ -47,7 +47,7 @@
                 <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.outDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -645,6 +645,14 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       reasonsparms: {
@@ -2802,6 +2810,9 @@ export default {
         if (elem.type === null || elem.type === '' || elem.type === undefined) {
           delete elem.type
         }
+        if (elem.batch === '不使用') {
+          delete elem.batch
+        }
         if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
           delete elem.unit
         }
@@ -3305,6 +3316,9 @@ export default {
               if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
                 delete elem.productName
               }
+              if (elem.batch === '不使用') {
+                delete elem.batch
+              }
               if (elem.category === null || elem.category === '' || elem.category === undefined) {
                 delete elem.category
               }
@@ -3379,6 +3393,9 @@ export default {
               if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
                 delete elem.batch
               }
+              if (elem.batch === '不使用') {
+                delete elem.batch
+              }
               if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
                 delete elem.productName
               }
@@ -3427,7 +3444,7 @@ export default {
 
               return false
             }
-            if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.personalForm.isFree === 2) {
+            if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.personalForm.isFree === 2 && this.$store.getters.countryId === 2) {
               this.$notify.error({
                 title: 'wrong',
                 message: this.$t('update4.qsrshijshk'),

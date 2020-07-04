@@ -4460,7 +4460,28 @@ export default {
     dbrgscgsx: 'co-maker number is over',
     zxrwek: 'co-maker is empty',
     sfdk: 'Whether to deduct',
-    qxzkh: 'please select customer'
-
+    qxzkh: 'please select customer',
+    rq: 'date',
+    khm: 'customer',
+    ck: 'branch',
+    djlx: 'receipt type',
+    addMoney: 'add money',
+    lessMoney: 'reduce money',
+    djh: 'number',
+    invoiceNumber: 'invoiceNumber',
+    remark: 'remark',
+    xsckd: 'sale out',
+    xsthd: 'sale return',
+    skd: 'receipt',
+    srk: 'income',
+    wxxm: 'repair project',
+    tjxm: 'add project',
+    wxcx: 'repair type',
+    xmmc: 'project name',
+    ms: 'description',
+    bdkhjg: 'price',
+    fbdkhjg: 'non-customer price',
+    qxxzkh: 'please select customer',
+    createDate: 'createDate'
   }
 }

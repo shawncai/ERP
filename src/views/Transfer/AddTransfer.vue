@@ -51,7 +51,7 @@
                 <el-form-item :label="$t('Transfer.transferDate')" prop="transferDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.transferDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="datetime"
                     value-format="yyyy-MM-dd HH:mm:ss"
                     style="width: 200px"/>
@@ -214,7 +214,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloading" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -252,6 +252,7 @@ export default {
       }
     }
     return {
+      saveloading: false,
       uplodaapi: this.$store.getters.uploadApi,
       // 证件额外参数
       paperData: {
@@ -275,9 +276,12 @@ export default {
       },
       needreglist: [],
       region: null,
-      pickerOptions1: {
+      pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       props: {
@@ -735,129 +739,142 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
-      const EnterDetail = this.$refs.editable.getRecords()
-      // row.subjectName = needata.subjectName
-      // row.subjectCode = needata.subjectNumber
-      // for (const i in EnterDetail) {
-      //   EnterDetail[i].subjectCode = EnterDetail[i].subjectFinance[EnterDetail[i].subjectFinance.length - 1]
-      // }
-      console.log('EnterDetail', EnterDetail)
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      let i = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.subjectCode === null || elem.subjectCode === undefined || elem.subjectCode === '') {
-          i = 4
-        }
-        if (elem.regionId === null || elem.regionId === undefined || elem.regionId === '') {
-          if (elem.repositoryId === null || elem.repositoryId === undefined || elem.repositoryId === '') {
-            i = 2
+      this.saveloading = true
+      setTimeout(() => {
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
           }
         }
-        if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
-          if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
-            i = 3
-          }
-        }
-        if (elem.repositoryId === null || elem.repositoryId === '' || elem.repositoryId === undefined) {
-          delete elem.repositoryId
-        }
-        if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
-          delete elem.summary
-        }
-        if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
-          delete elem.subjectFinanceId
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        return elem
-      })
-      if (i === 4) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '会计科目必须选择一个',
-          offset: 100
-        })
-        return false
-      }
-      if (i === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '区域，门店必须选择一个',
-          offset: 100
-        })
-        return false
-      }
-      if (i === 3) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '区域，门店不能同时选择',
-          offset: 100
-        })
-        return false
-      }
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            console.log('elem.regionId', elem.regionId)
-            if (elem.regionId === null || elem.regionId === '' || elem.regionId === undefined) {
-              delete elem.regionId
-            } else {
-              const finalid = elem.regionId[elem.regionId.length - 1]
-              console.log(finalid)
-              elem.regionId = finalid
-            }
-          })
-          const parms2 = JSON.stringify(EnterDetail)
-          createtransfer(parms, this.personalForm, parms2).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.$refs.editable.clear()
-              this.restAllForm()
-              this.$refs.upload.clearFiles()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
+        const parms = JSON.stringify(Data)
+        const EnterDetail = this.$refs.editable.getRecords()
+        // row.subjectName = needata.subjectName
+        // row.subjectCode = needata.subjectNumber
+        // for (const i in EnterDetail) {
+        //   EnterDetail[i].subjectCode = EnterDetail[i].subjectFinance[EnterDetail[i].subjectFinance.length - 1]
+        // }
+        console.log('EnterDetail', EnterDetail)
+        if (EnterDetail.length === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: this.$t('prompt.mxbbnwk'),
             offset: 100
           })
+          this.saveloading = false
           return false
         }
-      })
+        let i = 1
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.subjectCode === null || elem.subjectCode === undefined || elem.subjectCode === '') {
+            i = 4
+          }
+          if (elem.regionId === null || elem.regionId === undefined || elem.regionId === '') {
+            if (elem.repositoryId === null || elem.repositoryId === undefined || elem.repositoryId === '') {
+              i = 2
+            }
+          }
+          if (elem.regionId !== null && elem.regionId !== undefined && elem.regionId !== '' && elem.regionId.length !== 0) {
+            if (elem.repositoryId !== null && elem.repositoryId !== undefined && elem.repositoryId !== '') {
+              i = 3
+            }
+          }
+          if (elem.repositoryId === null || elem.repositoryId === '' || elem.repositoryId === undefined) {
+            delete elem.repositoryId
+          }
+          if (elem.summary === null || elem.summary === '' || elem.summary === undefined) {
+            delete elem.summary
+          }
+          if (elem.subjectFinanceId === null || elem.subjectFinanceId === '' || elem.subjectFinanceId === undefined) {
+            delete elem.subjectFinanceId
+          }
+          if (elem.money === null || elem.money === '' || elem.money === undefined) {
+            delete elem.money
+          }
+          return elem
+        })
+        if (i === 4) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '会计科目必须选择一个',
+            offset: 100
+          })
+          this.saveloading = false
+
+          return false
+        }
+        if (i === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '区域，门店必须选择一个',
+            offset: 100
+          })
+          this.saveloading = false
+
+          return false
+        }
+        if (i === 3) {
+          this.$notify.error({
+            title: 'wrong',
+            message: '区域，门店不能同时选择',
+            offset: 100
+          })
+          this.saveloading = false
+
+          return false
+        }
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              console.log('elem.regionId', elem.regionId)
+              if (elem.regionId === null || elem.regionId === '' || elem.regionId === undefined) {
+                delete elem.regionId
+              } else {
+                const finalid = elem.regionId[elem.regionId.length - 1]
+                console.log(finalid)
+                elem.regionId = finalid
+              }
+            })
+            const parms2 = JSON.stringify(EnterDetail)
+            createtransfer(parms, this.personalForm, parms2).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.$refs.editable.clear()
+                this.restAllForm()
+                this.$refs.upload.clearFiles()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+              this.saveloading = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloading = false
+
+            return false
+          }
+        })
+      }, 0.5 * 1000)
     },
     // 取消操作
     handlecancel() {

@@ -2705,6 +2705,9 @@ export default {
             if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
               delete elem.productName
             }
+            if (elem.batch === '不使用') {
+              delete elem.batch
+            }
             if (elem.category === null || elem.category === '' || elem.category === undefined) {
               delete elem.category
             }

@@ -135,7 +135,7 @@
           <template slot-scope="scope">
             <el-button v-permission="['131-163-166-3']" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
             <el-button v-show="isReview(scope.row)" :loading="reviewStat" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
-            <el-button v-permission="['131-163-166-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['131-163-166-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :loading="fsploading" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-163-166-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-163-166-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-163-166-2']" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
@@ -193,7 +193,7 @@ export default {
   data() {
     return {
       control: false,
-
+      fsploading: false,
       tableHeight: 200,
       reviewStat: false,
       repositoryId: '',
@@ -297,6 +297,7 @@ export default {
     },
     // 反结单操作
     handleReview4(row) {
+      this.fsploading = true
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
@@ -327,8 +328,15 @@ export default {
               message: this.$t('prompt.fspcg')
             })
           }
+          this.fsploading = false
         })
       })
+        .catch(action => {
+          if (action === 'cancel') {
+            this.fsploading = false
+          }
+          this.fsploading = false
+        })
     },
     // 判断反结单按钮
     isReview3(row) {

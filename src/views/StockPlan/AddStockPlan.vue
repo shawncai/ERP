@@ -747,6 +747,11 @@ export default {
             newparms.supplierName = suppdata.data.data.content[i].supplierName
             newparms.supplierId = suppdata.data.data.content[i].supplierId
             newparms.planQuantity = suppdata.data.data.content[i].quantity
+            newparms.basicPrice = suppdata.data.data.content[i].price
+            newparms.includeTaxPrice = suppdata.data.data.content[i].includeTaxPrice
+            // newparms.planMoney = Number(suppdata.data.data.content[i].price) * newparms.planQuantity
+            // newparms.taxRate = suppdata.data.data.content[i].taxRate
+
             this.$refs.editable.insertAt(newparms, -1)
           }
           this.$refs.editable.remove(scope.row)
@@ -986,7 +991,55 @@ export default {
     // 删除数据
     deleteEdit() {
       this.$refs.editable.removeSelecteds()
-      this.changeDate()
+      this.$refs.editable2.clear()
+      const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
+      const newArr = []
+      console.log('nowlistdata', nowlistdata)
+      nowlistdata.forEach(el => {
+        console.log('el', el)
+        const result = newArr.findIndex(ol => { return el.planDeliveryDate === ol.planDeliveryDate && el.productCode === ol.productCode && el.supplierId === ol.supplierId })
+        console.log('result', result)
+        if (result !== -1) {
+          if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined) {
+            newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
+            newArr[result].planMoney = newArr[result].basicPrice * newArr[result].planQuantity
+            console.log(newArr[result].planMoney)
+          } else {
+            el.planMoney = el.basicPrice * el.planQuantity
+            newArr.push(el)
+          }
+        } else {
+          el.planMoney = el.basicPrice * el.planQuantity
+          newArr.push(el)
+        }
+      })
+      console.log('newArr', newArr)
+      const result2 = newArr.map(function(item, index) {
+        return {
+          productCode: item.productCode,
+          productName: item.productName,
+          productType: item.productType,
+          typeId: item.typeId,
+          unit: item.unit,
+          color: item.color,
+          basicQuantity: item.basicQuantity,
+          planDeliveryDate: item.planDeliveryDate,
+          planQuantity: item.planQuantity,
+          applyReason: item.applyReason,
+          sourceNumber: item.sourceNumber,
+          supplierId: item.supplierId,
+          supplierName: item.supplierName,
+          basicPrice: item.basicPrice,
+          planMoney: item.planMoney,
+          orderQuantity: item.orderQuantity,
+          requireQuantity: item.requireQuantity,
+          requireDate: item.requireDate,
+          sourceSerialNumber: item.sourceSerialNumber
+        }
+      })
+      for (let i = 0; i < result2.length; i++) {
+        this.$refs.editable2.insertAt(result2[i], -1)
+      }
     },
     deleteChange(val) {
       this.moreaction = val
