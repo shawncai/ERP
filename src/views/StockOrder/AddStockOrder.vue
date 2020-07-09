@@ -1456,6 +1456,7 @@ export default {
             let ll4 = ''
             let ll5 = 1
             let ll6 = ''
+            let c = 1
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -1466,11 +1467,22 @@ export default {
                 ll3 = 2
                 ll4 = elem.productName
               }
+              if (elem.includeTaxPrice === 0) {
+                c = 2
+              }
               if (Number(elem.discountRate) !== 0 && (elem.remarks === '' || elem.remarks === undefined || elem.remarks === null)) {
                 ll5 = 2
                 ll6 = elem.productName
               }
             })
+            if (c === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '含税价为0',
+                offset: 100
+              })
+              return false
+            }
             if (ll3 === 2) {
               this.$notify.error({
                 title: 'wrong',

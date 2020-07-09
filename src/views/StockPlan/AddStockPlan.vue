@@ -455,15 +455,88 @@ export default {
   },
 
   mounted() {
+    this.getcopydata()
+
     this.getinformation()
   },
   activated() {
+    this.getcopydata()
     this.getinformation()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getcopydata() {
+      console.log('this.$store.getters.saleoutcopy', this.$store.getters.saleoutcopy)
+      if (this.$store.getters.saleoutcopy) {
+        this.personalForm.stockDeptId = this.$store.getters.deptId
+        this.personalForm.createPersonId = this.$store.getters.userId
+        this.personalForm.stockPersonId = this.$store.getters.userId
+        this.personalForm.planPersonId = this.$store.getters.userId
+        this.personalForm.countryId = this.$store.getters.countryId
+        this.personalForm.repositoryId = this.$store.getters.repositoryId
+        this.personalForm.regionId = this.$store.getters.regionId
+        this.personalForm.planRepositoryId = this.$store.getters.planRepositoryId
+        this.planPersonId = this.$store.getters.name
+        this.stockPersonId = this.$store.getters.name
+        this.planRepositoryId = this.$store.getters.saleoutcopy.planRepositoryName
+        this.personalForm.planRepositoryId = this.$store.getters.saleoutcopy.planRepositoryId
+        for (const i in this.$store.getters.saleoutcopy.stockPlanDetailVos) {
+          this.$refs.editable.insert(this.$store.getters.saleoutcopy.stockPlanDetailVos[i])
+        }
+        this.personalForm.stockType = this.$store.getters.saleoutcopy.stockType
+        const nowlistdata = this.deepClone(this.$refs.editable.getRecords())
+        const newArr = []
+        console.log('nowlistdata', nowlistdata)
+        nowlistdata.forEach(el => {
+          console.log('el', el)
+          const result = newArr.findIndex(ol => { return el.planDeliveryDate === ol.planDeliveryDate && el.productCode === ol.productCode && el.supplierId === ol.supplierId })
+          console.log('result', result)
+          if (result !== -1) {
+            if (el.planDeliveryDate !== null && el.planDeliveryDate !== '' && el.planDeliveryDate !== undefined) {
+              newArr[result].planQuantity = newArr[result].planQuantity + el.planQuantity
+              newArr[result].planMoney = newArr[result].basicPrice * newArr[result].planQuantity
+              console.log(newArr[result].planMoney)
+            } else {
+              el.planMoney = el.basicPrice * el.planQuantity
+              newArr.push(el)
+            }
+          } else {
+            el.planMoney = el.basicPrice * el.planQuantity
+            newArr.push(el)
+          }
+        })
+        console.log('newArr', newArr)
+        const result2 = newArr.map(function(item, index) {
+          return {
+            productCode: item.productCode,
+            productName: item.productName,
+            productType: item.productType,
+            typeId: item.typeId,
+            unit: item.unit,
+            color: item.color,
+            basicQuantity: item.basicQuantity,
+            planDeliveryDate: item.planDeliveryDate,
+            planQuantity: item.planQuantity,
+            applyReason: item.applyReason,
+            sourceNumber: item.sourceNumber,
+            supplierId: item.supplierId,
+            supplierName: item.supplierName,
+            basicPrice: item.basicPrice,
+            planMoney: item.planMoney,
+            orderQuantity: item.orderQuantity,
+            requireQuantity: item.requireQuantity,
+            requireDate: item.requireDate,
+            sourceSerialNumber: item.sourceSerialNumber
+          }
+        })
+        for (let i = 0; i < result2.length; i++) {
+          this.$refs.editable2.insertAt(result2[i], -1)
+        }
+        this.$store.dispatch('getsaleoutcopy', '')
+      }
+    },
     handlechooseRep() {
       this.repositorycontrol = true
     },

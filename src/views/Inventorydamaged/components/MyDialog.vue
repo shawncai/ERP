@@ -77,7 +77,7 @@
           @selection-change="handleSelectionChange2">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index" />
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
@@ -119,7 +119,7 @@
           style="width: 100%">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column label="编号" width="55" align="center" type="index" />
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
@@ -130,7 +130,7 @@
               </el-select>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
             <template slot-scope="scope">
               <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
@@ -503,6 +503,12 @@ export default {
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.inventoryDamagedDetailVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.inventoryDamagedInVos
+
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
       const rest2 = this.$refs.editable2.getRecords()

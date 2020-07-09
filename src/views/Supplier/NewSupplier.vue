@@ -254,6 +254,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.price"
+                  disabled
                   @input="getprice(scope.row)"/>
               </template>
             </el-editable-column>
@@ -263,6 +264,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.includeTaxPrice"
+                  disabled
                   @input="getincludeTaxPrice(scope.row)"/>
               </template>
             </el-editable-column>
@@ -271,6 +273,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.taxRate"
+                  disabled
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>

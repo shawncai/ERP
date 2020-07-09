@@ -16,19 +16,19 @@
                 <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
-                    <!--                    <el-option value="2" label="无来源" />-->
+                    <el-option value="4" label="无来源" />
                     <el-option value="3" label="采购入库单" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockRetreat.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" @focus="handlechoose"/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" :required="personalForm.sourceType === 2" prop="sourceNumber" style="width: 100%;">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                   <my-enter :entercontrol.sync="entercontrol" @enter="enter" @enterinfo="enterinfo"/>
@@ -156,7 +156,7 @@
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgthdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -192,7 +192,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
+              <p v-show="jundgeprice()">{{ gettaxRate(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -270,6 +270,7 @@
 </template>
 
 <script>
+import { querytax } from '@/api/StockOrder'
 import { getRate } from '@/api/public'
 import { updatestockRetreat } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -316,6 +317,7 @@ export default {
       }
     }
     return {
+      supp: '',
       entercontrol: false,
       IsCurrency: false,
       // 结算方式
@@ -410,8 +412,13 @@ export default {
       this.personalForm = this.editdata
       this.supplierId = this.personalForm.supplierName
       this.stockPersonId = this.personalForm.stockPersonName
+      this.supp = this.personalForm.supplierId
       this.ourContractorId = this.personalForm.ourContractorName
       this.list2 = this.personalForm.stockRetreatDetailVos
+      console.log('this.personalForm.sourceType', this.personalForm.sourceType)
+      if (this.personalForm.sourceType === 4 || this.personalForm.sourceType === '4') {
+        this.addpro = false
+      }
       this.changeRate()
     }
   },
@@ -423,6 +430,36 @@ export default {
     _that = this
   },
   methods: {
+    gettaxRate(row) {
+      console.log('row==============110', row.flag)
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.taxRate
+      }
+      // 默认批次
+      if (row.flag) {
+        console.log('执行')
+        if (this.personalForm.sourceType === '4') {
+          console.log('执行22222')
+          // 查询供应商价格
+          querytax(this.personalForm.supplierId, row.productCode).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.taxRate = res.data.data.content[0].taxRate || 0
+              row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+              row.discountRate = res.data.data.content[0].discountRate || 0
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: '未查询到商品',
+                duration: 0
+              })
+            }
+          })
+        }
+      }
+      row.flag = false
+    },
     enter(val) {
       console.log('enter', val)
       // this.$refs.editable.clear()
@@ -595,7 +632,7 @@ export default {
         this.addpro = true
         this.$refs.editable.clear()
         this.$refs.personalForm.clearValidate()
-      } else if (this.personalForm.sourceType === '2') {
+      } else if (this.personalForm.sourceType === '4') {
         this.addpro = false
         this.addsouce = true
         this.personalForm.sourceNumber = ''

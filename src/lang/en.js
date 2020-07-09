@@ -4482,6 +4482,15 @@ export default {
     bdkhjg: 'price',
     fbdkhjg: 'non-customer price',
     qxxzkh: 'please select customer',
-    createDate: 'createDate'
+    createDate: 'createDate',
+    term: 'term',
+    monthlypayment: 'monthly payment',
+    rebate: 'rebate',
+    penalty: 'penalty',
+    interest: 'interest',
+    aleadypaid: 'aleadypaid',
+    unpaid: 'unpaid',
+    paid: 'pay now',
+    originalamout: 'original amout'
   }
 }

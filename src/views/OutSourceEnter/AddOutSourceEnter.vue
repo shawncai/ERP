@@ -245,16 +245,10 @@ export default {
     return {
       pickerOptions2: {
         disabledDate: (time) => {
-          // 只能选择当月
-          var date = new Date()
-          const startd = date.setDate(1)
-          var currentMonth = date.getMonth()
-          var nextMonth = ++currentMonth
-          var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1)
-          var oneDay = 1000 * 60 * 60 * 24
-          var lastTime = new Date(nextMonthFirstDay).getTime()
-          console.log(startd, lastTime)
-          return time.getTime() < startd - 8.64e7 || time.getTime() > lastTime - 8.64e7
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       issure: false,

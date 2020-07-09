@@ -1,63 +1,45 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.planNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
-        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
-
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item class="print2" label="采购计划单编号" style="width: 100%;display: none">
-                  {{ personalForm.planNumber }}
+                <el-form-item class="print2" label="number" style="width: 100%;display: none">
+                  {{ personalForm.number }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.title')" style="width: 100%;">
+                <el-form-item :label="$t('SaleOrder.title')" style="width: 100%;">
                   <span>{{ personalForm.title }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.stockType')" prop="stockType" style="width: 100%;">
-                  <span>{{ personalForm.stockTypeName }}</span>
+                <el-form-item :label="$t('SaleOrder.customerName')" prop="customerId" style="width: 100%;">
+                  <span>{{ personalForm.customerName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.planPersonId')" prop="planPersonId" style="width: 100%;">
-                  <span>{{ personalForm.planPersonName }}</span>
+                <el-form-item :label="$t('SaleOut.closeType')" style="width: 100%;">
+                  <span>{{ personalForm.closeTypeName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.stockPersonId')" prop="stockPersonId" style="width: 100%;">
-                  <span>{{ personalForm.stockPersonName }}</span>
+                <el-form-item :label="$t('update4.receiptMoney')" style="width: 100%;">
+                  <span>{{ personalForm.receiptMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.stockDeptId')" prop="stockDeptId" style="width: 100%;">
-                  <span>{{ personalForm.stockDeptName }}</span>
+                <el-form-item :label="$t('update4.returnMoney')" style="width: 100%;">
+                  <span>{{ personalForm.returnMoney }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.sourceType')" style="width: 100%;">
-                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('StockPlan.planDate')" prop="planDate" style="width: 100%;">
-                  <span>{{ somedate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('collectAndPayDetail.cgck')" style="width: 100%;">
-                  <span>{{ personalForm.planRepositoryName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.hjsl')" style="width: 100%;">
-                  <span>{{ personalForm.totalQuantity }}</span>
+                <el-form-item :label="$t('update4.summary')" style="width: 100%;">
+                  <span>{{ personalForm.summary }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -65,36 +47,6 @@
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgjhmx') }}</h2>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            class="click-table1"
-            border
-            size="small"
-            style="width: 100%">
-            <el-editable-column :label="$t('Hmodule.xh')" class="print" fixed="left" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" /> -->
-            <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" />
-            <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" /> -->
-            <el-editable-column :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" />
-            <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" />
-            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
-            <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
-            <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" />
-            <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
-          </el-editable>
-        </div>
-      </el-card>
-      <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
         <div class="container" style="margin-top: 37px">
@@ -175,9 +127,48 @@
 <script>
 import { getPrintCount, addPrint } from '@/api/public'
 import printJS from 'print-js'
+import { productlist } from '@/api/public'
+import { searchprepReceipt } from '@/api/PrepReceipt'
+import { searchsaleOut } from '@/api/SaleOut'
 var _that
 export default {
   filters: {
+    currencyFilter(status) {
+      const statusMap = {
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB'
+      }
+      return statusMap[status]
+    },
+    payTypeFilter(status) {
+      const statusMap = {
+        1: '方式1',
+        2: '方式2'
+      }
+      return statusMap[status]
+    },
+    payModeFilter(status) {
+      const statusMap = {
+        1: '货到付款',
+        2: '当场支付'
+      }
+      return statusMap[status]
+    },
+    invoiceTypeFilter(status) {
+      const statusMap = {
+        1: '无',
+        2: '增值税'
+      }
+      return statusMap[status]
+    },
+    customerTypeFliter(status) {
+      const statusMap = {
+        1: '经销商',
+        2: '零售商'
+      }
+      return statusMap[status]
+    },
     statfilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),
@@ -216,8 +207,16 @@ export default {
   },
   data() {
     return {
-      // 中转data
-      somedate: '',
+      // 出库明细数据
+      tableData3: [],
+      saleOutparms: {
+        pageNum: 1,
+        pageSize: 9999,
+        sourceNumber: this.detaildata.number,
+        repositoryId: 0
+      },
+      // 预收款记录数据
+      tableData2: [],
       // 合计数据
       heji1: '',
       heji2: '',
@@ -229,7 +228,14 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      // 预收款记录
+      prepReceiptData: {
+        pageNum: 1,
+        pageSize: 9999,
+        sourceNumber: this.detaildata.number,
+        repositoryId: 0
+      }
     }
   },
   watch: {
@@ -238,11 +244,6 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      for (const i in this.personalForm.stockPlanDetailVos) {
-        delete this.personalForm.stockPlanDetailVos[i].stockPlanDetailVos
-      }
-      this.list2 = this.personalForm.stockPlanDetailVos
-      this.list3 = this.personalForm.stockPlanDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {
@@ -250,7 +251,9 @@ export default {
           this.reviewList.push(review[i])
         }
       }
-      this.somedate = this.personalForm.planDate
+      this.prepReceiptData.sourceNumber = this.personalForm.number
+      // this.getprepReceipt()
+      this.saleOutparms.sourceNumber = this.personalForm.number
     }
   },
   beforeCreate() {
@@ -259,9 +262,99 @@ export default {
   methods: {
     handleMyReceipt2() {
       console.log(this.detaildata)
-      this.$store.dispatch('getsaleoutcopy', this.detaildata)
-      this.$router.push('/StockPlan/AddStockPlan')
+      this.$store.dispatch('getempcontract', this.detaildata)
+      this.$router.push('/SaleOrder/AddSaleOrder')
       this.editVisible = false
+    },
+    jundgeprice() {
+      if (this.$store.getters.countryId === 2) {
+        return true
+      }
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
+    getsaleOutLis() {
+      searchsaleOut(this.saleOutparms).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData3 = res.data.data.content.list.map(function(item) {
+            const needata = item.saleOutDetailVos.map(function(elem) {
+              return {
+                outDate: item.outDate,
+                saleRepositoryName: item.saleRepositoryName,
+                quantity: elem.quantity,
+                outPersonName: item.outPersonName
+              }
+            })
+            return needata
+          }).flat()
+        }
+      })
+    },
+    // 预收款记录
+    getprepReceipt() {
+      searchprepReceipt(this.prepReceiptData).then(res => {
+        if (res.data.ret === 200) {
+          this.tableData2 = res.data.data.content.list
+          console.log('预收款', res)
+        }
+      })
+    },
+    // 计划金额
+    planMoney(row) {
+      row.planMoney = row.basicPrice * row.planQuantity
+      return row.planMoney
+    },
+    // 计算单价和供应商
+    basicPrice(row) {
+      productlist(row.productCode).then(res => {
+        if (res.data.ret === 200) {
+          row.basicPrice = res.data.data.content.list[0].purchasePrice
+        }
+      })
+      return row.basicPrice
+    },
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      this.heji1 = sums[8]
+      this.heji2 = sums[7]
+      sums[1] = ''
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[6] = ''
+      sums[9] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[12] = ''
+      return sums
     },
     handlecancel() {
       this.editVisible = false
@@ -290,7 +383,7 @@ export default {
       }
       const handleperson = this.reviewList.map(item => {
         if (item.actualStepHandler) {
-          return item.actualStepHandler
+          return item.stepHandlerName
         }
       }).join(',')
       console.log(handleperson)
@@ -298,7 +391,7 @@ export default {
       // 权限没有再判断次数是否可以打印
       const param = {}
       param.receiptId = this.personalForm.id
-      param.receiptTypeId = 6
+      param.receiptTypeId = 29
       // 有权限跳过管理
       const value = ['1-386-82']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -315,41 +408,35 @@ export default {
             { field: 'step', displayName: '行号', columnSize: `100px` },
             { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
             { field: 'productName', displayName: '物料名称', columnSize: `100px` },
-            { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+            { field: 'productTypeName', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
-            { field: 'planQuantity', displayName: '计划数量', columnSize: `100px` },
-            { field: 'orderQuantity', displayName: '已购数量', columnSize: `100px` },
-            { field: 'basicPrice', displayName: '单价', columnSize: `100px` },
-            { field: 'planMoney', displayName: '计划金额', columnSize: `100px` },
-            { field: 'planDeliveryDate', displayName: '计划交货日期', columnSize: `100px` },
-            { field: 'remarks', displayName: '备注', columnSize: `100px` }
+            { field: 'quantity', displayName: '订单数量', columnSize: `100px` },
+            { field: 'deliveryDate', displayName: '需求日期', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">
                     <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
-                      <div class="ordername">采购计划</div>
+                      <div class="ordername">销售订单列表</div>
                         <br>
                         <div class="line1"></div>
                         <div class="line2"></div>
                         <div class="supplier">
                         <div class="item">
-                        <div class="itemname">采购类别：</div>
-                        <div class="itemcontent">${this.personalForm.stockTypeName}</div>
+                        <div class="itemname">客户名称：</div>
+                        <div class="itemcontent">${this.personalForm.customerName}</div>
                         </div>
                         <div class="item">
-                         <div class="itemname">计划日期：</div>
-                        <div class="itemcontent">${this.personalForm.planDate}</div>
+                         <div class="itemname">送货日期：</div>
+                        <div class="itemcontent">${this.personalForm.transDate}</div>
                           </div>
                         <div class="item">
-                         <div class="itemname">编号：</div>
-                        <div class="itemcontent">${this.personalForm.planNumber}</div>
+                         <div class="itemname">订单编号：</div>
+                        <div class="itemcontent">${this.personalForm.number}</div>
                           </div>
                           </div>
                         </div>`,
           bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
-                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
-                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allMoney}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
@@ -358,11 +445,11 @@ export default {
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">部门：</div>
-                        <div class="bottomname">${this.personalForm.stockDeptName}</div>
+                        <div class="bottomname">${this.personalForm.deptName || ''}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">业务员：</div>
-                        <div class="bottomname">${this.personalForm.stockPersonName}</div>
+                        <div class="bottomname">${this.personalForm.salePersonName}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">制单：</div>
@@ -417,42 +504,35 @@ export default {
                 { field: 'step', displayName: '行号', columnSize: `100px` },
                 { field: 'productCode', displayName: '物料代码', columnSize: `100px` },
                 { field: 'productName', displayName: '物料名称', columnSize: `100px` },
-                { field: 'productType', displayName: '规格型号', columnSize: `100px` },
+                { field: 'productTypeName', displayName: '规格型号', columnSize: `100px` },
                 { field: 'unit', displayName: '单位', columnSize: `100px` },
-                { field: 'planQuantity', displayName: '计划数量', columnSize: `100px` },
-                { field: 'orderQuantity', displayName: '已购数量', columnSize: `100px` },
-                { field: 'basicPrice', displayName: '单价', columnSize: `100px` },
-                { field: 'planMoney', displayName: '计划金额', columnSize: `100px` },
-                { field: 'planDeliveryDate', displayName: '计划交货日期', columnSize: `100px` },
-                { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
-                { field: 'remarks', displayName: '备注', columnSize: `100px` }
+                { field: 'quantity', displayName: '订单数量', columnSize: `100px` },
+                { field: 'deliveryDate', displayName: '需求日期', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">
                     <div class="custom-p"> 江苏嗯哇科技有限公司 </div>
                       <br>
-                      <div class="ordername">采购计划</div>
+                      <div class="ordername">销售订单列表</div>
                         <br>
                         <div class="line1"></div>
                         <div class="line2"></div>
                         <div class="supplier">
                         <div class="item">
-                        <div class="itemname">采购类别：</div>
-                        <div class="itemcontent">${this.personalForm.stockTypeName}</div>
+                        <div class="itemname">客户名称：</div>
+                        <div class="itemcontent">${this.personalForm.customerName}</div>
                         </div>
                         <div class="item">
-                         <div class="itemname">计划日期：</div>
-                        <div class="itemcontent">${this.personalForm.planDate}</div>
+                         <div class="itemname">送货日期：</div>
+                        <div class="itemcontent">${this.personalForm.transDate}</div>
                           </div>
                         <div class="item">
-                         <div class="itemname">编号：</div>
-                        <div class="itemcontent">${this.personalForm.planNumber}</div>
+                         <div class="itemname">订单编号：</div>
+                        <div class="itemcontent">${this.personalForm.number}</div>
                           </div>
                           </div>
                         </div>`,
               bottom: `<div>
                   <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
-                  <div class="allmoneyname" style="margin-right: 10%">合计</div>
-                  <div class="allmoneynum" style="width: 10%;border-left: 1px solid; border-right: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;">${this.personalForm.allMoney}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
@@ -461,11 +541,11 @@ export default {
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">部门：</div>
-                        <div class="bottomname">${this.personalForm.stockDeptName}</div>
+                        <div class="bottomname">${this.personalForm.deptName || ''}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">业务员：</div>
-                        <div class="bottomname">${this.personalForm.stockPersonName}</div>
+                        <div class="bottomname">${this.personalForm.salePersonName}</div>
                     </div>
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">制单：</div>
@@ -545,9 +625,6 @@ export default {
   .el-col-12{
     width: 49%;
   }
-  .print3 {
-    width:50px;
-  }
   @media print {
     .print {
       display: none;
@@ -555,8 +632,5 @@ export default {
     .print2 {
       display: block !important;
     }
-    /*.print3 {*/
-    /*  width:50px !important;*/
-    /*}*/
   }
 </style>

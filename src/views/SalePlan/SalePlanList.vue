@@ -354,13 +354,13 @@
                 <el-editable-column :edit-render="{name: 'ElCascader ', type: 'visible', options: 'options'}" :label="$t('SalePlan.planTarget')" prop="" align="center" min-width="250px">
                   <template slot="edit" slot-scope="scope">
                     <el-select v-model="scope.row.planTarget" :placeholder="$t('SalePlan.xzmd')" clearable filterable style="margin-left: 18px;width: 180px" disabled @change="jungleAddress(scope.row,$event)" >
-                      <el-option value="1" label="销售任务" />
-                      <el-option value="2" label="分期付款收款任务" />
-                      <el-option value="3" label="准时交款任务" />
-                      <el-option value="4" label="一个月未交任务" />
-                      <el-option value="5" label="连续三个月未交任务" />
-                      <el-option value="6" label="连续三个月以上未交任务" />
-                      <el-option value="7" label="地点任务" />
+                      <el-option value="1" label="sale target" />
+                      <el-option value="2" label="collection target" />
+                      <el-option value="3" label="update mptarget" />
+                      <el-option value="4" label="one month delay target" />
+                      <el-option value="5" label="three month delay target" />
+                      <el-option value="6" label="more than three month delay target" />
+                      <el-option value="7" label="area target" />
                     </el-select>
                   </template>
                 </el-editable-column>
@@ -393,8 +393,8 @@
           </el-card>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="traceControl = false">取 消</el-button>
-          <el-button type="primary" @click="handsavetrace">确 定</el-button>
+          <el-button @click="traceControl = false">cancel</el-button>
+          <el-button type="primary" @click="handsavetrace">comfirm</el-button>
         </div>
       </el-dialog>
       <!-- 统计结束================================================= -->
@@ -443,18 +443,18 @@ export default {
     },
     planTypeFliter(status) {
       const statusMap = {
-        1: '年',
-        2: '季',
-        3: '月',
-        4: '周',
-        5: '日'
+        1: 'year',
+        2: 'season',
+        3: 'month',
+        4: 'week',
+        5: 'day'
       }
       return statusMap[status]
     },
     planCategoryFliter(status) {
       const statusMap = {
-        1: '门店',
-        2: '区域'
+        1: 'branch',
+        2: 'area'
       }
       return statusMap[status]
     },
@@ -829,10 +829,10 @@ export default {
         .catch(action => {
           if (action === 'cancel') {
             // 取消弹框
-            this.$confirm('是否确认审核不通过？', 'Warning', {
+            this.$confirm('comfirm not approved?', 'Warning', {
               distinguishCancelAndClose: true,
-              confirmButtonText: '确认',
-              cancelButtonText: '取消'
+              confirmButtonText: 'yes',
+              cancelButtonText: 'no'
             })
               .then(() => {
                 this.reviewParms.judgeStat = 3
@@ -851,8 +851,8 @@ export default {
                 this.$message({
                   type: 'info',
                   message: action === 'cancel'
-                    ? '确认取消'
-                    : '停留在当前页面'
+                    ? 'yes'
+                    : 'stay this page'
                 })
               })
           // ================取消弹框结束

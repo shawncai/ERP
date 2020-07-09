@@ -1329,6 +1329,14 @@ export default {
         })
         return false
       }
+      if (Number(this.personalForm.totalMoney) < 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'totalMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
       let needcode = ''
       for (const i in EnterDetail2) {
         if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
@@ -1348,7 +1356,7 @@ export default {
           return false
         }
         // 二手其他车
-        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
+        if (judgeissecond === '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 7000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second car firstMoney is wrong',
@@ -1368,7 +1376,7 @@ export default {
         }
 
         // 其他新车
-        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
+        if (judgeissecond !== '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 10000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',

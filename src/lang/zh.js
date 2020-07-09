@@ -1,5 +1,8 @@
 export default {
   route: {
+    Counthistory: '商品进出库记录',
+    Returnorderlist: '订单退款单',
+    Addreturnordermoney: '新建订单退款单',
     IncomeAnalysis: '收入分析',
     bigStuffInventory: '大件库存统计',
     VehicleSaleCount: '销售整车出库统计',
@@ -4482,6 +4485,25 @@ export default {
     bdkhjg: '本店客户价格',
     fbdkhjg: '非本店客户价格',
     qxxzkh: '请先选择客户',
-    createDate: '创建日期'
+    createDate: '创建日期',
+    term: '当前期数',
+    monthlypayment: '本期还款金额',
+    rebate: '奖励',
+    penalty: '滞纳金',
+    interest: '本期还款利息',
+    aleadypaid: '已收金额',
+    unpaid: '未收金额',
+    paid: '本次收款',
+    originalamout: '本期还款本金',
+    receiptMoney: '之前预收金额',
+    returnMoney: '退款金额',
+    summary: '备注',
+    changequantity: '变化数量',
+    changereceipt: '变化单据',
+    changeType: '变化方式',
+    changetime: '变化时间',
+    zj: '增加',
+    js: '减少',
+    hjsl: '合计数量'
   }
 }

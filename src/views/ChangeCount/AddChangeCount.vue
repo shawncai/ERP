@@ -143,7 +143,7 @@ export default {
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
-        callback(new Error('请选择源单编号'))
+        callback(new Error('please select sourceNumber'))
       } else {
         callback()
       }
@@ -180,13 +180,13 @@ export default {
       // 销售订单规则数据
       personalrules: {
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourceType', trigger: 'change' }
         ],
         sourceNumber: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         afterCount: [
-          { required: true, message: '请输入修改之后期数', trigger: 'blur' }
+          { required: true, message: 'please input afterCount', trigger: 'blur' }
         ]
       },
       // 分期数据

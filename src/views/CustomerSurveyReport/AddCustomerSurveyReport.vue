@@ -197,7 +197,7 @@ export default {
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
-        callback(new Error('请选择源单'))
+        callback(new Error('please select sourceNumber'))
       } else {
         callback()
       }
@@ -205,7 +205,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
-        callback(new Error('请选择供应商'))
+        callback(new Error('please select supplier'))
       } else {
         callback()
       }
@@ -213,7 +213,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(this.inquiryPersonId)
       if (this.inquiryPersonId === undefined || this.inquiryPersonId === null || this.inquiryPersonId === '') {
-        callback(new Error('请选择我方签约人'))
+        callback(new Error('please select inquiryPerson'))
       } else {
         callback()
       }
@@ -221,7 +221,7 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       console.log(this.inquiryPersonId)
       if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
-        callback(new Error('请选择采购员'))
+        callback(new Error('please select stockPerson'))
       } else {
         callback()
       }
@@ -366,16 +366,16 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         liveStatus: [
-          { required: true, message: '请选择居住状况', trigger: 'change' }
+          { required: true, message: 'please select liveStatus', trigger: 'change' }
         ],
         liveType: [
-          { required: true, message: '请选择居住类型', trigger: 'change' }
+          { required: true, message: 'please select liveType', trigger: 'change' }
         ],
         sourceNumber: [
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customerType', trigger: 'change' }
         ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'change' }
@@ -387,16 +387,16 @@ export default {
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         inquiryDate: [
-          { required: true, message: '请选择询价日期', trigger: 'change' }
+          { required: true, message: 'please select inquiryDate', trigger: 'change' }
         ],
         deptId: [
-          { required: true, message: '请选择部门', trigger: 'change' }
+          { required: true, message: 'please select dept', trigger: 'change' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourceType', trigger: 'change' }
         ],
         stockTypeId: [
-          { required: true, message: '请选择采购类别', trigger: 'change' }
+          { required: true, message: 'please select stockType', trigger: 'change' }
         ]
       },
       // 采购申请单明细数据
@@ -459,7 +459,7 @@ export default {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-        this.$message.error('请选择单个商品')
+        this.$message.error('please select single product')
       } else {
         countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
           console.log(res)
@@ -873,7 +873,7 @@ export default {
           if (this.personalForm.liveStatus === '' || this.personalForm.liveStatus === undefined || this.personalForm.liveStatus === null) {
             this.$notify.error({
               title: 'wrong',
-              message: '请选择居住状况',
+              message: 'please select liveStatus',
               offset: 100
             })
             return false
@@ -881,7 +881,7 @@ export default {
           if (this.personalForm.liveType === '' || this.personalForm.liveType === undefined || this.personalForm.liveType === null) {
             this.$notify.error({
               title: 'wrong',
-              message: '请选择居住类型',
+              message: 'please select liveType',
               offset: 100
             })
             return false

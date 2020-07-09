@@ -22,14 +22,14 @@
                 <el-form-item :label="$t('StockRetreat.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
-                    <!--                    <el-option value="2" label="无来源" />-->
+                    <el-option value="4" label="无来源" />
                     <el-option value="3" label="采购入库单" />
                   </el-select>
                 </el-form-item>
               </el-col>
 
               <el-col :span="6">
-                <el-form-item :label="$t('StockRetreat.sourceNumber')" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
+                <el-form-item :label="$t('StockRetreat.sourceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-input v-model="personalForm.sourceNumber" :disabled="addsouce" size="mini" style="margin-left: 18px;width:200px" clearable @focus="handleAddSouce"/>
                   <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
                   <my-enter :entercontrol.sync="entercontrol" @enter="enter" @enterinfo="enterinfo"/>
@@ -170,7 +170,7 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgthdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" size="mini" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail"/>
+          <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button type="danger" size="mini" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" size="mini" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>
@@ -208,7 +208,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
+                <p v-show="jundgeprice()">{{ gettaxRate(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
@@ -316,6 +316,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
+import { querytax } from '@/api/StockOrder'
 import { countlist, getRate } from '@/api/public'
 import { createstockArrival } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -375,6 +376,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      supp: '',
       entercontrol: false,
       // 收货人回显
       retreatPerson: '',
@@ -729,6 +731,36 @@ export default {
       row.includeTaxMoney = (row.retreatQuantity * row.includeTaxPrice).toFixed(6)
       return row.includeTaxMoney
     },
+    gettaxRate(row) {
+      console.log('row==============110', row.flag)
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.taxRate
+      }
+      // 默认批次
+      if (row.flag) {
+        console.log('执行')
+        if (this.personalForm.sourceType === '4') {
+          console.log('执行22222')
+          // 查询供应商价格
+          querytax(this.personalForm.supplierId, row.productCode).then(res => {
+            if (res.data.data.content.length > 0) {
+              row.taxRate = res.data.data.content[0].taxRate || 0
+              row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+              row.discountRate = res.data.data.content[0].discountRate || 0
+            } else {
+              this.$notify.error({
+                title: 'wrong',
+                message: '未查询到商品',
+                duration: 0
+              })
+            }
+          })
+        }
+      }
+      row.flag = false
+    },
     // 计算金额
     getMoney(row) {
       row.money = (row.retreatQuantity * row.price).toFixed(6)
@@ -770,7 +802,7 @@ export default {
         this.addpro = true
         this.$refs.editable.clear()
         this.$refs.personalForm.clearValidate()
-      } else if (this.personalForm.sourceType === '2') {
+      } else if (this.personalForm.sourceType === '4') {
         this.addpro = false
         this.addsouce = true
         this.personalForm.sourceNumber = ''
@@ -857,6 +889,7 @@ export default {
       console.log(val)
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
+      this.supp = val.id
       if (val.stockPersonId !== null && val.stockPersonId !== undefined && val.stockPersonId !== '') {
         this.personalForm.stockPersonId = val.stockPersonId
         this.stockPersonId = val.stockPersonName
@@ -892,6 +925,14 @@ export default {
     },
     // 采购申请明细来源
     handleAddproduct() {
+      if (!this.personalForm.supplierId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择供应商',
+          offset: 100
+        })
+        return false
+      }
       this.control = true
     },
     productdetail(val) {

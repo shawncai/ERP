@@ -415,8 +415,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.backType')" prop="backType" style="width: 100%;">
                 <el-select v-model="personalForm.backType" style="margin-left: 18px;width: 200px" disabled>
-                  <el-option value="1" label="已回款"/>
-                  <el-option value="2" label="未回款"/>
+                  <el-option value="1" label="paid"/>
+                  <el-option value="2" label="unpaid"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -428,8 +428,8 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.sendType')" style="width: 100%;">
                 <el-select v-model="personalForm.sendType" style="margin-left: 18px;width: 200px" disabled>
-                  <el-option value="1" label="已发货"/>
-                  <el-option value="2" label="未发货"/>
+                  <el-option value="1" label="delivered"/>
+                  <el-option value="2" label="undelivered"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -480,7 +480,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
-        callback(new Error('请选择销售人员'))
+        callback(new Error('please select sale person'))
       } else {
         callback()
       }
@@ -561,19 +561,19 @@ export default {
           { required: true, validator: validinvoice, trigger: 'blur' }
         ],
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         customerName: [
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
         transDate: [
-          { required: true, message: '请选择送货日期', trigger: 'change' }
+          { required: true, message: 'please select transdate', trigger: 'change' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         backType: [
-          { required: true, message: '请选择回款状态', trigger: 'change' }
+          { required: true, message: 'please select backtype', trigger: 'change' }
         ]
       },
       // 订单明细数据
@@ -793,7 +793,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))

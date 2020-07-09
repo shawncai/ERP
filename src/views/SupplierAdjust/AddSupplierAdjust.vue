@@ -108,11 +108,11 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.bl')" prop="calcitem" align="center" min-width="170px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.bl')" prop="proportion" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
-                  v-model="scope.row.calcitem"
+                  v-model="scope.row.proportion"
                   @input="calcnewprice(scope.row, scope)"
                 />
               </template>
@@ -347,17 +347,17 @@ export default {
     // 计算新销售价
     calcnewprice(row, scope) {
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
-        if (row.calcitem !== '' && row.calcitem !== null && row.calcitem !== undefined) {
+        if (row.proportion !== '' && row.proportion !== null && row.proportion !== undefined) {
           for (let i = 0; i < this.list2.length; i++) {
             this.list2[i].temp = i
           }
           for (let i = row.temp; i < this.list2.length; i++) {
-            this.list2[i].calcitem = row.calcitem
+            this.list2[i].proportion = row.proportion
           }
           console.log(row)
         }
       }
-      row.newSalePrice = row.calcitem / 100 * row.newIncludeTaxPrice
+      row.newSalePrice = row.proportion / 100 * row.newIncludeTaxPrice
     },
     getnewprice(row, scope) {
       // if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
@@ -373,8 +373,8 @@ export default {
       if (row.newTaxRate && row.newIncludeTaxPrice) {
         row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       }
-      if (row.calcitem && row.newIncludeTaxPrice) {
-        row.newSalePrice = row.calcitem / 100 * row.newIncludeTaxPrice
+      if (row.proportion && row.newIncludeTaxPrice) {
+        row.newSalePrice = row.proportion / 100 * row.newIncludeTaxPrice
       }
     },
     getprice2(row, scope) {
@@ -609,6 +609,7 @@ export default {
         val.supplierDetailVos[i].newPrice = val.supplierDetailVos[i].price
         val.supplierDetailVos[i].newIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
         val.supplierDetailVos[i].newTaxRate = val.supplierDetailVos[i].taxRate
+        val.supplierDetailVos[i].newSalePrice = val.supplierDetailVos[i].oldSalePrice
         this.$refs.editable.insert(val.supplierDetailVos[i])
       }
       this.supplierId = val.supplierName
@@ -887,10 +888,28 @@ export default {
         if (this.$refs.editable.getRecords().length !== 0 && this.$refs.editable.getRecords() !== undefined && this.$refs.editable.getRecords() !== null) {
           this.$refs.editable.clear()
         }
-        for (let i = 0; i < this.$store.getters.empcontract4[0].supplierDetailVos.length; i++) {
-          this.$store.getters.empcontract4[0].supplierDetailVos[i].type = this.$store.getters.empcontract4[0].supplierDetailVos[i].productTypeName
-          this.$store.getters.empcontract4[0].supplierDetailVos[i].oldPrice = this.$store.getters.empcontract4[0].supplierDetailVos[i].price
-          this.$refs.editable.insert(this.$store.getters.empcontract4[0].supplierDetailVos[i])
+        // for (let i = 0; i < this.$store.getters.empcontract4[0].supplierDetailVos.length; i++) {
+        //   this.$store.getters.empcontract4[0].supplierDetailVos[i].type = this.$store.getters.empcontract4[0].supplierDetailVos[i].productTypeName
+        //   this.$store.getters.empcontract4[0].supplierDetailVos[i].oldPrice = this.$store.getters.empcontract4[0].supplierDetailVos[i].price
+        //   this.$refs.editable.insert(this.$store.getters.empcontract4[0].supplierDetailVos[i])
+        // }
+        const newarr = this.$store.getters.empcontract4[0].supplierDetailVos.map(item => {
+          return {
+            productCode: item.productCode,
+            productName: item.productName,
+            oldPrice: item.price,
+            type: item.type,
+            unit: item.unit,
+            color: item.color,
+            oldIncludeTaxPrice: item.includeTaxPrice,
+            oldTaxRate: item.taxRate,
+            oldSalePrice: item.oldSalePrice,
+            newSalePrice: item.newSalePrice
+          }
+        })
+
+        for (const i in newarr) {
+          this.$refs.editable.insert(newarr[i])
         }
         this.$store.dispatch('getempcontract4', '')
       }

@@ -175,14 +175,14 @@ export default {
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
-        callback(new Error('请选择经办人'))
+        callback(new Error('please select handlePerson'))
       } else {
         callback()
       }
     }
     const validatePass3 = (rule, value, callback) => {
       if (this.personalForm.expensesregion === undefined || this.personalForm.expensesregion === null || this.personalForm.expensesregion === '') {
-        callback(new Error('请选择区域'))
+        callback(new Error('please select area'))
       } else {
         callback()
       }
@@ -252,7 +252,8 @@ export default {
         regionId: this.$store.getters.regionId,
         currency: '1',
         handlePersonId: this.$store.getters.userId,
-        expensesRegionId: this.$store.getters.regionId
+        expensesRegionId: this.$store.getters.regionId,
+        expensesDate: null
       },
       // 收入单规则数据
       personalrules: {
@@ -260,7 +261,7 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         expensesDate: [
-          { required: true, message: '请选择支出日期', trigger: 'change' }
+          { required: true, message: 'please select expensesDate', trigger: 'change' }
         ]
         // ,
         // expensesregion: [
@@ -503,7 +504,7 @@ export default {
       if (this.region === null || this.region === '' || this.region === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择区域',
+          message: 'please select area',
           offset: 100
         })
         return false
@@ -583,7 +584,7 @@ export default {
         if (i === 2) {
           this.$notify.error({
             title: 'wrong',
-            message: '科目名称必选',
+            message: 'please select subject',
             offset: 100
           })
           this.saveloading = false

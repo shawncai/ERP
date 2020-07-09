@@ -153,7 +153,7 @@
               <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.outDate"
-                  :picker-options="pickerOptions1"
+                  :picker-options="pickerOptions2"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
@@ -690,6 +690,14 @@ export default {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       diffpricelist: [],

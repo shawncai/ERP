@@ -90,7 +90,7 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['200-211-3', scope.row.createPersonId]" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission2="['200-211-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['200-211-2']" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -429,10 +429,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('comfirm not approved?', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'confirm',
+            cancelButtonText: 'cancel'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -451,8 +451,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'confirm'
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束

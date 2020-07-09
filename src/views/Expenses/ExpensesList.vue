@@ -213,7 +213,7 @@
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['266-92-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)" :key="scope.row.id + Math.random()" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>
             <!-- <el-button v-show="isReview5(scope.row)" :title="$t('updates.scpz')" type="warning" size="mini" icon="el-icon-news" circle @click="creatvoucher(scope.row)"/> -->
@@ -980,10 +980,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('comfirm not approved?', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'confirm',
+            cancelButtonText: 'cancel'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -1002,8 +1002,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'confirm'
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束

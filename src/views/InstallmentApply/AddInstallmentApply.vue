@@ -726,12 +726,12 @@ export default {
   data() {
     const validatePass12 = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('担保人手机号不能为空'))
+        return callback(new Error('comaker phone can not be blank'))
       }
       setTimeout(() => {
         console.log(String(value).length)
         if (String(value).length !== 11) {
-          callback(new Error('请输入担保人正确手机号码'))
+          callback(new Error('please input right comaker phonenumber'))
         } else {
           callback()
         }
@@ -739,28 +739,28 @@ export default {
     }
     const validatePass = (rule, value, callback) => {
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
-        callback(new Error('请选择销售人员'))
+        callback(new Error('please select salePerson'))
       } else {
         callback()
       }
     }
     const validatePass2 = (rule, value, callback) => {
       if (this.productForm.productCode === undefined || this.productForm.productCode === null || this.productForm.productCode === '') {
-        callback(new Error('请选择商品'))
+        callback(new Error('please select product'))
       } else {
         callback()
       }
     }
     const validatePass3 = (rule, value, callback) => {
       if (this.saleRepositoryId === undefined || this.saleRepositoryId === null || this.saleRepositoryId === '') {
-        callback(new Error('请选择销售门店'))
+        callback(new Error('please select branch'))
       } else {
         callback()
       }
     }
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.totalMoney === undefined || this.personalForm.totalMoney === null || this.personalForm.totalMoney === '') {
-        callback(new Error('请输入基本信息'))
+        callback(new Error('please input  baseinformation'))
       } else {
         callback()
       }
@@ -970,102 +970,102 @@ export default {
           { validator: validisnumber, trigger: 'blur' }
         ],
         age: [
-          { required: true, message: '请输入年龄', trigger: 'blur' }
+          { required: true, message: 'please input age', trigger: 'blur' }
         ],
         firstName: [
-          { required: true, message: '请输入名', trigger: 'blur' }
+          { required: true, message: 'please input firstName', trigger: 'blur' }
         ],
         lastName: [
-          { required: true, message: '请输入姓', trigger: 'blur' }
+          { required: true, message: 'please input lastName', trigger: 'blur' }
         ],
         applyPhone: [
           { validator: validisnumber2, trigger: 'blur' }
         ],
         provinceId: [
-          { required: true, message: '请选择省', trigger: 'change' }
+          { required: true, message: 'please select province', trigger: 'change' }
         ],
         cityId: [
-          { required: true, message: '请选择市', trigger: 'change' }
+          { required: true, message: 'please select city', trigger: 'change' }
         ],
         email: [
           { validator: validatePass7, trigger: 'blur' }
         ],
         currentAddress: [
-          { required: true, message: '请输入当前地址', trigger: 'blur' }
+          { required: true, message: 'please input currentAddress', trigger: 'blur' }
         ],
         permanentAddress: [
-          { required: true, message: '请输入永久地址', trigger: 'blur' }
+          { required: true, message: 'please input permanentAddress', trigger: 'blur' }
         ],
         installmentCount: [
           { required: true, validator: validatePass5, trigger: 'change' }
         ],
         firstMoney: [
-          { required: true, message: '请输入首付金额', trigger: 'blur' }
+          { required: true, message: 'please input firstMoney', trigger: 'blur' }
         ],
         totalMoney: [
           { required: true, validator: validatePass4, trigger: 'blur' }
         ],
         installmentDays: [
-          { required: true, message: '请输入每月还款日期', trigger: 'blur' }
+          { required: true, message: 'please input installmentDays', trigger: 'blur' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         applyDate: [
-          { required: true, message: '请选择申请日期', trigger: 'change' }
+          { required: true, message: 'please select applyDate', trigger: 'change' }
         ],
         productCode: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         suretyName: [
-          { required: true, message: '请输入担保人姓名', trigger: 'blur' }
+          { required: true, message: 'please input suretyName', trigger: 'blur' }
         ],
         suretyPhone: [
           { required: true, validator: validisnumber3, trigger: 'blur' }
         ],
         relationship: [
-          { required: true, message: '请选择担保人关系', trigger: 'blur' }
+          { required: true, message: 'please select relationship', trigger: 'blur' }
         ],
         suretyProvinceId: [
-          { required: true, message: '请选择省', trigger: 'change' }
+          { required: true, message: 'please select suretyProvince', trigger: 'change' }
         ],
         suretyCityId: [
-          { required: true, message: '请选择市', trigger: 'change' }
+          { required: true, message: 'please select suretyCity', trigger: 'change' }
         ],
         saleRepositoryId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         certificateType: [
-          { required: true, message: '请选择证件类型', trigger: 'change' }
+          { required: true, message: 'please select certificateType', trigger: 'change' }
         ],
         certificateNumber: [
-          { required: true, message: '请输入身份证号码', trigger: 'change' }
+          { required: true, message: 'please input certificateNumber', trigger: 'change' }
         ],
 
         certificateType2: [
-          { required: true, message: '请选择证件类型', trigger: 'change' }
+          { required: true, message: 'please select certificatetype', trigger: 'change' }
         ],
         certificateNumber2: [
-          { required: true, message: '请输入身份证号码', trigger: 'change' }
+          { required: true, message: 'please input certificateNumber', trigger: 'change' }
         ],
         // 结婚验证
         mateFirstName: [
-          { message: '请输入名', trigger: 'change' }
+          { message: 'please input mateFirstName', trigger: 'change' }
         ],
         mateMiddleName: [
-          { message: '请输入中间名', trigger: 'change' }
+          { message: 'please input mateMiddleName', trigger: 'change' }
         ],
         mateLastName: [
-          { message: '请输入姓', trigger: 'change' }
+          { message: 'please input mateLastName', trigger: 'change' }
         ],
         mateAge: [
-          { message: '请输入年龄', trigger: 'change' }
+          { message: 'please input mateAge', trigger: 'change' }
         ],
         mateBirthday: [
-          { message: '请输入出生日期', trigger: 'change' }
+          { message: 'please input mateBirthday', trigger: 'change' }
         ],
         mateLiveStauts: [
-          { message: '请输入居住状况', trigger: 'change' }
+          { message: 'please select mateLiveStauts', trigger: 'change' }
         ],
         mateEmail: [
           { validator: validatePass7, trigger: 'blur' }
@@ -1180,8 +1180,8 @@ export default {
     handleAddpackage() {
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
-          title: '请选择商品',
-          message: '请选择商品',
+          title: 'please select product',
+          message: 'please select product',
           offset: 100
         })
       } else {
@@ -1275,7 +1275,7 @@ export default {
       if (this.personalForm.consultancyPhone.length !== 11) {
         this.$notify.error({
           title: 'wrong',
-          message: '手机号码错误',
+          message: 'consultancy Phone number is wrong',
           offset: 100
         })
         return false
@@ -1294,7 +1294,7 @@ export default {
       } else {
         this.$notify.error({
           title: 'wrong',
-          message: '信息请填写完整',
+          message: 'complete information',
           offset: 100
         })
       }
@@ -1304,7 +1304,7 @@ export default {
       if (nowlistdata.length === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '征询人最多两位',
+          message: 'Reference quantity over 2',
           offset: 100
         })
       } else {
@@ -1388,7 +1388,7 @@ export default {
       if (this.personalForm.matePhone !== null && this.personalForm.matePhone !== '' && this.personalForm.matePhone !== undefined) {
         existList(this.personalForm.matePhone).then(res => {
           if (res.data.data.content === 2) {
-            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+            this.$confirm('have application not approve', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1407,7 +1407,7 @@ export default {
               })
             })
           } else if (res.data.data.content === 3) {
-            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+            this.$confirm('have mpbalance!', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1436,7 +1436,7 @@ export default {
       if (this.personalForm.applyCellPhone !== null && this.personalForm.applyCellPhone !== '' && this.personalForm.applyCellPhone !== undefined) {
         existList(this.personalForm.applyCellPhone).then(res => {
           if (res.data.data.content === 2) {
-            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+            this.$confirm('have application not approve!', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1455,7 +1455,7 @@ export default {
               })
             })
           } else if (res.data.data.content === 3) {
-            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+            this.$confirm('have mpbalance!', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1484,7 +1484,7 @@ export default {
       if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {
-            this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
+            this.$confirm('have application not approve!', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1503,7 +1503,7 @@ export default {
               })
             })
           } else if (res.data.data.content === 3) {
-            this.$confirm('存在分期未还完!', this.$t('prompt.ts'), {
+            this.$confirm('have mpbalance!', this.$t('prompt.ts'), {
               confirmButtonText: this.$t('prompt.qd'),
               type: 'error',
               showClose: false,
@@ -1530,7 +1530,7 @@ export default {
       if (this.personalForm.saleRepositoryId === 0 || this.personalForm.saleRepositoryId === null || this.personalForm.saleRepositoryId === '' || this.personalForm.saleRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择销售门店',
+          message: 'please select branch',
           offset: 100
         })
         return false
@@ -1834,6 +1834,14 @@ export default {
         })
         return false
       }
+      if (Number(this.personalForm.totalMoney) < 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'totalMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
       const judgeissecond = this.productForm.productCode.slice(10, 12)
       const judgecartype = this.productForm.productCode.slice(3, 7)
       console.log('judgeissecond', judgeissecond)
@@ -1850,7 +1858,7 @@ export default {
         return false
       }
       // 二手其他车
-      if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
+      if (judgeissecond === '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 7000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second car firstMoney is wrong',
@@ -1870,7 +1878,7 @@ export default {
       }
 
       // 其他新车
-      if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
+      if (judgeissecond !== '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 10000) {
         console.log('123')
         this.$notify.error({
           title: 'wrong',
@@ -1884,7 +1892,7 @@ export default {
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
           title: 'wrong',
-          message: '请选择商品',
+          message: 'please select product',
           offset: 100
         })
         return false
@@ -1967,7 +1975,7 @@ export default {
       if (nowlistdata.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '请添加征询人',
+          message: 'please add Reference ',
           offset: 100
         })
         return false

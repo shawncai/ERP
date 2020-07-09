@@ -424,7 +424,7 @@ export default {
   },
   activated() {
     this.getinformation()
-    this.countquery = this.$route.query.arry
+    this.countquery = this.$store.getters.empcontract
     if (this.countquery) {
       console.log('this.countquery====', this.countquery)
       this.getemplist.supplierId = this.countquery.id
@@ -435,14 +435,17 @@ export default {
       if (this.countquery.beginTime !== '') {
         this.getemplist.endTime = this.countquery.endTime
       }
+      this.getlist()
+    } else {
+      this.getlist()
     }
-    this.getlist()
+
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
-    this.countquery = this.$route.query.arry
+    this.countquery = this.$store.getters.empcontract
     if (this.countquery) {
       console.log('this.countquery====', this.countquery)
       this.getemplist.supplierId = this.countquery.id
@@ -453,8 +456,11 @@ export default {
       if (this.countquery.beginTime !== '') {
         this.getemplist.endTime = this.countquery.endTime
       }
+      // this.getlist()
+    } else {
+      // this.getlist()
     }
-    this.getlist()
+    // this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)

@@ -302,7 +302,9 @@ export default {
           damagedMoney: 0,
           damagedQuantity: 0,
           unit: item.stockMeasu,
-          costPrice: item.costPrice
+          costPrice: item.costPrice,
+          productType: item.productType
+
         }
       })
       console.log(productDetail)

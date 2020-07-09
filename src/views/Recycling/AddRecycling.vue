@@ -101,8 +101,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Recycling.sexId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sexId" style="width: 200px" disabled>
-                    <el-option value="1" label="男"/>
-                    <el-option value="2" label="女"/>
+                    <el-option value="1" label="male"/>
+                    <el-option value="2" label="female"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -242,7 +242,7 @@ export default {
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.recyclingPersonId === undefined || this.recyclingPersonId === null || this.recyclingPersonId === '') {
-        callback(new Error('请选择回收人'))
+        callback(new Error('please select recyclingPerson'))
       } else {
         callback()
       }
@@ -250,7 +250,7 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       // console.log('物品编码', value)
       if (this.personalForm.productCode === undefined || this.personalForm.productCode === null || this.personalForm.productCode === '') {
-        callback(new Error('请选择物品编码'))
+        callback(new Error('please select productCode'))
       } else {
         callback()
       }
@@ -258,7 +258,7 @@ export default {
     const validatePass4 = (rule, value, callback) => {
       console.log('回收门店', value)
       if (this.recyclingRepositoryId === undefined || this.recyclingRepositoryId === null || this.recyclingRepositoryId === '') {
-        callback(new Error('请选择回收门店'))
+        callback(new Error('please select branch'))
       } else {
         callback()
       }
@@ -342,7 +342,7 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         recyclingDate: [
-          { required: true, message: '请选择回收时间', trigger: 'change' }
+          { required: true, message: 'please select recyclingDate', trigger: 'change' }
         ],
         productCode: [
           { required: true, validator: validatePass3, trigger: 'change' }
@@ -351,7 +351,7 @@ export default {
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
         recyclingMoney: [
-          { required: true, message: '请输入回收金额', trigger: 'change' }
+          { required: true, message: 'please input recyclingMoney', trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -443,7 +443,7 @@ export default {
       if (this.recyclingRepositoryId === null || this.recyclingRepositoryId === '' || this.recyclingRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择回收仓库',
+          message: 'please select branch',
           offset: 100
         })
         return false
@@ -637,7 +637,7 @@ export default {
         if (EnterDetail[i].actualEnterQuantity === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: '商品数量不能为0',
+            message: 'product quantity can not 0',
             offset: 100
           })
           return false
@@ -654,7 +654,7 @@ export default {
       if (i === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '商品货位不能为空',
+          message: 'product cargo can not be blank',
           offset: 100
         })
         return false

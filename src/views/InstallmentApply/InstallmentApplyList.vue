@@ -166,7 +166,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible" title="分期进程" class="normal" width="600px" center>
+      <el-dialog :visible.sync="receiptVisible" title="installment process" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
@@ -261,8 +261,8 @@ export default {
     },
     InvestigationFilter(status) {
       const statusMap = {
-        0: '未调查',
-        2: '已调查'
+        0: 'not CI',
+        2: 'aleady CI'
       }
       return statusMap[status]
     },
@@ -406,7 +406,7 @@ export default {
         if (this.moreaction[0].judgeStat !== 0) {
           this.$notify.error({
             title: 'wrong',
-            message: '单据已审核',
+            message: 'installment have confirm',
             offset: 100
           })
           return false
@@ -418,7 +418,7 @@ export default {
       } else {
         this.$notify.error({
           title: 'wrong',
-          message: '请先分配调查',
+          message: 'please dispatch CI',
           offset: 100
         })
         return false
@@ -867,10 +867,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('comfirm not approved?？', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'confirm',
+            cancelButtonText: 'cancel'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -889,8 +889,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'confirm '
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束

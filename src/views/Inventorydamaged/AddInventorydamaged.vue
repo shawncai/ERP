@@ -126,7 +126,7 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index" />
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 200px" @visible-change="updatebatch($event,scope)">
                   <el-option
@@ -137,7 +137,7 @@
                 </el-select>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
+            <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 200px" @visible-change="updatebatch2($event,scope)">
                   <el-option

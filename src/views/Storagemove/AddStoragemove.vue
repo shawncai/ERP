@@ -452,25 +452,25 @@ export default {
       // 调拨单规则数据
       personalrules: {
         applyPersonId: [
-          { required: true, message: '请选择调拨申请人', trigger: 'focus' }
+          { required: true, message: 'please select applyPerson', trigger: 'focus' }
         ],
         moveType: [
-          { required: true, message: '请选择调拨类型', trigger: 'change' }
+          { required: true, message: 'please select moveType', trigger: 'change' }
         ],
         moveInRepository: [
-          { required: true, message: '请选择调入仓库', trigger: 'focus' }
+          { required: true, message: 'please select moveIn branch', trigger: 'focus' }
         ],
         requestArrivalDate: [
-          { required: true, message: '请选择要求到货日期', trigger: 'change' }
+          { required: true, message: 'please select requestArrivalDate', trigger: 'change' }
         ],
         departmentId: [
-          { required: true, message: '请选择调货部门', trigger: 'change' }
+          { required: true, message: 'please select  department', trigger: 'change' }
         ],
         moveOutRepository: [
-          { required: true, message: '请选择调出仓库', trigger: 'focus' }
+          { required: true, message: 'please select  moveOut branch', trigger: 'focus' }
         ],
         businessStat: [
-          { required: true, message: '请选择业务状态', trigger: 'change' }
+          { required: true, message: 'please select  businessStat', trigger: 'change' }
         ]
       },
       // 调拨单明细数据

@@ -345,8 +345,8 @@ export default {
   filters: {
     isChangeFilter(status) {
       const statusMap = {
-        1: '未改期',
-        2: '已改期'
+        1: 'not change',
+        2: 'aleady change'
       }
       return statusMap[status]
     },
@@ -382,20 +382,20 @@ export default {
     },
     payFilter(status) {
       const statusMap = {
-        1: '未还',
-        2: '已还',
-        3: '逾期',
-        6: '已核销'
+        1: 'not pay',
+        2: 'paid',
+        3: 'delay',
+        6: 'aleady verified'
       }
       return statusMap[status]
     },
     payFilter2(status) {
       const statusMap = {
-        1: '正常',
-        2: '已还清',
-        3: '逾期',
-        4: '催收状态',
-        6: '已核销'
+        1: 'normal',
+        2: 'fully paid',
+        3: 'delay',
+        4: 'follow up ',
+        6: 'aleady verified'
       }
       return statusMap[status]
     }

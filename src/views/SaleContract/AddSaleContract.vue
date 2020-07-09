@@ -459,7 +459,7 @@
                     <span >{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <el-table-column :resizable="false" label="ableStock" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.ableStock }}</span>
                   </template>
@@ -505,7 +505,7 @@ export default {
   data() {
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
-        callback(new Error('请选择客户'))
+        callback(new Error('please select customer'))
       } else {
         callback()
       }
@@ -513,7 +513,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
-        callback(new Error('请选择供应商'))
+        callback(new Error('please select supplier'))
       } else {
         callback()
       }
@@ -521,7 +521,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(this.inquiryPersonId)
       if (this.inquiryPersonId === undefined || this.inquiryPersonId === null || this.inquiryPersonId === '') {
-        callback(new Error('请选择我方签约人'))
+        callback(new Error('please select salereponsible'))
       } else {
         callback()
       }
@@ -529,7 +529,7 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       console.log(this.inquiryPersonId)
       if (this.stockPersonId === undefined || this.stockPersonId === null || this.stockPersonId === '') {
-        callback(new Error('请选择采购员'))
+        callback(new Error('please select stock Person'))
       } else {
         callback()
       }
@@ -688,7 +688,7 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'change' }
@@ -700,16 +700,16 @@ export default {
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         inquiryDate: [
-          { required: true, message: '请选择询价日期', trigger: 'change' }
+          { required: true, message: 'please select inquirydate', trigger: 'change' }
         ],
         deptId: [
-          { required: true, message: '请选择部门', trigger: 'change' }
+          { required: true, message: 'please select dept', trigger: 'change' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourcetype', trigger: 'change' }
         ],
         stockTypeId: [
-          { required: true, message: '请选择采购类别', trigger: 'change' }
+          { required: true, message: 'please select stocktype', trigger: 'change' }
         ],
         customerId: [
           { required: true, validator: validatePass4, trigger: 'change' }
@@ -731,7 +731,9 @@ export default {
       handler(oldval, newval) {
         let num = 0
         for (const i in this.list2) {
-          num += Number(this.list2[i].includeTaxMoney)
+          if (this.list2[i].productCode.slice(0, 2) === '01') {
+            num += Number(this.list2[i].includeTaxMoney)
+          }
         }
         if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
           this.price = num
@@ -854,7 +856,7 @@ export default {
       return hasPermission
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning(`files number is over`)
     },
     handlepicsuccess(response) {
       console.log(response.data.content.picId)
@@ -920,8 +922,8 @@ export default {
     handleAddpackage() {
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$notify.error({
-          title: '请选择主商品',
-          message: '请选择主商品',
+          title: 'please main product ',
+          message: 'please main product ',
           offset: 100
         })
       } else {
@@ -1057,7 +1059,7 @@ export default {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-        this.$message.error('请选择单个商品')
+        this.$message.error('please single product ')
       } else {
         countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
           console.log(res)
@@ -1228,7 +1230,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         if (this.personalForm.saleType === '2') {
@@ -1696,6 +1698,15 @@ export default {
         })
         return false
       }
+
+      if (Number(this.personalForm.totalMoney) < 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'totalMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
       let needcode = ''
       for (const i in EnterDetail2) {
         if (EnterDetail2[i].productCode.slice(0, 2) === '01') {
@@ -1705,7 +1716,9 @@ export default {
       console.log('needcode', needcode)
       const judgeissecond = needcode.slice(10, 12)
       const judgecartype = needcode.slice(3, 7)
-      if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
+      console.log('judgeissecond', judgeissecond)
+      console.log('judgecartype', judgecartype)
+      if (this.personalForm.isSecondApply === 2) {
         if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
@@ -1715,7 +1728,7 @@ export default {
           return false
         }
         // 二手其他车
-        if (judgeissecond === '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 7000) {
+        if (judgeissecond === '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 7000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second car firstMoney is wrong',
@@ -1735,7 +1748,7 @@ export default {
         }
 
         // 其他新车
-        if (judgeissecond !== '00' && (judgecartype === '0040' || judgecartype === '0020') && Number(this.personalForm.firstMoney) < 10000) {
+        if (judgeissecond !== '00' && (judgecartype !== '0040' && judgecartype !== '0020') && Number(this.personalForm.firstMoney) < 10000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',

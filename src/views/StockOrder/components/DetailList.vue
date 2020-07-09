@@ -458,6 +458,7 @@ export default {
             { field: 'includeTaxPrice', displayName: '单价', columnSize: `100px` },
             { field: 'includeTaxMoney', displayName: '金额', columnSize: `100px` },
             { field: 'deliveryDate', displayName: '交货日期', columnSize: `100px` },
+            { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
             { field: 'remarks', displayName: '备注', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">

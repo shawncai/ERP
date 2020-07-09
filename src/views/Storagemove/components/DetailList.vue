@@ -449,8 +449,8 @@ export default {
     },
     statFilter(status) {
       const statusMap = {
-        1: '未出库',
-        2: '已出库'
+        1: 'unconfirm',
+        2: 'confirm'
       }
       return statusMap[status]
     },
@@ -463,8 +463,8 @@ export default {
     },
     inFilter(status) {
       const statusMap = {
-        1: '未入库',
-        2: '已入库'
+        1: 'unconfirm',
+        2: 'confirm'
       }
       return statusMap[status]
     }

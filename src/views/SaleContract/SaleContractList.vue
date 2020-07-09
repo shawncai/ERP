@@ -4,8 +4,8 @@
       <el-input v-model="getemplist.title" :placeholder="$t('SaleContract.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.number" :placeholder="$t('updates.htdh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.saleType" :placeholder="$t('SaleContract.saleType')" :value="getemplist.saleType" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter">
-        <el-option value="1" label="零售"/>
-        <el-option value="2" label="批发"/>
+        <el-option value="1" label="retail"/>
+        <el-option value="2" label="wholesale"/>
       </el-select>
       <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
@@ -169,7 +169,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="isvisible" title="分派调查员" append-to-body width="600px" class="normal" center lock-scroll>
+      <el-dialog :visible.sync="isvisible" title="assign CIperson" append-to-body width="600px" class="normal" center lock-scroll>
         <el-form :model="dispatchform" style="width: 400px; margin:0 auto;">
           <el-form-item :label-width="formLabelWidth" :label="$t('repair.Employee')">
             <el-select v-model="dispatchform.id" filterable>
@@ -371,7 +371,7 @@ export default {
           if (res.data.ret === 200) {
             this.repositories = res.data.data.content.list
           } else {
-            this.$message.error('出错了')
+            this.$message.error('wrong')
           }
         })
       }
@@ -795,10 +795,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('can not approve ?', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'comfirm',
+            cancelButtonText: 'cancel'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -817,8 +817,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'comfirm cancel'
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束

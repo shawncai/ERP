@@ -542,14 +542,14 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
-        callback(new Error('请选择销售人员'))
+        callback(new Error('please select sale person'))
       } else {
         callback()
       }
     }
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.customerId === undefined || this.personalForm.customerId === null || this.personalForm.customerId === '') {
-        callback(new Error('请选择客户'))
+        callback(new Error('please select customer'))
       } else {
         callback()
       }
@@ -668,16 +668,16 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         transDate: [
-          { required: true, message: '请选择送货日期', trigger: 'change' }
+          { required: true, message: 'please select transdate', trigger: 'change' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         backType: [
-          { required: true, message: '请选择回款状态', trigger: 'change' }
+          { required: true, message: 'please select backtype', trigger: 'change' }
         ]
       },
       // 订单明细数据
@@ -875,7 +875,7 @@ export default {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-        this.$message.error('请选择单个商品')
+        this.$message.error('please select single product')
       } else {
         countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
           console.log(res)
@@ -972,7 +972,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -1288,7 +1288,7 @@ export default {
             if (this.personalForm.otherMoney === null || this.personalForm.otherMoney === undefined || this.personalForm.otherMoney === '') {
               this.$notify.error({
                 title: 'wrong',
-                message: '其他费用不能为空',
+                message: 'otherMoney can not blank',
                 offset: 100
               })
               this.saveloding = false

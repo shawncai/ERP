@@ -16,7 +16,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="width: 200px" @change="clearnumber">
-                    <el-option value="1" label="销售出库单"/>
+                    <el-option value="1" label="sale out"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -249,14 +249,14 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.receivePersonId === undefined || this.receivePersonId === null || this.receivePersonId === '') {
-        callback(new Error('请选择收车人'))
+        callback(new Error('please select receivePerson'))
       } else {
         callback()
       }
     }
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.customerName === undefined || this.personalForm.customerName === null || this.personalForm.customerName === '') {
-        callback(new Error('请选择客户姓名'))
+        callback(new Error('please select customerName'))
       } else {
         callback()
       }
@@ -317,7 +317,7 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         receiveDate: [
-          { required: true, message: '请选择收车日期', trigger: 'change' }
+          { required: true, message: 'please select receiveDate', trigger: 'change' }
         ]
       }
     }
@@ -585,7 +585,7 @@ export default {
       if (this.retreatRepositoryId === null || this.retreatRepositoryId === '' || this.retreatRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '门店不能为空',
+          message: 'branch not be blank',
           offset: 100
         })
         return false
@@ -692,7 +692,7 @@ export default {
       if (i === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '正确填写数量',
+          message: 'please input right quantity',
           offset: 100
         })
         return false

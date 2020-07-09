@@ -242,9 +242,9 @@ export default {
     },
     payFilter(status) {
       const statusMap = {
-        1: '未还',
-        2: '已还',
-        3: '逾期'
+        1: 'not pay',
+        2: 'paid',
+        3: 'delay'
       }
       return statusMap[status]
     }

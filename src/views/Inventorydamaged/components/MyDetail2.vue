@@ -312,7 +312,8 @@ export default {
           unit: item.stockMeasu,
           enterPrice: item.costPrice,
           price: item.costPrice,
-          typeIdname: item.productType
+          typeIdname: item.productType,
+          productType: item.productType
         }
       })
       console.log(productDetail)

@@ -129,16 +129,16 @@
                 <el-form-item :label="$t('Receipt.deductionMoney')" prop="deductionMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.deductionMoney" style="width: 200px" disabled @change="junglemoney"/>
                 </el-form-item>
-                <span style="color: red;margin-left: 52px;font-size: 14px">预收款：{{ yufu }}</span>
+                <span style="color: red;margin-left: 52px;font-size: 14px">advance payment：{{ yufu }}</span>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-card>
       <!--子件信息-->
-      <el-card v-if="personalForm.customerType === '2'" :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+      <el-card v-if="personalForm.customerType === '2'" :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 30px">
 
-        <div ref="fuzhu" class="form-name" >收款明细</div>
+        <div ref="fuzhu" class="form-name" >collection list </div>
         <el-button type="danger" style="margin-top:25px" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         <div class="container" >
           <el-editable
@@ -155,15 +155,15 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="paidmoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="unpay" align="center" label="未收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.term')" prop="presentCount" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.aleadypaid')" prop="paidmoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.unpaid')" prop="unpay" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -224,42 +224,42 @@ export default {
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
-        callback(new Error('请选择源单编号'))
+        callback(new Error('please select sourceNumber'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
-        callback(new Error('请选择顾客'))
+        callback(new Error('please select customer'))
       } else {
         callback()
       }
     }
     const validatePass3 = (rule, value, callback) => {
       if (this.receiptPersonId === undefined || this.receiptPersonId === null || this.receiptPersonId === '') {
-        callback(new Error('请选择收款人'))
+        callback(new Error('please select receiptPerson'))
       } else {
         callback()
       }
     }
     const validatePass6 = (rule, value, callback) => {
       if (this.receiptRepositoryId === undefined || this.receiptRepositoryId === null || this.receiptRepositoryId === '') {
-        callback(new Error('请选择收款门店'))
+        callback(new Error('please select receipt branch'))
       } else {
         callback()
       }
     }
     const validatePass4 = (rule, value, callback) => {
       if (this.personalForm.receiptDate === undefined || this.personalForm.receiptDate === null || this.personalForm.receiptDate === '') {
-        callback(new Error('请选择收款日期'))
+        callback(new Error('please select receiptDate'))
       } else {
         callback()
       }
     }
     const validatePass5 = (rule, value, callback) => {
       if (this.personalForm.deductionMoney > this.yufu) {
-        callback(new Error('抵扣额不可大于预付款'))
+        callback(new Error('prepaid offset amount can not over advance payment'))
       } else {
         callback()
       }
@@ -337,22 +337,22 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'change' }
+          { required: true, message: 'please input invoicenumber', trigger: 'change' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourceType', trigger: 'change' }
         ],
         sourceNumber: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         afterCount: [
-          { required: true, message: '请输入修改之后期数', trigger: 'blur' }
+          { required: true, message: 'please input aftercount', trigger: 'blur' }
         ],
         customerId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         payMode: [
-          { required: true, message: '请选择支付方式', trigger: 'change' }
+          { required: true, message: 'please select payMode', trigger: 'change' }
         ],
         receiptPersonId: [
           { required: true, validator: validatePass3, trigger: 'change' }
@@ -364,7 +364,7 @@ export default {
           { required: true, validator: validatePass4, trigger: 'change' }
         ],
         penaltyMoney: [
-          { required: true, message: '请输入滞纳金金额', trigger: 'blur' }
+          { required: true, message: 'please input penaltyMoney', trigger: 'blur' }
         ],
         deductionMoney: [
           { validator: validatePass5, trigger: 'change' }

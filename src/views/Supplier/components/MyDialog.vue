@@ -238,6 +238,7 @@
                 v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.price"
+                disabled
                 @input="getprice(scope.row)"/>
             </template>
           </el-editable-column>
@@ -246,7 +247,8 @@
               <el-input-number
                 v-show="jundgeprice()"
                 :precision="6"
-                v-model="scope.row.discountRate"/>
+                v-model="scope.row.discountRate"
+                disabled/>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
@@ -255,6 +257,7 @@
                 v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.includeTaxPrice"
+                disabled
                 @input="getincludeTaxPrice(scope.row)"/>
             </template>
           </el-editable-column>
@@ -264,6 +267,7 @@
                 v-show="jundgeprice()"
                 :precision="6"
                 v-model="scope.row.taxRate"
+                disabled
                 @input="gettaxRate(scope.row)"/>
             </template>
           </el-editable-column>

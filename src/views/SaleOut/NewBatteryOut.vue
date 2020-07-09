@@ -432,7 +432,7 @@
                     <span >{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <el-table-column :resizable="false" label="available stock" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.ableStock }}</span>
                   </template>
@@ -485,7 +485,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.salePersonId === undefined || this.salePersonId === null || this.salePersonId === '') {
-        callback(new Error('请选择销售人员'))
+        callback(new Error('please select saleperson'))
       } else {
         callback()
       }
@@ -493,7 +493,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(this.saleRepositoryId)
       if (this.saleRepositoryId === undefined || this.saleRepositoryId === null || this.saleRepositoryId === '') {
-        callback(new Error('请选择出库仓库'))
+        callback(new Error('please select salebranch'))
       } else {
         callback()
       }
@@ -501,7 +501,7 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       console.log(1789, this.personalForm.pointSupport)
       if (Number(this.personalForm.pointSupport) < 0 || Number(this.personalForm.pointSupport) > this.point) {
-        callback(new Error('请输入正确积分'))
+        callback(new Error('please input point'))
       } else {
         callback()
       }
@@ -509,7 +509,7 @@ export default {
     const validatePass4 = (rule, value, callback) => {
       console.log(89, this.customerId)
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
-        callback(new Error('请输入顾客姓名'))
+        callback(new Error('please input customer'))
       } else {
         callback()
       }
@@ -517,7 +517,7 @@ export default {
     const validatePass5 = (rule, value, callback) => {
       console.log(89, this.customerId)
       if (this.transferPersonId === undefined || this.transferPersonId === null || this.transferPersonId === '') {
-        callback(new Error('请选择出库人'))
+        callback(new Error('please select transferperson'))
       } else {
         callback()
       }
@@ -525,16 +525,16 @@ export default {
     const validatePass6 = (rule, value, callback) => {
       console.log(89, this.customerId)
       if (this.personalForm.outDate === undefined || this.personalForm.outDate === null || this.personalForm.outDate === '') {
-        callback(new Error('请选择出库时间'))
+        callback(new Error('please select outdate'))
       } else {
         callback()
       }
     }
     const validatePass7 = (rule, value, callback) => {
       if (value === '' || value === null || value === undefined) {
-        callback(new Error('入库数量不能为空'))
+        callback(new Error('stock in quantity can not be blank'))
       } else if (value < 0) {
-        callback(new Error('入库数量需大于0'))
+        callback(new Error('stock in quantity need over 0'))
       } else {
         callback()
       }
@@ -542,7 +542,7 @@ export default {
     const validatePass8 = (rule, value, callback) => {
       console.log(89, this.customerId)
       if (this.personalForm.saleType === undefined || this.personalForm.saleType === null || this.personalForm.saleType === '') {
-        callback(new Error('请选择销售类别'))
+        callback(new Error('please select saletype'))
       } else {
         callback()
       }
@@ -708,16 +708,16 @@ export default {
           { required: true, validator: validatePass8, trigger: 'change' }
         ],
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         transDate: [
-          { required: true, message: '请选择送货日期', trigger: 'change' }
+          { required: true, message: 'please select transdate', trigger: 'change' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
         backType: [
-          { required: true, message: '请选择回款状态', trigger: 'change' }
+          { required: true, message: 'please select backType', trigger: 'change' }
         ],
         pointSupport: [
           { validator: validatePass3, trigger: 'change' }
@@ -915,14 +915,14 @@ export default {
       if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
         if (this.personalForm.customerPay !== null && this.personalForm.customerPay !== '' && this.personalForm.customerPay !== undefined) {
           // 客户给的钱多
-          if (this.personalForm.customerPay > this.personalForm.shouldMoney) {
-            this.personalForm.changeMoney = Number(this.personalForm.customerPay - this.personalForm.shouldMoney).toFixed(2)
+          if (Number(this.personalForm.customerPay) > Number(this.personalForm.shouldMoney)) {
+            this.personalForm.changeMoney = Number(Number(this.personalForm.customerPay) - Number(this.personalForm.shouldMoney)).toFixed(2)
             this.personalForm.receivableMoney = this.personalForm.shouldMoney
-            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+            this.personalForm.unpayMoney = Number(Number(this.personalForm.shouldMoney) - Number(this.personalForm.receivableMoney)).toFixed(2)
           } else {
             this.personalForm.changeMoney = 0
-            this.personalForm.receivableMoney = this.personalForm.customerPay
-            this.personalForm.unpayMoney = Number(this.personalForm.shouldMoney - this.personalForm.receivableMoney).toFixed(2)
+            this.personalForm.receivableMoney = Number(this.personalForm.customerPay)
+            this.personalForm.unpayMoney = Number(Number(this.personalForm.shouldMoney) - Number(this.personalForm.receivableMoney)).toFixed(2)
           }
         }
       }
@@ -1178,8 +1178,8 @@ export default {
     handleAddpackage() {
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$notify.error({
-          title: '请选择主商品',
-          message: '请选择主商品',
+          title: 'please select main product',
+          message: 'please select main product',
           offset: 100
         })
       } else {
@@ -1433,7 +1433,7 @@ export default {
         console.log('1222222200--------------')
         this.$notify.error({
           title: 'wrong',
-          message: '仓库不存在此商品!',
+          message: 'branch donnot have stock',
           offset: 100
         })
         row.quantity = 1
@@ -1458,7 +1458,7 @@ export default {
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '仓库内无该物品',
+                message: 'branch donnot have stock',
                 offset: 100
               })
               row.quantity = 1
@@ -1527,7 +1527,7 @@ export default {
       } else {
         console.log('this.moreaction.length', this.moreaction)
         if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-          this.$message.error('请选择单个商品')
+          this.$message.error('please select single product')
         } else {
           countlist(this.personalForm.saleRepositoryId, 0, this.moreaction[0].productCode).then(res => {
             console.log(res)
@@ -1851,7 +1851,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -1890,7 +1890,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -2572,7 +2572,7 @@ export default {
       if (i > EnterDetail.length) {
         this.$notify.error({
           title: 'wrong',
-          message: '同样商品不能有同一个批次',
+          message: 'same product can not have same batch',
           offset: 100
         })
         return false
@@ -2907,7 +2907,7 @@ export default {
           if (i > EnterDetail.length) {
             this.$notify.error({
               title: 'wrong',
-              message: '同样商品不能有同一个批次',
+              message: 'same product can not have same batch',
               offset: 100
             })
             return false
@@ -3065,7 +3065,7 @@ export default {
           if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
             this.$notify.error({
               title: 'wrong',
-              message: '本次收款金额不能为空',
+              message: 'receivableMoney cannot be blank',
               offset: 100
             })
             return false
@@ -3094,7 +3094,7 @@ export default {
           if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
             this.$notify.error({
               title: 'wrong',
-              message: '实际收到客户金额不能为空',
+              message: 'customerPay can not be blank',
               offset: 100
             })
             return false

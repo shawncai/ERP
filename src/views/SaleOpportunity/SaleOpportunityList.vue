@@ -175,11 +175,11 @@
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step4" title="销售机会"/>
-              <el-step :status="step5" title="销售订单"/>
-              <el-step :status="step6" title="销售出库单"/>
-              <el-step :status="step7" title="销售配送单"/>
-              <el-step :status="step8" title="完成"/>
+              <el-step :status="step4" title="sale opportunity"/>
+              <el-step :status="step5" title="sale order"/>
+              <el-step :status="step6" title="sale out"/>
+              <el-step :status="step7" title="sale deliver"/>
+              <el-step :status="step8" title="compelet"/>
             </el-steps>
           </el-form-item>
         </el-form>
@@ -236,8 +236,8 @@ export default {
     },
     isSaleFilter(status) {
       const statusMap = {
-        1: '跟进中',
-        2: '销售成功'
+        1: 'follow up ',
+        2: 'sale success'
       }
       return statusMap[status]
     }

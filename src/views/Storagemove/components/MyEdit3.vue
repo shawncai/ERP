@@ -298,8 +298,8 @@ export default {
   filters: {
     statFilter(status) {
       const statusMap = {
-        1: '未出库',
-        2: '已出库'
+        1: 'unconfirm',
+        2: 'confirm'
       }
       return statusMap[status]
     }
@@ -734,45 +734,45 @@ export default {
         }
       }
 
-      if (d === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('tongyo.cdqbmwtx'),
-          offset: 100
-        })
-        this.ischeck = false
-        return false
-      }
+      // if (d === 2) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('tongyo.cdqbmwtx'),
+      //     offset: 100
+      //   })
+      //   this.ischeck = false
+      //   return false
+      // }
 
-      if (c === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('tongyo.kzqbmwtx'),
-          offset: 100
-        })
-        this.ischeck = false
-        return false
-      }
+      // if (c === 2) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('tongyo.kzqbmwtx'),
+      //     offset: 100
+      //   })
+      //   this.ischeck = false
+      //   return false
+      // }
 
-      if (m === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.zcckytbm'),
-          offset: 100
-        })
-        this.ischeck = false
-        return false
-      }
+      // if (m === 2) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.zcckytbm'),
+      //     offset: 100
+      //   })
+      //   this.ischeck = false
+      //   return false
+      // }
 
-      if (b === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '电池出库时电池编码必填',
-          offset: 100
-        })
-        this.ischeck = false
-        return false
-      }
+      // if (b === 2) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '电池出库时电池编码必填',
+      //     offset: 100
+      //   })
+      //   this.ischeck = false
+      //   return false
+      // }
       console.log(row)
       const query = JSON.stringify(EnterDetail)
       const that = this

@@ -88,8 +88,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOpportunity.isSale')" prop="isSale" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.isSale" style="width: 200px">
-                    <el-option value="1" label="跟进中"/>
-                    <el-option value="2" label="销售成功"/>
+                    <el-option value="1" label="follow up "/>
+                    <el-option value="2" label="sale success"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -155,7 +155,7 @@
                     <span >{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <el-table-column :resizable="false" label="available stock" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.ableStock }}</span>
                   </template>
@@ -199,7 +199,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
       if (this.handlePersonId === '' || this.handlePersonId === undefined || this.handlePersonId === null) {
-        callback(new Error('请选择业务员'))
+        callback(new Error('please select handleperson'))
       } else {
         callback()
       }
@@ -261,19 +261,19 @@ export default {
       // 销售订单规则数据
       personalrules: {
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         handlePersonId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         customerName: [
-          { required: true, message: '请输入客户姓名', trigger: 'blur' }
+          { required: true, message: 'please input customer', trigger: 'blur' }
         ],
         isSale: [
-          { required: true, message: '请选择当前状态', trigger: 'change' }
+          { required: true, message: 'please select isSale', trigger: 'change' }
         ],
         title: [
-          { required: true, message: '请输入机会主题', trigger: 'blur' }
+          { required: true, message: 'please input title', trigger: 'blur' }
         ]
       },
       // 订单明细数据
@@ -306,7 +306,7 @@ export default {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-        this.$message.error('请选择单个商品')
+        this.$message.error('please select single product')
       } else {
         countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
           console.log(res)

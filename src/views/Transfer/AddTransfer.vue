@@ -10,8 +10,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPayDetail.fx')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.direction" disabled style="width: 200px">
-                    <el-option value="1" label="门店"/>
-                    <el-option value="2" label="公司"/>
+                    <el-option value="1" label="branch"/>
+                    <el-option value="2" label="company"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -60,9 +60,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('otherlanguage.zzlx')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.transferType" style="width: 200px">
-                    <el-option value="1" label="现金"/>
-                    <el-option value="2" label="支票"/>
-                    <el-option value="3" label="银行转账"/>
+                    <el-option value="1" label="cash"/>
+                    <el-option value="2" label="cheque"/>
+                    <el-option value="3" label="bank transation"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -239,14 +239,14 @@ export default {
   data() {
     const validatePass3 = (rule, value, callback) => {
       if (this.personalForm.transferRegionId === undefined || this.personalForm.transferRegionId === null || this.personalForm.transferRegionId === '') {
-        callback(new Error('请选择区域'))
+        callback(new Error('please select area'))
       } else {
         callback()
       }
     }
     const validatePass2 = (rule, value, callback) => {
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
-        callback(new Error('请选择经办人'))
+        callback(new Error('please select handlePerson'))
       } else {
         callback()
       }
@@ -328,13 +328,13 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         transferDate: [
-          { required: true, message: '请选择收款日期', trigger: 'change' }
+          { required: true, message: 'please select transferDate', trigger: 'change' }
         ],
         transferRegion: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         transferInAccount: [
-          { required: true, message: '请选择账户', trigger: 'change' }
+          { required: true, message: 'please select transferInAccount', trigger: 'change' }
         ]
       },
       // 收入单明细数据
@@ -690,7 +690,7 @@ export default {
       if (this.region === null || this.region === '' || this.region === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择区域',
+          message: 'please select area',
           offset: 100
         })
         return false
@@ -798,7 +798,7 @@ export default {
         if (i === 4) {
           this.$notify.error({
             title: 'wrong',
-            message: '会计科目必须选择一个',
+            message: 'please select subject',
             offset: 100
           })
           this.saveloading = false
@@ -808,7 +808,7 @@ export default {
         if (i === 2) {
           this.$notify.error({
             title: 'wrong',
-            message: '区域，门店必须选择一个',
+            message: 'please select area or branch',
             offset: 100
           })
           this.saveloading = false
@@ -818,7 +818,7 @@ export default {
         if (i === 3) {
           this.$notify.error({
             title: 'wrong',
-            message: '区域，门店不能同时选择',
+            message: 'please select area or branch',
             offset: 100
           })
           this.saveloading = false

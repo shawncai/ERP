@@ -297,16 +297,16 @@ export default {
     },
     payFilter(status) {
       const statusMap = {
-        1: '未还',
-        2: '已还',
-        3: '逾期'
+        1: 'not pay',
+        2: 'paid',
+        3: 'delay'
       }
       return statusMap[status]
     },
     collectstatusFilter(status) {
       const statusMap = {
-        1: '部分还款',
-        2: '未还款'
+        1: 'partial payment',
+        2: 'not pay'
       }
       return statusMap[status]
     }
@@ -438,7 +438,7 @@ export default {
     handleEdit2(row) {
       console.log('row', row.id)
       this.reviewParms.installmentId = row.id
-      this.$confirm('转催收', '确认转催收', {
+      this.$confirm('to follow up list', 'confirm', {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.qd'),
         type: 'warning'
@@ -449,7 +449,7 @@ export default {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
-              message: '转催收成功!'
+              message: 'success!'
             })
             this.getlist()
           }

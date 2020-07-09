@@ -87,6 +87,8 @@
               <el-form-item :label="$t('Stockenter.enterDate')" prop="enterDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.enterDate"
+                  :picker-options="pickerOptions2"
+
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 150px"/>
@@ -189,6 +191,14 @@ export default {
   },
   data() {
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 10 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       ordercontrol: false,
       // 入库员控制框
       entercontrol: false,
@@ -520,6 +530,10 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.outsourceOutDetailVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

@@ -730,6 +730,8 @@ export default {
             { field: 'productType', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
             { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
+            { field: 'orderNumber', displayName: '订单编号', columnSize: `100px` },
+            { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
             { field: 'remarks', displayName: '备注', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">
@@ -765,9 +767,9 @@ export default {
                           </div>
                         </div>`,
           bottom: `<div>
-                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
-                  <div class="allmoneyname" style="width: 40%;margin-right: 10%">合计</div>
-                  <div class="allmoneynum" style="border-left: 1px solid; height: 40px;display: flex;align-items: center;justify-content: center;padding-left: 20px">${this.heji1}</div>
+                  <div class="allmoney" style="display: flex;justify-content: space-around;width: 100.8%;height: 40px;align-items: center;border:1px solid;border-top: none">
+                  <div class="allmoneyname" style="width: 40%">合计</div>
+                  <div class="allmoneynum" style="width: 33%;padding-left: 10px;border-left: 1px solid; height: 40px;display: flex;align-items: center;justify-content: flex-start;">${this.heji1}</div>
                   </div>
                   <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px">
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">

@@ -4,8 +4,8 @@
       <el-input v-model="getemplist.title" :placeholder="$t('SaleReturn.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.number" :placeholder="$t('updates.dddh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.payType" :placeholder="$t('SaleReturn.payType')" :value="getemplist.payType" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter">
-        <el-option value="1" label="货到付款"/>
-        <el-option value="2" label="当场支付"/>
+        <el-option value="1" label="cash on delivery"/>
+        <el-option value="2" label="pay on spot"/>
       </el-select>
       <el-popover
         v-model="visible2"
@@ -676,10 +676,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('comfirm not approved?', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'yes',
+            cancelButtonText: 'no'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -698,8 +698,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'cancel'
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束

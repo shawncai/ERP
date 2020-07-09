@@ -61,7 +61,7 @@
           <el-dropdown-item v-permission="['54-55-2']" style="text-align: left" command="review"><svg-icon icon-class="shengchanxuqiu" style="width: 40px"/>{{ $t('public.review') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown> -->
-      <!-- <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" size="small" class="filter-item2" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button> -->
+      <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" size="small" class="filter-item2" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
 
       <!-- 表格导出操作 -->
       <el-button v-permission="['54-55-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>

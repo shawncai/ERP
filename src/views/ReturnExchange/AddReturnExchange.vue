@@ -283,7 +283,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
-        callback(new Error('请选择换货人'))
+        callback(new Error('please select handlePerson'))
       } else {
         callback()
       }
@@ -291,21 +291,21 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       console.log(this.supplierId)
       if (this.customerId === undefined || this.customerId === null || this.customerId === '') {
-        callback(new Error('请选择客户姓名'))
+        callback(new Error('please select customer'))
       } else {
         callback()
       }
     }
     const validatePass2 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
-        callback(new Error('请选择源单编号'))
+        callback(new Error('please select sourceNumber'))
       } else {
         callback()
       }
     }
     const validatePass4 = (rule, value, callback) => {
       if (this.repositoryId === undefined || this.repositoryId === null || this.repositoryId === '') {
-        callback(new Error('请选择仓库'))
+        callback(new Error('please select branch'))
       } else {
         callback()
       }
@@ -369,10 +369,10 @@ export default {
       // 配送单规则数据
       personalrules: {
         title: [
-          { required: true, message: '请输入换货单主题', trigger: 'blur' }
+          { required: true, message: 'please input title', trigger: 'blur' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourceType', trigger: 'change' }
         ],
         handlePersonId: [
           { required: true, validator: validatePass, trigger: 'change' }
@@ -381,22 +381,22 @@ export default {
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
         exchangeDate: [
-          { required: true, message: '请选择换货日期', trigger: 'change' }
+          { required: true, message: 'please select exchangeDate', trigger: 'change' }
         ],
         deliverDept: [
-          { required: true, message: '请选择配送部门', trigger: 'change' }
+          { required: true, message: 'please select deliverDept', trigger: 'change' }
         ],
         customerType: [
-          { required: true, message: '请选择客户类型', trigger: 'change' }
+          { required: true, message: 'please select customerType', trigger: 'change' }
         ],
         customerId: [
           { required: true, validator: validatePass3, trigger: 'change' }
         ],
         customerPhone: [
-          { required: true, message: '请选择客户电话', trigger: 'blur' }
+          { required: true, message: 'please select customerPhone', trigger: 'blur' }
         ],
         diffMoney: [
-          { required: true, message: '请输差异金额', trigger: 'blur' }
+          { required: true, message: 'please input diffMoney', trigger: 'blur' }
         ],
         repositoryId: [
           { required: true, validator: validatePass4, trigger: 'change' }
@@ -586,7 +586,7 @@ export default {
         console.log('1222222200--------------')
         this.$notify.error({
           title: 'wrong',
-          message: '仓库不存在此商品!',
+          message: 'branch donnot have stock',
           offset: 100
         })
         row.quantity = 1
@@ -611,7 +611,7 @@ export default {
             if (res.data.data.content.list.length === 0) {
               this.$notify.error({
                 title: 'wrong',
-                message: '仓库内无该物品',
+                message: 'branch donnot have stock',
                 offset: 100
               })
               row.quantity = 1
@@ -1108,7 +1108,7 @@ export default {
       if (m === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '整车相关编码必填',
+          message: this.$t('prompt.zcckytbm'),
           offset: 100
         })
         return false
@@ -1116,7 +1116,7 @@ export default {
       if (b === 2) {
         this.$notify.error({
           title: 'wrong',
-          message: '电池相关编码必填',
+          message: this.$t('prompt.dcckytbm'),
           offset: 100
         })
         return false

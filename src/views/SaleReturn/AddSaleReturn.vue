@@ -315,7 +315,7 @@
                     <span >{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <el-table-column :resizable="false" label="available stock" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.ableStock }}</span>
                   </template>
@@ -352,7 +352,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(value)
       if (value === '') {
-        callback(new Error('请选择'))
+        callback(new Error('please select'))
       } else {
         callback()
       }
@@ -360,7 +360,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
       if (this.personalForm.actualReturnMoney === '' || this.personalForm.actualReturnMoney === undefined || this.personalForm.actualReturnMoney === null) {
-        callback(new Error('请输入退款金额'))
+        callback(new Error('please input actualReturnMoney'))
       } else {
         callback()
       }
@@ -444,7 +444,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         customerType: [
-          { required: true, message: '请选择客户类别', trigger: 'change' }
+          { required: true, message: 'please select customertype', trigger: 'change' }
         ],
         salePersonId: [
           { required: true, validator: validatePass, trigger: 'focus' }
@@ -453,16 +453,16 @@ export default {
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
         returnDate: [
-          { required: true, message: '请选择退货日期', trigger: 'change' }
+          { required: true, message: 'please select returnDate', trigger: 'change' }
         ],
         currency: [
-          { required: true, message: '请选择币种', trigger: 'change' }
+          { required: true, message: 'please select currency', trigger: 'change' }
         ],
         sourceType: [
-          { required: true, message: '请选择源单类型', trigger: 'change' }
+          { required: true, message: 'please select sourceType', trigger: 'change' }
         ],
         closeStatusId: [
-          { required: true, message: '请选择结算状态', trigger: 'change' }
+          { required: true, message: 'please select closeStatusId', trigger: 'change' }
         ],
         actualReturnMoney: [
           { required: true, message: validatePass2, trigger: 'change' }
@@ -628,7 +628,7 @@ export default {
     checkStock(row) {
       console.log('this.moreaction.length', this.moreaction.length)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
-        this.$message.error('请选择单个商品')
+        this.$message.error('please select single product')
       } else {
         countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
           console.log(res)
@@ -765,7 +765,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -814,7 +814,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'summery'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -864,7 +864,7 @@ export default {
       if (row.returnQuantity > (row.sendQuantity - row.alreadyReturnQuantity) && this.personalForm.sourceType === '1') {
         this.$notify.error({
           title: 'wrong',
-          message: '超过可退货数量',
+          message: 'over returnQuantity',
           offset: 100
         })
         row.returnQuantity = 1
@@ -1114,7 +1114,7 @@ export default {
           if (i === 2) {
             this.$notify.error({
               title: 'wrong',
-              message: '请正确填写退货数量',
+              message: 'please input right return quantity',
               offset: 100
             })
             return false

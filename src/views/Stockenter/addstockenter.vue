@@ -64,7 +64,7 @@
                 <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Stockenter.acceptPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('Stockenter.acceptPersonId')" prop="acceptPersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="acceptPersonId" style="width: 200px" @focus="handlechooseAccept"/>
                 </el-form-item>
                 <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
@@ -341,6 +341,14 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      console.log(this.enterPersonId)
+      if (this.personalForm.acceptPersonId === undefined || this.personalForm.acceptPersonId === null || this.personalForm.acceptPersonId === '') {
+        callback(new Error('请选择验收人'))
+      } else {
+        callback()
+      }
+    }
     // const validatePass4 = (rule, value, callback) => {
     //   console.log(value)
     //   if (value > this.mid || value === 0 || value === null || value === undefined) {
@@ -373,7 +381,7 @@ export default {
       // 明细表控制框
       control: false,
       // 验收人回显
-      acceptPersonId: this.$store.getters.name,
+      acceptPersonId: '',
       // 验收人控制框
       accetpcontrol: false,
       // 交货人回显
@@ -424,11 +432,14 @@ export default {
         createPersonId: this.$store.getters.userId,
         enterPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        acceptPersonId: this.$store.getters.userId,
+        acceptPersonId: '',
         sourceType: '1'
       },
       // 个人信息规则数据
       personalrules: {
+        acceptPersonId: [
+          { required: true, validator: validatePass4, trigger: 'change' }
+        ],
         sourceNumber: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],

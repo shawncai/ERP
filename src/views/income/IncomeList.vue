@@ -817,10 +817,10 @@ export default {
       }).catch(action => {
         if (action === 'cancel') {
           // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
+          this.$confirm('comfirm not approved?', 'Warning', {
             distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
+            confirmButtonText: 'confirm',
+            cancelButtonText: 'cancel'
           })
             .then(() => {
               this.reviewParms.judgeStat = 3
@@ -839,8 +839,8 @@ export default {
               this.$message({
                 type: 'info',
                 message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
+                  ? 'confirm'
+                  : 'stay this page'
               })
             })
           // ================取消弹框结束
@@ -857,7 +857,7 @@ export default {
       if (this.moreaction === '' || this.moreaction === null || this.moreaction === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: '请先选择表格数据',
+          message: 'please select data',
           offset: 100
         })
         return false

@@ -294,7 +294,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请输入'))
+        callback(new Error('please input '))
       } else {
         callback()
       }
@@ -302,7 +302,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请选择计划类别'))
+        callback(new Error('please select plantype'))
       } else {
         callback()
       }
@@ -310,7 +310,7 @@ export default {
     const validatePass3 = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请选择计划类型'))
+        callback(new Error('please select plantype'))
       } else {
         callback()
       }
@@ -318,7 +318,7 @@ export default {
     const validatePass4 = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请选择开始时间'))
+        callback(new Error('please select begintime'))
       } else {
         callback()
       }
@@ -326,7 +326,7 @@ export default {
     const validatePass5 = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请选择结束时间'))
+        callback(new Error('please select endtime'))
       } else {
         callback()
       }
@@ -334,7 +334,7 @@ export default {
     const validatePass6 = (rule, value, callback) => {
       console.log(value)
       if (value === '' || value === undefined || value === null) {
-        callback(new Error('请选择区域'))
+        callback(new Error('please select area'))
       } else {
         callback()
       }
@@ -342,7 +342,7 @@ export default {
     const validatePass7 = (rule, value, callback) => {
       console.log(value)
       if (this.repositoryid === '' || this.repositoryid === undefined || this.repositoryid === null) {
-        callback(new Error('请选择仓库'))
+        callback(new Error('please select branch'))
       } else {
         callback()
       }
@@ -1368,7 +1368,7 @@ export default {
       if (EnterDetail.length === 0) {
         this.$notify.error({
           title: 'wrong',
-          message: '计划明细不能为空',
+          message: 'plan detail can not blank',
           offset: 100
         })
         return false
@@ -1377,7 +1377,7 @@ export default {
         if (EnterDetail[i].address === '' && EnterDetail[i].planTarget === '7') {
           this.$notify.error({
             title: 'wrong',
-            message: '地点信息未填完整',
+            message: ' area information uncomplete',
             offset: 100
           })
           return false

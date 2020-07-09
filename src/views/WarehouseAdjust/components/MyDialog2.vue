@@ -86,7 +86,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('updates.drkw')" prop="enterLocationId" align="center" width="150px">
             <template slot-scope="scope" >
-              <el-select v-model="scope.row.enterLocationId" :value="scope.row.enterLocationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="alllocations($event,scope)">
+              <el-select v-model="scope.row.enterLocationId" :value="scope.row.enterLocationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="alllocations($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist2"
                   :key="index"

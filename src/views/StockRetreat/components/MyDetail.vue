@@ -149,6 +149,10 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    supp: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -188,6 +192,7 @@ export default {
         typeid: '',
         isactive: '',
         Productid: '',
+        supplierid: this.supp,
         pagenum: 1,
         pagesize: 10
       }
@@ -201,6 +206,11 @@ export default {
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
       }, 100)
+    },
+    supp() {
+      this.getemplist.supplierid = this.supp
+      this.getlist()
+      console.log('123123123123123', this.supp)
     }
   },
   created() {
@@ -304,7 +314,7 @@ export default {
           discountMoney: 0,
           remark: 0,
           sourceNumber: '',
-          sourceSerialNumber: item.id,
+          sourceSerialNumber: '',
           hadStorageQuantity: 0,
           reportCheckingQuantity: 0,
           actualCheckingQuantity: 0,

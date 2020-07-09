@@ -1089,6 +1089,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/countlist/index'),
         name: 'Countlist',
         meta: { title: 'countlist', noCache: false, roles: ['131-154-4', '131-154-6', '131-154-7'] }
+      },
+      {
+        path: 'Counthistory',
+        component: () => import('@/views/countlist/Counthistory'),
+        name: 'Counthistory',
+        meta: { title: 'Counthistory', noCache: false, roles: ['131-154-4', '131-154-6', '131-154-7'] }
       }
     ]
   },
@@ -1894,6 +1900,18 @@ export const asyncRouterMap = [
       roles: ['54-57-4', '54-58-1']
     },
     children: [
+      {
+        path: 'Returnorderlist',
+        component: () => import('@/views/SaleOrder/Returnorderlist'),
+        name: 'Returnorderlist',
+        meta: { title: 'Returnorderlist', noCache: false, roles: ['54-57-1', '54-57-2', '54-57-3', '54-57-4', '54-57-5', '54-57-6', '54-57-7', '54-57-18', '54-57-22', '54-57-23', '54-57-24', '54-57-25', '54-57-26'] }
+      },
+      {
+        path: 'Addreturnordermoney',
+        component: () => import('@/views/SaleOrder/Addreturnordermoney'),
+        name: 'Addreturnordermoney',
+        meta: { title: 'Addreturnordermoney', noCache: false, roles: ['54-58-1'] }
+      },
       {
         path: 'AddSaleOrder',
         component: () => import('@/views/SaleOrder/AddSaleOrder'),
@@ -3098,7 +3116,7 @@ export const asyncRouterMap = [
       title: 'inventorycount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-312-318-4', '311-312-319-4', '311-312-320-4', '311-312-321-4', '311-312-322-4', '311-312-323-4']
+      roles: ['311-312-318-4', '311-312-319-4', '311-312-320-4', '311-312-321-4', '311-312-322-4', '311-312-323-4', '311-312-408-4']
     },
     children: [
       {
