@@ -823,7 +823,7 @@ export default {
             newparms.basicPrice = suppdata.data.data.content[i].price
             newparms.includeTaxPrice = suppdata.data.data.content[i].includeTaxPrice
             // newparms.planMoney = Number(suppdata.data.data.content[i].price) * newparms.planQuantity
-            // newparms.taxRate = suppdata.data.data.content[i].taxRate
+            newparms.taxRate = suppdata.data.data.content[i].taxRate
 
             this.$refs.editable.insertAt(newparms, -1)
           }
@@ -1200,6 +1200,39 @@ export default {
         this.canclick = false
         return false
       }
+      let cant = 1
+      let cant2 = 1
+      EnterDetail.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        if (elem.basicPrice === 0) {
+          cant = 2
+        }
+        if (elem.includeTaxPrice === 0) {
+          cant2 = 2
+        }
+      })
+      if (cant === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '基础单价为0不予保存',
+          offset: 100
+        })
+        this.canclick = false
+
+        return false
+      }
+      if (cant2 === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '含税价为0不予保存',
+          offset: 100
+        })
+        this.canclick = false
+
+        return false
+      }
+
       EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
@@ -1221,6 +1254,7 @@ export default {
         if (elem.basicPrice === null || elem.basicPrice === '' || elem.basicPrice === undefined) {
           delete elem.basicPrice
         }
+
         if (elem.basicQuantity === null || elem.basicQuantity === '' || elem.basicQuantity === undefined) {
           delete elem.basicQuantity
         }
@@ -1254,6 +1288,7 @@ export default {
         this.canclick = false
         return false
       }
+
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {

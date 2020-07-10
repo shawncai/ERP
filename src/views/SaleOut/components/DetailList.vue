@@ -237,13 +237,23 @@
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
             <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />
             <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" /> -->
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckj')" prop="salePrice" align="center" />
+            <el-editable-column :label="$t('updates.ckj')" prop="salePrice" align="center" >
+              <template slot-scope="scope">
+                <span v-show="jundgeprice()">{{ scope.row.salePrice }}</span>
+                <span v-show="jundgeprice() === false"/>
+              </template>
+            </el-editable-column>
             <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
             <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" />
+            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center">
+              <template slot-scope="scope">
+                <span v-show="jundgeprice()">{{ scope.row.includeTaxCostMoney }}</span>
+                <span v-show="jundgeprice() === false"/>
+              </template>
+            </el-editable-column>
             <el-editable-column :formatter="formatter" :label="$t('updates.ckl')" prop="discountRate" align="center"/>
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
@@ -695,7 +705,7 @@ export default {
       if (this.$store.getters.countryId === 2) {
         return true
       }
-      const value = ['1-22-24-115']
+      const value = ['1-31-33-115']
       const roles = this.$store.getters && this.$store.getters.roles
       const permissionRoles = value
       const hasPermission = roles.some(role => {

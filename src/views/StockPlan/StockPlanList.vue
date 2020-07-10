@@ -114,6 +114,22 @@
             <span>{{ scope.row.unit }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allIncludeTaxMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('update4.allPlanMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allPlanMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('update4.allTaxMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.allTaxMoney }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.planPersonName }}</span>
@@ -650,6 +666,11 @@ export default {
             processdata2[j].isused = processdata[i].isused
             processdata2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
             processdata2[j].approvalUseVos = processdata[i].approvalUseVos
+
+            processdata2[j].allIncludeTaxMoney = processdata[i].allIncludeTaxMoney
+            processdata2[j].allPlanMoney = processdata[i].allPlanMoney
+
+            processdata2[j].allTaxMoney = processdata[i].allTaxMoney
           }
         }
       }

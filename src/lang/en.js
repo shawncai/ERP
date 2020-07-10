@@ -1,5 +1,8 @@
 export default {
   route: {
+    Counthistory: 'Counthistory',
+    Returnorderlist: 'Returnorderlist',
+    Addreturnordermoney: 'Addreturnordermoney',
     IncomeAnalysis: 'incomeAnalysis',
     bigStuffInventory: 'bigStuffInventory',
     VehicleSaleCount: 'VehicleSaleCount',
@@ -4491,6 +4494,20 @@ export default {
     aleadypaid: 'aleadypaid',
     unpaid: 'unpaid',
     paid: 'pay now',
-    originalamout: 'original amout'
+    originalamout: 'original amout',
+    receiptMoney: 'receiptMoney',
+    returnMoney: 'returnMoney',
+    summary: 'summary',
+    changequantity: 'changequantity',
+    changereceipt: 'changereceipt',
+    changeType: 'changeType',
+    changetime: 'changetime',
+    zj: 'add',
+    js: 'reduce',
+    hjsl: 'allquantity',
+    includeTaxMoney: 'includeTaxMoney',
+    allIncludeTaxMoney: 'allIncludeTaxMoney',
+    allPlanMoney: 'allPlanMoney',
+    allTaxMoney: 'allTaxMoney'
   }
 }

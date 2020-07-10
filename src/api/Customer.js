@@ -29,6 +29,9 @@ export function customerlist(query) {
   if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
   if (query.repositoryid !== '' && query.repositoryid !== null && query.repositoryid !== undefined) {
     params.append('repositoryid', query.repositoryid) // 你要传给后台的参数值 key/value
   }

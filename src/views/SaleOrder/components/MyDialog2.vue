@@ -17,12 +17,12 @@
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
+            <el-col :span="12">
               <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-form-item>
-            </el-col> -->
+            </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.closeType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <el-select v-model="personalForm.closeType" style="width: 200px">
@@ -77,7 +77,7 @@ import MyDetail from './MyDetail'
 import MyApply from './MyApply'
 import MySupplier from '../../Product/components/MySupplier'
 import MyRequire from './MyRequire'
-import MyCustomer from './MyCustomer'
+import MyCustomer from './MyCustomer2'
 import MyAgent from './MyAgent'
 import MyOpportunity from './MyOpportunity'
 import MyRepository from './MyRepository'
@@ -214,7 +214,7 @@ export default {
     editdata() {
       console.log(this.editdata)
       this.personalForm = this.editdata
-      this.saleRepositoryName = this.personalForm.saleRepositoryName
+      this.saleRepositoryId = this.personalForm.repositoryName
       this.customerId = this.personalForm.customerName
     }
   },

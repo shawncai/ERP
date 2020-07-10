@@ -260,9 +260,8 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgjhd'),
-        3: _that.$t('updates.cgxjd'),
+        1: _that.$t('updates.cgdhd'),
+        2: _that.$t('inventorychangelist.stockEnter'),
         4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
@@ -413,6 +412,7 @@ export default {
             { field: 'typeName', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
             { field: 'retreatQuantity', displayName: '退货数量', columnSize: `100px` },
+            { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
             { field: 'remark', displayName: '备注', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">

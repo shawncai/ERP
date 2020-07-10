@@ -477,6 +477,9 @@ export default {
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
+      delete this.personalForm.outsourceOutDetailVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {
         this.$notify.error({

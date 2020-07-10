@@ -17,7 +17,7 @@
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
                     <el-option value="4" label="无来源" />
-                    <el-option value="3" label="采购入库单" />
+                    <el-option value="2" label="采购入库单" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -520,7 +520,7 @@ export default {
             offset: 100
           })
         }
-      } else if (this.personalForm.sourceType === '3') {
+      } else if (this.personalForm.sourceType === '2') {
         if (scope.row.retreatQuantity > scope.row.enterQuantity) {
         // scope.row.retreatQuantity = scope.row.arrivalQuantity
           this.$refs.editable.revert(scope.row)
@@ -644,7 +644,7 @@ export default {
     handleAddSouce() {
       if (this.personalForm.sourceType === '1') {
         this.arrivalcontrol = true
-      } else if (this.personalForm.sourceType === '3') {
+      } else if (this.personalForm.sourceType === '2') {
         this.entercontrol = true
       }
     },

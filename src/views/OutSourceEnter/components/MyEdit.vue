@@ -382,6 +382,9 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      delete this.personalForm.outsourceOutDetailVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
       // 整车入库时相关编码必填

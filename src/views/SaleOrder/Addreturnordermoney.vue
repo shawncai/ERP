@@ -19,12 +19,12 @@
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
+              <el-col :span="6">
                 <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="saleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
-              </el-col> -->
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.closeType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.closeType" style="width: 200px">
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import MyCustomer from './components/MyCustomer'
+import MyCustomer from './components/MyCustomer2'
 import { searchCategory } from '@/api/Supplier'
 import { createprepReturn } from '@/api/SaleOrder'
 import { customerlist2 } from '@/api/Customer'

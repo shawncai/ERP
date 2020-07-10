@@ -355,6 +355,9 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      delete this.personalForm.outsourceOutDetailVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
       console.log(this.personalForm)
       const rest = this.deepClone(this.$refs.editable.getRecords())
       if (rest.length === 0) {

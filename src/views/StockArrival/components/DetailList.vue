@@ -677,6 +677,7 @@ export default {
             { field: 'unit', displayName: '单位', columnSize: `100px` },
             { field: 'arrivalQuantity', displayName: '到货数量', columnSize: `100px` },
             { field: 'qualifyQuantity', displayName: '合格数量', columnSize: `100px` },
+            { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
             { field: 'remark', displayName: '备注', columnSize: `100px` }
           ],
           header: `<div class="pringtitle">

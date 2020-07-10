@@ -4504,6 +4504,10 @@ export default {
     changetime: '变化时间',
     zj: '增加',
     js: '减少',
-    hjsl: '合计数量'
+    hjsl: '合计数量',
+    includeTaxMoney: '含税金额',
+    allIncludeTaxMoney: '总含税金额',
+    allPlanMoney: '总金额',
+    allTaxMoney: '总税额'
   }
 }

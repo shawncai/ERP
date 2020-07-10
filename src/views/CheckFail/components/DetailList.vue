@@ -85,7 +85,11 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column :label="$t('updates.bhgyy')" prop="failedReason" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.czfs')" prop="handleMode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.czfs')" prop="handleMode" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <span>{{ scope.row.handleMode | handleModeFileter }}</span>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('updates.bl')" prop="rate" align="center" min-width="150px"/>
         </el-editable>
       </div>
@@ -180,9 +184,10 @@ export default {
       }
       return statusMap[status]
     },
-    stockTypeIdFilter(status) {
+    handleModeFileter(status) {
       const statusMap = {
-        1: '采购1'
+        1: '回收',
+        2: '拒收'
       }
       return statusMap[status]
     },

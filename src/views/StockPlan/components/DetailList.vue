@@ -5,7 +5,7 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
-        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
+        <button v-if="personalForm.sourceType === 3 || personalForm.sourceType === '3'" style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
 
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -85,13 +85,44 @@
             <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" /> -->
             <el-editable-column :label="$t('updates.jhsl')" prop="planQuantity" align="center" />
             <!-- <el-editable-column :label="$t('updates.jhje')" prop="planMoney" align="center" /> -->
+            <el-editable-column :label="$t('searchSaleReport.taxMoney')" prop="taxMoney" align="center" />
+            <el-editable-column :label="$t('Stockenter.taxRate')" prop="taxRate" align="center" />
+            <el-editable-column :label="$t('StockQuery.includeTaxPrice')" prop="includeTaxPrice" align="center" />
+            <el-editable-column :label="$t('update4.includeTaxMoney')" prop="includeTaxMoney" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="basicPrice" align="center" />
+            <el-editable-column :label="$t('Hmodule.je')" prop="planMoney" align="center" />
             <el-editable-column :label="$t('updates.jhjhrq')" prop="planDeliveryDate" align="center" />
             <el-editable-column :label="$t('updates.sqyy')" prop="applyReason" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('updates.gys')" prop="supplierName" align="center" />
             <el-editable-column :label="$t('updates.ydgsl')" prop="orderQuantity" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />
+
           </el-editable>
+        </div>
+      </el-card>
+      <el-card class="box-card" shadow="never" style="margin-top: 10px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.allIncludeTaxMoney')" style="width: 100%;">
+                  <span>{{ personalForm.allIncludeTaxMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.allPlanMoney')" style="width: 100%;">
+                  <span>{{ personalForm.allPlanMoney }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.allTaxMoney')" style="width: 100%;">
+                  <span>{{ personalForm.allTaxMoney }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <!--审核状态-->

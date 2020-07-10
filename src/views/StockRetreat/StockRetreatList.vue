@@ -193,8 +193,8 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: _that.$t('updates.cgdhd'),
-        2: _that.$t('Hmodule.Nosource'),
-        3: _that.$t('updates.cgrkd')
+        2: _that.$t('inventorychangelist.stockEnter'),
+        4: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     }

@@ -325,7 +325,7 @@ export default {
           } else {
             this.$message({
               type: 'success',
-              message: this.$t('prompt.fspcg')
+              message: res.data.msg
             })
           }
           this.fsploading = false

@@ -115,7 +115,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat5">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -147,7 +147,7 @@
                       :value="item.id"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">{{ $t('updates.create') }}</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat7">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -179,7 +179,7 @@
                       :value="item"
                     />
                     <template>
-                      <el-button v-permission="['1-31-38-1']" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat9">{{ $t('updates.create') }}</el-button>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat9">{{ $t('updates.create') }}</el-button>
                     </template>
                   </el-select>
                 </el-form-item>
