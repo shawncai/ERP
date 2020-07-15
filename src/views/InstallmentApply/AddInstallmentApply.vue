@@ -944,6 +944,7 @@ export default {
       matercontrol: false,
       // 销售订单信息数据
       personalForm: {
+        applyDate: null,
         createPersonId: this.$store.getters.userId,
         countryId: 2,
         // countryId: this.$store.getters.countryId,

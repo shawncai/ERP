@@ -295,6 +295,9 @@ export function createnewproduct(query) {
   if (query.careCircle !== '' && query.careCircle !== null && query.careCircle !== undefined) {
     params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
   }
+  if (query.yearDepreciationRate !== '' && query.yearDepreciationRate !== null && query.yearDepreciationRate !== undefined) {
+    params.append('yearDepreciationRate', query.yearDepreciationRate) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/product/createnewproduct',
     method: 'post',
@@ -636,6 +639,9 @@ export function editproduct(query) {
   }
   if (query.careCircle !== '' && query.careCircle !== null && query.careCircle !== undefined) {
     params.append('careCircle', query.careCircle) // 你要传给后台的参数值 key/value
+  }
+  if (query.yearDepreciationRate !== '' && query.yearDepreciationRate !== null && query.yearDepreciationRate !== undefined) {
+    params.append('yearDepreciationRate', query.yearDepreciationRate) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/product/editproduct',

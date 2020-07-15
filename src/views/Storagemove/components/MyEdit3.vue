@@ -1,5 +1,16 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="-10px" title="调拨单出库确认" @close="$emit('update:editcontrol', false)">
+  <el-dialog
+    :visible.sync="editVisible"
+    :editcontrol="editcontrol"
+    :editdata="editdata"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    :before-close="closemove"
+    class="edit"
+    width="1010px"
+    top="-10px"
+    title="调拨单出库确认"
+    @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -45,6 +56,7 @@
                 <el-date-picker
                   v-model="personalForm.requestArrivalDate"
                   type="date"
+                  disabled
                   placeholder="选择要求到货日期"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 8px;width: 180px"/>
@@ -55,6 +67,7 @@
                 <el-date-picker
                   v-model="personalForm.moveOutDate"
                   type="date"
+                  disabled
                   placeholder="选择要求出货日期"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 8px;width: 180px"/>
@@ -86,6 +99,21 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.outPhone')" prop="outPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.outPhone" :controls="false" style="width: 200px" @blur="updatephone"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.sendPhone')" prop="sendPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.sendPhone" :controls="false" style="width: 200px" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.sendEmergencyPhone')" prop="sendEmergencyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.sendEmergencyPhone" :controls="false" style="width: 200px" />
+              </el-form-item>
+            </el-col>
             <!-- <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
                   <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept2"/>
@@ -104,6 +132,10 @@
               </el-col> -->
           </el-row>
         </el-form>
+      </div>
+      <div class="buttons" style="margin-top: 20px;margin-left: 30px">
+        <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+        <!-- <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button> -->
       </div>
     </el-card>
     <!--调拨申请明细-->
@@ -285,6 +317,8 @@
 <script>
 // import { locationlist } from '@/api/WarehouseAdjust'
 import { updateStoragemove3, confirmStoragemove, editStoragemove, updateStoragemove2, updateOutDetail } from '@/api/Storagemove'
+import { updateStoragemove } from '@/api/Storagemove'
+
 import { getdeptlist } from '@/api/BasicSettings'
 import { batchlist, getlocation, vehicleInfo, getAllBatch } from '@/api/public'
 import MyRepository from './MyRepository'
@@ -315,6 +349,25 @@ export default {
     }
   },
   data() {
+    // 判断是否为数字(非必填)
+    const validisnumber2 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value !== null && value !== undefined && value !== '' && this.$store.getters.useCountry === 2) {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('phone number is wrong'))
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       deleteloding: false,
       chuandishuju: '',
@@ -347,6 +400,15 @@ export default {
       control: false,
       // 调拨单规则数据
       personalrules: {
+        sendEmergencyPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        sendPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        outPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
         requestDeptId: [
           { required: true, message: '请选择要货部门', trigger: 'change' }
         ],
@@ -431,7 +493,6 @@ export default {
       immediate: true
     }
   },
-
   mounted() {
     this.getlist()
   },
@@ -439,6 +500,60 @@ export default {
     _that = this
   },
   methods: {
+    updatephone() {
+      console.log('123')
+    },
+    closemove() {
+      if (!this.personalForm.outPhone && this.$store.getters.useCountry === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please input outphone',
+          offset: 100
+        })
+        return false
+      }
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.storageMoveDetailApplyVos
+
+      this.personalForm.repositoryId = this.$store.getters.repositoryId
+      this.personalForm.regionId = this.$store.getters.regionId
+      this.personalForm.countryId = this.$store.getters.countryId
+      this.personalForm.modifyPersonId = this.$store.getters.userId
+      const repositoryId = this.$store.getters.repositoryId
+      const regionId = this.$store.getters.regionId
+      if (this.personalForm.moveType === '1') {
+        console.log('this.personalForm.moveOutRepositoryRegion', this.personalForm.moveOutRepositoryRegion)
+        console.log('this.$store.getters.regionId', this.$store.getters.regionId)
+        if (repositoryId === this.personalForm.moveOutRepository || (regionId === this.personalForm.moveOutRepositoryRegion && repositoryId === 0)) {
+          this.personalForm.modifyStat = 2
+        }
+      }
+      const rest = this.$refs.editable.getRecords()
+
+      const parm = JSON.stringify(this.personalForm)
+      const parms2 = JSON.stringify(rest)
+      updateStoragemove(parm, parms2).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: this.$t('prompt.czcg'),
+            message: this.$t('prompt.czcg'),
+            type: 'success',
+            duration: 1000,
+            offset: 100
+          })
+          this.$emit('rest', true)
+          this.editVisible = false
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'wrong',
+            offset: 100
+          })
+        }
+      })
+    },
     // 不让勾选
     selectInit(row, index) {
       const re = row.productCode.slice(0, 2)
@@ -965,11 +1080,60 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
-      console.log(123)
-      this.personalForm.confirmOutPersonId = this.$store.getters.userId
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.storageMoveDetailApplyVos
+      console.log('this.personalForm', this.personalForm)
+      // const EnterDetail = this.$refs.editable.getRecords()
+      // // 保存时同样商品不能有同一个批次
+      // let i = 0
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   EnterDetail.map(function(elem2) {
+      //     return elem2
+      //   }).forEach(function(elem2) {
+      //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+      //       i++
+      //     }
+      //   })
+      // })
+      // console.log(i)
+      // if (i > EnterDetail.length) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: '同样商品不能有同一个批次',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      // // 批次货位不能为空
+      // let j = 1
+      // EnterDetail.map(function(elem) {
+      //   return elem
+      // }).forEach(function(elem) {
+      //   if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+      //     j = 2
+      //   }
+      // })
+      // console.log(j)
+      // if (j === 2) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.pchwbnwk'),
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+      this.personalForm.repositoryId = this.$store.getters.repositoryId
+      this.personalForm.regionId = this.$store.getters.regionId
+      this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
+      const repositoryId = this.$store.getters.repositoryId
+      const regionId = this.$store.getters.regionId
       if (rest.length === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -978,20 +1142,9 @@ export default {
         })
         return false
       }
-      const rest2 = this.personalForm.storageMoveDetailConfirmVos
-      for (const i in rest2) {
-        for (const j in rest) {
-          if (rest2[i].productCode === rest[j].productCode) {
-            rest2[i].batch = rest[j].batch
-          }
-        }
-      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -1024,11 +1177,17 @@ export default {
         }
         return elem
       })
+      console.log('this.personalForm.moveType', this.personalForm.moveType)
+      if (this.personalForm.moveType === '1') {
+        console.log('this.personalForm.moveOutRepositoryRegion', this.personalForm.moveOutRepositoryRegion)
+        console.log('this.$store.getters.regionId', this.$store.getters.regionId)
+        if (repositoryId === this.personalForm.moveOutRepository || (regionId === this.personalForm.moveOutRepositoryRegion && repositoryId === 0)) {
+          this.personalForm.modifyStat = 2
+        }
+      }
       const parm = JSON.stringify(this.personalForm)
-      console.log('this.personalForm', this.personalForm)
       const parms2 = JSON.stringify(rest)
-      const parms3 = JSON.stringify(rest2)
-      updateStoragemove3(parm, parms2, parms3).then(res => {
+      updateStoragemove(parm, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),
@@ -1039,6 +1198,8 @@ export default {
           })
           this.$emit('rest', true)
           this.$refs.editable.clear()
+          this.$refs.personalForm.clearValidate()
+          this.$refs.personalForm.resetFields()
           this.editVisible = false
         } else {
           this.$notify.error({
@@ -1050,7 +1211,7 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

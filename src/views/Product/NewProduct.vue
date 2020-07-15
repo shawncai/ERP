@@ -395,6 +395,11 @@
                 <el-input v-model="personalForm.memberprice" placeholder="请输入成本价" style="width: 200px" clearable/>
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('update4.yearDepreciationRate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input-number v-model="personalForm.yearDepreciationRate" :precision="2" :controls="false" :min="0" :max="1" style="width: 200px"/>
+              </el-form-item>
+            </el-col>
           </el-form>
         </div>
       </el-card>

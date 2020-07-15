@@ -488,6 +488,36 @@
       </div>
     </el-card>
 
+    <!--  维修项目 -->
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
+      <div ref="fuzhu" class="form-name">{{ $t('update4.wxxm') }}</div>
+      <div class="buttons" style="margin-top: 58px">
+        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="additem">{{ $t('update4.tjxm') }}</el-button>
+        <el-button type="danger" @click="$refs.editable3.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <my-item :control.sync="control3" @product2="productdetail3"/>
+      </div>
+
+      <div class="container">
+        <el-editable
+          ref="editable3"
+          :data.sync="itemlist"
+          :edit-config="{ showIcon: true, showStatus: true}"
+          class="click-table1"
+          stripe
+          border
+          size="small"
+          style="width: 100%">
+          <el-editable-column type="selection" width="55" align="center"/>
+          <el-editable-column width="55" align="center" type="index"/>
+          <el-editable-column :label="$t('update4.wxcx')" prop="productType" align="center"/>
+          <el-editable-column :label="$t('update4.xmmc')" prop="name" align="center" min-width="200"/>
+          <el-editable-column :label="$t('update4.bdkhjg')" prop="price" align="center"/>
+          <el-editable-column :label="$t('update4.fbdkhjg')" prop="otherPrice" align="center"/>
+          <el-editable-column :label="$t('update4.ms')" prop="description" align="center"/>
+        </el-editable>
+      </div>
+    </el-card>
+
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
       <div class="container" style="margin-top: 37px">
@@ -590,6 +620,8 @@ import MyPackage from './MyPackage'
 import MyContract from './MyContract'
 import MyReturn from './BatteryReturn'
 import MyDetail from './BatteryOut'
+import MyItem from './MyItem'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
@@ -700,6 +732,10 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      projectmoney: 0,
+      isbendi: null,
+      itemlist: [],
+      control3: false,
       diffpricelist: [],
       showreturn: false,
       control2: false,
@@ -862,6 +898,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.isbendi = 1
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {
@@ -991,6 +1028,24 @@ export default {
         this.heji9 = num
         this.heji10 = num1
         // console.log(num)
+      },
+      deep: true
+    },
+    itemlist: {
+      handler(oldval, newval) {
+        console.log('oldval', oldval)
+        let num = 0
+        if (this.isbendi === 1) {
+          for (const i in this.itemlist) {
+            num += this.itemlist[i].price
+          }
+        } else if (this.isbendi === 2) {
+          for (const i in this.itemlist) {
+            num += this.itemlist[i].otherPrice
+          }
+        }
+        this.projectmoney = num
+        this.getReceivableMoney()
       },
       deep: true
     }
@@ -1196,10 +1251,14 @@ export default {
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
       }
+      if (!this.projectmoney) {
+        this.projectmoney = 0
+      }
       console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
+
       if ((this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') && this.personalForm.useMonth === null) {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
@@ -1230,8 +1289,8 @@ export default {
         console.log('filterfinally', filterfinally)
         // this.diffpricelist
         if (filterfinally.length !== 0) {
-          let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-          const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+          let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+          const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
           if (needmoney < 0) {
             needmoney = 0
           }
@@ -1245,8 +1304,8 @@ export default {
         }
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('123', 123)
-        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+        const needmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1256,8 +1315,8 @@ export default {
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
         console.log('是否是销售合同带入过来')
         console.log('234', 234)
-        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (this.receivableMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+        const needmoney2 = (this.receivableMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1266,8 +1325,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('456', 456)
-        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+        const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -2056,6 +2115,7 @@ export default {
     customerdata(val) {
       console.log(111, val.phoneNumber)
       console.log(111, this.personalForm.customerPhone)
+      this.isbendi = val.newOrOld
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       customerlist2(this.personalForm.customerId).then(res => {

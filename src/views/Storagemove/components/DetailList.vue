@@ -70,6 +70,38 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('update4.applyPhone')" style="width: 100%;">
+                  <span>{{ personalForm.applyPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.acceptPhone')" style="width: 100%;">
+                  <span>{{ personalForm.acceptPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.emergencyPhone')" style="width: 100%;">
+                  <span>{{ personalForm.emergencyPhone }}</span>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.outPhone')" style="width: 100%;">
+                  <span>{{ personalForm.outPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.sendPhone')" style="width: 100%;">
+                  <span>{{ personalForm.sendPhone }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.sendEmergencyPhone')" style="width: 100%;">
+                  <span>{{ personalForm.sendEmergencyPhone }}</span>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
                 <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
                   <span>{{ personalForm.businessStat | businessStatFilter }}</span>
                 </el-form-item>

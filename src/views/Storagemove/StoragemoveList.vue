@@ -512,7 +512,7 @@ export default {
       }
     },
     isReview11(row) {
-      if (row.modifyStat === 2 && (this.$store.getters.repositoryId === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
+      if (row.receiptStat === 3 && row.modifyStat === 2 && (this.$store.getters.repositoryId === row.moveInRepository || (this.$store.getters.regionId === row.moveInRepositoryRegion && this.$store.getters.repositoryId === 0))) {
         return true
       } else {
         return false

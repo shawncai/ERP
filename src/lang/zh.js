@@ -4508,6 +4508,13 @@ export default {
     includeTaxMoney: '含税金额',
     allIncludeTaxMoney: '总含税金额',
     allPlanMoney: '总金额',
-    allTaxMoney: '总税额'
+    allTaxMoney: '总税额',
+    applyPhone: '订货人电话',
+    acceptPhone: '接货人电话',
+    emergencyPhone: '紧急联系人电话',
+    outPhone: '出货人电话',
+    sendPhone: '配送人电话',
+    sendEmergencyPhone: '配送紧急联系人电话',
+    yearDepreciationRate: '年残值率'
   }
 }

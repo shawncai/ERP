@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px; padding-bottom: 30px" shadow="never">
 
         <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 25px">
@@ -82,6 +82,21 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.moveReason')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.moveReason" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.applyPhone')" prop="applyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.applyPhone" :controls="false" style="width: 200px" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.acceptPhone')" prop="acceptPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.acceptPhone" :controls="false" style="width: 200px" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.emergencyPhone')" prop="emergencyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.emergencyPhone" :controls="false" style="width: 200px" />
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
@@ -407,6 +422,25 @@ export default {
   name: 'AddStoragemove',
   components: { MyDepot, MyRepository, MyDetail, MyCreate, MyAccept, MyOut, MyMaterials },
   data() {
+    // 判断是否为数字(非必填)
+    const validisnumber2 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value !== null && value !== undefined && value !== '' && this.$store.getters.useCountry === 2) {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('phone number is wrong'))
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       depotcontrol2: false,
       repositorycontrol2: false,
@@ -451,6 +485,15 @@ export default {
       },
       // 调拨单规则数据
       personalrules: {
+        emergencyPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        acceptPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        applyPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
         applyPersonId: [
           { required: true, message: 'please select applyPerson', trigger: 'focus' }
         ],

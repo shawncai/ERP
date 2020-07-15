@@ -8,35 +8,24 @@
           <el-row>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.title')" style="width: 100%;">
-                <el-input v-model="personalForm.title" placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" clearable/>
+                <el-input v-model="personalForm.title" disabled placeholder="请输入调拨单主题" style="margin-left: 18px;width:180px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.applicationName')" prop="applyPersonId" style="width: 100%;">
-                <el-input v-model="applyPersonId" placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
+                <el-input v-model="applyPersonId" disabled placeholder="请选择调拨申请人" style="margin-left: 18px;width:180px" clearable @focus="handlechooseAccept"/>
               </el-form-item>
             </el-col>
             <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
-            <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.requestDeptId')" prop="requestDeptId" style="width: 100%;">
-                  <el-select v-model="personalForm.requestDeptId" placeholder="请选择要货部门" style="margin-left: 18px;width: 200px" clearable >
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveInRepository')" prop="moveInRepository" style="width: 100%;">
-                <el-input v-model="moveInRepository" placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
+                <el-input v-model="moveInRepository" disabled placeholder="请选择调入仓库" style="margin-left: 18px;width:180px" clearable @focus="handlechooseDep"/>
               </el-form-item>
               <my-depot :depotcontrol.sync="depotcontrol" @depotname="depotname"/>
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveOutRepository')" prop="moveOutRepository" style="width: 100%;">
-                <el-input v-model="moveOutRepository" placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
+                <el-input v-model="moveOutRepository" disabled placeholder="请选择调出仓库" style="margin-left: 18px;width: 180px" clearable @focus="handlechooseRep"/>
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
@@ -44,6 +33,7 @@
               <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.requestArrivalDate"
+                  disabled
                   type="date"
                   placeholder="选择要求到货日期"
                   value-format="yyyy-MM-dd"
@@ -55,6 +45,7 @@
                 <el-date-picker
                   v-model="personalForm.moveOutDate"
                   type="date"
+                  disabled
                   placeholder="选择要求出货日期"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 8px;width: 180px"/>
@@ -62,23 +53,12 @@
             </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.moveReason')" style="width: 100%;">
-                <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
+                <el-input v-model="personalForm.moveReason" disabled placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
-                  <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 200px" clearable >
-                    <el-option
-                      v-for="(item, index) in depts"
-                      :key="index"
-                      :value="item.id"
-                      :label="item.deptName"/>
-                  </el-select>
-                </el-form-item>
-              </el-col>               -->
             <el-col :span="8">
               <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="width: 100%;">
-                <el-select v-model="personalForm.businessStat" placeholder="请选择业务" style="margin-left: 18px;width: 180px" disabled >
+                <el-select v-model="personalForm.businessStat" disabled placeholder="请选择业务" style="margin-left: 18px;width: 180px" >
                   <el-option value="1" label="调拨申请"/>
                   <el-option value="2" label="调拨出库"/>
                   <el-option value="3" label="调拨入库"/>
@@ -86,22 +66,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMovePerson')" prop="storageMovePerson" style="width: 100%;">
-                  <el-input v-model="storageMovePerson" placeholder="请选择调拨出库人" style="margin-left: 18px;width:200px" clearable @focus="handlechooseAccept2"/>
-                </el-form-item>
-              </el-col>
-              <my-out :outcontrol.sync="outcontrol" @outName="outName"/> -->
-            <!-- <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.storageMoveDate')" label-width="110px" style="width: 100%;">
-                  <el-date-picker
-                    v-model="personalForm.storageMoveDate"
-                    type="date"
-                    placeholder="选择调拨出库日期"
-                    value-format="yyyy-MM-dd"
-                    style="margin-left: 8px"/>
-                </el-form-item>
-              </el-col> -->
           </el-row>
         </el-form>
       </div>

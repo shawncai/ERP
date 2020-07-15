@@ -408,6 +408,9 @@ export default {
           console.log(row)
         }
       }
+      if (row.newTaxRate === 0) {
+        row.newPrice = row.newIncludeTaxPrice
+      }
       // if (row.taxPriceFlag === 1) {
       //   row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       //   row.priceflag = 0

@@ -1099,10 +1099,22 @@ export default {
     // },
     changefirstmoney() {
       console.log('首付款', this.personalForm.firstMoney)
+      const needval = this.installmentCounts.find(item => {
+        if (item.installmentCount === this.personalForm.installmentCount) {
+          return (item)
+        }
+      })
+      console.log('needval', needval)
+      this.rate = needval.rate
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.price != null && this.price !== '' && this.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+            console.log('this.personalForm.totalMoney', this.personalForm.totalMoney)
+            console.log('this.price', this.price)
+            console.log('this.rate', this.rate)
             this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            console.log('this.personalForm.totalMoney', this.personalForm.totalMoney)
+
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
               this.personalForm.totalMoney = Math.floor((each / 100)) * 100 * this.personalForm.installmentCount

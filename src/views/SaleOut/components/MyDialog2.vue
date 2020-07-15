@@ -931,6 +931,8 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.isbendi = 1
+
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {

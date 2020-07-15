@@ -82,6 +82,21 @@
                 <el-input v-model="personalForm.moveReason" placeholder="请输入调拨原因" style="margin-left: 18px;width:180px" clearable/>
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.applyPhone')" prop="applyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.applyPhone" :controls="false" style="width: 200px" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.acceptPhone')" prop="acceptPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.acceptPhone" :controls="false" style="width: 200px" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item :label="$t('update4.emergencyPhone')" prop="emergencyPhone" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-input v-model="personalForm.emergencyPhone" :controls="false" style="width: 200px" />
+              </el-form-item>
+            </el-col>
             <!-- <el-col :span="6">
                 <el-form-item :label="$t('Storagemove.departmentId')" prop="departmentId" style="width: 100%;">
                   <el-select v-model="personalForm.departmentId" placeholder="请选择调货部门" style="margin-left: 18px;width: 200px" clearable >
@@ -220,6 +235,25 @@ export default {
     }
   },
   data() {
+    // 判断是否为数字(非必填)
+    const validisnumber2 = (rule, value, callback) => {
+      console.log('value', value)
+      if (value !== null && value !== undefined && value !== '' && this.$store.getters.useCountry === 2) {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
+        } else {
+          callback(new Error('phone number is wrong'))
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       depotcontrol2: false,
       repositorycontrol2: false,
@@ -249,6 +283,15 @@ export default {
       control: false,
       // 调拨单规则数据
       personalrules: {
+        emergencyPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        acceptPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
+        applyPhone: [
+          { required: true, validator: validisnumber2, trigger: 'blur' }
+        ],
         moveType: [
           { required: true, message: '请选择调拨类型', trigger: 'change' }
         ],

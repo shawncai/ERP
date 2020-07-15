@@ -229,6 +229,7 @@
                   :precision="6"
                   :controls="false"
                   :min="0"
+                  :disabled="personalForm.isAppService === 1"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row, $event, scope)"
                   @input="notundefined(scope.row)"/>
