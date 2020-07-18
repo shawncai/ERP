@@ -4515,6 +4515,7 @@ export default {
     outPhone: '出货人电话',
     sendPhone: '配送人电话',
     sendEmergencyPhone: '配送紧急联系人电话',
-    yearDepreciationRate: '年残值率'
+    yearDepreciationRate: '年残值率',
+    danhao: '单号'
   }
 }

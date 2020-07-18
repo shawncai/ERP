@@ -343,7 +343,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -490,7 +490,7 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -753,6 +753,7 @@ export default {
       }
     }
     return {
+      shouldMoney: 0,
       projectmoney: 0,
       isbendi: null,
       itemlist: [],
@@ -932,7 +933,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.isbendi = 1
-
+      this.shouldMoney = this.personalForm.shouldMoney
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {
@@ -1049,6 +1050,7 @@ export default {
         this.heji3 = num1
         this.heji4 = num2
         this.getReceivableMoney()
+        this.updatePrice()
         // console.log(num)
       },
       deep: true
@@ -1083,6 +1085,7 @@ export default {
         }
         this.projectmoney = num
         this.getReceivableMoney()
+        this.updatePrice()
       },
       deep: true
     }
@@ -1462,15 +1465,6 @@ export default {
             this.$set(this.personalForm, 'shouldMoney', needmoney)
             // 未减去优惠券额的金额
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-          } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
-            let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
-            const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
-            if (needmoney < 0) {
-              needmoney = 0
-            }
-            this.$set(this.personalForm, 'shouldMoney', needmoney)
-            // 未减去优惠券额的金额
-            this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           } else {
             let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
@@ -1481,6 +1475,16 @@ export default {
             // 未减去优惠券额的金额123
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           }
+          // else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
+          //   let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+          //   const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+          //   if (needmoney < 0) {
+          //     needmoney = 0
+          //   }
+          //   this.$set(this.personalForm, 'shouldMoney', needmoney)
+          //   // 未减去优惠券额的金额
+          //   this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+          // }
         }
       } else if (this.personalForm.isFree === 1) {
         this.$set(this.personalForm, 'shouldMoney', 0)
@@ -3089,7 +3093,7 @@ export default {
           console.log('couponNumbers', couponNumbers)
           couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
           console.log('couponNumbers', couponNumbers)
-          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),

@@ -407,7 +407,7 @@ export default {
           color: item.color,
           basicQuantity: (Number(item.arrivalQuantity) - Number(item.hadStorageQuantity)).toFixed(6),
           actualEnterQuantity: (item.arrivalQuantity - item.hadStorageQuantity).toFixed(6),
-          enterPrice: item.includeTaxPrice,
+          enterPrice: item.price,
           taxRate: (item.taxRate).toFixed(6),
           enterMoney: '0.00',
           remarks: '',

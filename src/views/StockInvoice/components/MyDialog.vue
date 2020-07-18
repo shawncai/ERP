@@ -480,6 +480,9 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.handlePersonId = this.personalForm.handlePersonName
       this.personalForm.invoiceType = String(this.personalForm.invoiceType)
+      // for (const i in this.personalForm.stockInvoiceDetailVos) {
+      //   this.personalForm.stockInvoiceDetailVos[i].taxRate = Number(this.personalForm.stockInvoiceDetailVos[i].taxRate) * 100
+      // }
       this.list2 = this.personalForm.stockInvoiceDetailVos
     }
   },
@@ -717,11 +720,13 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      if (row.quantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(6)
-      } else {
-        row.tax = 0
-      }
+      // if (row.quantity !== 0) {
+      //   row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(6)
+      // } else {
+      //   row.tax = 0
+      // }
+      row.tax = Number(row.includeTaxMoney) - Number(row.money)
+
       return row.tax
     },
     // 计算含税金额

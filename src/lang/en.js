@@ -4508,6 +4508,14 @@ export default {
     includeTaxMoney: 'includeTaxMoney',
     allIncludeTaxMoney: 'allIncludeTaxMoney',
     allPlanMoney: 'allPlanMoney',
-    allTaxMoney: 'allTaxMoney'
+    allTaxMoney: 'allTaxMoney',
+    applyPhone: 'applyPhone',
+    acceptPhone: 'acceptPhone',
+    emergencyPhone: 'emergencyPhone',
+    outPhone: 'outPhone',
+    sendPhone: 'sendPhone',
+    sendEmergencyPhone: 'sendEmergencyPhone',
+    yearDepreciationRate: 'yearDepreciationRate',
+    danhao: 'receiptNumber'
   }
 }

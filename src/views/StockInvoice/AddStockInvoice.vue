@@ -753,11 +753,7 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      if (row.quantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(6)
-      } else {
-        row.tax = 0
-      }
+      row.tax = Number(row.includeTaxMoney) - Number(row.money)
       return row.tax
     },
     // 计算含税金额

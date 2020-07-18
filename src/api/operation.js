@@ -15,6 +15,15 @@ export function getOperationLog(query) {
   if (query.operatorId !== '' && query.operatorId !== null && query.operatorId !== undefined) {
     params.append('operatorId', query.operatorId) // 你要传给后台的参数值 key/value
   }
+  if (query.receiptNumber !== '' && query.receiptNumber !== null && query.receiptNumber !== undefined) {
+    params.append('receiptNumber', query.receiptNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/zcc/operationList',
     method: 'post',

@@ -312,7 +312,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -471,7 +471,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -498,7 +498,7 @@
               <el-input-number
                 :precision="6"
                 :controls="false"
-                :value="scope.row.quantity"
+                v-model="scope.row.quantity"
               />
             </template>
           </el-editable-column>
@@ -528,7 +528,7 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -692,7 +692,7 @@ export default {
       return statusMap[sta]
     }
   },
-  components: { MyReturn, MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyMaterials, MyReturn, MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -917,6 +917,7 @@ export default {
           { required: true, validator: validatePass6, trigger: 'change' }
         ]
       },
+      shouldMoney: 0,
       // 订单明细数据
       list2: [],
       // 销售费用明细
@@ -947,6 +948,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.shouldMoney = this.personalForm.shouldMoney
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {
@@ -975,6 +977,7 @@ export default {
         //   this.$refs.editable.clear()
         // }
       }
+      console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
       this.personalForm.couponMoney = this.personalForm.couponSupport
       console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
       if (this.personalForm.couponNumbers === '' || this.personalForm.couponNumbers === null || this.personalForm.couponNumbers === undefined) {
@@ -1040,7 +1043,9 @@ export default {
       this.saleRepositoryId = this.personalForm.saleRepositoryName
       this.outPersonId = this.personalForm.outPersonName
       this.customerPhone = this.personalForm.customerPhone
+
       this.updatebatch()
+
       // this.getlocations()
       // this.getdiffprice()
     },
@@ -1060,6 +1065,7 @@ export default {
         this.heji3 = num1
         this.heji4 = num2
         this.getReceivableMoney()
+        this.updatePrice()
         // console.log(num)
       },
       deep: true
@@ -1131,7 +1137,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     detailproduct(val) {
@@ -1153,7 +1159,7 @@ export default {
           newArr.push(el)
         }
       })
-      console.log('newArr', newArr)
+      // console.log('newArr', newArr)
       this.list2 = newArr
     },
     productdetail4(val) {
@@ -1212,7 +1218,7 @@ export default {
       }
     },
     productdetail2(val) {
-      console.log(val)
+      // console.log(val)
       const nowlistdata = this.$refs.editable3.getRecords()
 
       console.log(nowlistdata)
@@ -1318,6 +1324,9 @@ export default {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
+      if (!this.personalForm.receivableMoney) {
+        this.personalForm.receivableMoney = 0
+      }
       if ((this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') && this.personalForm.useMonth === null) {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
@@ -1371,17 +1380,6 @@ export default {
         this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-      } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
-        console.log('是否是销售合同带入过来')
-        console.log('234', 234)
-        let needmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
-        if (needmoney < 0) {
-          needmoney = 0
-        }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
-        // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
         console.log('456', 456)
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
@@ -1393,6 +1391,8 @@ export default {
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }
+
+      console.log('this.receivableMoney ', this.personalForm.receivableMoney)
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
       //   console.log(198283774747)
@@ -1553,7 +1553,7 @@ export default {
       }
     },
     isEdit8(row) {
-      console.log('row', row)
+      // console.log('row', row)
       if (this.controlcategorysdetail.includes(row.category)) {
         return true
       } else {
@@ -1561,12 +1561,12 @@ export default {
       }
     },
     isEdit7(row) {
-      console.log('this.chargecategorysdetail', this.chargecategorysdetail)
+      // console.log('this.chargecategorysdetail', this.chargecategorysdetail)
       if (this.chargecategorysdetail.includes(row.category)) {
-        console.log('trueistrue')
+        // console.log('trueistrue')
         return true
       } else {
-        console.log('falsefalse')
+        // console.log('falsefalse')
         return false
       }
     },
@@ -1935,7 +1935,7 @@ export default {
         strDate = '0' + strDate
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.sendDate = currentdate
+      // this.personalForm.sendDate = currentdate
       this.personalForm.outDate = currentdate
     },
     // 总计
@@ -2496,6 +2496,12 @@ export default {
       // this.roleId = val.postName
       // this.personalForm.roleId = val.postId
     },
+    // 深拷贝
+    deepClone(obj) {
+      const _obj = JSON.stringify(obj)
+      const objClone = JSON.parse(_obj)
+      return objClone
+    },
     // 清空记录
     restAllForm() {
       this.personalForm = {
@@ -2533,13 +2539,18 @@ export default {
       const chargecategorysdetail = chargecategorys.map(item => {
         return item.id
       })
-      const EnterDetailgift = this.$refs.editable2.getRecords()
+      // const EnterDetailgift = this.deepClone(this.$refs.editable2.getRecords())
+      const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+      console.log('EnterDetail2', EnterDetail2)
       // 批次货位不能为空
       let j = 1
-      EnterDetailgift.map(function(elem) {
+      EnterDetail2.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+        // if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+        //   j = 2
+        // }
+        if (elem.location === null || elem.location === undefined || elem.location === '') {
           j = 2
         }
       })
@@ -2684,7 +2695,10 @@ export default {
           EnterDetail.map(function(elem) {
             return elem
           }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+            // if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+            //   j = 2
+            // }
+            if (elem.location === null || elem.location === undefined || elem.location === '') {
               j = 2
             }
           })
@@ -2697,7 +2711,7 @@ export default {
             })
             return false
           }
-          const EnterDetail2 = this.$refs.editable2.getRecords()
+
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -2840,7 +2854,7 @@ export default {
             })
             return false
           }
-          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),
@@ -2896,6 +2910,8 @@ export default {
             }
           }
           const parms = JSON.stringify(Data)
+          console.log('parms3', parms3)
+
           updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({

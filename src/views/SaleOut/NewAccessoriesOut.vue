@@ -1085,7 +1085,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     detailproduct(val) {
@@ -2193,7 +2193,7 @@ export default {
                 offset: 100
               })
             } else {
-              const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
+              const isoverdiscount = res.data.data.content.list[0].discountRate * row.includeTaxCostMoney
               if (isoverdiscount < val) {
                 row.discountMoney = 0
                 row.discountRate = 0

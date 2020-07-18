@@ -121,15 +121,15 @@
               </template>
             </el-editable-column>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.rkdj')" prop="enterPrice" align="center" />
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.rkje')" prop="enterMoney" align="center" >
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.slv')" prop="taxRate" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px"/>
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <!-- <p>{{ getMoney(scope.row) }}</p> -->
-                <p>{{ scope.row.money }}</p>
-              </template>
-            </el-editable-column>
+
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p>{{ scope.row.includeTaxMoney }}</p>
@@ -147,12 +147,6 @@
               <template slot-scope="scope">
                 <p>{{ scope.row.discountMoney }}</p>
                 <!-- <p>{{ getdiscountMoney(scope.row) }}</p> -->
-              </template>
-            </el-editable-column>
-            <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.rkje')" prop="enterMoney" align="center" >
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" />

@@ -8,6 +8,17 @@
 
       <el-input v-model="getemplist.module" :placeholder="$t('updates.mk')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-input v-model="getemplist.receiptNumber" :placeholder="$t('update4.danhao')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-date-picker
+        v-model="date"
+        :default-time="['00:00:00', '23:59:59']"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"
+        style="width: 250px"/>
+
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
@@ -218,6 +229,10 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (!this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      }
       this.getemplist.pageNum = 1
       getOperationLog(this.getemplist).then(res => {
         if (res.data.ret === 200) {

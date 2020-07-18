@@ -280,14 +280,14 @@
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ckdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-        <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+        <el-button :disabled="true" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button :disabled="IsSourceNumber" style="width: 130px" @click="handleAddSource">{{ $t('updates.cydzxz') }}</el-button>
         <my-order :ordercontrol.sync="ordercontrol" @saleOrderDetail="saleOrderDetail" @saleOrder="saleOrder"/>
         <my-presale :presalecontrol.sync="presalecontrol" @advanceOrderDetail="advanceOrderDetail" @advanceData="advanceData"/>
         <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
         <my-contract :contractcontrol.sync="contractcontrol" @salecontractDetail="salecontractDetail" @salecontract="salecontract"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
+        <el-button :disabled="true" type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
         <el-editable
@@ -313,7 +313,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -448,7 +448,7 @@
           <el-editable-column label="编号" width="55" align="center" type="index"/>
           <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatchreturnpro($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
@@ -1059,6 +1059,38 @@ export default {
     _that = this
   },
   methods: {
+    additem() {
+      if (!this.customerId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.qxxzkh'),
+          offset: 100
+        })
+        return false
+      }
+      this.control3 = true
+    },
+    productdetail3(val) {
+      if (!this.customerId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.qxxzkh'),
+          offset: 100
+        })
+        return false
+      }
+      const nowlistdata = this.$refs.editable3.getRecords()
+      this.$refs.editable3.clear()
+      console.log('val============', val)
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray3(alldata, 'id')
+      console.log('filterdata=====', filterdata)
+      // this.list2 = filterdata
+      for (let i = 0; i < filterdata.length; i++) {
+        // val[i].quantity = 1
+        this.$refs.editable3.insert(filterdata[i])
+      }
+    },
     judgeinvoce() {
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
       checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
@@ -2796,7 +2828,7 @@ export default {
             })
             return false
           }
-          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0) {
+          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('update4.qsrshijshk'),

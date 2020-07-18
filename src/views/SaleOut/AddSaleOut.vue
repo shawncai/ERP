@@ -1093,7 +1093,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     async detailproduct(val) {
@@ -2060,6 +2060,7 @@ export default {
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row, val, scope) {
+      console.log('row', row)
       const re = row.productCode.slice(0, 2)
       if (re === '01') {
         const discountparms = {
@@ -2118,7 +2119,10 @@ export default {
                 offset: 100
               })
             } else {
-              const isoverdiscount = res.data.data.content.list[0].discountRate * row.money
+              const isoverdiscount = res.data.data.content.list[0].discountRate * row.includeTaxCostMoney
+              console.log('isoverdiscount', isoverdiscount)
+              console.log('val', val)
+
               if (isoverdiscount < val) {
                 row.discountMoney = 0
                 row.discountRate = 0
@@ -2151,6 +2155,7 @@ export default {
     // },
     // 计算金额
     getMoney(row) {
+      console.log(row.quantity, row.salePrice)
       row.money = (row.quantity * row.salePrice).toFixed(6)
       return row.money
     },

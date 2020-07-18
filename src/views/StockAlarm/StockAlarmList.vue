@@ -47,6 +47,11 @@
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockAlarm.searchRepositoryId')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockAlarm.code')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.code }}</span>
@@ -89,7 +94,10 @@
         </el-table-column>
         <el-table-column :label="$t('StockAlarm.flag')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.alarmType | flagStatFileter }}</span>
+            <span v-show="scope.row.alarmType === 3" style="color: #409EFF">{{ scope.row.alarmType | flagStatFileter }}</span>
+            <span v-show="scope.row.alarmType === 2" style="color: #E6A23C">{{ scope.row.alarmType | flagStatFileter }}</span>
+            <span v-show="scope.row.alarmType === 1" style="color: #F56C6C">{{ scope.row.alarmType | flagStatFileter }}</span>
+
           </template>
         </el-table-column>
       </el-table>

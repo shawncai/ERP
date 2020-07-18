@@ -155,9 +155,9 @@
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <my-dialog2 :editcontrol.sync="returncontrol" :editdata.sync="personalForm" @rest="refreshlist"/>
-      <my-dialog3 :editcontrol.sync="batteryreturn" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm1" @rest="refreshlist"/>
+      <my-dialog2 :editcontrol.sync="returncontrol" :editdata.sync="personalForm4" @rest="refreshlist"/>
+      <my-dialog3 :editcontrol.sync="batteryreturn" :editdata.sync="personalForm3" @rest="refreshlist"/>
       <!--修改结束=================================================-->
     </el-card>
   </div>
@@ -232,6 +232,9 @@ export default {
   },
   data() {
     return {
+      personalForm1: null,
+      personalForm4: null,
+      personalForm3: null,
       fsploading: false,
       judgeloading: false,
       isconfirm: false,
@@ -647,30 +650,70 @@ export default {
         this.returncontrol = true
       } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
         this.batteryreturn = true
+        this.personalForm3 = Object.assign({}, row)
+        this.personalForm3.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm3.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm3.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm3.payMode = row.payMode
+        }
+        if (row.saleType !== null) {
+          this.personalForm3.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm3.payType = String(row.payType)
+        }
+        if (row.outType !== null) {
+          this.personalForm3.outType = String(row.outType)
+        }
       } else if (row.saleOutItems.length !== 0) {
         this.returncontrol = true
+        this.personalForm4 = Object.assign({}, row)
+        this.personalForm4.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm4.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm4.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm4.payMode = row.payMode
+        }
+        if (row.saleType !== null) {
+          this.personalForm4.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm4.payType = String(row.payType)
+        }
+        if (row.outType !== null) {
+          this.personalForm4.outType = String(row.outType)
+        }
       } else {
         this.editVisible = true
-      }
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
-      }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.payMode !== null) {
-        this.personalForm.payMode = row.payMode
-      }
-      if (row.saleType !== null) {
-        this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
-      if (row.outType !== null) {
-        this.personalForm.outType = String(row.outType)
+        this.personalForm1 = Object.assign({}, row)
+        this.personalForm1.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm1.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm1.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm1.payMode = row.payMode
+        }
+        if (row.saleType !== null) {
+          this.personalForm1.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm1.payType = String(row.payType)
+        }
+        if (row.outType !== null) {
+          this.personalForm1.outType = String(row.outType)
+        }
       }
     },
     // 修改组件修改成功后返回

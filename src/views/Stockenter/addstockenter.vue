@@ -161,6 +161,11 @@
                 <p v-show="jundgeprice()">{{ scope.row.enterPrice }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" width="150px">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
@@ -169,16 +174,6 @@
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
-              <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ scope.row.taxRate }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
@@ -197,16 +192,7 @@
                 <p v-show="jundgeprice()">{{ getdiscountMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
-              <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ scope.row.price }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
-              <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ getSize(scope, scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
-              </template>
-            </el-editable-column>
+
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
@@ -480,6 +466,7 @@ export default {
       handler(newval, oldval) {
         let num = 0
         let num2 = 0
+        console.log('this.list2', this.list2)
         for (const i in this.list2) {
           console.log(this.list2[i].actualEnterQuantity)
           num += Number(this.list2[i].actualEnterQuantity)
@@ -1053,6 +1040,7 @@ export default {
     },
     // 入库金额计算
     getSize(scope, quan, pric) {
+      scope.row.enterMoney = (Number(quan) * Number(pric)).toFixed(6)
       return (quan * pric).toFixed(6)
     },
     getmylocation(scope) {
