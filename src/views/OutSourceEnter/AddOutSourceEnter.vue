@@ -159,7 +159,7 @@
       <!--操作123-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click v-loading="issure" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="issure" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -246,7 +246,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -603,126 +603,137 @@ export default {
     // 保存操作
     handlesave() {
       this.issure = true
-      const EnterDetail = this.$refs.editable.getRecords()
-      console.log(EnterDetail)
-      for (const i in EnterDetail) {
-        if (EnterDetail[i].actualEnterQuantity === 0) {
+
+      setTimeout(() => {
+        const EnterDetail = this.$refs.editable.getRecords()
+        console.log(EnterDetail)
+        for (const i in EnterDetail) {
+          if (EnterDetail[i].actualEnterQuantity === 0) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '商品数量不能为0',
+              offset: 100
+            })
+            this.issure = false
+            return false
+          }
+        }
+        let i = 1
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+            i = 2
+          }
+        })
+        if (i === 2) {
           this.$notify.error({
             title: 'wrong',
-            message: '商品数量不能为0',
+            message: '商品货位不能为空',
             offset: 100
           })
           this.issure = false
           return false
         }
-      }
-      let i = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          i = 2
+        console.log(this.personalForm)
+        console.log(EnterDetail)
+        if (EnterDetail.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.mxbbnwk'),
+            offset: 100
+          })
+          this.issure = false
+          return false
         }
-      })
-      if (i === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: '商品货位不能为空',
-          offset: 100
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+            delete elem.locationId
+          }
+          if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+            delete elem.productCode
+          }
+          if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+            delete elem.productName
+          }
+          if (elem.color === null || elem.color === '' || elem.color === undefined) {
+            delete elem.color
+          }
+          if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+            delete elem.typeId
+          }
+          if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+            delete elem.unit
+          }
+          if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
+            delete elem.actualEnterQuantity
+          }
+          if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+            delete elem.enterQuantity
+          }
+          if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
+            delete elem.enterPrice
+          }
+          if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
+            delete elem.enterMoney
+          }
+          if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+            delete elem.remarks
+          }
+          return elem
         })
-        this.issure = false
-        return false
-      }
-      console.log(this.personalForm)
-      console.log(EnterDetail)
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        this.issure = false
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.actualEnterQuantity === null || elem.actualEnterQuantity === '' || elem.actualEnterQuantity === undefined) {
-          delete elem.actualEnterQuantity
-        }
-        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
-        }
-        if (elem.enterPrice === null || elem.enterPrice === '' || elem.enterPrice === undefined) {
-          delete elem.enterPrice
-        }
-        if (elem.enterMoney === null || elem.enterMoney === '' || elem.enterMoney === undefined) {
-          delete elem.enterMoney
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        return elem
-      })
-      const parms = JSON.stringify(EnterDetail)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.editable.validate().then(valid => {
-            if (valid) {
-              console.log('newOrOld', this.personalForm.newOrOld)
-              const Data = this.personalForm
-              for (const key in Data) {
-                if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-                  delete Data[key]
-                }
+        const parms = JSON.stringify(EnterDetail)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            this.$refs.editable.validate().then(valid => {
+              if (valid) {
+                console.log('newOrOld', this.personalForm.newOrOld)
+                const Data = this.personalForm
+                for (const key in Data) {
+                  if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                    delete Data[key]
+                  }
                 // if (key === 'judgeStat') {
                 //   delete Data[key]
                 // }
-              }
-              const parmss = JSON.stringify(Data)
-              addOutsourceEnter(parmss, parms, this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.issure = false
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                  this.issure = false
                 }
+                const parmss = JSON.stringify(Data)
+                addOutsourceEnter(parmss, parms, this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.issure = false
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                    this.issure = false
+                  }
+                })
+              }
+            }).catch(valid => {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'Information is incomplete',
+                offset: 100
               })
-            }
-          }).catch(valid => {
+              this.issure = false
+              return false
+            })
+          } else {
             this.$notify.error({
               title: 'wrong',
               message: 'Information is incomplete',
@@ -730,17 +741,9 @@ export default {
             })
             this.issure = false
             return false
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          this.issure = false
-          return false
-        }
-      })
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 取消操作
     handlecancel() {

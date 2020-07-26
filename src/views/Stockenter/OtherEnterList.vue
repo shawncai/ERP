@@ -163,7 +163,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { otherenterlist, deleteotherenter, updateotherenter5 } from '@/api/Stockenter'
+import { otherenterlist, deleteotherenter, updateotherenter5, updateotherenter6, updateotherenter7 } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -299,7 +299,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 0
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+        updateotherenter7(this.reviewParms.id, this.reviewParms.judgeStat, this.reviewParms.endPersonId).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -334,6 +334,7 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
+      console.log('parms')
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.fjd'),
@@ -341,7 +342,8 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+
+        updateotherenter6(this.reviewParms.id, this.reviewParms.receiptStat, this.reviewParms.endPersonId).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -371,7 +373,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 3
         const parms = JSON.stringify(this.reviewParms)
-        updateotherenter5(parms).then(res => {
+        updateotherenter6(this.reviewParms.id, this.reviewParms.receiptStat, this.reviewParms.endPersonId).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',

@@ -65,7 +65,19 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.number }}</span>
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.outsourcingEnterDetailVos" border size="small">
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="small">{{ scope.row.number }}</el-tag>
+              </div>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column :label="$t('OutSourcing.title')" :resizable="false" fixed="left" align="center" min-width="150">

@@ -401,7 +401,7 @@ export default {
         inquiryTimes: 1,
         inquiryDate: null,
         sourceType: '3',
-        currency: '1',
+        currency: '3',
         exchangeRate: '1.0000'
       },
       // 采购申请单规则数据

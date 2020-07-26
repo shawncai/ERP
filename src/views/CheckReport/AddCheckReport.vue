@@ -124,10 +124,10 @@
                 <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" @focus="handlemater"/>
                   <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
-                  <detail-report :reportcontrol.sync="reportcontrol" :reportdata.sync="reportdata" @report="report"/>
-                  <detail-report2 :reportcontrol2.sync="reportcontrol2" :reportdata2.sync="reportdata2" @report2="report2"/>
-                  <detail-report3 :reportcontrol3.sync="reportcontrol3" :reportdata3.sync="reportdata3" @report3="report3"/>
-                  <detail-report4 :reportcontrol4.sync="reportcontrol4" :reportdata4.sync="reportdata4" @report4="report4"/>
+                  <detail-report :reportcontrol.sync="reportcontrol" :number.sync="number3" :reportdata.sync="reportdata" @report="report"/>
+                  <detail-report2 :reportcontrol2.sync="reportcontrol2" :number.sync="number2" :reportdata2.sync="reportdata2" @report2="report2"/>
+                  <detail-report3 :reportcontrol3.sync="reportcontrol3" :number.sync="number4" :reportdata3.sync="reportdata3" @report3="report3"/>
+                  <detail-report4 :reportcontrol4.sync="reportcontrol4" :number.sync="number5" :reportdata4.sync="reportdata4" @report4="report4"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -326,6 +326,10 @@ export default {
       }
     }
     return {
+      number5: null,
+      number4: null,
+      number3: null,
+      number2: null,
       outsourcecontrol: false,
       // 判断是否大于源单数量
       judgequilty: null,
@@ -666,12 +670,16 @@ export default {
     // 物品信息focus事件
     handlemater() {
       if (this.personalForm.sourceType === '1') {
+        this.number3 = this.personalForm.sourceNumber
         this.reportcontrol = true
       } else if (this.personalForm.sourceType === '2') {
+        this.number2 = this.personalForm.sourceNumber
         this.reportcontrol2 = true
       } else if (this.personalForm.sourceType === '3') {
+        this.number4 = this.personalForm.sourceNumber
         this.reportcontrol3 = true
       } else if (this.personalForm.sourceType === '4') {
+        this.number5 = this.personalForm.sourceNumber
         this.reportcontrol4 = true
       }
     },
@@ -1116,7 +1124,6 @@ export default {
         regionId: this.$store.getters.regionId,
         inspectionPersonId: this.$store.getters.userId,
         isRecheck: 1,
-        sourceType: '2',
         sampleQuantity: null,
         checkQuantity: null,
         failedQuantity: '',
@@ -1129,7 +1136,6 @@ export default {
       }
       this.judgequilty = null
       this.inspectionPersonId = this.$store.getters.name
-      this.supplierId = null
       this.workCenterId = null
       this.produceManagerId = null
       this.checkPersonId = this.$store.getters.name

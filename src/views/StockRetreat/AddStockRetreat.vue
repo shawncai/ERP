@@ -899,6 +899,7 @@ export default {
       this.personalForm.settleMode = val.settleMode
       this.personalForm.transportModeId = val.transportId
       this.personalForm.isVat = val.isVat
+      this.$refs.editable.clear()
     },
     // 收货人返回数据
     supplierName2(val) {

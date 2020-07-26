@@ -57,6 +57,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item :label="$t('update4.actialdiffermoney')" prop="shouldMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.shouldMoney" :controls="false" :step="0.1" style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.invoiceNumber" style="width: 200px" @blur="judgeinvoce"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.applyNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.applyNumber" style="width: 200px" disabled clearable/>
                 </el-form-item>
@@ -262,6 +272,8 @@
 </template>
 
 <script>
+import { createsaleOut, getCustomerOutCount, checkInvoiceExist } from '@/api/SaleOut'
+
 import '@/directive/noMoreClick/index.js'
 import { addReturnExchange } from '@/api/ReturnExchange'
 import { getdeptlist } from '@/api/EmployeeInformation'
@@ -319,7 +331,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -368,6 +380,9 @@ export default {
       },
       // 配送单规则数据
       personalrules: {
+        shouldMoney: [
+          { required: true, message: 'please input actialdiffermoney：', trigger: 'blur' }
+        ],
         title: [
           { required: true, message: 'please input title', trigger: 'blur' }
         ],
@@ -457,6 +472,25 @@ export default {
     _that = this
   },
   methods: {
+    judgeinvoce() {
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
+      if (!this.personalForm.invoiceNumber) {
+        return
+      }
+      checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.repositoryId).then(res => {
+        if (res.data.ret === 200) {
+          if (res.data.data.content === true) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('update4.fphcf'),
+              offset: 100
+            })
+            this.personalForm.invoiceNumber = null
+          }
+        }
+      })
+    },
     // 判断整车或者电池
     isEdit4(row) {
       console.log('222', row)

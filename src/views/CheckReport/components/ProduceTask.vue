@@ -87,7 +87,21 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('ProduceTask.taskNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.taskNumber }}</span>
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.produceTaskDetailVos" border size="small">
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <el-table-column :label="$t('updates.dhsl')" min-width="100" property="actualCheckQuantity"/>
+                <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="small">{{ scope.row.taskNumber }}</el-tag>
+              </div>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ProduceTask.title')" :resizable="false" align="center" min-width="150">

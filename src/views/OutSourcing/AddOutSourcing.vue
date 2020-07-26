@@ -183,7 +183,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloading" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -211,6 +211,7 @@ export default {
       }
     }
     return {
+      saveloading: false,
       list3: [],
       // 合计
       heji: 0,
@@ -472,102 +473,110 @@ export default {
     },
     // 保存操作
     handlesave() {
-      // 加工后明细
-      const EnterDetail = this.$refs.editable.getRecords()
-      // 原材料明细
-      const EnterDetail2 = this.$refs.editable2.getRecords()
-      if (EnterDetail2.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.nonedetail'),
-          offset: 100
-        })
-        return false
-      }
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        elem.reportCheckingQuantity = 0
-        elem.actualCheckingQuantity = 0
-        elem.qualifyQuantity = 0
-        elem.unqualifyQuantity = 0
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          delete elem.quantity
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          delete elem.money
-        }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
-        }
-        return elem
-      })
-      // 加工后明细
-      const parms2 = JSON.stringify(EnterDetail)
-      // 原材料明细
-      const parms3 = JSON.stringify(EnterDetail2)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          createoutFactory(parms, parms3, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-            }
-          })
-        } else {
+      this.saveloading = true
+
+      setTimeout(() => {
+        // 加工后明细
+        const EnterDetail = this.$refs.editable.getRecords()
+        // 原材料明细
+        const EnterDetail2 = this.$refs.editable2.getRecords()
+        if (EnterDetail2.length === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: this.$t('prompt.nonedetail'),
             offset: 100
           })
+          this.saveloading = false
           return false
         }
-      })
+        if (EnterDetail.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.mxbbnwk'),
+            offset: 100
+          })
+          this.saveloading = false
+          return false
+        }
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          elem.reportCheckingQuantity = 0
+          elem.actualCheckingQuantity = 0
+          elem.qualifyQuantity = 0
+          elem.unqualifyQuantity = 0
+          if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+            delete elem.productCode
+          }
+          if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+            delete elem.productName
+          }
+          if (elem.type === null || elem.type === '' || elem.type === undefined) {
+            delete elem.type
+          }
+          if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+            delete elem.unit
+          }
+          if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+            delete elem.quantity
+          }
+          if (elem.money === null || elem.money === '' || elem.money === undefined) {
+            delete elem.money
+          }
+          if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+            delete elem.totalMoney
+          }
+          return elem
+        })
+        // 加工后明细
+        const parms2 = JSON.stringify(EnterDetail)
+        // 原材料明细
+        const parms3 = JSON.stringify(EnterDetail2)
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
+        }
+        const parms = JSON.stringify(Data)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            createoutFactory(parms, parms3, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+              this.saveloading = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloading = false
+            return false
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 取消操作
     handlecancel() {

@@ -8,6 +8,7 @@
 
       <el-input v-model="salePersonId" :placeholder="$t('InstallmentApply.salePersonId')" size="small" class="filter-item" @clear="restFilter" @keyup.enter.native="handleFilter" @focus="handlechooseStock"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
+      <el-input v-model="getemplist.applyNumber" :placeholder="$t('update4.danhao')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-popover
         v-model="visible2"

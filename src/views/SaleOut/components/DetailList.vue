@@ -719,7 +719,7 @@ export default {
       if (row.discountRate === 1) {
         return 100
       } else {
-        return row.discountRate
+        return row.discountRate * 100
       }
     },
     // 计划金额

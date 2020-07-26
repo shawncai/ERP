@@ -88,7 +88,7 @@
               </template>
             </el-select>
           </el-form-item> -->
-                <el-form-item :label="$t('Customer.newold')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('Customer.newold')" prop="newold" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="customerForm.newold" :value="customerForm.newold" :placeholder="$t('updates.qxz')" style="width: 200px">
                     <el-option :label="$t('update4.bdkh')" value="1"/>
                     <el-option :label="$t('update4.fbdkh')" value="2"/>
@@ -225,6 +225,9 @@ export default {
       },
       // 客户信息规则数据
       customerFormrules: {
+        newold: [
+          { required: true, message: 'please input IS our customers', trigger: 'change' }
+        ],
         phone: [
           { required: true, validator: checkphone, trigger: 'change' }
         ],

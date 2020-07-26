@@ -188,7 +188,7 @@
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloading" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -249,10 +249,11 @@ export default {
       }
     }
     return {
+      saveloading: false,
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -680,157 +681,165 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-      // 保存时同样商品不能有同一个批次
-      // let i = 0
-      // EnterDetail.map(function(elem) {
-      //   return elem
-      // }).forEach(function(elem) {
-      //   EnterDetail.map(function(elem2) {
-      //     return elem2
-      //   }).forEach(function(elem2) {
-      //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-      //       i++
-      //     }
-      //   })
-      // })
-      // console.log(i)
-      // if (i > EnterDetail.length) {
-      //   this.$notify.error({
-      //     title: 'wrong',
-      //     message: '同样商品不能有同一个批次',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      // 批次货位不能为空
-      let j = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-          j = 2
-        }
-      })
-      console.log(j)
-      if (j === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.pchwbnwk'),
-          offset: 100
+      this.saveloading = true
+      setTimeout(() => {
+        const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+        // 保存时同样商品不能有同一个批次
+        // let i = 0
+        // EnterDetail.map(function(elem) {
+        //   return elem
+        // }).forEach(function(elem) {
+        //   EnterDetail.map(function(elem2) {
+        //     return elem2
+        //   }).forEach(function(elem2) {
+        //     if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+        //       i++
+        //     }
+        //   })
+        // })
+        // console.log(i)
+        // if (i > EnterDetail.length) {
+        //   this.$notify.error({
+        //     title: 'wrong',
+        //     message: '同样商品不能有同一个批次',
+        //     offset: 100
+        //   })
+        //   return false
+        // }
+        // 批次货位不能为空
+        let j = 1
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+            j = 2
+          }
         })
-        return false
-      }
-      console.log(this.personalForm)
-      console.log(EnterDetail)
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
+        console.log(j)
+        if (j === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          this.saveloading = false
+          return false
+        }
+        console.log(this.personalForm)
+        console.log(EnterDetail)
+        if (EnterDetail.length === 0) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.mxbbnwk'),
+            offset: 100
+          })
+          this.saveloading = false
+          return false
+        }
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          elem.totalMoney = elem.outQuantity * elem.outPrice
+          if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+            delete elem.locationId
+          }
+          if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+            delete elem.productCode
+          }
+          if (elem.batch === null || elem.batch === '' || elem.batch === undefined || elem.batch === '不使用') {
+            delete elem.batch
+          }
+          if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+            delete elem.productName
+          }
+          if (elem.color === null || elem.color === '' || elem.color === undefined) {
+            delete elem.color
+          }
+          if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+            delete elem.typeId
+          }
+          if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+            delete elem.unit
+          }
+          if (elem.outQuantity === null || elem.outQuantity === '' || elem.outQuantity === undefined) {
+            delete elem.outQuantity
+          }
+          if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
+            delete elem.enterQuantity
+          }
+          if (elem.outPrice === null || elem.outPrice === '' || elem.outPrice === undefined) {
+            delete elem.outPrice
+          }
+          if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+            delete elem.totalMoney
+          }
+          if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+            delete elem.remarks
+          }
+          return elem
         })
-        return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        elem.totalMoney = elem.outQuantity * elem.outPrice
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined || elem.batch === '不使用') {
-          delete elem.batch
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.outQuantity === null || elem.outQuantity === '' || elem.outQuantity === undefined) {
-          delete elem.outQuantity
-        }
-        if (elem.enterQuantity === null || elem.enterQuantity === '' || elem.enterQuantity === undefined) {
-          delete elem.enterQuantity
-        }
-        if (elem.outPrice === null || elem.outPrice === '' || elem.outPrice === undefined) {
-          delete elem.outPrice
-        }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        return elem
-      })
-      console.log('123', 123)
-      const parms = JSON.stringify(EnterDetail)
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          console.log('223', 223)
-          this.$refs.editable.validate().then(valid => {
-            if (valid) {
-              console.log('223', 323)
-              console.log(this.personalForm, parms)
-              const Data = this.personalForm
-              for (const key in Data) {
-                if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-                  delete Data[key]
-                }
+        console.log('123', 123)
+        const parms = JSON.stringify(EnterDetail)
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            console.log('223', 223)
+            this.$refs.editable.validate().then(valid => {
+              if (valid) {
+                console.log('223', 323)
+                console.log(this.personalForm, parms)
+                const Data = this.personalForm
+                for (const key in Data) {
+                  if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                    delete Data[key]
+                  }
                 // if (key === 'judgeStat') {
                 //   delete Data[key]
                 // }
-              }
-              const parmss = JSON.stringify(Data)
-              addOutsourceOut(parmss, parms, this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
                 }
+                const parmss = JSON.stringify(Data)
+                addOutsourceOut(parmss, parms, this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.saveloading = false
+                })
+              }
+            }).catch(valid => {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'Information is incomplete1',
+                offset: 100
               })
-            }
-          }).catch(valid => {
+              this.saveloading = false
+              return false
+            })
+          } else {
             this.$notify.error({
               title: 'wrong',
-              message: 'Information is incomplete1',
+              message: 'Information is incomplete2',
               offset: 100
             })
+            this.saveloading = false
             return false
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete2',
-            offset: 100
-          })
-          return false
-        }
-      })
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 取消操作
     handlecancel() {

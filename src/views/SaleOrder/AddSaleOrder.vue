@@ -576,7 +576,7 @@ export default {
       pickerOptions3: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }

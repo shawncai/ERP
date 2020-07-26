@@ -428,6 +428,8 @@ export default {
 
       if (row.newTaxRate === 0) {
         row.newPrice = row.newIncludeTaxPrice
+      } else {
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       }
       // if (row.taxPriceFlag  === 1) {
       //   row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)

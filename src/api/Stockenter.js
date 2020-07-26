@@ -717,3 +717,39 @@ export function updateotherenter5(query, query2, query3) {
     data: params
   })
 }
+
+export function updateotherenter6(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('receiptStat', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/otherenter/updateotherenter',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateotherenter7(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('id', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/otherenter/updateotherenter',
+    method: 'post',
+    data: params
+  })
+}

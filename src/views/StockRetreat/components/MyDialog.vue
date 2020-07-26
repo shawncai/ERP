@@ -710,6 +710,7 @@ export default {
       this.personalForm.payMode = val.payMode
       this.personalForm.deliveryModeId = val.deliveryMode
       this.personalForm.isVat = val.isVat
+      this.$refs.editable.clear()
     },
     // 采购员focus事件
     handlechooseStock() {

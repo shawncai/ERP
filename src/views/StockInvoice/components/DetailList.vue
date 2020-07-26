@@ -351,7 +351,7 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.tax = Number(row.includeTaxMoney) - Number(row.money)
+      row.tax = (Number(row.includeTaxMoney) - Number(row.money)).toFixed(6)
 
       return row.tax
     },

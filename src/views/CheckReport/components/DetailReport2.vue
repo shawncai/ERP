@@ -61,6 +61,8 @@
 
 <script>
 var _that
+import { searchstockArrival } from '@/api/StockArrival'
+
 export default {
   props: {
     reportcontrol2: {
@@ -69,6 +71,10 @@ export default {
     },
     reportdata2: {
       type: Array,
+      default: null
+    },
+    number: {
+      type: String,
       default: null
     }
   },
@@ -88,7 +94,17 @@ export default {
       // 表格数据条数
       total: 0,
       // 表格识别
-      tableKey: 0
+      tableKey: 0,
+      getemplist: {
+        pageNum: 1,
+        pageSize: 100,
+        judgeStat: 2,
+        receiptStat: 2,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        isActive: 2,
+        number: this.number
+      }
     }
   },
   watch: {
@@ -101,13 +117,25 @@ export default {
       }
     },
     reportdata2() {
-      this.list = this.reportdata2
+
+    },
+    number() {
+      this.getemplist.number = this.number
+      this.getData()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getData() {
+      searchstockArrival(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          console.log('res.data', res.data)
+          this.list = res.data.data.content.list[0].stockArrivalDetailVos
+        }
+      })
+    },
     handleCurrentChange(val) {
       console.log(val)
       this.choosedata = val

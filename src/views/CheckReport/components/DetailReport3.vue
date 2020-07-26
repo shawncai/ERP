@@ -51,6 +51,8 @@
 
 <script>
 var _that
+import { producetasklist } from '@/api/ProduceTask'
+
 export default {
   props: {
     reportcontrol3: {
@@ -59,6 +61,10 @@ export default {
     },
     reportdata3: {
       type: Array,
+      default: null
+    },
+    number: {
+      type: String,
       default: null
     }
   },
@@ -78,7 +84,16 @@ export default {
       // 表格数据条数
       total: 0,
       // 表格识别
-      tableKey: 0
+      tableKey: 0,
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10,
+        judgeStat: 2, receiptStat: 2,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        isActive: 1,
+        taskNumber: this.number
+      }
     }
   },
   watch: {
@@ -91,13 +106,24 @@ export default {
       }
     },
     reportdata3() {
-      this.list = this.reportdata3
+      // this.list = this.reportdata3
+    },
+    number() {
+      this.getemplist.taskNumber = this.number
+      this.getData()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getData() {
+      producetasklist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content.list[0].produceTaskDetailVos
+        }
+      })
+    },
     handleCurrentChange(val) {
       console.log(val)
       this.choosedata = val

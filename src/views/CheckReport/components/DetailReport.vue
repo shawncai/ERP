@@ -71,6 +71,8 @@
 
 <script>
 var _that
+import { qualitychecklist } from '@/api/QualityCheck'
+
 export default {
   props: {
     reportcontrol: {
@@ -79,6 +81,10 @@ export default {
     },
     reportdata: {
       type: Array,
+      default: null
+    },
+    number: {
+      type: String,
       default: null
     }
   },
@@ -98,7 +104,17 @@ export default {
       // 表格数据条数
       total: 0,
       // 表格识别
-      tableKey: 0
+      tableKey: 0,
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10,
+        judgeStat: 2,
+        receiptStat: 2,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        isActive: 1,
+        checkNumber: this.number
+      }
     }
   },
   watch: {
@@ -112,13 +128,24 @@ export default {
     },
     reportdata() {
       console.log(this.reportdata)
-      this.list = this.reportdata
+      // this.list = this.reportdata
+    },
+    number() {
+      this.getemplist.number = this.number
+      this.getdata()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getdata() {
+      qualitychecklist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content.list[0].qualityCheckDetailVos
+        }
+      })
+    },
     handleCurrentChange(val) {
       console.log(val)
       this.choosedata = val

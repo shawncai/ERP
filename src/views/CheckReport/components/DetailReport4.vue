@@ -46,6 +46,7 @@
 
 <script>
 var _that
+import { searchoutsourcing } from '@/api/OutSourcing'
 export default {
   props: {
     reportcontrol4: {
@@ -54,6 +55,10 @@ export default {
     },
     reportdata4: {
       type: Array,
+      default: null
+    },
+    number: {
+      type: String,
       default: null
     }
   },
@@ -73,7 +78,17 @@ export default {
       // 表格数据条数
       total: 0,
       // 表格识别
-      tableKey: 0
+      tableKey: 0,
+      getemplist: {
+        isActive: 3,
+        judgeStat: 2,
+        receiptStat: 2,
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        number: this.number
+      }
     }
   },
   watch: {
@@ -86,13 +101,24 @@ export default {
       }
     },
     reportdata4() {
-      this.list = this.reportdata4
+      // this.list = this.reportdata4
+    },
+    number() {
+      this.getemplist.number = this.number
+      this.getdata()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getdata() {
+      searchoutsourcing(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.list = res.data.data.content.list[0].outsourcingEnterDetailVos
+        }
+      })
+    },
     handleCurrentChange(val) {
       console.log(val)
       this.choosedata = val

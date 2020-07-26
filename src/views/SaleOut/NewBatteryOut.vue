@@ -37,6 +37,21 @@
                   <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
+              <el-col v-show="ischina === 2" :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.isAppService')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isAppService" style="width: 200px" @change="changeAppDiscount">
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col v-show="ischina === 2" :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.appDiscount')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <span style="margin-left: 20px;">
+                    {{ personalForm.appDiscount }}
+                  </span>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
@@ -89,7 +104,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
+                  <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()" @blur="updatePrice()"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 57px">
@@ -155,6 +170,7 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -589,11 +605,12 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      ischina: this.$store.getters.countryId,
       isbendi: null,
       projectmoney: 0,
       control3: false,
@@ -728,7 +745,9 @@ export default {
         couponMoney: 0,
         couponSupportOld: 0,
         isFree: 2,
-        useMonth: null
+        useMonth: null,
+        isAppService: 2,
+        appDiscount: 0
       },
       // 销售订单规则数据
       personalrules: {
@@ -905,6 +924,10 @@ export default {
     _that = this
   },
   methods: {
+    changeAppDiscount() {
+      this.updatePrice()
+      this.getReceivableMoney()
+    },
     uniqueArray3(array, key) {
       var result = [array[0]]
       for (var i = 1; i < array.length; i++) {
@@ -1479,27 +1502,76 @@ export default {
         console.log('filterfinally', filterfinally)
         console.log('this.projectmoney', this.projectmoney)
 
-        // this.diffpricelist
-        if (filterfinally.length !== 0) {
-          console.log('this.projectmoney', this.projectmoney)
+        switch (this.personalForm.isAppService) {
+          case 1:
 
-          let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
-          const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
-          if (needmoney < 0) {
-            needmoney = 0
-          }
-          // this.$set(this.personalForm, 'receivableMoney', needmoney)
-          this.$set(this.personalForm, 'shouldMoney', needmoney)
+            if (filterfinally.length !== 0) {
+              console.log('this.projectmoney', this.projectmoney)
 
-          // 未减去优惠券额的金额
-          this.$set(this.personalForm, 'receivableMoney2', needmoney2)
-        } else {
-          // this.$set(this.personalForm, 'receivableMoney', 0)
-          this.$set(this.personalForm, 'shouldMoney', 0)
+              let testneedmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+              const testneedmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+              if (testneedmoney < 0) {
+                testneedmoney = 0
+              }
 
-          // 未减去优惠券额的金额
-          this.$set(this.personalForm, 'receivableMoney2', 0)
+              const appdiscount = Math.ceil(Number(testneedmoney) / 500) * 10
+              const appdiscount2 = Math.ceil(Number(testneedmoney2) / 500) * 10
+
+              const needmoney = Number(testneedmoney) - Number(appdiscount)
+              const needmoney2 = Number(testneedmoney2) - Number(appdiscount)
+              this.$set(this.personalForm, 'appDiscount', appdiscount)
+              // this.$set(this.personalForm, 'receivableMoney', needmoney)
+              this.$set(this.personalForm, 'shouldMoney', needmoney)
+
+              // 未减去优惠券额的金额
+              this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+            } else {
+              this.$set(this.personalForm, 'appDiscount', 0)
+              // this.$set(this.personalForm, 'receivableMoney', 0)
+              this.$set(this.personalForm, 'shouldMoney', 0)
+
+              // 未减去优惠券额的金额
+              this.$set(this.personalForm, 'receivableMoney2', 0)
+            }
+
+            break
+          case 2:
+            if (filterfinally.length !== 0) {
+              console.log('this.projectmoney', this.projectmoney)
+
+              let needmoney = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+              const needmoney2 = (Number(filterfinally[0].diffMoney) * Number(allbattery[0].quantity) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
+              if (needmoney < 0) {
+                needmoney = 0
+              }
+              this.$set(this.personalForm, 'appDiscount', 0)
+              // this.$set(this.personalForm, 'receivableMoney', needmoney)
+              this.$set(this.personalForm, 'shouldMoney', needmoney)
+
+              // 未减去优惠券额的金额
+              this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+            } else {
+              this.$set(this.personalForm, 'appDiscount', 0)
+              // this.$set(this.personalForm, 'receivableMoney', 0)
+              this.$set(this.personalForm, 'shouldMoney', 0)
+
+              // 未减去优惠券额的金额
+              this.$set(this.personalForm, 'receivableMoney2', 0)
+            }
+
+            break
+
+          default:
+            this.$set(this.personalForm, 'appDiscount', 0)
+            // this.$set(this.personalForm, 'receivableMoney', 0)
+            this.$set(this.personalForm, 'shouldMoney', 0)
+
+            // 未减去优惠券额的金额
+            this.$set(this.personalForm, 'receivableMoney2', 0)
+            break
         }
+
+        // this.diffpricelist
       }
     },
     isEdit5(row) {
@@ -2127,9 +2199,12 @@ export default {
                   offset: 100
                 })
               }
-            }
-            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+              if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+              } else {
+                row.discountMoney = 0
+                row.discountRate = 0
+              }
             }
           }
         })
@@ -2164,8 +2239,11 @@ export default {
                 })
               }
             }
-            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+              row.discountRate = (((val / row.includeTaxCostMoney)) * 100).toFixed(6)
+            } else {
+              row.discountMoney = 0
+              row.discountRate = 0
             }
           }
         })

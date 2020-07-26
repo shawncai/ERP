@@ -229,7 +229,6 @@
                   :precision="6"
                   :controls="false"
                   :min="0"
-                  :disabled="personalForm.isAppService === 1"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row, $event, scope)"
                   @input="notundefined(scope.row)"/>
@@ -653,7 +652,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 10 * 24 * 60 * 60 * 1000
+          const seven = 30 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -2169,9 +2168,12 @@ export default {
                   offset: 100
                 })
               }
-            }
-            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+              if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                row.discountRate = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+              } else {
+                row.discountMoney = 0
+                row.discountRate = 0
+              }
             }
           }
         })
@@ -2204,8 +2206,11 @@ export default {
                 })
               }
             }
-            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-              row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+              row.discountRate = (((val / row.includeTaxCostMoney)) * 100).toFixed(6)
+            } else {
+              row.discountMoney = 0
+              row.discountRate = 0
             }
           }
         })
