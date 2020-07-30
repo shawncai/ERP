@@ -424,6 +424,9 @@ export function productlist(query) {
   if (query.categoryid !== '' && query.categoryid !== null && query.categoryid !== undefined) {
     params.append('categoryid', query.categoryid) // 你要传给后台的参数值 key/value
   }
+  if (query.detailCategoryId !== '' && query.detailCategoryId !== null && query.detailCategoryId !== undefined) {
+    params.append('detailCategoryId', query.detailCategoryId) // 你要传给后台的参数值 key/value
+  }
   if (query.typeid !== '' && query.typeid !== null && query.typeid !== undefined) {
     params.append('typeid', query.typeid) // 你要传给后台的参数值 key/value
   }

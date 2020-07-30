@@ -374,9 +374,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(6)
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (Number(prev)).toFixed(6)
+              return (Number(prev)).toFixed(2)
             }
           }, 0)
           sums[index] += ''

@@ -672,7 +672,7 @@ export default {
           const subjectdata = [1, 2, 9, 43, 236]
           this.$refs.editable.insertAt({ subjectFinance: subjectdata }, index)
         } else {
-          this.$refs.editable.insertAt({ }, index)
+          this.$refs.editable.insertAt({}, index)
         }
       }
     },

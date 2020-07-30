@@ -5,7 +5,8 @@
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="clear"/>
-
+      <el-input v-model="categoryid" placeholder="物品详细分类" size="small" class="filter-item" clearable @focus="treechoose"/>
+      <my-tree :treecontrol.sync="treecontrol" @tree="tree"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-popover
         v-model="visible2"
@@ -587,7 +588,7 @@ export default {
     // 物品分类数据
     tree(val) {
       this.categoryid = val.categoryName
-      this.getemplist.categoryid = val.id
+      this.getemplist.detailCategoryId = val.id
     },
     // 修改操作
     handleEdit(row) {

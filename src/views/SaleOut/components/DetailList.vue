@@ -718,7 +718,9 @@ export default {
     formatter(row, column) {
       if (row.discountRate === 1) {
         return 100
-      } else {
+      } else if (row.discountRate > 1) {
+        return row.discountRate
+      } else if (row.discountRate < 1) {
         return row.discountRate * 100
       }
     },

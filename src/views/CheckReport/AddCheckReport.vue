@@ -1117,28 +1117,32 @@ export default {
     },
     // 清空记录
     restAllForm() {
-      this.personalForm = {
-        createPersonId: this.$store.getters.userId,
-        countryId: this.$store.getters.countryId,
-        repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId,
-        inspectionPersonId: this.$store.getters.userId,
-        isRecheck: 1,
-        sampleQuantity: null,
-        checkQuantity: null,
-        failedQuantity: '',
-        passQuantity: '',
-        checkMode: '1',
-        checkType: '1',
-        checkDate: null,
-        checkResult: '1',
-        checkPersonId: this.$store.getters.userId
-      }
-      this.judgequilty = null
-      this.inspectionPersonId = this.$store.getters.name
-      this.workCenterId = null
-      this.produceManagerId = null
-      this.checkPersonId = this.$store.getters.name
+      this.personalForm.productName = ''
+      this.personalForm.unit = ''
+      this.typeId = ''
+      this.personalForm.typeId = ''
+      // this.personalForm = {
+      //   createPersonId: this.$store.getters.userId,
+      //   countryId: this.$store.getters.countryId,
+      //   repositoryId: this.$store.getters.repositoryId,
+      //   regionId: this.$store.getters.regionId,
+      //   inspectionPersonId: this.$store.getters.userId,
+      //   isRecheck: 1,
+      //   sampleQuantity: null,
+      //   checkQuantity: null,
+      //   failedQuantity: '',
+      //   passQuantity: '',
+      //   checkMode: '1',
+      //   checkType: '1',
+      //   checkDate: null,
+      //   checkResult: '1',
+      //   checkPersonId: this.$store.getters.userId
+      // }
+      // this.judgequilty = null
+      // this.inspectionPersonId = this.$store.getters.name
+      // this.workCenterId = null
+      // this.produceManagerId = null
+      // this.checkPersonId = this.$store.getters.name
       this.getdatatime()
     },
     // 保存操作
@@ -1232,7 +1236,7 @@ export default {
                       this.restAllForm()
                       this.$refs.editable.clear()
                       this.$refs.personalForm.clearValidate()
-                      this.$refs.personalForm.resetFields()
+
                       this.$refs.personalForm2.clearValidate()
                       this.$refs.personalForm2.resetFields()
                       this.$refs.personalForm3.clearValidate()

@@ -75,11 +75,27 @@
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" >
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ getBatch(scope.row) }}</span>
+            </template>
+          </el-editable-column>
+          <!-- <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" width="150px"/>-->
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" width="150px"/>-->
           <!--          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">-->
@@ -91,7 +107,7 @@
           <!--                  :value="item"-->
           <!--                  :label="item"/>-->
           <!--              </el-select>-->
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
+          <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" /> -->
           <!-- <template slot="edit" slot-scope="scope">
               <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
@@ -181,10 +197,10 @@
 </template>
 
 <script>
-import { locationlist } from '@/api/WarehouseAdjust'
+// import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { updatecount, deletecountdetail } from '@/api/InventoryCount'
-import { batchlist, getQuantity, getlocation } from '@/api/public'
+import { batchlist, getQuantity, getlocation, countlist, locationlist } from '@/api/public'
 import MyCreate from './MyCreate'
 import MyRepository from './MyRepository'
 import MyDetail from './MyDetail'
@@ -345,6 +361,39 @@ export default {
     _that = this
   },
   methods: {
+    getBatch(row) {
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.batch
+      }
+      if (row.flag) {
+        const parms3 = row.productCode
+        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+          if (res.data.data.content.length !== 0) {
+            row.batch = res.data.data.content[0]
+          }
+        })
+        getlocation(this.personalForm.countRepositoryId, row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              if (res.data.data.content.length === 1) {
+                row.locationId = res.data.data.content[0].id
+              }
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.countRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+        return row.batch
+      }
+      row.flag = false
+    },
     getLocationData(row) {
       // 默认批次
       if (row.batch === null || row.batch === '' || row.batch === undefined) {
@@ -578,105 +627,135 @@ export default {
     handleAddproduct() {
       this.control = true
     },
-    async productdetail(val) {
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
+    productdetail(val) {
       const nowlistdata = this.$refs.editable.getRecords()
-      if (nowlistdata.length === 0) {
-        const batcharr = await Promise.all(val.map(item => {
-          return batchlist(this.personalForm.countRepositoryId, item.productCode)
-        }))
-        const newbatch = batcharr.map(item => {
-          return {
-            pcode: item.data.data.pCode,
-            batchs: item.data.data.content
-          }
-        })
-        console.log('newbatch---======', newbatch)
-
-        const needarr = newbatch.map(item => {
-          const arrned = item.batchs.map(zitem => {
-            return {
-              productCode: item.pcode,
-              batch: zitem
-            }
-          })
-          return arrned
-        })
-        const onearr = [].concat.apply([], needarr)
-        for (const i in val) {
-          for (const j in onearr) {
-            if (val[i].productCode === onearr[j].productCode) {
-              onearr[j].productName = val[i].productName
-              onearr[j].color = val[i].color
-              onearr[j].locationId = val[i].locationId
-              onearr[j].typeId = val[i].typeId
-              onearr[j].inventoryQuantity = val[i].inventoryQuantity
-              onearr[j].actualQuantity = val[i].actualQuantity
-              onearr[j].enterQuantity = val[i].enterQuantity
-              onearr[j].taxRate = val[i].taxRate
-              onearr[j].unit = val[i].unit
-              onearr[j].totalMoney = val[i].totalMoney
-              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
-              onearr[j].basicQuantity = val[i].basicQuantity
-              onearr[j].price = val[i].price
-              onearr[j].productType = val[i].productType
-              onearr[j].countPerson = val[i].countPerson
-              onearr[j].countPersonId = val[i].countPersonId
-              onearr[j].countDate = val[i].countDate
-            }
-          }
-        }
-        console.log('needarr---======', onearr)
-        this.list2 = onearr
-      } else {
-        const batcharr = await Promise.all(val.map(item => {
-          return batchlist(this.personalForm.countRepositoryId, item.productCode)
-        }))
-        const newbatch = batcharr.map(item => {
-          return {
-            pcode: item.data.data.pCode,
-            batchs: item.data.data.content
-          }
-        })
-        console.log('newbatch---======', newbatch)
-
-        const needarr = newbatch.map(item => {
-          const arrned = item.batchs.map(zitem => {
-            return {
-              productCode: item.pcode,
-              batch: zitem
-            }
-          })
-          return arrned
-        })
-        const onearr = [].concat.apply([], needarr)
-        for (const i in val) {
-          for (const j in onearr) {
-            if (val[i].productCode === onearr[j].productCode) {
-              onearr[j].productName = val[i].productName
-              onearr[j].color = val[i].color
-              onearr[j].locationId = val[i].locationId
-              onearr[j].typeId = val[i].typeId
-              onearr[j].inventoryQuantity = val[i].inventoryQuantity
-              onearr[j].actualQuantity = val[i].actualQuantity
-              onearr[j].enterQuantity = val[i].enterQuantity
-              onearr[j].taxRate = val[i].taxRate
-              onearr[j].unit = val[i].unit
-              onearr[j].totalMoney = val[i].totalMoney
-              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
-              onearr[j].basicQuantity = val[i].basicQuantity
-              onearr[j].price = val[i].price
-              onearr[j].productType = val[i].productType
-              onearr[j].countPerson = val[i].countPerson
-              onearr[j].countPersonId = val[i].countPersonId
-              onearr[j].countDate = val[i].countDate
-            }
-          }
-        }
-        console.log('needarr---======', onearr)
-        const newarr = Object.assign([], onearr, nowlistdata)
-        this.list2 = newarr
+      this.$refs.editable.clear()
+      console.log('val============', val)
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata=====', filterdata)
+      // this.list2 = filterdata
+      for (let i = 0; i < filterdata.length; i++) {
+        // val[i].quantity = 1
+        this.$refs.editable.insert(filterdata[i])
       }
     },
+    // async productdetail(val) {
+    //   const nowlistdata = this.$refs.editable.getRecords()
+    //   if (nowlistdata.length === 0) {
+    //     const batcharr = await Promise.all(val.map(item => {
+    //       return batchlist(this.personalForm.countRepositoryId, item.productCode)
+    //     }))
+    //     const newbatch = batcharr.map(item => {
+    //       return {
+    //         pcode: item.data.data.pCode,
+    //         batchs: item.data.data.content
+    //       }
+    //     })
+    //     console.log('newbatch---======', newbatch)
+
+    //     const needarr = newbatch.map(item => {
+    //       const arrned = item.batchs.map(zitem => {
+    //         return {
+    //           productCode: item.pcode,
+    //           batch: zitem
+    //         }
+    //       })
+    //       return arrned
+    //     })
+    //     const onearr = [].concat.apply([], needarr)
+    //     for (const i in val) {
+    //       for (const j in onearr) {
+    //         if (val[i].productCode === onearr[j].productCode) {
+    //           onearr[j].productName = val[i].productName
+    //           onearr[j].color = val[i].color
+    //           onearr[j].locationId = val[i].locationId
+    //           onearr[j].typeId = val[i].typeId
+    //           onearr[j].inventoryQuantity = val[i].inventoryQuantity
+    //           onearr[j].actualQuantity = val[i].actualQuantity
+    //           onearr[j].enterQuantity = val[i].enterQuantity
+    //           onearr[j].taxRate = val[i].taxRate
+    //           onearr[j].unit = val[i].unit
+    //           onearr[j].totalMoney = val[i].totalMoney
+    //           onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+    //           onearr[j].basicQuantity = val[i].basicQuantity
+    //           onearr[j].price = val[i].price
+    //           onearr[j].productType = val[i].productType
+    //           onearr[j].countPerson = val[i].countPerson
+    //           onearr[j].countPersonId = val[i].countPersonId
+    //           onearr[j].countDate = val[i].countDate
+    //         }
+    //       }
+    //     }
+    //     console.log('needarr---======', onearr)
+    //     this.list2 = onearr
+    //   } else {
+    //     const batcharr = await Promise.all(val.map(item => {
+    //       return batchlist(this.personalForm.countRepositoryId, item.productCode)
+    //     }))
+    //     const newbatch = batcharr.map(item => {
+    //       return {
+    //         pcode: item.data.data.pCode,
+    //         batchs: item.data.data.content
+    //       }
+    //     })
+    //     console.log('newbatch---======', newbatch)
+
+    //     const needarr = newbatch.map(item => {
+    //       const arrned = item.batchs.map(zitem => {
+    //         return {
+    //           productCode: item.pcode,
+    //           batch: zitem
+    //         }
+    //       })
+    //       return arrned
+    //     })
+    //     const onearr = [].concat.apply([], needarr)
+    //     for (const i in val) {
+    //       for (const j in onearr) {
+    //         if (val[i].productCode === onearr[j].productCode) {
+    //           onearr[j].productName = val[i].productName
+    //           onearr[j].color = val[i].color
+    //           onearr[j].locationId = val[i].locationId
+    //           onearr[j].typeId = val[i].typeId
+    //           onearr[j].inventoryQuantity = val[i].inventoryQuantity
+    //           onearr[j].actualQuantity = val[i].actualQuantity
+    //           onearr[j].enterQuantity = val[i].enterQuantity
+    //           onearr[j].taxRate = val[i].taxRate
+    //           onearr[j].unit = val[i].unit
+    //           onearr[j].totalMoney = val[i].totalMoney
+    //           onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+    //           onearr[j].basicQuantity = val[i].basicQuantity
+    //           onearr[j].price = val[i].price
+    //           onearr[j].productType = val[i].productType
+    //           onearr[j].countPerson = val[i].countPerson
+    //           onearr[j].countPersonId = val[i].countPersonId
+    //           onearr[j].countDate = val[i].countDate
+    //         }
+    //       }
+    //     }
+    //     console.log('needarr---======', onearr)
+    //     const newarr = Object.assign([], onearr, nowlistdata)
+    //     this.list2 = newarr
+    //   }
+    // },
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
@@ -687,14 +766,29 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
-      // if (rest.length === 0) {
-      //   this.$notify.error({
-      //     title: 'wrong',
-      //     message: '明细表不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
+      if (rest.length === 0) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '明细表不能为空',
+          offset: 100
+        })
+        return false
+      }
+      let judgestat = 1
+      for (const i in rest) {
+        if (!rest[i].locationId) {
+          judgestat = 2
+        }
+      }
+      if (judgestat === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.pchwbnwk'),
+          offset: 100
+        })
+        this.saveloading = false
+        return false
+      }
       rest.map(function(elem) {
         return elem
       }).forEach(function(elem) {

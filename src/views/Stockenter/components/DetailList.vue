@@ -419,7 +419,7 @@ export default {
       }
       this.heji1 = num
       this.heji2 = num2
-      this.allTaxMoney = num4
+      this.allTaxMoney = (num4).toFixed(2)
       this.allIncludeTaxMoney = num3
       this.allDiscountMoney = num5
       this.allMoneyMoveDiscount = num3 - num5

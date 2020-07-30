@@ -4054,6 +4054,8 @@ export default {
     createTime: '创建时间'
   },
   collectAndPay: {
+    preReturn: '预收退款',
+    hhd: '换货单',
     time: '时间',
     saleOut: '销售出库',
     stockRetreat: '采购退货',

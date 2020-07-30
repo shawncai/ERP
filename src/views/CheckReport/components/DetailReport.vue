@@ -120,6 +120,7 @@ export default {
   watch: {
     reportcontrol() {
       this.editVisible = this.reportcontrol
+      this.getdata()
       if (this.reportcontrol) {
         setTimeout(() => {
           this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180

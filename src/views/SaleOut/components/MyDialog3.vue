@@ -85,7 +85,7 @@
               <el-form-item :label="$t('SaleOut.sendDate')" prop="sendDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.sendDate"
-                  :picker-options="pickerOptions1"
+                  :picker-options="pickerOptions2"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
@@ -584,8 +584,8 @@
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 74px;bottom: 0;" shadow="never">
       <div class="buttons" style="float: right;padding-bottom: 10px">
-        <el-button @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
-        <el-button type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloding" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button :loading="saveloding" type="primary" @click="handleEditok()">{{ $t('Hmodule.baoc') }}</el-button>
       </div>
     </el-card>
   </el-dialog>
@@ -732,6 +732,7 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      saveloding: false,
       projectmoney: 0,
       isbendi: null,
       itemlist: [],
@@ -2430,496 +2431,519 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     async  handleEditok() {
-      if (this.personalForm.isFree === 1) {
-        const controlcategorys = await batteryList2(8).then(res => {
-          return res.data.data.content
-        })
-        const controlcategorysdetail = controlcategorys.map(item => {
-          return item.id
-        })
-        const chargecategorys = await batteryList2(14).then(res => {
-          return res.data.data.content
-        })
-        const chargecategorysdetail = chargecategorys.map(item => {
-          return item.id
-        })
-        const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
-        const needbatterycategorys = await batteryList2(1118).then(res => {
-          return res.data.data.content
-        })
-        const battery1 = needbatterycategorys[0].productClassfyVos
-        const battery2 = needbatterycategorys[1].productClassfyVos
-        const batterycategorys = [...battery1, ...battery2]
-        const batterycategorysdetail = batterycategorys.map(item => {
-          return item.id
-        })
-        console.log('controlcategorysdetail', controlcategorysdetail)
-        const outproduct = this.$refs.editable.getRecords()
-        console.log('outproduct', outproduct)
-        if (this.returnlist.length === 0) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.zbthmxbnwk'),
-            offset: 100
+      this.saveloding = true
+      const controlcategorys = await batteryList2(8).then(res => {
+        return res.data.data.content
+      })
+      const controlcategorysdetail = controlcategorys.map(item => {
+        return item.id
+      })
+      const chargecategorys = await batteryList2(14).then(res => {
+        return res.data.data.content
+      })
+      const chargecategorysdetail = chargecategorys.map(item => {
+        return item.id
+      })
+      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+      const needbatterycategorys = await batteryList2(1118).then(res => {
+        return res.data.data.content
+      })
+
+      setTimeout(() => {
+        if (this.personalForm.isFree === 1) {
+          const battery1 = needbatterycategorys[0].productClassfyVos
+          const battery2 = needbatterycategorys[1].productClassfyVos
+          const batterycategorys = [...battery1, ...battery2]
+          const batterycategorysdetail = batterycategorys.map(item => {
+            return item.id
           })
-          return false
-        }
-        const returnproduct = this.$refs.editable3.getRecords()
-        const controlpro = []
-        const chargepro = []
-        const motopro = []
-        const batterypro = []
-        for (const i in outproduct) {
-          if (controlcategorysdetail.includes(outproduct[i].category)) {
-            controlpro.push(outproduct[i])
-          } else if (chargecategorysdetail.includes(outproduct[i].category)) {
-            chargepro.push(outproduct[i])
-          } else if (motocategorys.includes(outproduct[i].category)) {
-            motopro.push(outproduct[i])
-          } else if (batterycategorys.includes(outproduct[i].category)) {
-            batterypro.push(outproduct[i])
-          }
-        }
-        const controlproquantity = controlpro.map(item => {
-          return item.quantity
-        })
-        const allcontrolproquantity = this.sum(controlproquantity)
-        console.log('allcontrolproquantity', allcontrolproquantity)
-        const chargeproquantity = chargepro.map(item => {
-          return item.quantity
-        })
-        const allchargeproquantity = this.sum(chargeproquantity)
-        console.log('allchargeproquantity', allchargeproquantity)
-        const motoproquantity = motopro.map(item => {
-          return item.quantity
-        })
-        const allmotoproquantity = this.sum(motoproquantity)
-        console.log('allmotoproquantity', allmotoproquantity)
-
-        const batteryproquantity = batterypro.map(item => {
-          return item.quantity
-        })
-        const allbatteryproquantity = this.sum(batteryproquantity)
-        console.log('allbatteryproquantity', allbatteryproquantity)
-
-        console.log('controlpro', controlpro)
-        console.log('chargepro', chargepro)
-        console.log('motopro', motopro)
-        console.log('batterypro', batterypro)
-        const returncontrolpro = []
-        const returnchargepro = []
-        const returnmotopro = []
-        const returnbatterypro = []
-        for (const i in returnproduct) {
-          if (controlcategorysdetail.includes(returnproduct[i].category)) {
-            returncontrolpro.push(returnproduct[i])
-          } else if (chargecategorysdetail.includes(returnproduct[i].category)) {
-            returnchargepro.push(returnproduct[i])
-          } else if (motocategorys.includes(returnproduct[i].category)) {
-            returnmotopro.push(returnproduct[i])
-          } else if (batterycategorys.includes(returnproduct[i].category)) {
-            returnbatterypro.push(returnproduct[i])
-          }
-        }
-
-        console.log('returncontrolpro', returncontrolpro)
-        console.log('returnchargepro', returnchargepro)
-        console.log('returnmotopro', returnmotopro)
-        console.log('returnbatterypro', returnbatterypro)
-        const returncontrolproquantity = returncontrolpro.map(item => {
-          return item.quantity
-        })
-        const allreturncontrolproquantity = this.sum(returncontrolproquantity)
-        console.log('allreturncontrolproquantity', allreturncontrolproquantity)
-        const returnchargeproquantity = returnchargepro.map(item => {
-          return item.quantity
-        })
-        const allreturnchargeproquantity = this.sum(returnchargeproquantity)
-        console.log('allreturnchargeproquantity', allreturnchargeproquantity)
-        const returnmotoproquantity = returnmotopro.map(item => {
-          return item.quantity
-        })
-        const allreturnmotoproquantity = this.sum(returnmotoproquantity)
-        console.log('allreturnmotoproquantity', allreturnmotoproquantity)
-
-        const returnbatteryproquantity = returnbatterypro.map(item => {
-          return item.quantity
-        })
-        const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
-        console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
-
-        if (allbatteryproquantity !== allreturnbatteryproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.dcthslyckslbfh'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allcontrolproquantity !== allreturncontrolproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.kzqthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allreturnchargeproquantity !== allchargeproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.cdqthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-
-        if (allreturnmotoproquantity !== allmotoproquantity) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('tongyo.djthslyckslbf'),
-            offset: 100
-          })
-          return false
-        }
-        let z = 1
-        for (const j in returnproduct) {
-          if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
-            z = 2
-          }
-        }
-        if (z === 2) {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('prompt.pchwbnwk'),
-            offset: 100
-          })
-          return false
-        }
-      }
-      delete this.personalForm.saleOutRetreatVos
-      delete this.personalForm.saleOutDetailVos
-      delete this.personalForm.approvalUseVos
-      delete this.personalForm.saleOutGiftVos
-      delete this.personalForm.judgeStat
-      delete this.personalForm.receiptStat
-      delete this.personalForm.isDeliver
-      delete this.personalForm.payType
-      delete this.personalForm.currency
-
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          if (this.personalForm.sourceType === '5') {
-            if (this.personalForm.saleType === '2') {
-              this.$notify.error({
-                title: 'wrong',
-                message: this.$t('prompt.ckslcgpcsl'),
-                offset: 100
-              })
-              return false
-            }
-          }
-          if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
-            this.personalForm.couponSupportOld = 0
-          }
-          this.personalForm.repositoryId = this.$store.getters.repositoryId
-          this.personalForm.regionId = this.$store.getters.regionId
-          this.personalForm.createPersonId = this.$store.getters.userId
-          this.personalForm.countryId = this.$store.getters.countryId
-          this.personalForm.modifyPersonId = this.$store.getters.userId
-          const EnterDetail = this.$refs.editable.getRecords()
-          // 整车出库时相关编码必填
-          let m = 1
-          // 整车不能质保
-          let m3 = 1
-          const m4 = this.personalForm.isFree
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            const re = elem.productCode.slice(0, 2)
-            if (re === '01') {
-              if (m4 === 1) {
-                m3 = 2
-              }
-              if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
-                m = 2
-              }
-            }
-            if (re === '05') {
-              if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
-                m = 3
-              }
-            }
-          })
-          if (m === 3) {
+          console.log('controlcategorysdetail', controlcategorysdetail)
+          const outproduct = this.$refs.editable.getRecords()
+          console.log('outproduct', outproduct)
+          if (this.returnlist.length === 0) {
             this.$notify.error({
               title: 'wrong',
-              message: this.$t('prompt.dcckytbm'),
+              message: this.$t('tongyo.zbthmxbnwk'),
               offset: 100
             })
+            this.saveloding = false
             return false
           }
-          if (m === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.zcckytbm'),
-              offset: 100
-            })
-            return false
-          }
-          if (m3 === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: '整车不能算作质保',
-              offset: 100
-            })
-            return false
-          }
-          // 保存时同样商品不能有同一个批次
-          let i = 0
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            EnterDetail.map(function(elem2) {
-              return elem2
-            }).forEach(function(elem2) {
-              if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-                const re = elem2.productCode.slice(0, 2)
-                // 去除整车
-                if (re !== '01') {
-                  i++
-                }
-              }
-            })
-          })
-          console.log(i)
-          if (i > EnterDetail.length) {
-            this.$notify.error({
-              title: 'wrong',
-              message: '同样商品不能有同一个批次',
-              offset: 100
-            })
-            return false
-          }
-          // 批次货位不能为空
-          let j = 1
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-              j = 2
+          const returnproduct = this.$refs.editable3.getRecords()
+          const controlpro = []
+          const chargepro = []
+          const motopro = []
+          const batterypro = []
+          for (const i in outproduct) {
+            if (controlcategorysdetail.includes(outproduct[i].category)) {
+              controlpro.push(outproduct[i])
+            } else if (chargecategorysdetail.includes(outproduct[i].category)) {
+              chargepro.push(outproduct[i])
+            } else if (motocategorys.includes(outproduct[i].category)) {
+              motopro.push(outproduct[i])
+            } else if (batterycategorys.includes(outproduct[i].category)) {
+              batterypro.push(outproduct[i])
             }
+          }
+          const controlproquantity = controlpro.map(item => {
+            return item.quantity
           })
-          console.log(j)
-          if (j === 2) {
+          const allcontrolproquantity = this.sum(controlproquantity)
+          console.log('allcontrolproquantity', allcontrolproquantity)
+          const chargeproquantity = chargepro.map(item => {
+            return item.quantity
+          })
+          const allchargeproquantity = this.sum(chargeproquantity)
+          console.log('allchargeproquantity', allchargeproquantity)
+          const motoproquantity = motopro.map(item => {
+            return item.quantity
+          })
+          const allmotoproquantity = this.sum(motoproquantity)
+          console.log('allmotoproquantity', allmotoproquantity)
+
+          const batteryproquantity = batterypro.map(item => {
+            return item.quantity
+          })
+          const allbatteryproquantity = this.sum(batteryproquantity)
+          console.log('allbatteryproquantity', allbatteryproquantity)
+
+          console.log('controlpro', controlpro)
+          console.log('chargepro', chargepro)
+          console.log('motopro', motopro)
+          console.log('batterypro', batterypro)
+          const returncontrolpro = []
+          const returnchargepro = []
+          const returnmotopro = []
+          const returnbatterypro = []
+          for (const i in returnproduct) {
+            if (controlcategorysdetail.includes(returnproduct[i].category)) {
+              returncontrolpro.push(returnproduct[i])
+            } else if (chargecategorysdetail.includes(returnproduct[i].category)) {
+              returnchargepro.push(returnproduct[i])
+            } else if (motocategorys.includes(returnproduct[i].category)) {
+              returnmotopro.push(returnproduct[i])
+            } else if (batterycategorys.includes(returnproduct[i].category)) {
+              returnbatterypro.push(returnproduct[i])
+            }
+          }
+
+          console.log('returncontrolpro', returncontrolpro)
+          console.log('returnchargepro', returnchargepro)
+          console.log('returnmotopro', returnmotopro)
+          console.log('returnbatterypro', returnbatterypro)
+          const returncontrolproquantity = returncontrolpro.map(item => {
+            return item.quantity
+          })
+          const allreturncontrolproquantity = this.sum(returncontrolproquantity)
+          console.log('allreturncontrolproquantity', allreturncontrolproquantity)
+          const returnchargeproquantity = returnchargepro.map(item => {
+            return item.quantity
+          })
+          const allreturnchargeproquantity = this.sum(returnchargeproquantity)
+          console.log('allreturnchargeproquantity', allreturnchargeproquantity)
+          const returnmotoproquantity = returnmotopro.map(item => {
+            return item.quantity
+          })
+          const allreturnmotoproquantity = this.sum(returnmotoproquantity)
+          console.log('allreturnmotoproquantity', allreturnmotoproquantity)
+
+          const returnbatteryproquantity = returnbatterypro.map(item => {
+            return item.quantity
+          })
+          const allreturnbatteryproquantity = this.sum(returnbatteryproquantity)
+          console.log('allreturnbatteryproquantity', allreturnbatteryproquantity)
+
+          if (allbatteryproquantity !== allreturnbatteryproquantity) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.dcthslyckslbfh'),
+              offset: 100
+            })
+            this.saveloding = false
+            return false
+          }
+
+          if (allcontrolproquantity !== allreturncontrolproquantity) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.kzqthslyckslbf'),
+              offset: 100
+            })
+            this.saveloding = false
+            return false
+          }
+
+          if (allreturnchargeproquantity !== allchargeproquantity) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.cdqthslyckslbf'),
+              offset: 100
+            })
+            this.saveloding = false
+            return false
+          }
+
+          if (allreturnmotoproquantity !== allmotoproquantity) {
+            this.$notify.error({
+              title: 'wrong',
+              message: this.$t('tongyo.djthslyckslbf'),
+              offset: 100
+            })
+            this.saveloding = false
+            return false
+          }
+          let z = 1
+          for (const j in returnproduct) {
+            if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {
+              z = 2
+            }
+          }
+          if (z === 2) {
             this.$notify.error({
               title: 'wrong',
               message: this.$t('prompt.pchwbnwk'),
               offset: 100
             })
+            this.saveloding = false
             return false
           }
-          if (EnterDetail.length === 0) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.mxbbnwk'),
-              offset: 100
-            })
-            return false
-          }
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-              delete elem.productCode
-            }
-            if (elem.batch === '不使用') {
-              delete elem.batch
-            }
-            if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-              delete elem.productName
-            }
-            if (elem.category === null || elem.category === '' || elem.category === undefined) {
-              delete elem.category
-            }
-            if (elem.type === null || elem.type === '' || elem.type === undefined) {
-              delete elem.type
-            }
-            if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-              delete elem.unit
-            }
-            if (elem.color === null || elem.color === '' || elem.color === undefined) {
-              delete elem.color
-            }
-            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-              delete elem.kpiGrade
-            }
-            if (elem.point === null || elem.point === '' || elem.point === undefined) {
-              delete elem.point
-            }
-            if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-              delete elem.quantity
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-              delete elem.costPrice
-            }
-            if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-              delete elem.costMoney
-            }
-            if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-              delete elem.includeTaxMoney
-            }
-            if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-              delete elem.taxRate
-            }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-              delete elem.taxMoney
-            }
-            if (elem.money === null || elem.money === '' || elem.money === undefined) {
-              delete elem.money
-            }
-            if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-              delete elem.includeTaxCostMoney
-            }
-            if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-              delete elem.discountRate
-            }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discountRate = elem.discountRate / 100
-            }
-            if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-              delete elem.discountMoney
-            }
-            if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-              delete elem.carCode
-            }
-            if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-              delete elem.motorCode
-            }
-            if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-              delete elem.batteryCode
-            }
-            return elem
-          })
+        }
+        delete this.personalForm.saleOutRetreatVos
+        delete this.personalForm.saleOutDetailVos
+        delete this.personalForm.approvalUseVos
+        delete this.personalForm.saleOutGiftVos
+        delete this.personalForm.judgeStat
+        delete this.personalForm.receiptStat
+        delete this.personalForm.isDeliver
+        delete this.personalForm.payType
+        delete this.personalForm.currency
 
-          const parms3 = ''
-          let couponNumbers = ''
-          for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
-            if (this.personalForm2.couponSupports[i].couponSupport !== 0 && this.personalForm2.couponSupports[i].couponSupport !== '') {
-              couponNumbers = couponNumbers + this.personalForm2.couponSupports[i].couponSupport + ','
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            if (this.personalForm.sourceType === '5') {
+              if (this.personalForm.saleType === '2') {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('prompt.ckslcgpcsl'),
+                  offset: 100
+                })
+                this.saveloding = false
+                return false
+              }
             }
-          }
-          console.log('couponNumbers', couponNumbers)
-          couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
-          console.log('couponNumbers', couponNumbers)
-          this.personalForm.couponNumbers = couponNumbers
-          if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
-            this.$notify.error({
-              title: 'wrong',
-              message: '本次收款金额不能为空',
-              offset: 100
-            })
-            return false
-          }
-          if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('update4.qsrshijshk'),
-              offset: 100
-            })
-            return false
-          }
-          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('update4.bcskyw'),
-              offset: 100
-            })
-            return false
-          }
-          // eslint-disable-next-line use-isnan
-          if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
-            this.$notify.error({
-              title: 'wrong',
-              message: '实际收到客户金额不能为空',
-              offset: 100
-            })
-            return false
-          }
-
-          if (this.personalForm.isFree === 1) {
-            console.log('進入了2')
-            this.personalForm.taxMoney = 0
-            this.personalForm.includeTaxMoney = 0
-            this.personalForm.money = 0
-            this.personalForm.receivableMoney = 0
-            this.personalForm.discount_money = 0
-            this.personalForm.actualMoney = 0
+            if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+              this.personalForm.couponSupportOld = 0
+            }
+            this.personalForm.repositoryId = this.$store.getters.repositoryId
+            this.personalForm.regionId = this.$store.getters.regionId
+            this.personalForm.createPersonId = this.$store.getters.userId
+            this.personalForm.countryId = this.$store.getters.countryId
+            this.personalForm.modifyPersonId = this.$store.getters.userId
+            const EnterDetail = this.$refs.editable.getRecords()
+            // 整车出库时相关编码必填
+            let m = 1
+            // 整车不能质保
+            let m3 = 1
+            const m4 = this.personalForm.isFree
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
-              elem.money = 0
-              elem.taxprice = 0
-              elem.includeTaxMoney = 0
-              elem.includeTaxCostMoney = 0
-              elem.salePrice = 0
+              const re = elem.productCode.slice(0, 2)
+              if (re === '01') {
+                if (m4 === 1) {
+                  m3 = 2
+                }
+                if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+                  m = 2
+                }
+              }
+              if (re === '05') {
+                if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+                  m = 3
+                }
+              }
             })
-          }
-          const parms2 = JSON.stringify(EnterDetail)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          const returndata = this.$refs.editable3.getRecords()
-          const parms4 = JSON.stringify(returndata)
-          console.log('parms4', parms4)
-          updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2, parms4).then(res => {
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: this.$t('prompt.czcg'),
-                message: this.$t('prompt.czcg'),
-                type: 'success',
-                duration: 1000,
-                offset: 100
-              })
-              this.$emit('rest', true)
-              this.$refs.editable.clear()
-              // this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.editVisible = false
-            } else {
+            if (m === 3) {
               this.$notify.error({
                 title: 'wrong',
-                message: 'wrong',
+                message: this.$t('prompt.dcckytbm'),
                 offset: 100
               })
+              this.saveloding = false
+              return false
             }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
-      })
+            if (m === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.zcckytbm'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            if (m3 === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '整车不能算作质保',
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            // 保存时同样商品不能有同一个批次
+            let i = 0
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              EnterDetail.map(function(elem2) {
+                return elem2
+              }).forEach(function(elem2) {
+                if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+                  const re = elem2.productCode.slice(0, 2)
+                  // 去除整车
+                  if (re !== '01') {
+                    i++
+                  }
+                }
+              })
+            })
+            console.log(i)
+            if (i > EnterDetail.length) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '同样商品不能有同一个批次',
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            // 批次货位不能为空
+            let j = 1
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+                j = 2
+              }
+            })
+            console.log(j)
+            if (j === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.pchwbnwk'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            if (EnterDetail.length === 0) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.mxbbnwk'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+                delete elem.productCode
+              }
+              if (elem.batch === '不使用') {
+                delete elem.batch
+              }
+              if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+                delete elem.productName
+              }
+              if (elem.category === null || elem.category === '' || elem.category === undefined) {
+                delete elem.category
+              }
+              if (elem.type === null || elem.type === '' || elem.type === undefined) {
+                delete elem.type
+              }
+              if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+                delete elem.unit
+              }
+              if (elem.color === null || elem.color === '' || elem.color === undefined) {
+                delete elem.color
+              }
+              if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+                delete elem.kpiGrade
+              }
+              if (elem.point === null || elem.point === '' || elem.point === undefined) {
+                delete elem.point
+              }
+              if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+                delete elem.quantity
+              }
+              if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+                delete elem.salePrice
+              }
+              if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+                delete elem.costPrice
+              }
+              if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+                delete elem.costMoney
+              }
+              if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+                delete elem.includeTaxMoney
+              }
+              if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+                delete elem.taxRate
+              }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
+              }
+              if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+                delete elem.taxMoney
+              }
+              if (elem.money === null || elem.money === '' || elem.money === undefined) {
+                delete elem.money
+              }
+              if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+                delete elem.includeTaxCostMoney
+              }
+              if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+                delete elem.discountRate
+              }
+              if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+                elem.discountRate = elem.discountRate / 100
+              }
+              if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+                delete elem.discountMoney
+              }
+              if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+                delete elem.carCode
+              }
+              if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+                delete elem.motorCode
+              }
+              if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+                delete elem.batteryCode
+              }
+              return elem
+            })
+
+            const parms3 = ''
+            let couponNumbers = ''
+            for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
+              if (this.personalForm2.couponSupports[i].couponSupport !== 0 && this.personalForm2.couponSupports[i].couponSupport !== '') {
+                couponNumbers = couponNumbers + this.personalForm2.couponSupports[i].couponSupport + ','
+              }
+            }
+            console.log('couponNumbers', couponNumbers)
+            couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+            console.log('couponNumbers', couponNumbers)
+            this.personalForm.couponNumbers = couponNumbers
+            if (this.personalForm.receivableMoney === '' || this.personalForm.receivableMoney === undefined || this.personalForm.receivableMoney === null) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '本次收款金额不能为空',
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            if (Number(this.personalForm.shouldMoney) !== 0 && Number(this.personalForm.customerPay) === 0 && this.$store.getters.countryId === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('update4.qsrshijshk'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('update4.bcskyw'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            // eslint-disable-next-line use-isnan
+            if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
+              this.$notify.error({
+                title: 'wrong',
+                message: '实际收到客户金额不能为空',
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+
+            if (this.personalForm.isFree === 1) {
+              console.log('進入了2')
+              this.personalForm.taxMoney = 0
+              this.personalForm.includeTaxMoney = 0
+              this.personalForm.money = 0
+              this.personalForm.receivableMoney = 0
+              this.personalForm.discount_money = 0
+              this.personalForm.actualMoney = 0
+              EnterDetail.map(function(elem) {
+                return elem
+              }).forEach(function(elem) {
+                elem.money = 0
+                elem.taxprice = 0
+                elem.includeTaxMoney = 0
+                elem.includeTaxCostMoney = 0
+                elem.salePrice = 0
+              })
+            }
+            const parms2 = JSON.stringify(EnterDetail)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            const returndata = this.$refs.editable3.getRecords()
+            const parms4 = JSON.stringify(returndata)
+            console.log('parms4', parms4)
+            updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2, parms4).then(res => {
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: this.$t('prompt.czcg'),
+                  message: this.$t('prompt.czcg'),
+                  type: 'success',
+                  duration: 1000,
+                  offset: 100
+                })
+                this.$emit('rest', true)
+                this.$refs.editable.clear()
+                // this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+                this.editVisible = false
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'wrong',
+                  offset: 100
+                })
+              }
+              this.saveloding = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloding = false
+            return false
+          }
+        })
+      }, 1000 * 0.5)
     },
     handlecancel() {
       // this.$refs.editable.clear()

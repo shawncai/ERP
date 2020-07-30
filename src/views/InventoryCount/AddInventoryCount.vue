@@ -91,9 +91,20 @@
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" width="55" align="center"/>
           <el-editable-column type="index" width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+          <!-- <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
+            </template>
+          </el-editable-column> -->
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" >
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
             </template>
           </el-editable-column>
           <!--<el-editable-column :edit-render="{name: 'ElSelect', options: batchlist, type: 'visible'}" prop="batch" align="center" :label="$t('Hmodule.pc')" width="150px"/>-->
@@ -106,18 +117,11 @@
           <!--                  :value="item"-->
           <!--                  :label="item"/>-->
           <!--              </el-select>-->
-          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" />
-          <!-- <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
-                <el-option
-                  v-for="(item, index) in batchlist"
-                  :key="index"
-                  :value="item"
-                  :label="item"/>
-              </el-select>
-              <span v-else>{{ scope.row.batch }}</span>
+          <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ getBatch(scope.row) }}</span>
             </template>
-          </el-editable-column> -->
+          </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
@@ -199,7 +203,7 @@
     <!--操作-->
     <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-      <el-button v-no-more-click type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+      <el-button :loading="saveloading" type="primary" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
       <el-button type="success" @click="handleentry()">{{ $t('updates.jxlr') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
@@ -239,7 +243,7 @@
 import '@/directive/noMoreClick/index.js'
 import { getdeptlist } from '@/api/BasicSettings'
 import { addinventorycount } from '@/api/InventoryCount'
-import { batchlist, getQuantity, getlocation, countlist } from '@/api/public'
+import { batchlist, getQuantity, getlocation, countlist, locationlist } from '@/api/public'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
@@ -280,6 +284,7 @@ export default {
       }
     }
     return {
+      saveloading: false,
       heji1: 0,
       heji2: 0,
       heji3: 0,
@@ -367,7 +372,7 @@ export default {
           num4 += this.list2[i].price * this.list2[i].inventoryQuantity
           num5 += this.list2[i].price * this.list2[i].actualQuantity
           num6 += this.list2[i].price * this.list2[i].diffQuantity
-          console.log('this.list2[i].diffQuantity', this.list2[i].diffQuantity)
+          // console.log('this.list2[i].diffQuantity', this.list2[i].diffQuantity)
         }
         this.heji1 = num1
         this.heji2 = num2
@@ -388,6 +393,68 @@ export default {
     _that = this
   },
   methods: {
+    getBatch(row) {
+      if (row.flag === undefined) {
+        row.flag = true
+      } else {
+        return row.batch
+      }
+      if (row.flag) {
+        const parms3 = row.productCode
+        // batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+        //   if (res.data.data.content.length !== 0) {
+        //     row.batch = res.data.data.content[0]
+        //   }
+        // })
+        getlocation(this.personalForm.countRepositoryId, row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              if (res.data.data.content.length === 1) {
+                row.locationId = res.data.data.content[0].id
+              }
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.countRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+        // return row.batch
+      }
+      row.flag = false
+    },
+    updateLocation(event, scope) {
+      if (event === true) {
+        console.log(this.personalForm.countRepositoryId)
+        if (!this.personalForm.countRepositoryId) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.sqslcg'),
+            offset: 100
+          })
+          return false
+        }
+        getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.length !== 0) {
+              if (res.data.data.content.length === 1) {
+                scope.row.locationId = res.data.data.content[0].id
+              }
+              this.locationlist = res.data.data.content
+            } else if (res.data.data.content.length === 0) {
+              locationlist(this.personalForm.countRepositoryId).then(res => {
+                if (res.data.ret === 200) {
+                  this.locationlist = res.data.data.content.list
+                }
+              })
+            }
+          }
+        })
+      }
+    },
     getLocationData(row) {
       // 默认批次
       // if (row.batch === null || row.batch === '' || row.batch === undefined) {
@@ -473,8 +540,8 @@ export default {
     },
     // 差异数量
     getDiff(par1, par2, par3) {
-      console.log('par1', par1)
-      console.log('par2', par2)
+      // console.log('par1', par1)
+      // console.log('par2', par2)
       par3.diffQuantity = Math.abs(par2 - par1)
       let num1 = 0
       let num2 = 0
@@ -504,50 +571,56 @@ export default {
       return quan * pric
     },
     getquantity(sco) {
-      const parms2 = sco.locationId
-      const parms3 = sco.productCode
-      const parms4 = sco.batch
-      if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
-        getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
-          this.out = res.data.data.content
-          sco.inventoryQuantity = res.data.data.content
-        })
-        return sco.inventoryQuantity
-      } else {
-        sco.inventoryQuantity = 0
-        return sco.inventoryQuantity
+      if (sco.flag === undefined) {
+        sco.flag = true
       }
-    },
-    updatebatch(event, scope) {
-      if (event === true) {
-        console.log(this.personalForm.countRepositoryId)
-        if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('prompt.sqslcg'),
-            offset: 100
+      if (sco.flag) {
+        const parms2 = sco.locationId
+        const parms3 = sco.productCode
+        const parms4 = sco.batch
+        if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+          getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+            this.out = res.data.data.content
+            sco.inventoryQuantity = res.data.data.content
           })
-          return false
+          return sco.inventoryQuantity
+        } else {
+          sco.inventoryQuantity = 0
+          return sco.inventoryQuantity
         }
-        getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.length !== 0) {
-              this.locationlist = res.data.data.content
-              scope.row.locationId = res.data.data.content[0].id
-              this.updatebatch3(scope)
-            } else if (res.data.data.content.length === 0) {
-              this.$notify.error({
-                title: 'wrong',
-                message: this.$t('prompt.gckmygsp'),
-                offset: 100
-              })
-              this.locationlist = []
-              return false
-            }
-          }
-        })
       }
+      sco.flag = false
     },
+    // updatebatch(event, scope) {
+    //   if (event === true) {
+    //     console.log(this.personalForm.countRepositoryId)
+    //     if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+    //       this.$notify.error({
+    //         title: 'wrong',
+    //         message: this.$t('prompt.sqslcg'),
+    //         offset: 100
+    //       })
+    //       return false
+    //     }
+    //     getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
+    //       if (res.data.ret === 200) {
+    //         if (res.data.data.content.length !== 0) {
+    //           this.locationlist = res.data.data.content
+    //           scope.row.locationId = res.data.data.content[0].id
+    //           this.updatebatch3(scope)
+    //         } else if (res.data.data.content.length === 0) {
+    //           this.$notify.error({
+    //             title: 'wrong',
+    //             message: this.$t('prompt.gckmygsp'),
+    //             offset: 100
+    //           })
+    //           this.locationlist = []
+    //           return false
+    //         }
+    //       }
+    //     })
+    //   }
+    // },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
       batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
@@ -564,123 +637,147 @@ export default {
     },
     // 保存操作
     handlesave() {
-      if (this.Time === null) {
-        this.personalForm.beginTime = null
-        this.personalForm.endTime = null
-      } else {
-        this.personalForm.beginTime = this.Time[0]
-        this.personalForm.endTime = this.Time[1]
-      }
-      const EnterDetail = this.$refs.editable.getRecords()
-      // if (EnterDetail.length === 0) {
-      //   this.$notify.error({
-      //     title: 'wrong',
-      //     message: '明细表不能为空',
-      //     offset: 100
-      //   })
-      //   return false
-      // }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.inventoryQuantity === null || elem.inventoryQuantity === '' || elem.inventoryQuantity === undefined) {
-          delete elem.inventoryQuantity
-        }
-        if (elem.actualQuantity === null || elem.actualQuantity === '' || elem.actualQuantity === undefined) {
-          delete elem.actualQuantity
-        }
-        if (elem.price === null || elem.price === '' || elem.price === undefined) {
-          delete elem.price
-        }
-        if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
-          delete elem.totalMoney
-        }
-        if (elem.diffQuantity === null || elem.diffQuantity === '' || elem.diffQuantity === undefined) {
-          delete elem.diffQuantity
-        }
-        if (elem.diffType === null || elem.diffType === '' || elem.diffType === undefined) {
-          delete elem.diffType
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-          delete elem.batch
-        }
-        return elem
-      })
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms1 = JSON.stringify(Data)
-      let parms2 = ''
-      if (EnterDetail.length !== 0) {
-        parms2 = JSON.stringify(EnterDetail)
-      }
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          this.$refs.editable.validate((valid) => {
-            if (valid) {
-              addinventorycount(parms1, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: 'Information is incomplete',
-                offset: 100
-              })
-              return false
-            }
-          })
+      this.saveloading = true
+
+      setTimeout(() => {
+        if (this.Time === null) {
+          this.personalForm.beginTime = null
+          this.personalForm.endTime = null
         } else {
+          this.personalForm.beginTime = this.Time[0]
+          this.personalForm.endTime = this.Time[1]
+        }
+        const EnterDetail = this.$refs.editable.getRecords()
+        if (EnterDetail.length === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: '明细表不能为空',
             offset: 100
           })
+          this.saveloading = false
           return false
         }
-      })
+        let judgestat = 1
+        for (const i in EnterDetail) {
+          if (!EnterDetail[i].locationId) {
+            judgestat = 2
+          }
+        }
+        if (judgestat === 2) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('prompt.pchwbnwk'),
+            offset: 100
+          })
+          this.saveloading = false
+          return false
+        }
+
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+            delete elem.locationId
+          }
+          if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+            delete elem.productCode
+          }
+          if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+            delete elem.productName
+          }
+          if (elem.color === null || elem.color === '' || elem.color === undefined) {
+            delete elem.color
+          }
+          if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
+            delete elem.typeId
+          }
+          if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+            delete elem.unit
+          }
+          if (elem.inventoryQuantity === null || elem.inventoryQuantity === '' || elem.inventoryQuantity === undefined) {
+            delete elem.inventoryQuantity
+          }
+          if (elem.actualQuantity === null || elem.actualQuantity === '' || elem.actualQuantity === undefined) {
+            delete elem.actualQuantity
+          }
+          if (elem.price === null || elem.price === '' || elem.price === undefined) {
+            delete elem.price
+          }
+          if (elem.totalMoney === null || elem.totalMoney === '' || elem.totalMoney === undefined) {
+            delete elem.totalMoney
+          }
+          if (elem.diffQuantity === null || elem.diffQuantity === '' || elem.diffQuantity === undefined) {
+            delete elem.diffQuantity
+          }
+          if (elem.diffType === null || elem.diffType === '' || elem.diffType === undefined) {
+            delete elem.diffType
+          }
+          if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
+            delete elem.remarks
+          }
+          if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+            delete elem.batch
+          }
+          return elem
+        })
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
+        }
+        const parms1 = JSON.stringify(Data)
+        let parms2 = ''
+        if (EnterDetail.length !== 0) {
+          parms2 = JSON.stringify(EnterDetail)
+        }
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            this.$refs.editable.validate((valid) => {
+              if (valid) {
+                addinventorycount(parms1, parms2, this.personalForm.repositoryId, this.personalForm.regionId).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.saveloading = false
+                })
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'Information is incomplete',
+                  offset: 100
+                })
+                this.saveloading = false
+                return false
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloading = false
+            return false
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 清空记录
     restAllForm() {
@@ -746,112 +843,230 @@ export default {
       if (this.countRepositoryId === '' || this.countRepositoryId === null || this.countRepositoryId === undefined) {
         this.$notify.error({
           title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
+          message: this.$t('prompt.qxxzck'),
           offset: 100
         })
         return false
       }
       this.control = true
     },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     async productdetail(val) {
       const nowlistdata = this.$refs.editable.getRecords()
-      if (nowlistdata.length === 0) {
-        const batcharr = await Promise.all(val.map(item => {
-          return batchlist(this.personalForm.countRepositoryId, item.productCode)
-        }))
-        const newbatch = batcharr.map(item => {
-          return {
-            pcode: item.data.data.pCode,
-            batchs: item.data.data.content
-          }
-        })
-        console.log('newbatch---======', newbatch)
+      this.$refs.editable.clear()
+      console.log('val============', val)
+      const alldata = [...nowlistdata, ...val]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata=====', filterdata)
 
-        const needarr = newbatch.map(item => {
-          const arrned = item.batchs.map(zitem => {
-            return {
-              productCode: item.pcode,
-              batch: zitem
-            }
-          })
-          return arrned
-        })
-        const onearr = [].concat.apply([], needarr)
-        for (const i in val) {
-          for (const j in onearr) {
-            if (val[i].productCode === onearr[j].productCode) {
-              onearr[j].productName = val[i].productName
-              onearr[j].color = val[i].color
-              onearr[j].locationId = val[i].locationId
-              onearr[j].typeId = val[i].typeId
-              onearr[j].inventoryQuantity = val[i].inventoryQuantity
-              onearr[j].actualQuantity = val[i].actualQuantity
-              onearr[j].enterQuantity = val[i].enterQuantity
-              onearr[j].taxRate = val[i].taxRate
-              onearr[j].unit = val[i].unit
-              onearr[j].totalMoney = val[i].totalMoney
-              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
-              onearr[j].basicQuantity = val[i].basicQuantity
-              onearr[j].price = val[i].price
-              onearr[j].productType = val[i].productType
-              onearr[j].countPerson = val[i].countPerson
-              onearr[j].countPersonId = val[i].countPersonId
-              onearr[j].countDate = val[i].countDate
+      const batcharr = await Promise.all(filterdata.map(item => {
+        return batchlist(this.personalForm.countRepositoryId, item.productCode)
+      }))
+      console.log('batcharr', batcharr)
+      const nonebatch = []
+      for (const i in batcharr) {
+        for (const j in filterdata) {
+          if (batcharr[i].data.data.content.length === 0) {
+            if (batcharr[i].data.data.pCode === filterdata[j].productCode) {
+              nonebatch.push(filterdata[j])
             }
           }
         }
-        console.log('needarr---======', onearr)
-        this.list2 = onearr
-      } else {
-        const batcharr = await Promise.all(val.map(item => {
-          return batchlist(this.personalForm.countRepositoryId, item.productCode)
-        }))
-        const newbatch = batcharr.map(item => {
-          return {
-            pcode: item.data.data.pCode,
-            batchs: item.data.data.content
-          }
-        })
-        console.log('newbatch---======', newbatch)
-
-        const needarr = newbatch.map(item => {
-          const arrned = item.batchs.map(zitem => {
-            return {
-              productCode: item.pcode,
-              batch: zitem
-            }
-          })
-          return arrned
-        })
-        const onearr = [].concat.apply([], needarr)
-        for (const i in val) {
-          for (const j in onearr) {
-            if (val[i].productCode === onearr[j].productCode) {
-              onearr[j].productName = val[i].productName
-              onearr[j].color = val[i].color
-              onearr[j].locationId = val[i].locationId
-              onearr[j].typeId = val[i].typeId
-              onearr[j].inventoryQuantity = val[i].inventoryQuantity
-              onearr[j].actualQuantity = val[i].actualQuantity
-              onearr[j].enterQuantity = val[i].enterQuantity
-              onearr[j].taxRate = val[i].taxRate
-              onearr[j].unit = val[i].unit
-              onearr[j].totalMoney = val[i].totalMoney
-              onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
-              onearr[j].basicQuantity = val[i].basicQuantity
-              onearr[j].price = val[i].price
-              onearr[j].productType = val[i].productType
-              onearr[j].countPerson = val[i].countPerson
-              onearr[j].countPersonId = val[i].countPersonId
-              onearr[j].countDate = val[i].countDate
-            }
-          }
-        }
-        console.log('needarr---======', onearr)
-        const newarr = Object.assign([], onearr, nowlistdata)
-        this.list2 = newarr
       }
+      console.log('nonebatch', nonebatch)
+      const newbatch = batcharr.map(item => {
+        return {
+          pcode: item.data.data.pCode,
+          batchs: item.data.data.content
+        }
+      })
+      console.log('newbatch---======', newbatch)
+
+      const needarr = newbatch.map(item => {
+        const arrned = item.batchs.map(zitem => {
+          return {
+            productCode: item.pcode,
+            batch: zitem
+          }
+        })
+        return arrned
+      })
+      console.log('needarr', needarr)
+      const onearr = [].concat.apply([], needarr)
+      for (const i in filterdata) {
+        for (const j in onearr) {
+          if (filterdata[i].productCode === onearr[j].productCode) {
+            onearr[j].productName = filterdata[i].productName
+            onearr[j].color = filterdata[i].color
+            onearr[j].locationId = filterdata[i].locationId
+            onearr[j].typeId = filterdata[i].typeId
+            onearr[j].inventoryQuantity = filterdata[i].inventoryQuantity
+            onearr[j].actualQuantity = filterdata[i].actualQuantity
+            onearr[j].enterQuantity = filterdata[i].enterQuantity
+            onearr[j].taxRate = filterdata[i].taxRate
+            onearr[j].unit = filterdata[i].unit
+            onearr[j].totalMoney = filterdata[i].totalMoney
+            onearr[j].actualEnterQuantity = filterdata[i].actualEnterQuantity
+            onearr[j].basicQuantity = filterdata[i].basicQuantity
+            onearr[j].price = filterdata[i].price
+            onearr[j].productType = filterdata[i].productType
+            onearr[j].countPerson = filterdata[i].countPerson
+            onearr[j].countPersonId = filterdata[i].countPersonId
+            onearr[j].countDate = filterdata[i].countDate
+          }
+        }
+      }
+      console.log('needarr---======', onearr)
+      const finallyarr = [...nonebatch, ...onearr]
+      this.list2 = finallyarr
+
+      // this.list2 = filterdata
+      // for (let i = 0; i < filterdata.length; i++) {
+      //   // val[i].quantity = 1
+      //   this.$refs.editable.insert(filterdata[i])
+      // }
     }
+    // async productdetail(val) {
+    //   const nowlistdata = this.$refs.editable.getRecords()
+    //   if (nowlistdata.length === 0) {
+    //     const batcharr = await Promise.all(val.map(item => {
+    //       return batchlist(this.personalForm.countRepositoryId, item.productCode)
+    //     }))
+    //     console.log('batcharr', batcharr)
+    //     const nonebatch = []
+    //     for (const i in batcharr) {
+    //       for (const j in val) {
+    //         if (batcharr[i].data.data.content.length === 0) {
+    //           if (batcharr[i].data.data.pCode === val[j].productCode) {
+    //             nonebatch.push(val[j])
+    //           }
+    //         }
+    //       }
+    //     }
+    //     console.log('nonebatch', nonebatch)
+    //     const newbatch = batcharr.map(item => {
+    //       return {
+    //         pcode: item.data.data.pCode,
+    //         batchs: item.data.data.content
+    //       }
+    //     })
+    //     console.log('newbatch---======', newbatch)
+
+    //     const needarr = newbatch.map(item => {
+    //       const arrned = item.batchs.map(zitem => {
+    //         return {
+    //           productCode: item.pcode,
+    //           batch: zitem
+    //         }
+    //       })
+    //       return arrned
+    //     })
+    //     console.log('needarr', needarr)
+    //     const onearr = [].concat.apply([], needarr)
+    //     for (const i in val) {
+    //       for (const j in onearr) {
+    //         if (val[i].productCode === onearr[j].productCode) {
+    //           onearr[j].productName = val[i].productName
+    //           onearr[j].color = val[i].color
+    //           onearr[j].locationId = val[i].locationId
+    //           onearr[j].typeId = val[i].typeId
+    //           onearr[j].inventoryQuantity = val[i].inventoryQuantity
+    //           onearr[j].actualQuantity = val[i].actualQuantity
+    //           onearr[j].enterQuantity = val[i].enterQuantity
+    //           onearr[j].taxRate = val[i].taxRate
+    //           onearr[j].unit = val[i].unit
+    //           onearr[j].totalMoney = val[i].totalMoney
+    //           onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+    //           onearr[j].basicQuantity = val[i].basicQuantity
+    //           onearr[j].price = val[i].price
+    //           onearr[j].productType = val[i].productType
+    //           onearr[j].countPerson = val[i].countPerson
+    //           onearr[j].countPersonId = val[i].countPersonId
+    //           onearr[j].countDate = val[i].countDate
+    //         }
+    //       }
+    //     }
+    //     console.log('needarr---======', onearr)
+    //     const finallyarr = [...nonebatch, ...onearr]
+    //     this.list2 = finallyarr
+    //   } else {
+    //     console.log(123)
+    //     const batcharr = await Promise.all(val.map(item => {
+    //       return batchlist(this.personalForm.countRepositoryId, item.productCode)
+    //     }))
+    //     const nonebatch = []
+    //     for (const i in batcharr) {
+    //       for (const j in val) {
+    //         if (batcharr[i].data.data.content.length === 0) {
+    //           if (batcharr[i].data.data.pCode === val[j].productCode) {
+    //             nonebatch.push(val[j])
+    //           }
+    //         }
+    //       }
+    //     }
+    //     const newbatch = batcharr.map(item => {
+    //       return {
+    //         pcode: item.data.data.pCode,
+    //         batchs: item.data.data.content
+    //       }
+    //     })
+    //     console.log('newbatch---======', newbatch)
+
+    //     const needarr = newbatch.map(item => {
+    //       const arrned = item.batchs.map(zitem => {
+    //         return {
+    //           productCode: item.pcode,
+    //           batch: zitem
+    //         }
+    //       })
+    //       return arrned
+    //     })
+    //     const onearr = [].concat.apply([], needarr)
+    //     for (const i in val) {
+    //       for (const j in onearr) {
+    //         if (val[i].productCode === onearr[j].productCode) {
+    //           onearr[j].productName = val[i].productName
+    //           onearr[j].color = val[i].color
+    //           onearr[j].locationId = val[i].locationId
+    //           onearr[j].typeId = val[i].typeId
+    //           onearr[j].inventoryQuantity = val[i].inventoryQuantity
+    //           onearr[j].actualQuantity = val[i].actualQuantity
+    //           onearr[j].enterQuantity = val[i].enterQuantity
+    //           onearr[j].taxRate = val[i].taxRate
+    //           onearr[j].unit = val[i].unit
+    //           onearr[j].totalMoney = val[i].totalMoney
+    //           onearr[j].actualEnterQuantity = val[i].actualEnterQuantity
+    //           onearr[j].basicQuantity = val[i].basicQuantity
+    //           onearr[j].price = val[i].price
+    //           onearr[j].productType = val[i].productType
+    //           onearr[j].countPerson = val[i].countPerson
+    //           onearr[j].countPersonId = val[i].countPersonId
+    //           onearr[j].countDate = val[i].countDate
+    //         }
+    //       }
+    //     }
+    //     console.log('needarr---======', onearr)
+    //     const newarr = Object.assign([], onearr, nowlistdata)
+    //     const finallyarr = [...nonebatch, ...newarr]
+    //     this.list2 = newarr
+    //   }
+    // }
     // 货位批次默认
     // 2撒打算
     // console.log(val)

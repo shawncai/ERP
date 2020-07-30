@@ -52,17 +52,17 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('ReturnExchange.diffMoney')" prop="diffMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.diffMoney" disabled style="width: 200px" clearable/>
+                <el-form-item :label="$t('ReturnExchange.diffMoney')" prop="shouldMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.shouldMoney" disabled style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('update4.actialdiffermoney')" prop="shouldMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.shouldMoney" :controls="false" :step="0.1" style="width: 200px"/>
+                <el-form-item :label="$t('update4.actialdiffermoney')" prop="diffMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.diffMoney" :controls="false" :step="0.1" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" @blur="judgeinvoce"/>
                 </el-form-item>
               </el-col>
@@ -228,6 +228,7 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discount"
+                  disable
                   @change="getdiscountRate(scope.row)"/>
               </template>
             </el-editable-column>
@@ -237,7 +238,8 @@
                   :precision="6"
                   :controls="false"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"/>
+                  @change="getdiscountMoney(scope.row, $event, scope)"
+                  @input="notundefined(scope.row)"/>
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
@@ -273,7 +275,7 @@
 
 <script>
 import { createsaleOut, getCustomerOutCount, checkInvoiceExist } from '@/api/SaleOut'
-
+import { searchRoleDiscount } from '@/api/BasicSettings'
 import '@/directive/noMoreClick/index.js'
 import { addReturnExchange } from '@/api/ReturnExchange'
 import { getdeptlist } from '@/api/EmployeeInformation'
@@ -380,7 +382,10 @@ export default {
       },
       // 配送单规则数据
       personalrules: {
-        shouldMoney: [
+        invoiceNumber: [
+          { required: true, message: 'please input invoiceNumber', trigger: 'blur' }
+        ],
+        diffMoney: [
           { required: true, message: 'please input actialdiffermoney：', trigger: 'blur' }
         ],
         title: [
@@ -410,8 +415,8 @@ export default {
         customerPhone: [
           { required: true, message: 'please select customerPhone', trigger: 'blur' }
         ],
-        diffMoney: [
-          { required: true, message: 'please input diffMoney', trigger: 'blur' }
+        shouldMoney: [
+          { required: true, message: 'please input shouldMoney', trigger: 'blur' }
         ],
         repositoryId: [
           { required: true, validator: validatePass4, trigger: 'change' }
@@ -440,6 +445,7 @@ export default {
         }
         console.log('num1', num1)
         console.log('num2', num2)
+        this.personalForm.shouldMoney = (num2 - num1).toFixed(6)
         this.personalForm.diffMoney = (num2 - num1).toFixed(6)
       },
       deep: true,
@@ -458,6 +464,7 @@ export default {
         console.log('list3', this.list3)
         console.log('num1', num1)
         console.log('num2', num2)
+        this.personalForm.shouldMoney = (num2 - num1).toFixed(6)
         this.personalForm.diffMoney = (num2 - num1).toFixed(6)
       },
       deep: true,
@@ -583,15 +590,105 @@ export default {
       // }
       if (re === '01') { return true } else { return false }
     },
+    notundefined(row) {
+      if (row.discount === undefined) {
+        this.$set(row, 'discount', 0)
+      }
+      if (row.discountMoney === undefined) {
+        this.$set(row, 'discountMoney', 0)
+      }
+    },
     // 通过折扣额计算折扣
-    getdiscountMoney(row) {
+    getdiscountMoney(row, val, scope) {
       console.log(row)
-      if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        if (row.includeTaxCostMoney !== 0) {
-          row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
-        } else {
-          row.discount = 0
+      // if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
+      //   if (row.includeTaxCostMoney !== 0) {
+      //     row.discount = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+      //   } else {
+      //     row.discount = 0
+      //   }
+      // }
+      console.log('row', row)
+      const re = row.productCode.slice(0, 2)
+      if (re === '01') {
+        const discountparms = {
+          typeId: row.type,
+          roleId: this.$store.getters.roleId,
+          category: 1,
+          pageNum: 1,
+          pageSize: 1
         }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              row.discountMoney = 0
+              row.discount = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
+            } else {
+              const isoverdiscount = val / row.quantity
+              if (res.data.data.content.list[0].discountMoney < isoverdiscount) {
+                row.discountMoney = 0
+                row.discount = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              } else {
+                if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                  row.discount = (((isoverdiscount / row.includeTaxCostMoney)) * 100).toFixed(6)
+                } else {
+                  row.discountMoney = 0
+                  row.discount = 0
+                }
+              }
+            }
+          }
+        })
+      } else {
+        const discountparms = {
+          roleId: this.$store.getters.roleId,
+          category: 2,
+          pageNum: 1,
+          pageSize: 1
+        }
+        searchRoleDiscount(discountparms).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              row.discountMoney = 0
+              row.discount = 0
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('tongyo.cgzdzke'),
+                offset: 100
+              })
+            } else {
+              const isoverdiscount = res.data.data.content.list[0].discount * row.includeTaxCostMoney
+              console.log('isoverdiscount', isoverdiscount)
+              console.log('val', val)
+
+              if (isoverdiscount < val) {
+                row.discountMoney = 0
+                row.discount = 0
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('tongyo.cgzdzke'),
+                  offset: 100
+                })
+              }
+              if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0 && row.includeTaxCostMoney !== 0) {
+                row.discount = (((val / row.includeTaxCostMoney)) * 100).toFixed(6)
+              } else {
+                row.discountMoney = 0
+                row.discount = 0
+              }
+            }
+          }
+        })
       }
     },
     // 通过折扣计算折扣额

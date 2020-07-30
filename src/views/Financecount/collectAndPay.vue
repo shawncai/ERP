@@ -76,6 +76,18 @@
           width="240"
           align="center"/>
         <el-table-column
+          :label="$t('collectAndPay.hhd')"
+          prop="exchangeMoney"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.preReturn')"
+          prop="preReturn"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('collectAndPay.stockRetreat')"
           prop="stockRetreat"
           sortable

@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { chooseProduct1, searchEmpCategory2 } from '@/api/Product'
+import { productlist, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -228,7 +228,7 @@ export default {
       // 商品列表数据
       this.listLoading = true
       this.getemplist.searchRepositoryId = this.query.countRepositoryId
-      chooseProduct1(this.getemplist).then(res => {
+      productlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -256,7 +256,7 @@ export default {
     handleFilter() {
       this.getemplist.pagenum = 1
       this.getemplist.searchRepositoryId = this.query.countRepositoryId
-      chooseProduct1(this.getemplist).then(res => {
+      productlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

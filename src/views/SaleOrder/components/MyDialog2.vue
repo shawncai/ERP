@@ -50,6 +50,16 @@
                 <el-input v-model="personalForm.summary" style="width: 200px"/>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.createDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-date-picker
+                  v-model="personalForm.createDate"
+                  :picker-options="pickerOptions2"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="width: 200px"/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -114,13 +124,16 @@ export default {
       }
     }
     return {
-      colseTypes: [],
-      repositorycontrol: false,
       pickerOptions2: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 30 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      colseTypes: [],
+      repositorycontrol: false,
       rate: 1,
       // 选择的数据
       choosedata: [],

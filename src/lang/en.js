@@ -4054,6 +4054,8 @@ export default {
     createTime: 'create time'
   },
   collectAndPay: {
+    preReturn: 'preReturn',
+    hhd: 'exchange',
     time: 'time',
     saleOut: 'sales stock out',
     stockRetreat: 'purchase return',

@@ -52,6 +52,16 @@
                   <el-input v-model="personalForm.summary" style="width: 200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.createDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.createDate"
+                    :picker-options="pickerOptions2"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -78,6 +88,14 @@ export default {
   components: { MyCustomer, MyRepository },
   data() {
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 30 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       saveloding: false,
       customercontrol: false,
       repositorycontrol: false,
@@ -95,7 +113,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        receiptMoney: 0
+        receiptMoney: 0,
+        createDate: null
       },
       // 销售订单规则数据
       personalrules: {
@@ -106,14 +125,31 @@ export default {
   },
   created() {
     this.getTypes()
+    this.getdatatime()
   },
   activated() {
     this.getTypes()
+    this.getdatatime()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.createDate = currentdate
+    },
     chooseCustomer() {
       this.customercontrol = true
     },
@@ -130,22 +166,22 @@ export default {
         }
       })
     },
-    getdatatime() { // 默认显示今天
-      var date = new Date()
-      var seperator1 = '-'
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var strDate = date.getDate()
-      if (month >= 1 && month <= 9) {
-        month = '0' + month
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = '0' + strDate
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate
-      this.personalForm.transDate = currentdate
-      this.personalForm.createDate = currentdate
-    },
+    // getdatatime() { // 默认显示今天
+    //   var date = new Date()
+    //   var seperator1 = '-'
+    //   var year = date.getFullYear()
+    //   var month = date.getMonth() + 1
+    //   var strDate = date.getDate()
+    //   if (month >= 1 && month <= 9) {
+    //     month = '0' + month
+    //   }
+    //   if (strDate >= 0 && strDate <= 9) {
+    //     strDate = '0' + strDate
+    //   }
+    //   var currentdate = year + seperator1 + month + seperator1 + strDate
+    //   this.personalForm.transDate = currentdate
+    //   this.personalForm.createDate = currentdate
+    // },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
@@ -164,7 +200,8 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         currency: '1',
-        receiptMoney: 0
+        receiptMoney: 0,
+        createDate: null
 
       }
       this.customerId = ''

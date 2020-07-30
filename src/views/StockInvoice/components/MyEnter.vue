@@ -81,7 +81,23 @@
         <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.id }}</span>
+            <el-popover
+              placement="right"
+              width="720"
+              trigger="hover">
+              <el-table :data="scope.row.stockEnterDetailVos" border size="small">
+                <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
+                <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
+                <el-table-column :label="$t('updates.dhsl')" min-width="100" property="arrivalQuantity"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <!-- <el-table-column :label="$t('updates.jhrq')" min-width="200" property="deliveryDate"/> -->
+                <el-table-column :label="$t('updates.ys')" min-width="100" property="color"/>
+                <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
+              </el-table>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="small">{{ scope.row.enterNumber }}</el-tag>
+              </div>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
@@ -89,11 +105,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <!-- <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterNumber }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>

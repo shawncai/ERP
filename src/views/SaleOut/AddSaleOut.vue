@@ -87,7 +87,7 @@
                 <el-form-item :label="$t('SaleOut.sendDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.sendDate"
-                    :picker-options="pickerOptions1"
+                    :picker-options="pickerOptions2"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -1005,6 +1005,7 @@ export default {
     changeisdeduct() {
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0
+        this.getReceivableMoney()
       } else {
         if (!this.personalForm.customerId) {
           this.$notify.error({
@@ -1021,7 +1022,6 @@ export default {
           }
         })
       }
-      this.getReceivableMoney()
     },
     // 复制添加
     getinformationcopy() {
@@ -1339,7 +1339,7 @@ export default {
       }
 
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
-        console.log('1')
+        console.log('this.personalForm.personalForm', this.personalForm.personalForm)
         let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.advanceMoney)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
