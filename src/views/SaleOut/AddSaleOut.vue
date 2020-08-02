@@ -1363,8 +1363,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('firstmoney')
-        let needmoney = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) - Number(this.personalForm.advanceMoney)
+        const needmoney2 = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) - Number(this.personalForm.advanceMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1374,8 +1374,9 @@ export default {
       } else if (this.shouldMoney !== '' && this.shouldMoney !== null && this.shouldMoney !== undefined) {
         console.log('3')
         console.log('this.shouldMoney', this.shouldMoney)
-        let needmoney = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+
+        let needmoney = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) - Number(this.personalForm.advanceMoney)
+        const needmoney2 = (Number(this.shouldMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) - Number(this.personalForm.advanceMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -2197,6 +2198,8 @@ export default {
             this.personalForm.advanceMoney = 0
           }
         }
+
+        this.getReceivableMoney()
       })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
@@ -2403,6 +2406,7 @@ export default {
             this.personalForm.advanceMoney = 0
           }
         }
+        this.getReceivableMoney()
       })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.customerPhone

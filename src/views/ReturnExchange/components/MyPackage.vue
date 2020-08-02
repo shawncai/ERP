@@ -100,10 +100,24 @@ export default {
     packagecontrol: {
       type: Boolean,
       default: false
+    },
+    productnumber: {
+      type: String,
+      default: null
+    },
+    packagerepository: {
+      type: String,
+      default: null
     }
   },
   data() {
     return {
+      query: {
+        productCode: this.productnumber,
+        repositoryId: this.packagerepository,
+        pageNum: 1,
+        pageSize: 10
+      },
       getRowKeys(row) {
         return row.id
       },
@@ -147,6 +161,9 @@ export default {
     packagecontrol() {
       this.productVisible = this.packagecontrol
       console.log(this.packagecontrol)
+      console.log('this.productnumber', this.productnumber)
+      this.query.productCode = this.productnumber
+      this.query.repositoryId = this.packagerepository
       this.getlist()
     }
   },
@@ -157,6 +174,7 @@ export default {
     getlist() {
       // 商品列表数据
       this.listLoading = true
+      this.getemplist = this.query
       packageList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -177,6 +195,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist = this.query
       this.getemplist.pagenum = 1
       packageList(this.getemplist).then(res => {
         if (res.data.ret === 200) {

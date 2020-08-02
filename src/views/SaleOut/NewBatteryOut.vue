@@ -925,8 +925,8 @@ export default {
   },
   methods: {
     changeAppDiscount() {
-      this.updatePrice()
       this.getReceivableMoney()
+      this.updatePrice()
     },
     uniqueArray3(array, key) {
       var result = [array[0]]
@@ -1056,6 +1056,10 @@ export default {
             this.personalForm.receivableMoney = Number(this.personalForm.customerPay)
             this.personalForm.unpayMoney = Number(Number(this.personalForm.shouldMoney) - Number(this.personalForm.receivableMoney)).toFixed(2)
           }
+          console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
+          console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
+
+          console.log('this.personalForm.unpayMoney', this.personalForm.unpayMoney)
         }
       }
     },

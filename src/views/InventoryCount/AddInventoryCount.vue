@@ -571,10 +571,11 @@ export default {
       return quan * pric
     },
     getquantity(sco) {
-      if (sco.flag === undefined) {
-        sco.flag = true
+      if (sco.flag2 === undefined) {
+        sco.flag2 = true
       }
-      if (sco.flag) {
+      console.log(sco.flag2)
+      if (sco.flag2) {
         const parms2 = sco.locationId
         const parms3 = sco.productCode
         const parms4 = sco.batch
@@ -589,7 +590,7 @@ export default {
           return sco.inventoryQuantity
         }
       }
-      sco.flag = false
+      sco.flag2 = false
     },
     // updatebatch(event, scope) {
     //   if (event === true) {

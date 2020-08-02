@@ -114,7 +114,9 @@ export default {
     return {
       query: {
         productCode: this.productnumber,
-        repositoryId: this.packagerepository
+        repositoryId: this.packagerepository,
+        pageNum: 1,
+        pageSize: 10
       },
       // 供应商回显
       supplierid: '',
@@ -190,6 +192,7 @@ export default {
     },
     // 搜索
     handleFilter() {
+      this.getemplist = this.query
       this.getemplist.pagenum = 1
       getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {

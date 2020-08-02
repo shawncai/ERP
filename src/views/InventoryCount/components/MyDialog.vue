@@ -125,8 +125,12 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" width="150px"/>
-          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getquantity(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/> -->
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
@@ -369,11 +373,11 @@ export default {
       }
       if (row.flag) {
         const parms3 = row.productCode
-        batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
-          if (res.data.data.content.length !== 0) {
-            row.batch = res.data.data.content[0]
-          }
-        })
+        // batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
+        //   if (res.data.data.content.length !== 0) {
+        //     row.batch = res.data.data.content[0]
+        //   }
+        // })
         getlocation(this.personalForm.countRepositoryId, row).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
@@ -525,51 +529,57 @@ export default {
     getSize(quan, pric) {
       return quan * pric
     },
-    async getquantity(sco) {
-      const parms2 = sco.locationId
-      const parms3 = sco.productCode
-      const parms4 = sco.batch
-      if (parms4 !== '' && parms4 !== null && parms4 !== undefined && parms2 !== '' && parms2 !== null && parms2 !== undefined) {
-        await getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
-          this.out = res.data.data.content
-          // sco.inventoryQuantity = res.data.data.content
-        })
-        console.log('111112222222222', this.out)
-        return 'aaaaaaaa'
-      } else {
-        this.out = 0
-        return this.out
+    getquantity(sco) {
+      if (sco.flag2 === undefined) {
+        sco.flag2 = true
       }
-    },
-    updatebatch(event, scope) {
-      if (event === true) {
-        console.log(this.personalForm.countRepositoryId)
-        if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
-          this.$notify.error({
-            title: 'wrong',
-            message: this.$t('prompt.sqslcg'),
-            offset: 100
+      console.log(sco.flag2)
+      if (sco.flag2) {
+        const parms2 = sco.locationId
+        const parms3 = sco.productCode
+        const parms4 = sco.batch
+        if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+          getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+            this.out = res.data.data.content
+            sco.inventoryQuantity = res.data.data.content
           })
-          return false
+          return sco.inventoryQuantity
+        } else {
+          sco.inventoryQuantity = 0
+          return sco.inventoryQuantity
         }
-        getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.length !== 0) {
-              this.locationlist = res.data.data.content
-              this.updatebatch3(scope)
-            } else if (res.data.data.content.length === 0) {
-              this.$notify.error({
-                title: 'wrong',
-                message: this.$t('prompt.gckmygsp'),
-                offset: 100
-              })
-              this.locationlist = []
-              return false
-            }
-          }
-        })
       }
+      sco.flag2 = false
     },
+    // updatebatch(event, scope) {
+    //   if (event === true) {
+    //     console.log(this.personalForm.countRepositoryId)
+    //     if (this.personalForm.countRepositoryId === undefined || this.personalForm.countRepositoryId === '') {
+    //       this.$notify.error({
+    //         title: 'wrong',
+    //         message: this.$t('prompt.sqslcg'),
+    //         offset: 100
+    //       })
+    //       return false
+    //     }
+    //     getlocation(this.personalForm.countRepositoryId, scope.row).then(res => {
+    //       if (res.data.ret === 200) {
+    //         if (res.data.data.content.length !== 0) {
+    //           this.locationlist = res.data.data.content
+    //           this.updatebatch3(scope)
+    //         } else if (res.data.data.content.length === 0) {
+    //           this.$notify.error({
+    //             title: 'wrong',
+    //             message: this.$t('prompt.gckmygsp'),
+    //             offset: 100
+    //           })
+    //           this.locationlist = []
+    //           return false
+    //         }
+    //       }
+    //     })
+    //   }
+    // },
     updatebatch3(scope) {
       const parms3 = scope.row.productCode
       batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
@@ -644,18 +654,80 @@ export default {
       }
       return result
     },
-    productdetail(val) {
+    async productdetail(val) {
       const nowlistdata = this.$refs.editable.getRecords()
       this.$refs.editable.clear()
       console.log('val============', val)
       const alldata = [...nowlistdata, ...val]
       const filterdata = this.uniqueArray(alldata, 'productCode')
       console.log('filterdata=====', filterdata)
-      // this.list2 = filterdata
-      for (let i = 0; i < filterdata.length; i++) {
-        // val[i].quantity = 1
-        this.$refs.editable.insert(filterdata[i])
+
+      const batcharr = await Promise.all(filterdata.map(item => {
+        return batchlist(this.personalForm.countRepositoryId, item.productCode)
+      }))
+      console.log('batcharr', batcharr)
+      const nonebatch = []
+      for (const i in batcharr) {
+        for (const j in filterdata) {
+          if (batcharr[i].data.data.content.length === 0) {
+            if (batcharr[i].data.data.pCode === filterdata[j].productCode) {
+              nonebatch.push(filterdata[j])
+            }
+          }
+        }
       }
+      console.log('nonebatch', nonebatch)
+      const newbatch = batcharr.map(item => {
+        return {
+          pcode: item.data.data.pCode,
+          batchs: item.data.data.content
+        }
+      })
+      console.log('newbatch---======', newbatch)
+
+      const needarr = newbatch.map(item => {
+        const arrned = item.batchs.map(zitem => {
+          return {
+            productCode: item.pcode,
+            batch: zitem
+          }
+        })
+        return arrned
+      })
+      console.log('needarr', needarr)
+      const onearr = [].concat.apply([], needarr)
+      for (const i in filterdata) {
+        for (const j in onearr) {
+          if (filterdata[i].productCode === onearr[j].productCode) {
+            onearr[j].productName = filterdata[i].productName
+            onearr[j].color = filterdata[i].color
+            onearr[j].locationId = filterdata[i].locationId
+            onearr[j].typeId = filterdata[i].typeId
+            onearr[j].inventoryQuantity = filterdata[i].inventoryQuantity
+            onearr[j].actualQuantity = filterdata[i].actualQuantity
+            onearr[j].enterQuantity = filterdata[i].enterQuantity
+            onearr[j].taxRate = filterdata[i].taxRate
+            onearr[j].unit = filterdata[i].unit
+            onearr[j].totalMoney = filterdata[i].totalMoney
+            onearr[j].actualEnterQuantity = filterdata[i].actualEnterQuantity
+            onearr[j].basicQuantity = filterdata[i].basicQuantity
+            onearr[j].price = filterdata[i].price
+            onearr[j].productType = filterdata[i].productType
+            onearr[j].countPerson = filterdata[i].countPerson
+            onearr[j].countPersonId = filterdata[i].countPersonId
+            onearr[j].countDate = filterdata[i].countDate
+          }
+        }
+      }
+      console.log('needarr---======', onearr)
+      const finallyarr = [...nonebatch, ...onearr]
+      this.list2 = finallyarr
+
+      // this.list2 = filterdata
+      // for (let i = 0; i < filterdata.length; i++) {
+      //   // val[i].quantity = 1
+      //   this.$refs.editable.insert(filterdata[i])
+      // }
     },
     // async productdetail(val) {
     //   const nowlistdata = this.$refs.editable.getRecords()

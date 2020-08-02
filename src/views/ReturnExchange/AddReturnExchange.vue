@@ -150,7 +150,7 @@
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @packagedata="packagedata"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -163,7 +163,8 @@
             stripe
             border
             size="small"
-            style="width: 100%">
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
@@ -338,6 +339,9 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      moreaction: [],
+      productnumber: null,
+      packagerepository: null,
       batchlist: [],
       packagecontrol: false,
       // 货位数据
@@ -479,6 +483,10 @@ export default {
     _that = this
   },
   methods: {
+    // 批量操作
+    handleSelectionChange(val) {
+      this.moreaction = val
+    },
     judgeinvoce() {
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
@@ -841,20 +849,23 @@ export default {
       return row.location
     },
     packagedata(val) {
+      this.$refs.editable2.clear()
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable2.insert(val[i])
       }
     },
     handleAddpackage() {
-      if (this.personalForm.repositoryId === undefined || this.personalForm.repositoryId === '') {
+      if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.sqslcg'),
+          title: 'please select main product',
+          message: 'please select main product',
           offset: 100
         })
-        return false
+      } else {
+        this.productnumber = this.moreaction[0].productCode
+        this.packagerepository = String(this.personalForm.repositoryId)
+        this.packagecontrol = true
       }
-      this.packagecontrol = true
     },
     updatebatch(event, scope) {
       if (event === true) {

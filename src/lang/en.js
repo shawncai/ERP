@@ -4518,6 +4518,7 @@ export default {
     sendPhone: ' helper/deliverer contact#',
     sendEmergencyPhone: 'sendEmergencyPhone',
     yearDepreciationRate: 'yearDepreciationRate',
-    danhao: 'receiptNumber'
+    danhao: 'receiptNumber',
+    actialdiffermoney: 'actual difference amount'
   }
 }
