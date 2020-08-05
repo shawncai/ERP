@@ -8,6 +8,9 @@
         <el-option value="2" label="设计BOM"/>
         <el-option value="3" label="制造BOM"/>
       </el-select>
+      <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('MaterialsList.productCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
       <!-- 更多搜索条件下拉栏 -->

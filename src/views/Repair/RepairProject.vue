@@ -2,6 +2,7 @@
   <div class="tab-container">
     <div class="filter-container">
       <el-input :placeholder="$t('repair.model')" v-model="listQuery.productType" style="width: 200px;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+            <el-input :placeholder="$t('repair.itemName')" v-model="listQuery.name" style="width: 200px;" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
       <el-button v-permission="['54-67-80-1']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
     </div>

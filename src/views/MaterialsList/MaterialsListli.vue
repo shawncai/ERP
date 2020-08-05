@@ -12,7 +12,7 @@
       </el-select>
 
       <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-
+      <el-input v-model="getemplist.productCode" :placeholder="$t('MaterialsList.productCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="mini" clearable class="filter-item">
         <el-option :label="$t('updates.wsh')" value="0"/>
         <el-option :label="$t('updates.shz')" value="1"/>

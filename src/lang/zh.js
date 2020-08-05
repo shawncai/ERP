@@ -1576,6 +1576,7 @@ export default {
     heji2: '调整金额合计'
   },
   MaterialsList: {
+    productCode: '父件编码',
     parentcolor: '父件颜色',
     bomNumber: 'BOM编码',
     parentBomNumber: '上级BOM',
@@ -1583,7 +1584,7 @@ export default {
     isActive: '启用类型',
     version: '版本',
     summary: '摘要',
-    productName: '父件',
+    productName: '父件名称',
     productName2: '物料名称',
     unit: '单位',
     productTypeId: '型号',

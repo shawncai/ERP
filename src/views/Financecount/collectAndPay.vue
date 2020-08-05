@@ -81,18 +81,7 @@
           sortable
           width="240"
           align="center"/>
-        <el-table-column
-          :label="$t('collectAndPay.preReturn')"
-          prop="preReturn"
-          sortable
-          width="240"
-          align="center"/>
-        <el-table-column
-          :label="$t('collectAndPay.stockRetreat')"
-          prop="stockRetreat"
-          sortable
-          width="240"
-          align="center"/>
+
         <el-table-column
           :label="$t('collectAndPay.collectMoney')"
           prop="collectMoney"
@@ -120,6 +109,18 @@
         <el-table-column
           :label="$t('collectAndPay.totalCollect')"
           prop="totalCollect"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.preReturn')"
+          prop="preReturn"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
+          :label="$t('collectAndPay.stockRetreat')"
+          prop="stockRetreat"
           sortable
           width="240"
           align="center"/>

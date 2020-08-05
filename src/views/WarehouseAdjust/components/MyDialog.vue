@@ -321,6 +321,7 @@ export default {
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       console.log(this.personalForm)
       const rest = this.$refs.editable.getRecords()
       if (rest.length === 0) {

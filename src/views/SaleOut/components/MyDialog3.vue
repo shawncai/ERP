@@ -2435,17 +2435,13 @@ export default {
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content
       })
-      const controlcategorysdetail = controlcategorys.map(item => {
-        return item.id
-      })
+      const controlcategorysdetail = [35]
       const chargecategorys = await batteryList2(14).then(res => {
         return res.data.data.content
       })
-      const chargecategorysdetail = chargecategorys.map(item => {
-        return item.id
-      })
+      const chargecategorysdetail = [83]
       const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
-      const needbatterycategorys = await batteryList2(1118).then(res => {
+      const needbatterycategorys = await batteryList2(5).then(res => {
         return res.data.data.content
       })
 

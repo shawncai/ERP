@@ -198,6 +198,8 @@ export function repairprojectList(query) {
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   params.append('producttype', query.productType) // 你要传给后台的参数值 key/value
+  params.append('name', query.name) // 你要传给后台的参数值 key/value
+
   return request({
     url: '/admin/service/listserviceitem',
     method: 'post',

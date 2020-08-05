@@ -1106,15 +1106,11 @@ export default {
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content
       })
-      const controlcategorysdetail = controlcategorys.map(item => {
-        return item.id
-      })
+      const controlcategorysdetail = [35]
       const chargecategorys = await batteryList2(14).then(res => {
         return res.data.data.content
       })
-      const chargecategorysdetail = chargecategorys.map(item => {
-        return item.id
-      })
+      const chargecategorysdetail = [83]
       const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
       console.log('controlcategorysdetail', controlcategorysdetail)
       const outproduct = this.$refs.editable.getRecords()
@@ -2967,7 +2963,7 @@ export default {
     },
     // 保存操作
     async handlesave() {
-      const needbatterycategorys = await batteryList2(1118).then(res => {
+      const needbatterycategorys = await batteryList2(5).then(res => {
         return res.data.data.content
       })
       const battery1 = needbatterycategorys[0].productClassfyVos
@@ -3287,14 +3283,14 @@ export default {
 
           console.log('Number(this.personalForm.shouldMoney)', Number(this.personalForm.shouldMoney))
           console.log('Number(this.personalForm.customerPay)', Number(this.personalForm.receivableMoney))
-          if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('update4.bcskyw'),
-              offset: 100
-            })
-            return false
-          }
+          // if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
+          //   this.$notify.error({
+          //     title: 'wrong',
+          //     message: this.$t('update4.bcskyw'),
+          //     offset: 100
+          //   })
+          //   return false
+          // }
           // eslint-disable-next-line use-isnan
           if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
             this.$notify.error({

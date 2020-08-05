@@ -163,6 +163,7 @@
                       v-model="regionId"
                       :show-all-levels="false"
                       :placeholder="$t('Hmodule.xzqy')"
+                      :change-on-select="true"
                       filterable
                       clearable
                       style="margin-left: 18px;width: 200px"

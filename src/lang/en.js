@@ -1576,6 +1576,7 @@ export default {
     heji2: 'Total adjusted amount'
   },
   MaterialsList: {
+    productCode: 'productCode',
     parentcolor: 'parentcolor',
     bomNumber: 'BOM code',
     parentBomNumber: 'parent BOM',

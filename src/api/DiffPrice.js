@@ -100,7 +100,7 @@ export function deleteDiffPrice(query, query2) {
 // 获取电池分类
 export function batteryList() {
   var params = new URLSearchParams()
-  params.append('parentId', 1118) // 你要传给后台的参数值 key/value
+  params.append('parentId', 5) // 你要传给后台的参数值 key/value
   return request({
     url: '/productclassfy/batteryList',
     method: 'post',

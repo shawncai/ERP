@@ -383,6 +383,7 @@ export default {
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       const EnterDetail = this.$refs.editable.getRecords()
       console.log(EnterDetail)
       if (EnterDetail.length === 0) {

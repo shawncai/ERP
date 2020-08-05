@@ -1525,6 +1525,7 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      this.personalForm.modifyPersonId = this.$store.getters.userId
       if (Number(this.personalForm.firstMoney) === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -1540,7 +1541,7 @@ export default {
       console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
 
       // 二手gb2
-      if (judgeissecond === '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+      if (judgeissecond === '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second gb2 firstMoney is wrong',
@@ -1549,7 +1550,7 @@ export default {
         return false
       }
       // 二手其他车
-      if (judgeissecond === '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 7000) {
+      if (judgeissecond === '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 7000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second car firstMoney is wrong',
@@ -1559,7 +1560,7 @@ export default {
       }
 
       // 新gb2
-      if (judgeissecond !== '00' && judgecartype === '0040' && Number(this.personalForm.firstMoney) < 5000) {
+      if (judgeissecond !== '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the gb2 firstMoney is wrong',
@@ -1569,7 +1570,7 @@ export default {
       }
 
       // 其他新车
-      if (judgeissecond !== '00' && judgecartype !== '0040' && Number(this.personalForm.firstMoney) < 10000) {
+      if (judgeissecond !== '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
         console.log('123')
         this.$notify.error({
           title: 'wrong',

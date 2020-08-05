@@ -2464,17 +2464,13 @@ export default {
 
       batteryList2(14).then(res => {
         if (res.data.ret === 200) {
-          this.chargecategorysdetail = res.data.data.content.map(item => {
-            return item.id
-          })
+          this.chargecategorysdetail = [83]
         }
       })
 
       batteryList2(8).then(res => {
         if (res.data.ret === 200) {
-          this.controlcategorysdetail = res.data.data.content.map(item => {
-            return item.id
-          })
+          this.controlcategorysdetail = [35]
         }
       })
     },
@@ -2532,15 +2528,11 @@ export default {
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content
       })
-      const controlcategorysdetail = controlcategorys.map(item => {
-        return item.id
-      })
+      const controlcategorysdetail = [35]
       const chargecategorys = await batteryList2(14).then(res => {
         return res.data.data.content
       })
-      const chargecategorysdetail = chargecategorys.map(item => {
-        return item.id
-      })
+      const chargecategorysdetail = [83]
       setTimeout(() => {
       // const EnterDetailgift = this.deepClone(this.$refs.editable2.getRecords())
         const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
