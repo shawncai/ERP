@@ -3,7 +3,7 @@
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.productType" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.productType" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.itemName" :placeholder="$t('repair.itemName')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>

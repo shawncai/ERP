@@ -2563,6 +2563,8 @@ export default {
     reason: 'details'
   },
   Receipt: {
+    ontimeMoney: 'ontimeMoney',
+    overdueMoney: 'overdueMoney',
     isOntime: 'isOntime',
     zs: 'On time',
     bzs: 'out time',

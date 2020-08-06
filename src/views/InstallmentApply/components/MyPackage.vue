@@ -54,6 +54,11 @@
           <span>{{ scope.row.packageName }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('installmentPayList.color')" :resizable="false" align="center" min-width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.color }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Package.isEffective')" :resizable="false" align="center" min-width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.isEffective | isEffectiveFilter }}</span>

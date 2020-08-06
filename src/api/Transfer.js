@@ -49,6 +49,9 @@ export function searchtransfer(query) {
   if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
     params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
   }
+  if (query.direction !== '' && query.direction !== null && query.direction !== undefined) {
+    params.append('direction', query.direction) // 你要传给后台的参数值 key/value
+  }
   if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
     params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
   }

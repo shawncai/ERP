@@ -160,9 +160,14 @@
             <span>{{ scope.row.receiptMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.isOntime')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Receipt.ontimeMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.isOntime | isOntimeFilter }}</span>
+            <span>{{ scope.row.ontimeMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Receipt.overdueMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.overdueMoney }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Receipt.receiptDate')" :resizable="false" align="center" min-width="150">

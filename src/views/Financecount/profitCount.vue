@@ -320,6 +320,14 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
     getSummaries2(param) {
       const { columns, data } = param
       const sums = []
@@ -330,14 +338,14 @@ export default {
         }
         const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
               return (Number(prev) + Number(curr)).toFixed(6)
             } else {
               return (Number(prev)).toFixed(6)
             }
-          }, 0)
+          }, 0))
           sums[index] += ''
         } else {
           sums[index] = ''

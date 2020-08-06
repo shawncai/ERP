@@ -292,7 +292,7 @@ const reg = /^[A-Z0-9]{2}$/
       this.personalForm.enterDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 ```
 ######  对json数组中两项或多项相同元素进行分类操作(通过js对象key唯一性进行处理)
-```
+```js
 const j1 = [{
         "menuDate": 1,
         "dinnerTime": "0",
@@ -338,7 +338,7 @@ for(var i = 0; i < keys.length; i++){
 
 #### 合并两个数组（把一个数组中的一项加入到另外一个数组中）
 
-```
+```js
 let a = [
 
 {
@@ -404,7 +404,7 @@ for (i in a){
 
 #### json中key值相同时把其他值相加合并
 
-```
+```js
 function trans (arr) {
   let obj = {}
   let result = []
@@ -430,7 +430,7 @@ trans(arr)
 
 #### json中有一项key值相同其他项合并
 
-```
+```js
 const arr = [
   {ERVS: 2, repositoryName: "测试"},
   {repositoryName: "测试", 两轮车ERVS租赁: 100},
@@ -463,7 +463,7 @@ for (let i = 0, l = newarr.length; i < l - 1; i++) {
 
 #### 选择当月
 
-```
+```js
  pickerOptions2: {
         disabledDate: (time) => {
           // 只能选择当月
@@ -492,7 +492,7 @@ for (let i = 0, l = newarr.length; i < l - 1; i++) {
 
 #### 去除json中重复数据
 
-```
+```js
 uniqueArray(array, key) {
       var result = [array[0]]
       for (var i = 1; i < array.length; i++) {

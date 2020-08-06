@@ -2563,6 +2563,8 @@ export default {
     reason: '原因'
   },
   Receipt: {
+    ontimeMoney: '准时',
+    overdueMoney: '逾期',
     isOntime: '是否准时',
     zs: '准时',
     bzs: '不准时',
