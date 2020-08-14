@@ -844,6 +844,38 @@ export default {
                    <div style="font-size: 25px">店面签收人</div>
                    </div>
                    </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-around;width: 100%;margin-top: 20px">
+                   <div class="morebottom" style="width: 100%;display:flex;align-items: center;justify-content: space-around;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">applyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.applyPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">acceptPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.acceptPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">emergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.emergencyPhone}</div>
+                   </div>
+                   </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-around;width: 100%;margin-top: 20px">
+                   <div class="morebottom" style="width: 100%;display:flex;align-items: center;justify-content: space-around;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">outPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.outPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">sendPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.sendPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">sendEmergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.sendEmergencyPhone}</div>
+                   </div>
+                   </div>
                   </div>`,
           bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
           style: '.custom-p {font-size:20px;text-align: center; }' +
@@ -946,6 +978,38 @@ export default {
                    <div>
                    <div style="font-size: 25px">Branch Received By:</div>
                    <div style="font-size: 25px">店面签收人</div>
+                   </div>
+                   </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-around;width: 100%;margin-top: 20px">
+                   <div class="morebottom" style="width: 100%;display:flex;align-items: center;justify-content: space-around;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">applyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.applyPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">acceptPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.acceptPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">emergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.emergencyPhone}</div>
+                   </div>
+                   </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-around;width: 100%;margin-top: 20px">
+                   <div class="morebottom" style="width: 100%;display:flex;align-items: center;justify-content: space-around;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">outPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.outPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">sendPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.sendPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">sendEmergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.sendEmergencyPhone}</div>
                    </div>
                    </div>
                   </div>`,
@@ -1065,6 +1129,31 @@ export default {
                   <div>Remark</div>
                   <div>${remarks}</div>
                   </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-between;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Hander: </div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Bill Id:</div>
+                        <div class="bottomname">${this.personalForm.moveNumber}</div>
+                    </div>
+                   </div>
+                   <div class="morebottom" style="width: 60%;display:flex;align-items: center;justify-content: space-between;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">applyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.applyPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">acceptPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.acceptPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">emergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.emergencyPhone}</div>
+                   </div>
+                   </div>
                   </div>`,
           bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
           style: '.custom-p {font-size:20px;text-align: center; }' +
@@ -1150,6 +1239,31 @@ export default {
                   <div>Remark</div>
                   <div>${remarks}</div>
                   </div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-between;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Hander: </div>
+                        <div class="bottomname">${this.personalForm.createPersonName}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">Bill Id:</div>
+                        <div class="bottomname">${this.personalForm.moveNumber}</div>
+                    </div>
+                   </div>
+                   <div class="morebottom" style="width: 60%;display:flex;align-items: center;justify-content: space-between;margin: 20px auto">
+                   <div>
+                   <div style="font-size: 25px">applyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.applyPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">acceptPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.acceptPhone}</div>
+                   </div>
+                   <div>
+                   <div style="font-size: 25px">emergencyPhone:</div>
+                   <div style="font-size: 25px">${this.personalForm.emergencyPhone}</div>
+                   </div>
+                   </div>
                   </div>`,
               bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
               style: '.custom-p {font-size:20px;text-align: center; }' +

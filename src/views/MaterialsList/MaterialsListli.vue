@@ -9,6 +9,7 @@
         <el-option value="2" label="设计BOM"/>
         <el-option value="3" label="制造BOM"/>
         <el-option value="4" label="采购BOM"/>
+        <el-option value="5" label="销售BOM"/>
       </el-select>
 
       <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
@@ -162,7 +163,8 @@ export default {
         1: '工艺BOM',
         2: '设计BOM',
         3: '制造BOM',
-        4: '采购BOM'
+        4: '采购BOM',
+        5: '销售BOM'
       }
       return statusMap[status]
     }

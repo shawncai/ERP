@@ -1791,3 +1791,75 @@ export function incomeAnalysis(query) {
     data: params
   })
 }
+
+// 介绍人费用统计明细
+export function itroducerDetail(query) {
+  var params = new URLSearchParams()
+  if (query.introducerId !== '' && query.introducerId !== null && query.introducerId !== undefined) {
+    params.append('introducerId', query.introducerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/SaleReport/introducerDetail',
+    method: 'post',
+    data: params
+  })
+}
+
+// 优惠卷统计明细
+export function couponCount(query) {
+  var params = new URLSearchParams()
+  if (query.searchRepositoryId !== '' && query.searchRepositoryId !== null && query.searchRepositoryId !== undefined) {
+    params.append('searchRepositoryId', query.searchRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/SaleReport/couponCount',
+    method: 'post',
+    data: params
+  })
+}

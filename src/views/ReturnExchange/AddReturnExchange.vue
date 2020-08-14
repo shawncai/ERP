@@ -261,6 +261,17 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
+
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-model="scope.row.chargeCode" clearable/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-model="scope.row.controlCode" clearable/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>

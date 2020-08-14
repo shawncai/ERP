@@ -173,6 +173,22 @@
                     style="width: 200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.introducer')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="introducer" style="width: 200px" @focus="chooseintroducer" @clear="restintroducer"/>
+                  <my-customer :customercontrol.sync="introducercontrol" @customerdata="introducerdata"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.introducerMoney')" :rules="introducer === '' ? personalrules.introducerMoney:[{ required: true, message: 'please select introducerMoney', trigger: 'change' }]" prop="introducerMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear3" v-model="personalForm.introducerMoney" style="width: 200px">
+                    <el-option label="250" value="250"/>
+                    <el-option label="500" value="500"/>
+                    <el-option label="1000" value="1000"/>
+                    <el-option label="others" value="0"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <!-- <el-col :span="6" style="height: 56px">
                 <el-form-item :label="$t('SaleOut.isInvoice')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.isInvoice" style="width: 200px">
@@ -442,6 +458,16 @@
               <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.couponRemark')" :rules="(personalForm.couponSupportOld === 0 || personalForm.couponSupportOld === '') ? personalrules.couponRemark:[{ required: true, message: 'please select couponRemark', trigger: 'change' }]" prop="couponRemark" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear3" v-model="personalForm.couponRemark" style="width: 200px">
+                    <el-option value="1" label="tax rebate amount"/>
+                    <el-option value="2" label="employee discount amount"/>
+                    <el-option value="3" label="old cash voucher amount"/>
+                    <el-option value="4" label="special discount amount"/>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -723,6 +749,8 @@ export default {
       }
     }
     return {
+      introducercontrol: false,
+      introducer: '',
       isdeduct: 1,
       saveloding: false,
       listLoading: false,
@@ -1002,6 +1030,18 @@ export default {
     _that = this
   },
   methods: {
+    restintroducer() {
+      this.personalForm.introducerId = ''
+      this.introducer = ''
+    },
+    introducerdata(val) {
+      console.log('val', val)
+      this.personalForm.introducerId = val.id
+      this.introducer = val.customerName
+    },
+    chooseintroducer() {
+      this.introducercontrol = true
+    },
     changeisdeduct() {
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0

@@ -120,6 +120,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.couponRemark')" style="width: 100%;">
+                  <span>{{ personalForm.couponRemark | couponRemarkFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('SaleOut.couponSupport')" style="width: 100%;">
                   <span>{{ personalForm.couponSupport }}</span>
                 </el-form-item>
@@ -204,6 +209,16 @@
               <el-col :span="12">
                 <el-form-item :label="$t('update4.appDiscount')" style="width: 100%;">
                   <span>{{ personalForm.appDiscount }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.introducer')" style="width: 100%;">
+                  <span>{{ personalForm.introducerName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleOut.introducerMoney')" style="width: 100%;">
+                  <span>{{ personalForm.introducerMoney | introducerMoneyFilter }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -536,6 +551,24 @@ import { productlist } from '@/api/public'
 var _that
 export default {
   filters: {
+    couponRemarkFilter(sta) {
+      const statusMap = {
+        1: 'tax rebate amount',
+        2: 'employee discount amount',
+        3: 'old cash voucher amount',
+        4: 'special discount amount'
+      }
+      return statusMap[sta]
+    },
+    introducerMoneyFilter(sta) {
+      const statusMap = {
+        250: '250',
+        500: '500',
+        1000: '1000',
+        0: 'others'
+      }
+      return statusMap[sta]
+    },
     useTypeFilter(sta) {
       const statusMap = {
         1: _that.$t('tongyo.jy'),

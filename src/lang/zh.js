@@ -1,5 +1,7 @@
 export default {
   route: {
+    CouponCount: '优惠卷统计明细',
+    ItroducerDetail: '介绍人费用统计明细',
     Counthistory: '商品进出库记录',
     Returnorderlist: '订单退款单',
     Addreturnordermoney: '新建订单退款单',
@@ -2098,6 +2100,11 @@ export default {
     returnMoney: '应退金额'
   },
   SaleOut: {
+    oldCouponSupport: '旧优惠卷抵用',
+    inintroducerPhone: '介绍人电话',
+    introducer: '介绍人',
+    introducerMoney: '介绍费',
+    couponRemark: '优惠卷备注',
     ershouNumber: '选择二手回收单',
     createDate: '创建日期',
     title: '出库单主题',
@@ -4057,6 +4064,7 @@ export default {
     createTime: '创建时间'
   },
   collectAndPay: {
+    saleReceipt: '销售收款金额',
     preReturn: '预收退款',
     hhd: '换货单',
     time: '时间',

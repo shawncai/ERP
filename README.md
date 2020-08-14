@@ -1,9 +1,7 @@
 # ERP  
 [![CSDN](https://img.shields.io/badge/vue-element-brightgreen.svg)](/)
-[![CSDN](https://img.shields.io/badge/NWOW-PC-red.svg)](/)
 [![CSDN](https://img.shields.io/badge/Shawnzhang-JS-blue.svg)](/)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
-## work for nwow  
 ###  重大操作  
 ```
 安装插件步骤出错后操作
@@ -20,9 +18,6 @@
 - npm run dev 直接启动
 - 成功安装
 ```
-### ERP project  
-#### 2019/2/12 add topmenu  
-#### 2019/2/25 遇到的一些问题以及解决方案
 ##### tagsview的页面关闭操作  
 ```js  
 const view = { 

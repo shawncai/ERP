@@ -41,6 +41,10 @@
             :key="index"
             :label="item.categoryName"/>
         </el-select>
+        <el-select v-model="getemplist.direction" :value="getemplist.direction" :placeholder="$t('collectAndPayDetail.fx')" size="small" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option value="1" label="branch"/>
+          <el-option value="2" label="company"/>
+        </el-select>
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -51,10 +55,6 @@
           <el-option :label="$t('updates.shz')" value="1"/>
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
-        </el-select>
-        <el-select v-model="getemplist.direction" :value="getemplist.direction" :placeholder="$t('collectAndPayDetail.fx')" size="small" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option value="1" label="branch"/>
-          <el-option value="2" label="company"/>
         </el-select>
         <el-date-picker
           v-model="date"
@@ -99,7 +99,6 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
-        :span-method="arraySpanMethod"
         size="small"
         border
         fit
@@ -129,33 +128,16 @@
             <span>{{ scope.row.transferTicket }}</span>
           </template>
         </el-table-column>
-
-        <el-table-column :label="$t('Voucher.qy')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.regionName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Voucher.md')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.repositoryName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('updates.kmmc')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.subjectName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Transfer.transferMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.money }}</span>
-          </template>
-        </el-table-column>
         <el-table-column :label="$t('update4.hzje')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.resultmoney }}</span>
           </template>
         </el-table-column>
-
+        <!-- <el-table-column :label="$t('Transfer.transferMoney')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transferMoney }}</span>
+          </template>
+        </el-table-column> -->
         <el-table-column :label="$t('Transfer.currency')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.currency | currencyFilter }}</span>
@@ -193,12 +175,13 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 1 && isReview(scope.row)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
-            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 2 && isReview(scope.row)" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['266-94-3']" v-show="shwobuttons(scope) && scope.row.judgeStat === 0 && scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 1 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
+            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 2 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="shwobuttons(scope)&&scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="shwobuttons(scope)&&isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['266-94-2']" v-show="shwobuttons(scope)&&scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="shwobuttons(scope)&&scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['266-94-76']" v-show="shwobuttons(scope)&&isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+
             <el-button v-permission="['266-373-1']" v-show="shwobuttons(scope)&&scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
@@ -246,7 +229,6 @@ import MyEmp from './components/MyEmp'
 import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MySupplier from './components/MySupplier'
-
 var _that
 export default {
   name: 'TransferList',
@@ -289,8 +271,6 @@ export default {
   },
   data() {
     return {
-      pos: 0,
-      spanArr: [],
       treedata: [],
       props2: {
         value: 'id',
@@ -562,108 +542,27 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      const _row = this.spanArr[rowIndex]
-      const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 7 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      }
-    },
-    getSpanArr(data) {
-      this.spanArr = []
-      for (var i = 0; i < data.length; i++) {
-        if (i === 0) {
-          this.spanArr.push(1)
-          this.pos = 0
-        } else {
-          // 判断当前元素与上一个元素是否相同
-          if (data[i].transferId === data[i - 1].transferId) {
-            this.spanArr[this.pos] += 1
-            this.spanArr.push(0)
-          } else {
-            this.spanArr.push(1)
-            this.pos = i
-          }
-        }
-      }
-      // console.log('this.spanArr=================', this.spanArr)
-    },
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
       searchtransfer(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const needlist = res.data.data.content.list
+          this.list = res.data.data.content.list
           // const detaildata = res.data.data.content.list.map(item => {
           //   return item.approvalUseVos
           // })
           const listdata = res.data.data.content.list.map(item => {
             return item.transferDetailVos
           })
-          const dataarr2 = [].concat.apply([], listdata)
-          const dataarr = this._.cloneDeep(dataarr2)
+          const dataarr = [].concat.apply([], listdata)
           const obj = this.trans(dataarr)
-          console.log('obj', obj)
-          console.log('dataarr', dataarr)
-          for (const i in needlist) {
+          for (const i in this.list) {
             for (const j in obj) {
-              if (needlist[i].id === obj[j].transferId) {
-                needlist[i].resultmoney = obj[j].money
+              if (this.list[i].id === obj[j].transferId) {
+                this.list[i].resultmoney = obj[j].money
               }
             }
           }
-
-          for (const i in needlist) {
-            for (const j in dataarr) {
-              if (needlist[i].id === dataarr[j].transferId) {
-                dataarr[j].id = needlist[i].id
-                dataarr[j].resultmoney = needlist[i].resultmoney
-                dataarr[j].approvalUseVos = needlist[i].approvalUseVos
-                dataarr[j].countryId = needlist[i].countryId
-                dataarr[j].createDate = needlist[i].createDate
-                dataarr[j].createPersonId = needlist[i].createPersonId
-                dataarr[j].createPersonName = needlist[i].createPersonName
-                dataarr[j].currency = needlist[i].currency
-                dataarr[j].direction = needlist[i].direction
-                dataarr[j].endDate = needlist[i].endDate
-                dataarr[j].endPersonId = needlist[i].endPersonId
-                dataarr[j].endPersonName = needlist[i].endPersonName
-                dataarr[j].handlePersonId = needlist[i].handlePersonId
-                dataarr[j].handlePersonName = needlist[i].handlePersonName
-                dataarr[j].judgeDate = needlist[i].judgeDate
-                dataarr[j].judgePersonId = needlist[i].judgePersonId
-                dataarr[j].judgePersonName = needlist[i].judgePersonName
-                dataarr[j].judgeStat = needlist[i].judgeStat
-                dataarr[j].modifyDate = needlist[i].modifyDate
-                dataarr[j].modifyPersonId = needlist[i].modifyPersonId
-                dataarr[j].number = needlist[i].number
-                dataarr[j].picPaths = needlist[i].picPaths
-                dataarr[j].receiptStat = needlist[i].receiptStat
-                dataarr[j].stat = needlist[i].stat
-                dataarr[j].summary = needlist[i].summary
-                dataarr[j].taxRate = needlist[i].taxRate
-                dataarr[j].title = needlist[i].title
-                dataarr[j].transferDate = needlist[i].transferDate
-                dataarr[j].transferDetailVos = needlist[i].transferDetailVos
-                dataarr[j].transferInAccount = needlist[i].transferInAccount
-                dataarr[j].transferInBank = needlist[i].transferInBank
-                dataarr[j].transferMoney = needlist[i].transferMoney
-                dataarr[j].transferOutAccount = needlist[i].transferOutAccount
-                dataarr[j].transferOutBank = needlist[i].transferOutBank
-                dataarr[j].transferRegionId = needlist[i].transferRegionId
-                dataarr[j].transferRegionName = needlist[i].transferRegionName
-                dataarr[j].transferRepositoryId = needlist[i].transferRepositoryId
-                dataarr[j].transferRepositoryName = needlist[i].transferRepositoryName
-                dataarr[j].transferTicket = needlist[i].transferTicket
-                dataarr[j].transferType = needlist[i].transferType
-              }
-            }
-          }
-          this.list = dataarr
-          this.getSpanArr(this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -755,7 +654,6 @@ export default {
         }
       })
     },
-
     gettree(val) {
       subjectList().then(res => {
         if (res.data.ret === 200) {
@@ -814,12 +712,10 @@ export default {
             return res.data.data.content
           })
         }))
-
         for (const i in voucherdetaildata) {
           const carstdata = this.findPathByLeafId2(voucherdetaildata[i].subjectId, this.treedata)
           voucherdetaildata[i].setcarst = carstdata
         }
-
         console.log('voucherdetaildata222222222', voucherdetaildata)
         console.log('this.regions', this.regions)
         const testarr = val.transferDetailVos
@@ -837,13 +733,11 @@ export default {
             val.transferDetailVos[i].regionIds = []
           }
         }
-
         this.editVisible = true
         this.personalForm = Object.assign({}, val)
         this.personalForm.sourceType = String(val.sourceType)
         this.personalForm.currency = String(val.currency)
         this.personalForm.transferType = String(val.transferType)
-
         // console.log('list222222222222', this.list2)
       }
     },

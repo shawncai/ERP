@@ -170,6 +170,16 @@
                 <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="margin-left: 18px;width: 200px" @blur="getReceivableMoney"/>
               </el-form-item>
             </el-col>
+            <el-col :span="12" >
+              <el-form-item :label="$t('SaleOut.couponRemark')" :rules="(personalForm.couponSupportOld === 0 || personalForm.couponSupportOld === '') ? personalrules.couponRemark:[{ required: true, message: 'please select couponRemark', trigger: 'change' }]" prop="couponRemark" style="width: 100%;">
+                <el-select ref="clear3" v-model="personalForm.couponRemark" style="margin-left: 18px;width: 200px">
+                  <el-option :value="1" label="tax rebate amount"/>
+                  <el-option :value="2" label="employee discount amount"/>
+                  <el-option :value="3" label="old cash voucher amount"/>
+                  <el-option :value="4" label="special discount amount"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.ridMoney')" style="width: 100%;">
                 <el-input v-model="personalForm.ridMoney" style="margin-left: 18px;width: 200px" disabled/>
@@ -245,6 +255,23 @@
                 <el-input v-model="personalForm.advanceMoney" disabled style="margin-left: 18px;width: 200px"/>
               </el-form-item>
               <!-- <span style="color: red;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.introducer')" style="width: 100%;">
+                <el-input v-model="introducer" style="margin-left: 18px;width: 200px" @focus="chooseintroducer" @clear="restintroducer"/>
+                <my-customer :customercontrol.sync="introducercontrol" @customerdata="introducerdata"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.introducerMoney')" :rules="introducer === '' ? personalrules.introducerMoney:[{ required: true, message: 'please select introducerMoney', trigger: 'change' }]" prop="introducerMoney" style="width: 100%;">
+                <el-select ref="clear3" v-model="personalForm.introducerMoney" style="margin-left: 18px;width: 200px">
+                  <el-option :value="250" label="250"/>
+                  <el-option :value="500" label="500"/>
+                  <el-option :value="1000" label="1000"/>
+                  <el-option :value="0" label="others"/>
+
+                </el-select>
+              </el-form-item>
             </el-col>
             <!-- <el-col :span="12">
               <el-form-item :label="$t('collectAndPay.isfree')" style="width: 100%;">
@@ -762,6 +789,8 @@ export default {
       }
     }
     return {
+      introducercontrol: false,
+      introducer: '',
       saveloding: false,
       packagerepository: '',
       materialcontrol: false,
@@ -950,6 +979,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.shouldMoney = this.personalForm.shouldMoney
+      this.introducer = this.personalForm.introducerName
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {
@@ -1096,6 +1126,17 @@ export default {
     _that = this
   },
   methods: {
+    restintroducer() {
+      this.personalForm.introducer = ''
+      this.introducer = ''
+    },
+    introducerdata(val) {
+      this.personalForm.introducer = val.id
+      this.introducer = val.customerName
+    },
+    chooseintroducer() {
+      this.introducercontrol = true
+    },
     judgeinvoce() {
       console.log('this.personalForm.invoiceNumber', this.personalForm.invoiceNumber)
       checkInvoiceExist(this.personalForm.invoiceNumber, this.personalForm.saleRepositoryId).then(res => {
@@ -1739,7 +1780,7 @@ export default {
       if (row.flag === undefined) {
         row.flag = true
       } else {
-        return row.location
+        return row.locationName
       }
       // 默认批次
       if (row.flag) {

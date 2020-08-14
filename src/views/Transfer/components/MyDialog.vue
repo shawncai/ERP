@@ -20,7 +20,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Transfer.transferTicket')" prop="transferTicket" style="width: 100%;">
+              <el-form-item :label="$t('Transfer.transferTicket')" style="width: 100%;">
                 <el-input v-model="personalForm.transferTicket" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
@@ -44,7 +44,7 @@
               </el-form-item>
             </el-col>
             <el-col v-if="personalForm.direction === '2'" :span="12">
-              <el-form-item v-if="personalForm.direction === '2'" :label="$t('Transfer.transferInAccount')" prop="transferInAccount" style="width: 100%;">
+              <el-form-item :label="$t('Transfer.transferInAccount')" style="width: 100%;">
                 <el-select v-model="personalForm.transferInAccount" style="margin-left: 18px;width: 200px" @focus="getaccounts" @change="setbank">
                   <el-option
                     v-for="(item, index) in accounts"
@@ -54,13 +54,13 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col v-show="personalForm.direction === '2'" :span="12">
-              <el-form-item :label="$t('Transfer.transferInBank')" prop="transferTicket" style="width: 100%;">
+            <el-col v-if="personalForm.direction === '2'" :span="12">
+              <el-form-item :label="$t('Transfer.transferInBank')" style="width: 100%;">
                 <el-input v-model="personalForm.transferInBank" style="margin-left: 18px;width:200px" clearable disabled/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Transfer.handlePersonId')" prop="handlePersonId" style="width: 100%;">
+              <el-form-item :label="$t('Transfer.handlePersonId')" style="width: 100%;">
                 <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-form-item>

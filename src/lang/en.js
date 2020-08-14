@@ -1,5 +1,7 @@
 export default {
   route: {
+    CouponCount: 'voucher detail',
+    ItroducerDetail: 'referral detail',
     Counthistory: 'Counthistory',
     Returnorderlist: 'Returnorderlist',
     Addreturnordermoney: 'Addreturnordermoney',
@@ -2098,6 +2100,11 @@ export default {
     returnMoney: 'refund amount'
   },
   SaleOut: {
+    oldCouponSupport: 'old voucher offset',
+    inintroducerPhone: 'referral no.',
+    introducer: 'referral',
+    introducerMoney: 'referral commission',
+    couponRemark: 'discount option',
     ershouNumber: 'sources no.',
     createDate: 'create date',
     title: 'subject',
@@ -4057,6 +4064,7 @@ export default {
     createTime: 'create time'
   },
   collectAndPay: {
+    saleReceipt: 'saleReceipt',
     preReturn: 'preReturn',
     hhd: 'exchange',
     time: 'time',

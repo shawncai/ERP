@@ -72,8 +72,11 @@
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
+        ref="table"
         :key="tableKey"
         :data="list"
+        :height="tableHeight"
+        size="small"
         border
         fit
         highlight-current-row
@@ -183,6 +186,8 @@ export default {
   },
   data() {
     return {
+      tableHeight: 200,
+
       // 选择框控制
       employeeVisible: this.customercontrol,
       // 更多搜索条件问题
@@ -218,7 +223,8 @@ export default {
         type: '',
         pagenum: 1,
         pagesize: 10,
-        repositoryid: '',
+        repositoryid: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
         source: ''
       },
       // 部门列表
@@ -241,6 +247,9 @@ export default {
       this.employeeVisible = this.customercontrol
       this.getlist()
       this.getCategory()
+      setTimeout(() => {
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      }, 100)
     }
   },
   beforeCreate() {
@@ -300,6 +309,15 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
+      this.getemplist.regionIds = ''
+      if (!this.getemplist.repositoryid) {
+        this.getemplist.repositoryid = 0
+      }
+
+      if (!this.getemplist.customername && !this.getemplist.customerphone && !this.getemplist.type && !this.getemplist.source && !this.getemplist.level) {
+        this.getemplist.repositoryId = this.$store.getters.repositoryId
+        this.getemplist.regionIds = this.$store.getters.regionIds
+      }
       customerlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
@@ -331,6 +349,7 @@ export default {
     },
     // 新增数据
     handleAdd() {
+      this.employeeVisible = false
       this.$router.push('/Customer/NewCustomer')
     },
     // 选择主生产计划数据时的操作

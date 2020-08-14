@@ -41,6 +41,8 @@
           <el-option label="china" value="1"/>
           <el-option label="philippines" value="2"/>
           <el-option label="Thailand" value="3"/>
+          <el-option label="srilanka" value="4"/>
+          <el-option label="cambodia" value="5"/>
         </el-select>
       </el-form-item>
 
@@ -128,6 +130,12 @@ export default {
       }
       if (this.loginForm.country === '3') {
         this.$store.dispatch('getuseCountry', 3)
+      }
+      if (this.loginForm.country === '4') {
+        this.$store.dispatch('getuseCountry', 4)
+      }
+      if (this.loginForm.country === '5') {
+        this.$store.dispatch('getuseCountry', 5)
       }
       this.loading = true
       loginByUsername(this.loginForm.username, this.loginForm.password)

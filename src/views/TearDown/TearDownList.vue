@@ -274,6 +274,8 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.reviewParms.modifyPersonId = this.$store.getters.userId
+
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.fsp'),
@@ -316,6 +318,8 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
+      this.reviewParms.modifyPersonId = this.$store.getters.userId
+
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.fjd'),
@@ -346,6 +350,8 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
+      this.reviewParms.modifyPersonId = this.$store.getters.userId
+
       this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.jd'),
@@ -466,7 +472,10 @@ export default {
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
-        if (this.$store.getters.userId === approvalUse[approvalUse.length - 1].stepHandler && (row.judgeStat === 1 || row.judgeStat === 0)) {
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
       }
@@ -476,6 +485,8 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.reviewParms.modifyPersonId = this.$store.getters.userId
+
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.tg'),

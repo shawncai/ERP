@@ -27,6 +27,12 @@ service.interceptors.request.use(
     if (store.getters.useCountry === 3 || store.getters.useCountry === '3') {
       config.baseURL = process.env.BASE_API + '7777/thailand'
     }
+    if (store.getters.useCountry === 4 || store.getters.useCountry === '4') {
+      config.baseURL = process.env.BASE_API + '7770/srilanka'
+    }
+    if (store.getters.useCountry === 5 || store.getters.useCountry === '5') {
+      config.baseURL = process.env.BASE_API + '5555/cambodia'
+    }
     store.dispatch('getuploadApi', config.baseURL)
     // console.log('config', config)
     return config

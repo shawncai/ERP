@@ -774,7 +774,7 @@ export default {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       const _row = this.spanArr[rowIndex]
       const _col = _row > 0 ? 1 : 0
-      if (columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6) {
+      if (columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6 && columnIndex !== 7) {
         return {
           rowspan: _row,
           colspan: _col
@@ -822,44 +822,52 @@ export default {
           for (const i in needlist) {
             for (const j in dataarr) {
               if (needlist[i].id === dataarr[j].primaryTableId) {
-                dataarr[j].id = needlist[i].id
-                dataarr[j].resultmoney = needlist[i].resultmoney
-                dataarr[j].approvalUseVos = needlist[i].approvalUseVos
-                dataarr[j].countryId = needlist[i].countryId
-                dataarr[j].createDate = needlist[i].createDate
-                dataarr[j].createPersonId = needlist[i].createPersonId
-                dataarr[j].createPersonName = needlist[i].createPersonName
-                dataarr[j].currency = needlist[i].currency
-                dataarr[j].direction = needlist[i].direction
-                dataarr[j].endDate = needlist[i].endDate
-                dataarr[j].endPersonId = needlist[i].endPersonId
-                dataarr[j].endPersonName = needlist[i].endPersonName
-                dataarr[j].handlePersonId = needlist[i].handlePersonId
-                dataarr[j].handlePersonName = needlist[i].handlePersonName
-                dataarr[j].judgeDate = needlist[i].judgeDate
-                dataarr[j].judgePersonId = needlist[i].judgePersonId
-                dataarr[j].judgePersonName = needlist[i].judgePersonName
-                dataarr[j].judgeStat = needlist[i].judgeStat
-                dataarr[j].modifyDate = needlist[i].modifyDate
-                dataarr[j].modifyPersonId = needlist[i].modifyPersonId
-                dataarr[j].number = needlist[i].number
-                dataarr[j].picPaths = needlist[i].picPaths
-                dataarr[j].receiptStat = needlist[i].receiptStat
-                dataarr[j].summary = needlist[i].summary
-                dataarr[j].taxRate = needlist[i].taxRate
-                dataarr[j].title = needlist[i].title
-                dataarr[j].expensesDate = needlist[i].expensesDate
-                dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
-                dataarr[j].expensesAccount = needlist[i].expensesAccount
-                dataarr[j].expensesAccount = needlist[i].expensesAccount
-                dataarr[j].expensesRegionId = needlist[i].expensesRegionId
-                dataarr[j].expensesRegionName = needlist[i].expensesRegionName
-                dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
-                dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
-                dataarr[j].isVoucher = needlist[i].isVoucher
+                dataarr[j] = { ...dataarr[j], ...needlist[i] }
               }
             }
           }
+          console.log('dataarr', dataarr)
+          // for (const i in needlist) {
+          //   for (const j in dataarr) {
+          //     if (needlist[i].id === dataarr[j].primaryTableId) {
+          //       dataarr[j].id = needlist[i].id
+          //       dataarr[j].resultmoney = needlist[i].resultmoney
+          //       dataarr[j].approvalUseVos = needlist[i].approvalUseVos
+          //       dataarr[j].countryId = needlist[i].countryId
+          //       dataarr[j].createDate = needlist[i].createDate
+          //       dataarr[j].createPersonId = needlist[i].createPersonId
+          //       dataarr[j].createPersonName = needlist[i].createPersonName
+          //       dataarr[j].currency = needlist[i].currency
+          //       dataarr[j].direction = needlist[i].direction
+          //       dataarr[j].endDate = needlist[i].endDate
+          //       dataarr[j].endPersonId = needlist[i].endPersonId
+          //       dataarr[j].endPersonName = needlist[i].endPersonName
+          //       dataarr[j].handlePersonId = needlist[i].handlePersonId
+          //       dataarr[j].handlePersonName = needlist[i].handlePersonName
+          //       dataarr[j].judgeDate = needlist[i].judgeDate
+          //       dataarr[j].judgePersonId = needlist[i].judgePersonId
+          //       dataarr[j].judgePersonName = needlist[i].judgePersonName
+          //       dataarr[j].judgeStat = needlist[i].judgeStat
+          //       dataarr[j].modifyDate = needlist[i].modifyDate
+          //       dataarr[j].modifyPersonId = needlist[i].modifyPersonId
+          //       dataarr[j].number = needlist[i].number
+          //       dataarr[j].picPaths = needlist[i].picPaths
+          //       dataarr[j].receiptStat = needlist[i].receiptStat
+          //       dataarr[j].summary = needlist[i].summary
+          //       dataarr[j].taxRate = needlist[i].taxRate
+          //       dataarr[j].title = needlist[i].title
+          //       dataarr[j].expensesDate = needlist[i].expensesDate
+          //       dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
+          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
+          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
+          //       dataarr[j].expensesRegionId = needlist[i].expensesRegionId
+          //       dataarr[j].expensesRegionName = needlist[i].expensesRegionName
+          //       dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
+          //       dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
+          //       dataarr[j].isVoucher = needlist[i].isVoucher
+          //     }
+          //   }
+          // }
           this.list = dataarr
           this.getSpanArr(this.list)
 
@@ -921,27 +929,28 @@ export default {
         this.getemplist.endTime = this.date[1] + ' 23:59:59'
       }
       this.getemplist.pageNum = 1
-      searchexpenses(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          const listdata = res.data.data.content.list.map(item => {
-            return item.expensesDetailVos
-          })
-          const dataarr = [].concat.apply([], listdata)
-          const obj = this.trans(dataarr)
-          for (const i in this.list) {
-            for (const j in obj) {
-              if (this.list[i].id === obj[j].primaryTableId) {
-                this.list[i].resultmoney = obj[j].money
-              }
-            }
-          }
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
+      // searchexpenses(this.getemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     this.list = res.data.data.content.list
+      //     const listdata = res.data.data.content.list.map(item => {
+      //       return item.expensesDetailVos
+      //     })
+      //     const dataarr = [].concat.apply([], listdata)
+      //     const obj = this.trans(dataarr)
+      //     for (const i in this.list) {
+      //       for (const j in obj) {
+      //         if (this.list[i].id === obj[j].primaryTableId) {
+      //           this.list[i].resultmoney = obj[j].money
+      //         }
+      //       }
+      //     }
+      //     this.total = res.data.data.content.totalCount
+      //     // this.restFilter()
+      //   } else {
+      //     // this.restFilter()
+      //   }
+      // })
     },
     // 经办人focus事件
     handlechooseStock() {

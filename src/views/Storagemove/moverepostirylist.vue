@@ -565,6 +565,7 @@ export default {
     // 确认修改
     handleOk() {
       const val = this.$refs.editable2.getRecords()
+
       const name = []
       const id = []
       for (const i in val) {
@@ -572,7 +573,7 @@ export default {
         id.push(val[i].id)
       }
       console.log(name, id)
-
+      this.editCategoryForm.modifyPersonId = this.$store.getters.userId
       this.editCategoryForm.name = name.join(',')
       this.editCategoryForm.repositoryIds = id.join(',')
       editmoverepository(this.editCategoryForm).then(res => {

@@ -62,7 +62,16 @@
                   <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
-
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.couponRemark')" :rules="(personalForm.couponSupportOld === 0 || personalForm.couponSupportOld === '') ? personalrules.couponRemark:[{ required: true, message: 'please select couponRemark', trigger: 'change' }]" prop="couponRemark" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear3" v-model="personalForm.couponRemark" style="width: 200px">
+                    <el-option value="1" label="tax rebate amount"/>
+                    <el-option value="2" label="employee discount amount"/>
+                    <el-option value="3" label="old cash voucher amount"/>
+                    <el-option value="4" label="special discount amount"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>

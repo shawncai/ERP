@@ -366,6 +366,9 @@ export function addmoverepository(query) {
 // 修改仓库权限人员
 export function editmoverepository(query, query2) {
   var params = new URLSearchParams()
+  if (query.modifyPersonId !== '' && query.modifyPersonId !== null && query.modifyPersonId !== undefined) {
+    params.append('modifyPersonId', query.modifyPersonId) // 你要传给后台的参数值 key/value
+  }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('id', query.id) // 你要传给后台的参数值 key/value
   }

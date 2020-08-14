@@ -76,6 +76,12 @@
           width="240"
           align="center"/>
         <el-table-column
+          :label="$t('collectAndPay.saleReceipt')"
+          prop="saleReceipt"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('collectAndPay.hhd')"
           prop="exchangeMoney"
           sortable

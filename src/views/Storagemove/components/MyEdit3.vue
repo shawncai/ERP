@@ -364,8 +364,10 @@ export default {
         } else {
           callback(new Error('phone number is wrong'))
         }
-      } else {
+      } else if (this.$store.getters.useCountry === 1) {
         callback()
+      } else {
+        callback(new Error('phone number is wrong'))
       }
     }
     return {

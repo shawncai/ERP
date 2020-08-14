@@ -170,7 +170,8 @@ export default {
         1: '工艺BOM',
         2: '设计BOM',
         3: '制造BOM',
-        4: '采购BOM'
+        4: '采购BOM',
+        5: '销售BOM'
       }
       return statusMap[status]
     },
