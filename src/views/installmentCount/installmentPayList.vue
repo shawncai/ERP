@@ -91,7 +91,7 @@
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.recoveryCarDetail')"
-          prop="recoveryCarDetail"
+          prop="productType"
           sortable
           width="200"
           align="center"/>
@@ -151,7 +151,7 @@
           align="center"/>
         <el-table-column
           :label="$t('installmentPayList.day')"
-          prop="day"
+          prop="count"
           sortable
           width="200"
           align="center"/>

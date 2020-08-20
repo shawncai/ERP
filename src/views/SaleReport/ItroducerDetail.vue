@@ -46,7 +46,7 @@
           align="center"/>
         <el-table-column
           :label="$t('SaleOut.inintroducerPhone')"
-          prop="inintroducerPhone"
+          prop="introducerPhone"
           sortable
           align="center"/>
         <el-table-column

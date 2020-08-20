@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { packageList, deletePackage } from '@/api/Package'
+import { getPackage, deletePackage } from '@/api/Package'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
@@ -180,10 +180,10 @@ export default {
       // 商品列表数据
       this.listLoading = true
       this.getemplist = this.query
-      packageList(this.getemplist).then(res => {
+      getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -202,10 +202,10 @@ export default {
     handleFilter() {
       this.getemplist = this.query
       this.getemplist.pagenum = 1
-      packageList(this.getemplist).then(res => {
+      getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()

@@ -652,7 +652,7 @@ export default {
       return statusMap[sta]
     }
   },
-  components: { MyReturn, MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
+  components: { MyItem, MyReturn, MyContract, MyPackage, MyDetail2, MyOpportunity, MyPresale, MyAdvance, MyOrder, MyRepository, MyAccept, MyAgent, MyCustomer, MyRequire, MySupplier, MyApply, MyDetail, MyDelivery, MyEmp },
   props: {
     editcontrol: {
       type: Boolean,
@@ -1070,6 +1070,23 @@ export default {
     _that = this
   },
   methods: {
+    uniqueArray3(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     additem() {
       if (!this.customerId) {
         this.$notify.error({
@@ -1080,6 +1097,7 @@ export default {
         return false
       }
       this.control3 = true
+      console.log(123, this.control3)
     },
     productdetail3(val) {
       if (!this.customerId) {
@@ -1302,7 +1320,7 @@ export default {
         this.personalForm.couponSupportOld = 0
       }
 
-      if ((this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') && this.personalForm.useMonth === null) {
+      if ((this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '6') && this.personalForm.useMonth === null) {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
@@ -1311,7 +1329,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.personalForm.useMonth !== null) {
@@ -1337,11 +1355,11 @@ export default {
           if (needmoney < 0) {
             needmoney = 0
           }
-          this.$set(this.personalForm, 'receivableMoney', needmoney)
+          this.$set(this.personalForm, 'shouldMoney', needmoney)
           // 未减去优惠券额的金额
           this.$set(this.personalForm, 'receivableMoney2', needmoney2)
         } else {
-          this.$set(this.personalForm, 'receivableMoney', 0)
+          this.$set(this.personalForm, 'shouldMoney', 0)
           // 未减去优惠券额的金额
           this.$set(this.personalForm, 'receivableMoney2', 0)
         }
@@ -1352,7 +1370,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.receivableMoney !== '' || this.receivableMoney !== null || this.receivableMoney !== undefined) {
@@ -1363,7 +1381,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else {
@@ -1373,7 +1391,7 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'receivableMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       }

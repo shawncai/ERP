@@ -271,13 +271,13 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px; margin-bottom： 30px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px; margin-bottom： 100px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -383,6 +383,8 @@
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>
@@ -484,6 +486,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      packagerepository: '',
       rate: 0,
       moreaction: [],
       canclick: false,
@@ -733,6 +736,7 @@ export default {
         })
       } else {
         this.productnumber = this.moreaction[0].productCode
+        this.packagerepository = this.personalForm.saleRepositoryId
         this.packagecontrol = true
       }
     },

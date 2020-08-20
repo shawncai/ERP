@@ -189,7 +189,16 @@
             <!-- <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/> -->
             <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.thisMoney"
+                  @change="thisMoneyjudge(scope.row, $event, scope)"
+                />
+              </template>
+            </el-editable-column>
             <!-- <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/> -->
           </el-editable>
         </div>
@@ -441,6 +450,14 @@ export default {
     _that = this
   },
   methods: {
+    thisMoneyjudge(row, val, scope) {
+      if (Number(val) > Number(row.uncollectedMoney)) {
+        scope.row.thisMoney = 0
+        this.$set(scope.row, 'thisMoney', 0)
+        console.log(123)
+      }
+      // return row.thisMoney
+    },
     Installment(val) {
       console.log('val=====', val)
       this.personalForm.customerId = val.id

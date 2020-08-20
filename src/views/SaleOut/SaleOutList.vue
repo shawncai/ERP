@@ -647,7 +647,28 @@ export default {
     handleEdit(row) {
       console.log(row)
       if (row.isFree === 1 && row.useMonth === null && row.useType === null) {
+        console.log(12, 3, 4, 4, 5, 5)
         this.returncontrol = true
+        this.personalForm4 = Object.assign({}, row)
+        this.personalForm4.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm4.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm4.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm4.payMode = row.payMode
+        }
+        if (row.saleType !== null) {
+          this.personalForm4.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm4.payType = String(row.payType)
+        }
+        if (row.outType !== null) {
+          this.personalForm4.outType = String(row.outType)
+        }
       } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
         this.batteryreturn = true
         this.personalForm3 = Object.assign({}, row)

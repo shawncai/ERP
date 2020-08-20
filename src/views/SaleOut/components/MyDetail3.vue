@@ -266,7 +266,9 @@ export default {
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = this.selectFromId(res.data.data.content.list, this.formValidate.serviceIdList)
+          this.list = res.data.data.content.list.filter(item => {
+            return item.existStock > 0
+          })
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -426,7 +428,10 @@ export default {
       this.tiaoshu = this.formValidate.serviceIdList.length
     },
     // 根据id选中
-    selectFromId(showList, selectList) {
+    selectFromId(showList2, selectList) {
+      const showList = showList2.filter(item => {
+        return item.existStock > 0
+      })
       if (selectList) {
         for (const i in showList) {
           if (selectList.findIndex(item => item.id === showList[i].id) > -1) {

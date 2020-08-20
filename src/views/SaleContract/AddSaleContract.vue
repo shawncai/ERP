@@ -296,7 +296,7 @@
           <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
 
@@ -560,6 +560,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      packagerepository: '',
       repositorycontrol: false,
       saveloding: false,
       customercontrol2: false,
@@ -879,7 +880,7 @@ export default {
     },
     isEdit3(row) {
       const re = row.productCode.slice(0, 2)
-      if (re === '01') { return false } else { return true }
+      if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit2(row) {
       const re = row.productCode.slice(0, 2)
@@ -927,6 +928,7 @@ export default {
           offset: 100
         })
       } else {
+        this.packagerepository = this.personalForm.saleRepositoryId
         this.productnumber = this.moreaction[0].productCode
         this.packagecontrol = true
       }
@@ -1702,6 +1704,54 @@ export default {
     // 保存操作
     handlesave() {
       const EnterDetail2 = this.$refs.editable.getRecords()
+      let m = 1
+      const that = this
+      EnterDetail2.map(function(elem) {
+        return elem
+      }).forEach(function(elem) {
+        const re = elem.productCode.slice(0, 2)
+        if (re === '01') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '' || elem.chargeCode === null || elem.chargeCode === undefined || elem.chargeCode === '' || elem.controlCode === null || elem.controlCode === undefined || elem.controlCode === '') {
+            m = 2
+          }
+        }
+        // if (re === '05') {
+        //   if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+        //     m = 3
+        //   }
+        // }
+      })
+      if (m === 4) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.gwpbslyyxsht'),
+          offset: 100
+        })
+        this.saveloding = false
+
+        return false
+      }
+      // if (m === 3) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: this.$t('prompt.dcckytbm'),
+      //     offset: 100
+      //   })
+      //   this.saveloding = false
+
+      //   return false
+      // }
+      if (m === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('prompt.zcckytbm'),
+          offset: 100
+        })
+        this.saveloding = false
+
+        return false
+      }
+
       if (EnterDetail2.length === 1) {
         this.$notify.error({
           title: 'wrong',

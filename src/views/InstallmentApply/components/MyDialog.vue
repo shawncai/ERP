@@ -210,7 +210,7 @@
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
       <h2 ref="geren" class="form-name">{{ $t('updates.spxx') }}</h2>
       <el-button style="margin-top: 20px;" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-      <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
+      <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @packagedata="packagedata"/>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm2" :model="productForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -742,6 +742,7 @@ export default {
       }
     }
     return {
+      packagerepository: '',
       newcomarker: {
         suretyName: '',
         suretyPhone: '',
@@ -1102,6 +1103,7 @@ export default {
           offset: 100
         })
       } else {
+        this.packagerepository = this.personalForm.saleRepositoryId
         this.productnumber = this.productForm.productCode
         this.packagecontrol = true
       }

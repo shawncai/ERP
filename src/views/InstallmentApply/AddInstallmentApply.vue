@@ -213,7 +213,7 @@
 
         <div ref="geren" class="form-name">{{ $t('updates.spxx') }}</div>
         <el-button style="margin-top: 50px;" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @packagedata="packagedata"/>
         <div class="container" style="margin-top:25px">
           <el-form ref="personalForm2" :model="productForm" :rules="personalrules" :inline="true" label-position="left" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -859,6 +859,7 @@ export default {
     //   }
     // }
     return {
+      packagerepository: '',
       uplodaapi: this.$store.getters.uploadApi,
       newcomarker: {
         suretyName: '',
@@ -1186,7 +1187,10 @@ export default {
           offset: 100
         })
       } else {
+        console.log('this.personalForm', this.personalForm)
+
         this.productnumber = this.productForm.productCode
+        this.packagerepository = String(this.personalForm.saleRepositoryId)
         this.packagecontrol = true
       }
     },

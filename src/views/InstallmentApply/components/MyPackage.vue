@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { packageList, deletePackage } from '@/api/Package'
+import { getPackage, deletePackage } from '@/api/Package'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
@@ -109,12 +109,21 @@ export default {
     productnumber: {
       type: String,
       default: null
+    },
+    packagerepository: {
+      type: Number,
+      default: null
     }
   },
   data() {
     return {
       // 主商品数据
-      query: this.productnumber,
+      query: {
+        productCode: this.productnumber,
+        repositoryId: this.packagerepository,
+        pageNum: 1,
+        pageSize: 10
+      },
       // 供应商回显
       supplierid: '',
       // 供货商控制
@@ -150,11 +159,14 @@ export default {
   watch: {
     packagecontrol() {
       this.productVisible = this.packagecontrol
-      console.log(this.packagecontrol)
+      console.log('this.packagerepository', this.packagerepository)
+      this.query.productCode = this.productnumber
+      this.query.repositoryId = this.packagerepository
+      this.getlist()
     },
     productnumber() {
-      this.query = this.productnumber
-      this.getlist()
+      // this.query = this.productnumber
+      // this.getlist()
     }
   },
   beforeCreate() {
@@ -165,11 +177,11 @@ export default {
       console.log('this.query', this.query)
       // 商品列表数据
       this.listLoading = true
-      this.getemplist.productCode = this.query
-      packageList(this.getemplist).then(res => {
+      this.getemplist = this.query
+      getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -187,10 +199,10 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      packageList(this.getemplist).then(res => {
+      getPackage(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
+          this.list = res.data.data.content
+          // this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {
           // this.restFilter()
