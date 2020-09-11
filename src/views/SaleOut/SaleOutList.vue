@@ -6,6 +6,11 @@
       <el-input v-model="getemplist.number" :placeholder="$t('updates.ckdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="outPersonId" :placeholder="$t('SaleOut.outPersonId')" size="small" class="filter-item" @focus="handlechooseAccept" @clear="restFilter"/>
       <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.isFree" :value="getemplist.isFree" :placeholder="$t('collectAndPay.isfree')" size="small" clearable class="filter-item">
+        <el-option :label="$t('updates.yes')" value="1"/>
+        <el-option :label="$t('updates.no')" value="2"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -692,6 +697,28 @@ export default {
           this.personalForm3.outType = String(row.outType)
         }
       } else if (row.saleOutItems.length !== 0) {
+        this.returncontrol = true
+        this.personalForm4 = Object.assign({}, row)
+        this.personalForm4.sourceType = String(row.sourceType)
+        if (row.currency !== null) {
+          this.personalForm4.currency = String(row.currency)
+        }
+        if (row.customerType !== null) {
+          this.personalForm4.customerType = String(row.customerType)
+        }
+        if (row.payMode !== null) {
+          this.personalForm4.payMode = row.payMode
+        }
+        if (row.saleType !== null) {
+          this.personalForm4.saleType = String(row.saleType)
+        }
+        if (row.payType !== null) {
+          this.personalForm4.payType = String(row.payType)
+        }
+        if (row.outType !== null) {
+          this.personalForm4.outType = String(row.outType)
+        }
+      } else if (row.isAppService === 1) {
         this.returncontrol = true
         this.personalForm4 = Object.assign({}, row)
         this.personalForm4.sourceType = String(row.sourceType)

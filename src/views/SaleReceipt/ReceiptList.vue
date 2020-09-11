@@ -5,42 +5,43 @@
       <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <!-- <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" size="small" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/> -->
-
+      <el-input v-model="receiptRepositoryId" :placeholder="$t('updates.xsmd')" size="small" class="filter-item" @focus="handlechooseRep" @clear="restFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-input v-model="getemplist.title" :placeholder="$t('updates.skdzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.customerName" :placeholder="$t('updates2.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
-      <!--更多搜索条件-->
-      <!--<el-col :span="3">-->
-      <!--<el-popover-->
-      <!--v-model="visible2"-->
-      <!--placement="bottom"-->
-      <!--width="500"-->
-      <!--trigger="click">-->
-      <!--<el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">-->
-      <!--<el-option value="1" :label="$t('updates.zd')"/>-->
-      <!--<el-option value="2" :label="$t('updates.zx')"/>-->
-      <!--<el-option value="3" :label="$t('updates.jd')"/>-->
-      <!--</el-select>-->
-      <!--<el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: right;margin-right: 20px">-->
-      <!--<el-option value="0" :label="$t('updates.wsh')"/>-->
-      <!--<el-option value="1" :label="$t('updates.shz')"/>-->
-      <!--<el-option value="2" :label="$t('updates.shtg')"/>-->
-      <!--<el-option value="3" :label="$t('updates.shptg')"/>-->
-      <!--</el-select>-->
-      <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
-      <!--&lt;!&ndash;v-model="date"&ndash;&gt;-->
-      <!--&lt;!&ndash;type="daterange"&ndash;&gt;-->
-      <!--&lt;!&ndash;range-separator="-"&ndash;&gt;-->
-      <!--&lt;!&ndash;unlink-panels&ndash;&gt;-->
-      <!--&lt;!&ndash;start-placeholder="销售日期"&ndash;&gt;-->
-      <!--&lt;!&ndash;end-placeholder="销售日期"&ndash;&gt;-->
-      <!--&lt;!&ndash;value-format="yyyy-MM-dd"&ndash;&gt;-->
-      <!--&lt;!&ndash;style="margin-top: 20px;margin-left: 20px"/>&ndash;&gt;-->
-      <!--<div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">-->
-      <!--<el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>-->
-      <!--</div>-->
-      <!--<el-button v-waves slot="reference" type="primary" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>-->
-      <!--</el-popover>-->
-      <!--</el-col>-->
+      <el-popover
+        v-model="visible2"
+        placement="bottom"
+        width="500"
+        size="small"
+        trigger="click">
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable style="width: 40%;float: left;margin-left: 20px">
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
+        </el-select>
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option :label="$t('updates.zd')" value="1"/>
+          <el-option :label="$t('updates.zx')" value="2"/>
+          <el-option :label="$t('updates.jd')" value="3"/>
+        </el-select>
+
+        <el-date-picker
+          v-model="date"
+          :default-time="['00:00:00', '23:59:59']"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          value-format="yyyy-MM-dd"
+          style="width: 60%;float: left;margin-left: 20px;margin-top: 20px"/>
+
+        <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
+          <el-button v-waves class="filter-item" type="primary" size="small" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+        </div>
+        <el-button v-waves slot="reference" type="primary" size="small" class="filter-item" style="width: 130px" @click="visible2 = !visible2">{{ $t('public.filter') }}<svg-icon icon-class="shaixuan" style="margin-left: 4px"/></el-button>
+      </el-popover>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px; margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -118,7 +119,8 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
-
+        :summary-method="getSummaries2"
+        show-summary
         size="small"
         border
         fit
@@ -143,17 +145,22 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Receipt.customerId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.allShouldMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Receipt.allShouldMoney')" :resizable="false" prop="totalLackMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.totalLackMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Receipt.receiptMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('Receipt.receiptMoney')" :resizable="false" prop="receiptMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptMoney }}</span>
           </template>
@@ -168,7 +175,7 @@
             <span>{{ scope.row.receiptPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -234,12 +241,13 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from '../StockRetreat/components/MyRepository'
 
 var _that
 export default {
   name: 'ReceiptList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -274,6 +282,8 @@ export default {
   },
   data() {
     return {
+      receiptRepositoryId: '',
+      repositorycontrol: false,
       tableHeight: 200,
       pickerOptions1: {
         disabledDate: (time) => {
@@ -378,6 +388,41 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
@@ -403,7 +448,7 @@ export default {
     },
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.receiptIds = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -411,8 +456,8 @@ export default {
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 0
-        const parms = JSON.stringify(this.reviewParms)
-        updateReceipt(parms).then(res => {
+        const parms = this.reviewParms
+        judgeReceipt(parms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -653,6 +698,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       this.getemplist.pageNum = 1
       searchreceipt(this.getemplist).then(res => {
         if (res.data.ret === 200) {
@@ -855,8 +907,8 @@ export default {
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.receiptRepositoryId = val.repositoryName
+      this.getemplist.receiptRepositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

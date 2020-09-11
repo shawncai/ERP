@@ -34,13 +34,15 @@
           :label="$t('searchSaleOrderReport.id')"
           type="index"
           sortable
-          width="240"
+          width="60"
+          fixed
           align="center"/>
         <el-table-column
           :label="first"
           sortable
+          fixed
           prop="name"
-          width="240"
+          width="150"
           align="center"/>
         <el-table-column :label="$t('searchSaleReport.saleOut')" align="center">
           <el-table-column

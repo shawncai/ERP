@@ -942,8 +942,9 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
-      this.isbendi = 1
+      this.isbendi = this.editdata.isOwn
       this.shouldMoney = this.personalForm.shouldMoney
+      console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
       if (this.personalForm.saleOutRetreatVos.length === 0) {
         this.showreturn = false
       } else {
@@ -974,6 +975,8 @@ export default {
       }
       this.personalForm.couponMoney = this.personalForm.couponSupport
       console.log('this.personalForm.receivableMoney', this.personalForm.receivableMoney)
+      console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
+
       if (this.personalForm.couponNumbers === '' || this.personalForm.couponNumbers === null || this.personalForm.couponNumbers === undefined) {
         this.personalForm2.couponSupports = [
           {
@@ -1043,6 +1046,7 @@ export default {
       if (this.personalForm.useMonth !== null & this.personalForm.useMonth !== undefined && this.personalForm.useMonth !== '') {
         this.getdiffprice()
       }
+      console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
     },
     // 监听明细表计算合计
     list2: {
@@ -1125,6 +1129,7 @@ export default {
           }
         }
       }
+      console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
     },
     changeisdeduct() {
       if (this.isdeduct === 2) {
@@ -1391,6 +1396,7 @@ export default {
       if (this.personalForm.isFree === 2) {
         if (this.personalForm.isAppService === 1) {
           if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
+            console.log(1)
             let testneedmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             const testneedmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             if (testneedmoney < 0) {
@@ -1407,6 +1413,8 @@ export default {
             // 未减去优惠券额的金额
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           } else if (this.$store.getters.newsaleoutdata.firstMoney) {
+            console.log(2)
+
             let testneedmoney = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             const testneedmoney2 = (this.$store.getters.newsaleoutdata.firstMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             if (testneedmoney < 0) {
@@ -1424,6 +1432,8 @@ export default {
             // 未减去优惠券额的金额
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           } else if (this.shouldMoney !== '' || this.shouldMoney !== null || this.shouldMoney !== undefined) {
+            console.log(3)
+
             let testneedmoney = (this.shouldMoney - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             const testneedmoney2 = (this.shouldMoney - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             if (testneedmoney < 0) {
@@ -1440,6 +1450,8 @@ export default {
             // 未减去优惠券额的金额
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           } else {
+            console.log(4)
+
             let testneedmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             const testneedmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
             if (testneedmoney < 0) {
@@ -1456,6 +1468,8 @@ export default {
             this.$set(this.personalForm, 'receivableMoney2', needmoney2)
           }
         } else if (this.personalForm.isAppService === 2) {
+          console.log(5)
+
           this.$set(this.personalForm, 'appDiscount', 0)
           if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
             let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) + Number(this.projectmoney)
@@ -1501,6 +1515,7 @@ export default {
         // 未减去优惠券额的金额123
         this.$set(this.personalForm, 'receivableMoney2', 0)
       }
+      console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
       //   console.log(198283774747)
@@ -2617,10 +2632,6 @@ export default {
     // 修改按钮
     async  handleEditok() {
       this.saveloding = true
-      if (this.personalForm.isFree === 2 && this.returnlist.length !== 0) {
-        console.log('this.$refs.editable2', this.$refs.editable2.getRecords())
-        this.$refs.editable2.clear()
-      }
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content
       })
@@ -2843,26 +2854,26 @@ export default {
         if (this.personalForm.saleOutGiftVos.length === 0) {
           const EnterDetailgift = []
         } else {
-          const EnterDetailgift = this.$refs.editable2.getRecords()
+          // const EnterDetailgift = this.$refs.editable2.getRecords()
           // 批次货位不能为空
-          let j = 1
-          EnterDetailgift.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-              j = 2
-            }
-          })
-          console.log(j)
-          if (j === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.pchwbnwk'),
-              offset: 100
-            })
-            this.saveloding = false
-            return false
-          }
+          // let j = 1
+          // EnterDetailgift.map(function(elem) {
+          //   return elem
+          // }).forEach(function(elem) {
+          //   if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+          //     j = 2
+          //   }
+          // })
+          // console.log(j)
+          // if (j === 2) {
+          //   this.$notify.error({
+          //     title: 'wrong',
+          //     message: this.$t('prompt.pchwbnwk'),
+          //     offset: 100
+          //   })
+          //   this.saveloding = false
+          //   return false
+          // }
         }
         delete this.personalForm.saleOutRetreatVos
         delete this.personalForm.saleOutDetailVos
@@ -3107,7 +3118,7 @@ export default {
               return elem
             })
 
-            const parms3 = ''
+            // const parms3 = ''
             let couponNumbers = ''
             for (let i = 0; i < this.personalForm2.couponSupports.length; i++) {
               if (this.personalForm2.couponSupports[i].couponSupport !== 0 && this.personalForm2.couponSupports[i].couponSupport !== '') {
@@ -3178,9 +3189,18 @@ export default {
             const parms4 = JSON.stringify(returndata)
             const itemdata = this.$refs.editable4.getRecords()
             const parms5 = JSON.stringify(itemdata)
+            console.log('Data', Data)
+            console.log('parms2', parms2)
+            // console.log('parms3', parms3)
+            console.log('this.personalForm.receivableMoney2', this.personalForm.receivableMoney2)
+            console.log('parms4', parms4)
+            console.log('parms5', parms5)
+
+            // const EnterDetail2 = this.$refs.editable3.getRecords()
+            // const parms3 = JSON.stringify(EnterDetail2)
 
             console.log('parms4', parms4)
-            updatesaleOut(parms, parms2, parms3, this.personalForm.receivableMoney2, parms4, parms5).then(res => {
+            updatesaleOut(parms, parms2, null, this.personalForm.receivableMoney2, parms4, parms5).then(res => {
               if (res.data.ret === 200) {
                 this.$notify({
                   title: this.$t('prompt.czcg'),

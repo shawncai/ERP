@@ -6,6 +6,14 @@
       <el-input v-model="getemplist.customerName" :placeholder="$t('installmentPayList.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="searchRepositoryId" :placeholder="$t('updates.xsmd')" size="small" class="filter-item" @focus="handlechooseRep" @clear="restFilter"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+      <el-date-picker
+        v-model="date"
+        :default-time="['00:00:00', '23:59:59']"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        value-format="yyyy-MM-dd"
+        style="width: 250px"/>
       <!--更多搜索条件1231231-->
       <!--<el-col :span="3">-->
       <!--<el-popover-->
@@ -80,6 +88,8 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
+        :summary-method="getSummaries2"
+        show-summary
         border
         fit
         highlight-current-row
@@ -103,27 +113,32 @@
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="$t('AgentCollect.discountMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.discountMoney }}</span>
+            <span>{{ scope.row.shouldMoney }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
+        <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.outDate }}</span>
+          </template>
+        </el-table-column>
         <!-- <el-table-column :label="$t('AgentCollect.returnMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.returnMoney }}</span>
           </template>
         </el-table-column> -->
-        <el-table-column :label="$t('AgentCollect.collectedMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.collectedMoney')" :resizable="false" prop="collectedMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.collectedMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AgentCollect.uncollectedMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('AgentCollect.uncollectedMoney')" :resizable="false" prop="uncollectedMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.uncollectedMoney }}</span>
           </template>
@@ -291,6 +306,41 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     handleMyReceipt2(val) {
       console.log(val)
       this.$store.dispatch('getempcontract', val)
@@ -407,6 +457,13 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       customerCollectList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

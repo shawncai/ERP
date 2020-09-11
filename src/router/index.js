@@ -1901,17 +1901,18 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'Returnorderlist',
-        component: () => import('@/views/SaleOrder/Returnorderlist'),
-        name: 'Returnorderlist',
-        meta: { title: 'Returnorderlist', noCache: false, roles: ['54-57-1', '54-57-2', '54-57-3', '54-57-4', '54-57-5', '54-57-6', '54-57-7', '54-57-18', '54-57-22', '54-57-23', '54-57-24', '54-57-25', '54-57-26'] }
-      },
-      {
         path: 'Addreturnordermoney',
         component: () => import('@/views/SaleOrder/Addreturnordermoney'),
         name: 'Addreturnordermoney',
         meta: { title: 'Addreturnordermoney', noCache: false, roles: ['54-58-1'] }
       },
+      {
+        path: 'Returnorderlist',
+        component: () => import('@/views/SaleOrder/Returnorderlist'),
+        name: 'Returnorderlist',
+        meta: { title: 'Returnorderlist', noCache: false, roles: ['54-57-1', '54-57-2', '54-57-3', '54-57-4', '54-57-5', '54-57-6', '54-57-7', '54-57-18', '54-57-22', '54-57-23', '54-57-24', '54-57-25', '54-57-26'] }
+      },
+
       {
         path: 'AddSaleOrder',
         component: () => import('@/views/SaleOrder/AddSaleOrder'),

@@ -147,8 +147,8 @@
         :data="list"
         :summary-method="getSummaries2"
         :height="tableHeight"
-        border
         show-summary
+        border
         style="width: 100%">
         <el-table-column
           :label="$t('searchSaleOrderReport.id')"

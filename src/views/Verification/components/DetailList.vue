@@ -58,6 +58,11 @@
                   <span>{{ personalForm.remark }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('public.hxzt')" style="width: 100%;">
+                  <span>{{ personalForm.stat | statFilter2 }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -138,6 +143,14 @@
 var _that
 export default {
   filters: {
+    statFilter2(sta) {
+      const staMap = {
+        1: 'normal',
+        2: 'pull out',
+        3: 'bad account'
+      }
+      return staMap[sta]
+    },
     sourceTypeFilter(status) {
       const statusMap = {
         1: '分期订单'

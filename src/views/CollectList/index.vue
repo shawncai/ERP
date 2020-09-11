@@ -87,6 +87,8 @@
         :key="tableKey"
         :data="list"
         :row-class-name="tableRowClassName"
+        :summary-method="getSummaries2"
+        show-summary
         border
         fit
         highlight-current-row
@@ -112,17 +114,17 @@
             <span>{{ `第${scope.row.idx}期` }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.interestMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.interestMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.interestMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.capitalMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.capitalMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.capitalMoney }}</span>
           </template>
@@ -137,7 +139,7 @@
             <span>{{ scope.row.reward }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.pay')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.pay')" :resizable="false" prop="paidMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.paidMoney }}</span>
           </template>
@@ -341,6 +343,41 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     // 根据区域选择门店
     handlechange4() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)

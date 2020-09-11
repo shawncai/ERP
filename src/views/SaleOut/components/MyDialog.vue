@@ -472,7 +472,7 @@
         <el-button @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
         <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @isManila="isManilaData" @salePrice="salePrice" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -1083,15 +1083,21 @@ export default {
     // 监听明细表计算合计
     list2: {
       handler(oldval, newval) {
+        console.log(oldval, newval)
         let num = 0
         let num1 = 0
         let num2 = 0
+        console.log(123)
         for (const i in this.list2) {
           // console.log(typeof (this.list2[i].taxprice))
           num += Number(this.list2[i].quantity)
           num2 += Number(this.list2[i].discountMoney)
           num1 += Number(this.list2[i].includeTaxCostMoney)
         }
+        console.log('num', num)
+        console.log('num2', num2)
+        console.log('num1', num1)
+
         this.heji1 = num
         this.heji3 = num1
         this.heji4 = num2
@@ -1131,7 +1137,7 @@ export default {
       this.introducer = ''
     },
     introducerdata(val) {
-      this.personalForm.introducer = val.id
+      this.personalForm.introducerId = val.id
       this.introducer = val.customerName
     },
     chooseintroducer() {
@@ -1362,6 +1368,9 @@ export default {
       if (!this.personalForm.couponMoney) {
         this.personalForm.couponMoney = 0
       }
+      if (!this.personalForm.appDiscount) {
+        this.personalForm.appDiscount = 0
+      }
       console.log('this.personalForm.sourceTypethis.personalForm.sourceType', this.personalForm.sourceType)
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
@@ -1426,6 +1435,27 @@ export default {
         console.log('456', 456)
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+      } else if (this.personalForm.sourceType === '2') {
+        console.log('789', 789)
+        let needmoney = (Number(this.personalForm.shouldMoney) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.personalForm.shouldMoney) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        if (needmoney < 0) {
+          needmoney = 0
+        }
+
+        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        // 未减去优惠券额的金额
+        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+      } else {
+        console.log('4')
+        let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
+        const needmoney2 = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
@@ -1498,6 +1528,10 @@ export default {
     handleSelectionChange(val) {
       console.log(val)
       this.moreaction = val
+    },
+    isManilaData(val) {
+      console.log('maniladata', val)
+      this.personalForm.isManila = val
     },
     packagedata(val) {
       console.log('val1222222', val)
@@ -1865,6 +1899,8 @@ export default {
       this.salePersonId = val.salePersonName
       this.personalForm.handleRepositoryId = val.saleRepositoryId
       this.handleRepositoryId = val.saleRepositoryName
+      this.personalForm.isManila = val.isManila
+
       if (val.saleType !== null && val.saleType !== undefined && val.saleType !== '') {
         this.personalForm.saleType = String(val.saleType)
       }
@@ -2120,6 +2156,7 @@ export default {
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row, val, scope) {
+      console.log(scope)
       const re = row.productCode.slice(0, 2)
       if (re === '01') {
         const discountparms = {
@@ -2155,6 +2192,8 @@ export default {
           }
           if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
             row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            const changeDiscount = row.discountRate
+            this.$set(this.list2[scope.$index], 'discountMoney', row.discountMoney)
           }
         })
       } else {
@@ -2191,6 +2230,7 @@ export default {
           }
           if (row.taxprice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
             row.discountRate = (((row.discountMoney / row.includeTaxCostMoney)) * 100).toFixed(6)
+            this.$set(this.list2[scope.$index], 'discountMoney', row.discountMoney)
           }
         })
       }
@@ -2325,6 +2365,8 @@ export default {
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
       this.personalForm.settleMode = val.settleMode
+      this.personalForm.isManila = 2
+
       // if (val.payType !== null && val.payType !== undefined && val.payType !== '') {
       //   this.personalForm.payType = String(val.payType)
       // }
@@ -2370,6 +2412,8 @@ export default {
       this.personalForm.saleRepositoryId = val.saleRepositoryId
       this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.address
+      this.personalForm.isManila = 2
+
       this.getReceivableMoney()
     },
     // 从销售机会过来的源单数据
@@ -2401,6 +2445,8 @@ export default {
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId
       this.handleRepositoryId = val.handleRepositoryName
+      this.personalForm.isManila = 2
+
       this.getReceivableMoney()
     },
     // 无来源添加商品

@@ -15,17 +15,17 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.firstName')" prop="firstName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.firstName" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.firstName" style="width: 200px" clearable @blur="havaAccessFirstName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.middleName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.middleName" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.middleName" style="width: 200px" clearable @blur="havaAccessMiddleName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.lastName')" prop="lastName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.lastName" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.lastName" style="width: 200px" clearable @blur="havaAccessLastName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -76,12 +76,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.currentAddress')" prop="currentAddress" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.currentAddress" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.currentAddress" style="width: 200px" clearable @blur="haveAccessAddress"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.permanentAddress')" prop="permanentAddress" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.permanentAddress" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.permanentAddress" style="width: 200px" clearable @blur="haveAccessAddress2"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -693,7 +693,7 @@
 <script>
 import { validateEmail } from '@/utils/validate'
 import '@/directive/noMoreClick/index.js'
-import { addinstallmentapply } from '@/api/InstallmentApply'
+import { addinstallmentapply, confirmPhone, confirmAddress, confirmName } from '@/api/InstallmentApply'
 import { ratelist } from '@/api/Installmentrate'
 import { adjustlist } from '@/api/AdjustPrice'
 import { getprovincelist, getcitylist, existList, vehicleInfo } from '@/api/public'
@@ -955,7 +955,8 @@ export default {
         firstMoney: 0.0,
         salePersonId: this.$store.getters.userId,
         saleRepositoryId: this.$store.getters.repositoryId,
-        picids: []
+        picids: [],
+        isManila: 2
       },
       productForm: {
         batteryCode: '',
@@ -1096,6 +1097,69 @@ export default {
     _that = this
   },
   methods: {
+    haveAccessAddress2() {
+      confirmAddress(this.personalForm.permanentAddress).then(res => {
+        console.log('xxx', res)
+        if (res.data.data.content === true) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('update4.gdzycz'),
+            offset: 100
+          })
+        }
+      })
+    },
+    haveAccessAddress() {
+      confirmAddress(this.personalForm.currentAddress).then(res => {
+        console.log('xxx', res)
+        if (res.data.data.content === true) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('update4.gdzycz'),
+            offset: 100
+          })
+        }
+      })
+    },
+
+    havaAccessFirstName(val) {
+      confirmName(this.personalForm.firstName, null, null).then(res => {
+        console.log('xxx', res)
+        if (res.data.data.content === true) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('update4.yczgx'),
+            offset: 100
+          })
+        }
+      })
+    },
+
+    havaAccessMiddleName(val) {
+      confirmName(null, this.personalForm.middleName, null).then(res => {
+        console.log('xxx', res)
+        if (res.data.data.content === true) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('update4.yczgx'),
+            offset: 100
+          })
+        }
+      })
+    },
+
+    havaAccessLastName(val) {
+      confirmName(null, null, this.personalForm.lastName).then(res => {
+        console.log('xxx', res)
+        if (res.data.data.content === true) {
+          this.$notify.error({
+            title: 'wrong',
+            message: this.$t('update4.yczgx'),
+            offset: 100
+          })
+        }
+      })
+    },
     cancel2() {
       this.comakerVisible = false
       this.newcomarker = {}
@@ -1176,6 +1240,7 @@ export default {
     packagedata(val) {
       console.log('val1222222', val)
       this.productForm.price = val
+      this.personalForm.isManila = val.isManila
       this.changeTotalMoney()
     },
     // 选择套餐
@@ -1430,6 +1495,17 @@ export default {
                 message: this.$t('prompt.yqxsc')
               })
             })
+          } else if (res.data.data.content === 1) {
+            confirmPhone(this.personalForm.matePhone).then(res => {
+              console.log('xxx', res)
+              if (res.data.data.content === true) {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('update4.gdhycz'),
+                  offset: 100
+                })
+              }
+            })
           }
         })
       }
@@ -1478,6 +1554,17 @@ export default {
                 message: this.$t('prompt.yqxsc')
               })
             })
+          } else if (res.data.data.content === 1) {
+            confirmPhone(this.personalForm.applyCellPhone).then(res => {
+              console.log('xxx', res)
+              if (res.data.data.content === true) {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('update4.gdhycz'),
+                  offset: 100
+                })
+              }
+            })
           }
         })
       }
@@ -1525,6 +1612,17 @@ export default {
                 type: 'info',
                 message: this.$t('prompt.yqxsc')
               })
+            })
+          } else if (res.data.data.content === 1) {
+            confirmPhone(this.personalForm.applyCellPhone).then(res => {
+              console.log('xxx', res)
+              if (res.data.data.content === true) {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: this.$t('update4.gdhycz'),
+                  offset: 100
+                })
+              }
             })
           }
         })
@@ -1714,7 +1812,8 @@ export default {
         regionId: this.$store.getters.regionId,
         gender: 1,
         firstMoney: 0.0,
-        picids: []
+        picids: [],
+        isManila: 2
       }
       this.productForm = {}
       this.personalForm.applyDate = new Date()

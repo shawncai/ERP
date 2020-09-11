@@ -75,3 +75,22 @@ export function deletePackage(query, query2) {
     data: params
   })
 }
+
+//  判断是否是特殊分期
+export function getEachMoney(query) {
+  var params = new URLSearchParams()
+  if (query.count !== '' && query.count !== null && query.count !== undefined) {
+    params.append('count', query.count) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.first !== '' && query.first !== null && query.first !== undefined) {
+    params.append('first', query.first) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/special/getEachMoney',
+    method: 'post',
+    data: params
+  })
+}

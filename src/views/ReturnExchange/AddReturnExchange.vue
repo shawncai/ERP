@@ -174,7 +174,7 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" >
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -393,7 +393,8 @@ export default {
         exchangeDate: null,
         stat: '1',
         diffMoney: '0.00',
-        sourceMoney: '0.00'
+        sourceMoney: '0.00',
+        isManila: 2
       },
       // 配送单规则数据
       personalrules: {
@@ -991,6 +992,7 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
+      this.personalForm.isManila = val.isManila
       this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allIncludeTaxMoney
@@ -1065,7 +1067,9 @@ export default {
         sourceType: '1',
         customerType: '2',
         exchangeDate: null,
-        stat: '1'
+        stat: '1',
+        isManila: 2
+
       }
       this.customerId = ''
       this.Issource = false

@@ -29,6 +29,15 @@
                     style="margin-left: 18px;width: 200px"/>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('public.hxzt')" style="width: 100%;">
+                  <el-select v-model="personalForm.stat" style="margin-left: 18px;width:200px">
+                    <el-option label="normal" value="1"/>
+                    <el-option label="pull out" value="2"/>
+                    <el-option label="bad account" value="3"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -61,7 +70,7 @@
       </el-card>
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saving" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -119,6 +128,7 @@ export default {
       }
     }
     return {
+      saving: false,
       isshow: false,
       allmoney: '',
       // 批量操作
@@ -161,7 +171,8 @@ export default {
         receiptMoney: 0,
         deductionMoney: 0,
         totalLackMoney: 0,
-        handlePersonId: this.$store.getters.userId
+        handlePersonId: this.$store.getters.userId,
+        stat: '1'
       },
       // 商品信息
       productForm: {},
@@ -628,66 +639,76 @@ export default {
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         sourceType: '1',
+        penaltyMoney: 0,
         receiptMoney: 0,
-        deductionMoney: 0
+        deductionMoney: 0,
+        totalLackMoney: 0,
+        handlePersonId: this.$store.getters.userId,
+        stat: '1'
+
       }
       this.handlePersonId = null
       this.customerId = null
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable2.getRecords()
-      if (EnterDetail.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      console.log('this.personalForm', this.personalForm)
-      this.$refs.personalForm.validate(async(valid) => {
-        if (valid) {
-          for (let i = 0; i < EnterDetail.length; i++) {
-            EnterDetail[i].handlePersonId = this.personalForm.handlePersonId
-            EnterDetail[i].repositoryId = this.personalForm.repositoryId
-            EnterDetail[i].regionId = this.personalForm.regionId
-            EnterDetail[i].cancelDate = this.personalForm.cancelDate
-            EnterDetail[i].sourceType = this.personalForm.sourceType
-            EnterDetail[i].createPersonId = this.personalForm.createPersonId
-            const parms2 = JSON.stringify(EnterDetail[i])
-            const applydata = await addVerification(parms2, this.personalForm).then(res => {
-              if (i === EnterDetail.length - 1) {
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable2.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              }
-            })
-          }
-        } else {
+      this.saving = true
+
+      setTimeout(() => {
+        const EnterDetail = this.$refs.editable2.getRecords()
+        if (EnterDetail.length === 0) {
           this.$notify.error({
             title: 'wrong',
-            message: 'Information is incomplete',
+            message: this.$t('prompt.mxbbnwk'),
             offset: 100
           })
           return false
         }
-      })
+        console.log('this.personalForm', this.personalForm)
+        this.$refs.personalForm.validate(async(valid) => {
+          if (valid) {
+            for (let i = 0; i < EnterDetail.length; i++) {
+              EnterDetail[i].handlePersonId = this.personalForm.handlePersonId
+              EnterDetail[i].repositoryId = this.personalForm.repositoryId
+              EnterDetail[i].regionId = this.personalForm.regionId
+              EnterDetail[i].cancelDate = this.personalForm.cancelDate
+              EnterDetail[i].sourceType = this.personalForm.sourceType
+              EnterDetail[i].createPersonId = this.personalForm.createPersonId
+              EnterDetail[i].stat = this.personalForm.stat
+              const parms2 = JSON.stringify(EnterDetail[i])
+              const applydata = await addVerification(parms2, this.personalForm).then(res => {
+                if (i === EnterDetail.length - 1) {
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable2.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                }
+              })
+            }
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            return false
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 取消操作
     handlecancel() {

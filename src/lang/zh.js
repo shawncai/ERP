@@ -2720,6 +2720,7 @@ export default {
     iseffective: '启用状态'
   },
   public: {
+    hxzt: '核销状态',
     plgx: '更新',
     detail: '明细',
     businessStatus: '业务状态',
@@ -4530,6 +4531,10 @@ export default {
     sendEmergencyPhone: '配送紧急联系人电话',
     yearDepreciationRate: '年残值率',
     danhao: '单号',
-    actialdiffermoney: '实际差异金额'
+    actialdiffermoney: '实际差异金额',
+    yczgx: '该客户已存在，请核实',
+    gdzycz: '该地址已存在，请核实',
+    gdhycz: '改电话已存在，请核实',
+    isManila: '是否特殊套餐'
   }
 }

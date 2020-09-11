@@ -44,7 +44,9 @@
               <el-form-item :label="$t('Collection.receivePersonId')" prop="receivePersonId" style="width: 100%;">
                 <el-input v-model="receivePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
               </el-form-item>
-              <my-emp :control.sync="stockControl" @stockName="stockName"/>
+              <!-- <my-emp :control.sync="stockControl" @stockName="stockName"/> -->
+              <my-emp2 :control.sync="stockControl" @personName="stockName" @personIds="personIds"/>
+
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Collection.retreatRepositoryId')" style="width: 100%;">
@@ -116,7 +118,7 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
@@ -172,6 +174,16 @@
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-model="scope.row.chargeCode" clearable/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-model="scope.row.controlCode" clearable/>
+            </template>
+          </el-editable-column>
         </el-editable>
       </div>
     </el-card>
@@ -194,10 +206,11 @@ import MyInstallment from './MyInstallment'
 import MyRepository from './MyRepository'
 import MySaleout from './MySaleout'
 import MyPackage from './MyPackage'
+import MyEmp2 from './MyEmp2'
 
 var _that
 export default {
-  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage, MyEmp2 },
   props: {
     editcontrol: {
       type: Boolean,
@@ -485,8 +498,10 @@ export default {
     },
     // 收车人回显
     stockName(val) {
-      this.receivePersonId = val.personName
-      this.personalForm.receivePersonId = val.id
+      this.receivePersonId = val
+    },
+    personIds(val) {
+      this.personalForm.receivePersonId = val
     },
     getdatatime() { // 默认显示今天
       this.personalForm.receiveDate = new Date()

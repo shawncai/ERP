@@ -277,7 +277,7 @@
         <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @isManila="isManilaData" @salePrice="salePrice" @packagedata="packagedata"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -417,6 +417,7 @@ import MyInstallmentapply from './MyInstallmentapply'
 import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
 import MyPackage from './MyPackage'
+import { isSpecial } from '@/utils/judgeisspecial'
 
 // eslint-disable-next-line no-unused-vars
 var _that
@@ -671,6 +672,14 @@ export default {
       this.moreaction[0].salePrice = val
     },
     geteachmoney() {
+      console.log(this.list2)
+      let carTypeId = ''
+      for (const i in this.list2) {
+        console.log('this.list2[i]', this.list2[i])
+        if (this.list2[i].productCode.slice(0, 2) === '01') {
+          carTypeId = this.list2[i].productType
+        }
+      }
       const date = new Date()
       let byear = 0
       let bmonth = 0
@@ -692,7 +701,23 @@ export default {
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
       this.personalForm.installmentEndtime = `${eyear}-${emonth}`
-      this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+      if (this.personalForm.isManila === 2) {
+        this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+      } else if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: carTypeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.eachMoney = res.data.data.eachMoney
+          } else {
+            this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+          }
+        })
+      }
     },
     changefirstmoney() {
       const needval = this.installmentCounts.find(item => {
@@ -719,6 +744,10 @@ export default {
         }
       }
       this.geteachmoney()
+    },
+    isManilaData(val) {
+      console.log('maniladata', val)
+      this.personalForm.isManila = val
     },
     packagedata(val) {
       console.log('val1222222', val)
@@ -1174,6 +1203,8 @@ export default {
       this.personalForm.dayOfMonth = val.installmentDays
       this.personalForm.firstMoney = val.firstMoney
       this.personalForm.totalMoney = val.totalMoney
+      this.personalForm.isManila = val.isManila
+
       let byear = 0
       let bmonth = 0
       let eyear = 0

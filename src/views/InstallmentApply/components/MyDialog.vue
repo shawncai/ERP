@@ -1092,6 +1092,7 @@ export default {
     packagedata(val) {
       console.log('val1222222', val)
       this.productForm.price = val
+      this.personalForm.isManila = val.isManila
       this.changeTotalMoney()
     },
     // 选择套餐

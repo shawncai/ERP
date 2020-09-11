@@ -16,6 +16,15 @@
           :label="item.repositoryName"
           :value="item.id"/>
       </el-select>
+      <el-date-picker
+        v-model="date"
+        :placeholder="$t('updates.rq')"
+        type="daterange"
+        range-separator="-"
+        unlink-panels
+        size="small"
+        value-format="yyyy-MM-dd"
+        style="width: 260px"/>
       <!--更多搜索条件-->
       <!-- <el-col :span="3">
             <el-popover
@@ -80,16 +89,19 @@
         <el-table
           v-loading="listLoading"
           ref="table"
-          :height="tableHeight"
-          :key="tableKey"
           :data="list"
+          :height="tableHeight"
+          :key="tableKey2"
+          :summary-method="getSummaries2"
+          show-summary
+          highlight-current-row
           size="small"
           border
           fit
-          highlight-current-row
           style="width: 100%;"
           @row-click="clickRow"
           @current-change="getPayPlan"
+
         >
           <el-table-column
             type="selection"
@@ -136,6 +148,11 @@
               <span>{{ scope.row.productName }}</span>
             </template>
           </el-table-column>
+          <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.outDate }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('InstallmentList.count')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.count }}</span>
@@ -161,27 +178,27 @@
               <span>{{ scope.row.afterRate }}</span>
             </template>
           </el-table-column> -->
-          <el-table-column :label="$t('InstallmentList.leftAllmoney')" :resizable="false" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.leftAllmoney')" :resizable="false" prop="leftAllmoney" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.leftAllmoney }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('InstallmentList.paidMoney')" :resizable="false" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.paidMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.paidMoney }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('InstallmentList.reward')" :resizable="false" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.reward')" :resizable="false" prop="reward" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.reward }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.totalMoney')" :resizable="false" prop="totalMoney" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.totalMoney }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('InstallmentList.cancelMoney')" :resizable="false" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.cancelMoney')" :resizable="false" prop="cancelMoney" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.cancelMoney }}</span>
             </template>
@@ -404,7 +421,7 @@ export default {
     return {
       repositories: [],
       tableHeight: 200,
-
+      tableKey2: 0,
       // 销售员回显
       salePersonId: '',
       // 控制销售
@@ -489,6 +506,42 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    getSummaries2(param) {
+      console.log(param)
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      console.log(sums)
+      return sums
+    },
     // 根据区域选择门店
     getreops() {
       console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
@@ -628,6 +681,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date === null || this.date === undefined || this.date === '') {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      } else {
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
+      }
       this.list2 = []
       this.getemplist.pageNum = 1
       installmentlist(this.getemplist).then(res => {

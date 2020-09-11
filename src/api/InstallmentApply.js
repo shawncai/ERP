@@ -116,3 +116,48 @@ export function updateapply2(query) {
     data: params
   })
 }
+
+// 分期申请提示电话
+export function confirmPhone(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('phoneNumber', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customer/confirmPhone',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分期申请提示地址
+export function confirmAddress(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('address', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customer/confirmAddress',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分期申请提示姓名
+export function confirmName(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('firstName', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('middleName', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('lastName', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customer/confirmName',
+    method: 'post',
+    data: params
+  })
+}

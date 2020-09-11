@@ -173,7 +173,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        isManila: 2
       },
       // 商品信息
       productForm: {},
@@ -258,6 +259,8 @@ export default {
       this.personalForm.customerName = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.totalMoney = val.totalMoney
+      this.personalForm.isManila = val.isManila
+
       this.personalForm.beforeCount = val.count
       this.personalForm.paidCount = val.paidCount
       this.personalForm.paidMoney = Number(val.totalMoney) - Number(val.leftAllmoney)
@@ -282,7 +285,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        isManila: 2
       }
       this.saleRepositoryId = null
       this.IscustomerName = false

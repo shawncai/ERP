@@ -44,31 +44,37 @@
         ref="table"
         :data="list"
         :height="tableHeight"
+        :summary-method="getSummaries2"
+        show-summary
         border
         style="width: 100%">
         <el-table-column
           :label="$t('searchSaleOrderReport.id')"
           type="index"
           sortable
-          width="240"
+          fixed
+          width="60"
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderDetailReport.productCode')"
           prop="productCode"
           sortable
-          width="240"
+          width="100"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderDetailReport.productName')"
           prop="productName"
           sortable
-          width="240"
+          width="100"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderDetailReport.productTypeName')"
           prop="productTypeName"
           sortable
-          width="240"
+          width="100"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderDetailReport.productCategoryName')"
@@ -263,6 +269,59 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+
+        if (index === 2) {
+          sums[index] = ''
+          return
+        }
+
+        if (index === 3) {
+          sums[index] = ''
+          return
+        }
+        if (index === 1) {
+          sums[index] = ''
+          return
+        }
+        if (index === 4) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     treechoose() {
       this.treecontrol = true
     },

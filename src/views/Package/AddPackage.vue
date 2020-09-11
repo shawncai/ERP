@@ -21,6 +21,14 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.isManila')" prop="isManila" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-radio-group v-model="personalForm.isManila" style="width: 200px">
+                    <el-radio :label="1" style="width: 100px">{{ $t('updates.yes') }}</el-radio>
+                    <el-radio :label="2">{{ $t('updates.no') }}</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -152,7 +160,8 @@ export default {
       personalForm: {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
-        repositoryFlag: 2
+        repositoryFlag: 2,
+        isManila: 2
       },
       // 配送单规则数据
       personalrules: {
@@ -161,6 +170,10 @@ export default {
         ],
         isEffective: [
           { required: true, message: '请选择应用状态', trigger: 'change' }
+        ],
+        isManila: [
+          { required: true, message: '请选择是否是特殊套餐', trigger: 'change' }
+
         ]
       },
       // 门店明细数据

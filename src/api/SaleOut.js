@@ -40,6 +40,12 @@ export function searchsaleOut(query) {
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }
+  if (query.isFree !== '' && query.isFree !== null && query.isFree !== undefined) {
+    params.append('isFree', query.isFree) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.outPersonId !== '' && query.outPersonId !== null && query.outPersonId !== undefined) {
     params.append('outPersonId', query.outPersonId) // 你要传给后台的参数值 key/value
   }
@@ -102,7 +108,9 @@ export function updatesaleOut(query, query2, query3, query4, query5, query6) {
   var params = new URLSearchParams()
   params.append('Json', query) // 你要传给后台的参数值 key/value
   params.append('detailJson', query2) // 你要传给后台的参数值 key/value
-  params.append('giftJson', query3) // 你要传给后台的参数值 key/value
+  if (query3) {
+    params.append('giftJson', query3) // 你要传给后台的参数值 key/value
+  }
   params.append('receivableMoney2', query4) // 你要传给后台的参数值 key/value
   if (query5) {
     params.append('retreatJson', query5) // 你要传给后台的参数值 key/value

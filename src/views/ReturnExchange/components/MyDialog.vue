@@ -160,7 +160,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" >
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -243,6 +243,16 @@
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
               <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-model="scope.row.chargeCode" clearable/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-model="scope.row.controlCode" clearable/>
             </template>
           </el-editable-column>
         </el-editable>
@@ -399,11 +409,11 @@ export default {
       this.customerId = this.personalForm.customerName
       this.handlePersonId = this.personalForm.handlePersonName
       this.repositoryId = this.personalForm.repositoryName
-      this.list2 = this.personalForm.returnExchangeOutVos
+      this.list2 = this.personalForm.returnExchangeRetreatVos
       for (const i in this.list2) {
         this.list2[i].taxPrice = this.list2[i].salePrice + this.list2[i].taxMoney
       }
-      this.list3 = this.personalForm.returnExchangeRetreatVos
+      this.list3 = this.personalForm.returnExchangeOutVos
     },
     list2: {
       handler() {
@@ -834,6 +844,8 @@ export default {
       this.personalForm.customerType = String(val.customerType)
       this.Issource = true
       this.customerId = val.customerName
+      this.personalForm.isManila = val.isManila
+
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId
       this.personalForm.diffMoney = val.actualMoney
@@ -912,6 +924,12 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.returnExchangeOutVos
+      delete this.personalForm.returnExchangeRetreatVos
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId
@@ -1126,7 +1144,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updateReturnExchange(parms, parms2, parms3).then(res => {
+      updateReturnExchange(parms, parms3, parms2).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),

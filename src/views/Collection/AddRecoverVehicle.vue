@@ -16,7 +16,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" style="width: 200px" @change="clearnumber">
-                    <el-option value="1" label="sale out"/>
+                    <el-option value="1" label="stock out form"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -46,7 +46,9 @@
                 <el-form-item :label="$t('Collection.receivePersonId')" prop="receivePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="receivePersonId" style="width: 200px" @focus="handlechooseStock"/>
                 </el-form-item>
-                <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                <!-- <my-emp :control.sync="stockControl" @stockName="stockName"/> -->
+                <my-emp2 :control.sync="stockControl" @personName="stockName" @personIds="personIds"/>
+
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Collection.retreatRepositoryId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -136,6 +138,16 @@
                 <span v-else>{{ scope.row.batteryCode }}</span>
               </template>
             </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-model="scope.row.chargeCode" clearable/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+              <template slot="edit" slot-scope="scope">
+                <el-input v-model="scope.row.controlCode" clearable/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -183,6 +195,8 @@
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -242,10 +256,11 @@ import MyInstallment from './components/MyInstallment'
 import MyRepository from './components/MyRepository'
 import MySaleout from './components/MySaleout'
 import MyPackage from './components/MyPackage'
+import MyEmp2 from './components/MyEmp2'
 var _that
 export default {
   name: 'AddRecoverVehicle',
-  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage },
+  components: { MyRepository, MyInstallment, MyMater, MyDetail, MyEmp, MySaleout, MyPackage, MyEmp2 },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.receivePersonId === undefined || this.receivePersonId === null || this.receivePersonId === '') {
@@ -528,8 +543,11 @@ export default {
     },
     // 收车人回显
     stockName(val) {
-      this.receivePersonId = val.personName
-      this.personalForm.receivePersonId = val.id
+      console.log(val)
+      this.receivePersonId = val
+    },
+    personIds(val) {
+      this.personalForm.receivePersonId = val
     },
     getdatatime() { // 默认显示今天
       var date = new Date()
@@ -557,13 +575,13 @@ export default {
       // }
     },
     Installment(val) {
-      this.personalForm.sourceNumber = val.applyNumber
+      // this.personalForm.sourceNumber = val.applyNumber
       this.personalForm.customerId = val.customerId
       this.personalForm.customerName = val.customerName
       this.personalForm.customerPhone = val.customerPhone
       this.personalForm.address = val.address
-      this.personalForm.retreatRepositoryId = val.repositoryId
-      this.retreatRepositoryId = val.repositoryName
+      // this.personalForm.retreatRepositoryId = val.repositoryId
+      // this.retreatRepositoryId = val.repositoryName
     },
     // 清空记录
     restAllForm() {

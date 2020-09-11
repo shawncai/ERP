@@ -1138,6 +1138,14 @@ export default {
             })
             return false
           }
+          if (Number(this.personalForm.customerPay) !== Number(this.personalForm.receiptMoney) && this.$store.getters.countryId === 2) {
+            this.$notify.error({
+              title: 'wrong',
+              message: '客户付款金额应等于本次收款金额',
+              offset: 100
+            })
+            return false
+          }
           updateReceipt(parms, parms2).then(res => {
             if (res.data.ret === 200) {
               this.$notify({

@@ -384,7 +384,7 @@
           <el-button :disabled="personalForm.sourceType === '2'" @click="handleAddGift">{{ $t('updates.tj') }}</el-button>
           <my-detail2 :giftcontrol.sync="giftcontrol" :personalform.sync="personalForm" @gift="gift"/>
           <el-button :disabled="personalForm.sourceType === '2'" @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @salePrice="salePrice" @isManila="isManilaData" @packagedata="packagedata"/>
           <el-button :disabled="personalForm.sourceType === '2'" type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -888,7 +888,8 @@ export default {
         receiveMoney: 0,
         isInvoice: 1,
         couponMoney: 0,
-        couponSupportOld: 0
+        couponSupportOld: 0,
+        isManila: 2
       },
       // 销售订单规则数据
       personalrules: {
@@ -1195,6 +1196,10 @@ export default {
     },
     chooseNumber() {
       this.recyclingcontrol = true
+    },
+    isManilaData(val) {
+      console.log('maniladata', val)
+      this.personalForm.isManila = val
     },
     salePrice(val) {
       this.moreaction[0].salePrice = val
@@ -2340,6 +2345,9 @@ export default {
       // this.personalForm.saleRepositoryId = val.saleRepositoryId
       // this.saleRepositoryId = val.saleRepositoryName
       this.personalForm.address = val.transAddress
+      this.personalForm.address = val.transAddress
+      this.personalForm.isManila = 2
+
       this.getReceivableMoney()
     },
     // 从预售单过来的源单数据
@@ -2376,6 +2384,8 @@ export default {
       this.personalForm.customerPhone = val.phone
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
+      this.personalForm.isManila = 2
+
       if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
         this.personalForm.payMode = val.payMode
       }
@@ -2412,6 +2422,8 @@ export default {
       this.salePersonId = val.handlePersonName
       this.personalForm.handleRepositoryId = val.handleRepositoryId
       this.handleRepositoryId = val.handleRepositoryName
+      this.personalForm.isManila = 2
+
       this.getReceivableMoney()
     },
     // 源单类型为销售合同
@@ -2453,6 +2465,7 @@ export default {
       this.personalForm.salePersonId = val.salePersonId
       this.salePersonId = val.salePersonName
       this.personalForm.handleRepositoryId = val.saleRepositoryId
+      this.personalForm.isManila = val.isManila
       this.handleRepositoryId = val.saleRepositoryName
       if (val.saleType !== null && val.saleType !== undefined && val.saleType !== '') {
         this.personalForm.saleType = String(val.saleType)
@@ -2470,6 +2483,8 @@ export default {
       this.personalForm.ridBikeMoney = val.recyclingMoney
       this.personalForm.customerType = '2'
       this.personalForm.customerId = val.customerId
+      this.personalForm.isManila = 2
+
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           if (this.isdeduct === 1) {
@@ -2632,7 +2647,8 @@ export default {
           {
             couponSupport: 0
           }
-        ]
+        ],
+        isManila: 2
       }
       this.shouldMoney = ''
       this.customerId = null

@@ -217,6 +217,8 @@ export default {
       this.personalForm.totalMoney = val.totalMoney
       this.personalForm.beforeCount = val.count
       this.personalForm.paidCount = val.paidCount
+      this.personalForm.isManila = val.isManila
+
       this.personalForm.paidMoney = Number(val.totalMoney) - Number(val.leftAllmoney)
       this.personalForm.remainCapital = val.leftMoney
       this.personalForm.paidCapital = Number(val.installmentMoney) - Number(val.leftMoney)

@@ -26,8 +26,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.type')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.type" style="width: 200px" @change="changeType">
-                    <el-radio :label="1" style="width: 100px">全部门店</el-radio>
-                    <el-radio :label="2">部分门店</el-radio>
+                    <el-radio :label="1" style="width: 100px">all branches</el-radio>
+                    <el-radio :label="2">partial branches</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -59,8 +59,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('collectAndPay.effectiveTime')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.effectiveTime" style="width: 200px" @change="changeTime">
-                    <el-radio :label="1" style="width: 100px">限制时间</el-radio>
-                    <el-radio :label="2">不限制时间</el-radio>
+                    <el-radio :label="1" style="width: 100px">limit date</el-radio>
+                    <el-radio :label="2">unlimited date</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

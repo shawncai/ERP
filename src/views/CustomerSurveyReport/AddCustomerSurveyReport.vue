@@ -162,7 +162,7 @@
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveing" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
     </div>
@@ -227,6 +227,7 @@ export default {
       }
     }
     return {
+      saveing: false,
       pickerOptions4: {
         disabledDate: (time) => {
           return time.getTime() < new Date(this.personalForm.signDate).getTime() - 8.64e7
@@ -865,62 +866,65 @@ export default {
     },
     // 保存操作
     handlesave() {
-      this.personalForm.personalProperty = this.personalProperty.join(',')
-      // const b = abc.split(',')
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
+      this.saveing = true
+      setTimeout(() => {
+        this.personalForm.personalProperty = this.personalProperty.join(',')
+        // const b = abc.split(',')
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
           // liveStatus
-          if (this.personalForm.liveStatus === '' || this.personalForm.liveStatus === undefined || this.personalForm.liveStatus === null) {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'please select liveStatus',
-              offset: 100
-            })
-            return false
-          }
-          if (this.personalForm.liveType === '' || this.personalForm.liveType === undefined || this.personalForm.liveType === null) {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'please select liveType',
-              offset: 100
-            })
-            return false
-          }
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          addCustomerSurveyReport(parms, this.needarr).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.upload.clearFiles()
-            } else {
+            if (this.personalForm.liveStatus === '' || this.personalForm.liveStatus === undefined || this.personalForm.liveStatus === null) {
               this.$notify.error({
                 title: 'wrong',
-                message: res.data.msg,
+                message: 'please select liveStatus',
                 offset: 100
               })
+              return false
             }
-          })
-        }
-      })
+            if (this.personalForm.liveType === '' || this.personalForm.liveType === undefined || this.personalForm.liveType === null) {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'please select liveType',
+                offset: 100
+              })
+              return false
+            }
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            addCustomerSurveyReport(parms, this.needarr).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+                this.$refs.upload.clearFiles()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          }
+        })
+      }, 1000 * 0.5)
     },
     // 取消操作
     handlecancel() {

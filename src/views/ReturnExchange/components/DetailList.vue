@@ -147,6 +147,9 @@
           <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150px"/>
+
         </el-editable>
       </div>
     </el-card>

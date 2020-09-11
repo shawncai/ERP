@@ -258,6 +258,7 @@ export default {
       })
       this.$emit('packagedata', productDetail)
       this.$emit('salePrice', this.moreaction.salePrice)
+      this.$emit('isManila', this.moreaction.isManila)
     }
   }
 }

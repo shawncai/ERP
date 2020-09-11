@@ -84,7 +84,7 @@
           type="index"
           fixed="left"
           sortable
-          width="240"
+          width="60"
           align="center"/>
         <!--        <el-table-column-->
         <!--          :label="$t('saleBillList.repositoryName')"-->
@@ -96,14 +96,14 @@
           fixed="left"
           prop="productName"
           sortable
-          width="200"
+          width="100"
           align="center"/>
         <el-table-column
           :label="$t('saleBillList.productCode')"
           fixed="left"
           sortable
           prop="productCode"
-          width="200"
+          width="100"
           align="center">
           <template slot-scope="scope">
             <span class="link-type" @click="handleReceipt2(scope.row)">{{ scope.row.productCode }}</span>
@@ -114,7 +114,7 @@
           fixed="left"
           prop="color"
           sortable
-          width="200"
+          width="100"
           align="center"/>
         <el-table-column :label="$t('saleBillList.saleout')" align="center">
           <el-table-column

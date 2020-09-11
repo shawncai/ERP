@@ -55,6 +55,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('public.hxzt')" style="width: 100%;">
+                <el-select v-model="personalForm.stat" style="margin-left: 18px;width: 200px">
+                  <el-option :value="1" label="normal"/>
+                  <el-option :value="2" label="pull out"/>
+                  <el-option :value="3" label="bad account"/>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Receipt.remark')" style="width: 100%;">
                 <el-input v-model="personalForm.remark" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>

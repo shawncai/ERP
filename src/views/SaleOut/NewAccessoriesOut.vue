@@ -3097,38 +3097,38 @@ export default {
             return false
           }
 
-          if (allcontrolproquantity !== allreturncontrolproquantity) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('tongyo.kzqthslyckslbf'),
-              offset: 100
-            })
-            this.saveloading = false
+          // if (allcontrolproquantity !== allreturncontrolproquantity) {
+          //   this.$notify.error({
+          //     title: 'wrong',
+          //     message: this.$t('tongyo.kzqthslyckslbf'),
+          //     offset: 100
+          //   })
+          //   this.saveloading = false
 
-            return false
-          }
+          //   return false
+          // }
 
-          if (allreturnchargeproquantity !== allchargeproquantity) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('tongyo.cdqthslyckslbf'),
-              offset: 100
-            })
-            this.saveloading = false
+          // if (allreturnchargeproquantity !== allchargeproquantity) {
+          //   this.$notify.error({
+          //     title: 'wrong',
+          //     message: this.$t('tongyo.cdqthslyckslbf'),
+          //     offset: 100
+          //   })
+          //   this.saveloading = false
 
-            return false
-          }
+          //   return false
+          // }
 
-          if (allreturnmotoproquantity !== allmotoproquantity) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('tongyo.djthslyckslbf'),
-              offset: 100
-            })
-            this.saveloading = false
+          // if (allreturnmotoproquantity !== allmotoproquantity) {
+          //   this.$notify.error({
+          //     title: 'wrong',
+          //     message: this.$t('tongyo.djthslyckslbf'),
+          //     offset: 100
+          //   })
+          //   this.saveloading = false
 
-            return false
-          }
+          //   return false
+          // }
           let z = 1
           for (const j in returnproduct) {
             if (returnproduct[j].locationId === '' || returnproduct[j].locationId === null || returnproduct[j].locationId === undefined) {

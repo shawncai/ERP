@@ -296,7 +296,7 @@
           <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @salePrice="salePrice" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :packagerepository.sync="packagerepository" :productnumber.sync="productnumber" @isManila="isManilaData" @salePrice="salePrice" @packagedata="packagedata"/>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
 
@@ -496,6 +496,7 @@ import MyAgent from '../SaleOpportunity/components/MyAgent'
 import MyPackage from './components/MyPackage'
 import MyCustomer2 from './components/MyCustomer2'
 import MyRepository from './components/MyRepository'
+import { isSpecial } from '@/utils/judgeisspecial'
 
 // eslint-disable-next-line no-unused-vars
 var _that
@@ -683,7 +684,9 @@ export default {
         contractStat: '1',
         isSecondApply: 2,
         totalMoney: 0,
-        firstMoney: 0
+        firstMoney: 0,
+        isManila: 2,
+        eachMoney: 0
       },
       needarr: [],
       // 采购申请单规则数据
@@ -771,6 +774,16 @@ export default {
       this.repositorycontrol = true
     },
     geteachmoney() {
+      // const nowlistdata = this.$refs.editable.getRecords()
+      // console.log(nowlistdata)
+      console.log(this.list2)
+      let carTypeId = ''
+      for (const i in this.list2) {
+        console.log('this.list2[i]', this.list2[i])
+        if (this.list2[i].productCode.slice(0, 2) === '01') {
+          carTypeId = this.list2[i].productType
+        }
+      }
       const date = new Date()
       let byear = 0
       let bmonth = 0
@@ -792,7 +805,23 @@ export default {
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
       this.personalForm.installmentEndtime = `${eyear}-${emonth}`
-      this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+      if (this.personalForm.isManila === 2) {
+        this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+      } else if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: carTypeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.eachMoney = res.data.data.eachMoney
+          } else {
+            this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
+          }
+        })
+      }
     },
     clearinstallinformation() {
       this.personalForm.isSecondApply = 2
@@ -908,7 +937,10 @@ export default {
       // }
       if (re2 === '01' || re === '13') { return true } else { return false }
     },
-
+    isManilaData(val) {
+      console.log('maniladata', val)
+      this.personalForm.isManila = val
+    },
     salePrice(val) {
       console.log('val1222222', val)
       this.moreaction[0].salePrice = val
@@ -1555,6 +1587,8 @@ export default {
       this.personalForm.dayOfMonth = val.installmentDays
       this.personalForm.firstMoney = val.firstMoney
       this.personalForm.totalMoney = val.totalMoney
+      this.personalForm.isManila = val.isManila
+
       let byear = 0
       let bmonth = 0
       let eyear = 0
@@ -1684,7 +1718,8 @@ export default {
         contractStat: '1',
         isSecondApply: 2,
         totalMoney: 0,
-        firstMoney: 0
+        firstMoney: 0,
+        isManila: 2
       }
       this.rate = 0
       this.price = 0

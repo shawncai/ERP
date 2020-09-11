@@ -73,7 +73,9 @@
         ref="table"
         :height="tableHeight"
         :key="tableKey"
+        :summary-method="getSummaries2"
         :data="list"
+        show-summary
         border
         fit
         highlight-current-row
@@ -103,12 +105,12 @@
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('update4.receiptMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('update4.receiptMoney')" :resizable="false" prop="receiptMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('update4.returnMoney')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('update4.returnMoney')" :resizable="false" prop="returnMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.returnMoney }}</span>
           </template>
@@ -118,7 +120,7 @@
             <span>{{ scope.row.summary }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -280,6 +282,41 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
