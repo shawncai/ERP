@@ -44,7 +44,7 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="margin-bottom: 30px">核销明细</h2>
+        <h2 ref="fuzhu" class="form-name" style="margin-bottom: 30px">verification detail</h2>
         <el-button style="width: 130px" @click="chooseCustomer">{{ $t('updates.cydzxz') }}</el-button>
         <my-installment :installmentcontrol.sync="installmentcontrol" @InstallmentDetail="InstallmentDetail" @Installment="Installment"/>
         <div class="container">
@@ -59,12 +59,12 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :key="Math.random()" prop="customerName" align="center" label="顾客姓名" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="sourceNumber" align="center" label="源单单号" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应结算金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="paidMoney" align="center" label="已结算金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="cancleMoney" align="center" label="核销金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInput', type: 'visible'}" prop="remark" align="center" label="备注" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.gkxm')" prop="customerName" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.yddh')" prop="sourceNumber" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.yjsje')" prop="shouldMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.yujesj')" prop="paidMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.hxje')" prop="cancleMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('update4.bz')" prop="remark" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

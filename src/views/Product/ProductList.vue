@@ -160,12 +160,12 @@
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="100">
+        <el-table-column :label="$t('Product.kpigrade')" :resizable="false" prop="kpiGrade" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.kpiGrade }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="100">
+        <el-table-column :label="$t('Product.point')" :resizable="false" prop="point" align="center" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.point }}</span>
           </template>
@@ -175,7 +175,7 @@
             <span>{{ scope.row.salePrice }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Product.isactive')" :resizable="false" prop="active" align="center" min-width="100">
+        <el-table-column :label="$t('Product.isactive')" :resizable="false" prop="active" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.isActive | activefilter }}</span>
           </template>

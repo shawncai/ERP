@@ -43,9 +43,9 @@
             <el-col :span="12">
               <el-form-item :label="$t('otherlanguage.buyIntention')" style="width: 100%;">
                 <el-select v-model="personalForm.buyIntention" style="margin-left: 18px;width: 200px">
-                  <el-option value="1" label="低"/>
-                  <el-option value="2" label="中"/>
-                  <el-option value="3" label="高"/>
+                  <el-option :label="$t('update4.di')" value="1"/>
+                  <el-option :label="$t('update4.zhogn')" value="2"/>
+                  <el-option :label="$t('update4.gao')" value="3"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -71,6 +71,12 @@
             <el-col :span="12">
               <el-form-item :label="$t('CustomerMarketing.remarks')" style="width: 100%;">
                 <el-input v-model="personalForm.remarks" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.saleRepositoryId')" prop="handleRepositoryId" style="width: 100%;">
+                <el-input v-model="handleRepositoryId" style="margin-left: 18px;width: 200px" @focus="handlechooseRep"/>
+                <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -114,7 +120,17 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.handleRepositoryId === undefined || this.handleRepositoryId === null || this.handleRepositoryId === '') {
+        callback(new Error('please select branch'))
+      } else {
+        callback()
+      }
+    }
     return {
+      repositorycontrol: false,
+      handleRepositoryId: '',
+
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -133,6 +149,10 @@ export default {
       productForm: {},
       // 销售订单规则数据
       personalrules: {
+        handleRepositoryId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+
+        ],
         title: [
           { required: true, message: '请输入洽谈主题', trigger: 'blur' }
         ],
@@ -155,6 +175,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.handlePersonId = this.personalForm.handlePersonName
+      this.handleRepositoryId = this.editdata.handleRepositoryName
     }
   },
   created() {
@@ -163,6 +184,14 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.handleRepositoryId = val.repositoryName
+      this.personalForm.handleRepositoryId = val.id
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     // 我方联络人focus事件
     handlechooseStock() {
       this.stockControl = true

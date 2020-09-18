@@ -62,8 +62,8 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.newOrOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-radio-group v-model="personalForm.newOrOld" style="width: 200px">
-                    <el-radio :label="1" style="width: 100px">全新</el-radio>
-                    <el-radio :label="2">二手车</el-radio>
+                    <el-radio :label="1" style="width: 100px">new</el-radio>
+                    <el-radio :label="2">old</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

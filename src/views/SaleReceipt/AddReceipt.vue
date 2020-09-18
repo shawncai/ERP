@@ -169,7 +169,7 @@
       </el-card> -->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
 
-        <div ref="fuzhu" style="margin-bottom: 20px;" class="form-name" >收款明细</div>
+        <div ref="fuzhu" style="margin-bottom: 20px;" class="form-name" >collection details</div>
         <div class="container">
           <el-editable
             ref="editable"
@@ -183,13 +183,13 @@
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange2">
-            <el-editable-column :key="Math.random()" prop="customerCollectId" label="编号" min-width="200" align="center" />
-            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.bh')" prop="customerCollectId" min-width="200" align="center" />
+            <el-editable-column :key="Math.random()" :label="$t('update4.yskje')" prop="shouldMoney" align="center" min-width="150px"/>
             <!-- <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/> -->
             <!-- <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/> -->
-            <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px">
+            <el-editable-column :key="Math.random()" :label="$t('update4.ysje')" prop="collectedMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.wskje')" prop="uncollectedMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('update4.bcsk')" prop="thisMoney" align="center" min-width="150px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :controls="false"
@@ -849,7 +849,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '总计'
+          sums[index] = 'total'
           return
         }
         const values = data.map(item => Number(item[column.property]))

@@ -434,6 +434,23 @@ export default {
   directives: { permission, permission2 },
   components: { MyDetail, MyEmp },
   data() {
+    var checkphone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error(_that.$t('prompt.sjhbnwk')))
+      }
+      setTimeout(() => {
+        // console.log(String(value).length)
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     return {
       judgeflag: false,
       // 是否显示添加按钮
@@ -533,7 +550,8 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         contactPersonPhone: [
-          { required: true, message: '请输入', trigger: 'blur' }
+
+          { required: true, validator: checkphone, trigger: 'blur' }
         ]
       },
       personalrules2: {

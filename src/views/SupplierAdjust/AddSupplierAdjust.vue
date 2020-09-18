@@ -85,6 +85,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.newPrice"
+                  disabled
                   @change="getprice2(scope.row, scope)"/>
               </template>
             </el-editable-column>
@@ -420,6 +421,7 @@ export default {
             console.log('需求值=========', this.list2[i].newTaxRate)
             console.log(222)
             this.list2[i].newTaxRate = row.newTaxRate
+            this.list2[i].newPrice = this.list2[i].newIncludeTaxPrice / (1 + this.list2[i].newTaxRate / 100)
             this.list2[i].taxRateFlag = 1
           }
           console.log(row)

@@ -179,8 +179,8 @@ export default {
     },
     genderFilter(status) {
       const statusMap = {
-        1: '男',
-        2: '女'
+        1: 'male',
+        2: 'female'
       }
       return statusMap[status]
     },

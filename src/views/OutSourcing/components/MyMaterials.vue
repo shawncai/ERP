@@ -315,11 +315,13 @@ export default {
           unit: item.unit,
           productType: item.productTypeName,
           quantity: 1,
-          money: item.price,
+          price: item.price,
           totalMoney: 0,
           enterQuantity: 0,
           damageQuantity: 0,
-          idx: item.id
+          idx: item.id,
+          includeTaxPrice: item.includeTaxPrice,
+          discountRate: item.discountRate
         }
       })
       console.log('productDetail=================11111', productDetail)
@@ -356,8 +358,12 @@ export default {
         for (const i in productDetail) {
           for (const j in finalproduct) {
             if (productDetail[i].idx === finalproduct[j].idx) {
-              finalproduct[j].money = productDetail[i].money
-              console.log('productDetail[i].money', productDetail[i].money)
+              // finalproduct[j].money = productDetail[i].money
+              finalproduct[j].price = productDetail[i].price
+              finalproduct[j].includeTaxPrice = productDetail[i].includeTaxPrice
+              finalproduct[j].includeTaxMoney = Number(productDetail[i].includeTaxPrice) * productDetail[i].quantity
+              finalproduct[j].discountRate = productDetail[i].discountRate
+              finalproduct[j].discountMoney = (Number(productDetail[i].discountRate) / 100) * Number(productDetail[i].includeTaxPrice) * productDetail[i].quantity
             }
           }
         }

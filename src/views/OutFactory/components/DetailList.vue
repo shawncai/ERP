@@ -154,6 +154,10 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" min-width="150px"/>
+          <el-editable-column :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="150px"/>
+
         </el-editable>
       </div>
     </el-card>

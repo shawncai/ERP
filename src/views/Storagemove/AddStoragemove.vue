@@ -114,9 +114,9 @@
                 <el-form-item :label="$t('Storagemove.businessStat')" prop="businessStat" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.businessStat" style="width: 200px" disabled >
                     <el-option :label="$t('prompt.dbsq')" value="1"/>
-                    <el-option value="2" label="调拨出库"/>
-                    <el-option value="3" label="调拨入库"/>
-                    <el-option value="4" label="调拨完成"/>
+                    <el-option :label="$t('prompt.dbck')" value="2"/>
+                    <el-option :label="$t('prompt.dbrk')" value="3"/>
+                    <el-option :label="$t('prompt.dbwc')" value="4"/>
                   </el-select>
                 </el-form-item>
               </el-col>

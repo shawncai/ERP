@@ -472,10 +472,10 @@ export default {
     },
     businessStatFilter(status) {
       const statusMap = {
-        1: '调拨申请',
-        2: '调拨出库',
-        3: '调拨入库',
-        4: '调拨完成'
+        1: _that.$t('prompt.dbsq'),
+        2: _that.$t('prompt.dbck'),
+        3: _that.$t('prompt.dbrk'),
+        4: _that.$t('prompt.dbwc')
       }
       return statusMap[status]
     },

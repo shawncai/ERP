@@ -702,6 +702,8 @@ import MyDetail from './components/MyDetail'
 import MyMater from './components/MyMater'
 import MyRepository from './components/MyRepository'
 import MyPackage from './components/MyPackage'
+import { isSpecial } from '@/utils/judgeisspecial'
+
 var _that
 export default {
   name: 'AddInstallmentApply',
@@ -730,8 +732,12 @@ export default {
       }
       setTimeout(() => {
         console.log(String(value).length)
-        if (String(value).length !== 11) {
-          callback(new Error('please input right comaker phonenumber'))
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()
         }
@@ -775,7 +781,7 @@ export default {
     const validatePass6 = (rule, value, callback) => {
       setTimeout(() => {
         console.log(String(value).length)
-        if (String(value).length !== 10) {
+        if (String(value).length !== 10 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
           callback(new Error('phone number is wrong'))
         } else {
           callback()
@@ -786,7 +792,7 @@ export default {
       if (value === null || value === undefined || value === '') {
         callback()
       }
-      if (value !== null && value !== undefined && value !== '') {
+      if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
         const flag = email.test(value)
         if (flag) {
@@ -794,6 +800,14 @@ export default {
         } else {
           callback(new Error('please input right email'))
         }
+      }
+
+      if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else {
+        callback()
       }
     }
     // 判断是否为数字(必填)
@@ -819,7 +833,7 @@ export default {
       if (value === null || value === undefined || value === '') {
         callback()
       }
-      if (value !== null && value !== undefined && value !== '') {
+      if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
         const flag = re.test(value)
         if (flag) {
@@ -832,6 +846,13 @@ export default {
           callback(new Error('phone number is wrong'))
         }
       }
+      if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else {
+        callback()
+      }
     }
 
     // 判断是否为数字(非必填)
@@ -840,7 +861,7 @@ export default {
       if (value === null || value === undefined || value === '') {
         callback()
       }
-      if (value !== null && value !== undefined && value !== '') {
+      if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
         const flag = re.test(value)
         if (flag) {
@@ -848,6 +869,13 @@ export default {
         } else {
           callback(new Error('phone number is wrong'))
         }
+      }
+      if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else {
+        callback()
       }
     }
     // const validatePass8 = (rule, value, callback) => {
@@ -1403,6 +1431,19 @@ export default {
           }
         }
       }
+      if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: this.productForm.typeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
+          }
+        })
+      }
     },
     changeRate(val) {
       this.getratelist()
@@ -1433,6 +1474,20 @@ export default {
             }
           }
         }
+      }
+
+      if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: this.productForm.typeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
+          }
+        })
       }
     },
     // 获取分期期数

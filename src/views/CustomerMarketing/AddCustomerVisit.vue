@@ -28,14 +28,14 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerMarketing.visitReson')" prop="visitReson" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.visitReson" style="width: 200px">
-                    <el-option value="1" label="售后"/>
+                    <el-option value="1" label="service"/>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerMarketing.visitMode')" prop="visitMode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.visitMode" style="width: 200px">
-                    <el-option value="1" label="面对面"/>
+                    <el-option value="1" label="face to face"/>
                   </el-select>
                 </el-form-item>
               </el-col>

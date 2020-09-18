@@ -154,16 +154,16 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.term')" prop="presentCount" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.aleadypaid')" prop="paidmoney" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('update4.unpaid')" prop="unpay" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+            <el-editable-column :label="$t('update4.term')" prop="presentCount" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.aleadypaid')" prop="paidmoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.unpaid')" prop="unpay" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -183,14 +183,14 @@
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange2">
-            <el-editable-column :key="Math.random()" prop="sourceNumber" label="编号" min-width="200" align="center" />
-            <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
-            <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/>
+            <el-editable-column prop="sourceNumber" label="编号" min-width="200" align="center" />
+            <el-editable-column prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
+            <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/>
+            <el-editable-column prop="retreatMoney" align="center" label="退货抵扣" min-width="150px"/>
+            <el-editable-column prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
+            <el-editable-column prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

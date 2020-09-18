@@ -241,8 +241,12 @@ export default {
         return callback(new Error(_that.$t('prompt.sjhbnwk')))
       }
       setTimeout(() => {
-        console.log(String(value).length)
-        if (String(value).length !== 11) {
+        // console.log(String(value).length)
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()

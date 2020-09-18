@@ -4149,6 +4149,9 @@ export default {
     ts: '提示',
     qd: '确定',
     dbsq: '调拨申请',
+    dbck: '调拨出库',
+    dbrk: '调拨入库',
+    dbwc: '调拨完成',
     sqslcg: '申请数量超过库存数量',
     qxxzck: '请先选择仓库',
     gckmygsp: '该仓库没有该商品',
@@ -4535,6 +4538,21 @@ export default {
     yczgx: '该客户已存在，请核实',
     gdzycz: '该地址已存在，请核实',
     gdhycz: '改电话已存在，请核实',
-    isManila: '是否特殊套餐'
+    isManila: '是否特殊套餐',
+    bh: '编号',
+    yskje: '应收款金额',
+    ysje: '已收金额',
+    wskje: '未收款金额',
+    bcsk: '本次收款',
+    zjsqd: '总计',
+    gkxm: '顾客姓名',
+    yddh: '源单单号',
+    yjsje: '应结算金额',
+    yujesj: '已结算金额',
+    hxje: '核销金额',
+    bz: '备注',
+    di: '低',
+    zhogn: '中',
+    gao: '高'
   }
 }

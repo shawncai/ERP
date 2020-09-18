@@ -118,11 +118,11 @@
             <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('AgentCollect.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldMoney }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('StockOut.outDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.outDate }}</span>
@@ -150,7 +150,7 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="120px">
           <template slot-scope="scope">
-            <el-button type="primary" style="width: 90px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">生成收款单</span></el-button>
+            <el-button type="primary" style="width: 90px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">sales collection</span></el-button>
           </template>
         </el-table-column>
       </el-table>

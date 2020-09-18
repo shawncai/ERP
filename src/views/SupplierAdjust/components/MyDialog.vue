@@ -50,7 +50,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 5px;margin-bottom: 160px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订货单明细</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.tzdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
@@ -80,6 +80,7 @@
               <el-input-number
                 :precision="6"
                 v-model="scope.row.newPrice"
+                disabled
                 @change="getprice2(scope.row, scope)"/>
             </template>
           </el-editable-column>
@@ -403,6 +404,8 @@ export default {
             console.log('需求值=========', this.list2[i].newTaxRate)
             console.log(222)
             this.list2[i].newTaxRate = row.newTaxRate
+            this.list2[i].newPrice = this.list2[i].newIncludeTaxPrice / (1 + this.list2[i].newTaxRate / 100)
+
             this.list2[i].taxRateFlag = 1
           }
           console.log(row)

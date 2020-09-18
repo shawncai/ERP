@@ -634,6 +634,8 @@ import MyDetail from './MyDetail'
 import MyMater from './MyMater'
 import MyRepository from './MyRepository'
 import MyPackage from './MyPackage'
+import { isSpecial } from '@/utils/judgeisspecial'
+
 var _that
 export default {
   components: { MyMater, MyDetail, MyEmp, MyRepository, MyPackage },
@@ -714,31 +716,35 @@ export default {
       }, 1000)
     }
     const validatePass6 = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('手机号不能为空'))
-      }
       setTimeout(() => {
         console.log(String(value).length)
-        if (String(value).length !== 11) {
-          callback(new Error('请输入正确手机号码'))
+        if (String(value).length !== 10) {
+          callback(new Error('phone number is wrong'))
         } else {
           callback()
         }
       }, 1000)
     }
     const validatePass7 = (rule, value, callback) => {
-      console.log('valueeeeeeeeeeeeeeeeeee', value)
       if (value === null || value === undefined || value === '') {
         callback()
       }
-      if (value !== null && value !== undefined && value !== '') {
+      if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
         const flag = email.test(value)
         if (flag) {
           callback()
         } else {
-          callback(new Error('请输入正确的邮箱地址'))
+          callback(new Error('please input right email'))
         }
+      }
+
+      if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else {
+        callback()
       }
     }
     return {
@@ -1234,6 +1240,19 @@ export default {
           }
         }
       }
+      if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: this.productForm.typeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
+          }
+        })
+      }
     },
     changeRate(val) {
       console.log('val', val)
@@ -1259,6 +1278,19 @@ export default {
             }
           }
         }
+      }
+      if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: this.productForm.typeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
+          }
+        })
       }
     },
     // 获取分期期数

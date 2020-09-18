@@ -56,6 +56,11 @@
                 <span>{{ personalForm.remarks }}</span>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('SaleOrder.saleRepositoryId')" style="width: 100%;">
+                {{ personalForm.handleRepositoryName }}
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -95,6 +100,7 @@
                 {{ personalForm.modifyDate }}
               </el-form-item>
             </el-col>
+
           </el-row>
         </el-form>
       </div>

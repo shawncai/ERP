@@ -45,9 +45,9 @@
               <el-col :span="6">
                 <el-form-item :label="$t('otherlanguage.buyIntention')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.buyIntention" style="width: 200px">
-                    <el-option value="1" label="低"/>
-                    <el-option value="2" label="中"/>
-                    <el-option value="3" label="高"/>
+                    <el-option :label="$t('update4.di')" value="1"/>
+                    <el-option :label="$t('update4.zhogn')" value="2"/>
+                    <el-option :label="$t('update4.gao')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -73,6 +73,12 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CustomerMarketing.remarks')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.remarks" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.saleRepositoryId')" prop="handleRepositoryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="handleRepositoryId" style="width: 200px" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -109,7 +115,16 @@ export default {
         callback()
       }
     }
+    const validatePass3 = (rule, value, callback) => {
+      if (this.handleRepositoryId === undefined || this.handleRepositoryId === null || this.handleRepositoryId === '') {
+        callback(new Error('please select branch'))
+      } else {
+        callback()
+      }
+    }
     return {
+      handleRepositoryId: this.$store.getters.repositoryName,
+      repositorycontrol: false,
       // 回显我方联络人
       handlePersonId: '',
       // 控制我方联络人
@@ -120,6 +135,7 @@ export default {
       list2: [],
       // 销售订单信息数据
       personalForm: {
+        handleRepositoryId: this.$store.getters.repositoryId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -129,6 +145,10 @@ export default {
       productForm: {},
       // 销售订单规则数据
       personalrules: {
+        handleRepositoryId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+
+        ],
         title: [
           { required: true, message: '请输入洽谈主题', trigger: 'blur' }
         ],
@@ -154,6 +174,14 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.handleRepositoryId = val.repositoryName
+      this.personalForm.handleRepositoryId = val.id
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
     getinformation() {
       if (this.$store.getters.empcontract) {
         console.log('getempcontract', this.$store.getters.empcontract)
@@ -178,9 +206,12 @@ export default {
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        handleRepositoryId: this.$store.getters.repositoryId
+
       }
       this.handlePersonId = ''
+      this.handleRepositoryId = this.$store.getters.repositoryName
     },
     // 保存操作
     handlesave() {

@@ -289,11 +289,16 @@ export default {
   data() {
     var checkphone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('手机号不能为空'))
+        return callback(new Error(_that.$t('prompt.sjhbnwk')))
       }
       setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'))
+        // console.log(String(value).length)
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()
         }

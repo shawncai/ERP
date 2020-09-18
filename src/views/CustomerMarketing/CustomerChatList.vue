@@ -7,7 +7,9 @@
       <el-input v-model="getemplist.customerName" :placeholder="$t('updates.khxmi')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="getemplist.title" :placeholder="$t('updates.qtzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
 
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -20,10 +22,11 @@
           <el-option value="1" label="阶段1"/>
         </el-select>
         <el-select v-model="getemplist.buyIntention" :value="getemplist.buyIntention" :placeholder="$t('otherlanguage.buyIntention')" size="small" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option value="1" label="低"/>
-          <el-option value="2" label="中"/>
-          <el-option value="3" label="高"/>
+          <el-option :label="$t('update4.di')" value="1"/>
+          <el-option :label="$t('update4.zhogn')" value="2"/>
+          <el-option :label="$t('update4.gao')" value="3"/>
         </el-select>
+
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -89,6 +92,11 @@
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('SaleOrder.saleRepositoryId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.handleRepositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('CustomerMarketing.phase')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.phase | phaseFilter }}</span>
@@ -135,12 +143,13 @@ import MyAgent from './components/MyAgent'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'CustomerChatList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -179,6 +188,8 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
+      repositoryId: '',
       tableHeight: 200,
 
       // 销售员回显
@@ -542,14 +553,18 @@ export default {
     handlePrint() {
       console.log(456)
     },
+    clearrep() {
+      this.getemplist.repositoryId = this.$store.getters.repositoryId
+      this.repositoryId = ''
+    },
     // 仓库列表focus事件触发
     handlechooseRep() {
       this.repositorycontrol = true
     },
     repositoryname(val) {
       console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
     },
     // 部门列表focus刷新
     updatedept() {

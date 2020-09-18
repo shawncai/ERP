@@ -173,10 +173,10 @@
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
             <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step5" title="销售订单"/>
-              <el-step :status="step6" title="销售出库单"/>
-              <el-step :status="step7" title="销售配送单"/>
-              <el-step :status="step8" title="完成"/>
+              <el-step :status="step5" title="sales order"/>
+              <el-step :status="step6" title="stock out"/>
+              <el-step :status="step7" title="delivery"/>
+              <el-step :status="step8" title="done"/>
             </el-steps>
           </el-form-item>
         </el-form>
@@ -233,9 +233,9 @@ export default {
     },
     sendTypeFilter(status) {
       const statusMap = {
-        1: '未发货',
-        2: '发货中',
-        3: '已发货'
+        1: 'not yet',
+        2: 'on the way',
+        3: 'done'
       }
       return statusMap[status]
     }

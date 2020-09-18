@@ -170,10 +170,22 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/> -->
           <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.jgf')" prop="price" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" min-width="150px">
             <template slot-scope="scope">
-              <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
+              <p>{{ gettotalMoney(scope.row.quantity, scope.row.price, scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('stockTrackList.price')" prop="includeTaxPrice" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('stockTrackList.money')" prop="includeTaxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getincludeTaxMoney(scope.row.quantity, scope.row.includeTaxPrice, scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('repair.Discountamount')" prop="discountMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p>{{ getdiscountMoney(scope.row.includeTaxMoney, scope.row.discountRate, scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.outQuantity')" prop="outQuantity" align="center" min-width="150px"/>
@@ -420,6 +432,14 @@ export default {
       row.totalMoney = quantity * money
       return row.totalMoney
     },
+    getincludeTaxMoney(quantity, includeTaxPrice, row) {
+      row.includeTaxMoney = quantity * includeTaxPrice
+      return row.includeTaxMoney
+    },
+    getdiscountMoney(includeTaxMoney, discountRate, row) {
+      row.discountMoney = includeTaxMoney * (discountRate / 100)
+      return row.discountMoney
+    },
     // 总计
     getSummaries(param) {
       const { columns, data } = param
@@ -444,7 +464,7 @@ export default {
           sums[index] = ''
         }
       })
-      this.heji = sums[10]
+      this.heji = Number(sums[12]) - Number(sums[14])
       sums[2] = ''
       sums[4] = ''
       sums[6] = ''

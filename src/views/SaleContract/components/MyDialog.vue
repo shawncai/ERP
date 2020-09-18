@@ -713,6 +713,7 @@ export default {
         // console.log(res)
           if (res.data.ret === 200 && res.data.data.flag === 1) {
             this.personalForm.eachMoney = res.data.data.eachMoney
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
           } else {
             this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
           }
@@ -742,6 +743,27 @@ export default {
             }
           }
         }
+      }
+      let carTypeId = ''
+      for (const i in this.list2) {
+        console.log('this.list2[i]', this.list2[i])
+        if (this.list2[i].productCode.slice(0, 2) === '01') {
+          carTypeId = this.list2[i].productType
+        }
+      }
+      if (this.personalForm.isManila === 1) {
+        const sendparms = {
+          count: this.personalForm.installmentCount,
+          typeId: carTypeId,
+          first: this.personalForm.firstMoney
+        }
+        isSpecial(sendparms).then(res => {
+        // console.log(res)
+          if (res.data.ret === 200 && res.data.data.flag === 1) {
+            // this.personalForm.eachMoney = res.data.data.eachMoney
+            this.personalForm.totalMoney = Number(res.data.data.eachMoney) * this.personalForm.installmentCount
+          }
+        })
       }
       this.geteachmoney()
     },

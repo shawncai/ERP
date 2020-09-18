@@ -168,14 +168,17 @@ export default {
   },
   data() {
     const validatePass12 = (rule, value, callback) => {
-      console.log('value', value)
-      if (!this.customerForm.phone) {
-        return callback(new Error('手机号不能为空'))
+      if (!value) {
+        return callback(new Error(_that.$t('prompt.sjhbnwk')))
       }
       setTimeout(() => {
-        console.log(String(this.customerForm.phone).length)
-        if (String(this.customerForm.phone).length !== 11) {
-          callback(new Error('请输入11位正确手机号码'))
+        // console.log(String(value).length)
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()
         }

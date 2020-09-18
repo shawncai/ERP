@@ -71,6 +71,24 @@
                 />
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newIncludeTaxPrice')" prop="newIncludeTaxPrice" align="center" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="6"
+                  v-model="scope.row.newIncludeTaxPrice"
+                  @change="getnewprice(scope.row, scope)"/>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.oldTaxRate')" prop="oldTaxRate" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.newTaxRate')" prop="newTaxRate" align="center" min-width="170px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="6"
+                  v-model="scope.row.newTaxRate"
+                  @change="gettaxRate2(scope.row, scope)"/>
+              </template>
+            </el-editable-column>
           </el-editable>
         </div>
       </el-card>
@@ -145,6 +163,60 @@ export default {
     _that = this
   },
   methods: {
+    gettaxRate2(row, scope) {
+      console.log('row========tax', row)
+      row.taxRateFlag = 1
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.newTaxRate !== '' && row.newTaxRate !== null && row.newTaxRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].newTaxRate)
+            console.log(222)
+            this.list2[i].newTaxRate = row.newTaxRate
+            this.list2[i].newPrice = this.list2[i].newIncludeTaxPrice / (1 + this.list2[i].newTaxRate / 100)
+            this.list2[i].taxRateFlag = 1
+          }
+          console.log(row)
+        }
+      }
+
+      if (row.newTaxRate === 0) {
+        row.newPrice = row.newIncludeTaxPrice
+      } else {
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
+      }
+      // if (row.taxPriceFlag  === 1) {
+      //   row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
+      //   row.priceflag = 0
+      //   row.taxPriceFlag = 0
+      //   row.taxRateFlag = 0
+      // } else if (row.priceflag === 1) {
+      //   row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
+      //   row.priceflag = 0
+      //   row.taxPriceFlag = 0
+      //   row.taxRateFlag = 0
+      // }
+    },
+    getnewprice(row, scope) {
+      // if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+      //   if (row.newIncludeTaxPrice !== '' && row.newIncludeTaxPrice !== null && row.newIncludeTaxPrice !== undefined) {
+      //     for (let i = 0; i < this.list2.length; i++) {
+      //       this.list2[i].temp = i
+      //     }
+      //     for (let i = row.temp; i < this.list2.length; i++) {
+      //       this.list2[i].newIncludeTaxPrice = row.newIncludeTaxPrice
+      //     }
+      //   }
+      // }
+      if (row.newTaxRate && row.newIncludeTaxPrice) {
+        row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
+      }
+      if (row.proportion && row.newIncludeTaxPrice) {
+        row.newSalePrice = row.proportion / 100 * row.newIncludeTaxPrice
+      }
+    },
     // 深拷贝
     deepClone(obj) {
       const _obj = JSON.stringify(obj)
@@ -173,7 +245,11 @@ export default {
           unit: item.unit,
           oldPrice: item.price,
           newPrice: 0,
-          productType: item.productTypeName
+          productType: item.productTypeName,
+          oldTaxRate: item.taxRate,
+          newTaxRate: item.taxRate,
+          oldIncludeTaxPrice: item.includeTaxPrice,
+          newIncludeTaxPrice: item.includeTaxPrice
         }
       })
       this.list2 = factoryarr

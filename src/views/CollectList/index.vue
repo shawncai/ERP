@@ -111,7 +111,11 @@
         </el-table-column>
         <el-table-column :label="$t('CollectList.count')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ `第${scope.row.idx}期` }}</span>
+            <span v-if="scope.row.idx === 1">1st MP</span>
+            <span v-if="scope.row.idx === 2">2nd  MP</span>
+            <span v-if="scope.row.idx === 3">3rd  MP</span>
+            <span v-if="scope.row.idx > 3">{{ `${scope.row.idx}th MP` }}</span>
+
           </template>
         </el-table-column>
         <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">

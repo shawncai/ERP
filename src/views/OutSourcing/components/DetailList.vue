@@ -136,12 +136,16 @@
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" />
             <el-editable-column :label="$t('Hmodule.outQuantity')" prop="outQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
+            <el-editable-column :label="$t('updates.jgf')" prop="price" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('stockTrackList.price')" prop="includeTaxPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('stockTrackList.money')" prop="includeTaxMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('repair.Discountrate')" prop="discountRate" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('repair.Discountamount')" prop="discountMoney" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
