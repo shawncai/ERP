@@ -200,7 +200,7 @@
           </el-form>
         </div>
       </el-card>
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 50px">
         <div class="form-name">{{ $t('updates.jsxx') }}</div>
         <div class="container" style="margin-top: 25px">
           <el-row>

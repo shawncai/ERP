@@ -716,14 +716,30 @@ export default {
       }, 1000)
     }
     const validatePass6 = (rule, value, callback) => {
-      setTimeout(() => {
-        console.log(String(value).length)
-        if (String(value).length !== 10) {
-          callback(new Error('phone number is wrong'))
+      console.log('value', value)
+      if (value === null || value === undefined || value === '') {
+        callback()
+      }
+      if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
+        const flag = re.test(value)
+        if (flag) {
+          if (value.length !== 11) {
+            callback(new Error('phone number length is wrong'))
+          } else {
+            callback()
+          }
         } else {
-          callback()
+          callback(new Error('phone number is wrong'))
         }
-      }, 1000)
+      }
+      if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+      } else {
+        callback()
+      }
     }
     const validatePass7 = (rule, value, callback) => {
       if (value === null || value === undefined || value === '') {
@@ -824,7 +840,7 @@ export default {
       // 销售订单信息数据
       personalForm: {
         createPersonId: this.$store.getters.userId,
-        countryId: 2,
+        countryId: this.$store.getters.countryId,
         // countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
@@ -1227,7 +1243,7 @@ export default {
     changeTotalMoney() {
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
-          if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+          if (this.rate != null && this.rate !== '' && this.rate !== undefined && this.rate !== 0) {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
@@ -1237,6 +1253,9 @@ export default {
             } else if (each % 100 >= 75) {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
+          } else if (this.rate === 0) {
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
@@ -1266,7 +1285,7 @@ export default {
       this.rate = needval.rate
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
-          if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined) {
+          if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined && needval.rate !== 0) {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
@@ -1276,6 +1295,9 @@ export default {
             } else if (each % 100 >= 75) {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
+          } else if (needval.rate === 0) {
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
@@ -1312,7 +1334,7 @@ export default {
     // 通过手机号判断是否有申请的资格
     haveAccess() {
       console.log('applyPhone========>', this.personalForm.applyPhone)
-      if (this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
+      if (this.personalForm.applyPhone.length === 11 && this.personalForm.applyPhone !== null && this.personalForm.applyPhone !== '' && this.personalForm.applyPhone !== undefined) {
         existList(this.personalForm.applyPhone).then(res => {
           if (res.data.data.content === 2) {
             this.$confirm('存在申请未通过!', this.$t('prompt.ts'), {
@@ -1440,7 +1462,7 @@ export default {
       })
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.productForm.price != null && this.productForm.price !== '' && this.productForm.price !== undefined) {
-          if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+          if (this.rate != null && this.rate !== '' && this.rate !== undefined && this.rate !== 0) {
             this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
@@ -1450,6 +1472,9 @@ export default {
             } else if (each % 100 >= 75) {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
+          } else if (this.rate === 0) {
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
@@ -1533,7 +1558,7 @@ export default {
       this.list2 = {}
       this.personalForm = {
         createPersonId: this.$store.getters.userId,
-        countryId: 2,
+        countryId: this.$store.getters.countryId,
         // countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId
@@ -1576,16 +1601,16 @@ export default {
       console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
 
       // 二手gb2
-      if (judgeissecond === '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
+      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
-          message: 'the second gb2 firstMoney is wrong',
+          message: 'the second car firstMoney is wrong',
           offset: 100
         })
         return false
       }
       // 二手其他车
-      if (judgeissecond === '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 7000) {
+      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 7000) {
         this.$notify.error({
           title: 'wrong',
           message: 'the second car firstMoney is wrong',
@@ -1595,17 +1620,17 @@ export default {
       }
 
       // 新gb2
-      if (judgeissecond !== '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
+      if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
         this.$notify.error({
           title: 'wrong',
-          message: 'the gb2 firstMoney is wrong',
+          message: 'the car firstMoney is wrong',
           offset: 100
         })
         return false
       }
 
       // 其他新车
-      if (judgeissecond !== '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
+      if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
         console.log('123')
         this.$notify.error({
           title: 'wrong',
@@ -1614,6 +1639,7 @@ export default {
         })
         return false
       }
+
       if (this.productForm.productCode === null || this.productForm.productCode === undefined || this.productForm.productCode === '') {
         this.$notify.error({
           title: 'wrong',

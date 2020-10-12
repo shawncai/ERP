@@ -13,6 +13,7 @@
         style="width: 250px"/>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
 
     </el-card>
 
@@ -51,7 +52,6 @@
           align="center"/>
         <el-table-column
           :label="$t('update4.djlx')"
-          prop="receiptType"
           sortable
           align="center">
           <template slot-scope="scope">
@@ -93,6 +93,7 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDetail from './components/MyDetail'
+import printJS from 'print-js'
 
 var _that
 export default {
@@ -106,8 +107,12 @@ export default {
         1: _that.$t('update4.xsckd'),
         2: _that.$t('update4.xsthd'),
         3: _that.$t('update4.skd'),
-        4: _that.$t('update4.srk')
-
+        4: _that.$t('update4.srk'),
+        5: _that.$t('route.SaleOrder'),
+        6: _that.$t('update4.dingdantuik'),
+        7: _that.$t('update4.zhuanzhangcunk'),
+        8: _that.$t('update4.xiaoshoushoukuan'),
+        9: _that.$t('update4.huanhuodan')
       }
       return statusMap[sta]
     }
@@ -146,6 +151,69 @@ export default {
     _that = this
   },
   methods: {
+    // 打印
+    handlePrint() {
+      const statusMap = {
+        1: _that.$t('update4.xsckd'),
+        2: _that.$t('update4.xsthd'),
+        3: _that.$t('update4.skd'),
+        4: _that.$t('update4.srk'),
+        5: _that.$t('route.SaleOrder'),
+        6: _that.$t('update4.dingdantuik'),
+        7: _that.$t('update4.zhuanzhangcunk'),
+        8: _that.$t('update4.xiaoshoushoukuan'),
+        9: _that.$t('update4.huanhuodan')
+
+      }
+      for (const i in this.list) {
+        this.list[i].receiptTypeName = statusMap[this.list[i].receiptType]
+      }
+      printJS({
+        printable: this.list,
+        type: 'json',
+        properties: [
+          { field: 'receiptDate', displayName: 'date', columnSize: `100px` },
+          { field: 'receiptNumber', displayName: 'Number', columnSize: `100px` },
+          { field: 'customerName', displayName: 'customer', columnSize: `100px` },
+          { field: 'handleRepositoryName', displayName: 'branch', columnSize: `100px` },
+          { field: 'receiptTypeName', displayName: 'receiptTypeName', columnSize: `100px` },
+          { field: 'addMoney', displayName: 'add Money', columnSize: `100px` },
+          { field: 'lessMoney', displayName: 'reduce Money', columnSize: `100px` },
+          { field: 'invoiceNumber', displayName: 'invoiceNumber', columnSize: `100px` },
+          { field: 'remark', displayName: 'remark', columnSize: `100px` }
+        ],
+        header: `<div class="pringtitle">
+                    <div class="custom-p"></div>
+                      <br>
+                      <div class="ordername">Income Analysis / 收入分析</div>
+                        <br>
+                        <div class="line1"></div>
+                        <div class="supplier">
+                        <div class="item">
+                        
+                        </div>
+                        <div class="item">
+                         
+                          </div>
+                          </div>
+                        </div>`,
+        style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;}' +
+          '.pringtitle { line-height: 10px; }' +
+          '.line1 { width: 400px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: space-around; align-items: center;margin-top: 10px}' +
+          '.item { width: 50%; justify-content: center; align-items: center; display: flex;line-height: 40px;}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 90%; text-align: right }' +
+          '.itemcontent {width: 85%}',
+        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+        repeatTableHeader: true
+      })
+    },
     numFormat(num) {
       var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
         return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
@@ -163,7 +231,22 @@ export default {
           sums[index] = '总计'
           return
         }
-
+        if (index === 1) {
+          sums[index] = ''
+          return
+        }
+        if (index === 2) {
+          sums[index] = ''
+          return
+        }
+        if (index === 7) {
+          sums[index] = ''
+          return
+        }
+        if (index === 8) {
+          sums[index] = ''
+          return
+        }
         const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = this.numFormat(values.reduce((prev, curr) => {

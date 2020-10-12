@@ -113,9 +113,9 @@
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.transDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('public.createDate2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.transDate }}</span>
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('otherlanguage.bcskje')" :resizable="false" prop="receiveMoney" align="center" min-width="150">

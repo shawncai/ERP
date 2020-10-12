@@ -4553,6 +4553,10 @@ export default {
     bz: 'remark',
     di: 'low',
     zhogn: 'medium',
-    gao: 'high'
+    gao: 'high',
+    dingdantuik: 'reservation refund form',
+    zhuanzhangcunk: 'deposit slip',
+    xiaoshoushoukuan: 'sales collection',
+    huanhuodan: 'change unit'
   }
 }

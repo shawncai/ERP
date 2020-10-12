@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg') + '123'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -1443,8 +1443,8 @@ export default {
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
       } else if (this.personalForm.sourceType === '2') {
         console.log('789', 789)
-        let needmoney = (Number(this.personalForm.shouldMoney) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
-        const needmoney2 = (Number(this.personalForm.shouldMoney) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
+        let needmoney = Number(this.personalForm.shouldMoney)
+        const needmoney2 = Number(this.personalForm.shouldMoney) + Number(this.personalForm.couponMoney)
         if (needmoney < 0) {
           needmoney = 0
         }

@@ -16,6 +16,11 @@
                 <span>{{ personalForm.isEffective | isEffectiveFilter }}</span>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.isManila')" style="width: 100%;">
+                <span>{{ personalForm.isManila | isManilaFilter }}</span>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -133,6 +138,13 @@
 var _that
 export default {
   filters: {
+    isManilaFilter(sta) {
+      const statusMap = {
+        1: 'yes',
+        2: 'no'
+      }
+      return statusMap[sta]
+    },
     isEffectiveFilter(status) {
       const statusMap = {
         1: '应用',

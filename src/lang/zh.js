@@ -4553,6 +4553,10 @@ export default {
     bz: '备注',
     di: '低',
     zhogn: '中',
-    gao: '高'
+    gao: '高',
+    dingdantuik: '订单退款',
+    zhuanzhangcunk: '转账存款',
+    xiaoshoushoukuan: '销售收款',
+    huanhuodan: '换货单'
   }
 }

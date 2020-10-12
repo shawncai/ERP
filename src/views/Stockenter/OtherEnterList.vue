@@ -144,7 +144,7 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['131-132-137-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
+            <el-button v-show="isReview(scope.row)" :loading="reviewStat" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-132-137-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-132-137-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-132-137-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -202,6 +202,7 @@ export default {
   },
   data() {
     return {
+      reviewStat: false,
       tableHeight: 200,
 
       // 详情组件数据
@@ -523,6 +524,7 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      this.reviewStat = true
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.tg'),
@@ -537,6 +539,7 @@ export default {
             })
             this.getlist()
           }
+          this.reviewStat = false
         })
       }).catch(action => {
         if (action === 'cancel') {
@@ -555,6 +558,7 @@ export default {
                   })
                   this.getlist()
                 }
+                this.reviewStat = false
               })
             })
             .catch(action => {
@@ -567,6 +571,7 @@ export default {
             })
           // ================取消弹框结束
         }
+        this.reviewStat = false
       })
     },
     // 批量操作

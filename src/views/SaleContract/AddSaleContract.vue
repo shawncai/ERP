@@ -1143,7 +1143,7 @@ export default {
       this.rate = needval.rate
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.price != null && this.price !== '' && this.price !== undefined) {
-          if (this.rate != null && this.rate !== '' && this.rate !== undefined) {
+          if (this.rate != null && this.rate !== '' && this.rate !== undefined && this.rate !== 0) {
             console.log('this.personalForm.totalMoney', this.personalForm.totalMoney)
             console.log('this.price', this.price)
             console.log('this.rate', this.rate)
@@ -1158,6 +1158,9 @@ export default {
             } else if (each % 100 >= 75) {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
+          } else if (this.rate === 0) {
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
@@ -1200,7 +1203,7 @@ export default {
       console.log('折扣2', this.rate)
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.price != null && this.price !== '' && this.price !== undefined) {
-          if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined) {
+          if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined && needval.rate !== 0) {
             this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
             if (each % 100 < 25) {
@@ -1210,6 +1213,9 @@ export default {
             } else if (each % 100 >= 75) {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
+          } else if (needval.rate === 0) {
+            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
@@ -1859,16 +1865,17 @@ export default {
       console.log('judgeissecond', judgeissecond)
       console.log('judgecartype', judgecartype)
       if (this.personalForm.isSecondApply === 2) {
-        if (judgeissecond === '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
+        // 二手gb2
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
-            message: 'the second gb2 firstMoney is wrong',
+            message: 'the second car firstMoney is wrong',
             offset: 100
           })
           return false
         }
         // 二手其他车
-        if (judgeissecond === '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 7000) {
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 7000) {
           this.$notify.error({
             title: 'wrong',
             message: 'the second car firstMoney is wrong',
@@ -1878,17 +1885,18 @@ export default {
         }
 
         // 新gb2
-        if (judgeissecond !== '00' && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
+        if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({
             title: 'wrong',
-            message: 'the gb2 firstMoney is wrong',
+            message: 'the car firstMoney is wrong',
             offset: 100
           })
           return false
         }
 
         // 其他新车
-        if (judgeissecond !== '00' && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
+        if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
+          console.log('123')
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',
