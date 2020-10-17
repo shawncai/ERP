@@ -305,8 +305,10 @@
               <el-col :span="6">
                 <el-form-item :label="$t('Supplier.moneyId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.moneyId" :value="personalForm.moneyId" placeholder="请选择币种" style="width: 200px">
-                    <el-option label="RMB" value="1"/>
-                    <el-option label="USD" value="2"/>
+                    <el-option value="1" label="PHP"/>
+                    <el-option value="2" label="USD"/>
+                    <el-option value="3" label="RMB"/>
+                    <el-option value="4" label="LKR"/>
                   </el-select>
                 </el-form-item>
               </el-col>

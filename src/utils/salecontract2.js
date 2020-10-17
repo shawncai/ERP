@@ -45,7 +45,7 @@ if (selectcompany === '1' || selectcompany === 1) {
 
 judgeiscar()
 const content = `
-<div style="text-align: center;">
+<div style="text-align: center">
     	      <div style="display: flex;align-items: center; justify-content: center;">
 
       <img src="/static/fenqi/img1.jpeg" width="100%" height="1500" alt="nwow (1).jpg" style="-aw-left-pos:-0.25pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-13.34pt; -aw-wrap-type:none; margin-left:0pt; margin-top:548pt; position:absolute; z-index:1999" />
@@ -132,24 +132,10 @@ const content = `
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; padding-left:9pt; text-align:center; text-indent:-9pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <img src="/static/fenqi/img2.png" width="100%" height="150" alt="" style="-aw-left-pos:-37.78pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-12.69pt; -aw-wrap-type:none; margin-left:10px; margin-top:638px; position:absolute; z-index:1999" />
+      <img src="/static/fenqi/img2.png" width="90%" height="150" alt="" style="-aw-left-pos:-37.78pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-12.69pt; -aw-wrap-type:none; margin-top:625px; position:absolute; z-index:1999" />
       <img src="/static/fenqi/img3.png" width="100%" height="1500" alt="" style="-aw-left-pos:-25.3pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:17.7pt; -aw-wrap-type:none; margin-left:-25.3pt; margin-top:600px;  z-index:80" />
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.004.png" width="786" height="912" alt="BACK.jpg" style="-aw-left-pos:-1.1pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:22.23pt; -aw-wrap-type:none; margin-left:0pt; margin-top:22.23pt; position:absolute; z-index:-65534" />
- -->      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      
-      <p style="margin:0pt; text-align:center; text-indent:36pt">
-        <a name="_Hlk12280740">
-          <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></a>
-      </p>
       <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
         <img src="/static/fenqi/img5.png" width="221" height="40" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.3pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt">
@@ -178,15 +164,13 @@ const content = `
         <tr style="height:44.5pt">
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:122.25pt">
 <!--             <img src="9479c74d-987e-49a4-9c19-27188981c608.006.png" width="734" height="596" alt="" style="-aw-left-pos:-9.3pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:7.2pt; -aw-wrap-type:none; margin-left:-9.3pt; margin-top:7.2pt; position:absolute; z-index:-65456" />
- -->            <p style="margin:0pt">
+ -->            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">UNIT PURCHASED: ${cardata.productTypeName}</span></p>
           </td>
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:118.8pt">
             <p style="margin:0pt">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">MOTOR</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">NO.${cardata.motorCode}</span></p>
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
             <p style="margin:0pt">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">CHASIS NO. ${cardata.carCode}</span></p>
           </td>
@@ -207,12 +191,10 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">COLOR:${cardata.color}</span></p>
           </td>
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:118.8pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">BATTERY</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">NO.${cardata.batteryCode}</span></p>
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">CHARGER NO.${cardata.chargeCode}</span></p>
           </td>
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:119.3pt">
@@ -230,10 +212,10 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">REBATE</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">100 pesos rebate</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">for every updated payment (on or before due date).</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">Good as cash or units that availed in 3 months terms and pick up payments are also not included.</span></p>
           </td>
         </tr>
@@ -243,9 +225,9 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">PICK UP PAYMENT</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">Only for customers who are not capable to go in nearest store to pay their monthly payment.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">(If have emergency, pregnant and person with disability and senior citizens)</span></p>
           </td>
         </tr>
@@ -255,7 +237,7 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">CHANGE TERM</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">If the payment could not settle within the certain terms, there will be an adjustment in the gross amount and monthly payment.</span></p>
           </td>
         </tr>
@@ -265,11 +247,11 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">PENALTY</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">Three (</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">3)days</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">after the due date, 10% of monthly payment will be added.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="color:#ff0000; font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">For lapsed Contract</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">, additional 10% of all unpaid monthly payment will be addedmonthly.</span></p>
           </td>
@@ -280,9 +262,9 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">DEPOSIT OF UNIT</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:Calibri; font-size:11pt">Upon reaching Fifteen (15) days delayed payments from due date will deposit of unit.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:Calibri; font-size:11pt; font-weight:bold">In case of special situation</span>
               <span style="font-family:Calibri; font-size:11pt">, the company have the rights</span>
               <span style="font-family:Calibri; font-size:11pt; font-weight:bold">to lock or cut the power</span>
@@ -295,7 +277,7 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">GRACE PERIOD</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:400.4pt">
-            <p style="margin:0pt; text-align:justify">
+            <p style="margin:0pt; text-align:justify; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">Thirty (30) days grace period</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">t</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">o pay all the arrears includ</span>
@@ -312,35 +294,30 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">REPOSSESSION</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:normal">If the payment still not settle</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">within 30 days</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:normal">, the unit will send back to warehouse and will not be returned.</span></p>
           </td>
         </tr>
         <tr style="height:65.2pt">
-          <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:122.25pt">
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
+          <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:122.25pt">
+            
             <p style="margin:0pt">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">WHOM TO PAY</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">Authorized collectors and office cashiers only.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-style:italic; font-weight:bold">THE COMPANY DO</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-style:italic; font-weight:bold">N</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-style:italic; font-weight:bold">’T HAVE A</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-style:italic; font-weight:bold">HOUSE COLLECTOR.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">ALWAYS ASK FOR COMPANY RECEIPT</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-style:italic; font-weight:bold">.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">Any payment without receipt will not be honored by the company</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">even it was</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">collected by</span>
@@ -348,7 +325,7 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt">uthorized</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">employee</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">or not by the company.</span></p>
-            <p style="margin:0pt">
+            <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">PLEASE KEEP RECEIPTS FOR FUTUREREFERENCES.</span></p>
           </td>
         </tr>
@@ -358,7 +335,7 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">MAINTENANCE</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:normal">The custo</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:normal">mer shall observe strictly the basic maintenance of the</span>
               <span style="font-family:'Times New Roman'; font-size:11pt; font-weight:normal">Electric Motor Vehicle</span>
@@ -373,7 +350,7 @@ const content = `
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">WARRANTY</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:400.4pt">
-            <p style="margin:0pt">
+            <p style="margin:0pt;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">LIFETIME</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">FREE SERVICE +</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">WARRANTY</span>
@@ -381,16 +358,14 @@ const content = `
           </td>
         </tr>
         <tr style="height:44.05pt">
-          <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:122.25pt">
-            <p style="margin:0pt">
-              <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
+          <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:122.25pt">
             <p style="margin:0pt">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">WARRANTY</span></p>
             <p style="margin:0pt">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">LIMITATIONS</span></p>
           </td>
           <td colspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:400.4pt">
-            <p style="margin:0pt; text-align:justify">
+            <p style="margin:0pt; text-align:justify;line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt">Engine modification is strictly prohibited. If proven, warranty will be automatically null and void. Other warranty conditions are clearly stated on</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">WARRANTY POLICY AND GUIDELINES</span>
               <span style="font-family:'Bookman Old Style'; font-size:10pt">issued by the company. Please read for further information.</span></p>
@@ -403,40 +378,37 @@ const content = `
           <td style="width:151.5pt; border:none"></td>
         </tr>
       </table>
-
-      <p style="margin:0pt">
-        <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">&#xa0;</span></p>
       <p style="margin:0pt">
         <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">IMPORTANT REMINDERS:</span></p>
       <ol type="1" style="margin:0pt; padding-left:0pt">
-        <li style="font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 9pt; text-align:justify; text-indent:0pt">
+        <li style="line-height: 14px;font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 9pt; text-align:justify; text-indent:0pt">
           <span style="font-family:'Bookman Old Style'; font-size:9pt">In case of accident or any unintended incident, unit will be deposit to the branch. Check up and repair will be conducted. Company not holds the liability to any missing or damage parts. Repair charges required.</span></li>
-        <li style="font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 13.46pt; padding-left:0.04pt; text-align:justify; text-indent:0pt">
+        <li style="line-height: 14px;font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 13.46pt; padding-left:0.04pt; text-align:justify; text-indent:0pt">
           <span style="font-family:'Bookman Old Style'; font-size:9pt">For pull out unit, VENDEE must pay the amount for any missing or damage major and minor parts together with the charger of his/her</span>
           <span style="font-family:'Bookman Old Style'; font-size:9pt">ebike</span>
           <span style="font-family:'Bookman Old Style'; font-size:9pt">.</span></li>
-        <li style="font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 13.46pt; padding-left:0.04pt; text-indent:0pt">
+        <li style="line-height: 14px;text-align: left;font-family:'Bookman Old Style'; font-size:9pt; margin:0pt 0pt 0pt 13.46pt; padding-left:0.04pt; text-indent:0pt">
           <span style="font-family:'Bookman Old Style'; font-size:9pt">The duplicate key will release maximum of 10 days after fully paid.</span></li>
       </ol>
-      <p style="margin:0pt 0pt 0pt 4.5pt; text-align:justify; text-indent:18pt">
+      <p style="line-height: 14px;margin:0pt 0pt 0pt 4.5pt; text-align:justify; text-indent:18pt">
         <span style="width:13.5pt; text-indent:0pt; display:inline-block"></span>
         <span style="font-family:'Bookman Old Style'; font-size:9pt">I hereby state that I fully understand the preceding guidelines and hereby declare that I will strictly observe its provisions stated above.</span></p>
-      <p style="margin:0pt 0pt 0pt 22.5pt; padding-left:18pt; text-indent:-18pt">
+      <p style="line-height: 14px;margin:0pt 0pt 0pt 22.5pt; padding-left:18pt; text-indent:-18pt">
         <span style="width:13.5pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:36pt"></span>
         <span style="font-family:'Bookman Old Style'; font-size:9pt">And I signed to prove my willingness to adhere to it on my free will without pressure from anybody.</span></p>
-      <p style="margin:0pt 0pt 0pt 378pt; text-indent:18pt">
+      <p style="line-height: 14px;margin:0pt 0pt 0pt 378pt; text-indent:18pt">
         <span style="font-family:'Bookman Old Style'; font-size:10pt">With my conformity, </span></p>
-      <p style="margin:0pt">
+      <p style="margin:0pt;line-height: 14px;">
         <span style="font-family:'Bookman Old Style'; font-size:10pt">Prepared</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">by:_</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">____________________</span>
-        <span style="font-family:'Bookman Old Style'; font-size:10pt">__</span>
+        <span style="font-family:'Bookman Old Style'; font-size:10pt"></span>
         <span style="width:3.4pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="font-family:'Bookman Old Style'; font-size:11pt">________________________</span>
-        <span style="font-family:'Bookman Old Style'; font-size:11pt">__</span></p>
+        <span style="font-family:'Bookman Old Style'; font-size:11pt"></span></p>
       <p style="margin:0pt">
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
@@ -445,35 +417,30 @@ const content = `
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:10pt">Signature over Printed</span>
-        <span style="font-family:'Bookman Old Style'; font-size:10pt">Name                                 </span></p>
+        <span style="font-family:'Bookman Old Style'; font-size:10pt">Signature over Printed Name</span>
+        </p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">“The company reserves the right for the final explanation</span>
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">.</span></p>
       <p style="font-size:10pt; display: flex;align-items: center;justify-content: center;">
         <span style="-aw-bookmark-end:_Hlk12280740"></span>
         <img src="/static/fenqi/img5.png" width="188" height="60"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-0.03pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
-        <span style="font-family:Calibri; font-size:10pt; font-weight:bold">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
+      <p style="margin:0pt; text-align:center;    line-height: 2px;">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt">
         <span style="font-family:Calibri; font-size:8pt">CONTACT NO.____________${repositorydata.phone}__________________</span>
         <span style="width:16.63pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:360.95pt"></span>
       </p>
-      <p style="margin:0pt; text-align:center">
+      <p style="margin:0pt; text-align:center;line-height: 12px;">
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Gungsuh; font-size:16pt; font-weight:bold; text-decoration:underline">SALESCERTIFICATION</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.008.png" width="722" height="326" alt="" style="-aw-left-pos:-7.95pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:5.92pt; -aw-wrap-type:none; margin-left:-7.95pt; margin-top:5.92pt; position:absolute; z-index:-65454" />
- -->      <p style="margin:0pt; text-align:center;">
-        <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:'Times New Roman'; font-size:12pt">This is to certify that the Sales Invoice No.______ was issued to ____________${needdata.customerName}__________</span>
-      <p style="margin:0pt; text-align:center">
+      <p style="margin:0pt; text-align:center;line-height: 18px;">
+        <span style="font-family:'Times New Roman'; font-size:12pt">This is to certify that the Sales Invoice No.____________ was </br> issued to ____________${needdata.customerName}__________</span>
+      <p style="margin:0pt; text-align:center;line-height: 18px;">
         <span style="font-family:'Times New Roman'; font-size:12pt">Of</span>
-        <span style="font-family:'Times New Roman'; font-size:12pt">____________________${needdata.address}_________________________________</span>
-        <span style="font-family:'Times New Roman'; font-size:12pt">______</span>
+        <span style="font-family:'Times New Roman'; font-size:12pt">______${needdata.address}____________________</span>
+        <span style="font-family:'Times New Roman'; font-size:12pt"></span>
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xad;</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xad;</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xad;</span>
@@ -489,95 +456,46 @@ const content = `
         <span style="font-family:'Times New Roman'; font-size:12pt">Electric Motor Vehicle</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">d</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">escribed hereunder:</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">DATE PURCHASED</span>
-        <span style="width:25.44pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">DATE PURCHASED：</span>
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____________________________</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MODEL OF VEHICLE</span>
-        <span style="width:14.4pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">__________${cardata.productTypeName}___________________</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COLOR</span>
-        <span style="width:26.89pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">__________${cardata.color}___________________</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MOTOR NUMBER</span>
-        <span style="width:0.01pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_________${cardata.motorCode}____________________</span></p>
-      <p style="margin:0pt">
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">         VEHICLE NUMBER</span>
-        <span style="width:26.42pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_______________${cardata.carCode}______________</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">BATTERY</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">NUMBER</span>
-        <span style="width:23.75pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">__________${cardata.batteryCode}___________________</span></p>
-      <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">CHARGER NUMBER</span>
-        <span style="width:20.17pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt">___________${cardata.chargeCode}_________________</span></p>
-        <p style="margin:0pt">
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COTROLLER NUMBER</span>
-        <span style="width:20.17pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">:</span>
-        <span style="width:31.92pt; text-indent:0pt; display:inline-block"></span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt">___________${cardata.controlCode}_________________</span></p>
-      <p style="margin:0pt">
-        <span style="font-family:'Bookman Old Style'; font-size:12pt">&#xa0;</span></p>
-      <p style="margin:0pt">
+      <p style="margin:0pt;    line-height: 14px;">
+        
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MODEL OF VEHICLE：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.productTypeName}_____</span></p>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COLOR：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">__________${cardata.color}_____</span></p>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MOTOR NUMBER：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.motorCode}_____</span></p>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">VEHICLE NUMBER：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_________${cardata.carCode}____</span></p>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">BATTERY NUMBER：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.batteryCode}___</span></p>
+      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">CHARGER NUMBER：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt">___________${cardata.chargeCode}_______</span></p>
+        <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COTROLLER NUMBER：</span>
+        <span style="font-family:'Bookman Old Style'; font-size:12pt">_______${cardata.controlCode}_______</span></p>
+      <p style="margin:0pt;    line-height: 10px;">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">NOTE:</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">Not</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">to sell, assign, lease, pledge or otherwise encumber the subject chattel, or convey in any</br> matter whatsoever our right to purchased it to</br> any other third person without the prior written consent to the</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">VENDOR</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">.</span></p>
       <p style="margin:0pt">
-        <span style="font-family:'Bookman Old Style'; font-size:12pt">&#xa0;</span></p>
-      <p style="margin:0pt">
         <span style="font-family:'Bookman Old Style'; font-size:12pt">______________________________</span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
-        <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
+
         <span style="font-family:'Bookman Old Style'; font-size:12pt">  _________________________</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.009.png" width="791" height="1" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:13.8pt; -aw-wrap-type:none; margin-left:-0.38pt; margin-top:13.42pt; position:absolute; z-index:33" />
- -->      <p style="margin:0pt">
+<p style="margin:0pt;    line-height: 10px;">
         <span style="font-family:'Times New Roman'; font-size:11pt">Customer’s Signature over Printed Name                                 </span>
         <span style="width:13.04pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
@@ -586,46 +504,41 @@ const content = `
         <div style="padding-top: 20px"></div>
       <p style="margin:0pt;display: flex;align-items: center;justify-content: center;">
         <img src="/static/fenqi/img5.png" width="197" height="57"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:5.33pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
-      <p style="margin:0pt">
-        <span style="font-family:'Times New Roman'; font-size:11pt">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
+      <p style="margin:0pt; text-align:center;    line-height: 14px;">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">CONTACT NO.____________${repositorydata.phone}__________________</span>
         <span style="width:14.76pt; text-indent:0pt; display:inline-block"></span>
       </p>
-      <p style="margin:0pt; text-align:center">
+      <p style="margin:0pt; text-align:center;    line-height: 10px;">
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.011.png" width="459" height="281" alt="" style="-aw-left-pos:86.25pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:20.75pt; -aw-wrap-type:none; margin-left:86.25pt; margin-top:20.75pt; position:absolute; z-index:-65501" />
- -->      <h1 style="margin:0pt; page-break-after:avoid; text-align:center">
+   <h1 style="margin:0pt; page-break-after:avoid; text-align:center;    line-height: 10px;">
         <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">WARRANTY POLICY AND GUIDELINES</span></h1>
-      <p style="font-size:9pt; line-height:105%; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;font-size:9pt;  margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">1.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:bold">NWOW MARKETING</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">shall not be liable under this warranty if any damage or defect result from  (</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">i</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">) misuse, abuse,  neglect   improper shipping  or  installation; (ii) disasters such as fire, flood, lightning or improper electric current; or (iii) service   or alteration by anyone other than an authorized NWOW MARKETING representative; (iv) damages incurred through    irresponsible use, or other non-recommended practices.</span></p>
-      <p style="margin:0pt 0pt 0pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;margin:0pt 0pt 0pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">2.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-style:italic; font-weight:bold">If the E-Bike will use for business or personal purpose, family use like delivering or use in any heavy activities that may exceed in its maximum load weight and may cause any damage or defect in E-Bike, warranty period of all affected parts will be going to be half of its original warranty period.     </span></p>
-      <p style="font-size:9pt; line-height:105%; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;font-size:9pt; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">3.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">You must retain your bill of sale or other proof of purchase to receive warranty service.</span></p>
-      <p style="font-size:9pt; line-height:105%; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;font-size:9pt;  margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">4.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">No warranty extension will be granted for any replacement part(s) furnished to the purchaser in fulfillment of this warranty.</span></p>
-      <p style="font-size:9pt; line-height:105%; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;font-size:9pt; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">5.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:bold">LIFETIME FREE SERVICE.</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">Any service taken are free of charge. Only the parts which are not cover by the limited warranty will charged by the company.</span></p>
-      <p style="margin:0pt 0pt 0pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;margin:0pt 0pt 0pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">6.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">The company offers free home service to   the Major malfunction of   the   unit (</span>
@@ -633,15 +546,15 @@ const content = `
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">)electrical problem(ii)flat tire and any   troubleshooting occurs which cause the E-Bike not to run. Home service will be schedule and the company</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">exerts</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">its effort    to repair the malfunction within 48hours. The customer will be responsible to inform the company for any major malfunction    of the E-Bike. The company will just service the E-bike to the place registered on our system.</span></p>
-      <p style="font-size:9pt; line-height:105%; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;font-size:9pt; margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">7.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-weight:normal">All the payment must settle before any warranty or service applied. The company has the right to delay our service warranty for our client who didn’t pay their monthly amortization on time. </span></p>
-      <p style="margin:0pt 0pt 2.05pt 32.65pt; text-align:justify; text-indent:-10.2pt">
+      <p style="    line-height: 12px;margin:0pt 0pt 2.05pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">8.</span>
         <span style="font:7.0pt 'Times New Roman'">&#xa0;</span>
         <span style="font-family:Arial; font-size:9pt; font-style:italic; font-weight:bold">If the unit has been installed or customized with other parts by anyone other than an authorized company   representative like roof, basket, saddle or others for business or overload use, warranty of major parts and all affected parts will be voided.</span></p>
-      <p style="font-size:10pt; line-height:101%; margin:1.75pt 1.4pt 0pt 22.45pt; orphans:0; text-align:justify; widows:0">
+      <p style="    line-height: 12px;font-size:10pt; line-height:101%; margin:1.75pt 1.4pt 0pt 22.45pt; orphans:0; text-align:justify; widows:0">
         <span style="font-family:Arial; font-size:9pt; font-weight:bold">9</span>
         <span style="font-family:Arial; font-size:10pt; font-weight:bold">.</span>
         <a name="_Hlk28588957"></a>

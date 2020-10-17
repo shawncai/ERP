@@ -192,7 +192,8 @@ export default {
       const statusMap = {
         1: 'PHP',
         2: 'USD',
-        3: 'RMB'
+        3: 'RMB',
+        4: 'LKR'
       }
       return statusMap[status]
     },

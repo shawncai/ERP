@@ -237,22 +237,21 @@ export default {
   data() {
     // 判断是否为数字(非必填)
     const validisnumber2 = (rule, value, callback) => {
-      console.log('value', value)
-      if (value !== null && value !== undefined && value !== '' && this.$store.getters.useCountry === 2) {
-        var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
-        const flag = re.test(value)
-        if (flag) {
-          if (value.length !== 11) {
-            callback(new Error('phone number length is wrong'))
-          } else {
-            callback()
-          }
-        } else {
-          callback(new Error('phone number is wrong'))
-        }
-      } else {
-        callback()
+      if (!value) {
+        return callback(new Error('comaker phone can not be blank'))
       }
+      setTimeout(() => {
+        console.log(String(value).length)
+        if (String(value).length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+          callback(new Error(_that.$t('prompt.qsrzqdsjh')))
+        } else {
+          callback()
+        }
+      }, 1000)
     }
     return {
       depotcontrol2: false,

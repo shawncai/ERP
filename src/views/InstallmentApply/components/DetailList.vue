@@ -587,7 +587,8 @@ export default {
         7: 'Pag-big',
         8: 'NBI',
         9: 'POLICE ID',
-        10: 'others'
+        10: 'others',
+        11: 'NIC'
       }
       return statusMap[status]
     },
@@ -648,7 +649,9 @@ export default {
         7: 'Pag-big',
         8: 'NBI',
         9: 'POLICE ID',
-        10: 'others'
+        10: 'others',
+        11: 'NIC'
+
       }
       return statusMap[status]
     }

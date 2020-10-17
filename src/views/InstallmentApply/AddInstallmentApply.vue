@@ -127,6 +127,7 @@
                     <el-option value="8" label="NBI"/>
                     <el-option value="9" label="POLICE ID"/>
                     <el-option value="10" label="others"/>
+                    <el-option value="11" label="NIC"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -148,6 +149,8 @@
                     <el-option value="8" label="NBI"/>
                     <el-option value="9" label="POLICE ID"/>
                     <el-option value="10" label="others"/>
+                    <el-option value="11" label="NIC"/>
+
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -650,6 +653,7 @@
                   <el-option value="8" label="NBI"/>
                   <el-option value="9" label="POLICE ID"/>
                   <el-option value="10" label="others"/>
+                  <el-option value="11" label="NIC"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -671,6 +675,8 @@
                   <el-option value="8" label="NBI"/>
                   <el-option value="9" label="POLICE ID"/>
                   <el-option value="10" label="others"/>
+                  <el-option value="11" label="NIC"/>
+
                 </el-select>
               </el-form-item>
             </el-col>

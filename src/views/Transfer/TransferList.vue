@@ -177,13 +177,13 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 1 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
-            <el-button v-show="shwobuttons(scope)&&scope.row.stat === 2 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="shwobuttons(scope)&&scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-show="shwobuttons2(scope)&&scope.row.stat === 1 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
+            <el-button v-show="shwobuttons2(scope)&&scope.row.stat === 2 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="shwobuttons2(scope)&&scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="shwobuttons(scope)&&scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="shwobuttons2(scope)&&scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="shwobuttons1(scope)&&isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['266-373-1']" v-show="shwobuttons(scope)&&scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
+            <el-button v-permission="['266-373-1']" v-show="scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
             <!--            <el-button title="查看附件" type="primary" size="mini" icon="el-icon-document" circle @click="check(scope.row)"/>-->
           </template>
         </el-table-column>
@@ -257,7 +257,8 @@ export default {
       const statusMap = {
         1: 'PHP',
         2: 'USD',
-        3: 'RMB'
+        3: 'RMB',
+        4: 'LKR'
       }
       return statusMap[status]
     },
@@ -401,6 +402,15 @@ export default {
         }
       })
       return sums
+    },
+    shwobuttons2(scope) {
+      if (scope.row.direction === 1 && (this.$store.getters.roles.includes('266-94-200') || this.$store.getters.roles.includes('266-94-201') || this.$store.getters.roles.includes('266-94-202'))) {
+        return true
+      } else if (scope.row.direction === 2) {
+        return true
+      } else {
+        return false
+      }
     },
     // 公司反审核权限按钮
     shwobuttons1(scope) {

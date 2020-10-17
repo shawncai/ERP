@@ -168,6 +168,7 @@ export default {
   },
   data() {
     const validatePass12 = (rule, value, callback) => {
+      console.log(value)
       if (!value) {
         return callback(new Error(_that.$t('prompt.sjhbnwk')))
       }
@@ -204,9 +205,6 @@ export default {
       // 客户信息数据
       // 客户信息规则数据
       customerFormrules: {
-        phone: [
-          { required: true, validator: validatePass12, trigger: 'blur' }
-        ],
         lastName: [
           { required: true, message: '请输入姓氏', trigger: 'blur' }
         ],

@@ -96,7 +96,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.phone')" prop="phone" style="width: 100%;">
-                <el-input v-model.number="personalForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
+                <el-input v-model="personalForm.phone" placeholder="请输入手机号" clearable style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -339,7 +339,7 @@ export default {
           { required: true, message: '请选择市', trigger: 'change' }
         ],
         phone: [
-          { required: true, validator: checkphone, trigger: 'change' }
+          { required: true, validator: checkphone, trigger: 'blur' }
         ]
       },
       // 公司信息数据
