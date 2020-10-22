@@ -984,6 +984,7 @@ export default {
     },
     // 源单类型为销售出库单时
     saleOutDetail(val) {
+      console.log('saleout data', val)
       this.list2 = val
       // this.$refs.editable.clear()
       // for (let i = 0; i < val.length; i++) {

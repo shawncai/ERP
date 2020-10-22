@@ -45,97 +45,20 @@ if (selectcompany === '1' || selectcompany === 1) {
 
 judgeiscar()
 const content = `
-<div style="text-align: center">
-    	      <div style="display: flex;align-items: center; justify-content: center;">
-
-      <img src="/static/fenqi/img1.jpeg" width="100%" height="1500" alt="nwow (1).jpg" style="-aw-left-pos:-0.25pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-13.34pt; -aw-wrap-type:none; margin-left:0pt; margin-top:548pt; position:absolute; z-index:1999" />
+<div>
+      <img src="/test/static/fenqi/img1.jpeg" width="100%" height="1500"  />
       </div>
-
-      <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-        <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-        <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
-      <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:8pt">CONTACT NO.____________${repositorydata.phone}__________________</span>
-        <span style="width:16.63pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:360.95pt"></span>
-      </p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
-        <span style="width:97.15pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:97.15pt"></span>
-      </p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:115%; margin:0pt 0pt 10pt">
-        <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; padding-left:9pt; text-align:center; text-indent:-9pt">
-        <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <img src="/static/fenqi/img2.png" width="90%" height="150" alt="" style="-aw-left-pos:-37.78pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-12.69pt; -aw-wrap-type:none; margin-top:625px; position:absolute; z-index:1999" />
-      <img src="/static/fenqi/img3.png" width="100%" height="1500" alt="" style="-aw-left-pos:-25.3pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:17.7pt; -aw-wrap-type:none; margin-left:-25.3pt; margin-top:600px;  z-index:80" />
-      <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="221" height="40" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.3pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
+      <div style="position: absolute;left: 2%;top: 1600px;">
+      <img src="/test/static/fenqi/img2.png" width="155%" height="150" alt=""  />
+      </div>
+      <div>
+      <img src="/test/static/fenqi/img3.png" width="100%" height="1500" alt=""  />
+      </div>
+<div style="text-align: center">
+            
+      
+      <p style="margin-top:80px; display: flex;align-items: center;justify-content: center;">
+        <img src="/test/static/fenqi/img5.png" width="221" height="40" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.3pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt">
@@ -163,8 +86,7 @@ const content = `
       <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; width: 100%;text-align: center;">
         <tr style="height:44.5pt">
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:122.25pt">
-<!--             <img src="9479c74d-987e-49a4-9c19-27188981c608.006.png" width="734" height="596" alt="" style="-aw-left-pos:-9.3pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:7.2pt; -aw-wrap-type:none; margin-left:-9.3pt; margin-top:7.2pt; position:absolute; z-index:-65456" />
- -->            <p style="margin:0pt; line-height: 19px;">
+  <p style="margin:0pt; line-height: 19px;">
               <span style="font-family:'Bookman Old Style'; font-size:10pt; font-weight:bold">UNIT PURCHASED: ${cardata.productTypeName}</span></p>
           </td>
           <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:118.8pt">
@@ -424,7 +346,7 @@ const content = `
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">.</span></p>
       <p style="font-size:10pt; display: flex;align-items: center;justify-content: center;">
         <span style="-aw-bookmark-end:_Hlk12280740"></span>
-        <img src="/static/fenqi/img5.png" width="188" height="60"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-0.03pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="188" height="60"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-0.03pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center;    line-height: 2px;">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt">
@@ -435,9 +357,9 @@ const content = `
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Gungsuh; font-size:16pt; font-weight:bold; text-decoration:underline">SALESCERTIFICATION</span></p>
-      <p style="margin:0pt; text-align:center;line-height: 18px;">
+      <p style="margin:0pt; text-align:center;line-height: 20px;">
         <span style="font-family:'Times New Roman'; font-size:12pt">This is to certify that the Sales Invoice No.____________ was </br> issued to ____________${needdata.customerName}__________</span>
-      <p style="margin:0pt; text-align:center;line-height: 18px;">
+      <p style="margin:0pt; text-align:center;line-height: 20px;">
         <span style="font-family:'Times New Roman'; font-size:12pt">Of</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">______${needdata.address}____________________</span>
         <span style="font-family:'Times New Roman'; font-size:12pt"></span>
@@ -456,32 +378,33 @@ const content = `
         <span style="font-family:'Times New Roman'; font-size:12pt">Electric Motor Vehicle</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">d</span>
         <span style="font-family:'Times New Roman'; font-size:12pt">escribed hereunder:</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+      <div style="width:66%;margin-left: 30%;">
+        <p style="margin:0pt;line-height: 20px;text-align: left;">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">DATE PURCHASED：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____________________________</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
-        
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">_____________________________</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MODEL OF VEHICLE：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.productTypeName}_____</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">_____${cardata.productTypeName}_____</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COLOR：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">__________${cardata.color}_____</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">__________${cardata.color}_____</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">MOTOR NUMBER：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.motorCode}_____</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">_____${cardata.motorCode}_____</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">VEHICLE NUMBER：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_________${cardata.carCode}____</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">_________${cardata.carCode}____</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">BATTERY NUMBER：</span>
-        <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">_____${cardata.batteryCode}___</span></p>
-      <p style="margin:0pt;    line-height: 14px;">
+        <span style="font-family:'Bookman Old Style'; font-size:12pt; ">_____${cardata.batteryCode}___</span></p>
+      <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">CHARGER NUMBER：</span>
         <span style="font-family:'Bookman Old Style'; font-size:12pt">___________${cardata.chargeCode}_______</span></p>
-        <p style="margin:0pt;    line-height: 14px;">
+        <p style="margin:0pt;    line-height: 20px;text-align: left">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">COTROLLER NUMBER：</span>
         <span style="font-family:'Bookman Old Style'; font-size:12pt">_______${cardata.controlCode}_______</span></p>
-      <p style="margin:0pt;    line-height: 10px;">
+        </div>
+      <p style="margin:0pt;    line-height: 20px;">
         <span style="font-family:'Bookman Old Style'; font-size:12pt; font-weight:bold">NOTE:</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">Not</span>
         <span style="font-family:'Bookman Old Style'; font-size:10pt">to sell, assign, lease, pledge or otherwise encumber the subject chattel, or convey in any</br> matter whatsoever our right to purchased it to</br> any other third person without the prior written consent to the</span>
@@ -502,8 +425,8 @@ const content = `
         <span style="font-family:'Times New Roman'; font-size:11pt">NWOW</span>
         <span style="font-family:'Times New Roman'; font-size:11pt">Marketing Representative</span></p>
         <div style="padding-top: 20px"></div>
-      <p style="margin:0pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="197" height="57"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:5.33pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+      <p style="margin-top:60px;display: flex;align-items: center;justify-content: center;">
+        <img src="/test/static/fenqi/img5.png" width="197" height="57"  style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:5.33pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center;    line-height: 14px;">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt; text-align:center">
@@ -512,7 +435,7 @@ const content = `
       </p>
       <p style="margin:0pt; text-align:center;    line-height: 10px;">
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
-   <h1 style="margin:0pt; page-break-after:avoid; text-align:center;    line-height: 10px;">
+   <h1 style="margin:0pt; page-break-after:avoid; text-align:center;    line-height: 20px;">
         <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">WARRANTY POLICY AND GUIDELINES</span></h1>
       <p style="    line-height: 12px;font-size:9pt;  margin:0pt 0pt 0.2pt 32.65pt; text-align:justify; text-indent:-10.2pt">
         <span style="font-family:Arial; font-size:9pt; font-style:normal; font-weight:bold; text-decoration:none; vertical-align:baseline">1.</span>
@@ -598,23 +521,10 @@ const content = `
         <span style="font-family:Arial; font-size:10pt">NWOW Marketing Representative</span></p>
       <p style="font-size:10pt; line-height:106%; margin:0pt 0pt 0pt 0.3pt; text-indent:35.7pt">
         <span style="font-family:Arial; font-size:10pt">&#xa0;</span></p>
-      <img src="/static/fenqi/img6.png" width="779" height="594" alt="" style="-aw-left-pos:-43.5pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:6.5pt; -aw-wrap-type:none; margin-left:-43.5pt; margin-top:6.5pt; z-index:116" />
+      <img src="/test/static/fenqi/img6.png" width="779" height="594" alt="" style="-aw-left-pos:-43.5pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:6.5pt; -aw-wrap-type:none; margin-left:-43.5pt; margin-top:6.5pt; z-index:116" />
       <p style="font-size:11pt; line-height:106%; margin:0pt">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:'Sakkal Majalla'; font-size:11pt; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:11pt; line-height:106%; margin:0pt">
-        <span style="font-family:Arial; font-size:11pt">&#xa0;</span></p>
+     
       <p style="font-size:11pt; line-height:106%; margin:0pt">
         <span style="font-family:Arial; font-size:11pt">____________________________</span>
         <span style="width:4.04pt; text-indent:0pt; display:inline-block"></span>
@@ -635,9 +545,9 @@ const content = `
         <span style="font-family:Arial; font-size:10pt">NWOW Marketing Representative</span></p>
       <p style="font-size:10pt; line-height:106%; margin:0pt">
         <span style="font-family:Arial; font-size:10pt">&#xa0;</span></p>
-      <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
+      <p style="font-size:10pt; line-height:115%; margin:60px 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-weight:bold">&#xa0;</span></p>
-             <img src="/static/fenqi/img5.png" width="156" height="57" style="-aw-left-pos:244.55pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:4.43pt; -aw-wrap-type:none; margin-top:4.43pt; z-index:35" />
+             <img src="/test/static/fenqi/img5.png" width="156" height="57" style="-aw-left-pos:244.55pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:4.43pt; -aw-wrap-type:none; margin-top:4.43pt; z-index:35" />
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt">
@@ -646,20 +556,18 @@ const content = `
       </p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.014.png" width="671" height="216" alt="" style="-aw-left-pos:58.03pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:15.28pt; -aw-wrap-type:none; margin-left:22.03pt; margin-top:15.28pt; position:absolute; z-index:-65461" />
- -->      <p style="font-size:16pt; line-height:108%; margin:0pt 205.8pt 3.5pt 144pt; text-align:center">
+<p style="font-size:16pt; line-height:108%; margin:0pt 205.8pt 3.5pt 144pt; text-align:center">
         <span style="font-family:Calibri; font-size:16pt; font-weight:bold">WAIVER OF LIABILITY</span></p>
       <p style="margin:0pt 35.45pt 0pt 0pt; text-align:center;">
         <span style="font-family:Calibri; font-size:10pt">This hereby releases</span>
         <span style="font-family:Calibri; font-size:10pt; font-weight:bold">NWOW Marketing</span>
         <span style="font-family:Calibri; font-size:10pt">from any and all liabilities upon apprehension/s of Mr. / Ms.<br/> ____________${needdata.customerName}_________________ by any government agencies for all types of traffic violation and from any all injuries<br/> suffered by him / her or by third person/s, financial or otherwise, while driving the above describe</span>
-        <span style="font-family:'Times New Roman'; font-size:10pt">Electric Motor<br/> Vehicle</span>
-        <span style="font-family:Calibri; font-size:10pt">unit. </span></p>
+        <span style="font-family:'Times New Roman'; font-size:10pt">Electric Motor<br/> Vehicle unit. </span>
       <p style="margin:0pt 35.45pt 0pt 0pt; text-align:center">
         <span style="font-family:Calibri; font-size:10pt">I, __________${needdata.customerName}______________________________, fully understand and agreed to the foregoing</span>
         <span style="font-family:Calibri; font-size:11pt">. </span></p>
       <p style="margin:0pt">
-        <span style="font-family:Calibri; font-size:11pt; font-weight:bold; text-decoration:underline">____________________________</span>
+        <span style="font-family:Calibri; font-size:11pt;">____________________________</span>
         <span style="width:26.85pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
@@ -676,7 +584,7 @@ const content = `
         <span style="font-family:Calibri; font-size:11pt"></span>
         <span style="font-family:Calibri; font-size:11pt">Signed in presence of:     </span></p>
       <p style="margin:0pt 35.45pt 0pt 0pt">
-        <span style="font-family:Calibri; font-size:11pt; text-decoration:underline">_______________________________</span>
+        <span style="font-family:Calibri; font-size:11pt;">_______________________________</span>
         <span style="width:10.17pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
@@ -693,7 +601,7 @@ const content = `
         <span style="font-family:Calibri; font-size:11pt">Branch Manager </span></p>
         <div style="padding-top: 50px"></div>
       <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="264" height="83" style="-aw-left-pos:156pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="264" height="83" style="-aw-left-pos:156pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:9pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -840,7 +748,7 @@ const content = `
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="font-size:11pt; line-height:108%; margin:0pt 0pt 8pt">
         <br style="page-break-before:always; clear:both" /></p>
-      <img src="/static/fenqi/img5.png" width="228" height="72" style="-aw-left-pos:171.47pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.88pt; -aw-wrap-type:none; margin-top:-0.88pt; z-index:114" />
+      <img src="/test/static/fenqi/img5.png" width="228" height="72" style="-aw-left-pos:171.47pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.88pt; -aw-wrap-type:none; margin-top:-0.88pt; z-index:114" />
       <p style="font-size:8pt; line-height:115%; margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="font-size:8pt; line-height:115%; margin:0pt; text-align:center">
@@ -987,7 +895,7 @@ const content = `
       <p style="font-size:10pt; line-height:108%; margin:0pt 0pt 8pt">
         <br style="page-break-before:always; clear:both" /></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="264" height="83"  style="-aw-left-pos:148.19pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="264" height="83"  style="-aw-left-pos:148.19pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
       <p style="font-size:8pt; line-height:115%; margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="font-size:8pt; line-height:115%; margin:0pt; text-align:center">
@@ -1130,7 +1038,7 @@ const content = `
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="165" height="52"  style="-aw-left-pos:197.42pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:2.3pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="165" height="52"  style="-aw-left-pos:197.42pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:2.3pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:14pt; line-height:108%; margin:0pt 0.5pt 7.65pt 0pt; text-align:center">
@@ -1154,46 +1062,46 @@ const content = `
       <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt;margin: 0 auto">
         <tr style="height:25.6pt">
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.1pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:37" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:37" />
             <p style="font-size:7pt; line-height:108%; margin:0pt;margin-left: 1px; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold;margin-left: 10px">   BRGY</span>
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">CLEARANCE</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:38" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:38" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">   ELECTRIC BILL</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:39" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:39" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">   PAYSLIP BILL</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:40" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:40" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold;margin-left: 10px">   BRGY CLEARANCE</span></p>
           </td>
         </tr>
         <tr style="height:26.5pt">
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.1pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:41" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:41" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">2</span>
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">VALID ID</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:42" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:42" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">   WATER BILL</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:43" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:43" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold;margin-left: 10px">   BUSINESS PERMIT</span></p>
           </td>
           <td style="padding-left:5.4pt; padding-right:5.4pt; vertical-align:middle; width:113.15pt">
-            <img src="/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:44" />
+            <img src="/test/static/fenqi/img7.png" width="26" height="18" alt="" style="-aw-left-pos:2.95pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-1.95pt; -aw-wrap-type:none; margin-left:2.7pt; margin-top:-2.2pt; position:absolute; z-index:44" />
             <p style="font-size:7pt; line-height:108%; margin:0pt; text-align:center">
               <span style="font-family:'Times New Roman'; font-size:7pt; font-weight:bold">  2 VALID ID</span></p>
           </td>
@@ -1264,7 +1172,7 @@ const content = `
         <span style="font-family:'Times New Roman'; font-size:12pt">.</span></p>
         <div style="padding-top: 200px"></div>
       <p style="margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="197" height="86" style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:1.1pt; -aw-wrap-type:through;margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="197" height="86" style="-aw-left-pos:0pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:1.1pt; -aw-wrap-type:through;margin:0pt 9pt" /></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
@@ -1498,7 +1406,7 @@ const content = `
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="229" height="59" style="-aw-left-pos:169pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="229" height="59" style="-aw-left-pos:169pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -1941,7 +1849,7 @@ const content = `
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="margin:0pt 0pt 10pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="224" height="60" style="-aw-left-pos:173.5pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="224" height="60" style="-aw-left-pos:173.5pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -2535,7 +2443,7 @@ const content = `
 
         <div style="padding-top: 30px"></div>
       <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="224" height="60" style="-aw-left-pos:163pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="224" height="60" style="-aw-left-pos:163pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:justify">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:justify">
@@ -2723,7 +2631,7 @@ const content = `
       <p style="font-size:10pt; line-height:108%; margin:0pt 0pt 8pt">
         <br style="page-break-before:always; clear:both" /></p>
       <p style="line-height:10pt; margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="191" height="54" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.3pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="191" height="54" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.3pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -2840,8 +2748,8 @@ const content = `
         <span style="font-family:Calibri; font-size:10pt">&#xa0;</span></p>
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 0pt 18pt">
         <span style="font-family:Calibri; font-size:10pt">&#xa0;</span></p>
-      <p style="margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="240" height="75" style="-aw-left-pos:176.65pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+      <p style="margin:60px 0pt 10pt; display: flex;align-items: center;justify-content: center;">
+        <img src="/test/static/fenqi/img5.png" width="240" height="75" style="-aw-left-pos:176.65pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
         <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -2856,10 +2764,7 @@ const content = `
         <span style="font-family:Calibri; font-size:8pt">MONDAY-SUNDAY 8:30am – 5:30pm</span></p>
       <p style="margin:0pt 0pt 10pt; text-align:center">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.055.png" width="417" height="50" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:8.45pt; -aw-wrap-type:none; margin-left:105.55pt; margin-top:8.45pt; position:absolute; z-index:49" />
- -->
-<!--       <img src="9479c74d-987e-49a4-9c19-27188981c608.056.png" width="582" height="6" alt="" style="-aw-left-pos:47.25pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:20.65pt; -aw-wrap-type:none; margin-left:47.25pt; margin-top:20.65pt; position:absolute; z-index:50" />
- -->      <p style="margin:0pt 0pt 10pt; text-align:center">
+<p style="margin:0pt 0pt 10pt; text-align:center">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="margin:0pt">
         <span style="font-family:'Times New Roman'; font-size:14pt; font-weight:bold">&#xa0;</span></p>
@@ -2874,7 +2779,7 @@ const content = `
       <p style="font-size:11pt; line-height:108%; margin:0pt 0pt 0pt 53.25pt; text-indent:-18pt">
 
         <span style="font:7.0pt 'Times New Roman'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span>
-        <img src="/static/fenqi/img10.png" width="698" height="626" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:21.45pt; -aw-wrap-type:through;margin:0pt 9pt;text-align: center;" />
+        <img src="/test/static/fenqi/img10.png" width="698" height="626" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:21.45pt; -aw-wrap-type:through;margin:0pt 9pt;text-align: center;" />
         </p>
       <p style="font-size:11pt; line-height:115%; margin:0pt">
         <span style="color:#7030a0; font-family:'Times New Roman'; font-size:11pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
@@ -2887,10 +2792,10 @@ const content = `
       <p style="font-size:11pt; line-height:108%; margin:0pt 0pt 0pt 53.25pt; text-indent:0pt">
 
         <span style="font:7.0pt 'Times New Roman'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span>
-        <img src="/static/fenqi/img8.png" width="698" height="645" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:33.15pt; -aw-wrap-type:square; text-align: center; margin:0pt 9pt" />
+        <img src="/test/static/fenqi/img8.png" width="698" height="645" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:33.15pt; -aw-wrap-type:square; text-align: center; margin:0pt 9pt" />
         </p>
       <p style="font-size:11pt; line-height:115%; margin:0pt">
-        <img src="/static/fenqi/img9.png" width="679" height="178" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:character; -aw-rel-vpos:line; -aw-top-pos:0pt; -aw-wrap-type:inline;text-align: center; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img9.png" width="679" height="178" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:character; -aw-rel-vpos:line; -aw-top-pos:0pt; -aw-wrap-type:inline;text-align: center; margin:0pt 9pt" /></p>
       <p style="font-size:9pt; line-height:115%; margin:0pt">
         <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
       <p style="font-size:9pt; line-height:115%; margin:0pt">
@@ -2920,7 +2825,7 @@ const content = `
       <p style="font-size:11pt; line-height:115%; margin:0pt">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="font-size:11pt; line-height:115%; margin:0pt 0pt 10pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="213" height="65" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.01pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="213" height="65" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.01pt; -aw-wrap-type:through; margin:0pt 9pt" /></p>
       <p style="font-size:11pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="width:459pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:459pt"></span>
         <span style="color:#404040; font-family:'Felix Titling'; font-size:7pt; font-style:italic"></span></p>
@@ -3255,7 +3160,7 @@ const content = `
       <p style="font-size:10pt; line-height:115%; margin:0pt 0pt 10pt; text-align:center">
         <span style="font-family:Calibri; font-size:10pt; font-style:italic; font-weight:bold">“The company reserves the right for the final explanation.”</span></p>
       <p style="margin:0pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="213" height="58"  style="-aw-left-pos:185pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.4pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="213" height="58"  style="-aw-left-pos:185pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.4pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt">
@@ -3388,7 +3293,7 @@ const content = `
  -->      <p style="margin:0pt">
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span></p>
       <p style="margin:0pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="228" height="50" style="-aw-left-pos:173.3pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.6pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="228" height="50" style="-aw-left-pos:173.3pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0.6pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -3487,7 +3392,7 @@ const content = `
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="font-family:Arial; font-size:10pt">NWOW Marketing Representative</span></p>
-      <img src="/static/fenqi/img6.png" width="773" height="670" alt="" style="-aw-left-pos:-29pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.05pt; -aw-wrap-type:none; margin-left:-29pt; margin-top:-0.05pt; z-index:15" />
+      <img src="/test/static/fenqi/img6.png" width="773" height="670" alt="" style="-aw-left-pos:-29pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:-0.05pt; -aw-wrap-type:none; margin-left:-29pt; margin-top:-0.05pt; z-index:15" />
       <p style="margin:0pt; padding-left:0.5pt; text-indent:-0.5pt">
         <span style="font-family:Arial; font-size:11pt">&#xa0;</span></p>
       
@@ -3514,7 +3419,7 @@ const content = `
         <span style="width:36pt; text-indent:0pt; display:inline-block"></span>
         <span style="font-family:Arial; font-size:10pt">NWOW Marketing Representative</span></p>
       <p style="margin:0pt 0pt 10pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="227" height="57" style="-aw-left-pos:175.8pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:11.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="227" height="57" style="-aw-left-pos:175.8pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:11.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
       <p style="margin:0pt; text-align:center">
@@ -3578,7 +3483,7 @@ const content = `
       <p style="margin:0pt 0pt 10pt">
         <span style="font-family:Calibri; font-size:11pt; font-weight:bold">&#xa0;</span></p>
       <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="216" height="66" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="216" height="66" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="margin:0pt">
@@ -4194,7 +4099,7 @@ const content = `
     <br style="clear:both; mso-break-type:section-break; page-break-before:always" />
     <div>
       <p style="margin:0pt; padding-left:0.5pt; text-indent:-0.5pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="217" height="60" style="-aw-left-pos:152.35pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.1pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="217" height="60" style="-aw-left-pos:152.35pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.1pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="line-height:10pt; margin:0pt 0pt 10pt; text-align:justify">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
       <p style="line-height:10pt; margin:0pt 0pt 10pt; text-align:justify">
@@ -4370,16 +4275,9 @@ const content = `
         <span style="font-family:Calibri; font-size:11pt">Printed Name</span></p>
       <p style="margin:0pt 0pt 0pt 334pt; text-align:center">
         <span style="font-family:Calibri; font-size:10pt">(Customer)</span></p>
-      <p style="margin:0pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="250" height="63" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.96pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
-      <p style="margin:0pt; text-align:center">
-        <span style="font-family:Calibri; font-size:8pt">&#xa0;</span></p>
+      <p style="margin:60px; display: flex;align-items: center;justify-content: center;">
+        <img src="/test/static/fenqi/img5.png" width="250" height="63" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:1.96pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+     
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt;text-align: center;">
@@ -4401,7 +4299,7 @@ const content = `
         <span style="color:#7030a0; font-family:'Times New Roman';display: flex;align-items: center;justify-content: center; font-size:11pt; font-style:italic; font-weight:bold">WARNING SIGNS</span>
       <p style="font-size:11pt; line-height:108%;text-align: center; text-indent:-18pt">
 
-        <img src="/static/fenqi/img10.png" width="698" height="631" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:21.45pt; -aw-wrap-type:through; text-align: center; margin:0 auto; " />
+        <img src="/test/static/fenqi/img10.png" width="698" height="631" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:21.45pt; -aw-wrap-type:through; text-align: center; margin:0 auto; " />
         </p>
       <p style="font-size:11pt; line-height:115%; margin:0pt">
         <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
@@ -4428,16 +4326,10 @@ const content = `
       <p style="font-size:11pt; line-height:108%; margin:0pt 0pt 0pt 53.25pt; text-indent:0pt; display: flex;align-items: center;justify-content: center;">
         
         <span style="font:7.0pt 'Times New Roman'">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span>
-        <img src="/static/fenqi/img8.png" width="698" height="645" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:33.15pt; -aw-wrap-type:square; text-align: center;" />
+        <img src="/test/static/fenqi/img8.png" width="698" height="645" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:33.15pt; -aw-wrap-type:square; text-align: center;" />
         </p>
       <p style="font-size:11pt; line-height:115%; margin:0pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img9.png" width="624" height="187" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:character; -aw-rel-vpos:line; -aw-top-pos:0pt; -aw-wrap-type:inline; text-align: center;" /></p>
-      <p style="font-size:9pt; line-height:115%; margin:0pt">
-        <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:9pt; line-height:115%; margin:0pt">
-        <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
-      <p style="font-size:9pt; line-height:115%; margin:0pt">
-        <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">&#xa0;</span></p>
+        <img src="/test/static/fenqi/img9.png" width="624" height="187" alt="" style="-aw-left-pos:0pt; -aw-rel-hpos:character; -aw-rel-vpos:line; -aw-top-pos:0pt; -aw-wrap-type:inline; text-align: center;" /></p>
       <p style="font-size:9pt; line-height:115%; margin:0pt;text-align: center;">
         <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">__________________________________</span>
         <span style="width:210.35pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:right; -aw-tabstop-pos:518.6pt"></span>
@@ -4446,18 +4338,18 @@ const content = `
         <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">Customer over printed name &amp; signature</span>
         <span style="width:216.81pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:right; -aw-tabstop-pos:518.6pt"></span>
         <span style="font-family:'Times New Roman'; font-size:9pt; font-style:italic; font-weight:bold">Branch Rep. printed name &amp; signature</span></p>
-      <p style="font-size:9pt; line-height:115%; margin:0pt 0pt 10pt; padding-left:9pt; text-indent:-9pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img11.jpeg" width="771" height="996"  style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline;display: flex;align-items: center;justify-content: center;" /></p>
+      <p style="font-size:9pt; line-height:115%; margin:0px 0pt 10pt; padding-left:9pt; text-indent:-9pt;display: flex;align-items: center;justify-content: center;">
+        <img src="/test/static/fenqi/img11.jpeg" width="771" height="996"  style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline;display: flex;align-items: center;justify-content: center;" /></p>
       <p style="font-size:11pt; line-height:115%; margin:0pt;display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img12.png" width="764" height="994"  style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline;text-align: center;" /></p>
+        <img src="/test/static/fenqi/img12.png" width="764" height="994"  style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline;text-align: center;" /></p>
       <p style="font-size:12pt; line-height:115%; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="263" height="80" style="-aw-left-pos:137pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:3.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="263" height="80" style="-aw-left-pos:137pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:3.75pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="font-size:12pt; line-height:115%; margin:0pt 0pt 10pt">
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span></p>
       <p style="font-size:9pt; line-height:115%; margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:9pt">&#xa0;</span></p>
       <p style="line-height:10pt; margin:0pt 0pt 10pt; text-align:justify">
-        <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p>
+        <span style="font-family:Calibri; font-size:11pt">&#xa0;</span></p> 
       <p style="margin:0pt; text-align:center">
         <span style="font-family:Calibri; font-size:8pt">ADDRESS____________${repositorydata.address}________________</span></p>
       <p style="margin:0pt;text-align:center">
@@ -4546,7 +4438,7 @@ const content = `
       <p style="font-size:12pt; line-height:115%; margin:0pt 0pt 10pt">
         <br style="page-break-before:always; clear:both" /></p>
       <p style="font-size:11pt; line-height:115%; margin:0pt 0pt 0pt 39pt; display: flex;align-items: center;justify-content: center;">
-        <img src="/static/fenqi/img5.png" width="263" height="72" style="-aw-left-pos:136pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
+        <img src="/test/static/fenqi/img5.png" width="263" height="72" style="-aw-left-pos:136pt; -aw-rel-hpos:margin; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:through; float:left; margin:0pt 9pt" /></p>
       <p style="font-size:12pt; line-height:115%; margin:0pt 0pt 10pt 39pt; text-align:justify">
         <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span></p>
       <p style="line-height:10pt; margin:0pt 0pt 10pt; text-align:justify">

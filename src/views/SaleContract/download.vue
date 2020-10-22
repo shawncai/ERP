@@ -1,11 +1,6 @@
 <template>
-  <div v-loading.fullscreen.lock="fullscreenLoading" class="main-article" element-loading-text="Efforts to generate PDF">
-    <div class="article__heading">
-      <div class="article__heading__title">
-        {{ article.title }}
-      </div>
-    </div>
-    <div ref="content" class="node-article-content" v-html="article.content" />
+  <div v-loading.fullscreen.lock="fullscreenLoading">
+    <div ref="content" v-html="article.content" />
   </div>
 </template>
 

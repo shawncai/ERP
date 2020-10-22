@@ -82,7 +82,7 @@
       <!-- 表格导出操作 -->
       <el-button v-permission="['266-92-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['266-92-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['266-92-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
 
       <!-- 表格生成凭证操作 -->
       <el-button v-permission="['266-373-1']" v-waves :loading="downloadLoading2" icon="el-icon-tickets" class="filter-item2" size="small" style="width: 86px" @click="handlevoucherparms">{{ $t('otherlanguage.newvoucher') }}</el-button>
@@ -868,55 +868,56 @@ export default {
               }
             }
           }
-          for (const i in needlist) {
-            for (const j in dataarr) {
-              if (needlist[i].id === dataarr[j].primaryTableId) {
-                dataarr[j] = { ...dataarr[j], ...needlist[i] }
-              }
-            }
-          }
-          console.log('dataarr', dataarr)
           // for (const i in needlist) {
           //   for (const j in dataarr) {
           //     if (needlist[i].id === dataarr[j].primaryTableId) {
-          //       dataarr[j].id = needlist[i].id
-          //       dataarr[j].resultmoney = needlist[i].resultmoney
-          //       dataarr[j].approvalUseVos = needlist[i].approvalUseVos
-          //       dataarr[j].countryId = needlist[i].countryId
-          //       dataarr[j].createDate = needlist[i].createDate
-          //       dataarr[j].createPersonId = needlist[i].createPersonId
-          //       dataarr[j].createPersonName = needlist[i].createPersonName
-          //       dataarr[j].currency = needlist[i].currency
-          //       dataarr[j].direction = needlist[i].direction
-          //       dataarr[j].endDate = needlist[i].endDate
-          //       dataarr[j].endPersonId = needlist[i].endPersonId
-          //       dataarr[j].endPersonName = needlist[i].endPersonName
-          //       dataarr[j].handlePersonId = needlist[i].handlePersonId
-          //       dataarr[j].handlePersonName = needlist[i].handlePersonName
-          //       dataarr[j].judgeDate = needlist[i].judgeDate
-          //       dataarr[j].judgePersonId = needlist[i].judgePersonId
-          //       dataarr[j].judgePersonName = needlist[i].judgePersonName
-          //       dataarr[j].judgeStat = needlist[i].judgeStat
-          //       dataarr[j].modifyDate = needlist[i].modifyDate
-          //       dataarr[j].modifyPersonId = needlist[i].modifyPersonId
-          //       dataarr[j].number = needlist[i].number
-          //       dataarr[j].picPaths = needlist[i].picPaths
-          //       dataarr[j].receiptStat = needlist[i].receiptStat
-          //       dataarr[j].summary = needlist[i].summary
-          //       dataarr[j].taxRate = needlist[i].taxRate
-          //       dataarr[j].title = needlist[i].title
-          //       dataarr[j].expensesDate = needlist[i].expensesDate
-          //       dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
-          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
-          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
-          //       dataarr[j].expensesRegionId = needlist[i].expensesRegionId
-          //       dataarr[j].expensesRegionName = needlist[i].expensesRegionName
-          //       dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
-          //       dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
-          //       dataarr[j].isVoucher = needlist[i].isVoucher
+          //       dataarr[j].summary = dataarr2[i].summary
+          //       dataarr[j] = { ...dataarr[j], ...needlist[i] }
           //     }
           //   }
           // }
+          console.log('dataarr', dataarr)
+          for (const i in needlist) {
+            for (const j in dataarr) {
+              if (needlist[i].id === dataarr[j].primaryTableId) {
+                dataarr[j].id = needlist[i].id
+                dataarr[j].resultmoney = needlist[i].resultmoney
+                dataarr[j].approvalUseVos = needlist[i].approvalUseVos
+                dataarr[j].countryId = needlist[i].countryId
+                dataarr[j].createDate = needlist[i].createDate
+                dataarr[j].createPersonId = needlist[i].createPersonId
+                dataarr[j].createPersonName = needlist[i].createPersonName
+                dataarr[j].currency = needlist[i].currency
+                dataarr[j].direction = needlist[i].direction
+                dataarr[j].endDate = needlist[i].endDate
+                dataarr[j].endPersonId = needlist[i].endPersonId
+                dataarr[j].endPersonName = needlist[i].endPersonName
+                dataarr[j].handlePersonId = needlist[i].handlePersonId
+                dataarr[j].handlePersonName = needlist[i].handlePersonName
+                dataarr[j].judgeDate = needlist[i].judgeDate
+                dataarr[j].judgePersonId = needlist[i].judgePersonId
+                dataarr[j].judgePersonName = needlist[i].judgePersonName
+                dataarr[j].judgeStat = needlist[i].judgeStat
+                dataarr[j].modifyDate = needlist[i].modifyDate
+                dataarr[j].modifyPersonId = needlist[i].modifyPersonId
+                dataarr[j].number = needlist[i].number
+                dataarr[j].picPaths = needlist[i].picPaths
+                dataarr[j].receiptStat = needlist[i].receiptStat
+                // dataarr[j].summary = needlist[i].summary
+                dataarr[j].taxRate = needlist[i].taxRate
+                dataarr[j].title = needlist[i].title
+                dataarr[j].expensesDate = needlist[i].expensesDate
+                dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
+                dataarr[j].expensesAccount = needlist[i].expensesAccount
+                dataarr[j].expensesAccount = needlist[i].expensesAccount
+                dataarr[j].expensesRegionId = needlist[i].expensesRegionId
+                dataarr[j].expensesRegionName = needlist[i].expensesRegionName
+                dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
+                dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
+                dataarr[j].isVoucher = needlist[i].isVoucher
+              }
+            }
+          }
           this.list = dataarr
           this.getSpanArr(this.list)
 

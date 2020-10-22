@@ -4,7 +4,7 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -163,6 +163,8 @@
 
 <script>
 var _that
+import printJS from 'print-js'
+
 export default {
   filters: {
     statfilter(status) {
@@ -249,6 +251,100 @@ export default {
     _that = this
   },
   methods: {
+    cutnull(data) {
+      for (const x in data) {
+        if (data[x] === null) { // 如果是null 把直接内容转为 ''
+          data[x] = ''
+        } else {
+          if (Array.isArray(data[x])) { // 是数组遍历数组 递归继续处理
+            data[x] = data[x].map(z => {
+              return this.cutnull(z)
+            })
+          }
+          if (typeof (data[x]) === 'object') { // 是json 递归继续处理
+            data[x] = this.cutnull(data[x])
+          }
+        }
+      }
+      return data
+    },
+    printdata() {
+      const arr = this.cutnull(this.list2)
+      for (const i in arr) {
+        arr[i].step = Number(i) + 1
+      }
+      const handleperson = this.reviewList.map(item => {
+        if (item.actualStepHandler) {
+          return item.stepHandlerName
+        }
+      }).join(',')
+      console.log(handleperson)
+      printJS({
+        printable: arr,
+        type: 'json',
+        properties: [
+          { field: 'step', displayName: '行号', columnSize: `100px` },
+          { field: 'summary', displayName: 'abstract', columnSize: `100px` },
+          { field: 'subjectName', displayName: 'subject title', columnSize: `100px` },
+          { field: 'money', displayName: 'amount', columnSize: `100px` }
+        ],
+        header: `<div class="pringtitle">
+                    <div class="custom-p"> Expenses </div>
+                        <br>
+                        <div class="supplier">
+                        <div class="item">
+                        <div class="itemname">branch：</div>
+                        <div class="itemcontent">${this.personalForm.title || ''}</div>
+                        </div>
+                        <div class="item">
+                        <div class="itemname">expenses form：</div>
+                        <div class="itemcontent">${this.personalForm.outNumber || ''}</div>
+                        </div>
+                        </div>
+                        </div>`,
+        bottom: `<div>
+                  <div class="allmoney" style="display: flex;justify-content: space-between;width: 99%;height: 40px;align-items: center;border:1px solid;border-top: none;padding-right: 1%">
+                  
+                  <div></div>
+                  <div>${this.personalForm.resultmoney}</div>
+                  </div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: center;width: 100%;margin-top: 20px;flex-wrap:wrap">
+                    <div class="bottomitem" style="width: 100%;display: flex;align-items: center;justify-content: space-between;flex-wrap: nowrap">
+                        <div class="ceshi">current approval person：</div>
+                        <div class="bottomname">${handleperson}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 100%;display: flex;align-items: center;justify-content: space-between;flex-wrap: nowrap">
+                        <div class="ceshi">create bill date：</div>
+                        <div class="bottomname">${this.personalForm.createDate}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 100%;display: flex;align-items: center;justify-content: space-between;flex-wrap: nowrap">
+                        <div class="ceshi">current approval person：</div>
+                        <div class="bottomname">${handleperson}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 100%;display: flex;align-items: center;justify-content: space-between;flex-wrap: nowrap">
+                        <div class="ceshi">handler：</div>
+                        <div class="bottomname">${this.personalForm.createPersonName || ''}</div>
+                    </div>
+                   </div>
+                  </div>`,
+        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+        style: '.custom-p {font-size:20px;text-align: center; }' +
+          ' .ordername {text-align: center; font-size:25px;letter-spacing:15px}' +
+          '.pringtitle { line-height: 20px; margin-bottom: 10px }' +
+          '.line1 { width: 200px; border: 1px solid #000; margin: 0 auto }' +
+          '.line2 {width: 200px; border: 2px dashed #000; margin: 3px auto }' +
+          '.supplier {display: flex;justify-content: center; align-items: center;margin-top: 10px}' +
+          '.item { width: 33%; justify-content: center; align-items: center; display: flex}' +
+          '.item2 { width: 50%; justify-content: center; align-items: center; display: flex}' +
+          '.itemname2 { width: 20% }' +
+          '.itemcontent2 {width: 80%}' +
+          '.itemname { width: 40% }' +
+          '.itemcontent {width: 80%}',
+        gridHeaderStyle: 'font-size:12px; padding:3px; border:1px solid; color: #000; text-align:center;',
+        gridStyle: 'font-size:12px; padding:3px; border:1px solid; text-align:center; text-overflow:ellipsis; white-space:nowrap;',
+        repeatTableHeader: true
+      })
+    },
     handlecancel() {
       this.editVisible = false
     }

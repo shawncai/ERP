@@ -119,6 +119,8 @@ export default {
   },
   data() {
     return {
+      allmoney1: 0,
+      allmoney2: 0,
       tableHeight: 200,
       getemplist: {
         searchRepositoryId: '',
@@ -197,6 +199,20 @@ export default {
                           </div>
                           </div>
                         </div>`,
+        bottom: `<div>
+                  <div class="printbottom" style="display: flex;align-items: center;justify-content: space-around;width: 100%;margin-top: 20px">
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">all add money：</div>
+                        <div class="bottomname">${this.allmoney1}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">all reduce money：</div>
+                        <div class="bottomname">${this.allmoney2}</div>
+                    </div>
+                   </div>
+                  </div>`,
+        bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',
+
         style: '.custom-p {font-size:20px;text-align: center; }' +
           ' .ordername {text-align: center; font-size:25px;}' +
           '.pringtitle { line-height: 10px; }' +
@@ -263,6 +279,9 @@ export default {
           sums[index] = ''
         }
       })
+      this.allmoney1 = sums[5]
+      this.allmoney2 = sums[6]
+
       return sums
     },
     clickRow(val) {

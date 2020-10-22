@@ -42,8 +42,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ReturnExchange.diffMoney')" prop="diffMoney" style="width: 100%;">
-                <span>{{ personalForm.diffMoney }}</span>
+              <el-form-item :label="$t('ReturnExchange.diffMoney')" style="width: 100%;">
+                <span>{{ personalForm.shouldMoney }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.actialdiffermoney')" style="width: 100%;">
+                <span>{{ testMoney }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -301,6 +306,7 @@ export default {
   },
   data() {
     return {
+      testMoney: 0,
       // 合计数据
       heji1: '',
       heji2: '',
@@ -321,6 +327,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      this.testMoney = this.detaildata.diffMoney
       this.list2 = this.personalForm.returnExchangeRetreatVos
       this.list3 = this.personalForm.returnExchangeOutVos
       for (const i in this.list2) {

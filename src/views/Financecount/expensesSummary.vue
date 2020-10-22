@@ -463,6 +463,9 @@ export default {
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
+          this.$nextTick(() => {
+            this.$refs.table.doLayout()
+          })
         }
       })
       // 物料需求计划列表数据
@@ -613,6 +616,7 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+
 .ERP-container >>> .el-form-item__label {
   color: #909399;
   text-align: left;

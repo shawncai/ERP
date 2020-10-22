@@ -2310,7 +2310,7 @@ export default {
     region: 'area'
   },
   Expenses: {
-    title: 'expenses form subject',
+    title: 'subject',
     expensesDate: 'expenses date',
     handlePersonId: 'handler',
     closeType: 'payment type',

@@ -111,7 +111,7 @@
             <span>{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ReturnExchange.diffMoney')" :resizable="false" prop="diffMoney" align="center" min-width="150">
+        <el-table-column :label="$t('update4.actialdiffermoney')" :resizable="false" prop="diffMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.diffMoney }}</span>
           </template>

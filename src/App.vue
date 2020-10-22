@@ -62,6 +62,9 @@ export default{
 }
 </script>
 <style>
+.el-table__body-wrapper{
+   z-index: 2;
+ }
   .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
   .el-table__body tr.current-row>td {
     background-color: #efefef;
