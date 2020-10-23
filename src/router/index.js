@@ -3235,13 +3235,13 @@ export const asyncRouterMap = [
         path: 'CouponCount',
         component: () => import('@/views/SaleReport/CouponCount'),
         name: 'CouponCount',
-        meta: { title: 'CouponCount', noCache: false, roles: ['311-313-324-4'] }
+        meta: { title: 'CouponCount', noCache: false, roles: ['311-313-410-4'] }
       },
       {
         path: 'ItroducerDetail',
         component: () => import('@/views/SaleReport/ItroducerDetail'),
         name: 'ItroducerDetail',
-        meta: { title: 'ItroducerDetail', noCache: false, roles: ['311-313-324-4'] }
+        meta: { title: 'ItroducerDetail', noCache: false, roles: ['311-313-411-4'] }
       },
       {
         path: 'searchSaleOrderReport',

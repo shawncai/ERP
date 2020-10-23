@@ -264,7 +264,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleOut.introducerMoney')" :rules="(introducer === '' || introducer === null) ? personalrules.introducerMoney:[{ required: true, message: 'please select introducerMoney', trigger: 'change' }]" prop="introducerMoney" style="width: 100%;">
-                <el-select ref="clear3" v-model="personalForm.introducerMoney" style="margin-left: 18px;width: 200px">
+                <el-select v-model="personalForm.introducerMoney" style="margin-left: 18px;width: 200px" @change="changeIntroducer">
                   <el-option :value="250" label="250"/>
                   <el-option :value="500" label="500"/>
                   <el-option :value="1000" label="1000"/>
@@ -1132,6 +1132,11 @@ export default {
     _that = this
   },
   methods: {
+    changeIntroducer() {
+      if (!this.introducer) {
+        this.personalForm.introducerMoney = null
+      }
+    },
     restintroducer() {
       this.personalForm.introducer = ''
       this.introducer = ''
