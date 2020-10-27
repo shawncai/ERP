@@ -651,6 +651,11 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     async handlesave() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.teardownAfterDetailVos
+      delete this.personalForm.teardownBeforeDetailVos
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({

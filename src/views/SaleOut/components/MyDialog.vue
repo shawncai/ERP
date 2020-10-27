@@ -177,6 +177,7 @@
                   <el-option :value="2" label="employee discount amount"/>
                   <el-option :value="3" label="old cash voucher amount"/>
                   <el-option :value="4" label="special discount amount"/>
+                  <el-option :value="5" label="freebies/promo"/>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -2616,6 +2617,15 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     async handleEditok() {
+      if (!this.personalForm.couponRemark && this.personalForm.couponSupportOld !== 0) {
+        this.$notify({
+          type: 'warning',
+          message: 'please select discount option',
+          offset: 100,
+          duration: 5000
+        })
+        return false
+      }
       this.saveloding = true
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content

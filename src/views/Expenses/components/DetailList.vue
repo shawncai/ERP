@@ -220,6 +220,7 @@ export default {
   },
   data() {
     return {
+      todaydate: null,
       // 审核数据
       reviewList: [],
       // 详细表数据
@@ -237,6 +238,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      this.getdatatime()
       this.list2 = this.personalForm.expensesDetailVos
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
@@ -251,6 +253,22 @@ export default {
     _that = this
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var seperator2 = ':'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
+      this.todaydate = currentdate
+    },
     cutnull(data) {
       for (const x in data) {
         if (data[x] === null) { // 如果是null 把直接内容转为 ''
@@ -294,11 +312,11 @@ export default {
                         <div class="supplier">
                         <div class="item">
                         <div class="itemname">branch：</div>
-                        <div class="itemcontent">${this.personalForm.title || ''}</div>
+                        <div class="itemcontent">${this.personalForm.expensesRepositoryName || ''}</div>
                         </div>
                         <div class="item">
                         <div class="itemname">expenses form：</div>
-                        <div class="itemcontent">${this.personalForm.outNumber || ''}</div>
+                        <div class="itemcontent">${this.personalForm.title || ''}</div>
                         </div>
                         </div>
                         </div>`,
@@ -325,6 +343,11 @@ export default {
                         <div class="ceshi">handler：</div>
                         <div class="bottomname">${this.personalForm.createPersonName || ''}</div>
                     </div>
+                    <div class="bottomitem" style="width: 100%;display: flex;align-items: center;justify-content: space-between;flex-wrap: nowrap">
+                        <div class="ceshi">print date：</div>
+                        <div class="bottomname">${this.todaydate || ''}</div>
+                    </div>
+
                    </div>
                   </div>`,
         bottomStyle: '.printbottom: { display: flex;margin-top: 20px}',

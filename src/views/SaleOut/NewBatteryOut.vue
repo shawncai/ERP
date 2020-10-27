@@ -69,6 +69,7 @@
                     <el-option value="2" label="employee discount amount"/>
                     <el-option value="3" label="old cash voucher amount"/>
                     <el-option value="4" label="special discount amount"/>
+                    <el-option value="5" label="freebies/promo"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -2972,6 +2973,15 @@ export default {
     },
     // 保存操作
     async handlesave() {
+      if (!this.personalForm.couponRemark && this.personalForm.couponSupportOld !== 0) {
+        this.$notify({
+          type: 'warning',
+          message: 'please select discount option',
+          offset: 100,
+          duration: 5000
+        })
+        return false
+      }
       const needbatterycategorys = await batteryList2(5).then(res => {
         return res.data.data.content
       })

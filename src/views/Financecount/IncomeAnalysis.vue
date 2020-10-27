@@ -119,6 +119,7 @@ export default {
   },
   data() {
     return {
+      todaydate: null,
       allmoney1: 0,
       allmoney2: 0,
       tableHeight: 200,
@@ -153,8 +154,25 @@ export default {
     _that = this
   },
   methods: {
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var seperator2 = ':'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
+      this.todaydate = currentdate
+    },
     // 打印
     handlePrint() {
+      this.getdatatime()
       const statusMap = {
         1: _that.$t('update4.xsckd'),
         2: _that.$t('update4.xsthd'),
@@ -208,6 +226,10 @@ export default {
                     <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
                         <div class="ceshi">all reduce money：</div>
                         <div class="bottomname">${this.allmoney2}</div>
+                    </div>
+                    <div class="bottomitem" style="width: 25%;display: flex;align-items: center;justify-content: center;flex-wrap: nowrap">
+                        <div class="ceshi">print date：</div>
+                        <div class="bottomname">${this.todaydate}</div>
                     </div>
                    </div>
                   </div>`,

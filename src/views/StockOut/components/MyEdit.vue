@@ -542,6 +542,10 @@ export default {
       return objClone
     },
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.otherOutDetails
       const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
       // 保存时同样商品不能有同一个批次
       let i = 0

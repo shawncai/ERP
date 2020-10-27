@@ -221,7 +221,10 @@ export default {
       region: null,
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 30 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       props: {

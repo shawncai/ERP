@@ -696,6 +696,11 @@ export default {
     },
     // 保存操作
     async handlesave() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.approvalUseVos
+      delete this.personalForm.buildBeforeDetailVos
+      delete this.personalForm.buildAfterDetailVos
       const EnterDetail = this.$refs.editable.getRecords()
       if (EnterDetail.length === 0) {
         this.$notify.error({

@@ -556,7 +556,8 @@ export default {
         1: 'tax rebate amount',
         2: 'employee discount amount',
         3: 'old cash voucher amount',
-        4: 'special discount amount'
+        4: 'special discount amount',
+        5: 'freebies/promo'
       }
       return statusMap[sta]
     },
