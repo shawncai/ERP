@@ -106,8 +106,17 @@
           </el-editable>
         </div>
       </el-card>
-      <!--调价单明细-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</div>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('update4.xiazaimoban') }}</el-button>
+          <el-button size="small" class="filter-item2" type="success" @click="handleUpload">{{ $t('update4.gengxinmoban') }}</el-button>
+          <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+        </div>
+      </el-card>
+
+      <!--调价单明细-->
+      <!-- <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
 
         <div ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</div>
         <div class="buttons" style="margin-top: 58px">
@@ -128,17 +137,6 @@
             style="width: 100%">
             <el-editable-column type="selection" width="55" align="center"/>
             <el-editable-column label="编号" width="55" align="center" type="index"/>
-            <!--            <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
-            <!--              <template slot-scope="scope">-->
-            <!--                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">-->
-            <!--                  <el-option-->
-            <!--                    v-for="(item, index) in locationlist"-->
-            <!--                    :key="index"-->
-            <!--                    :value="item.id"-->
-            <!--                    :label="item.locationCode"/>-->
-            <!--                </el-select>-->
-            <!--              </template>-->
-            <!--            </el-editable-column>-->
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
@@ -174,7 +172,8 @@
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
-      </el-card>
+      </el-card> -->
+
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
@@ -186,6 +185,8 @@
 </template>
 
 <script>
+import { productlist } from '@/api/Product'
+
 import '@/directive/noMoreClick/index.js'
 import { getlocation, locationlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -195,6 +196,8 @@ import MyRepository from './components/MyRepository'
 import MyAccept from './components/MyAccept'
 import MyDetail from './components/MyDetail'
 import MyCreate from './components/MyCreate'
+import XLSX from 'xlsx'
+
 var _that
 export default {
   name: 'AddAdjustPrice',
@@ -222,6 +225,14 @@ export default {
       }
     }
     return {
+      detailData: null,
+      loading: false,
+      excelData: {
+        header: null,
+        results: null
+      },
+      downloadLoading: false,
+      exportparms: {},
       issave: false,
       allrepos: [],
       list3: [],
@@ -301,6 +312,184 @@ export default {
     _that = this
   },
   methods: {
+    handleUpload() {
+      this.$refs['excel-upload-input'].click()
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return true
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    onSuccess({ results, header }) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          id: item.序号,
+          productCode: item.物料编码,
+          productName: item.产品名称,
+          color: item.颜色,
+          typeId: item.型号id,
+          unit: item.单位id,
+          productType: item.规格型号,
+          costPrice: item.成本价
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.detailData = JSON.stringify(uploaddata)
+      this.$notify({
+        title: '更新成功',
+        message: '更新成功',
+        type: 'success',
+        duration: 1000,
+        offset: 100
+      })
+      loading.close()
+      // updateProductPrice(jsonupload).then(res => {
+      //   if (res.data.ret === 200) {
+      //     console.log(res)
+      //     this.$notify({
+      //       title: '更新成功',
+      //       message: '更新成功',
+      //       type: 'success',
+      //       duration: 1000,
+      //       offset: 100
+      //     })
+      //     this.getlist()
+      //   } else {
+      //     this.$notify.error({
+      //       title: '更新错误',
+      //       message: '更新错误',
+      //       offset: 100
+      //     })
+      //   }
+      //   loading.close()
+      // })
+      //   .catch(e => {
+      //     loading.close()
+      //   })
+      setTimeout(() => {
+        loading.close()
+      }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    handleExport() {
+      this.downloadLoading = true
+      this.exportparms.pagenum = 1
+      this.exportparms.pagesize = 99999999
+      productlist(this.exportparms).then(res => {
+        if (res.data.ret === 200) {
+          const list = res.data.data.content.list
+          this.downloadLoading = false
+          if (list.length === 0) {
+            this.$notify({
+              title: '没有数据',
+              type: 'success',
+              offset: 100
+            })
+          } else {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '型号id', '规格型号', '单位id', '颜色', '成本价', '备注']
+        const filterVal = ['id', 'code', 'productName', 'category', 'typeId', 'productType', 'purMeasu', 'color', 'costPrice', 'remarks']
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '调价单明细表'
+        })
+        this.downloadLoading = false
+      })
+          }
+        } else {
+          // this.restFilter()
+        }
+      })
+    },
     // 选择门店
     handleAddRep() {
       this.repositorycontrol = true
@@ -469,10 +658,7 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      console.log(this.personalForm)
-      console.log(EnterDetail)
-      if (EnterDetail.length === 0) {
+      if (!this.detailData) {
         this.$notify.error({
           title: 'wrong',
           message: this.$t('prompt.mxbbnwk'),
@@ -480,50 +666,6 @@ export default {
         })
         return false
       }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
-        }
-        if (elem.newSalePrice === null || elem.newSalePrice === '' || elem.newSalePrice === undefined) {
-          delete elem.newSalePrice
-        }
-        if (elem.tradePrice === null || elem.tradePrice === '' || elem.tradePrice === undefined) {
-          delete elem.tradePrice
-        }
-        if (elem.newTradePrice === null || elem.newTradePrice === '' || elem.newTradePrice === undefined) {
-          delete elem.newTradePrice
-        }
-        if (elem.memberPrice === null || elem.memberPrice === '' || elem.memberPrice === undefined) {
-          delete elem.memberPrice
-        }
-        if (elem.newMemberPrice === null || elem.newMemberPrice === '' || elem.newMemberPrice === undefined) {
-          delete elem.newMemberPrice
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        return elem
-      })
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -533,47 +675,35 @@ export default {
 
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          this.$refs.editable.validate().then(valid => {
-            if (valid) {
-              this.issave = true
-              for (const i in this.allrepos) {
-                Data.adjustRepositoryId = this.allrepos[i]
-                const parms = JSON.stringify(Data)
-                const parms2 = JSON.stringify(EnterDetail)
-                const parm3 = this.personalForm
-                addadjustprice(parms, parms2, parm3).then(res => {
-                  console.log(res)
-                  if (res.data.ret === 200) {
-                    this.$notify({
-                      title: 'successful',
-                      message: 'save successful',
-                      type: 'success',
-                      offset: 100
-                    })
-                    this.restAllForm()
-                    this.$refs.editable.clear()
-                    this.$refs.editable2.clear()
-                    this.$refs.personalForm.clearValidate()
-                    this.$refs.personalForm.resetFields()
-                  } else {
-                    this.$notify.error({
-                      title: 'wrong',
-                      message: res.data.msg,
-                      offset: 100
-                    })
-                  }
-                  this.issave = false
+          this.issave = true
+          for (const i in this.allrepos) {
+            Data.adjustRepositoryId = this.allrepos[i]
+            const parms = JSON.stringify(Data)
+            const parms2 = this.detailData
+            const parm3 = this.personalForm
+            addadjustprice(parms, parms2, parm3).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
                 })
               }
-            }
-          }).catch(valid => {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'Information is incomplete',
-              offset: 100
+              this.issave = false
             })
-            return false
-          })
+          }
         } else {
           this.$notify.error({
             title: 'wrong',

@@ -88,35 +88,7 @@
         </div>
       </el-card>
       <!--调价单明细-->
-      <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</h2>
-        <div class="container">
-          <el-editable
-            ref="editable"
-            :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
-            class="click-table1"
-            border
-            size="small"
-            style="width: 100%">
-            <el-editable-column fixed="left" label="编号" width="55" align="center" type="index"/>
-            <!--          <el-editable-column prop="locationCode" align="center" :label="$t('Hmodule.hw')" />-->
-            <el-editable-column :label="$t('Hmodule.wpbh')" fixed="left" prop="productCode" align="center" />
-            <el-editable-column :label="$t('Hmodule.wpmc')" fixed="left" prop="productName" align="center" />
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column :label="$t('updates.lsyj')" prop="salePrice" align="center" />
-            <el-editable-column :label="$t('updates.lstzj')" prop="newSalePrice" align="center" />
-            <el-editable-column :label="$t('updates.pfyj')" prop="tradePrice" align="center" />
-            <el-editable-column :label="$t('updates.pftzj')" prop="newTradePrice" align="center" />
-            <el-editable-column :label="$t('updates.yyyj')" prop="memberPrice" align="center" />
-            <el-editable-column :label="$t('updates.yytzj')" prop="newMemberPrice" align="center" />
-            <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
-          </el-editable>
-        </div>
-      </el-card>
+
       <!--审核状态-->
       <el-card class="box-card" style="margin-top: 15px">
         <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.spjl') }}</h2>
@@ -153,7 +125,13 @@
         </div>
       </el-card>
       <!-- 备注消息 -->
-      <el-card class="box-card">
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <div ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</div>
+        <div class="buttons" style="margin-top: 58px">
+          <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('update4.xiazaimoban') }}</el-button>
+        </div>
+      </el-card>
+      <!-- <el-card class="box-card">
         <h2 ref="geren" class="form-name">{{ $t('updates.hjxx') }}</h2>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
@@ -171,7 +149,7 @@
             </el-row>
           </el-form>
         </div>
-      </el-card>
+      </el-card> -->
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
@@ -213,6 +191,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -291,6 +270,25 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    handleExport() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['序号', '物料编码', '产品名称', '型号id', '规格型号', '单位', '颜色', '成本价', '备注']
+        const filterVal = ['id', 'productCode', 'productName', 'typeId', 'productType', 'unit', 'color', 'costPrice', 'remarks']
+        const data = this.formatJson(filterVal, this.list2)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '详情调价单明细表'
+        })
+        this.downloadLoading = false
+      })
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {

@@ -1,5 +1,6 @@
 export default {
   route: {
+    CostPriceHistory: '历史成本价',
     CouponCount: '优惠卷统计明细',
     ItroducerDetail: '介绍人费用统计明细',
     Counthistory: '商品进出库记录',
@@ -4557,6 +4558,9 @@ export default {
     dingdantuik: '订单退款',
     zhuanzhangcunk: '转账存款',
     xiaoshoushoukuan: '销售收款',
-    huanhuodan: '换货单'
+    huanhuodan: '换货单',
+    xiazaimoban: '下载模板',
+    gengxinmoban: '更新模板',
+    tiaozhengriqi: '调整日期'
   }
 }

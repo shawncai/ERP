@@ -3350,6 +3350,12 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'CostPriceHistory',
+        component: () => import('@/views/Financecount/costPriceHistory'),
+        name: 'CostPriceHistory',
+        meta: { title: 'CostPriceHistory', noCache: false, roles: ['311-314-409-4'] }
+      },
+      {
         path: 'IncomeAnalysis',
         component: () => import('@/views/Financecount/IncomeAnalysis'),
         name: 'IncomeAnalysis',

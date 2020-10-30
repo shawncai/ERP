@@ -1,5 +1,6 @@
 export default {
   route: {
+    CostPriceHistory: 'CostPrice History',
     CouponCount: 'voucher detail',
     ItroducerDetail: 'referral detail',
     Counthistory: 'Counthistory',
@@ -4557,6 +4558,9 @@ export default {
     dingdantuik: 'reservation refund form',
     zhuanzhangcunk: 'deposit slip',
     xiaoshoushoukuan: 'sales collection',
-    huanhuodan: 'change unit'
+    huanhuodan: 'change unit',
+    xiazaimoban: '下载模板',
+    gengxinmoban: '更新模板',
+    tiaozhengriqi: '调整日期'
   }
 }

@@ -64,54 +64,16 @@
       </div>
     </el-card>
     <!--调价单明细-->
-    <el-card class="box-card" style="margin-top: 15px">
-      <h2 ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</h2>
-      <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
-      </div>
-      <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
-      <div class="container">
-        <el-editable
-          ref="editable"
-          :data.sync="list2"
-          :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
-          class="click-table1"
-          stripe
-          border
-          size="small"
-          style="width: 100%">
-          <el-editable-column type="selection" width="55" align="center"/>
-          <el-editable-column label="编号" width="55" align="center" type="index"/>
-          <!--          <el-editable-column :edit-render="{type: 'default'}" prop="locationId" align="center" :label="$t('Hmodule.hw')" width="200px">-->
-          <!--            <template slot-scope="scope">-->
-          <!--              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">-->
-          <!--                <el-option-->
-          <!--                  v-for="(item, index) in locationlist"-->
-          <!--                  :key="index"-->
-          <!--                  :value="item.id"-->
-          <!--                  :label="item.locationCode"/>-->
-          <!--              </el-select>-->
-          <!--            </template>-->
-          <!--          </el-editable-column>-->
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.lsyj')" prop="salePrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.lstzj')" prop="newSalePrice" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.pfyj')" prop="tradePrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.pftzj')" prop="newTradePrice" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.yyyj')" prop="memberPrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.yytzj')" prop="newMemberPrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
-        </el-editable>
+    <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+      <div ref="fuzhu" class="form-name">{{ $t('updates.tjdmx') }}</div>
+      <div class="buttons" style="margin-top: 58px">
+        <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('update4.xiazaimoban') }}</el-button>
+        <el-button size="small" class="filter-item2" type="success" @click="handleUpload">{{ $t('update4.gengxinmoban') }}</el-button>
+        <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
       </div>
     </el-card>
     <div class="buttons" style="margin-top: 20px;margin-left: 30px">
-      <el-button type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
+      <el-button :loading="issave" type="primary" @click="handleEditok()">{{ $t('public.edit') }}</el-button>
       <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
     </div>
   </el-dialog>
@@ -125,6 +87,8 @@ import MyRepository from './MyRepository'
 import MyAccept from './MyAccept'
 import MyDetail from './MyDetail'
 import MyCreate from './MyCreate'
+import XLSX from 'xlsx'
+
 var _that
 export default {
   components: { MyRepository, MyCreate, MyAccept, MyDetail },
@@ -140,6 +104,15 @@ export default {
   },
   data() {
     return {
+      issave: false,
+      detailData: null,
+      loading: false,
+      excelData: {
+        header: null,
+        results: null
+      },
+      downloadLoading: false,
+      exportparms: {},
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改row数据
@@ -209,6 +182,166 @@ export default {
     _that = this
   },
   methods: {
+    handleUpload() {
+      this.$refs['excel-upload-input'].click()
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return true
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    onSuccess({ results, header }) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          id: item.序号,
+          productCode: item.物料编码,
+          productName: item.产品名称,
+          color: item.颜色,
+          typeId: item.型号id,
+          unit: item.单位,
+          productType: item.规格型号,
+          costPrice: item.成本价
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.detailData = JSON.stringify(uploaddata)
+      this.$notify({
+        title: '更新成功',
+        message: '更新成功',
+        type: 'success',
+        duration: 1000,
+        offset: 100
+      })
+      loading.close()
+      // updateProductPrice(jsonupload).then(res => {
+      //   if (res.data.ret === 200) {
+      //     console.log(res)
+      //     this.$notify({
+      //       title: '更新成功',
+      //       message: '更新成功',
+      //       type: 'success',
+      //       duration: 1000,
+      //       offset: 100
+      //     })
+      //     this.getlist()
+      //   } else {
+      //     this.$notify.error({
+      //       title: '更新错误',
+      //       message: '更新错误',
+      //       offset: 100
+      //     })
+      //   }
+      //   loading.close()
+      // })
+      //   .catch(e => {
+      //     loading.close()
+      //   })
+      setTimeout(() => {
+        loading.close()
+      }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    handleExport() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['序号', '物料编码', '产品名称', '型号id', '规格型号', '单位', '颜色', '成本价', '备注']
+        const filterVal = ['id', 'productCode', 'productName', 'typeId', 'productType', 'unit', 'color', 'costPrice', 'remarks']
+        const data = this.formatJson(filterVal, this.list2)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '修改调价单明细表'
+        })
+        this.downloadLoading = false
+      })
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {
@@ -315,61 +448,14 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+      delete this.personalForm.repoAdjustPriceDetailVos
+      delete this.personalForm.approvalUseVos
+      this.issave = true
+
       console.log(this.personalForm)
-      const rest = this.$refs.editable.getRecords()
-      if (rest.length === 0) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.mxbbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      rest.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-          delete elem.locationId
-        }
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.typeId === null || elem.typeId === '' || elem.typeId === undefined) {
-          delete elem.typeId
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          delete elem.salePrice
-        }
-        if (elem.newSalePrice === null || elem.newSalePrice === '' || elem.newSalePrice === undefined) {
-          delete elem.newSalePrice
-        }
-        if (elem.tradePrice === null || elem.tradePrice === '' || elem.tradePrice === undefined) {
-          delete elem.tradePrice
-        }
-        if (elem.newTradePrice === null || elem.newTradePrice === '' || elem.newTradePrice === undefined) {
-          delete elem.newTradePrice
-        }
-        if (elem.memberPrice === null || elem.memberPrice === '' || elem.memberPrice === undefined) {
-          delete elem.memberPrice
-        }
-        if (elem.newMemberPrice === null || elem.newMemberPrice === '' || elem.newMemberPrice === undefined) {
-          delete elem.newMemberPrice
-        }
-        if (elem.remarks === null || elem.remarks === '' || elem.remarks === undefined) {
-          delete elem.remarks
-        }
-        return elem
-      })
-      const parms2 = JSON.stringify(rest)
+      const parms2 = this.detailData
       const parm = JSON.stringify(this.personalForm)
       updatrepoadjustprice(parm, parms2).then(res => {
         if (res.data.ret === 200) {
@@ -381,7 +467,7 @@ export default {
             offset: 100
           })
           this.$emit('rest', true)
-          this.$refs.editable.clear()
+          // this.$refs.editable.clear()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
@@ -392,13 +478,14 @@ export default {
             offset: 100
           })
         }
+        this.issave = false
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
-      this.editVisible = false
+      // this.issave = false
     }
     // 修改操作结束 -------------------------------------------------
   }
