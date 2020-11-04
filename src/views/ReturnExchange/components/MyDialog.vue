@@ -50,8 +50,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('ReturnExchange.diffMoney')" prop="diffMoney" style="width: 100%;">
-                <el-input v-model="personalForm.diffMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
+              <el-form-item :label="$t('ReturnExchange.diffMoney')" prop="shouldMoney" style="width: 100%;">
+                <el-input v-model="personalForm.shouldMoney" disabled style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.actialdiffermoney')" prop="diffMoney" style="width: 100%;">
+                <el-input-number v-model="personalForm.diffMoney" :controls="false" :step="0.1" style="margin-left: 18px;width: 200px"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -320,7 +325,10 @@ export default {
     return {
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() < new Date().getTime() - 8.64e7
+          const _now = Date.now()
+          const seven = 30 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       batchlist: [],

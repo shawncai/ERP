@@ -56,7 +56,7 @@
         </el-table-column>
         <el-table-column :label="$t('update4.changereceipt')" :resizable="false" prop="receiptTypeName" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.receiptTypeName }}</span>
+            <span>{{ scope.row.receiptTypeId | receiptTypeFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('update4.changequantity')" :resizable="false" prop="quantity" fixed="left" align="center" min-width="150">
@@ -70,9 +70,14 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('update4.changetime')" :resizable="false" prop="tiem" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('update4.changetime')" :resizable="false" prop="tiem" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.tiem }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('update4.nowStock')" :resizable="false" prop="nowStock" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.nowStock }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -105,6 +110,29 @@ export default {
       const statusMap = {
         1: _that.$t('update4.zj'),
         2: _that.$t('update4.js')
+      }
+      return statusMap[status]
+    },
+    receiptTypeFilter(status) {
+      const statusMap = {
+        9: _that.$t('updates.cgdd'),
+        28: _that.$t('route.SaleOut'),
+        30: _that.$t('route.SaleReturn'),
+        34: _that.$t('updates.wxckd'),
+        45: _that.$t('updates.cgrkd'),
+        46: _that.$t('route.ProduceEnterList'),
+        47: _that.$t('route.OtherEnterList'),
+        48: _that.$t('route.OtherStockOutList'),
+        49: _that.$t('route.Storagemove'),
+        52: _that.$t('route.InventoryCount'),
+        55: _that.$t('route.BuildUp'),
+        56: _that.$t('route.TearDown'),
+        57: _that.$t('route.DailyAdjust'),
+        58: _that.$t('updates.qckc'),
+        59: _that.$t('updates.qckc'),
+        61: _that.$t('route.RecoverVehicleList'),
+        79: _that.$t('route.ReturnExchange')
+
       }
       return statusMap[status]
     }

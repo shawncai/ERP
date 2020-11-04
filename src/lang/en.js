@@ -4561,6 +4561,7 @@ export default {
     huanhuodan: 'change unit',
     xiazaimoban: '下载模板',
     gengxinmoban: '更新模板',
-    tiaozhengriqi: '调整日期'
+    tiaozhengriqi: '调整日期',
+    nowStock: 'nowStock'
   }
 }
