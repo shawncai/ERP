@@ -44,11 +44,6 @@
         style="width: 100%;"
         @row-click="clickRow"
         @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          min-width="55"
-          fixed="left"
-          align="center"/>
         <el-table-column :label="$t('update4.productCode')" :resizable="false" fixed="left" align="center" min-width="60">
           <template slot-scope="scope">
             <span>{{ scope.row.productCode }}</span>
@@ -82,6 +77,8 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="handleFilter" />
+
     </el-card>
   </div>
 </template>
@@ -227,6 +224,7 @@ export default {
       getInventoryChange2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
+          this.total = res.data.data.count
           this.listLoading = false
         }
         setTimeout(() => {
@@ -263,6 +261,7 @@ export default {
       getInventoryChange2(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content
+          this.total = res.data.data.count
           // this.restFilter()
         } else {
           this.$notify.error({

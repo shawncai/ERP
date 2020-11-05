@@ -142,6 +142,8 @@ export function getInventoryChange2(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
+  params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
     url: '/countinven/getInventoryChange2',
     method: 'post',
