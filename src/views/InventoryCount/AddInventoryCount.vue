@@ -540,8 +540,7 @@ export default {
     },
     // 差异数量
     getDiff(par1, par2, par3) {
-      // console.log('par1', par1)
-      // console.log('par2', par2)
+      console.log(par1)
       par3.diffQuantity = Math.abs(par2 - par1)
       let num1 = 0
       let num2 = 0

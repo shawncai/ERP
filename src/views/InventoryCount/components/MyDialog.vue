@@ -130,7 +130,7 @@
               <p>{{ getquantity(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/> -->
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getDiff(scope.row.inventoryQuantity, scope.row.actualQuantity, scope.row) }}</p>
@@ -474,15 +474,27 @@ export default {
       })
     },
     // 获取数量
-    changequantity(scope) {
-      const parms2 = scope.row.locationId
-      const parms5 = scope.row.productCode
-      const parms4 = scope.row.batch
-
-      getQuantity(this.personalForm.countRepositoryId, parms2, parms5, parms4).then(res => {
-        this.out = res.data.data.content
-        scope.row.inventoryQuantity = res.data.data.content
-      })
+    changequantity(sco) {
+      if (sco.flag2 === undefined) {
+        sco.flag2 = true
+      }
+      console.log(sco.flag2)
+      if (sco.flag2) {
+        const parms2 = sco.locationId
+        const parms3 = sco.productCode
+        const parms4 = sco.batch
+        if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+          getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+            this.out = res.data.data.content
+            sco.inventoryQuantity = res.data.data.content
+          })
+          return sco.inventoryQuantity
+        } else {
+          sco.inventoryQuantity = 0
+          return sco.inventoryQuantity
+        }
+      }
+      sco.flag2 = false
     },
     // 盈亏类型
     getdiffType(parm1, parm2, parm3) {

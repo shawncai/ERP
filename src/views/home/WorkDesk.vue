@@ -189,11 +189,11 @@
             <div style="width: 100%; height: 100%;background: white;" >
               <el-row :gutter="2">
                 <el-col :span="24"><div class="grid-content bg-purple">
-                  <div style="height: 70px;margin-left: 84px;margin-top: 49px;">{{ deskdata.ones }}</div>
-                  <div style="height: 70px;margin-left: 84px">{{ deskdata.twos }}</div>
-                  <div style="height: 70px;margin-left: 84px">{{ deskdata.threes }}</div>
-                  <div style="height: 70px;margin-left: 84px">{{ deskdata.fours }}</div>
-                  <div style="height: 70px;margin-left: 84px">{{ deskdata.fives }}</div>
+                  <div style="height: 70px;margin-left: 84px;margin-top: 49px;">{{ $t('update4.niyou') }}   {{ deskdata.ones }}     {{ $t('update4.tiaodanbanderenwu')  }} </div>
+                  <div style="height: 70px;margin-left: 84px">{{ $t('update4.niyou') }} {{ deskdata.twos }} {{ $t('update4.tiaodaichuli')  }}</div>
+                  <div style="height: 70px;margin-left: 84px">{{ $t('update4.niyou') }}{{ deskdata.threes }}  {{ $t('update4.tiaoshenhederenwu')  }}</div>
+                  <div style="height: 70px;margin-left: 84px">{{ $t('update4.dengdaiweixiud') }}</div>
+                  <div style="height: 70px;margin-left: 84px">{{ $t('update4.niyou') }}{{ deskdata.fives }}{{ $t('update4.tiaodaifukuanjilu')  }}</div>
                 </div></el-col>
               </el-row>
             </div>
@@ -552,12 +552,19 @@ export default {
         if (res.data.ret === 200) {
           console.log('workDesk3', res.data)
           console.log('toDoTask', res.data.data.toDoTask)
-          this.deskdata.ones = '您有' + res.data.data.toDoTask + '条待办的任务'
+          // this.deskdata.ones = this.$t('update4.niyou') + res.data.data.toDoTask + this.$t('update4.tiaodanbanderenwu') 
+          // console.log(this.deskdata.ones)
+          // this.deskdata.twos = this.$t('update4.niyou')  + res.data.data.toDoEvent + this.$t('update4.tiaodaichuli') 
+          // this.deskdata.threes = this.$t('update4.niyou') + res.data.data.toJudge + this.$t('update4.tiaoshenhederenwu')
+          // this.deskdata.fours = this.$t('update4.dengdaiweixiud')
+          // this.deskdata.fives = this.$t('update4.niyou') + res.data.data.toPay + this.$t('update4.tiaodaifukuanjilu')
+
+          this.deskdata.ones =res.data.data.toDoTask 
           console.log(this.deskdata.ones)
-          this.deskdata.twos = '您有' + res.data.data.toDoEvent + '条待处理的事件'
-          this.deskdata.threes = '您有' + res.data.data.toJudge + '条待审批的单据'
-          this.deskdata.fours = '您有0条待分配的维修订单'
-          this.deskdata.fives = '您有' + res.data.data.toPay + '条待付款记录'
+          this.deskdata.twos = res.data.data.toDoEvent 
+          this.deskdata.threes =  res.data.data.toJudge 
+          this.deskdata.fours = this.$t('update4.dengdaiweixiud')
+          this.deskdata.fives = res.data.data.toPay 
         }
         setTimeout(() => {
           this.listLoading = false

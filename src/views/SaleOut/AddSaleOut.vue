@@ -181,7 +181,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.introducerMoney')" :rules="introducer === '' ? personalrules.introducerMoney:[{ required: true, message: 'please select introducerMoney', trigger: 'change' }]" prop="introducerMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.introducerMoney" style="width: 200px" @change="changeIntroducer">
+                  <el-select v-model="personalForm.introducerMoney" :disabled="!introducer" style="width: 200px" @change="changeIntroducer">
                     <el-option label="250" value="250"/>
                     <el-option label="500" value="500"/>
                     <el-option label="1000" value="1000"/>

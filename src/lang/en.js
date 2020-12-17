@@ -4565,6 +4565,12 @@ export default {
     nowStock: 'nowStock',
     xxyj: 'minimum limit warning',
     sxyj: 'maximum limit warning',
-    aqkcyj: 'safety stocks warning'
+    aqkcyj: 'safety stocks warning',
+    niyou: 'You have',
+    tiaodanbanderenwu: 'tasks to do.',
+    tiaodaichuli: 'events to be handled.',
+    tiaoshenhederenwu: 'bills to be approved. ',
+    dengdaiweixiud: 'You have 0 service request to be dispatched. ',
+    tiaodaifukuanjilu: 'paid records.'
   }
 }

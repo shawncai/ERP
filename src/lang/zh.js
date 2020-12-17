@@ -4565,6 +4565,12 @@ export default {
     nowStock: '现有库存',
     xxyj: '下限预警',
     sxyj: '上限预警',
-    aqkcyj: '安全库存预警'
+    aqkcyj: '安全库存预警',
+    niyou: '你有',
+    tiaodanbanderenwu: '条待办的任务',
+    tiaodaichuli: '条待处理的事件',
+    tiaoshenhederenwu: '条待审批的单据',
+    dengdaiweixiud: '您有0条待分配的维修订单',
+    tiaodaifukuanjilu: '条待付款记录'
   }
 }

@@ -8,7 +8,7 @@
         <el-option value="5" label="日"/>
       </el-select>
 
-      <el-input v-if="second" v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
+      <el-input v-model="repositoryId" :placeholder="$t('updates.repository')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="restFilter2"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
       <el-date-picker
@@ -714,7 +714,7 @@ export default {
         return false
       }
       this.getemplist.pageNum = 1
-      this.getemplist.repositoryId = this.$store.getters.repositoryId
+      // this.getemplist.repositoryId = this.$store.getters.repositoryId
       if (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0) {
         this.getemplist.beginTime = ''
         this.getemplist.endTime = ''
