@@ -27,6 +27,9 @@ export function searchreceipt(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
+    params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
+  }
   if (query.receiptPersonId !== '' && query.receiptPersonId !== null && query.receiptPersonId !== undefined) {
     params.append('receiptPersonId', query.receiptPersonId) // 你要传给后台的参数值 key/value
   }

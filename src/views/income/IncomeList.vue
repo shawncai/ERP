@@ -169,6 +169,11 @@
             <span>{{ scope.row.incomeDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryid')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.incomeRepositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>

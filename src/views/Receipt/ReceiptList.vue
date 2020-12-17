@@ -6,6 +6,8 @@
 
       <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" size="small" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/>
 
+      <el-input v-model="getemplist.customerName" :placeholder="$t('Customer.customername')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <el-input v-model="getemplist.title" :placeholder="$t('updates.skdzt')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
         <el-option
@@ -179,6 +181,11 @@
         <el-table-column :label="$t('Receipt.receiptPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryid')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.receiptRepositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" align="center" min-width="150">

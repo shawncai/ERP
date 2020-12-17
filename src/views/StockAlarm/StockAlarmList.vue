@@ -11,6 +11,18 @@
 
       <el-input v-model="getemplist.productName" :placeholder="$t('StockAlarm.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-select v-model="getemplist.alarmType" :placeholder="$t('StockAlarm.flag')" size="small" class="filter-item" clearable >
+        <el-option
+          :label="$t('update4.xxyj')"
+          value="1"/>
+        <el-option
+          :label="$t('update4.sxyj')"
+          value="2"/>
+        <el-option
+          :label="$t('update4.aqkcyj')"
+          value="3"/>
+      </el-select>
+
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -126,9 +138,9 @@ export default {
   filters: {
     flagStatFileter(status) {
       const statusMap = {
-        1: '下限预警',
-        2: '上线预警',
-        3: '安全库存预警'
+        1: _that.$t('update4.xxyj'),
+        2: _that.$t('update4.sxyj'),
+        3: _that.$t('update4.aqkcyj')
       }
       return statusMap[status]
     }
@@ -257,21 +269,23 @@ export default {
     },
     // 导出
     handleExport() {
-      for (let i = 0; i < this.list2.length; i++) {
+      for (let i = 0; i < this.list.length; i++) {
         // 1: '下限预警',
         // 2: '上线预警'
-        if (this.list2[i].alarmType === 1) {
-          this.list2[i].alarmTypeName = '下限预警'
-        } else if (this.list2[i].alarmType === 2) {
-          this.list2[i].alarmTypeName = '上线预警'
+        if (this.list[i].alarmType === 1) {
+          this.list[i].alarmTypeName = this.$t('update4.xxyj')
+        } else if (this.list[i].alarmType === 2) {
+          this.list[i].alarmTypeName = this.$t('update4.sxyj')
+        } else if (this.list[i].alarmType === 3) {
+          this.list[i].alarmTypeName = this.$t('update4.aqkcyj')
         }
       }
-      console.log('this.list2', this.list2)
+      console.log('this.list', this.list)
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['编号', '物品编码', '物品名称', '规格型号', '单位', '库存下限', '库存上限', '现有库存', '报警类型']
           const filterVal = ['id', 'code', 'productName', 'typeName', 'stockMeasurement', 'downStock', 'upStock', 'existStock', 'alarmTypeName']
-          const data = this.formatJson(filterVal, this.list2)
+          const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,

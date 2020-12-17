@@ -41,6 +41,9 @@ export function searchalarm(query) {
   if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
     params.append('productName', query.productName) // 你要传给后台的参数值 key/value
   }
+  if (query.alarmType !== '' && query.alarmType !== null && query.alarmType !== undefined) {
+    params.append('alarmType', query.alarmType) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value

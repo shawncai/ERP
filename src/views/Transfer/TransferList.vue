@@ -613,14 +613,16 @@ export default {
             return item.transferDetailVos
           })
           const dataarr = [].concat.apply([], listdata)
+
           const obj = this.trans(dataarr)
           for (const i in this.list) {
             for (const j in obj) {
               if (this.list[i].id === obj[j].transferId) {
-                this.list[i].resultmoney = obj[j].money
+                this.list[i].resultmoney = (obj[j].money).toFixed(2)
               }
             }
           }
+          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

@@ -4562,6 +4562,9 @@ export default {
     xiazaimoban: '下载模板',
     gengxinmoban: '更新模板',
     tiaozhengriqi: '调整日期',
-    nowStock: '现有库存'
+    nowStock: '现有库存',
+    xxyj: '下限预警',
+    sxyj: '上限预警',
+    aqkcyj: '安全库存预警'
   }
 }

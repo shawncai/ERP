@@ -4562,6 +4562,9 @@ export default {
     xiazaimoban: '下载模板',
     gengxinmoban: '更新模板',
     tiaozhengriqi: '调整日期',
-    nowStock: 'nowStock'
+    nowStock: 'nowStock',
+    xxyj: 'minimum limit warning',
+    sxyj: 'maximum limit warning',
+    aqkcyj: 'safety stocks warning'
   }
 }
