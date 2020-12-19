@@ -269,7 +269,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 30 * 24 * 60 * 60 * 1000
+          const seven = 60 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -330,7 +330,8 @@ export default {
         couponSupport: 0,
         couponMoney: 0,
         couponSupportOld: 0,
-        customerType: '2'
+        customerType: '2',
+        receiptDate: null
       },
       allpenalty: 0,
       // 商品信息
@@ -1021,7 +1022,8 @@ export default {
         receiptMoney: 0,
         deductionMoney: 0,
         couponSupportOld: 0,
-        customerType: '2'
+        customerType: '2',
+        receiptDate: null
       }
       this.receiptPersonId = null
       this.customerId = null

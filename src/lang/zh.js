@@ -4571,6 +4571,7 @@ export default {
     tiaodaichuli: '条待处理的事件',
     tiaoshenhederenwu: '条待审批的单据',
     dengdaiweixiud: '您有0条待分配的维修订单',
-    tiaodaifukuanjilu: '条待付款记录'
+    tiaodaifukuanjilu: '条待付款记录',
+    shoufuzhekou: '首付折扣'
   }
 }

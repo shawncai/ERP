@@ -182,12 +182,23 @@
             <!--                </el-select>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <!-- <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
                     :value="item.id"
                     :label="item.locationCode"/>
                 </el-select>
@@ -438,6 +449,7 @@ export default {
     },
     updatebatch(event, scope) {
       if (event === true) {
+        this.locationlist = []
         getlocation(this.personalForm.teardownRepositoryId, scope.row).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.content.length !== 0) {
@@ -761,14 +773,17 @@ export default {
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
-        locationlist(null, elem.locationCode).then(res => {
-          if (res.data.ret === 200) {
-            elem.locationId = res.data.data.content.list[0].id
-            console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
-            console.log('elem.locationId', elem.locationId)
-          }
-        })
-        if (elem.locationCode === null || elem.locationCode === '' || elem.locationCode === undefined) {
+        // locationlist(null, elem.locationCode).then(res => {
+        //   if (res.data.ret === 200) {
+        //     elem.locationId = res.data.data.content.list[0].id
+        //     console.log('res.data.data.content.list[0].id', res.data.data.content.list[0].id)
+        //     console.log('elem.locationId', elem.locationId)
+        //     console.log('elem.locationCode', elem.locationCode)
+        //   }
+        // })
+        console.log('elem.locationId', elem.locationId)
+        console.log('elem.locationCode', elem.locationCode)
+        if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
           i = 4
         }
         if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {

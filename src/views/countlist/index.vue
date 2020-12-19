@@ -353,8 +353,8 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['仓库', '商品编码', '物品名称', '现有库存', '型号', '种类', '颜色', '货位名称', '货位编号', '可用库存']
-          const filterVal = ['repositoryName', 'code', 'productName', 'existStock', 'typeName', 'categoryName', 'color', 'locationName', 'locationCode', 'ableStock']
+          const tHeader = ['仓库', '商品编码', '物品名称', '现有库存', '型号', '种类', '颜色', '货位名称', '货位编号', '可用库存', '在途量', '安全库存']
+          const filterVal = ['repositoryName', 'code', 'productName', 'existStock', 'typeName', 'categoryName', 'color', 'locationName', 'locationCode', 'ableStock', 'onStock', 'safeStock']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,

@@ -118,17 +118,17 @@
 
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.shouldMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.interestMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.interestMoney')" :resizable="false" prop="interestMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.interestMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.capitalMoney')" :resizable="false" prop="paidMoney" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.capitalMoney')" :resizable="false" prop="capitalMoney" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.capitalMoney }}</span>
           </template>
@@ -153,6 +153,13 @@
             <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.saleRepositoryName }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('CollectList.stat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stat | payFilter }}</span>
@@ -380,6 +387,10 @@ export default {
           sums[index] = ''
         }
       })
+
+      // console.log(Number(sums[4]))
+      // console.log(sums[9])
+      // sums[10] = 11111
       return sums
     },
     // 根据区域选择门店

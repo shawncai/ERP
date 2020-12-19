@@ -286,6 +286,12 @@
                   </el-upload>
                 </el-form-item>
               </el-col>
+              <el-col :span="6" style="height: 57px">
+                <el-form-item :label="$t('update4.shoufuzhekou')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.firstDiscount" type="number" style="width: 200px" clearable/>
+
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -687,7 +693,8 @@ export default {
         totalMoney: 0,
         firstMoney: 0,
         isManila: 2,
-        eachMoney: 0
+        eachMoney: 0,
+        firstDiscount: 0
       },
       needarr: [],
       // 采购申请单规则数据
@@ -1769,7 +1776,8 @@ export default {
         isSecondApply: 2,
         totalMoney: 0,
         firstMoney: 0,
-        isManila: 2
+        isManila: 2,
+        firstDiscount: 0
       }
       this.rate = 0
       this.price = 0

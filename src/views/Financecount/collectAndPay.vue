@@ -714,7 +714,9 @@ export default {
         return false
       }
       this.getemplist.pageNum = 1
-      // this.getemplist.repositoryId = this.$store.getters.repositoryId
+      if (!this.getemplist.repositoryId) {
+        this.getemplist.repositoryId = this.$store.getters.repositoryId
+      }
       if (this.date === null || this.date === undefined || this.date === '' || this.date.length === 0) {
         this.getemplist.beginTime = ''
         this.getemplist.endTime = ''

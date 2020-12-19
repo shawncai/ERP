@@ -267,6 +267,11 @@
                 </el-upload>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.shoufuzhekou')" style="width: 100%;">
+                <el-input v-model="personalForm.firstDiscount" type="number" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>

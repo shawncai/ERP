@@ -125,11 +125,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column prop="price" align="center" label="价格" width="150px"/>
-          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getquantity(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">

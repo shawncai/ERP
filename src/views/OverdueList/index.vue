@@ -8,6 +8,9 @@
 
       <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -25,6 +28,7 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
+
         <el-input v-model="getemplist.address" :placeholder="$t('tongyo.dz')" size="small" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <el-input v-model="getemplist.suretyName" :placeholder="$t('tongyo.dbrxm')" size="small" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @keyup.enter.native="handleFilter"/>
         <el-input v-model.number="getemplist.overdueMonth" :placeholder="$t('tongyo.yqsc')" size="small" type="number" style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
@@ -129,11 +133,12 @@
               <span>{{ scope.row.productName }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('InstallmentList.Overdueamount')" :resizable="false" prop="overCount" align="center" min-width="150">
+          <el-table-column :label="$t('InstallmentList.Overdueamount')" :resizable="false" prop="overdueMoney" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.overdueMoney }}</span>
             </template>
           </el-table-column>
+
           <el-table-column :label="$t('InstallmentList.Overduefrequency')" :resizable="false" prop="overCount" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.overCount }}</span>
@@ -147,6 +152,11 @@
           <el-table-column :label="$t('InstallmentList.collectstatus')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.collectstatus | collectstatusFilter }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('NewEmployeeInformation.repositoryid2')" :resizable="false" align="center" min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.repositoryName }}</span>
             </template>
           </el-table-column>
           <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
@@ -260,12 +270,13 @@ import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 import permission2 from '@/directive/permission2/index.js' // 权限判断指令
 import checkPermission from '@/utils/permission' // 权限判断函数
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'OverdueList',
   directives: { waves, permission, permission2 },
-  components: { Pagination },
+  components: { Pagination, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -315,6 +326,8 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
+      repositoryId: '',
       tableHeight: 200,
 
       // 销售员回显
@@ -401,6 +414,20 @@ export default {
     _that = this
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    // 清空搜索仓库选择
+    clearFilter() {
+      this.getemplist.saleRepositoryId = ''
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.saleRepositoryId = val.id
+    },
     numFormat(num) {
       var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
         return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
@@ -788,15 +815,15 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+    // repositoryname(val) {
+    //   console.log(val)
+    //   this.enterRepositoryId = val.repositoryName
+    //   this.getemplist.enterRepositoryId = val.id
+    // },
     // 部门列表focus刷新
     updatedept() {
       this.getlist()

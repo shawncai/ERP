@@ -440,7 +440,7 @@ export default {
     MemorandumList: 'memorandum list',
     collectAndPay: 'income and expenses summary',
     collectAndPayDetail: 'income and expenses detail',
-    NewAccessoriesOut: 'Spare parts sales from',
+    NewAccessoriesOut: 'Spare parts sales form',
     AccountManagement: 'account management',
     AccountManagement2: 'account management',
     expensesSummary: 'expenses form summary',
@@ -4571,6 +4571,7 @@ export default {
     tiaodaichuli: 'events to be handled.',
     tiaoshenhederenwu: 'bills to be approved. ',
     dengdaiweixiud: 'You have 0 service request to be dispatched. ',
-    tiaodaifukuanjilu: 'paid records.'
+    tiaodaifukuanjilu: 'paid records.',
+    shoufuzhekou: 'DP Discount'
   }
 }

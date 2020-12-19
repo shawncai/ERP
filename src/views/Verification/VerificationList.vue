@@ -6,6 +6,8 @@
 
       <el-input v-model="getemplist.customerName" :placeholder="$t('Receipt.customerId')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
       <!--更多搜索条件-->
       <!--<el-col :span="3">-->
       <!--<el-popover-->
@@ -143,6 +145,11 @@
             <span>{{ scope.row.cancelDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryid2')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
@@ -212,12 +219,13 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'VerificationList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyRepository },
   filters: {
     statFilter(sta) {
       const staMap = {
@@ -260,6 +268,8 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
+      repositoryId: '',
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() > Date.now() - 8.64e7
@@ -357,6 +367,21 @@ export default {
     _that = this
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    // 清空搜索仓库选择
+    clearFilter() {
+      this.getemplist.searchRepositoryId = ''
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.searchRepositoryId = val.id
+    },
+
     closetag() {
       this.categoryVisible = false
       this.restvoucherparms()
@@ -857,15 +882,15 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+    // repositoryname(val) {
+    //   console.log(val)
+    //   this.enterRepositoryId = val.repositoryName
+    //   this.getemplist.enterRepositoryId = val.id
+    // },
     // 部门列表focus刷新
     updatedept() {
       this.getlist()

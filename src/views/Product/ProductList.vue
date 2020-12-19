@@ -237,8 +237,8 @@ export default {
     },
     activefilter(status) {
       const statusMap = {
-        1: '上架',
-        2: '下架'
+        1: _that.$t('public.up'),
+        2: _that.$t('public.down')
       }
       return statusMap[status]
     }
@@ -735,6 +735,14 @@ export default {
       productlist(this.exportparms).then(res => {
         if (res.data.ret === 200) {
           const list = res.data.data.content.list
+          console.log('list', list)
+          for (const i in list) {
+            if (list[i].isActive === 1) {
+              list[i].shagnjia = this.$t('public.up')
+            } else if (list[i].isActive === 2) {
+              list[i].shagnjia = this.$t('public.down')
+            }
+          }
           this.downloadLoading = false
           if (list.length === 0) {
             this.$notify({
@@ -745,19 +753,19 @@ export default {
             this.clearuplod()
             this.categoryVisible = false
           } else {
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '出厂价', '零售价', '采购价', '创建者', '创建时间']
-        const filterVal = ['id', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'salePrice', 'purchasePrice', 'createId', 'createTime']
-        const data = this.formatJson(filterVal, list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: '物品资料表'
-        })
-        this.clearuplod()
-        this.downloadLoading = false
-        this.categoryVisible = false
-      })
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['序号', '上下架', '物料编码', '产品名称', '物品分类', '规格型号', '颜色', '绩效分', '商品积分', '出厂价', '零售价', '采购价', '创建者', '创建时间']
+            const filterVal = ['id', 'shagnjia', 'code', 'productName', 'category', 'productType', 'color', 'kpiGrade', 'point', 'costPrice', 'salePrice', 'purchasePrice', 'createId', 'createTime']
+            const data = this.formatJson(filterVal, list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '物品资料表'
+            })
+            this.clearuplod()
+            this.downloadLoading = false
+            this.categoryVisible = false
+          })
           }
         } else {
           // this.restFilter()

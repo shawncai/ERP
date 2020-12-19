@@ -763,7 +763,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 30 * 24 * 60 * 60 * 1000
+          const seven = 60 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -2451,7 +2451,7 @@ export default {
       if (val.sourceType === 2 && val.sourceNumber !== null) {
         this.personalForm.applyNumber = val.sourceNumber
       }
-      this.shouldMoney = val.firstMoney
+      this.shouldMoney = val.firstMoney - val.firstDiscount
       if (val.customerType !== null && val.customerType !== undefined && val.customerType !== '') {
         this.personalForm.customerType = '2'
       }

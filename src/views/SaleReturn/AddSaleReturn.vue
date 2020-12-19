@@ -147,9 +147,20 @@
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType === '1' || personalForm.sourceType === '3'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
-            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
+            <!-- <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
+                  <el-option
+                    v-for="(item, index) in locationlist"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.locationCode"/>
+                </el-select>
+              </template>
+            </el-editable-column> -->
+            <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="(item, index) in locationlist"
                     :key="index"
@@ -294,7 +305,7 @@
       <!--操作-->
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
 
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
+        <el-button :loading="saveloding" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
       <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
@@ -380,6 +391,7 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      saveloding: false,
       returncontrol: false,
       // 判断权限
       isshow: false,
@@ -1009,162 +1021,192 @@ export default {
     },
     // 保存操作
     handlesave() {
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-          console.log(EnterDetail)
-          if (EnterDetail.length === 0) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.mxbbnwk'),
-              offset: 100
-            })
-            return false
-          }
-          let i = 1
-          const sourceType = this.personalForm.sourceType
-          EnterDetail.map(function(elem) {
-            return elem
-          }).forEach(function(elem) {
-            console.log(' elem.returnQuantity', elem.returnQuantity)
-            if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0') {
-              i = 2
-            }
-            if (sourceType === '1') {
-              if (elem.returnQuantity > elem.sendQuantity) {
-                i = 2
+      this.saveloding = true
+
+      setTimeout(() => {
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+            let ll = 1
+            console.log('nowlistdata', EnterDetail)
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined || !elem.locationId) {
+                ll = 2
               }
-            }
-            // if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
-            //   delete elem.batch
-            // }
-            // if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-            //   delete elem.productName
-            // }
-            // if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-            //   delete elem.unit
-            // }
-            // if (elem.color === null || elem.color === '' || elem.color === undefined) {
-            //   delete elem.color
-            // }
-            if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-              delete elem.kpiGrade
-            }
-            if (elem.point === null || elem.point === '' || elem.point === undefined) {
-              delete elem.point
-            }
-            if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-              delete elem.salePrice
-            }
-            // if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-            //   delete elem.costPrice
-            // }
-            // if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-            //   delete elem.costMoney
-            // }
-            // if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-            //   delete elem.includeTaxMoney
-            // }
-            // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-            //   delete elem.taxRate
-            // }
-            if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-              elem.taxRate = elem.taxRate / 100
-            }
-            // if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-            //   delete elem.taxMoney
-            // }
-            // if (elem.money === null || elem.money === '' || elem.money === undefined) {
-            //   delete elem.money
-            // }
-            // if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-            //   delete elem.includeTaxCostMoney
-            // }
-            // if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
-            //   delete elem.discount
-            // }
-            if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-              elem.discount = elem.discount / 100
-            }
-            // if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-            //   delete elem.discountMoney
-            // }
-            // if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
-            //   delete elem.alreadyReturnQuantity
-            // }
-            // if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
-            //   delete elem.returnReason
-            // }
-            // if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
-            //   delete elem.sendQuantity
-            // }
-            // if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-            //   delete elem.carCode
-            // }
-            // if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-            //   delete elem.motorCode
-            // }
-            // if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-            //   delete elem.batteryCode
-            // }
-            // if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
-            //   delete elem.locationId
-            // }
-            return elem
-          })
-          if (i === 2) {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'please input right return quantity',
-              offset: 100
             })
-            return false
-          }
-          const parms2 = JSON.stringify(EnterDetail)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
-          const parms = JSON.stringify(Data)
-          createsaleReturn(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.restAllForm()
-              this.$refs.editable.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-            } else {
+            console.log('ll', ll)
+            if (ll === 2) {
               this.$notify.error({
                 title: 'wrong',
-                message: res.data.msg,
+                message: '货位不能为空',
                 offset: 100
               })
+              this.saveloding = false
+              return false
             }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
-      })
+
+            console.log(EnterDetail)
+            if (EnterDetail.length === 0) {
+              this.$notify.error({
+                title: 'wrong',
+                message: this.$t('prompt.mxbbnwk'),
+                offset: 100
+              })
+              this.saveloding = false
+              return false
+            }
+            let i = 1
+            const sourceType = this.personalForm.sourceType
+            EnterDetail.map(function(elem) {
+              return elem
+            }).forEach(function(elem) {
+              console.log(' elem.returnQuantity', elem.returnQuantity)
+              if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined || elem.returnQuantity === '0') {
+                i = 2
+              }
+              if (sourceType === '1') {
+                if (elem.returnQuantity > elem.sendQuantity) {
+                  i = 2
+                }
+              }
+              // if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
+              //   delete elem.batch
+              // }
+              // if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+              //   delete elem.productName
+              // }
+              // if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+              //   delete elem.unit
+              // }
+              // if (elem.color === null || elem.color === '' || elem.color === undefined) {
+              //   delete elem.color
+              // }
+              if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+                delete elem.kpiGrade
+              }
+              if (elem.point === null || elem.point === '' || elem.point === undefined) {
+                delete elem.point
+              }
+              if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+                delete elem.salePrice
+              }
+              // if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+              //   delete elem.costPrice
+              // }
+              // if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+              //   delete elem.costMoney
+              // }
+              // if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+              //   delete elem.includeTaxMoney
+              // }
+              // if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+              //   delete elem.taxRate
+              // }
+              if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+                elem.taxRate = elem.taxRate / 100
+              }
+              // if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+              //   delete elem.taxMoney
+              // }
+              // if (elem.money === null || elem.money === '' || elem.money === undefined) {
+              //   delete elem.money
+              // }
+              // if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+              //   delete elem.includeTaxCostMoney
+              // }
+              // if (elem.discount === null || elem.discount === '' || elem.discount === undefined) {
+              //   delete elem.discount
+              // }
+              if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+                elem.discount = elem.discount / 100
+              }
+              // if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+              //   delete elem.discountMoney
+              // }
+              // if (elem.alreadyReturnQuantity === null || elem.alreadyReturnQuantity === '' || elem.alreadyReturnQuantity === undefined) {
+              //   delete elem.alreadyReturnQuantity
+              // }
+              // if (elem.returnReason === null || elem.returnReason === '' || elem.returnReason === undefined) {
+              //   delete elem.returnReason
+              // }
+              // if (elem.sendQuantity === null || elem.sendQuantity === '' || elem.sendQuantity === undefined) {
+              //   delete elem.sendQuantity
+              // }
+              // if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+              //   delete elem.carCode
+              // }
+              // if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+              //   delete elem.motorCode
+              // }
+              // if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+              //   delete elem.batteryCode
+              // }
+              // if (elem.locationId === null || elem.locationId === '' || elem.locationId === undefined) {
+              //   delete elem.locationId
+              // }
+              return elem
+            })
+            if (i === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'please input right return quantity',
+                offset: 100
+              })
+              this.saveloding = false
+
+              return false
+            }
+            const parms2 = JSON.stringify(EnterDetail)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
+              if (key === 'judgeStat') {
+                delete Data[key]
+              }
+            }
+            const parms = JSON.stringify(Data)
+            createsaleReturn(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+                this.$refs.personalForm3.clearValidate()
+                this.$refs.personalForm3.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+              this.saveloding = false
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveloding = false
+
+            return false
+          }
+        })
+      }, 1000)
     },
     // 取消操作
     handlecancel() {

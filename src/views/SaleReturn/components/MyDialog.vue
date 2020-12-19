@@ -141,7 +141,19 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.hw')" prop="locationName" align="center" min-width="150px"/>
           <el-editable-column v-if="personalForm.sourceType === '1'" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
-          <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
+
+          <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
+                <el-option
+                  v-for="(item, index) in locationlist"
+                  :key="index"
+                  :value="item.id"
+                  :label="item.locationCode"/>
+              </el-select>
+            </template>
+          </el-editable-column>
+          <!-- <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)" @change="$refs.editable.updateStatus(scope)">
                 <el-option
@@ -152,7 +164,7 @@
                 />
               </el-select>
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <el-editable-column v-if="personalForm.sourceType === '2'" :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
@@ -423,6 +435,7 @@ export default {
       this.customerId = this.personalForm.customerName
       this.saleRepositoryId = this.personalForm.saleRepositoryName
       this.personalForm.customerPhone = this.personalForm.phoneNumber
+      this.chooseSource(String(this.personalForm.sourceType))
       this.list2 = this.personalForm.saleReturnDetailVos
       this.heji1 = this.personalForm.allQuantity
       this.heji2 = this.personalForm.allMoney
@@ -432,6 +445,7 @@ export default {
       this.heji6 = this.personalForm.allIncludeTaxDiscountMoney
       this.chooseSource()
       this.changeRate()
+      this.getlocation()
     }
   },
   created() {
@@ -441,6 +455,14 @@ export default {
     _that = this
   },
   methods: {
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.saleRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
     returnDetail(val) {
       this.$refs.editable.clear()
       for (let i = 0; i < val.length; i++) {
@@ -651,10 +673,16 @@ export default {
       if (val === '1') {
         this.Isproduct = true
         this.IsNumber = false
+        this.IsSourceNumber = false
       } else if (val === '2') {
         this.Isproduct = false
         this.IsNumber = true
         this.personalForm.sourceNumber = ''
+        this.IsSourceNumber = true
+      } else if (val === '3') {
+        this.Isproduct = true
+        this.IsNumber = false
+        this.IsSourceNumber = false
       }
     },
     // 总计

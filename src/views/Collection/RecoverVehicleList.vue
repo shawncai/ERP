@@ -9,6 +9,9 @@
       <el-input v-model="receivePersonId" :placeholder="$t('updates.scr')" size="small" class="filter-item" clearable @focus="handlechooseStock" @clear="restFilter"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -127,6 +130,11 @@
             <span>{{ scope.row.receivePersonName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryid2')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
@@ -172,12 +180,13 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MyRepository from './components/MyRepository'
 
 var _that
 export default {
   name: 'RecoverVehicleList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyRepository },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -212,6 +221,8 @@ export default {
   },
   data() {
     return {
+      repositorycontrol: false,
+      repositoryId: '',
       tableHeight: 200,
 
       downloadLoading2: false,
@@ -290,6 +301,20 @@ export default {
     _that = this
   },
   methods: {
+    // 仓库列表focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    // 清空搜索仓库选择
+    clearFilter() {
+      this.getemplist.repositoryId = this.$store.getters.userId
+      this.repositoryId = ''
+    },
+    repositoryname(val) {
+      console.log(val)
+      this.repositoryId = val.repositoryName
+      this.getemplist.repositoryId = val.id
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -752,15 +777,15 @@ export default {
     handlePrint() {
       console.log(456)
     },
-    // 仓库列表focus事件触发
-    handlechooseRep() {
-      this.repositorycontrol = true
-    },
-    repositoryname(val) {
-      console.log(val)
-      this.enterRepositoryId = val.repositoryName
-      this.getemplist.enterRepositoryId = val.id
-    },
+    // // 仓库列表focus事件触发
+    // handlechooseRep() {
+    //   this.repositorycontrol = true
+    // },
+    // repositoryname(val) {
+    //   console.log(val)
+    //   this.enterRepositoryId = val.repositoryName
+    //   this.getemplist.enterRepositoryId = val.id
+    // },
     // 部门列表focus刷新
     updatedept() {
       this.getlist()
