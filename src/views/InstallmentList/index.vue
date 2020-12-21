@@ -9,6 +9,15 @@
       <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.address" :placeholder="$t('StockInvoice.address')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-select v-model="getemplist.unPaid" :placeholder="$t('update4.weihuanjine')" :value="getemplist.unPaid" size="small" clearable class="filter-item">
+        <el-option :label="$t('update4.weihuanjineling')" value="1"/>
+        <el-option :label="$t('update4.weihuanjinedayueling')" value="2"/>
+      </el-select>
+      <el-select v-model="getemplist.cancelPaid" :placeholder="$t('update4.hexiaojinefanwei')" :value="getemplist.cancelPaid" size="small" clearable class="filter-item">
+        <el-option :label="$t('update4.hexiaojinedengyuling')" value="1"/>
+        <el-option :label="$t('update4.hexiaojinedayueling')" value="2"/>
+      </el-select>
+
       <el-select v-model="getemplist.saleRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
         <el-option
           v-for="(item, index) in repositories"
@@ -875,17 +884,17 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InstallmentListName', 'InstallmentListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['编号', '门店', '客户姓名', '客户电话', '地址', '商品编号', '颜色', '商品名称', '出库时间', '分期期数', '已还期数', '是否改期', '改期后的期数', '未还金额', '已还金额', '奖励', '分期金额', '核销金额', '还款状态']
+        const filterVal = ['orderNumber', 'repositoryName', 'customerName', 'customerPhone', 'address', 'productCode', 'color', 'productName', 'outDate', 'count', 'paidCount', 'isChange', 'afterCount', 'afterRate', 'leftAllmoney', 'paidMoney', 'reward', 'totalMoney', 'cancelMoney', 'stat']
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data: this.list,
+          filename: '分期列表'
         })
+        this.downloadLoading = false
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

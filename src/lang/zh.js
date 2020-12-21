@@ -4572,6 +4572,12 @@ export default {
     tiaoshenhederenwu: '条待审批的单据',
     dengdaiweixiud: '您有0条待分配的维修订单',
     tiaodaifukuanjilu: '条待付款记录',
-    shoufuzhekou: '首付折扣'
+    shoufuzhekou: '首付折扣',
+    weihuanjine: '未还金额范围',
+    weihuanjineling: '未还金额=0',
+    weihuanjinedayueling: '未还金额>0',
+    hexiaojinefanwei: '核销金额范围',
+    hexiaojinedengyuling: '核销金额=0',
+    hexiaojinedayueling: '核销金额>0'
   }
 }

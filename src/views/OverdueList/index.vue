@@ -793,15 +793,22 @@ export default {
     },
     // 导出
     handleExport() {
+      for (const i in this.list) {
+        if (this.list[i].collectstatus === 1) {
+          this.list[i].collectstatusFilter = 'partial payment'
+        } else if (this.list[i].collectstatus === 2) {
+          this.list[i].collectstatusFilter = 'not pay'
+        }
+      }
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InstallmentListName', 'InstallmentListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['编号', '客户姓名', '客户电话', '地址', '担保姓名', '商品编号', '商品名称', '逾期金额', '逾期次数', '收款人', '收款状态', '门店']
+          const filterVal = ['orderNumber', 'customerName', 'customerPhone', 'address', 'suretyName', 'productCode', 'productName', 'overdueMoney', 'overCount', 'collectperson', 'collectstatusFilter', 'repositoryName']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '逾期列表'
           })
           this.downloadLoading = false
         })

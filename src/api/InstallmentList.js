@@ -48,6 +48,14 @@ export function installmentlist(query) {
   if (query.address !== '' && query.address !== null && query.address !== undefined) {
     params.append('address', query.address) // 你要传给后台的参数值 key/value
   }
+
+  if (query.unPaid !== '' && query.unPaid !== null && query.unPaid !== undefined) {
+    params.append('unPaid', query.unPaid) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.cancelPaid !== '' && query.cancelPaid !== null && query.cancelPaid !== undefined) {
+    params.append('cancelPaid', query.cancelPaid) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
