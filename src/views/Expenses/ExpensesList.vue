@@ -2,7 +2,7 @@
   <div class="ERP-container">
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
 
-      <el-input v-model="getemplist.title" :placeholder="$t('income.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.title" :placeholder="$t('Expenses.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="getemplist.number" :placeholder="$t('updates.zcdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
@@ -214,6 +214,11 @@
         <el-table-column :label="$t('Expenses.expensesDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.expensesDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" prop="expensesRepositoryName" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.expensesRepositoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" align="center" min-width="150">

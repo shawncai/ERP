@@ -4,8 +4,9 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
-        <button v-if="personalForm.sourceType === 5" style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
+        <el-button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</el-button>
+        <el-button v-if="personalForm.sourceType === 5" style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</el-button>
+        <el-button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" :loading="downloadLoading" class="print" style="font-size: 13px;background: white;" @click="exportData">{{ $t('public.export') }}</el-button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -234,14 +235,15 @@
             :data.sync="list2"
             :edit-config="{ showIcon: false, showStatus: false}"
             class="click-table1"
+            height="600"
             border
             size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
-            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" align="center" />
-            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationName" fixed="left" align="center" />
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" fixed="left" align="center" />
             <el-editable-column :label="$t('updates.wpfl')" prop="categoryName" align="center" />
             <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.ggxh')" prop="typeName" align="center" />
@@ -250,19 +252,14 @@
             <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" />
             <el-editable-column :label="$t('updates.cksli')" prop="quantity" align="center" />
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
-            <!-- <el-editable-column prop="salePrice" align="center" :label="$t('updates.lsj')" />
-            <el-editable-column prop="costPrice" align="center" :label="$t('updates.cbj')" /> -->
             <el-editable-column :label="$t('updates.ckj')" prop="salePrice" align="center" >
               <template slot-scope="scope">
                 <span v-show="jundgeprice()">{{ scope.row.salePrice }}</span>
                 <span v-show="jundgeprice() === false"/>
               </template>
             </el-editable-column>
-            <!-- <el-editable-column prop="costMoney" align="center" label="成本金额" />
-            <el-editable-column prop="includeTaxMoney" align="center" :label="$t('updates.hsje')" /> -->
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <!-- <el-editable-column prop="money" align="center" :label="$t('Hmodule.je')" /> -->
             <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center">
               <template slot-scope="scope">
                 <span v-show="jundgeprice()">{{ scope.row.includeTaxCostMoney }}</span>
@@ -672,6 +669,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       itemlist: [],
       // 退货入库数据
       returnlist: [],
@@ -721,6 +719,25 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    exportData() {
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '货位', '批次', '物品分类', '基本单位', '规格型号', '颜色', '绩效分', '商品积分', '出库数量', '退货数量', '出库价', '税率(%)', '税额', '出库金额', '折扣率', '折扣额', '车架编码', '电机编码', '电池编码', '充电器编码', '控制器编码', '源单编号']
+          const filterVal = ['productCode', 'productName', 'locationName', 'batch', 'categoryName', 'unit', 'typeName', 'color', 'kpiGrade', 'point', 'quantity', 'retreatQuantity', 'salePrice', 'taxRate', 'taxMoney', 'includeTaxCostMoney', 'discountRate', 'discountMoney', 'carCode', 'motorCode', 'batteryCode', 'chargeCode', 'controlCode', 'sourceNumber']
+          const data = this.formatJson(filterVal, this.list2)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.personalForm.number + '出库单'
+          })
+          this.downloadLoading = false
+        })
+    },
     handleMyReceipt2() {
       console.log('this.detaildata', this.personalForm)
       this.editVisible = false

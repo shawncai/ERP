@@ -118,7 +118,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+              <el-form-item
+                :label="$t('StockInvoice.invoiceNumber')"
+                :rules="$store.getters.countryId === 2? personalrules.invoiceNumber: [
+                  { required: true, message: '请输入发票号', trigger: 'blur' }
+                ]"
+                prop="invoiceNumber"
+                style="width: 100%;">
                 <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
                 <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
               </el-form-item>
@@ -339,7 +345,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'change' }
+          { message: '请输入发票号', trigger: 'change' }
         ],
         customerPay: [
           { required: true, message: '请输入客户支付金额', trigger: 'change' }

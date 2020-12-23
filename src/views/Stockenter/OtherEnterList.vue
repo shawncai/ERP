@@ -126,6 +126,11 @@
             <span>{{ scope.row.endDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" prop="enterRepositoryName" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.enterRepositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Stockenter.summary')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.summary }}</span>

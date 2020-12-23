@@ -188,10 +188,6 @@ export default {
           sums[index] = '总计'
           return
         }
-        if (index === 1) {
-          sums[index] = ''
-          return
-        }
         const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {

@@ -148,9 +148,9 @@
             <span>{{ scope.row.paidMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('CollectList.unpay')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('CollectList.unpay')" :resizable="false" prop="noPaidMoney" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.shouldMoney - scope.row.paidMoney }}</span>
+            <span>{{ scope.row.noPaidMoney }}</span>
           </template>
         </el-table-column>
 
@@ -538,6 +538,9 @@ export default {
       collectlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (const i in this.list) {
+            this.list[i].noPaidMoney = this.list[i].shouldMoney - this.list[i].paidMoney
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

@@ -4572,6 +4572,13 @@ export default {
     tiaoshenhederenwu: 'bills to be approved. ',
     dengdaiweixiud: 'You have 0 service request to be dispatched. ',
     tiaodaifukuanjilu: 'paid records.',
-    shoufuzhekou: 'DP Discount'
+    shoufuzhekou: 'DP Discount',
+    weihuanjine: 'Unpaid amount range',
+    weihuanjineling: 'Unpaid amount =0.',
+    weihuanjinedayueling: 'Unpaid amount>0.',
+    hexiaojinefanwei: 'Verified amount range.',
+    hexiaojinedengyuling: 'Verified amount=0.',
+    hexiaojinedayueling: 'Verified amount >0.',
+    shifouquerenfuk: 'Confirm the payment ?'
   }
 }

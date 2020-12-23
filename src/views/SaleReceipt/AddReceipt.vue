@@ -121,7 +121,13 @@
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item
+                  :label="$t('StockInvoice.invoiceNumber')"
+                  :rules="$store.getters.countryId === 2? personalrules.invoiceNumber: [
+                    { required: true, message: '请输入发票号', trigger: 'blur' }
+                  ]"
+                  prop="invoiceNumber"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                   <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
                 </el-form-item>
@@ -360,7 +366,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'change' }
+          { message: '请输入发票号', trigger: 'blur' }
         ],
         customerPay: [
           { required: true, message: '请输入客户支付金额', trigger: 'change' }
@@ -434,6 +440,7 @@ export default {
   //   }
   // },
   created() {
+    console.log(this.$store.getters.countryId)
     this.getways()
     this.getdatatime()
   },
@@ -927,7 +934,7 @@ export default {
       console.log(val)
       // this.$refs.editable2.clear()
       if (val.length) {
-        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        // console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
         this.list2 = val
         // this.allorderarr = InstallmentDetail
         this.personalForm.totalLackMoney = Number(this.allmoney) - Number(this.personalForm.receiptMoney)
@@ -937,7 +944,7 @@ export default {
       // console.log(val)
       this.$refs.editable2.clear()
       if (val.length) {
-        console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
+        // console.log('sdsdsdsdsdsdsdsdsdsdsdsdsd', val)
         const InstallmentDetail = val.map(function(item) {
           return {
             installmentDetailId: item.installmentDetailId,
@@ -1038,7 +1045,7 @@ export default {
           if (this.personalForm.customerPay === null || this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined) {
             this.$notify.error({
               title: 'wrong',
-              message: '请填写客户付款金额',
+              message: 'Please fill up customer paid amount. ',
               offset: 100
             })
             return false
@@ -1046,7 +1053,7 @@ export default {
           if (Number(this.personalForm.customerPay) < Number(this.personalForm.receiptMoney)) {
             this.$notify.error({
               title: 'wrong',
-              message: '客户付款金额应大于本次收款金额',
+              message: 'Customer paid amount should be more than amount received this time.  ',
               offset: 100
             })
             return false
@@ -1054,7 +1061,7 @@ export default {
           if (Number(this.personalForm.customerPay) !== Number(this.personalForm.receiptMoney) && this.$store.getters.countryId === 2) {
             this.$notify.error({
               title: 'wrong',
-              message: '客户付款金额应等于本次收款金额',
+              message: 'Customer paid amount should be equal to the amount received this time',
               offset: 100
             })
             return false

@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div id="map_canvas" style="height: 850px; width: 100%"/>
+    <div id="map_canvas" style="height: 100vh; width: 100%"/>
   </div>
 </template>
 <script>
@@ -89,6 +89,7 @@ export default {
           content: `<div>
                           <p>门店地址： ${item.address}</p>
                           <p>门店名：${item.name}</p>
+                          <p>门店电话：${item.phone}</p>
                         </div>` })
         // 点击信息窗口显示
         google.maps.event.addListener(marker, 'click', function(e) { iw.open(map, marker) })

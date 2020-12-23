@@ -66,6 +66,9 @@ export function create(query) {
   if (query.countryId !== '' && query.countryId !== null) {
     params.append('countryId', query.countryId) // 你要传给后台的参数值 key/value
   }
+  if (query.phone !== '' && query.phone !== null) {
+    params.append('phone', query.phone) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/repository/create',
     method: 'post',
@@ -151,6 +154,9 @@ export function update(query) {
   var params = new URLSearchParams()
   if (query.categoryId !== '' && query.categoryId !== null && query.categoryId !== undefined) {
     params.append('categoryId', query.categoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.phone !== '' && query.phone !== null) {
+    params.append('phone', query.phone) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryName !== '' && query.repositoryName !== null && query.repositoryName !== undefined) {
     params.append('repositoryName', query.repositoryName) // 你要传给后台的参数值 key/value

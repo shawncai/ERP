@@ -52,14 +52,15 @@
 
       :data="list"
       :height="tableHeight"
+      :row-key="getRowKeys"
       size="small"
-
       border
       fit
       highlight-current-row
       style="width: 100%;"
       @selection-change="handleSelectionChange">
       <el-table-column
+        :reserve-selection="true"
         type="selection"
         width="55"
         align="center"/>
@@ -159,6 +160,9 @@ export default {
   },
   data() {
     return {
+      tiaoshu: 0,
+      select_orderId: [],
+      select_order_number: [],
       tableHeight: 200,
 
       // 供应商回显
@@ -217,6 +221,9 @@ export default {
     _that = this
   },
   methods: {
+    getRowKeys(row) {
+      return row.code
+    },
     getlist() {
       // 商品列表数据
       this.listLoading = true
@@ -258,8 +265,20 @@ export default {
       })
     },
     // 批量操作
-    handleSelectionChange(val) {
-      this.moreaction = val
+    handleSelectionChange(rows) {
+      // this.moreaction = val
+      this.moreaction = rows
+      this.tiaoshu = this.moreaction.length
+
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.code)
+          }
+        })
+      }
     },
     // 供应商输入框focus事件触发
     handlechoose() {

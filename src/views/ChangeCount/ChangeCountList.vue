@@ -136,6 +136,11 @@
             <span>{{ scope.row.remainCapital }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('NewEmployeeInformation.repositoryid2')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.saleRepositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ChangeCount.afterCount')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.afterCount }}</span>

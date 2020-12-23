@@ -872,6 +872,7 @@ export default {
       delete this.personalForm.approvalUseVos
       delete this.personalForm.receiptStat
       delete this.personalForm.judgeStat
+      this.personalForm.currency = Number(this.personalForm.currency)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.personalForm.repositoryId = this.$store.getters.repositoryId

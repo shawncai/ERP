@@ -22,7 +22,13 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item
+                  :label="$t('StockInvoice.invoiceNumber')"
+                  :rules="personalForm.invoiceType === '1'? personalrules.invoiceNumber: [
+                    { required: true, validator: validatePass5, trigger: 'blur'}
+                  ]"
+                  prop="invoiceNumber"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -407,8 +413,18 @@ export default {
     }
     const validatePass4 = (rule, value, callback) => {
       console.log(this.supplierId)
-      if (this.personalForm.deptId === undefined || this.personalForm.deptId === null || this.personalForm.deptId === '') {
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
         callback(new Error('请选择部门'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatePass5 = (rule, value, callback) => {
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('请输入发票号'))
+      } else if ((this.personalForm.invoiceType === '1' || this.personalForm.invoiceType === '2') && this.personalForm.invoiceNumber.length !== 8) {
+        callback(new Error('发票号位数不正确'))
       } else {
         callback()
       }
@@ -499,7 +515,7 @@ export default {
           { required: true, message: '请选择退货日期', trigger: 'change' }
         ],
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'blur' }
+          { validator: validatePass5, trigger: 'blur' }
         ],
         deptId: [
           { required: true, validator: validatePass4, trigger: 'change' }

@@ -356,6 +356,15 @@ export default {
         callback()
       }
     }
+    const validatePass5 = (rule, value, callback) => {
+      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+        callback(new Error('请输入发票号'))
+      } else if ((this.personalForm.invoiceType === '1' || this.personalForm.invoiceType === '2') && this.personalForm.invoiceNumber.length !== 8) {
+        callback(new Error('发票号位数不正确'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -441,7 +450,7 @@ export default {
           { required: true, message: '请选择退货日期', trigger: 'change' }
         ],
         invoiceNumber: [
-          { required: true, message: '请输入发票号', trigger: 'blur' }
+          { required: true, validator: validatePass5, trigger: 'blur' }
         ],
         deptId: [
           { required: true, validator: validatePass4, trigger: 'change' }

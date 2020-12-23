@@ -179,6 +179,16 @@
                 <el-input v-model="personalForm.receiveMoney" style="margin-left: 18px;width:200px"/>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.createDate')" style="width: 100%;">
+                <el-date-picker
+                  v-model="personalForm.createDate"
+                  :picker-options="pickerOptions3"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width:200px"/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -498,6 +508,14 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
+        }
+      },
+      pickerOptions3: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 60 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
       rate: 1,

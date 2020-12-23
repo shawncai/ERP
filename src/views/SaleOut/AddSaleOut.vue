@@ -230,21 +230,22 @@
             stripe
             border
             size="small"
+            height="600"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" align="center" />
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150"/>
-            <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150" />
+            <el-editable-column :label="$t('Hmodule.hw')" :fixed="isfixed" prop="location" align="center" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" :fixed="isfixed" prop="batch" align="center" min-width="150">
               <template slot="edit" slot-scope="scope">
-                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
+                <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0; padding: 0 20px" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -268,7 +269,7 @@
                   v-if="isEdit5(scope.row)"
                   :precision="6"
                   :controls="false"
-                  :min="1.00"
+                  :min="0.00"
                   v-model="scope.row.quantity"
                   @change="queryStock(scope.row, scope)"
                 />

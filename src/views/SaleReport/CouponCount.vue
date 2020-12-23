@@ -184,6 +184,10 @@ export default {
           sums[index] = ''
         }
       })
+
+      sums[2] = ''
+      sums[7] = ''
+
       return sums
     },
     restcustomerId() {

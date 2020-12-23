@@ -1079,6 +1079,32 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      if (!this.personalForm.outPhone) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'phone is need',
+          offset: 100
+        })
+        return false
+      }
+
+      if (!this.personalForm.sendPhone) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'phone is need',
+          offset: 100
+        })
+        return false
+      }
+
+      if (!this.personalForm.sendEmergencyPhone) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'phone is need',
+          offset: 100
+        })
+        return false
+      }
       delete this.personalForm.judgeStat
       delete this.personalForm.receiptStat
       delete this.personalForm.approvalUseVos

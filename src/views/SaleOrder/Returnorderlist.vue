@@ -115,6 +115,11 @@
             <span>{{ scope.row.returnMoney }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" prop="repositoryName" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.repositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('update4.summary')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.summary }}</span>

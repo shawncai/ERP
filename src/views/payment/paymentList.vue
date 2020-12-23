@@ -228,7 +228,7 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      receiptVisible99: false,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -346,7 +346,7 @@ export default {
       this.reviewParms = {}
       this.reviewParms.id = row.id
       this.reviewParms.confirmPersonId = this.$store.getters.userId
-      this.$confirm(this.$t('prompt.sfqrhwyck'), this.$t('prompt.qd'), {
+      this.$confirm(this.$t('update4.shifouquerenfuk'), this.$t('prompt.qd'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.qd'),
         type: 'warning'

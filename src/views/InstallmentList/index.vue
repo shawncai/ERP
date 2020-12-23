@@ -883,14 +883,28 @@ export default {
     },
     // 导出
     handleExport() {
+      console.log(this.list)
+      for (const i in this.list) {
+        if (this.list[i].stat === 1) {
+          this.list[i].statFilter = 'normal'
+        } else if (this.list[i].stat === 2) {
+          this.list[i].statFilter = 'fully paid'
+        } else if (this.list[i].stat === 3) {
+          this.list[i].statFilter = 'delay'
+        } else if (this.list[i].stat === 4) {
+          this.list[i].statFilter = 'follow up'
+        } else if (this.list[i].stat === 6) {
+          this.list[i].statFilter = 'aleady verified'
+        }
+      }
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['编号', '门店', '客户姓名', '客户电话', '地址', '商品编号', '颜色', '商品名称', '出库时间', '分期期数', '已还期数', '是否改期', '改期后的期数', '未还金额', '已还金额', '奖励', '分期金额', '核销金额', '还款状态']
-        const filterVal = ['orderNumber', 'repositoryName', 'customerName', 'customerPhone', 'address', 'productCode', 'color', 'productName', 'outDate', 'count', 'paidCount', 'isChange', 'afterCount', 'afterRate', 'leftAllmoney', 'paidMoney', 'reward', 'totalMoney', 'cancelMoney', 'stat']
+        const filterVal = ['orderNumber', 'repositoryName', 'customerName', 'customerPhone', 'address', 'productCode', 'color', 'productName', 'outDate', 'count', 'paidCount', 'isChange', 'afterCount', 'leftAllmoney', 'paidMoney', 'reward', 'totalMoney', 'cancelMoney', 'statFilter']
         const data = this.formatJson(filterVal, this.list)
         excel.export_json_to_excel({
           header: tHeader,
-          data: this.list,
+          data,
           filename: '分期列表'
         })
         this.downloadLoading = false

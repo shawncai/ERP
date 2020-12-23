@@ -312,18 +312,19 @@
           stripe
           border
           size="small"
+          height="600"
           style="width: 100%"
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" min-width="55" align="center" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150" fixed="left"/>
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150" fixed="left"/>
-          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150">
+          <el-editable-column :label="$t('Hmodule.hw')" prop="location" align="center" min-width="150" fixed="left">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" >
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150" fixed="left">
             <template slot="edit" slot-scope="scope">
               <el-select v-if="scope.row.batch !== '不使用'" v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
