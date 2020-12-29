@@ -283,7 +283,7 @@ export default {
       console.log('this.list', this.list)
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['编号', '物品编码', '物品名称', '规格型号', '单位', '库存下限', '库存上限', '现有库存', '报警类型']
+          const tHeader = [this.$t('InventoryReplenishment.id'), this.$t('SmartReplenishmentList.productCode'), this.$t('SmartReplenishmentList.productName'), this.$t('Hmodule.ggxh'), this.$t('Hmodule.dw'), this.$t('StockAlarm.downStock'), this.$t('inventoryAlarm.upStock'), this.$t('inventoryAlarm.onStock'), this.$t('StockAlarm.flag')]
           const filterVal = ['id', 'code', 'productName', 'typeName', 'stockMeasurement', 'downStock', 'upStock', 'existStock', 'alarmTypeName']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({

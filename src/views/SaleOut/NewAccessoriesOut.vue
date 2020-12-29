@@ -239,12 +239,12 @@
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable @blur="getInfo(scope.row)"/>
                 <span v-else>{{ scope.row.carCode }}</span>
-              </template>:fixed="isfixed"
+              </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-                <span v-else>{{ scope.row.motorCode }}</span>" :fixed="isfixed
+                <span v-else>{{ scope.row.motorCode }}</span>"
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -380,17 +380,17 @@
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm3" :model="personalForm" :rules="personalrules" :inline="true" label-position="left" size="mini" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.couponRemark')" :rules="(personalForm.couponSupportOld === 0 || personalForm.couponSupportOld === '') ? personalrules.couponRemark:[{ required: true, message: 'please select couponRemark', trigger: 'change' }]" prop="couponRemark" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select ref="clear3" v-model="personalForm.couponRemark" style="width: 200px">
                     <el-option value="1" label="tax rebate amount"/>
@@ -401,13 +401,13 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
                 </el-form-item>
@@ -421,14 +421,15 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
+                  <el-input-number v-model="personalForm.advanceMoney" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="changeAdvanceMoney()"/>
                 </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+                <span style="margin-left: 18px;color: red;font-size: 14px">{{ $t('otherlanguage.yskdk') }}：{{ flexAdvanceMoney }}</span>
+
               </el-col>
 
-              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
@@ -449,7 +450,7 @@
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()"/>
                 </el-form-item>
@@ -647,6 +648,7 @@ export default {
       }
     }
     return {
+      flexAdvanceMoney: 0,
       saveloading: false,
       projectmoney: 0,
       isbendi: null,
@@ -950,6 +952,19 @@ export default {
     _that = this
   },
   methods: {
+    changeAdvanceMoney(val) {
+      console.log('val', val)
+      if (Number(val) > this.flexAdvanceMoney) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.chaguomorenyushoujine'),
+          offset: 100
+        })
+        this.personalForm.advanceMoney = 0
+      }
+      this.getReceivableMoney()
+      this.updatePrice()
+    },
     uniqueArray3(array, key) {
       var result = [array[0]]
       for (var i = 1; i < array.length; i++) {
@@ -1002,6 +1017,7 @@ export default {
     changeisdeduct() {
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       } else {
         if (!this.personalForm.customerId) {
           this.$notify.error({
@@ -1014,6 +1030,8 @@ export default {
         customerlist2(this.personalForm.customerId).then(res => {
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
+
             this.getReceivableMoney()
           }
         })
@@ -1259,6 +1277,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
 
@@ -1368,6 +1387,7 @@ export default {
       }
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       }
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
@@ -1380,6 +1400,7 @@ export default {
       }
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       }
 
       if (!this.projectmoney) {
@@ -1725,6 +1746,7 @@ export default {
         customerlist2(this.personalForm.customerId).then(res => {
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
           }
         })
         this.customerId = this.$store.getters.empcontract3.customerName
@@ -1805,6 +1827,7 @@ export default {
         }
         if (this.$store.getters.empcontract.receiveMoney) {
           this.personalForm.advanceMoney = this.$store.getters.empcontract.receiveMoney
+          this.flexAdvanceMoney = this.$store.getters.empcontract.receiveMoney
         }
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
         if (this.$store.getters.empcontract.customerType !== null && this.$store.getters.empcontract.customerType !== undefined && this.$store.getters.empcontract.customerType !== '') {
@@ -1814,6 +1837,7 @@ export default {
         customerlist2(this.personalForm.customerId).then(res => {
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
           }
         })
         this.customerId = this.$store.getters.empcontract.customerName
@@ -2258,6 +2282,7 @@ export default {
       this.personalForm.customerId = ''
       this.customerId = ''
       this.personalForm.advanceMoney = 0
+      this.flexAdvanceMoney = 0
     },
     // 选择客户focus
     chooseCustomer() {
@@ -2278,12 +2303,15 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.address = val.address
       this.personalForm.advanceMoney = val.advanceMoney
+      this.flexAdvanceMoney = val.advanceMoney
+
       this.point = val.point
       this.$refs.editable3.clear()
     },
@@ -2293,6 +2321,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.agentName
@@ -2354,6 +2383,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2393,6 +2423,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2463,6 +2494,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2489,6 +2521,7 @@ export default {
       customerlist2(this.personalForm.customerId).then(res => {
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName

@@ -4579,6 +4579,7 @@ export default {
     hexiaojinefanwei: 'Verified amount range.',
     hexiaojinedengyuling: 'Verified amount=0.',
     hexiaojinedayueling: 'Verified amount >0.',
-    shifouquerenfuk: 'Confirm the payment ?'
+    shifouquerenfuk: 'Confirm the payment ?',
+    chaguomorenyushoujine: 'advanceMoney is wrong'
   }
 }

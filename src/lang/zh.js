@@ -4579,6 +4579,7 @@ export default {
     hexiaojinefanwei: '核销金额范围',
     hexiaojinedengyuling: '核销金额=0',
     hexiaojinedayueling: '核销金额>0',
-    shifouquerenfuk: '是否确认付款'
+    shifouquerenfuk: '是否确认付款',
+    chaguomorenyushoujine: '超过客户预收抵扣'
   }
 }

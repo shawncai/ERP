@@ -7,25 +7,25 @@
         <div class="container" style="margin-top: 25px">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable @blur="judgeinvoce"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.customerName')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
                   <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.customerPhone')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.customerPhone" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
 
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.salePersonId')" prop="salePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="salePersonId" style="width: 200px" @focus="handlechooseStock"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
@@ -52,17 +52,17 @@
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.pointSupport')" prop="pointSupport" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.pointSupport" :disabled="personalForm.customerType === '1'" style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('collectAndPay.couponSupportOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.couponSupportOld" :controls="false" :step="0.1" :min="0" style="width: 200px" @blur="getReceivableMoney"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.couponRemark')" :rules="(personalForm.couponSupportOld === 0 || personalForm.couponSupportOld === '') ? personalrules.couponRemark:[{ required: true, message: 'please select couponRemark', trigger: 'change' }]" prop="couponRemark" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select ref="clear3" v-model="personalForm.couponRemark" style="width: 200px">
                     <el-option value="1" label="tax rebate amount"/>
@@ -73,25 +73,25 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.ridMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ridMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">预售款金额：{{ yushou }}</span> -->
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.ridBikeMoney')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ridBikeMoney" disabled style="width: 200px"/>
                 </el-form-item>
                 <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
+                  <el-input-number v-model="personalForm.advanceMoney" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="changeAdvanceMoney()"/>
                 </el-form-item>
-                <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+                <span style="margin-left: 18px;color: red;font-size: 14px">{{ $t('otherlanguage.yskdk') }}：{{ flexAdvanceMoney }}</span>
               </el-col>
-              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6">
+              <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.couponSupport') + (index + 1)" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="item.couponSupport" style="margin-left: 18px;width: 130px" @blur="changeCoupon"/>
                   <el-button v-show="index === personalForm.couponSupports.length -1" icon="el-icon-plus" type="success" @click="addDomain" />
@@ -112,7 +112,7 @@
                   </span>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('update4.customerPay')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.customerPay" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="updatePrice()" @blur="updatePrice()"/>
                 </el-form-item>
@@ -155,7 +155,7 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col> -->
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('tongyo.useType')" prop="useType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.useType" style="width: 200px" @change="changeusetype">
                     <el-option :label="$t('tongyo.jy')" value="1"/>
@@ -163,14 +163,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('tongyo.useMonth')" prop="useMonth" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.useMonth" style="width: 200px" @change="getReceivableMoney" @focus="getusemonth">
                     <el-option v-for="(item, index) in mouesitems" :key="index" :value="item" :label="item"/>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="6" style="height: 57px">
                 <el-form-item :label="$t('SaleOut.outDate')" prop="outDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.outDate"
@@ -622,6 +622,7 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      flexAdvanceMoney: 0,
       ischina: this.$store.getters.countryId,
       isbendi: null,
       projectmoney: 0,
@@ -936,6 +937,19 @@ export default {
     _that = this
   },
   methods: {
+    changeAdvanceMoney(val) {
+      console.log('val', val)
+      if (Number(val) > this.flexAdvanceMoney) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.chaguomorenyushoujine'),
+          offset: 100
+        })
+        this.personalForm.advanceMoney = 0
+      }
+      this.getReceivableMoney()
+      this.updatePrice()
+    },
     changeAppDiscount() {
       this.getReceivableMoney()
       this.updatePrice()
@@ -1362,6 +1376,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
 
@@ -1479,6 +1494,7 @@ export default {
       }
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       }
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
@@ -1768,6 +1784,7 @@ export default {
           console.log('res======', res)
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
           }
         })
         this.customerId = this.$store.getters.empcontract3.customerName
@@ -1850,6 +1867,7 @@ export default {
         }
         if (this.$store.getters.empcontract.receiveMoney) {
           this.personalForm.advanceMoney = this.$store.getters.empcontract.receiveMoney
+          this.flexAdvanceMoney = this.$store.getters.empcontract.receiveMoney
         }
         this.personalForm.sourceNumber = this.$store.getters.empcontract.number
         if (this.$store.getters.empcontract.customerType !== null && this.$store.getters.empcontract.customerType !== undefined && this.$store.getters.empcontract.customerType !== '') {
@@ -1860,6 +1878,7 @@ export default {
           console.log('res======', res)
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
           }
         })
         this.customerId = this.$store.getters.empcontract.customerName
@@ -2292,6 +2311,7 @@ export default {
       this.personalForm.customerId = ''
       this.customerId = ''
       this.personalForm.advanceMoney = 0
+      this.flexAdvanceMoney = 0
     },
     // 选择客户focus
     chooseCustomer() {
@@ -2313,12 +2333,15 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.address = val.address
       this.personalForm.advanceMoney = val.advanceMoney
+      this.flexAdvanceMoney = val.advanceMoney
+
       this.point = val.point
     },
     agentdata(val) {
@@ -2329,6 +2352,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.agentName
@@ -2393,6 +2417,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2435,6 +2460,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2512,6 +2538,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2541,6 +2568,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName

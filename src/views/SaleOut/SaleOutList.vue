@@ -470,7 +470,7 @@ export default {
     },
     isReview4(row) {
       // 测试阶段临时
-      if (row.judgeStat === 2) {
+      if (row.judgeStat === 2 || row.judgeStat === 1) {
         return true
       }
       // 正式时放开

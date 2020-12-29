@@ -456,8 +456,7 @@ export default {
 
   mounted() {
     this.getcopydata()
-
-    this.getinformation()
+    // this.getinformation()
   },
   activated() {
     this.getcopydata()

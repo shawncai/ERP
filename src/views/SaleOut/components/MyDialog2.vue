@@ -202,9 +202,10 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('otherlanguage.yskdk')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                <el-input v-model="personalForm.advanceMoney" disabled style="width: 200px"/>
+                <el-input-number v-model="personalForm.advanceMoney" :controls="false" :step="0.1" :min="0" style="width: 200px" @change="changeAdvanceMoney()"/>
+
               </el-form-item>
-              <!-- <span style="color: red;margin-left: 52px;font-size: 14px">回收车金额：{{ huishou }}</span> -->
+              <span style="margin-left: 18px;color: red;font-size: 14px">{{ $t('otherlanguage.yskdk') }}：{{ flexAdvanceMoney }}</span>
             </el-col>
 
             <el-col v-for="(item, index) in personalForm.couponSupports" :key="index" :span="12">
@@ -790,6 +791,7 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      flexAdvanceMoney: 0,
       isdeduct: 1,
       controlcategorysdetail: [],
       chargecategorysdetail: [],
@@ -945,6 +947,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.isbendi = this.editdata.isOwn
+      this.flexAdvanceMoney = this.personalForm.advanceMoney
       this.shouldMoney = this.personalForm.shouldMoney
       console.log('this.personalForm.shouldMoney', this.personalForm.shouldMoney)
       if (this.personalForm.saleOutRetreatVos.length === 0) {
@@ -1115,6 +1118,19 @@ export default {
     _that = this
   },
   methods: {
+    changeAdvanceMoney(val) {
+      console.log('val', val)
+      if (Number(val) > this.flexAdvanceMoney) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.chaguomorenyushoujine'),
+          offset: 100
+        })
+        this.personalForm.advanceMoney = 0
+      }
+      this.getReceivableMoney()
+      this.updatePrice()
+    },
     updatePrice() {
       console.log('999', 999)
       if (this.personalForm.shouldMoney !== null && this.personalForm.shouldMoney !== '' && this.personalForm.shouldMoney !== undefined) {
@@ -1136,6 +1152,7 @@ export default {
     changeisdeduct() {
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       } else {
         if (!this.personalForm.customerId) {
           this.$notify.error({
@@ -1148,6 +1165,8 @@ export default {
         customerlist2(this.personalForm.customerId).then(res => {
           if (res.data.ret === 200) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+            this.flexAdvanceMoney = res.data.data.content.advanceMoney
+
             this.getReceivableMoney()
           }
         })
@@ -1377,6 +1396,7 @@ export default {
       }
       if (!this.personalForm.advanceMoney) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       }
       if (!this.personalForm.otherMoney) {
         this.personalForm.otherMoney = 0
@@ -1389,6 +1409,7 @@ export default {
       }
       if (this.isdeduct === 2) {
         this.personalForm.advanceMoney = 0
+        this.flexAdvanceMoney = 0
       }
 
       if (!this.projectmoney) {
@@ -1934,6 +1955,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2301,6 +2323,7 @@ export default {
       this.personalForm.customerId = ''
       this.customerId = ''
       this.personalForm.advanceMoney = 0
+      this.flexAdvanceMoney = 0
     },
     // 选择客户focus
     chooseCustomer() {
@@ -2322,6 +2345,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2338,6 +2362,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.agentName
@@ -2396,6 +2421,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName
@@ -2436,6 +2462,7 @@ export default {
         console.log('res======', res)
         if (res.data.ret === 200) {
           this.personalForm.advanceMoney = res.data.data.content.advanceMoney
+          this.flexAdvanceMoney = res.data.data.content.advanceMoney
         }
       })
       this.customerId = val.customerName

@@ -24,10 +24,6 @@
               <el-col :span="6">
                 <el-form-item
                   :label="$t('StockInvoice.invoiceNumber')"
-                  :rules="personalForm.invoiceType === '1'? personalrules.invoiceNumber: [
-                    { required: true, validator: validatePass5, trigger: 'blur'}
-                  ]"
-                  prop="invoiceNumber"
                   style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                 </el-form-item>
@@ -169,7 +165,6 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             :summary-method="getSummaries"
-            :class="click-table1"
             :show-summary="jundgeprice()"
             stripe
             border
@@ -565,7 +560,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getcurrency() {
@@ -873,7 +868,9 @@ export default {
         }
       }
       const newarr = val.concat(mychecklist)
-      const newnewarr = this.uniqueArray(newarr, 'productCode', 'sourceNumber')
+      // const newnewarr = this.uniqueArray(newarr, 'productCode', 'sourceNumber')
+      const newnewarr = newarr
+
       // const obj = {}
       // const processaction = newarr.reduce((cur, next) => {
       //   obj[next.sourceNumber] ? '' : obj[next.sourceNumber] = true && cur.push(next)

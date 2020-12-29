@@ -833,6 +833,7 @@ export default {
     isReview(row) {
       const userepository = this.$store.getters.repositoryId
       console.log(this.$store.getters.userId)
+      console.log(this.$store.getters.regionId)
       console.log('userepository', userepository)
       if (row.moveType === 1) {
         console.log('row', row)
