@@ -121,6 +121,29 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name" >{{ $t('updates.cbfymx') }}</h2>
         <div class="container">
+          <el-button @click="baseMoney">成本费用录入</el-button>
+          <el-dialog
+            :visible.sync="centerDialogVisible"
+            width="600px"
+            class="normal"
+            title="成本费用录入"
+            center>
+            <div class="timepicker">
+              <el-form :model="baseMoneyform">
+                <el-form-item label="直接人工费总费用" label-width="150px">
+                  <el-input-number v-model="baseMoneyform.personExpenses" :controls="false" :min="0"/>
+                </el-form-item>
+                <el-form-item label="制造总费用" label-width="150px">
+                  <el-input-number v-model="baseMoneyform.otherExpenses" :controls="false" :min="0"/>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div style="color:red; text-align: center">只需要输入一次，本月在创建其他产品核算的时候自动调用当月录入的总费用</div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="centerDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="confirmBtn">确 定</el-button>
+            </div>
+          </el-dialog>
           <el-row :gutter="20" style="margin-top: 30px">
             <el-col :span="24">
               <div style="width: 100%; min-height: 300px;" >
@@ -196,6 +219,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { addProduceCost } from '@/api/ProduceCost'
+import { addProduceMonthExpenses, queryProduceMonthExpenses } from '@/api/ProduceTask'
 import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -259,6 +283,12 @@ export default {
     //   }
     // }
     return {
+      form: {},
+      baseMoneyform: {
+        personExpenses: '',
+        otherExpenses: ''
+      },
+      centerDialogVisible: false,
       blue: true,
       red: true,
       results: [{ value: 1, label: '合格' }, { value: 2, label: '不合格' }],
@@ -484,6 +514,37 @@ export default {
     _that = this
   },
   methods: {
+    confirmBtn() {
+      addProduceMonthExpenses(this.baseMoneyform).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: 'save successful',
+            type: 'success',
+            offset: 100
+          })
+        } else {
+          this.$notify.error({
+            title: 'wrong',
+            message: res.msg,
+            offset: 100
+          })
+        }
+        this.centerDialogVisible = false
+      })
+    },
+    baseMoney() {
+      const nowMonth = new Date()
+      console.log('nowMonth', nowMonth.getMonth() + 1)
+      queryProduceMonthExpenses(nowMonth.getMonth() + 1).then(res => {
+        console.log('res', res)
+        if (res.data.data.content) {
+          this.baseMoneyform.personExpenses = res.data.data.content.personExpenses
+          this.baseMoneyform.otherExpenses = res.data.data.content.otherExpenses
+        }
+        this.centerDialogVisible = true
+      })
+    },
     material(val) {
       console.log('123', this.personalForm.accountType)
       if (this.personalForm.accountType === '1') {
@@ -1360,6 +1421,30 @@ export default {
 
   .redable >>> .el-form-item__label{
     color: red;
+  }
+
+   .normal >>> .el-dialog__header {
+    padding: 20px 20px 10px;
+    background: #fff;
+    position: static;
+    top: auto;
+    z-index: auto;
+    width: auto;
+    border-bottom: none;
+  }
+  .normal >>> .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+  }
+  .timepicker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
   }
 
 </style>

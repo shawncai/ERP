@@ -449,7 +449,8 @@ export default {
     AddDiscountsetting: 'AddDiscountsetting',
     Discountsetting: 'Discountsetting',
     DiffPrice: 'DiffPrice',
-    NewBatteryOut: 'Battery Swap'
+    NewBatteryOut: 'Battery Swap',
+    AccountingCalculation: 'Accounting Calculation'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',

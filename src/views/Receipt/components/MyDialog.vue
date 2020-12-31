@@ -404,6 +404,9 @@ export default {
         let num = 0
         for (const i in this.switchmoney) {
           // console.log(typeof (this.list3[i].taxprice))
+          if (this.switchmoney[i].thisMoney === null || this.switchmoney[i].thisMoney === undefined) {
+            this.switchmoney[i].thisMoney = 0
+          }
           num += this.switchmoney[i].thisMoney
         }
         console.log('num=====', num)

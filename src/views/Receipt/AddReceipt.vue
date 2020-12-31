@@ -381,6 +381,9 @@ export default {
         let num = 0
         let num2 = 0
         for (const i in this.switchmoney) {
+          if (this.switchmoney[i].thisMoney === null || this.switchmoney[i].thisMoney === undefined) {
+            this.switchmoney[i].thisMoney = 0
+          }
           // console.log(typeof (this.list3[i].taxprice))
           num += this.switchmoney[i].thisMoney
           num2 += this.switchmoney[i].penalty
@@ -1093,6 +1096,7 @@ export default {
           })
           return false
         }
+        console.log('EnterDetail', EnterDetail)
         const parms2 = JSON.stringify(EnterDetail)
         console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
         let couponNumbers = ''
@@ -1112,37 +1116,37 @@ export default {
           }
         }
         const parms = JSON.stringify(Data)
-        this.$refs.personalForm.validate((valid) => {
-          if (valid) {
-            createreceipt(parms, parms2, this.personalForm).then(res => {
-              if (res.data.ret === 200) {
-                this.$notify({
-                  title: 'successful',
-                  message: 'save successful',
-                  type: 'success',
-                  offset: 100
-                })
-                this.restAllForm()
-                this.$refs.editable2.clear()
-                this.$refs.personalForm.clearValidate()
-                this.$refs.personalForm.resetFields()
-              } else {
-                this.$notify.error({
-                  title: 'wrong',
-                  message: res.data.msg,
-                  offset: 100
-                })
-              }
-            })
-          } else {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'Information is incomplete',
-              offset: 100
-            })
-            return false
-          }
-        })
+        // this.$refs.personalForm.validate((valid) => {
+        //   if (valid) {
+        //     createreceipt(parms, parms2, this.personalForm).then(res => {
+        //       if (res.data.ret === 200) {
+        //         this.$notify({
+        //           title: 'successful',
+        //           message: 'save successful',
+        //           type: 'success',
+        //           offset: 100
+        //         })
+        //         this.restAllForm()
+        //         this.$refs.editable2.clear()
+        //         this.$refs.personalForm.clearValidate()
+        //         this.$refs.personalForm.resetFields()
+        //       } else {
+        //         this.$notify.error({
+        //           title: 'wrong',
+        //           message: res.data.msg,
+        //           offset: 100
+        //         })
+        //       }
+        //     })
+        //   } else {
+        //     this.$notify.error({
+        //       title: 'wrong',
+        //       message: 'Information is incomplete',
+        //       offset: 100
+        //     })
+        //     return false
+        //   }
+        // })
       }
     },
     // 取消操作

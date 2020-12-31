@@ -5,7 +5,7 @@
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never">
         <div ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</div>
         <div class="container" style="margin-top: 25px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
+          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="150px">
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.code3')" prop="code" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -28,7 +28,7 @@
                 </el-form-item>
                 <my-center :control.sync="centercontrol" @center="center"/>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.testMethod')" prop="testMethod" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.testMethod" style="width: 200px" clearable >
                     <el-option value="1" label="自检"/>
@@ -78,6 +78,11 @@
               <el-col :span="6">
                 <el-form-item :label="$t('ProcessFile.numberWage')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.numberWage" style="width: 200px" clearable/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('update4.gongxurengongfeiyognbili')" prop="proportion" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.proportion" :min="0" :max="100" :controls="false" style="width: 200px"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -152,6 +157,10 @@ export default {
       },
       // 标准工序规则数据
       personalrules: {
+        proportion: [
+          { required: true, message: '请输入工序人工费用比例', trigger: 'blur' }
+
+        ],
         code: [
           { required: true, message: '请输入工序编号', trigger: 'blur' }
         ],

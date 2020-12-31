@@ -563,7 +563,7 @@ export default {
           console.log(this.deskdata.ones)
           this.deskdata.twos = res.data.data.toDoEvent 
           this.deskdata.threes =  res.data.data.toJudge 
-          this.deskdata.fours = this.$t('update4.dengdaiweixiud')
+          // this.deskdata.fours = this.$t('update4.dengdaiweixiud')
           this.deskdata.fives = res.data.data.toPay 
         }
         setTimeout(() => {

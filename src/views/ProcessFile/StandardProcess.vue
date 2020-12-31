@@ -78,43 +78,43 @@
           type="selection"
           width="55"
           align="center"/>
-        <el-table-column :label="$t('ProcessFile.code')" :resizable="false" prop="id" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.code')" :resizable="false" prop="id" align="center">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.code }}</span>
           </template>
           <detail-list3 :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.processName')" :resizable="false" prop="title" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.processName')" :resizable="false" prop="title" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.processName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.shortName')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.shortName')" :resizable="false" prop="sourceNumber" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.shortName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.workCenterName')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.workCenterName')" :resizable="false" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.workCenterName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.timeUnit')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.timeUnit')" :resizable="false" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.timeUnit | timeUnitFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.preTime')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.preTime')" :resizable="false" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.preTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.runTime')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.runTime')" :resizable="false" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.runTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('ProcessFile.stat')" :resizable="false" align="center" width="150">
+        <el-table-column :label="$t('ProcessFile.stat')" :resizable="false" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.stat | statFilter }}</span>
           </template>

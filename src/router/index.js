@@ -3724,6 +3724,27 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/AccountingCalculation',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'AccountingCalculation',
+    alwaysShow: true,
+    meta: {
+      title: 'AccountingCalculation',
+      icon: 'shuxing',
+      type: 11,
+      roles: ['54-382-1-11-1-1']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/AccountingCalculation/index'),
+        name: 'AccountingCalculation',
+        meta: { title: 'AccountingCalculation', noCache: false }
+      }
+    ]
+  },
   // {
   //   path: '/GroupBuyRules',
   //   component: Layout,

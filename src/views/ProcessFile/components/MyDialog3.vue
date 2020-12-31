@@ -27,7 +27,7 @@
               </el-form-item>
               <my-center :control.sync="centercontrol" @center="center"/>
             </el-col>
-            <el-col :span="6">
+            <!-- <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.testMethod')" prop="testMethod" style="width: 100%;">
                 <el-select v-model="personalForm.testMethod" style="margin-left: 18px; width: 150px" clearable >
                   <el-option value="1" label="自检"/>
@@ -77,6 +77,11 @@
             <el-col :span="6">
               <el-form-item :label="$t('ProcessFile.numberWage')" style="width: 100%;">
                 <el-input v-model="personalForm.numberWage" style="margin-left: 18px; width: 150px" clearable/>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="6">
+              <el-form-item :label="$t('update4.gongxurengongfeiyognbili')" prop="proportion" style="width: 100%;">
+                <el-input-number v-model="personalForm.proportion" :min="0" :max="100" :controls="false" style="margin-left: 18px; width: 150px"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">

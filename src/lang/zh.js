@@ -449,7 +449,8 @@ export default {
     AddDiscountsetting: '新建折扣设置',
     Discountsetting: '折扣设置列表',
     DiffPrice: '电池差异价格设置',
-    NewBatteryOut: '新建电池置换'
+    NewBatteryOut: '新建电池置换',
+    AccountingCalculation: '会计核算'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4580,6 +4581,8 @@ export default {
     hexiaojinedengyuling: '核销金额=0',
     hexiaojinedayueling: '核销金额>0',
     shifouquerenfuk: '是否确认付款',
-    chaguomorenyushoujine: '超过客户预收抵扣'
+    chaguomorenyushoujine: '超过客户预收抵扣',
+    gongxurengongfeiyognbili: '工序人工费用比例',
+    gongxu: '工序'
   }
 }

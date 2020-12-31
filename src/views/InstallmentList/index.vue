@@ -324,7 +324,7 @@
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.unpay')" :resizable="false" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ scope.row.shouldMoney - scope.row.paidMoney - scope.row.reward }}</span>
+              <span>{{ scope.row.unpay }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('InstallmentList.collectperson')" :resizable="false" align="center" min-width="150">
@@ -569,6 +569,7 @@ export default {
       }
     },
     clickRow(val) {
+      console.log('val', val)
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
       }
@@ -602,6 +603,10 @@ export default {
       console.log(val)
       try {
         this.list2 = val.installmentOrderDetailVos
+        for (const i in this.list2) {
+          this.list2[i].unpay = this.list2[i].shouldMoney - this.list2[i].paidMoney - this.list2[i].reward
+          this.list2[i].unpay < 0 ? this.list2[i].unpay = 0 : this.list2[i].unpay
+        }
         this.total2 = val.installmentOrderDetailVos.length
         this.processData = this.deepClone(this.list2)
         this.pagingPlan()

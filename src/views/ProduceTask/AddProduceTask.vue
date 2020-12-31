@@ -86,6 +86,7 @@
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType==='3'" :label="$t('Hmodule.ggzx')" prop="workCenterName" align="center" min-width="150px"/>
             <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
+            <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: standardIds, type: 'visible'}" :label="$t('update4.gongxu')" prop="standardId" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 1}, type: 'visible'}" :label="$t('updates.scsl')" prop="produceQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" :label="$t('updates.bimbm')" prop="bomNumber" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElSelect', options: processes, type: 'visible'}" :label="$t('updates.gylx')" prop="processName" align="center" min-width="150px"/>
@@ -112,6 +113,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { addproducetask } from '@/api/ProduceTask'
+import { searchprocess } from '@/api/ProcessFile'
 import { materialslist, searchprocessFile, searchworkCenter, requireplanlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './components/MyEmp'
@@ -135,6 +137,7 @@ export default {
       }
     }
     return {
+      standardIds: [],
       // 控制生产需求
       prorequirecontrol: false,
       // 需求列表过来数据
@@ -226,6 +229,22 @@ export default {
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
+        }
+      })
+      const parms = {
+        pageNum: 1,
+        pageSize: 999,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      searchprocess(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.standardIds = res.data.data.content.list.map(function(item) {
+            return {
+              label: item.processName,
+              value: item.id
+            }
+          })
         }
       })
     },

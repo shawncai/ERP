@@ -218,3 +218,33 @@ export function updateproducereport2(query) {
     data: params
   })
 }
+
+// 成本费用录入
+export function addProduceMonthExpenses(query) {
+  var params = new URLSearchParams()
+  if (query.personExpenses !== undefined && query.personExpenses !== null && query.personExpenses !== '') {
+    params.append('personExpenses', query.personExpenses) // 你要传给后台的参数值 key/value
+  }
+  if (query.otherExpenses !== undefined && query.otherExpenses !== null && query.otherExpenses !== '') {
+    params.append('otherExpenses', query.otherExpenses) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/produceMonthExpenses/addProduceMonthExpenses',
+    method: 'post',
+    data: params
+  })
+}
+
+// 查询成本费用录入
+export function queryProduceMonthExpenses(query) {
+  var params = new URLSearchParams()
+  if (query !== undefined && query !== null && query !== '') {
+    params.append('month', query) // 你要传给后台的参数值 key/value
+  }
+
+  return request({
+    url: '/produceMonthExpenses/queryProduceMonthExpenses',
+    method: 'post',
+    data: params
+  })
+}
