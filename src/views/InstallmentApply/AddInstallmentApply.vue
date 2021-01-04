@@ -2016,80 +2016,92 @@ export default {
         })
         return false
       }
-      const judgeissecond = this.productForm.productCode.slice(10, 12)
-      const judgecartype = this.productForm.productCode.slice(3, 7)
-      console.log('judgeissecond', judgeissecond)
-      console.log('judgecartype', judgecartype)
-      console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
 
-      // 二手gb2
-      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0002') && Number(this.personalForm.firstMoney) < 5000) {
+      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < 200) {
         this.$notify.error({
           title: 'wrong',
-          message: 'the down payment of second hands unit is wrong',
+          message: 'the down payment is wrong',
           offset: 100
         })
         return false
       }
 
-      // 二手ars和二手ep
-      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0003' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 6000) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the down payment of second hands unit is wrong',
-          offset: 100
-        })
-        return false
-      }
+      if (this.$store.getters.useCountry === '2' || this.$store.getters.useCountry === 2) {
+        const judgeissecond = this.productForm.productCode.slice(10, 12)
+        const judgecartype = this.productForm.productCode.slice(3, 7)
+        console.log('judgeissecond', judgeissecond)
+        console.log('judgecartype', judgecartype)
+        console.log('this.personalForm.firstMoney', Number(this.personalForm.firstMoney))
 
-      // 二手erv和二手tk
-      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0001' || judgecartype === '0007') && Number(this.personalForm.firstMoney) < 7000) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the down payment of second hands unit is wrong',
-          offset: 100
-        })
-        return false
-      }
+        // 二手gb2
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0002') && Number(this.personalForm.firstMoney) < 5000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment of second hands unit is wrong',
+            offset: 100
+          })
+          return false
+        }
 
-      // 二手其他车
-      if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype !== '0002' && judgecartype !== '0005' && judgecartype !== '0003' && judgecartype !== '0001' && judgecartype !== '0007') && Number(this.personalForm.firstMoney) < 7000) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the down payment of second hands unit is wrong',
-          offset: 100
-        })
-        return false
-      }
+        // 二手ars和二手ep
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0003' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 6000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment of second hands unit is wrong',
+            offset: 100
+          })
+          return false
+        }
 
-      // 新gb2
-      if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the car firstMoney is wrong',
-          offset: 100
-        })
-        return false
-      }
-      // 新ep
-      if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0005') && Number(this.personalForm.firstMoney) < 7000) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the car firstMoney is wrong',
-          offset: 100
-        })
-        return false
-      }
+        // 二手erv和二手tk
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0001' || judgecartype === '0007') && Number(this.personalForm.firstMoney) < 7000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment of second hands unit is wrong',
+            offset: 100
+          })
+          return false
+        }
 
-      // 其他新车
-      if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
-        console.log('123')
-        this.$notify.error({
-          title: 'wrong',
-          message: 'the new car firstMoney is wrong',
-          offset: 100
-        })
-        return false
+        // 二手其他车
+        if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype !== '0002' && judgecartype !== '0005' && judgecartype !== '0003' && judgecartype !== '0001' && judgecartype !== '0007') && Number(this.personalForm.firstMoney) < 7000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment of second hands unit is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 新gb2
+        if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0002' || judgecartype === '0005') && Number(this.personalForm.firstMoney) < 5000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+        // 新ep
+        if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype === '0005') && Number(this.personalForm.firstMoney) < 7000) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        // 其他新车
+        if ((judgeissecond !== '18' && judgeissecond !== '04') && (judgecartype !== '0002' && judgecartype !== '0005') && Number(this.personalForm.firstMoney) < 10000) {
+          console.log('123')
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the new car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
       }
 
       console.log(this.personalForm)

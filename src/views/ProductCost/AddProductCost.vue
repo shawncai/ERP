@@ -11,12 +11,20 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="left" label-width="205px">
             <el-row>
               <el-col :span="6">
+                <el-form-item :label="$t('inventorydetaillist.repositoryName')" prop="produceRepositoryId" style="width: 100%;">
+                  <el-input v-model="produceRepositoryId" style="margin-left: 11px;width: 200px" @focus="handlechooseRep"/>
+                  <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
                 <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.accountTime"
                     :placeholder="$t('updates.xzy')"
                     type="month"
-                    style="margin-left: 11px;width: 200px"/>
+                    value-format="yyyy-MM"
+                    style="margin-left: 11px;width: 200px"
+                    @change="getPrice"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -218,7 +226,7 @@
 
 <script>
 import '@/directive/noMoreClick/index.js'
-import { addProduceCost } from '@/api/ProduceCost'
+import { addProduceCost, querySouceProduct, queryPersonProduct } from '@/api/ProduceCost'
 import { addProduceMonthExpenses, queryProduceMonthExpenses } from '@/api/ProduceTask'
 import { productlist } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -236,11 +244,13 @@ import MyEmp2 from './components/MyEmp2'
 import DetailReport from './components/DetailReport'
 import DetailReport2 from './components/DetailReport2'
 import DetailReport3 from './components/DetailReport3'
+import MyRepository from './components/MyRepository'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   name: 'AddProductCost',
-  components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp },
+  components: { DetailReport3, DetailReport2, DetailReport, MyEmp2, MyMater, MyQuality, MyAccept, ProduceTask, MyArrival, MyCenter, MyDelivery, MySupplier, MyDetail, MyEmp, MyRepository },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(value)
@@ -254,6 +264,15 @@ export default {
       console.log(this.supplierId)
       if (this.personalForm.productCode === undefined || this.personalForm.productCode === null || this.personalForm.productCode === '') {
         callback(new Error('请选择抽检商品'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatePass3 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.personalForm.produceRepositoryId === undefined || this.personalForm.produceRepositoryId === null || this.personalForm.produceRepositoryId === '') {
+        callback(new Error('请选择仓库'))
       } else {
         callback()
       }
@@ -283,6 +302,8 @@ export default {
     //   }
     // }
     return {
+      repositorycontrol: false,
+      produceRepositoryId: '',
       form: {},
       baseMoneyform: {
         personExpenses: '',
@@ -389,6 +410,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        produceRepositoryId: [
+          { required: true, validator: validatePass3, trigger: 'change' }
+        ],
         completeRate: [
           { required: true, message: '请输入完工比例', trigger: 'blur' }
         ],
@@ -514,6 +538,59 @@ export default {
     _that = this
   },
   methods: {
+    repositoryname(val) {
+      this.produceRepositoryId = val.repositoryName
+      this.personalForm.produceRepositoryId = val.id
+      this.judgeinvoce()
+    },
+    // 出库仓库focus事件触发
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    getPrice(val) {
+      this.getPersonProduct()
+      this.getSourcePrice()
+    },
+    getPersonProduct() {
+      if (this.personalForm.productCode && this.personalForm.accountTime) {
+        const queryParms = {
+          productCode: this.personalForm.productCode,
+          yearAndMonth: this.personalForm.accountTime
+        }
+        queryPersonProduct(queryParms).then(res => {
+          if (res.data.ret === 200) {
+            this.list2[1].man = res.data.data.personExpenses
+            this.list2[1].produce = res.data.data.otherExpenses
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
+    getSourcePrice() {
+      if (this.personalForm.productCode && this.personalForm.accountTime && this.personalForm.finishQuantity) {
+        const queryParms = {
+          productCode: this.personalForm.productCode,
+          yearAndMonth: this.personalForm.accountTime,
+          produceQuantity: this.personalForm.finishQuantity
+        }
+        querySouceProduct(queryParms).then(res => {
+          if (res.data.ret === 200) {
+            this.list2[1].material = res.data.data.content
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.msg,
+              offset: 100
+            })
+          }
+        })
+      }
+    },
     confirmBtn() {
       addProduceMonthExpenses(this.baseMoneyform).then(res => {
         if (res.data.ret === 200) {
@@ -901,6 +978,7 @@ export default {
       this.material()
       this.man()
       this.produce()
+      this.getSourcePrice()
     },
     getscope(val) {
       console.log(val)
@@ -1008,6 +1086,8 @@ export default {
       this.personalForm.unit = val.produceMeasurement
       this.personalForm.typeId = val.typeId
       this.typeId = val.productType
+      this.getSourcePrice()
+      this.getPersonProduct()
     },
     getTypes() {
       // 部门列表数据

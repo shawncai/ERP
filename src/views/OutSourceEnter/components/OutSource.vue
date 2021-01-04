@@ -343,8 +343,8 @@ export default {
           sourceNumber: OrderNumber,
           sourceSerialNumber: item.id,
           quantity: item.quantity,
-          enterPrice: 0,
-          enterMoney: 0,
+          enterPrice: item.enterPrice,
+          enterMoney: item.enterMoney,
           alreadyOutQuantity: item.alreadyOutQuantity
         }
       })

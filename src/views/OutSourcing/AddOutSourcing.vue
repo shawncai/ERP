@@ -135,6 +135,9 @@
                 />
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.enterMoney')" prop="enterMoney" align="center" min-width="150px"/>
+
             <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
           </el-editable>
@@ -316,6 +319,8 @@ export default {
           console.log(row)
         }
       }
+
+      row.enterMoney = Number(row.enterPrice) * row.quantity
       this.changelistdata()
     },
     // 外包工厂focus事件

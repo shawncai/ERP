@@ -131,7 +131,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" />-->
             <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
-            <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" />
+            <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" />
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>

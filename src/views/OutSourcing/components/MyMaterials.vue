@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { getProductOut } from '@/api/OutSourcing'
 import { searchUnitGroup } from '@/api/UnitGroup'
 import { productlist } from '@/api/Product'
 import { materialslist } from '@/api/MaterialsList'
@@ -367,9 +368,28 @@ export default {
             }
           }
         }
+
+        const testproductDeatail = Promise.all(
+          productDetail.map(item => {
+            return getProductOut(item.productCode)
+          })
+        ).then(data => {
+          for (const i in data) {
+            if (data[i].data.ret === 200) {
+              for (const j in productDetail) {
+                if (data[i].data.data.productCode === productDetail[j].productCode) {
+                  productDetail[j].enterPrice = data[i].data.data.content
+                  productDetail[j].enterMoney = data[i].data.data.content
+                }
+              }
+              this.$emit('product4', productDetail)
+            }
+          }
+        })
+        console.log('testproductDeatail', testproductDeatail)
+
         console.log('finalproduct=====', finalproduct)
         this.$emit('detailproduct', finalproduct)
-        this.$emit('product4', productDetail)
       }).catch((err) => {
         console.log(err)
       })

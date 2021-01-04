@@ -1868,12 +1868,21 @@ export default {
           needcode = EnterDetail2[i].productCode
         }
       }
+
+      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < 200) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'the down payment is wrong',
+          offset: 100
+        })
+        return false
+      }
       console.log('needcode', needcode)
       const judgeissecond = needcode.slice(10, 12)
       const judgecartype = needcode.slice(3, 7)
       console.log('judgeissecond', judgeissecond)
       console.log('judgecartype', judgecartype)
-      if (this.personalForm.isSecondApply === 2) {
+      if (this.personalForm.isSecondApply === 2 && (this.$store.getters.useCountry === '2' || this.$store.getters.useCountry === 2)) {
         // 二手gb2
         if ((judgeissecond === '18' || judgeissecond === '04') && (judgecartype === '0002') && Number(this.personalForm.firstMoney) < 5000) {
           this.$notify.error({

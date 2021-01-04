@@ -9,6 +9,11 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="150px">
             <el-row>
               <el-col :span="12">
+                <el-form-item :label="$t('inventorydetaillist.repositoryName')" style="width: 100%;">
+                  <span>{{ personalForm.produceRepositoryName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('ProductCost.accountTime')" style="width: 100%;">
                   <span>{{ personalForm.accountTime }}</span>
                 </el-form-item>

@@ -15,7 +15,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="width: 200px" @change="chooseSource" >
-                    <el-option value="1" label="无来源"/>
+                    <!-- <el-option value="1" label="无来源"/> -->
                     <el-option value="2" label="外包单"/>
                   </el-select>
                 </el-form-item>
@@ -141,17 +141,17 @@
             <!-- <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/> -->
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>-->
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
+            <!-- <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getmylocation(scope) }}</p>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
           </el-editable>
         </div>
@@ -283,7 +283,7 @@ export default {
         enterRepositoryId: this.$store.getters.repositoryId,
         enterPersonId: this.$store.getters.userId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1',
+        sourceType: '2',
         newOrOld: 1,
         acceptPersonId: this.$store.getters.userId,
         enterDeptId: this.$store.getters.deptId
@@ -591,7 +591,7 @@ export default {
         enterRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         enterPersonId: this.$store.getters.userId,
-        sourceType: '1',
+        sourceType: '2',
         newOrOld: 1
       }
       this.enterRepositoryId = this.$store.getters.repositoryName

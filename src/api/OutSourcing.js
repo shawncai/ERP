@@ -174,3 +174,16 @@ export function deleteFactoryAdjust(query) {
     data: params
   })
 }
+
+//  查询价格
+export function getProductOut(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('productCode', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/outsourcing/getProductOut',
+    method: 'post',
+    data: params
+  })
+}

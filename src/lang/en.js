@@ -4581,6 +4581,9 @@ export default {
     hexiaojinedengyuling: 'Verified amount=0.',
     hexiaojinedayueling: 'Verified amount >0.',
     shifouquerenfuk: 'Confirm the payment ?',
-    chaguomorenyushoujine: 'advanceMoney is wrong'
+    chaguomorenyushoujine: 'advanceMoney is wrong',
+    gongxu: '工序',
+    enterPrice: 'enterPrice',
+    enterMoney: 'enterMoney'
   }
 }

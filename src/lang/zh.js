@@ -4583,6 +4583,8 @@ export default {
     shifouquerenfuk: '是否确认付款',
     chaguomorenyushoujine: '超过客户预收抵扣',
     gongxurengongfeiyognbili: '工序人工费用比例',
-    gongxu: '工序'
+    gongxu: '工序',
+    enterPrice: '入库价格',
+    enterMoney: '入库金额'
   }
 }

@@ -14,7 +14,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" @change="chooseSource" >
-                  <el-option value="1" label="无来源"/>
+                  <!-- <el-option value="1" label="无来源"/> -->
                   <el-option value="2" label="外包单"/>
                 </el-select>
               </el-form-item>
@@ -137,7 +137,7 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <!--          <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/>-->
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6, controls:false}}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
+          <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>

@@ -1116,37 +1116,37 @@ export default {
           }
         }
         const parms = JSON.stringify(Data)
-        // this.$refs.personalForm.validate((valid) => {
-        //   if (valid) {
-        //     createreceipt(parms, parms2, this.personalForm).then(res => {
-        //       if (res.data.ret === 200) {
-        //         this.$notify({
-        //           title: 'successful',
-        //           message: 'save successful',
-        //           type: 'success',
-        //           offset: 100
-        //         })
-        //         this.restAllForm()
-        //         this.$refs.editable2.clear()
-        //         this.$refs.personalForm.clearValidate()
-        //         this.$refs.personalForm.resetFields()
-        //       } else {
-        //         this.$notify.error({
-        //           title: 'wrong',
-        //           message: res.data.msg,
-        //           offset: 100
-        //         })
-        //       }
-        //     })
-        //   } else {
-        //     this.$notify.error({
-        //       title: 'wrong',
-        //       message: 'Information is incomplete',
-        //       offset: 100
-        //     })
-        //     return false
-        //   }
-        // })
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
+            createreceipt(parms, parms2, this.personalForm).then(res => {
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.restAllForm()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            return false
+          }
+        })
       }
     },
     // 取消操作

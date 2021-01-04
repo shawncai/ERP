@@ -258,6 +258,26 @@
                 <span v-show="jundgeprice() === false"/>
               </template>
             </el-editable-column>
+            <el-editable-column
+              :label="$t('updates.cbdj')"
+              prop="newCostPrice"
+              align="center" >
+              <template slot-scope="scope">
+                <span v-show="jundgeprice()">{{ scope.row.newCostPrice }}</span>
+                <span v-show="jundgeprice() === false"/>
+              </template>
+            </el-editable-column>
+
+            <el-editable-column
+              :label="$t('NewEmployeeInformation.costMoney')"
+              prop="newCostMoney"
+              align="center" >
+              <template slot-scope="scope">
+                <span v-show="jundgeprice()">{{ scope.row.newCostMoney }}</span>
+                <span v-show="jundgeprice() === false"/>
+              </template>
+            </el-editable-column>
+
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
             <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center">

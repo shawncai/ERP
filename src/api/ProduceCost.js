@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 新建质检报告
+// 新建产品成本
 export function addProduceCost(query, query2, query3) {
   var params = new URLSearchParams()
   if (query !== '' && query !== null && query !== undefined) {
@@ -22,7 +22,7 @@ export function addProduceCost(query, query2, query3) {
   })
 }
 
-// 质检报告单列表
+// 产品成本列表
 export function produceCostlist(query) {
   var params = new URLSearchParams()
   if (query.accountTime !== '' && query.accountTime !== null && query.accountTime !== undefined) {
@@ -79,7 +79,7 @@ export function produceCostlist(query) {
   })
 }
 
-//  修改质检报告
+//  修改产品成本
 export function updatecheckreport(query, query2) {
   var params = new URLSearchParams()
   params.append('checkReportJson', query) // 你要传给后台的参数值 key/value
@@ -91,7 +91,7 @@ export function updatecheckreport(query, query2) {
   })
 }
 
-//  审批质检报告
+//  审批产品成本
 export function updateproduceCost(query) {
   var params = new URLSearchParams()
   params.append('productCostJson', query) // 你要传给后台的参数值 key/value
@@ -102,7 +102,7 @@ export function updateproduceCost(query) {
   })
 }
 
-// 删除质检报告
+// 删除产品成本
 export function deleteproduceCost(query, query2) {
   var params = new URLSearchParams()
   params.append('costIds', query) // 你要传给后台的参数值 key/value
@@ -111,6 +111,41 @@ export function deleteproduceCost(query, query2) {
   }
   return request({
     url: '/productCost/deleteProductCost',
+    method: 'post',
+    data: params
+  })
+}
+
+// 获取直接材料费用
+export function querySouceProduct(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.yearAndMonth !== '' && query.yearAndMonth !== null && query.yearAndMonth !== undefined) {
+    params.append('yearAndMonth', query.yearAndMonth) // 你要传给后台的参数值 key/value
+  }
+  if (query.produceQuantity !== '' && query.produceQuantity !== null && query.produceQuantity !== undefined) {
+    params.append('produceQuantity', query.produceQuantity) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/produceMonthExpenses/querySouceProduct',
+    method: 'post',
+    data: params
+  })
+}
+
+// 获取直接人工费用和制造费用
+export function queryPersonProduct(query) {
+  var params = new URLSearchParams()
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.yearAndMonth !== '' && query.yearAndMonth !== null && query.yearAndMonth !== undefined) {
+    params.append('yearAndMonth', query.yearAndMonth) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/produceMonthExpenses/queryPersonProduct',
     method: 'post',
     data: params
   })
