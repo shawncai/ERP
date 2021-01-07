@@ -34,7 +34,7 @@
         <el-form ref="addCategoryForm" :rules="addCategoryFormRules" :model="addCategoryForm" class="demo-ruleForm" style="margin: 0 auto; width: 400px">
           <el-form-item :label="$t('CheckSet.productName')" label-width="100px" prop="productName">
             <el-input v-model="addCategoryForm.productName" type="textarea" autosize style="min-width:300px" @focus="handlemater"/>
-            <my-detail :control.sync="control" @product="productdetail"/>
+            <my-detail v-if="myflag" :control.sync="control" @product="productdetail"/>
             <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
           </el-form-item>
           <!-- <el-form-item :label="$t('CheckSet.itemId')" label-width="100px" prop="itemId">
@@ -236,6 +236,7 @@ export default {
       }
     }
     return {
+      myflag: true,
       tableHeight: 200,
 
       list2: [],
@@ -531,6 +532,14 @@ export default {
     },
     // 取消操作
     handlecancel() {
+      this.myflag = false
+      this.restAddCategoryForm()
+      this.$refs.addCategoryForm.clearValidate()
+      this.$refs.addCategoryForm.resetFields()
+      this.$refs.editable.clear()
+      setTimeout(() => {
+        this.myflag = true
+      }, 500)
       this.categoryVisible = false
     },
     restAddCategoryForm() {
@@ -577,6 +586,10 @@ export default {
                   this.$refs.addCategoryForm.clearValidate()
                   this.$refs.addCategoryForm.resetFields()
                   this.$refs.editable.clear()
+                  this.myflag = false
+                  setTimeout(() => {
+                    this.myflag = true
+                  }, 500)
                   this.restAddCategoryForm()
                   this.categoryVisible = false
                 } else {

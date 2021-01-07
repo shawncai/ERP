@@ -309,7 +309,7 @@ export default {
             if (res.data.data.result === false) {
               this.$message({
                 type: 'error',
-                message: this.$t('prompt.fspsb')
+                message: res.data.msg
               })
             } else {
               this.$message({
@@ -320,8 +320,8 @@ export default {
             this.getlist()
           } else {
             this.$message({
-              type: 'success',
-              message: this.$t('prompt.fspcg')
+              type: 'error',
+              message: res.data.msg
             })
           }
         })
@@ -353,6 +353,11 @@ export default {
               message: this.$t('prompt.fjdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -383,6 +388,11 @@ export default {
               message: this.$t('prompt.jdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -523,6 +533,11 @@ export default {
               message: this.$t('prompt.shcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       }).catch(action => {
@@ -543,6 +558,11 @@ export default {
                     message: this.$t('prompt.shcg')
                   })
                   this.getlist()
+                } else {
+                  this.$message({
+                    type: 'error',
+                    message: res.data.msg
+                  })
                 }
               })
             })
@@ -583,7 +603,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: 'wrong',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -612,10 +632,9 @@ export default {
             })
             this.getlist()
           } else {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'wrong',
-              offset: 100
+            this.$message({
+              type: 'error',
+              message: res.data.msg
             })
           }
         })

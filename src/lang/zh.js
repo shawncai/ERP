@@ -3172,7 +3172,7 @@ export default {
     xzsp: '选择商品',
     s1: '上1',
     x2: '下2',
-    scrwdmx: '生成任务单明细',
+    scrwdmx: '生产任务单明细',
     qsrmm: '请输入密码'
   },
   updates: {

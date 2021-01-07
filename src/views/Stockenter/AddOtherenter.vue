@@ -220,7 +220,7 @@ export default {
       // 交货人回显
       deliveryPersonId: '',
       // 验收人回显
-      acceptPersonId: this.$store.getters.name,
+      acceptPersonId: '',
       // 入库仓库回显
       enterRepositoryId: this.$store.getters.repositoryName,
       // 入库人回显
@@ -245,7 +245,7 @@ export default {
         regionId: this.$store.getters.regionId,
         sourceType: '1',
         newOrOld: 1,
-        acceptPersonId: this.$store.getters.name,
+        acceptPersonId: '',
         enterDeptId: this.$store.getters.deptId
       },
       validRules: {

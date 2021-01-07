@@ -124,12 +124,12 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" />-->
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('updates.cksli')" prop="outQuantity" align="center" />
-            <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" />
+            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" />
             <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <!--            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />-->
           </el-editable>
         </div>

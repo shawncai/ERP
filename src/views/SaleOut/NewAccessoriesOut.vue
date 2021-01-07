@@ -243,8 +243,8 @@
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
-                <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-                <span v-else>{{ scope.row.motorCode }}</span>"
+                <el-input v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+                <!-- <span v-else>{{ scope.row.motorCode }}</span> -->
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -3509,16 +3509,16 @@ export default {
             }
             console.log('Number(this.personalForm.shouldMoney)', Number(this.personalForm.shouldMoney))
             console.log('Number(this.personalForm.customerPay)', Number(this.personalForm.receivableMoney))
-            if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
-              this.$notify.error({
-                title: 'wrong',
-                message: this.$t('update4.bcskyw'),
-                offset: 100
-              })
-              this.saveloading = false
+            // if (Number(this.personalForm.shouldMoney) !== Number(this.personalForm.receivableMoney) && this.$store.getters.countryId === 2) {
+            //   this.$notify.error({
+            //     title: 'wrong',
+            //     message: this.$t('update4.bcskyw'),
+            //     offset: 100
+            //   })
+            //   this.saveloading = false
 
-              return false
-            }
+            //   return false
+            // }
             // eslint-disable-next-line use-isnan
             if (this.personalForm.customerPay === '' || this.personalForm.customerPay === undefined || this.personalForm.customerPay === NaN || this.personalForm.customerPay === null) {
               this.$notify.error({

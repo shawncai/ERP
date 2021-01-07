@@ -454,8 +454,8 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-              <span v-else>{{ scope.row.motorCode }}</span>
+              <el-input v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+              <!-- <span v-else>{{ scope.row.motorCode }}</span> -->
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -535,6 +535,18 @@
             <template slot="edit" slot-scope="scope">
               <el-input v-if="isEdit6(scope.row)" v-model="scope.row.batteryCode" clearable/>
               <span v-else>{{ scope.row.batteryCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit7(scope.row)" v-model="scope.row.chargeCode" clearable/>
+              <span v-else>{{ scope.row.chargeCode }}</span>
+            </template>
+          </el-editable-column>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('tongyo.controlCode')" prop="controlCode" align="center" min-width="150" >
+            <template slot="edit" slot-scope="scope">
+              <el-input v-if="isEdit8(scope.row)" v-model="scope.row.controlCode" clearable/>
+              <span v-else>{{ scope.row.controlCode }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
@@ -2605,13 +2617,13 @@ export default {
 
       batteryList2(14).then(res => {
         if (res.data.ret === 200) {
-          this.chargecategorysdetail = [83]
+          this.chargecategorysdetail = [83, 258]
         }
       })
 
       batteryList2(8).then(res => {
         if (res.data.ret === 200) {
-          this.controlcategorysdetail = [35]
+          this.controlcategorysdetail = [35, 256]
         }
       })
     },
@@ -2673,12 +2685,12 @@ export default {
       const controlcategorys = await batteryList2(8).then(res => {
         return res.data.data.content
       })
-      const controlcategorysdetail = [35]
+      const controlcategorysdetail = [35, 256]
       const chargecategorys = await batteryList2(14).then(res => {
         return res.data.data.content
       })
-      const chargecategorysdetail = [83]
-      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906]
+      const chargecategorysdetail = [83, 258]
+      const motocategorys = [9, 10, 218, 219, 318, 319, 415, 906, 254]
       const needbatterycategorys = await batteryList2(5).then(res => {
         return res.data.data.content
       })
@@ -2730,6 +2742,7 @@ export default {
           const controlproquantity = controlpro.map(item => {
             return item.quantity
           })
+          console.log('controlproquantity', controlproquantity)
           const allcontrolproquantity = this.sum(controlproquantity)
           console.log('allcontrolproquantity', allcontrolproquantity)
           const chargeproquantity = chargepro.map(item => {
@@ -2757,6 +2770,7 @@ export default {
           const returnchargepro = []
           const returnmotopro = []
           const returnbatterypro = []
+          console.log('returnproduct', returnproduct)
           for (const i in returnproduct) {
             if (controlcategorysdetail.includes(returnproduct[i].category)) {
               returncontrolpro.push(returnproduct[i])
@@ -2861,6 +2875,8 @@ export default {
             this.saveloding = false
             return false
           }
+          console.log('z', z)
+
           if (z === 4) {
             this.$notify.error({
               title: 'wrong',
@@ -2984,6 +3000,7 @@ export default {
               this.saveloding = false
               return false
             }
+            console.log('m', m)
             if (m === 4) {
               this.$notify.error({
                 title: 'wrong',

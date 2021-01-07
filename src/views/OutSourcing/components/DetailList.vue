@@ -105,12 +105,8 @@
             <el-editable-column :label="$t('Hmodule.enterQuantity')" prop="enterQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.damageQuantity')" prop="damageQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
-            <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" >
-              <template slot-scope="scope">
-                <p>{{ gettotalMoney(scope.row.quantity, scope.row.money, scope.row) }}</p>
-              </template>
-            </el-editable-column>
+            <!-- <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
+            <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" /> -->
             <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.enterMoney')" prop="enterMoney" align="center" min-width="150px"/>
           </el-editable>
@@ -267,7 +263,8 @@ export default {
   methods: {
     // 明细表金额
     gettotalMoney(quantity, money, row) {
-      row.totalMoney = quantity * money
+      console
+      row.totalMoney = quantity * row.price
       return row.totalMoney
     },
     // 总计

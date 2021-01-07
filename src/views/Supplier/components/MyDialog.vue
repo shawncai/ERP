@@ -210,6 +210,7 @@
       <div class="container">
         <el-editable
           ref="editable"
+          :key="tableKey2"
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
@@ -431,6 +432,7 @@ export default {
   data() {
     return {
       tableKey: 0,
+      tableKey2: 0,
       listLoading: true,
       proporcontrol: false,
       procode: null,
@@ -516,7 +518,7 @@ export default {
     editdata() {
       this.personalForm = this.editdata
       this.buyerId = this.editdata.buyerName
-      this.list2 = this.personalForm.supplierDetailVos
+      this.list2 = this._.cloneDeep(this.personalForm.supplierDetailVos)
       this.handlechange(this.personalForm.countryId)
       this.handlechange2(this.personalForm.provinceId)
       getRegion(this.personalForm.regionId).then(res => {
@@ -543,7 +545,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 计算单价
@@ -565,12 +567,18 @@ export default {
     },
     handleConfirm() {
       console.log('this.list', this.list)
+      const that = this
+      // console.log('this.list2', this.list2)
+      // for (const i in this.list2) {
+      //   this.$refs.editable.insert(this.list2[i])
+      // }
+
       let num = 0
       for (let i = 0; i < this.list.length; i++) {
         num += this.list[i].proportion
       }
       if (num === 100) {
-        this.proporcontrol = false
+        // this.proporcontrol = false
         const parms2 = JSON.stringify(this.list)
         updateSupplierDetail(parms2).then(res => {
           console.log(res)
@@ -581,8 +589,24 @@ export default {
               type: 'success',
               offset: 100
             })
-            this.$emit('rest', true)
-            this.editVisible = false
+            // this.$emit('rest', true)
+            for (const i in that.list) {
+              for (const j in that.list2) {
+                if (that.list[i].productCode === that.list2[j].productCode && that.list[i].supplierId === that.list2[j].supplierId) {
+                  // this.list2[j].proportion = this.list[i].proportion
+                  // console.log('this.list[i].proportion', this.that[i].proportion)
+                  that.$nextTick(() => {
+                    that.$set(that.list2[j], 'proportion', that.list[i].proportion)
+                    that.tableKey2 = Math.random()
+                    // that.$set(that.list2[j], 'unit', 11111)
+                  })
+
+                  // console.log('this.list2[j].proportion', that.list2[j].proportion)
+                  // console.log('this.list2', that.list2)
+                }
+              }
+            }
+            this.proporcontrol = false
           }
         })
       } else {

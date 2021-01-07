@@ -776,7 +776,7 @@ export default {
     // 源单为采购到货单时返回数据
     report3(val) {
       console.log(val)
-      this.sourceSerialNumber = val.id
+      this.personalForm.sourceSerialNumber = val.id
       this.personalForm.productCode = val.productCode
       this.personalForm.productName = val.productName
       this.personalForm.unit = val.unit
@@ -1072,7 +1072,7 @@ export default {
     },
     // 源单类型为生产任务单
     produce(val) {
-      console.log(123)
+      console.log('valtask', val)
       this.$refs.editable.clear()
       this.$refs.personalForm2.clearValidate()
       this.$refs.personalForm2.resetFields()

@@ -91,6 +91,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('Hmodule.ggzx')" prop="workCenter" align="center" />
+            <el-editable-column :label="$t('update4.gongxu')" prop="standardName" align="center" />
             <el-editable-column :label="$t('updates.scsl')" prop="produceQuantity" align="center" />
             <el-editable-column :label="$t('updates.bimbm')" prop="bomNumber" align="center" />
             <el-editable-column :label="$t('updates.gylx')" prop="processName" align="center" />

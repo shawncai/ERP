@@ -21,7 +21,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.sourceNumber')" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" :disabled="IsNumber" style="margin-left: 18px;width: 150px" @focus="openoppo"/>
+                <el-input v-model="personalForm.sourceNumber" style="margin-left: 18px;width: 150px" @focus="openoppo"/>
                 <out-source :outsourcecontrol.sync="outsourcecontrol" @outSourceDetail="outSourceDetail" @outSource="outSource"/>
               </el-form-item>
             </el-col>

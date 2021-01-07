@@ -3734,7 +3734,7 @@ export const asyncRouterMap = [
       title: 'AccountingCalculation',
       icon: 'shuxing',
       type: 11,
-      roles: ['54-382-1-11-1-1']
+      roles: ['266-412-4']
     },
     children: [
       {

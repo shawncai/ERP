@@ -375,9 +375,13 @@ export default {
         })
         return false
       }
+      let i = 1
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {
+        if (elem.standardId === null || elem.standardId === '' || elem.standardId === undefined) {
+          i = 2
+        }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode
         }
@@ -428,6 +432,14 @@ export default {
         }
         return elem
       })
+      if (i === 2) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '工序不能为空',
+          offset: 100
+        })
+        return false
+      }
       const parms2 = JSON.stringify(EnterDetail)
       const Data = this.personalForm
       for (const key in Data) {

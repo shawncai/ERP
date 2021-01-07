@@ -153,13 +153,13 @@
                 />
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" width="150px">
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
-              </template>
-            </el-editable-column>
-            <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
+            <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" width="150px"> -->
+            <!-- <template slot-scope="scope">
+              <p>{{ getSize(scope.row.outQuantity, scope.row.outPrice) }}</p>
+            </template>
+            </el-editable-column> -->
+          <!--            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>-->
           </el-editable>
         </div>
       </el-card>

@@ -426,8 +426,8 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.djbm')" prop="motorCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit2(scope.row)" v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
-              <span v-else>{{ scope.row.motorCode }}</span>
+              <el-input v-model="scope.row.motorCode" clearable @blur="getInfo3(scope.row)"/>
+              <!-- <span v-else>{{ scope.row.motorCode }}</span> -->
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >

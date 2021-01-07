@@ -54,7 +54,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.wlxqjhmx') }}</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.scrwdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail2 :control.sync="control" @product="productdetail"/>
@@ -80,6 +80,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
+          <el-editable-column v-if="personalForm.sourceType!=='3'" :edit-render="{name: 'ElSelect', options: standardIds, type: 'visible'}" :label="$t('update4.gongxu')" prop="standardId" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: workCenterIds, type: 'visible'}" :label="$t('Hmodule.ggzx')" prop="workCenterId" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.scsl')" prop="produceQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElSelect', options: bomNumbers, type: 'visible'}" :label="$t('updates.bimbm')" prop="bomNumber" align="center" min-width="150px"/>
@@ -106,6 +107,7 @@
 
 <script>
 import { updateproducetask } from '@/api/ProduceTask'
+import { searchprocess } from '@/api/ProcessFile'
 import { materialslist, searchprocessFile, searchworkCenter } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyEmp from './MyEmp'
@@ -136,6 +138,7 @@ export default {
       }
     }
     return {
+      standardIds: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -197,6 +200,14 @@ export default {
       this.producePlanNumber = this.personalForm.producePlanNumber
       this.produceRepositoryId = this.personalForm.produceRepositoryName
       this.list2 = this.personalForm.produceTaskDetailVos
+      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === 1) {
+        this.addsouce = false
+        this.addpro = true
+      } else if (this.personalForm.sourceType === '2' || this.personalForm.sourceType === 2) {
+        this.addpro = false
+        this.addsouce = true
+      }
+      this.getStadards()
     }
   },
   created() {
@@ -206,6 +217,24 @@ export default {
     _that = this
   },
   methods: {
+    getStadards() {
+      const parms = {
+        pageNum: 1,
+        pageSize: 999,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      searchprocess(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.standardIds = res.data.data.content.list.map(function(item) {
+            return {
+              label: item.processName,
+              value: item.id
+            }
+          })
+        }
+      })
+    },
     // 加载bom编码数据和工艺路线
     getList() {
       materialslist().then(res => {

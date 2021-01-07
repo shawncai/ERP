@@ -879,6 +879,7 @@ export default {
           this.personalForm.regionId = this.$store.getters.regionId
           this.personalForm.createPersonId = this.$store.getters.userId
           this.personalForm.countryId = this.$store.getters.countryId
+          this.personalForm.currency = String(this.personalForm.currency)
           this.personalForm.modifyPersonId = this.$store.getters.userId
           const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
           if (EnterDetail.length === 0) {
