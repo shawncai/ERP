@@ -157,6 +157,8 @@
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
+          <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('update4.xiazaimoban') }}</el-button>
+
         </div>
         <div class="container">
           <el-editable
@@ -430,6 +432,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      downloadLoading: false,
       checklist: [],
       // 回显仓库
       retreatRepositoryId: '',
@@ -553,6 +556,21 @@ export default {
     _that = this
   },
   methods: {
+    handleExport() {
+      const list = this.$refs.editable.getRecords()
+      this.downloadLoading = true
+ import('@/vendor/Export2Excel').then(excel => {
+   const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '型号id', '规格型号', '单位id', '颜色', '成本价', '备注']
+   const filterVal = ['id', 'code', 'productName', 'category', 'typeId', 'productType', 'purMeasu', 'color', 'costPrice', 'remarks']
+   const data = this.formatJson(filterVal, list)
+   excel.export_json_to_excel({
+     header: tHeader,
+     data,
+     filename: '采购发票明细'
+   })
+   this.downloadLoading = false
+ })
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles

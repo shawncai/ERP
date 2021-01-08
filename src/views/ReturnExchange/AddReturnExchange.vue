@@ -150,7 +150,7 @@
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @packagedata="packagedata"/>
+          <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @packagedata="packagedata" @ismanla="ismanla"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
         </div>
         <div class="container">
@@ -498,6 +498,7 @@ export default {
   methods: {
     // 批量操作
     handleSelectionChange(val) {
+      console.log(val)
       this.moreaction = val
     },
     judgeinvoce() {
@@ -861,6 +862,10 @@ export default {
       })
       return row.location
     },
+    ismanla(val) {
+      console.log('val123', val)
+      this.personalForm.isManila = val[0].isManila
+    },
     packagedata(val) {
       this.$refs.editable2.clear()
       for (let i = 0; i < val.length; i++) {
@@ -868,6 +873,7 @@ export default {
       }
     },
     handleAddpackage() {
+      console.log('this.moreaction', this.moreaction)
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$notify.error({
           title: 'please select main product',
@@ -994,7 +1000,7 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
-      this.personalForm.isManila = val.isManila
+      // this.personalForm.isManila = val.isManila
       this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
       this.personalForm.sourceMoney = val.allIncludeTaxMoney

@@ -7,6 +7,8 @@
       <el-input v-model="getemplist.customerPhone" :placeholder="$t('updates.dh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="getemplist.applyNumber" :placeholder="$t('InstallmentList.applyNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.orderNumber" :placeholder="$t('updates.fqsqd')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <el-input v-model="getemplist.address" :placeholder="$t('StockInvoice.address')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-select v-model="getemplist.unPaid" :placeholder="$t('update4.weihuanjine')" :value="getemplist.unPaid" size="small" clearable class="filter-item">

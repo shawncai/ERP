@@ -416,6 +416,9 @@ export function productlist(query) {
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
   }
+  if (query.colorId !== '' && query.colorId !== null && query.colorId !== undefined) {
+    params.append('colorId', query.colorId) // 你要传给后台的参数值 key/value
+  }
   if (query.sortId !== '' && query.sortId !== null && query.sortId !== undefined) {
     params.append('sortId', query.sortId) // 你要传给后台的参数值 key/value
   }
@@ -443,6 +446,7 @@ export function productlist(query) {
   if (store.getters.roleId !== '' && store.getters.roleId !== null && store.getters.roleId !== undefined) {
     params.append('roleId', store.getters.roleId) // 你要传给后台的参数值 key/value
   }
+
   params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
   return request({

@@ -47,8 +47,7 @@ export default {
           this.visibleType = val
           break
         case 2:
-          this.centerDialogVisible = true
-          this.visibleType = val
+          this.$router.push('/ProductCost/AddProductCost')
           break
         case 3:
           this.centerDialogVisible = true

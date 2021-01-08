@@ -282,7 +282,7 @@
       </el-card>
       <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button
-          v-no-more-click
+          :loading="saveLoading"
           type="primary"
           style="background:#3696fd;border-color:#3696fd;width: 98px"
           @click="handlesave()"
@@ -373,6 +373,7 @@ export default {
       }
     }
     return {
+      saveLoading: false,
       path: '',
       pickerOptions1: {
         disabledDate: time => {
@@ -824,145 +825,154 @@ export default {
     },
     // 保存操作
     handlesave() {
-      const EnterDetail = this.$refs.editable.getRecords()
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (
-          elem.shouldPayId === null ||
+      this.saveLoading = true
+
+      setTimeout(() => {
+        const EnterDetail = this.$refs.editable.getRecords()
+        EnterDetail.map(function(elem) {
+          return elem
+        }).forEach(function(elem) {
+          if (
+            elem.shouldPayId === null ||
           elem.shouldPayId === '' ||
           elem.shouldPayId === undefined
-        ) {
-          delete elem.shouldPayId
-        }
-        if (
-          elem.payDate === null ||
+          ) {
+            delete elem.shouldPayId
+          }
+          if (
+            elem.payDate === null ||
           elem.payDate === '' ||
           elem.payDate === undefined
-        ) {
-          delete elem.payDate
-        }
-        if (
-          elem.shouldMoney === null ||
+          ) {
+            delete elem.payDate
+          }
+          if (
+            elem.shouldMoney === null ||
           elem.shouldMoney === '' ||
           elem.shouldMoney === undefined
-        ) {
-          delete elem.shouldMoney
-        }
-        if (
-          elem.paidMoney === null ||
+          ) {
+            delete elem.shouldMoney
+          }
+          if (
+            elem.paidMoney === null ||
           elem.paidMoney === '' ||
           elem.paidMoney === undefined
-        ) {
-          delete elem.paidMoney
-        }
-        if (
-          elem.payingMoney === null ||
+          ) {
+            delete elem.paidMoney
+          }
+          if (
+            elem.payingMoney === null ||
           elem.payingMoney === '' ||
           elem.payingMoney === undefined
-        ) {
-          delete elem.payingMoney
-        }
-        if (
-          elem.invoiceNumber === null ||
+          ) {
+            delete elem.payingMoney
+          }
+          if (
+            elem.invoiceNumber === null ||
           elem.invoiceNumber === '' ||
           elem.invoiceNumber === undefined
-        ) {
-          delete elem.invoiceNumber
-        }
-        if (
-          elem.invoiceType === null ||
+          ) {
+            delete elem.invoiceNumber
+          }
+          if (
+            elem.invoiceType === null ||
           elem.invoiceType === '' ||
           elem.invoiceType === undefined
-        ) {
-          delete elem.invoiceType
-        }
-        if (
-          elem.payThis === null ||
+          ) {
+            delete elem.invoiceType
+          }
+          if (
+            elem.payThis === null ||
           elem.payThis === '' ||
           elem.payThis === undefined
-        ) {
-          delete elem.payThis
-        }
-        if (
-          elem.advanceMoney === null ||
+          ) {
+            delete elem.payThis
+          }
+          if (
+            elem.advanceMoney === null ||
           elem.advanceMoney === '' ||
           elem.advanceMoney === undefined
-        ) {
-          delete elem.advanceMoney
-        }
-        if (
-          elem.supplierId === null ||
+          ) {
+            delete elem.advanceMoney
+          }
+          if (
+            elem.supplierId === null ||
           elem.supplierId === '' ||
           elem.supplierId === undefined
-        ) {
-          delete elem.supplierId
-        }
-        if (
-          elem.paymentId === null ||
+          ) {
+            delete elem.supplierId
+          }
+          if (
+            elem.paymentId === null ||
           elem.paymentId === '' ||
           elem.paymentId === undefined
-        ) {
-          delete elem.paymentId
+          ) {
+            delete elem.paymentId
+          }
+          return elem
+        })
+        const parms2 = JSON.stringify(EnterDetail)
+        const Data = this.personalForm
+        for (const key in Data) {
+          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+            delete Data[key]
+          }
         }
-        return elem
-      })
-      const parms2 = JSON.stringify(EnterDetail)
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-      }
-      const parms = JSON.stringify(Data)
+        const parms = JSON.stringify(Data)
 
-      this.$refs.personalForm.validate(valid => {
-        if (valid) {
-          console.log('执行22222', valid)
-          this.$refs.editable.validate((valid, data) => {
-            console.log('执行111111', valid)
-            if (valid) {
-              console.log('zhixing')
-              addpayment(parms, parms2, this.personalForm).then(res => {
-                console.log(res)
-                if (res.data.ret === 200) {
-                  this.$notify({
-                    title: 'successful',
-                    message: 'save successful',
-                    type: 'success',
-                    offset: 100
-                  })
-                  this.restAllForm()
-                  this.$refs.editable.clear()
-                  this.$refs.personalForm.clearValidate()
-                  this.$refs.personalForm.resetFields()
-                  this.$refs.upload.clearFiles()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: 'Information is incomplete',
-                offset: 100
-              })
-              return false
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          return false
-        }
-      })
+        this.$refs.personalForm.validate(valid => {
+          if (valid) {
+            console.log('执行22222', valid)
+            this.$refs.editable.validate((valid, data) => {
+              console.log('执行111111', valid)
+              if (valid) {
+                console.log('zhixing')
+                addpayment(parms, parms2, this.personalForm).then(res => {
+                  console.log(res)
+                  if (res.data.ret === 200) {
+                    this.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                    this.restAllForm()
+                    this.$refs.editable.clear()
+                    this.$refs.personalForm.clearValidate()
+                    this.$refs.personalForm.resetFields()
+                    this.$refs.upload.clearFiles()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                  this.saveLoading = false
+                })
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'Information is incomplete',
+                  offset: 100
+                })
+                this.saveLoading = false
+
+                return false
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.saveLoading = false
+
+            return false
+          }
+        })
+      }, 1000)
     },
     // 取消操作
     handlecancel() {

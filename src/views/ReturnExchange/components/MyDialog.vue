@@ -142,7 +142,7 @@
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
         <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
-        <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata"/>
+        <my-package :packagecontrol.sync="packagecontrol" @packagedata="packagedata" @ismanla="ismanla"/>
         <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -719,6 +719,10 @@ export default {
       })
       return row.locationCode
     },
+    ismanla(val) {
+      console.log('val123', val)
+      this.personalForm.isManila = val[0].isManila
+    },
     packagedata(val) {
       for (let i = 0; i < val.length; i++) {
         this.$refs.editable2.insert(val[i])
@@ -852,7 +856,7 @@ export default {
       this.personalForm.customerType = String(val.customerType)
       this.Issource = true
       this.customerId = val.customerName
-      this.personalForm.isManila = val.isManila
+      // this.personalForm.isManila = val.isManila
 
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId

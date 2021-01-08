@@ -16,6 +16,15 @@
         <el-option :label="$t('otherlanguage.pjj')" value="7"/>
         <el-option :label="$t('otherlanguage.hj')" value="8"/>
       </el-select>
+      <!-- <el-input v-model="getemplist.color" :placeholder="$t('Product.color')" class="filter-item" clearable @keyup.enter.native="handleFilter"/> -->
+      <el-select v-model="getemplist.colorId" :placeholder="$t('Product.color')" class="filter-item" clearable>
+        <el-option
+          v-for="(item, index) in colors"
+          :key="index"
+          :label="item.categoryName"
+          :value="item"
+        />
+      </el-select>
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         v-model="visible2"
@@ -34,6 +43,7 @@
           <el-option :label="$t('Hmodule.s1')" value="1"/>
           <el-option :label="$t('Hmodule.x2')" value="2"/>
         </el-select>
+
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -160,6 +170,7 @@ export default {
   },
   data() {
     return {
+      colors: [],
       tableHeight: 200,
 
       getRowKeys(row) {
@@ -256,6 +267,12 @@ export default {
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
+        }
+      })
+      // 物品颜色
+      searchEmpCategory2(4).then(res => {
+        if (res.data.ret === 200) {
+          this.colors = res.data.data.content.list
         }
       })
     },

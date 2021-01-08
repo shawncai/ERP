@@ -452,7 +452,7 @@ export default {
           } else {
             this.$message({
               type: 'error',
-              message: res.msg
+              message: res.data.msg
             })
           }
         })

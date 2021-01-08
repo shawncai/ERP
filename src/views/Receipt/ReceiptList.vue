@@ -5,6 +5,7 @@
       <el-input v-model="getemplist.number" :placeholder="$t('Receipt.number')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="receiptPersonId" :placeholder="$t('updates.skr')" size="small" class="filter-item" @clear="restFilter" @focus="handlechooseStock"/>
+      <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
       <el-input v-model="getemplist.customerName" :placeholder="$t('Customer.customername')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 

@@ -311,6 +311,7 @@ export default {
       const productDetail = [...mainproducts, ...newgiftarr]
       this.productVisible = false
       this.$emit('packagedata', productDetail)
+      this.$emit('ismanla', this.moreaction)
     }
   }
 }

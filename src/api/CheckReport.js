@@ -25,6 +25,9 @@ export function addqualitycheck(query, query2, query3) {
 // 质检报告单列表
 export function checkreportlist(query) {
   var params = new URLSearchParams()
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
   if (query.checkResult !== '' && query.checkResult !== null && query.checkResult !== undefined) {
     params.append('checkResult', query.checkResult) // 你要传给后台的参数值 key/value
   }

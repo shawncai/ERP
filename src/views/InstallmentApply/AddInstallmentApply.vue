@@ -1215,7 +1215,16 @@ export default {
         })
         return false
       }
-      if (this.newcomarker.suretyPhone.length !== 11) {
+      if (this.newcomarker.suretyPhone.length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrsjhcw'),
+          offset: 100
+        })
+        return false
+      }
+
+      if ((this.newcomarker.suretyPhone.length !== 9 || this.newcomarker.suretyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
         this.$notify.error({
           title: 'wrong',
           message: this.$t('update4.dbrsjhcw'),
