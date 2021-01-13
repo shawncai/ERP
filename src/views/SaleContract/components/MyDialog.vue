@@ -748,7 +748,7 @@ export default {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           } else if (this.rate === 0) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }

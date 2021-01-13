@@ -787,7 +787,7 @@ export default {
       console.log(this.list2)
       let carTypeId = ''
       for (const i in this.list2) {
-        console.log('this.list2[i]', this.list2[i])
+        // console.log('this.list2[i]', this.list2[i])
         if (this.list2[i].productCode.slice(0, 2) === '01') {
           carTypeId = this.list2[i].productType
         }
@@ -1148,7 +1148,12 @@ export default {
         }
       })
       console.log('needval', needval)
-      this.rate = needval.rate
+      if (!needval) {
+        this.rate = 0
+      } else {
+        this.rate = needval.rate
+      }
+
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.price != null && this.price !== '' && this.price !== undefined) {
           if (this.rate != null && this.rate !== '' && this.rate !== undefined && this.rate !== 0) {
@@ -1167,14 +1172,14 @@ export default {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           } else if (this.rate === 0) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
       let carTypeId = ''
       for (const i in this.list2) {
-        console.log('this.list2[i]', this.list2[i])
+        // console.log('this.list2[i]', this.list2[i])
         if (this.list2[i].productCode.slice(0, 2) === '01') {
           carTypeId = this.list2[i].productType
         }
@@ -1205,10 +1210,15 @@ export default {
         }
       })
       console.log('needval', needval)
-      this.rate = needval.rate
+      if (!needval) {
+        this.rate = 0
+      } else {
+        this.rate = needval.rate
+      }
       console.log('this.rate', this.rate)
-      this.rate = needval.rate
-      console.log('折扣2', this.rate)
+      // this.rate = needval.rate
+      // console.log('折扣2', this.rate)
+      console.log('this.price', this.price)
       if (this.personalForm.firstMoney != null && this.personalForm.firstMoney !== '' && this.personalForm.firstMoney !== undefined) {
         if (this.price != null && this.price !== '' && this.price !== undefined) {
           if (needval.rate != null && needval.rate !== '' && needval.rate !== undefined && needval.rate !== 0) {
@@ -1222,14 +1232,14 @@ export default {
               this.personalForm.totalMoney = (Math.floor((each / 100)) * 100 + 100) * this.personalForm.installmentCount
             }
           } else if (needval.rate === 0) {
-            this.personalForm.totalMoney = ((Number(this.productForm.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
+            this.personalForm.totalMoney = ((Number(this.price) - Number(this.personalForm.firstMoney)) * (1 + Number(this.rate))).toFixed(6)
             const each = Math.ceil(this.personalForm.totalMoney / this.personalForm.installmentCount)
           }
         }
       }
       let carTypeId = ''
       for (const i in this.list2) {
-        console.log('this.list2[i]', this.list2[i])
+        // console.log('this.list2[i]', this.list2[i])
         if (this.list2[i].productCode.slice(0, 2) === '01') {
           carTypeId = this.list2[i].productType
         }
@@ -1536,7 +1546,12 @@ export default {
       row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
       // 查询库存数量
       countlist(this.personalForm.saleRepositoryId, this.$store.getters.regionIds, row.productCode).then(res => {
-        row.existStock = res.data.data.content.list[0].existStock
+        // console.log('res', res)
+        if (res.data.ret === 200 && res.data.data.content.list.length !== 0) {
+          row.existStock = res.data.data.content.list[0].existStock
+        } else {
+          row.existStock = 0
+        }
       })
       return row.taxprice
     },

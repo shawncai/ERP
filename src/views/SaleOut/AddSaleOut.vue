@@ -1411,6 +1411,12 @@ export default {
         this.flexAdvanceMoney = 0
       }
 
+      // const arr = ['1', '3', '4', '5', '6']
+
+      // const test = arr.some(item => {
+      //   this.personalForm.sourceType === item
+      // })
+
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '3' || this.personalForm.sourceType === '4' || this.personalForm.sourceType === '5' || this.personalForm.sourceType === '6') {
         console.log('this.personalForm.personalForm', this.personalForm.personalForm)
         let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)

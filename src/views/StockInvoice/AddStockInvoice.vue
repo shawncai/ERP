@@ -157,7 +157,7 @@
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
-          <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('update4.xiazaimoban') }}</el-button>
+          <el-button :loading="downloadLoading" size="small" class="filter-item2" type="primary" @click="handleExport">{{ $t('public.export') }}</el-button>
 
         </div>
         <div class="container">
@@ -170,14 +170,15 @@
             :show-summary="jundgeprice()"
             stripe
             border
+            height="600px"
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
+            <el-editable-column type="selection" min-width="55" fixed align="center"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed align="center" type="index"/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="200px">
@@ -556,12 +557,18 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     handleExport() {
       const list = this.$refs.editable.getRecords()
+      console.log('list', list)
       this.downloadLoading = true
  import('@/vendor/Export2Excel').then(excel => {
-   const tHeader = ['序号', '物料编码', '产品名称', '物品分类', '型号id', '规格型号', '单位id', '颜色', '成本价', '备注']
-   const filterVal = ['id', 'code', 'productName', 'category', 'typeId', 'productType', 'purMeasu', 'color', 'costPrice', 'remarks']
+   const tHeader = ['物料编码', '产品名称', '规格型号', '颜色', '数量', '单价', '含税价', '税率', '金额', '含税金额', '税额', '折扣', '折扣额', '源单编号', '订单单号']
+   const filterVal = ['productCode', 'productName', 'productType', 'color', 'quantity', 'price', 'includeTaxPrice', 'taxRate', 'money', 'includeTaxMoney', 'tax', 'discountRate', 'discountMoney', 'sourceNumber', 'orderNumber']
    const data = this.formatJson(filterVal, list)
    excel.export_json_to_excel({
      header: tHeader,
