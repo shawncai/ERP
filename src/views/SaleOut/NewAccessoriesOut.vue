@@ -2566,6 +2566,15 @@ export default {
         })
         return false
       }
+      if ((this.customerId === null || this.customerId === '' || this.customerId === undefined) && this.$store.getters.countryId === 1) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择客户',
+          offset: 100
+        })
+        return false
+      }
+
       this.control = true
     },
     async productdetail(val) {

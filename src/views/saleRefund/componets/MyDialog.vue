@@ -53,6 +53,17 @@
                 <my-emp :control.sync="stockControl" @stockName="stockName"/>
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('inventoryAlarm.createTime')" prop="createDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-date-picker
+                  v-model="personalForm.createDate"
+                  :picker-options="pickerOptions2"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="width: 200px"
+                  @change="changeTime"/>
+              </el-form-item>
+            </el-col>
 
           </el-row>
         </el-form>
@@ -97,6 +108,27 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 60 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          // console.log('this.sourceDate', this.sourceDate)
+          let limitDays = null
+          if (this.sourceDate) {
+            const sourceDate = new Date(this.sourceDate)
+            if (sourceDate > sevenDays) {
+              limitDays = sourceDate
+            } else {
+              limitDays = sevenDays
+            }
+          } else {
+            limitDays = sevenDays
+          }
+          return time.getTime() > _now || time.getTime() < limitDays
+        }
+      },
+      sourceDate: null,
       // 弹窗组件的控制
       editVisible: this.editcontrol,
       // 修改信息数据
@@ -107,6 +139,10 @@ export default {
         ],
         sourceNumber: [
           { required: true, validator: validatePass, trigger: 'change' }
+        ],
+        createDate: [
+          { required: true, message: 'please select createDate', trigger: 'change' }
+
         ]
       },
       customerId: '',
@@ -137,7 +173,20 @@ export default {
     _that = this
   },
   methods: {
+    changeTime(val) {
+      console.log(val)
+      if (!this.sourceDate) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please select sourceNumber first',
+          offset: 100
+        })
+        this.personalForm.createDate = null
+        return false
+      }
+    },
     receiptData(val) {
+      this.sourceDate = val.receiptDate
       this.personalForm.sourceNumber = val.number
       this.customerId = val.customerName
       this.saleRepositoryId = val.receiptRepositoryName
@@ -162,7 +211,8 @@ export default {
 
     },
     saleOutdata(val) {
-      console.log(val)
+      // console.log(val)
+      this.sourceDate = val.outDate
       this.personalForm.sourceNumber = val.number
       this.customerId = val.customerName
       this.saleRepositoryId = val.saleRepositoryName
