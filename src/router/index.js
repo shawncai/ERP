@@ -529,6 +529,18 @@ export const asyncRouterMap = [
         name: 'CustomerGroupList',
         meta: { title: 'CustomerGroupList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
       },
+      {
+        path: 'NewCustomerProductAdjust',
+        component: () => import('@/views/CustomerProductAdjust/NewCustomerProductAdjust'),
+        name: 'NewCustomerProductAdjust',
+        meta: { title: 'NewCustomerProductAdjust', noCache: false, roles: ['1-14-15-1'] }
+      },
+      {
+        path: 'CustomerProductAdjustList',
+        component: () => import('@/views/CustomerProductAdjust/CustomerProductAdjustList'),
+        name: 'CustomerProductAdjustList',
+        meta: { title: 'CustomerProductAdjustList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
+      },
       // {
       //   path: 'ManyCustomer',
       //   component: () => import('@/views/Customer/ManyCustomer'),

@@ -9,7 +9,7 @@
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" size="mini" status-icon class="demo-ruleForm" label-position="left" label-width="130px">
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('update4.groupName')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('update4.groupName')" prop="groupName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.groupName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -104,6 +104,9 @@ export default {
       personalrules: {
         customerId: [
           { required: true, validator: validatePass, trigger: 'change' }
+        ],
+        groupName: [
+          { required: true, message: '填写主题', trigger: 'blur' }
         ]
       },
       customercontrol: false,
@@ -149,7 +152,7 @@ export default {
       this.saveloding = true
       setTimeout(() => {
         const parms = JSON.stringify(this.personalForm)
-        const detailParms = JSON.stringify(this.list)
+        const detailParms = JSON.stringify(this.$refs.editable.getRecords())
         this.$refs.personalForm.validate((valid) => {
           if (valid) {
             addCustomerProduct(parms, detailParms).then(res => {

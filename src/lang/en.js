@@ -451,8 +451,14 @@ export default {
     DiffPrice: 'DiffPrice',
     NewBatteryOut: 'Battery Swap',
     AccountingCalculation: 'Accounting Calculation',
+    saleRefund: 'saleRefund',
     NewSaleRefund: 'NewSaleRefund',
-    SaleRefundList: 'SaleRefundList'
+    SaleRefundList: 'SaleRefundList',
+    CustomerGroup: 'CustomerGroup',
+    NewCustomerGroup: 'NewCustomerGroup',
+    CustomerGroupList: 'CustomerGroupList',
+    NewCustomerProductAdjust: 'NewCustomerProductAdjust',
+    CustomerProductAdjustList: 'CustomerProductAdjustList'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -4584,8 +4590,16 @@ export default {
     hexiaojinedayueling: 'Verified amount >0.',
     shifouquerenfuk: 'Confirm the payment ?',
     chaguomorenyushoujine: 'advanceMoney is wrong',
+    gongxurengongfeiyognbili: 'gongxurengongfeiyognbili',
     gongxu: '工序',
     enterPrice: 'enterPrice',
-    enterMoney: 'enterMoney'
+    enterMoney: 'enterMoney',
+    refundTitle: 'refundTitle',
+    tuikuanjine: 'returnMoney',
+    groupName: 'groupName',
+    stat: 'stat',
+    customerPrice: 'customerPrice',
+    tiaojiaodanzhuti: 'adjustTitle',
+    groupchoose: 'groupchoose'
   }
 }

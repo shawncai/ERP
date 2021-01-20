@@ -688,3 +688,95 @@ export function updateCustomerProduct(query, query2, query3) {
     data: params
   })
 }
+
+// 新建客户组调价单
+export function addCustomerProductAdjust(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerProductAdjustJson', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('customerProductAdjustDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
+
+  if (query3.repositoryId !== '' && query3.repositoryId !== null && query3.repositoryId !== undefined) {
+    params.append('repositoryId', query3.repositoryId) // 你要传给后台的参数值 key/value
+  }
+
+  if (query3.regionId !== '' && query3.regionId !== null && query3.regionId !== undefined) {
+    params.append('regionId', query3.regionId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customerAdjust/addCustomerProductAdjust',
+    method: 'post',
+    data: params
+  })
+}
+
+// 客户组调价单列表
+export function supplierAdjustList(query) {
+  var params = new URLSearchParams()
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customerAdjust/supplierAdjustList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除客户组调价单
+export function deleteCustomerProductAdjust(query, query2) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('adjustId', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('operateId', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customerAdjust/deleteCustomerProductAdjust',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改客户组调价单
+export function updateCustomerAdjust(query, query2, query3) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('customerProductAdjustJson', query) // 你要传给后台的参数值 key/value
+  }
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('customerProductAdjustDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('operateId', query3) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customerAdjust/updateCustomerAdjust',
+    method: 'post',
+    data: params
+  })
+}

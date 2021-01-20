@@ -456,7 +456,9 @@ export default {
     SaleRefundList: '销售退款单列表',
     CustomerGroup: '客户组管理',
     NewCustomerGroup: '新建客户组',
-    CustomerGroupList: '客户组列表'
+    CustomerGroupList: '客户组列表',
+    NewCustomerProductAdjust: '新建客户商品调价单',
+    CustomerProductAdjustList: '客户商品调价单'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4596,6 +4598,8 @@ export default {
     tuikuanjine: '退款金额',
     groupName: '客户组主题',
     stat: '状态',
-    customerPrice: '销售单价'
+    customerPrice: '销售单价',
+    tiaojiaodanzhuti: '客户调价单主题',
+    groupchoose: '客户组'
   }
 }
