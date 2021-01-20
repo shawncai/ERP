@@ -461,12 +461,13 @@ export default {
       }
       console.log(row.data.id)
       console.log(row.id)
+      const confirmPersonId = this.$store.getters.userId
       const query = JSON.stringify(row.data)
       const that = this
       editStoragein(query).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
-          confirmStoragein(row.data.id).then(res => {
+          confirmStoragein(row.data.id, confirmPersonId).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               row.data.stat = 2

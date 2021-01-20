@@ -14,7 +14,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ProduceTask.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <el-option value="1" label="主生产计划" />
                     <el-option value="2" label="无来源" />
                     <el-option value="3" label="生产需求" />

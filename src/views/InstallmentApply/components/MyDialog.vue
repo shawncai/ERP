@@ -743,7 +743,7 @@ export default {
       }
       if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+      } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
       } else {
         callback()
@@ -765,7 +765,7 @@ export default {
 
       if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+      } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
       } else {
         callback()
@@ -1071,7 +1071,7 @@ export default {
         })
         return false
       }
-      if ((this.newcomarker.suretyPhone.length !== 9 || this.newcomarker.suretyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
+      if ((this.newcomarker.suretyPhone.length !== 9 && this.newcomarker.suretyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
         this.$notify.error({
           title: 'wrong',
           message: this.$t('update4.dbrsjhcw'),
@@ -1225,6 +1225,22 @@ export default {
       }
     },
     handlesave2() {
+      if (this.personalForm.consultancyPhone.length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrsjhcw'),
+          offset: 100
+        })
+        return false
+      }
+      if ((this.personalForm.consultancyPhone.length !== 9 && this.personalForm.consultancyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: this.$t('update4.dbrsjhcw'),
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.consultancyName !== null && this.personalForm.consultancyPhone !== null && this.personalForm.consultancyAddress !== null && this.personalForm.consultancyName !== '' && this.personalForm.consultancyPhone !== '' && this.personalForm.consultancyAddress !== '' && this.personalForm.consultancyName !== undefined && this.personalForm.consultancyPhone !== undefined && this.personalForm.consultancyAddress !== undefined) {
         const lis = {}
         lis.consultancyName = this.personalForm.consultancyName

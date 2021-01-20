@@ -742,7 +742,7 @@ export default {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()
@@ -810,7 +810,7 @@ export default {
 
       if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+      } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
       } else {
         callback()
@@ -854,7 +854,7 @@ export default {
       }
       if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+      } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
       } else {
         callback()
@@ -878,7 +878,7 @@ export default {
       }
       if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-      } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+      } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
         callback(new Error(_that.$t('prompt.qsrzqdsjh')))
       } else {
         callback()
@@ -1215,6 +1215,7 @@ export default {
         })
         return false
       }
+      console.log('this.newcomarker.suretyPhone', this.newcomarker.suretyPhone)
       if (this.newcomarker.suretyPhone.length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         this.$notify.error({
           title: 'wrong',
@@ -1224,7 +1225,9 @@ export default {
         return false
       }
 
-      if ((this.newcomarker.suretyPhone.length !== 9 || this.newcomarker.suretyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
+      if ((this.newcomarker.suretyPhone.length !== 9 && this.newcomarker.suretyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
+        console.log('this.newcomarker.suretyPhone.length', this.newcomarker.suretyPhone.length)
+
         this.$notify.error({
           title: 'wrong',
           message: this.$t('update4.dbrsjhcw'),
@@ -1385,7 +1388,16 @@ export default {
       console.log(response.data.content.picId)
     },
     handlesave2() {
-      if (this.personalForm.consultancyPhone.length !== 11) {
+      // if (this.personalForm.consultancyPhone.length !== 11) {
+      //   this.$notify.error({
+      //     title: 'wrong',
+      //     message: 'consultancy Phone number is wrong',
+      //     offset: 100
+      //   })
+      //   return false
+      // }
+
+      if (this.personalForm.consultancyPhone.length !== 11 && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         this.$notify.error({
           title: 'wrong',
           message: 'consultancy Phone number is wrong',
@@ -1393,6 +1405,18 @@ export default {
         })
         return false
       }
+
+      if ((this.personalForm.consultancyPhone.length !== 9 && this.personalForm.consultancyPhone.length !== 10) && (this.$store.getters.useCountry === 5)) {
+        console.log('this.personalForm.consultancyPhone.length', this.personalForm.consultancyPhone.length)
+
+        this.$notify.error({
+          title: 'wrong',
+          message: 'consultancy Phone number is wrong',
+          offset: 100
+        })
+        return false
+      }
+
       if (this.personalForm.consultancyName !== null && this.personalForm.consultancyPhone !== null && this.personalForm.consultancyAddress !== null && this.personalForm.consultancyName !== '' && this.personalForm.consultancyPhone !== '' && this.personalForm.consultancyAddress !== '' && this.personalForm.consultancyName !== undefined && this.personalForm.consultancyPhone !== undefined && this.personalForm.consultancyAddress !== undefined) {
         const lis = {}
         lis.consultancyName = this.personalForm.consultancyName
@@ -2216,7 +2240,6 @@ export default {
           this.personalForm.consultancyAddressTwo = nowlistdata[1].consultancyAddress
         }
       }
-      this.isclick = true
       const Data2 = this.productForm
       for (const key in Data2) {
         if (Data2[key] === '' || Data2[key] === undefined || Data2[key] === null) {
@@ -2224,62 +2247,65 @@ export default {
         }
       }
       const parms2 = JSON.stringify(Data2)
+      this.isclick = true
 
-      this.$refs.personalForm.validate((valid) => {
-        if (valid) {
+      setTimeout(() => {
+        this.$refs.personalForm.validate((valid) => {
+          if (valid) {
           // this.$refs.upload.submit()
-          console.log('this.personalForm', this.personalForm)
-          const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
+            console.log('this.personalForm', this.personalForm)
+            const Data = this.personalForm
+            for (const key in Data) {
+              if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+                delete Data[key]
+              }
             }
+            console.log('Data2', Data)
+            const parms = JSON.stringify(Data)
+            console.log('parms', parms)
+            addinstallmentapply(parms, parms2, this.personalForm).then(res => {
+              console.log(res)
+              if (res.data.ret === 200) {
+                this.$notify({
+                  title: 'successful',
+                  message: 'save successful',
+                  type: 'success',
+                  offset: 100
+                })
+                this.isclick = false
+                this.restAllForm()
+                this.$refs.upload.clearFiles()
+                this.$refs.editable2.clear()
+                this.$refs.personalForm.clearValidate()
+                this.$refs.personalForm.resetFields()
+                this.$refs.personalForm2.clearValidate()
+                this.$refs.personalForm2.resetFields()
+                this.$refs.personalForm3.clearValidate()
+                this.$refs.personalForm3.resetFields()
+                this.$refs.personalForm4.clearValidate()
+                this.$refs.personalForm4.resetFields()
+                this.$refs.personalForm5.clearValidate()
+                this.$refs.personalForm5.resetFields()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: res.data.msg,
+                  offset: 100
+                })
+                this.isclick = false
+              }
+            })
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: 'Information is incomplete',
+              offset: 100
+            })
+            this.isclick = false
+            return false
           }
-          console.log('Data2', Data)
-          const parms = JSON.stringify(Data)
-          console.log('parms', parms)
-          addinstallmentapply(parms, parms2, this.personalForm).then(res => {
-            console.log(res)
-            if (res.data.ret === 200) {
-              this.$notify({
-                title: 'successful',
-                message: 'save successful',
-                type: 'success',
-                offset: 100
-              })
-              this.isclick = false
-              this.restAllForm()
-              this.$refs.upload.clearFiles()
-              this.$refs.editable2.clear()
-              this.$refs.personalForm.clearValidate()
-              this.$refs.personalForm.resetFields()
-              this.$refs.personalForm2.clearValidate()
-              this.$refs.personalForm2.resetFields()
-              this.$refs.personalForm3.clearValidate()
-              this.$refs.personalForm3.resetFields()
-              this.$refs.personalForm4.clearValidate()
-              this.$refs.personalForm4.resetFields()
-              this.$refs.personalForm5.clearValidate()
-              this.$refs.personalForm5.resetFields()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: res.data.msg,
-                offset: 100
-              })
-              this.isclick = false
-            }
-          })
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: 'Information is incomplete',
-            offset: 100
-          })
-          this.isclick = false
-          return false
-        }
-      })
+        })
+      }, 1000)
     },
     // 取消操作
     handlecancel() {

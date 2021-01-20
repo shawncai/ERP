@@ -517,6 +517,18 @@ export const asyncRouterMap = [
         name: 'CustomerList',
         meta: { title: 'CustomerList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
       },
+      {
+        path: 'NewCustomerGroup',
+        component: () => import('@/views/CustomerGroup/NewCustomerGroup'),
+        name: 'NewCustomerGroup',
+        meta: { title: 'NewCustomerGroup', noCache: false, roles: ['1-14-15-1'] }
+      },
+      {
+        path: 'CustomerGroupList',
+        component: () => import('@/views/CustomerGroup/CustomerGroupList'),
+        name: 'CustomerGroupList',
+        meta: { title: 'CustomerGroupList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
+      },
       // {
       //   path: 'ManyCustomer',
       //   component: () => import('@/views/Customer/ManyCustomer'),
@@ -3742,6 +3754,33 @@ export const asyncRouterMap = [
         component: () => import('@/views/AccountingCalculation/index'),
         name: 'AccountingCalculation',
         meta: { title: 'AccountingCalculation', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/saleRefund',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'saleRefund',
+    alwaysShow: true,
+    meta: {
+      title: 'saleRefund',
+      icon: 'shuxing',
+      type: 3,
+      roles: ['54-414-4', '54-413-1']
+    },
+    children: [
+      {
+        path: 'NewSaleRefund',
+        component: () => import('@/views/saleRefund/NewSaleRefund'),
+        name: 'NewSaleRefund',
+        meta: { title: 'NewSaleRefund', noCache: false }
+      },
+      {
+        path: 'SaleRefundList',
+        component: () => import('@/views/saleRefund/SaleRefundList'),
+        name: 'SaleRefundList',
+        meta: { title: 'SaleRefundList', noCache: false }
       }
     ]
   },

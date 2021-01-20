@@ -364,6 +364,11 @@ export default {
               message: this.$t('prompt.fjdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -394,6 +399,11 @@ export default {
               message: this.$t('prompt.jdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -586,7 +596,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'wrong',
-                message: 'wrong',
+                message: res.data.msg,
                 offset: 100
               })
             }
@@ -617,7 +627,7 @@ export default {
           } else {
             this.$notify.error({
               title: 'wrong',
-              message: 'wrong',
+              message: res.data.msg,
               offset: 100
             })
           }

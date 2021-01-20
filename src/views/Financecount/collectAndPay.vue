@@ -137,6 +137,12 @@
           sortable
           align="center"/>
         <el-table-column
+          :label="$t('route.saleRefund')"
+          prop="saleRefund"
+          width="240"
+          sortable
+          align="center"/>
+        <el-table-column
           :label="$t('collectAndPay.payment')"
           prop="payment"
           sortable
@@ -368,7 +374,7 @@ export default {
         pageSize: 10,
         type: '1',
         repositoryId: this.$store.getters.repositoryId,
-        regionIds: this.$store.getters.regionId
+        regionIds: this.$store.getters.regionIds
       },
       // 传给组件的数据
       personalForm: {},

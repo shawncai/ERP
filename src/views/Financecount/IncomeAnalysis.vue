@@ -112,7 +112,8 @@ export default {
         6: _that.$t('update4.dingdantuik'),
         7: _that.$t('update4.zhuanzhangcunk'),
         8: _that.$t('update4.xiaoshoushoukuan'),
-        9: _that.$t('update4.huanhuodan')
+        9: _that.$t('update4.huanhuodan'),
+        10: _that.$t('route.saleRefund')
       }
       return statusMap[sta]
     }

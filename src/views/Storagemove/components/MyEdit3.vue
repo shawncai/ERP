@@ -890,10 +890,11 @@ export default {
       console.log(row)
       const query = JSON.stringify(EnterDetail)
       const that = this
+      const confirmPersonId = this.$store.getters.userId
       editStoragemove(query).then(res => {
         console.log(res)
         if (res.data.ret === 200) {
-          confirmStoragemove(row.data.id).then(res => {
+          confirmStoragemove(row.data.id, confirmPersonId).then(res => {
             // console.log(res)
             // row.data.stat = 2
             // this.ischeck = false

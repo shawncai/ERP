@@ -293,8 +293,8 @@ export default {
             this.getlist()
           } else {
             this.$message({
-              type: 'success',
-              message: this.$t('prompt.fspcg')
+              type: 'error',
+              message: res.data.msg
             })
           }
         })
@@ -326,6 +326,11 @@ export default {
               message: this.$t('prompt.fjdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -356,6 +361,11 @@ export default {
               message: this.$t('prompt.jdcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       })
@@ -479,6 +489,11 @@ export default {
               message: this.$t('prompt.shcg')
             })
             this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
           }
         })
       }).catch(action => {
@@ -499,6 +514,11 @@ export default {
                     message: this.$t('prompt.shcg')
                   })
                   this.getlist()
+                } else {
+                  this.$message({
+                    type: 'error',
+                    message: res.data.msg
+                  })
                 }
               })
             })

@@ -2754,248 +2754,248 @@ export default {
       return objClone
     },
     // 临时保存
-    handlesave2() {
-      if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
-        this.personalForm.couponSupportOld = 0
-      }
-      const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
-      // 整车出库时相关编码必填
-      let m = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        const re = elem.productCode.slice(0, 2)
-        if (re === '01') {
-          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
-            m = 2
-          }
-        }
-        if (re === '05') {
-          if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
-            m = 3
-          }
-        }
-      })
-      if (m === 3) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.dcckytbm'),
-          offset: 100
-        })
-        return false
-      }
-      if (m === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.zcckytbm'),
-          offset: 100
-        })
-        return false
-      }
-      // 保存时同样商品不能有同一个批次
-      let i = 0
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        EnterDetail.map(function(elem2) {
-          return elem2
-        }).forEach(function(elem2) {
-          if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
-            const re = elem2.productCode.slice(0, 2)
-            // 去除整车
-            if (re !== '01') {
-              i++
-            }
-          }
-        })
-      })
-      if (i > EnterDetail.length) {
-        this.$notify.error({
-          title: 'wrong',
-          message: 'same product can not have same batch',
-          offset: 100
-        })
-        return false
-      }
-      // 批次货位不能为空
-      let j = 1
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
-          j = 2
-        }
-      })
-      if (j === 2) {
-        this.$notify.error({
-          title: 'wrong',
-          message: this.$t('prompt.pchwbnwk'),
-          offset: 100
-        })
-        return false
-      }
-      //   const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
-      if (EnterDetail.length === 0) {
-        // this.$notify.error({
-        //   title: 'wrong',
-        //   message: this.$t('prompt.mxbbnwk'),
-        //   offset: 100
-        // })
-        // return false
-      }
-      EnterDetail.map(function(elem) {
-        return elem
-      }).forEach(function(elem) {
-        if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
-          delete elem.productCode
-        }
-        if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
-          delete elem.productName
-        }
-        if (elem.category === null || elem.category === '' || elem.category === undefined) {
-          delete elem.category
-        }
-        if (elem.type === null || elem.type === '' || elem.type === undefined) {
-          delete elem.type
-        }
-        if (elem.batch === '不使用') {
-          delete elem.batch
-        }
-        if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
-          delete elem.unit
-        }
-        if (elem.color === null || elem.color === '' || elem.color === undefined) {
-          delete elem.color
-        }
-        if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
-          delete elem.kpiGrade
-        }
-        if (elem.point === null || elem.point === '' || elem.point === undefined) {
-          delete elem.point
-        }
-        if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
-          elem.quantity = 0
-        }
-        if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
-          elem.salePrice = 0
-        }
-        if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
-          elem.costPrice = 0
-        }
-        if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
-          elem.costMoney = 0
-        }
-        if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
-          delete elem.includeTaxMoney
-        }
-        if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
-          elem.taxRate = 0
-        }
-        if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
-          elem.taxRate = elem.taxRate / 100
-        }
-        if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
-          elem.taxMoney = 0
-        }
-        if (elem.money === null || elem.money === '' || elem.money === undefined) {
-          elem.money = 0
-        }
-        if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
-          elem.includeTaxCostMoney = 0
-        }
-        if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
-          elem.discountRate = 0
-        }
-        if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
-          elem.discountRate = elem.discountRate / 100
-        }
-        if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
-          elem.discountMoney = 0
-        }
-        if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
-          delete elem.carCode
-        }
-        if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
-          delete elem.motorCode
-        }
-        if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
-          delete elem.batteryCode
-        }
-        return elem
-      })
-      const parms3 = ''
-      let couponNumbers = ''
-      for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
-        if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
-          couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
-        }
-      }
-      couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
-      this.personalForm.couponNumbers = couponNumbers
-      if (this.personalForm.shouldMoney === '' || this.personalForm.shouldMoney === undefined || this.personalForm.shouldMoney === null) {
-        // this.$notify.error({
-        //   title: 'wrong',
-        //   message: '本次收款金额不能为空',
-        //   offset: 100
-        // })
-        // return false
-        this.personalForm.shouldMoney = 0
-      }
-      if (this.personalForm.isFree === 1) {
-        this.personalForm.taxMoney = 0
-        this.personalForm.includeTaxMoney = 0
-        this.personalForm.money = 0
-        this.personalForm.shouldMoney = 0
-        this.personalForm.discount_money = 0
-        this.personalForm.actualMoney = 0
-        EnterDetail.map(function(elem) {
-          return elem
-        }).forEach(function(elem) {
-          elem.money = 0
-          elem.taxprice = 0
-          elem.includeTaxMoney = 0
-          elem.includeTaxCostMoney = 0
-          elem.salePrice = 0
-        })
-      }
-      const parms2 = JSON.stringify(EnterDetail)
-      this.personalForm.judgeStat = 4
-      const Data = this.personalForm
-      for (const key in Data) {
-        if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-          delete Data[key]
-        }
-        // if (key === 'judgeStat') {
-        //   delete Data[key]
-        // }
-      }
-      const parms = JSON.stringify(Data)
-      createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
-        if (res.data.ret === 200) {
-          this.$notify({
-            title: 'successful',
-            message: 'save successful',
-            type: 'success',
-            offset: 100
-          })
-          this.restAllForm()
-          this.$refs.editable.clear()
-          //   this.$refs.editable2.clear()
-          this.$refs.personalForm.clearValidate()
-          this.$refs.personalForm.resetFields()
-          this.$refs.personalForm2.clearValidate()
-          this.$refs.personalForm2.resetFields()
-          this.$refs.personalForm3.clearValidate()
-          this.$refs.personalForm3.resetFields()
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: res.data.msg,
-            offset: 100
-          })
-        }
-      })
-    },
+    // handlesave2() {
+    //   if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
+    //     this.personalForm.couponSupportOld = 0
+    //   }
+    //   const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+    //   // 整车出库时相关编码必填
+    //   let m = 1
+    //   EnterDetail.map(function(elem) {
+    //     return elem
+    //   }).forEach(function(elem) {
+    //     const re = elem.productCode.slice(0, 2)
+    //     if (re === '01') {
+    //       if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
+    //         m = 2
+    //       }
+    //     }
+    //     if (re === '05') {
+    //       if (elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+    //         m = 3
+    //       }
+    //     }
+    //   })
+    //   if (m === 3) {
+    //     this.$notify.error({
+    //       title: 'wrong',
+    //       message: this.$t('prompt.dcckytbm'),
+    //       offset: 100
+    //     })
+    //     return false
+    //   }
+    //   if (m === 2) {
+    //     this.$notify.error({
+    //       title: 'wrong',
+    //       message: this.$t('prompt.zcckytbm'),
+    //       offset: 100
+    //     })
+    //     return false
+    //   }
+    //   // 保存时同样商品不能有同一个批次
+    //   let i = 0
+    //   EnterDetail.map(function(elem) {
+    //     return elem
+    //   }).forEach(function(elem) {
+    //     EnterDetail.map(function(elem2) {
+    //       return elem2
+    //     }).forEach(function(elem2) {
+    //       if (elem2.productCode === elem.productCode && elem2.batch === elem.batch) {
+    //         const re = elem2.productCode.slice(0, 2)
+    //         // 去除整车
+    //         if (re !== '01') {
+    //           i++
+    //         }
+    //       }
+    //     })
+    //   })
+    //   if (i > EnterDetail.length) {
+    //     this.$notify.error({
+    //       title: 'wrong',
+    //       message: 'same product can not have same batch',
+    //       offset: 100
+    //     })
+    //     return false
+    //   }
+    //   // 批次货位不能为空
+    //   let j = 1
+    //   EnterDetail.map(function(elem) {
+    //     return elem
+    //   }).forEach(function(elem) {
+    //     if (elem.batch === null || elem.batch === undefined || elem.batch === '' || elem.location === null || elem.location === undefined || elem.location === '') {
+    //       j = 2
+    //     }
+    //   })
+    //   if (j === 2) {
+    //     this.$notify.error({
+    //       title: 'wrong',
+    //       message: this.$t('prompt.pchwbnwk'),
+    //       offset: 100
+    //     })
+    //     return false
+    //   }
+    //   //   const EnterDetail2 = this.deepClone(this.$refs.editable2.getRecords())
+    //   if (EnterDetail.length === 0) {
+    //     // this.$notify.error({
+    //     //   title: 'wrong',
+    //     //   message: this.$t('prompt.mxbbnwk'),
+    //     //   offset: 100
+    //     // })
+    //     // return false
+    //   }
+    //   EnterDetail.map(function(elem) {
+    //     return elem
+    //   }).forEach(function(elem) {
+    //     if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+    //       delete elem.productCode
+    //     }
+    //     if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+    //       delete elem.productName
+    //     }
+    //     if (elem.category === null || elem.category === '' || elem.category === undefined) {
+    //       delete elem.category
+    //     }
+    //     if (elem.type === null || elem.type === '' || elem.type === undefined) {
+    //       delete elem.type
+    //     }
+    //     if (elem.batch === '不使用') {
+    //       delete elem.batch
+    //     }
+    //     if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+    //       delete elem.unit
+    //     }
+    //     if (elem.color === null || elem.color === '' || elem.color === undefined) {
+    //       delete elem.color
+    //     }
+    //     if (elem.kpiGrade === null || elem.kpiGrade === '' || elem.kpiGrade === undefined) {
+    //       delete elem.kpiGrade
+    //     }
+    //     if (elem.point === null || elem.point === '' || elem.point === undefined) {
+    //       delete elem.point
+    //     }
+    //     if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
+    //       elem.quantity = 0
+    //     }
+    //     if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
+    //       elem.salePrice = 0
+    //     }
+    //     if (elem.costPrice === null || elem.costPrice === '' || elem.costPrice === undefined) {
+    //       elem.costPrice = 0
+    //     }
+    //     if (elem.costMoney === null || elem.costMoney === '' || elem.costMoney === undefined) {
+    //       elem.costMoney = 0
+    //     }
+    //     if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+    //       delete elem.includeTaxMoney
+    //     }
+    //     if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+    //       elem.taxRate = 0
+    //     }
+    //     if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+    //       elem.taxRate = elem.taxRate / 100
+    //     }
+    //     if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+    //       elem.taxMoney = 0
+    //     }
+    //     if (elem.money === null || elem.money === '' || elem.money === undefined) {
+    //       elem.money = 0
+    //     }
+    //     if (elem.includeTaxCostMoney === null || elem.includeTaxCostMoney === '' || elem.includeTaxCostMoney === undefined) {
+    //       elem.includeTaxCostMoney = 0
+    //     }
+    //     if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+    //       elem.discountRate = 0
+    //     }
+    //     if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+    //       elem.discountRate = elem.discountRate / 100
+    //     }
+    //     if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+    //       elem.discountMoney = 0
+    //     }
+    //     if (elem.carCode === null || elem.carCode === '' || elem.carCode === undefined) {
+    //       delete elem.carCode
+    //     }
+    //     if (elem.motorCode === null || elem.motorCode === '' || elem.motorCode === undefined) {
+    //       delete elem.motorCode
+    //     }
+    //     if (elem.batteryCode === null || elem.batteryCode === '' || elem.batteryCode === undefined) {
+    //       delete elem.batteryCode
+    //     }
+    //     return elem
+    //   })
+    //   const parms3 = ''
+    //   let couponNumbers = ''
+    //   for (let i = 0; i < this.personalForm.couponSupports.length; i++) {
+    //     if (this.personalForm.couponSupports[i].couponSupport !== 0 && this.personalForm.couponSupports[i].couponSupport !== '') {
+    //       couponNumbers = couponNumbers + this.personalForm.couponSupports[i].couponSupport + ','
+    //     }
+    //   }
+    //   couponNumbers = couponNumbers.substring(0, couponNumbers.length - 1)
+    //   this.personalForm.couponNumbers = couponNumbers
+    //   if (this.personalForm.shouldMoney === '' || this.personalForm.shouldMoney === undefined || this.personalForm.shouldMoney === null) {
+    //     // this.$notify.error({
+    //     //   title: 'wrong',
+    //     //   message: '本次收款金额不能为空',
+    //     //   offset: 100
+    //     // })
+    //     // return false
+    //     this.personalForm.shouldMoney = 0
+    //   }
+    //   if (this.personalForm.isFree === 1) {
+    //     this.personalForm.taxMoney = 0
+    //     this.personalForm.includeTaxMoney = 0
+    //     this.personalForm.money = 0
+    //     this.personalForm.shouldMoney = 0
+    //     this.personalForm.discount_money = 0
+    //     this.personalForm.actualMoney = 0
+    //     EnterDetail.map(function(elem) {
+    //       return elem
+    //     }).forEach(function(elem) {
+    //       elem.money = 0
+    //       elem.taxprice = 0
+    //       elem.includeTaxMoney = 0
+    //       elem.includeTaxCostMoney = 0
+    //       elem.salePrice = 0
+    //     })
+    //   }
+    //   const parms2 = JSON.stringify(EnterDetail)
+    //   this.personalForm.judgeStat = 4
+    //   const Data = this.personalForm
+    //   for (const key in Data) {
+    //     if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+    //       delete Data[key]
+    //     }
+    //     // if (key === 'judgeStat') {
+    //     //   delete Data[key]
+    //     // }
+    //   }
+    //   const parms = JSON.stringify(Data)
+    //   createsaleOut(parms, parms2, parms3, this.personalForm, this.personalForm.receivableMoney2).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.$notify({
+    //         title: 'successful',
+    //         message: 'save successful',
+    //         type: 'success',
+    //         offset: 100
+    //       })
+    //       this.restAllForm()
+    //       this.$refs.editable.clear()
+    //       //   this.$refs.editable2.clear()
+    //       this.$refs.personalForm.clearValidate()
+    //       this.$refs.personalForm.resetFields()
+    //       this.$refs.personalForm2.clearValidate()
+    //       this.$refs.personalForm2.resetFields()
+    //       this.$refs.personalForm3.clearValidate()
+    //       this.$refs.personalForm3.resetFields()
+    //     } else {
+    //       this.$notify.error({
+    //         title: 'wrong',
+    //         message: res.data.msg,
+    //         offset: 100
+    //       })
+    //     }
+    //   })
+    // },
     // 保存操作
     async handlesave() {
       if (!this.personalForm.couponRemark && this.personalForm.couponSupportOld !== 0) {
@@ -3360,6 +3360,9 @@ export default {
 
               return false
             }
+
+            let x = 1
+            const that = this
             EnterDetail.map(function(elem) {
               return elem
             }).forEach(function(elem) {
@@ -3392,6 +3395,12 @@ export default {
               }
               if (elem.quantity === null || elem.quantity === '' || elem.quantity === undefined) {
                 elem.quantity = 1
+              }
+              console.log('elem.quantity', elem.quantity)
+              console.log('that.personalForm.isFree ', that.personalForm.isFree)
+
+              if (elem.quantity === 0 && that.personalForm.isFree === 1) {
+                x = 2
               }
               if (elem.salePrice === null || elem.salePrice === '' || elem.salePrice === undefined) {
                 elem.salePrice = 0
@@ -3478,6 +3487,17 @@ export default {
               }
               return elem
             })
+
+            if (x === 2) {
+              this.$notify.error({
+                title: 'wrong',
+                message: 'quantity is wrong',
+                offset: 100
+              })
+              this.saveloading = false
+
+              return false
+            }
             const parms3 = ''
             let couponNumbers = ''
             for (let i = 0; i < this.personalForm.couponSupports.length; i++) {

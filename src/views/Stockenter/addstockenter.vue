@@ -18,6 +18,7 @@
 
                     <el-option :label="$t('updates.cgdhd')" value="1" />
                     <el-option :label="$t('updates.cgdd')" value="2" />
+                    <el-option :label="$t('Hmodule.Nosource')" value="3" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -27,7 +28,7 @@
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
               </el-col>
-              <el-col :span="6">
+              <el-col v-if="personalForm.sourceType !== '3'" :span="6">
                 <el-form-item label="源单编号" prop="sourceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.sourceNumber" style="width: 200px" @focus="handleAddSouce"/>
                 </el-form-item>
@@ -104,6 +105,8 @@
 
         <div ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button v-if="personalForm.sourceType !== '3'" type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>

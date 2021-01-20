@@ -5,7 +5,7 @@
       ref="table"
       :key="tableKey"
       :data.sync="list"
-      :height="tableHeight"
+      height="800"
       border
       fit
       highlight-current-row
@@ -110,7 +110,9 @@ export default {
   watch: {
     reportcontrol2() {
       this.editVisible = this.reportcontrol2
-      this.getData()
+      // this.getData()
+      console.log('13')
+
       if (this.reportcontrol2) {
         setTimeout(() => {
           this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
@@ -122,6 +124,7 @@ export default {
     },
     number() {
       this.getemplist.number = this.number
+      console.log('12')
       this.getData()
     }
   },

@@ -66,6 +66,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :key="tableKey"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
@@ -138,6 +139,7 @@ export default {
       }
     }
     return {
+      tableKey: 0,
       standardIds: [],
       // 弹窗组件的控制
       editVisible: this.editcontrol,
@@ -312,21 +314,24 @@ export default {
     },
     // 无来源数据添加
     productdetail(val) {
-      this.$refs.editable.clear()
+      // this.$refs.editable.clear()
       const nowlistdata = this.$refs.editable.getRecords()
-      for (let i = 0; i < val.length; i++) {
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            this.$notify.error({
-              title: 'wrong',
-              message: this.$t('prompt.wpytj'),
-              offset: 100
-            })
-            return false
-          }
-        }
-        this.$refs.editable.insert(val[i])
-      }
+      // for (let i = 0; i < val.length; i++) {
+      //   for (let j = 0; j < nowlistdata.length; j++) {
+      //     if (val[i].productCode === nowlistdata[j].productCode) {
+      //       this.$notify.error({
+      //         title: 'wrong',
+      //         message: this.$t('prompt.wpytj'),
+      //         offset: 100
+      //       })
+      //       return false
+      //     }
+      //   }
+      //   this.$refs.editable.insert(val[i])
+      // }
+
+      this.list2 = [...nowlistdata, ...val]
+      this.tableKey = Math.random()
     },
     // 源单数据添加控制
     handleAddSouce() {
@@ -496,6 +501,7 @@ export default {
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;
+    height: 100vh;
   }
   .el-col-12{
     width: 49%;

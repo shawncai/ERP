@@ -132,7 +132,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElSelect',type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"

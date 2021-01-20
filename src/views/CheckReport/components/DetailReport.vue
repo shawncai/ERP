@@ -5,7 +5,7 @@
       ref="table"
       :key="tableKey"
       :data.sync="list"
-      :height="tableHeight"
+      height="800"
       border
       fit
       highlight-current-row
@@ -90,7 +90,7 @@ export default {
   },
   data() {
     return {
-      tableHeight: 200,
+      tableHeight: 600,
       // 选择的数据
       choosedata: [],
       // 弹窗组件的控制
@@ -121,11 +121,11 @@ export default {
     reportcontrol() {
       this.editVisible = this.reportcontrol
       this.getdata()
-      if (this.reportcontrol) {
-        setTimeout(() => {
-          this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
-        }, 100)
-      }
+      // if (this.reportcontrol) {
+      //   setTimeout(() => {
+      //     this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+      //   }, 100)
+      // }
     },
     reportdata() {
       console.log(this.reportdata)

@@ -297,7 +297,7 @@ export default {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else if (String(value).length !== 10 && (this.$store.getters.useCountry === 3 || this.$store.getters.useCountry === 4)) {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
-        } else if (String(value).length !== 9 && (this.$store.getters.useCountry === 5)) {
+        } else if (String(value).length !== 9 && String(value).length !== 10 && (this.$store.getters.useCountry === 5)) {
           callback(new Error(_that.$t('prompt.qsrzqdsjh')))
         } else {
           callback()

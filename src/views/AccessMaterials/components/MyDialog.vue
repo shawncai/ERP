@@ -70,7 +70,7 @@
     </el-card>
     <!--子件信息-->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.scrwdmx') }}</h2>
+      <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.lldmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail2 :control.sync="control" @product="productdetail"/>
@@ -89,13 +89,13 @@
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationCode" :value="scope.row.locationCode" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="(item, index) in locationlist"
                   :key="index"
-                  :value="item.locationCode"
+                  :value="item.id"
                   :label="item.locationCode"/>
               </el-select>
             </template>
@@ -157,7 +157,7 @@
 
 <script>
 import { getDetailByTaskNumber, updateaccess } from '@/api/AccessMaterials'
-import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, countlist } from '@/api/public'
+import { materialslist, searchprocessFile, searchworkCenter, batchlist, getlocation, countlist, locationlist } from '@/api/public'
 import { searchEmpCategory2 } from '@/api/Product'
 import { getdeptlist } from '@/api/BasicSettings'
 import MyDetail from './MyDetail'
@@ -267,6 +267,7 @@ export default {
       this.list2 = this.personalForm.accessMaterialsDetailVos
       this.addsouce = false
       this.choosedept()
+      this.getlocation()
     }
   },
   created() {
@@ -277,6 +278,14 @@ export default {
     _that = this
   },
   methods: {
+    getlocation() {
+      // 货位根据仓库id展现
+      locationlist(this.personalForm.accessRepositoryId).then(res => {
+        if (res.data.ret === 200) {
+          this.locationlist = res.data.data.content.list
+        }
+      })
+    },
     queryStock(row) {
       if (row.locationCode === null || row.locationCode === '' || row.locationCode === undefined) {
         this.$notify.error({
@@ -363,18 +372,20 @@ export default {
       } else {
         return scope.row.productCode
       }
+      console.log('this.personalForm.accessRepositoryId', this.personalForm.accessRepositoryId)
       if (scope.row.flag) {
         if (scope.row.batch === null || scope.row.batch === '' || scope.row.batch === undefined) {
           const parms3 = scope.row.productCode
           batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
-            if (res.data.data.content.length > 0) {
+            console.log('res', res)
+            if (res.data.ret === 200 && res.data.data.content.length > 0) {
               scope.row.batch = res.data.data.content[0]
             }
           })
         } else {
           const parms3 = scope.row.productCode
           batchlist(this.personalForm.accessRepositoryId, parms3).then(res => {
-            if (res.data.data.content.length === 0) {
+            if (res.data.data.content.length === 0 && res.data.ret === 200) {
               if (scope.row.batch !== '不使用') {
                 scope.row.batch = null
               }
@@ -742,6 +753,7 @@ export default {
   .edit >>> .el-dialog {
     background:#f1f1f1 ;
     left: 0;
+    height: 100vh;
   }
   .el-col-12{
     width: 49%;

@@ -893,7 +893,7 @@ export default {
         row.taxMoney = row.salePrice * row.returnQuantity * (row.taxRate / 100)
         row.money = (row.salePrice * row.returnQuantity + Number(row.taxMoney)).toFixed(6)
         row.includeTaxMoney = (row.salePrice * row.returnQuantity + Number(row.salePrice * row.returnQuantity * (row.taxRate / 100))).toFixed(6)
-        row.discountMoney = (row.OriginalDiscountMont * row.returnQuantity).toFixed(6)
+        row.discountMoney = (row.salePrice * row.quantity * (1 - row.discount / 100)).toFixed(6)
         return row.returnQuantity
       }
 

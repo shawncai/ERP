@@ -611,9 +611,12 @@ export default {
       })
     },
     baseMoney() {
-      const nowMonth = new Date()
-      console.log('nowMonth', nowMonth.getMonth() + 1)
-      queryProduceMonthExpenses(nowMonth.getMonth() + 1).then(res => {
+      const date = new Date()
+      const year = date.getFullYear()
+      const month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)
+      console.log('month', month)
+      const parms = year + '-' + month
+      queryProduceMonthExpenses(parms).then(res => {
         console.log('res', res)
         if (res.data.data.content) {
           this.baseMoneyform.personExpenses = res.data.data.content.personExpenses

@@ -450,7 +450,13 @@ export default {
     Discountsetting: '折扣设置列表',
     DiffPrice: '电池差异价格设置',
     NewBatteryOut: '新建电池置换',
-    AccountingCalculation: '会计核算'
+    AccountingCalculation: '会计核算',
+    saleRefund: '销售退款',
+    NewSaleRefund: '新建销售退款单',
+    SaleRefundList: '销售退款单列表',
+    CustomerGroup: '客户组管理',
+    NewCustomerGroup: '新建客户组',
+    CustomerGroupList: '客户组列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4585,6 +4591,11 @@ export default {
     gongxurengongfeiyognbili: '工序人工费用比例',
     gongxu: '工序',
     enterPrice: '入库价格',
-    enterMoney: '入库金额'
+    enterMoney: '入库金额',
+    refundTitle: '退款主题',
+    tuikuanjine: '退款金额',
+    groupName: '客户组主题',
+    stat: '状态',
+    customerPrice: '销售单价'
   }
 }

@@ -182,7 +182,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.checkResult')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.checkResult" style="width: 200px">
+                  <el-select v-model="personalForm.checkResult" style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="合格"/>
                     <el-option value="2" label="不合格"/>
                   </el-select>

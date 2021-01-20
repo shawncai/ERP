@@ -686,6 +686,15 @@ export default {
       delete this.personalForm.receiptStat
       delete this.personalForm.approvalUseVos
 
+      if (Number(this.personalForm.receiptMoney) < Number(this.personalForm.returnMoney)) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'returnMoney is wrong',
+          offset: 100
+        })
+        return false
+      }
+
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           const parms = JSON.stringify(this.personalForm)

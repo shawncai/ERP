@@ -149,9 +149,12 @@ export function updateStoragemove2(query) {
   })
 }
 // 确认调拨出库
-export function confirmStoragemove(query) {
+export function confirmStoragemove(query, query2) {
   var params = new URLSearchParams()
   params.append('detailId', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('confirmPersonId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/storagemove/confirmOut',
     method: 'post',
@@ -169,9 +172,12 @@ export function editStoragemove(query) {
   })
 }
 // 确认调拨入库
-export function confirmStoragein(query) {
+export function confirmStoragein(query, query2) {
   var params = new URLSearchParams()
   params.append('detailId', query) // 你要传给后台的参数值 key/value
+  if (query2 !== '' && query2 !== null && query2 !== undefined) {
+    params.append('confirmPersonId', query2) // 你要传给后台的参数值 key/value
+  }
   return request({
     url: '/storagemove/confirmIn',
     method: 'post',

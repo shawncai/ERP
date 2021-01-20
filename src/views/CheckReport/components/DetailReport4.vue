@@ -5,7 +5,7 @@
       ref="table"
       :key="tableKey"
       :data.sync="list"
-      :height="tableHeight"
+      height="800"
       border
       fit
       highlight-current-row
