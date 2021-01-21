@@ -95,7 +95,7 @@
             <!--                </el-select>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+            <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
               </template>
@@ -111,9 +111,9 @@
             <!--                </el-select>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
-              <template slot="edit" slot-scope="scope">
-                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
+            <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch2($event,scope)">
                   <el-option
                     v-for="(item, index) in batchlist"
                     :key="index"
@@ -174,9 +174,9 @@
             <!--                </el-select>-->
             <!--              </template>-->
             <!--            </el-editable-column>-->
-            <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+            <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
+                <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0" @visible-change="updatebatch($event,scope)">
                   <el-option
                     v-for="item in locationlist"
                     :key="item.id"
@@ -396,6 +396,14 @@ export default {
       this.setbeforeproduct()
     },
     chooseNumber() {
+      if (!this.buildupRepositoryId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please choose repository first',
+          offset: 100
+        })
+        return false
+      }
       if (this.personalForm.sourceType === '1') {
         this.ordercontrol = true
       } else if (this.personalForm.sourceType === '2') {
@@ -550,7 +558,7 @@ export default {
         for (const c in materialsListDetailVos) {
           console.log(materialsListDetailVos[c].productCode)
           getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos[c]).then(res => {
-            if (res.data.ret === 200) {
+            if (res.data.ret === 200 && res.data.data.content.length !== 0) {
               materialsListDetailVos[c].locationCode = res.data.data.content[0].locationCode
               materialsListDetailVos[c].locationId = res.data.data.content[0].id
               // materialsListDetailVos[c].price = 0
@@ -562,7 +570,7 @@ export default {
         const materialsListDetailVos2 = this.deepClone(materialsListDetailVos)
         for (const c in materialsListDetailVos2) {
           getlocation(this.personalForm.buildupRepositoryId, materialsListDetailVos2[c]).then(res => {
-            if (res.data.ret === 200) {
+            if (res.data.ret === 200 && res.data.data.content.length !== 0) {
               materialsListDetailVos2[c].locationCode = res.data.data.content[0].locationCode
               materialsListDetailVos2[c].locationId = res.data.data.content[0].id
               // materialsListDetailVos2[c].price = 0

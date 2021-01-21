@@ -77,7 +77,7 @@
           <!--              </el-select>-->
           <!--            </template>-->
           <!--          </el-editable-column>-->
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
+          <el-editable-column :label="$t('Hmodule.hw')" prop="locationCode" align="center" width="200px">
             <template slot-scope="scope">
               <p>{{ getLocationData(scope.row) }}</p>
             </template>
@@ -93,9 +93,9 @@
           <!--              </el-select>-->
           <!--            </template>-->
           <!--          </el-editable-column>-->
-          <el-editable-column :edit-render="{type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.pc')" prop="batch" align="center" width="200px">
             <template slot="edit" slot-scope="scope">
-              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" clearable style="width: 100%;" @visible-change="updatebatch2($event,scope)">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" style="width: 100%;" @visible-change="updatebatch2($event,scope)">
                 <el-option
                   v-for="(item, index) in batchlist"
                   :key="index"
@@ -154,9 +154,9 @@
           <!--              </el-select>-->
           <!--            </template>-->
           <!--          </el-editable-column>-->
-          <el-editable-column :edit-render="{type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable clearable style="width: 100%;" @visible-change="updatebatch($event,scope)">
+              <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
                   v-for="item in locationlist"
                   :key="item.id"
