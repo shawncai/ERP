@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number + $t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number + $t('updates.xg') + '1234'" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -958,6 +958,7 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.personalForm.sourceType = String(this.editdata.sourceType)
       this.isbendi = this.editdata.isOwn
       this.flexAdvanceMoney = this.personalForm.advanceMoney
       this.shouldMoney = this.personalForm.shouldMoney

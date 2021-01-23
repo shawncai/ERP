@@ -1679,8 +1679,11 @@ export default {
       if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit5(row) {
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       const re = row.productCode.slice(0, 2)
-      if (re !== '05' && re !== '01' && this.personalForm.sourceType !== '2') { return true } else { return false }
+      if (re !== '05' && re !== '01' && this.personalForm.sourceType !== '2' && this.$store.getters.countryId !== 1) { return true } else if (this.$store.getters.countryId === 1) {
+        return true
+      } else { return false }
     },
     isEdit4(row) {
       // console.log('222', row)
