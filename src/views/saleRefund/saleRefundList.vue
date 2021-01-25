@@ -112,6 +112,11 @@
             <span>{{ scope.row.refundRepositoryName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.refundTime')" :resizable="false" prop="createDate" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ProduceTask.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>

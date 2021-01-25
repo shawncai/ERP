@@ -4600,6 +4600,7 @@ export default {
     stat: 'stat',
     customerPrice: 'customerPrice',
     tiaojiaodanzhuti: 'adjustTitle',
-    groupchoose: 'groupchoose'
+    groupchoose: 'groupchoose',
+    refundTime: 'refundTime'
   }
 }

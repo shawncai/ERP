@@ -62,70 +62,70 @@
           fixed="left"
         />
         <el-table-column
-          label="6601.01 Selling-expenses-internet"
+          label="6601.01.01 Selling-expenses-internet"
           prop="expensesInternet"
           width="240"
           align="center"
         />
         <el-table-column
-          label="6601.02 Selling-expenses--communication"
+          label="6601.01.02 Selling-expenses--communication"
           prop="communication"
           width="240"
           align="center"
         />
         <el-table-column
-          label="6601.03 Selling-expenses-light/power"
+          label="6601.01.03 Selling-expenses-light/power"
           prop="lightPower"
           width="240"
           align="center"
         />
-        <el-table-column label="6601.04 water" prop="water" width="240" align="center" />
-        <el-table-column label="6601.05 professionalFee" prop="professionalFee" width="240" align="center" />
-        <el-table-column label="6601.06 rental" prop="rental" width="240" align="center" />
-        <el-table-column label="6601.07 freight" prop="freight" width="240" align="center" />
-        <el-table-column label="6601.08 penalty" prop="penalty" width="240" align="center" />
-        <el-table-column label="6601.09 solicit" prop="solicit" width="240" align="center" />
-        <el-table-column label="6601.10 TOLLFEE/FARE" prop="TOLLFEEFARE" width="240" align="center" />
-        <el-table-column label="6601.11 purchases" prop="purchases" width="240" align="center" />
-        <el-table-column label="6601.12 loads" prop="loads" width="240" align="center" />
-        <el-table-column label="6601.13 repair/maintenance" prop="repairMaintenance" width="240" align="center"/>
-        <el-table-column label="6601.14 gas and oil" prop="gasAndOil" width="240" align="center" />
-        <el-table-column label="6601.15 office supplies" prop="officeSupplies" width="240" align="center" />
-        <el-table-column label="6601.16 assets" prop="assets" width="240" align="center" />
-        <el-table-column label="6601.17 customer" prop="customer" width="240" align="center" />
-        <el-table-column label="6601.18 employee" prop="employee" width="240" align="center" />
-        <el-table-column label="6601.19 rental（display)" prop="rentaldisplay" width="240" align="center" />
-        <el-table-column label="6601.20 allowance" prop="allowance" width="240" align="center" />
-        <el-table-column label="6601.21 others（display)" prop="otherdisplay" width="240" align="center" />
-        <el-table-column label="6601.22 salary" prop="salary" width="240" align="center" />
+        <el-table-column label="6601.01.04 water" prop="water" width="240" align="center" />
+        <el-table-column label="6601.01.05 professionalFee" prop="professionalFee" width="240" align="center" />
+        <el-table-column label="6601.01.06 rental" prop="rental" width="240" align="center" />
+        <el-table-column label="6601.01.07 freight" prop="freight" width="240" align="center" />
+        <el-table-column label="6601.01.08 penalty" prop="penalty" width="240" align="center" />
+        <el-table-column label="6601.01.09 solicit" prop="solicit" width="240" align="center" />
+        <el-table-column label="6601.01.10 TOLLFEE/FARE" prop="TOLLFEEFARE" width="240" align="center" />
+        <el-table-column label="6601.01.11 purchases" prop="purchases" width="240" align="center" />
+        <el-table-column label="6601.01.12 loads" prop="loads" width="240" align="center" />
+        <el-table-column label="6601.01.13 repair/maintenance" prop="repairMaintenance" width="240" align="center"/>
+        <el-table-column label="6601.01.14 gas and oil" prop="gasAndOil" width="240" align="center" />
+        <el-table-column label="6601.01.15 office supplies" prop="officeSupplies" width="240" align="center" />
+        <el-table-column label="6601.01.16 assets" prop="assets" width="240" align="center" />
+        <el-table-column label="6601.01.17 customer" prop="customer" width="240" align="center" />
+        <el-table-column label="6601.01.18 employee" prop="employee" width="240" align="center" />
+        <el-table-column label="6601.01.19 rental（display)" prop="rentaldisplay" width="240" align="center" />
+        <el-table-column label="6601.01.20 allowance" prop="allowance" width="240" align="center" />
+        <el-table-column label="6601.01.21 others（display)" prop="otherdisplay" width="240" align="center" />
+        <el-table-column label="6601.01.22 salary" prop="salary" width="240" align="center" />
         <el-table-column
-          label="6601.23 delivery allowance"
+          label="6601.01.23 delivery allowance"
           prop="deliveryAllowance"
           width="240"
           align="center"
         />
         <el-table-column
-          label="6601.25 training allowance"
+          label="6601.01.25 training allowance"
           prop="trainingAllowance"
           width="240"
           align="center"
         />
-        <el-table-column label="6601.26 benefits" prop="benefits" width="240" align="center" />
-        <el-table-column label="6601.27 tarpaulin" prop="tarpaulin" width="240" align="center" />
+        <el-table-column label="6601.01.26 benefits" prop="benefits" width="240" align="center" />
+        <el-table-column label="6601.01.27 tarpaulin" prop="tarpaulin" width="240" align="center" />
         <el-table-column
-          label="6601.28 others(advertisment)"
+          label="6601.01.28 others(advertisment)"
           prop="othersAdvertisment"
           width="240"
           align="center"
         />
-        <el-table-column label="6601.29 tax" prop="tax" width="240" align="center" />
+        <el-table-column label="6601.01.29 tax" prop="tax" width="240" align="center" />
         <el-table-column
-          label="6601.30 other(for company)"
+          label="6601.01.30 other(for company)"
           prop="otherForCompany"
           width="240"
           align="center"
         />
-        <el-table-column label="6601.31 renovation" prop="renovation" width="240" align="center" />
+        <el-table-column label="6601.01.31 renovation" prop="renovation" width="240" align="center" />
         <el-table-column label="6602.01 internet" prop="internet02" width="240" align="center" />
         <el-table-column label="6602.02 communication" prop="communication02" width="240" align="center" />
         <el-table-column label="6602.03 light/power" prop="lightPower02" width="240" align="center" />

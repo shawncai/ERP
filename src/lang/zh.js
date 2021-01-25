@@ -4600,6 +4600,7 @@ export default {
     stat: '状态',
     customerPrice: '销售单价',
     tiaojiaodanzhuti: '客户调价单主题',
-    groupchoose: '客户组'
+    groupchoose: '客户组',
+    refundTime: '退款时间'
   }
 }
