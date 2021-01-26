@@ -4601,6 +4601,10 @@ export default {
     customerPrice: '销售单价',
     tiaojiaodanzhuti: '客户调价单主题',
     groupchoose: '客户组',
-    refundTime: '退款时间'
+    refundTime: '退款时间',
+    isconfirm: '是否要确认资格',
+    feipeiquerenzhige: '分配确认登陆人',
+    qingshuruyanzhemea: '请输入验证码',
+    yanzhemngma: '验证码'
   }
 }

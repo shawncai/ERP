@@ -542,3 +542,22 @@ export function delateEmpCategory(query, query2) {
     data: params
   })
 }
+
+// 分配登陆权限
+export function addConfirm(query) {
+  var params = new URLSearchParams()
+  if (query.empId !== '' && query.empId !== null && query.empId !== undefined) {
+    params.append('empId', query.empId) // 你要传给后台的参数值 key/value
+  }
+  if (query.confirmPersonId !== '' && query.confirmPersonId !== null && query.confirmPersonId !== undefined) {
+    params.append('confirmPersonId', query.confirmPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.roleId !== '' && query.roleId !== null && query.roleId !== undefined) {
+    params.append('roleId', query.roleId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/loginConfirm/addConfirm',
+    method: 'post',
+    data: params
+  })
+}

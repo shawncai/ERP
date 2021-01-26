@@ -98,6 +98,25 @@
         </span>
       </el-dialog>
 
+      <el-button v-permission="['1-39-46-1']" v-waves size="small" class="filter-item2" icon="el-icon-printer" @click="handleDispatch">{{ $t('update4.feipeiquerenzhige') }}</el-button>
+
+      <el-dialog :visible.sync="categoryVisible2" :title="$t('update4.feipeiquerenzhige')" class="normal" width="300px" center @close="closetag2">
+        <div style="margin: 0 auto;width: 200px; padding: 0 10px">
+          <el-select v-model="dispatchPeople" filterable style="width: 100%">
+            <el-option
+              v-for="(item, index) in peopleGroup"
+              :key="index"
+              :label="item.personName"
+              :value="item.id"
+            />
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button :loading="sureloding2" type="primary" @click="handlesendok2()">{{ $t('Hmodule.sure') }}</el-button>
+          <el-button type="danger" @click="closetag2()">{{ $t('Hmodule.cancel') }}</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 新建操作 -->
       <el-button v-permission="['1-2-4-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 60px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -209,7 +228,7 @@
 
 <script>
 import { searchRepository, getcountrylist, getprovincelist, getcitylist, getregionlistbyreid } from '@/api/public'
-import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory } from '@/api/EmployeeInformation'
+import { getdeptlist, getemplist, startorendemp, deleteemp, getempinfo, searchEmpCategory, addConfirm } from '@/api/EmployeeInformation'
 import { getrolelist } from '@/api/employee'
 import { approvalPackageList, packageToEmp } from '@/api/BasicSettings'
 
@@ -251,6 +270,10 @@ export default {
       }
     }
     return {
+      sureloding2: false,
+      peopleGroup: [],
+      dispatchPeople: '',
+      categoryVisible2: false,
       sureloding: false,
       packageLists: [],
       packageparms: '',
@@ -445,6 +468,58 @@ export default {
     _that = this
   },
   methods: {
+    getPeopleGroup() {
+      const parms = {
+        pagenum: 1,
+        time: '',
+        stat: 1,
+        pagesize: 100000,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
+      }
+      getemplist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.peopleGroup = res.data.data.content.list
+        }
+      })
+    },
+    handlesendok2() {
+      this.sureloding2 = true
+      console.log(this.$store.getters)
+      const empData = this.peopleGroup.filter(item => {
+        return item.id === this.dispatchPeople
+      })
+      console.log('empData[0].roleId', empData[0].roleId)
+      // eslint-disable-next-line prefer-const
+      let parm = {
+        empId: this.dispatchPeople,
+        roleId: empData[0].roleId,
+        confirmPersonId: this.$store.getters.userId
+
+      }
+      console.log('parm', parm)
+      addConfirm(parm).then(res => {
+        if (res.data.ret === 200) {
+          this.$notify({
+            title: 'successful',
+            message: '分配成功',
+            type: 'success',
+            offset: 100
+          })
+        }
+        this.dispatchPeople = ''
+        this.sureloding2 = false
+        this.categoryVisible2 = false
+      })
+    },
+    closetag2() {
+      this.dispatchPeople = ''
+      this.categoryVisible2 = false
+    },
+    handleDispatch() {
+      this.categoryVisible2 = true
+      this.getPeopleGroup()
+    },
     recurTest(j, length, filterarr, parms) {
       packageToEmp(filterarr[j].id, parms).then(res => {
         if (res.data.ret === 200) {

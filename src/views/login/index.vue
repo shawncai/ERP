@@ -60,14 +60,17 @@
       <!--<el-button class="thirdparty-button" type="primary" @click="showDialog=true">{{ $t('login.thirdparty') }}</el-button>-->
     </el-form>
 
-    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog" append-to-body>
-      {{ $t('login.thirdpartyTips') }}
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
+    <el-dialog :title="$t('update4.qingshuruyanzhemea')" :visible.sync="showDialog" append-to-body center width="30%">
+      <div style="display:flex; align-items: center; justify-content: center; width: 100%">
+        <div style="padding-right: 20px">{{ $t('update4.yanzhemngma') }}</div>
+        <el-input v-model="verificationCode" style="width: 40%"/>
 
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="codeCancel">取 消</el-button>
+        <el-button type="primary" @click="codeConfirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -83,6 +86,7 @@ export default {
   components: { LangSelect, SocialSign },
   data() {
     return {
+      codeData: '',
       loginForm: {
         username: '',
         password: '',
@@ -91,7 +95,8 @@ export default {
       passwordType: 'password',
       loading: false,
       showDialog: false,
-      redirect: undefined
+      redirect: undefined,
+      verificationCode: ''
     }
   },
   watch: {
@@ -114,6 +119,28 @@ export default {
     _that = this
   },
   methods: {
+    codeCancel() {
+      this.showDialog = false
+      this.loading = false
+    },
+    codeConfirm() {
+      if (Number(this.codeData) === Number(this.verificationCode)) {
+        this.$message({
+          showClose: true,
+          message: 'login successful',
+          type: 'success'
+        })
+        this.$router.push({ path: this.redirect || '/' })
+        this.showDialog = false
+      } else {
+        this.$message({
+          showClose: true,
+          message: 'verification code is wrong',
+          type: 'error'
+        })
+      }
+      this.loading = false
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -138,8 +165,9 @@ export default {
         this.$store.dispatch('getuseCountry', 5)
       }
       this.loading = true
-      loginByUsername(this.loginForm.username, this.loginForm.password)
+      this.$store.dispatch('LoginByUsername', this.loginForm)
         .then(res => {
+          console.log('res.data.confirmCode', res.data.data.confirmCode)
           if (res.data.ret === 100) {
             this.$message({
               showClose: true,
@@ -147,25 +175,50 @@ export default {
               type: 'error'
             })
             this.loading = false
-          } else if (res.data.ret === 200) {
+          } else if (res.data.ret === 200 && !res.data.data.confirmCode) {
             this.$message({
               showClose: true,
               message: 'login successful',
               type: 'success'
             })
-            this.$store.dispatch('LoginByUsername', this.loginForm)
-              .then(res => {
-                this.loading = false
-                this.$router.push({ path: this.redirect || '/' })
-              })
-              .catch(() => {
-                this.loading = false
-              })
+            this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
+          } else if (res.data.ret === 200 && res.data.data.confirmCode) {
+            this.codeData = res.data.data.confirmCode
+            this.showDialog = true
           }
         })
         .catch(() => {
           this.loading = false
         })
+      // loginByUsername(this.loginForm.username, this.loginForm.password)
+      //   .then(res => {
+      //     if (res.data.ret === 100) {
+      //       this.$message({
+      //         showClose: true,
+      //         message: res.data.msg,
+      //         type: 'error'
+      //       })
+      //       this.loading = false
+      //     } else if (res.data.ret === 200) {
+      //       this.$message({
+      //         showClose: true,
+      //         message: 'login successful',
+      //         type: 'success'
+      //       })
+      //       this.$store.dispatch('LoginByUsername', this.loginForm)
+      //         .then(res => {
+      //           this.loading = false
+      //           this.$router.push({ path: this.redirect || '/' })
+      //         })
+      //         .catch(() => {
+      //           this.loading = false
+      //         })
+      //     }
+      //   })
+      //   .catch(() => {
+      //     this.loading = false
+      //   })
     },
     afterQRScan() {
       // const hash = window.location.hash.slice(1)

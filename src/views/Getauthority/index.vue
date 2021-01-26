@@ -22,6 +22,9 @@
             <el-col v-show="IsEait" :span="2" style="padding-top: 10px">
               <el-checkbox v-model="changeall" style="width: 86px" @change="handlechangeall">{{ $t('updates.sfgouxuanqubqx') }}</el-checkbox>
             </el-col>
+            <el-col v-show="IsEait" :span="2" style="padding-top: 10px">
+              <el-checkbox v-model="isConfirm" style="width: 86px" @change="handlechangeall2">{{ $t('update4.isconfirm') }}</el-checkbox>
+            </el-col>
           </el-form>
         </el-row>
         <el-row :gutter="20">
@@ -106,6 +109,8 @@ export default {
   name: 'Getauthority',
   data() {
     return {
+      confirmParms: 2,
+      isConfirm: false,
       selectroles: '',
       changeall: false,
       IsEait: false,
@@ -145,6 +150,14 @@ export default {
     _that = this
   },
   methods: {
+    handlechangeall2(val) {
+      console.log('val', val)
+      if (val) {
+        this.confirmParms = 1
+      } else {
+        this.confirmParms = 2
+      }
+    },
     handlechangeall(val) {
       this.operations = []
       console.log('list', this.list)
@@ -168,7 +181,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        updaterole(this.checkroleId, this.operations, this.getemplist.rolename).then(res => {
+        updaterole(this.checkroleId, this.operations, this.getemplist.rolename, this.confirmParms).then(res => {
           if (res.data.ret === 200) {
             this.$notify({
               title: 'successful',
@@ -180,6 +193,7 @@ export default {
             this.IsEait = false
             this.isShow = false
             this.getemplist.rolename = null
+            this.confirmParms = 2
             this.getlist()
           } else {
             this.$notify.error({
@@ -187,6 +201,7 @@ export default {
               message: res.data.msg,
               offset: 100
             })
+            this.confirmParms = 2
           }
         })
       }).catch(() => {
@@ -194,9 +209,16 @@ export default {
           type: 'info',
           message: '已取消修改'
         })
+        this.confirmParms = 2
       })
     },
     handleCurrentChange(val) {
+      console.log('val', val)
+      if (val.isConfirm === 1) {
+        this.isConfirm = true
+      } else {
+        this.isConfirm = false
+      }
       if (!val.roleName) {
         return
       }

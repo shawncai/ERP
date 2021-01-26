@@ -100,7 +100,7 @@ const user = {
 
           commit('SET_TOKEN', data.data.content.token)
           setToken(data.data.content.token)
-          resolve()
+          resolve(response)
         }).catch(error => {
           reject(error)
         })
