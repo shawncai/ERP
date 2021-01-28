@@ -1040,6 +1040,33 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/InventoryReceipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'InventoryReceipt',
+    alwaysShow: true,
+    meta: {
+      title: 'InventoryReceipt',
+      icon: 'sunhuai',
+      type: 4,
+      roles: ['131-147-1-1-11-1-1-']
+    },
+    children: [
+      {
+        path: 'NewInventoryReceipt',
+        component: () => import('@/views/InventoryReceipt/NewInventoryReceipt'),
+        name: 'NewInventoryReceipt',
+        meta: { title: 'NewInventoryReceipt', noCache: false }
+      },
+      {
+        path: 'InventoryReceiptList',
+        component: () => import('@/views/InventoryReceipt/InventoryReceiptList'),
+        name: 'InventoryReceiptList',
+        meta: { title: 'InventoryReceiptList', noCache: false }
+      }
+    ]
+  },
   // 取消库存报溢
   // {
   //   path: '/InventoryOverflow',

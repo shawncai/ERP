@@ -188,7 +188,13 @@ export default {
             this.showDialog = true
           }
         })
-        .catch(() => {
+        .catch((res) => {
+          console.log('res', res)
+          this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'error'
+          })
           this.loading = false
         })
       // loginByUsername(this.loginForm.username, this.loginForm.password)

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.receiptNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -8,28 +8,28 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('Storagemovediff.title')" style="width: 100%;">
+                <el-form-item :label="$t('update4.peichangzhuti')" style="width: 100%;">
                   <span>{{ personalForm.title }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('StockInvoice.sourceType')" style="width: 100%;">
+                  <span>{{ personalForm.sourceType | sourceTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('LogisticsCar.sourcenumber')" style="width: 100%;">
+                  <span>{{ personalForm.sourceNumber }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('recoveryCarDetail.repositoryName')" style="width: 100%;">
+                  <span>{{ personalForm.handleRepositoryName }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('Complaint.handlerName')" style="width: 100%;">
                   <span>{{ personalForm.handlePersonName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.groupchoose')" style="width: 100%;">
-                  <span>{{ personalForm.groupName }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.adjustDate')" style="width: 100%;">
-                  <span>{{ personalForm.adjustDate }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="$t('update4.summary')" style="width: 100%;">
-                  <span>{{ personalForm.summary }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -38,7 +38,7 @@
       </el-card>
       <!--子件信息-->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
-        <div ref="fuzhu" class="form-name" >{{ $t('updates.ddmx') }}</div>
+        <div ref="fuzhu" class="form-name" >{{ $t('update4.peichangmingxi') }}</div>
         <div class="container">
           <el-editable
             ref="editable"
@@ -51,15 +51,10 @@
             size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.jbdw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ggxh')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('update4.oldPrice')" prop="oldPrice" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('update4.newPrice')" prop="newPrice" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('update4.remark')" prop="remark" align="center" min-width="200px"/>
-
+            <el-editable-column :label="$t('update4.shouldMoney')" prop="shouldMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.collectedMoney')" prop="collectedMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.uncollectMoney')" prop="uncollectMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('update4.empId')" prop="empName" align="center" min-width="200px"/>
           </el-editable>
         </div>
       </el-card>
@@ -151,10 +146,10 @@
 var _that
 export default {
   filters: {
-    statFilter(status) {
+    sourceTypeFilter(status) {
       const statusMap = {
-        1: '启用',
-        2: '停用'
+        1: _that.$t('route.Inventorydamaged'),
+        2: _that.$t('route.InventoryCount')
       }
       return statusMap[status]
     },
@@ -192,14 +187,6 @@ export default {
         1: _that.$t('updates.shz'),
         2: _that.$t('Hmodule.shtg'),
         3: _that.$t('Hmodule.shbtg')
-      }
-      return statusMap[status]
-    },
-    sourceTypeFilter(status) {
-      const statusMap = {
-        1: _that.$t('updates.cgsq'),
-        2: _that.$t('updates.cgxq'),
-        3: _that.$t('Hmodule.Nosource')
       }
       return statusMap[status]
     },
@@ -263,13 +250,8 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
-      this.list = this.personalForm.customerProductAdjustDetailVos
+      this.list = this.personalForm.inventoryReceiptDetailVos
       this.tableKey = Math.random()
-
-      for (const i in this.list2) {
-        this.list2[i].categoryName = this.list2[i].productCategoryName
-        this.list2[i].typeName = this.list2[i].productTypeName
-      }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

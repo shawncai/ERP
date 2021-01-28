@@ -458,7 +458,10 @@ export default {
     NewCustomerGroup: '新建客户组',
     CustomerGroupList: '客户组列表',
     NewCustomerProductAdjust: '新建客户商品调价单',
-    CustomerProductAdjustList: '客户商品调价单'
+    CustomerProductAdjustList: '客户商品调价单',
+    InventoryReceipt: '员工赔偿收款单',
+    NewInventoryReceipt: '新建员工赔偿收款单',
+    InventoryReceiptList: '员工赔偿收款单列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4605,6 +4608,17 @@ export default {
     isconfirm: '是否要确认资格',
     feipeiquerenzhige: '分配确认登陆人',
     qingshuruyanzhemea: '请输入验证码',
-    yanzhemngma: '验证码'
+    yanzhemngma: '验证码',
+    peichangzhuti: '主题',
+    peichangmendian: '赔偿门店',
+    peichangmingxi: '赔偿明细',
+    empId: '员工',
+    collectedMoney: '已收款',
+    uncollectMoney: '未收款',
+    tianjiayuangong: '添加员工',
+    shoukuandanbenjin: '收款单(本金)',
+    shoukuandanzhinajin: '收款单(滞纳金)',
+    shoukandajlreceiptNumber: '赔偿单编号',
+    shoukandanquerenshouk: '确认收款'
   }
 }

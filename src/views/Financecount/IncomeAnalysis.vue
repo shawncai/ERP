@@ -113,7 +113,9 @@ export default {
         7: _that.$t('update4.zhuanzhangcunk'),
         8: _that.$t('update4.xiaoshoushoukuan'),
         9: _that.$t('update4.huanhuodan'),
-        10: _that.$t('route.saleRefund')
+        10: _that.$t('update4.shoukuandanbenjin'),
+        11: _that.$t('update4.shoukuandanzhinajin')
+
       }
       return statusMap[sta]
     }
@@ -183,8 +185,9 @@ export default {
         6: _that.$t('update4.dingdantuik'),
         7: _that.$t('update4.zhuanzhangcunk'),
         8: _that.$t('update4.xiaoshoushoukuan'),
-        9: _that.$t('update4.huanhuodan')
-
+        9: _that.$t('update4.huanhuodan'),
+        10: _that.$t('update4.shoukuandanbenjin'),
+        11: _that.$t('update4.shoukuandanzhinajin')
       }
       for (const i in this.list) {
         this.list[i].receiptTypeName = statusMap[this.list[i].receiptType]
