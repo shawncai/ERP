@@ -1049,8 +1049,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'InventoryReceipt',
       icon: 'sunhuai',
-      type: 4,
-      roles: ['131-147-1-1-11-1-1-']
+      type: 4
     },
     children: [
       {

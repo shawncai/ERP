@@ -128,7 +128,7 @@
             <el-button v-permission="['1-14-16-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" :key="scope.row.id + Math.random()" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-show="scope.row.judgeStat === 3" :title="$t('update4.shoukandanquerenshouk')" type="success" size="mini" icon="el-icon-check" circle @click="handleConfirm(scope.row)"/>
+            <el-button v-show="judgeStat(scope.row)" :title="$t('update4.shoukandanquerenshouk')" type="success" size="mini" icon="el-icon-check" circle @click="handleConfirm(scope.row)"/>
 
           </template>
         </el-table-column>
@@ -138,6 +138,7 @@
       <!--修改开始=================================================-->
       <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
       <!--修改结束=================================================-->
+      <confirm-table :confirm-control.sync="confirmControl" :confirm-data.sync="confirmData"/>
     </el-card>
   </div>
 </template>
@@ -153,12 +154,13 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList'
 import MyEmp from '../SaleOrder/components/MyEmp'
+import ConfirmTable from './components/confirmTable.vue'
 
 var _that
 export default {
   name: 'CustomerProductAdjustList',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyDialog, DetailList, MyEmp },
+  components: { Pagination, MyDialog, DetailList, MyEmp, ConfirmTable },
   filters: {
     sourceTypeFilter(status) {
       const statusMap = {
@@ -188,6 +190,8 @@ export default {
   },
   data() {
     return {
+      confirmData: '',
+      confirmControl: false,
       empId: '',
       repositoryId: '',
       repositorycontrol: false,
@@ -279,39 +283,23 @@ export default {
     _that = this
   },
   methods: {
-    handleConfirm(row) {
-      this.reviewParms = {}
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
-        distinguishCancelAndClose: true,
-        confirmButtonText: this.$t('prompt.fsp'),
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 0
-        const parms = JSON.stringify(this.reviewParms)
-        updateInventoryReceipt(parms).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.result === false) {
-              this.$message({
-                type: 'error',
-                message: this.$t('prompt.fspsb')
-              })
-            } else {
-              this.$message({
-                type: 'success',
-                message: this.$t('prompt.fspcg')
-              })
-            }
-            this.getlist()
-          } else {
-            this.$message({
-              type: 'error',
-              message: res.data.msg
-            })
-          }
+    judgeStat(row) {
+      const stats =
+      row.inventoryReceiptDetailVos
+        .map(item => {
+          return item.stat
         })
-      })
+        .includes(1)
+      // console.log('stats', stats)
+      if (stats && row.judgeStat === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
+    handleConfirm(row) {
+      this.confirmControl = true
+      this.confirmData = row
     },
     handleReview4(row) {
       this.reviewParms = {}

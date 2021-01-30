@@ -112,7 +112,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="width: 100%;">
-                <el-input v-model="personalForm.penaltyMoney" type="number" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input v-model="personalForm.penaltyMoney" disabled type="number" style="margin-left: 18px;width: 200px" clearable/>
                 <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
               </el-form-item>
             </el-col>
@@ -154,7 +154,17 @@
           <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="6"
+                :controls="false"
+                :min="0.00"
+                v-model="scope.row.penalty"
+                @change="changePenalty(scope.row)"
+              />
+            </template>
+          </el-editable-column>
           <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收金额" min-width="150px"/>
@@ -422,6 +432,11 @@ export default {
     _that = this
   },
   methods: {
+    changePenalty(row) {
+      console.log('row', row)
+      row.thisMoney = Number(row.shouldMoney) - Number(row.paidmoney) - Number(row.reward) + Number(row.penalty)
+      // console.log('money', money)
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports', this.personalForm2.couponSupports)
       const parms2 = JSON.stringify(this.personalForm2.couponSupports)

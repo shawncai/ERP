@@ -4619,6 +4619,7 @@ export default {
     shoukuandanbenjin: '收款单(本金)',
     shoukuandanzhinajin: '收款单(滞纳金)',
     shoukandajlreceiptNumber: '赔偿单编号',
-    shoukandanquerenshouk: '确认收款'
+    shoukandanquerenshouk: '确认收款',
+    querenmingxi: '确认明细'
   }
 }

@@ -215,3 +215,17 @@ export function updateInventoryReceipt(query, query2) {
     data: params
   })
 }
+
+// 员工赔偿收款单确认收款
+export function confirmReceipt(query, query2) {
+  var params = new URLSearchParams()
+  params.append('receiptDetailId', query) // 你要传给后台的参数值 key/value
+  if (query2) {
+    params.append('receiptMoney', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/inventoryReceipt/confirmReceipt',
+    method: 'post',
+    data: params
+  })
+}

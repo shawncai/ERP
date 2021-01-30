@@ -116,7 +116,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Receipt.penaltyMoney')" prop="penaltyMoney" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.penaltyMoney" type="number" style="width: 200px" clearable @change="changepenaltymoney"/>
+                  <el-input v-model="personalForm.penaltyMoney" type="number" disabled style="width: 200px" clearable @change="changepenaltymoney"/>
                   <!-- <el-input-number v-model="personalForm.penaltyMoney" :controls="false" /> -->
                 </el-form-item>
               </el-col>
@@ -160,11 +160,21 @@
             <el-editable-column :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="6"
+                  :controls="false"
+                  :min="0.00"
+                  v-model="scope.row.penalty"
+                  @change="changePenalty(scope.row)"
+                />
+              </template>
+            </el-editable-column>
             <el-editable-column :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.aleadypaid')" prop="paidmoney" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.unpaid')" prop="unpay" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: 'getThisMoney'}}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -389,7 +399,7 @@ export default {
           num2 += this.switchmoney[i].penalty
         }
         console.log('num=====', num)
-        this.personalForm.receiptMoney = num
+        this.personalForm.receiptMoney = (num).toFixed(6)
         this.allpenalty = num2
       },
       deep: true,
@@ -426,6 +436,11 @@ export default {
     _that = this
   },
   methods: {
+    changePenalty(row) {
+      console.log('row', row)
+      row.thisMoney = Number(row.shouldMoney) - Number(row.paidmoney) - Number(row.reward) + Number(row.penalty)
+      // console.log('money', money)
+    },
     changeCoupon() {
       console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)
       const parms2 = JSON.stringify(this.personalForm.couponSupports)

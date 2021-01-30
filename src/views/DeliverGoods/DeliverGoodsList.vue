@@ -139,11 +139,16 @@
             <el-button v-permission2="['235-237-3']" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 2" title="确认送货单" size="mini" type="success" icon="el-icon-circle-check" circle @click="handleconfirm(scope.row)"/>
+            <el-button v-permission2="['235-237-2', scope.row.createPersonId]" v-show="judgeAppearStat(scope.row)" title="确认送货单" size="mini" type="success" icon="el-icon-circle-check" circle @click="handleconfirm(scope.row)"/>
+            <el-button v-show="judgeStat(scope.row)" :title="$t('update4.shoukandanquerenshouk')" type="success" size="mini" icon="el-icon-check" circle @click="handleConfirm(scope.row)"/>
+
           </template>
           <my-confirm :detailcontrol.sync="detailvisible2" :detaildata.sync="personalForm"/>
         </el-table-column>
       </el-table>
+
+      <confirm-table :confirm-control.sync="confirmControl" :confirm-data.sync="confirmData"/>
+
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
@@ -168,12 +173,13 @@ import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
 import MyConfirm from './components/DetailListconfirm'
+import ConfirmTable from './components/confirmTable.vue'
 
 var _that
 export default {
   name: 'DeliverGoodsList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyConfirm },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MyConfirm, ConfirmTable },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -211,6 +217,8 @@ export default {
   },
   data() {
     return {
+      confirmData: '',
+      confirmControl: false,
       tableHeight: 200,
       // 回显客户
       customerName: '',
@@ -288,6 +296,38 @@ export default {
     _that = this
   },
   methods: {
+    judgeAppearStat(row) {
+      const stats =
+      row.deliverGoodsDetailVos
+        .map(item => {
+          return item.stat
+        })
+        .includes(1)
+      // console.log('stats', stats)
+      if (stats && row.judgeStat === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
+    judgeStat(row) {
+      const stats =
+      row.deliverGoodsDetailVos
+        .map(item => {
+          return item.stat
+        })
+        .includes(2)
+      // console.log('stats', stats)
+      if (stats && row.judgeStat === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
+    handleConfirm(row) {
+      this.confirmControl = true
+      this.confirmData = row
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -431,8 +471,8 @@ export default {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
         const approvalUse = row.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           return true
         }
@@ -458,6 +498,12 @@ export default {
               message: this.$t('prompt.shcg')
             })
             this.getlist()
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
           }
         })
       }).catch(action => {

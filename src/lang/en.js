@@ -458,7 +458,10 @@ export default {
     NewCustomerGroup: 'NewCustomerGroup',
     CustomerGroupList: 'CustomerGroupList',
     NewCustomerProductAdjust: 'NewCustomerProductAdjust',
-    CustomerProductAdjustList: 'CustomerProductAdjustList'
+    CustomerProductAdjustList: 'CustomerProductAdjustList',
+    InventoryReceipt: 'InventoryReceipt',
+    NewInventoryReceipt: 'NewInventoryReceipt',
+    InventoryReceiptList: 'InventoryReceiptList'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -4591,7 +4594,7 @@ export default {
     shifouquerenfuk: 'Confirm the payment ?',
     chaguomorenyushoujine: 'advanceMoney is wrong',
     gongxurengongfeiyognbili: 'gongxurengongfeiyognbili',
-    gongxu: '工序',
+    gongxu: 'id',
     enterPrice: 'enterPrice',
     enterMoney: 'enterMoney',
     refundTitle: 'refundTitle',
@@ -4601,6 +4604,22 @@ export default {
     customerPrice: 'customerPrice',
     tiaojiaodanzhuti: 'adjustTitle',
     groupchoose: 'groupchoose',
-    refundTime: 'refundTime'
+    refundTime: 'refundTime',
+    isconfirm: 'if need to verify qualifications',
+    feipeiquerenzhige: 'distribute verified person for log in',
+    qingshuruyanzhemea: 'please input security code',
+    yanzhemngma: 'security code',
+    peichangzhuti: 'subject',
+    peichangmendian: 'compensation branch',
+    peichangmingxi: 'compensation detail',
+    empId: 'employees',
+    collectedMoney: 'received payment',
+    uncollectMoney: 'unreceived payment',
+    tianjiayuangong: ' add employees',
+    shoukuandanbenjin: 'collection bill(capital)',
+    shoukuandanzhinajin: 'collection bill(penalty)',
+    shoukandajlreceiptNumber: 'compensation bill  Number',
+    shoukandanquerenshouk: 'verify received payment',
+    querenmingxi: ' verify detail'
   }
 }

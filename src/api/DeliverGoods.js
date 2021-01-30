@@ -105,12 +105,23 @@ export function updateDeliverGoods2(query) {
   })
 }
 
-// 确认配送单
+// 确认配送单上车
 export function confirmDeliverGoods(query) {
   var params = new URLSearchParams()
   params.append('detailId', query)
   return request({
     url: '/deliverGoods/confirm',
+    method: 'post',
+    data: params
+  })
+}
+
+// 确认配送单上车
+export function confirmOff(query) {
+  var params = new URLSearchParams()
+  params.append('detailId', query)
+  return request({
+    url: '/deliverGoods/confirmOff',
     method: 'post',
     data: params
   })
