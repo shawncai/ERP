@@ -88,6 +88,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('SaleReturn.returnDate')" prop="returnDate" style="width: 100%;">
                 <el-date-picker
+                  :picker-options="pickerOptions2"
                   v-model="personalForm.returnDate"
                   type="date"
                   value-format="yyyy-MM-dd"
@@ -343,6 +344,14 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 60 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       // 判断权限
       isshow: false,
       // 控制是否从源单添加

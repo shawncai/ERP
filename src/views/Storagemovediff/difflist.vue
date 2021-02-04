@@ -68,7 +68,7 @@
       <!-- 打印操作 -->
       <!-- <el-button v-permission="['131-138-140-7']" v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
-      <el-button v-permission="['131-141-360-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <!-- <el-button v-permission="['131-141-360-1']" v-waves class="filter-item" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button> -->
     </el-card>
     <el-card class="box-card" style="margin-top: 15px">
       <!-- 列表开始 -->
@@ -142,6 +142,9 @@
             <el-button v-permission="['131-141-360-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-141-360-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-141-360-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
+            <el-button v-permission="['131-141-360-84']" v-show="scope.row.judgeStat === 2&& scope.row.receiptStat === 2" :loading="returnLoading" type="success" size="mini" @click="handReturnInventory(scope.row)">{{ $t('update4.querenfanhuan') }}</el-button>
+            <el-button v-permission="['131-141-360-85']" v-show="scope.row.judgeStat === 2&& scope.row.receiptStat === 2" type="success" size="mini" @click="handleReview3(scope.row)">{{ $t('update4.shengchengpeichangdan') }}</el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -156,7 +159,7 @@
 
 <script>
 // import { searchOutlist, deleteStock, updateotherenter2 } from '@/api/StockOut'
-import { searchstoragemovediff, deletestoragemovediff, editestoragemovediff2 } from '@/api/Storagemovediff'
+import { searchstoragemovediff, deletestoragemovediff, editestoragemovediff2, returnInventory } from '@/api/Storagemovediff'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -194,6 +197,7 @@ export default {
   },
   data() {
     return {
+      returnLoading: false,
       // 审核传参
       reviewParms: {
         id: '',
@@ -250,6 +254,28 @@ export default {
     _that = this
   },
   methods: {
+    handReturnInventory(row) {
+      this.$confirm(this.$t('update4.quedingfanhuan'), this.$t('update4.queding'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('update4.queding'),
+        type: 'warning'
+      }).then(() => {
+        returnInventory(row.id).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: 'success'
+            })
+            this.getlist()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+        })
+      })
+    },
     // 处理时间
     timestampToTime(timestamp) {
       var date = new Date(timestamp)// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -286,7 +312,7 @@ export default {
             if (res.data.data.result === false) {
               this.$message({
                 type: 'error',
-                message: this.$t('prompt.fspsb')
+                message: res.data.msg
               })
             } else {
               this.$message({

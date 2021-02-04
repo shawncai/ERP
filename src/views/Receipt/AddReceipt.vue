@@ -488,8 +488,11 @@ export default {
     changereceiptmoney(money) {
       const val = Number(money) + Number(this.personalForm.couponSupport) - Number(this.personalForm.penaltyMoney)
       console.log(val)
+      console.log(this.personalForm.couponSupport)
+      console.log(this.personalForm.penaltyMoney)
       this.$refs.editable2.clear()
       const data = this.deepClone(this.allorderarr)
+      console.log('data', data)
       // const EnterDetail = this.$refs.editable2.getRecords()
       let s = 0
       let z = val
@@ -525,6 +528,8 @@ export default {
       console.log(val)
       this.$refs.editable2.clear()
       const data = this.deepClone(this.allorderarr)
+      console.log('data', data)
+
       // const EnterDetail = this.$refs.editable2.getRecords()
       let s = 0
       let z = val
@@ -1032,6 +1037,7 @@ export default {
     // 清空记录
     restAllForm() {
       this.personalForm = {
+
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
@@ -1039,9 +1045,18 @@ export default {
         sourceType: '1',
         receiptMoney: 0,
         deductionMoney: 0,
+        totalLackMoney: 0,
         couponSupportOld: 0,
+        couponSupport: 0,
+        couponMoney: 0,
+        penaltyMoney: 0,
         customerType: '2',
-        receiptDate: null
+        receiptDate: null,
+        couponSupports: [
+          {
+            couponSupport: 0
+          }
+        ]
       }
       this.receiptPersonId = null
       this.customerId = null

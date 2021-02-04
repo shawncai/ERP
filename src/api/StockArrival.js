@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import store from '@/store'
 
 //  添加采购到货
 export function createstockArrival(query, query2, query3) {
@@ -54,8 +55,10 @@ export function searchstockArrival(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
-  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+  if ((query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) && store.getters.countryId === 1) {
     params.append('repositoryId', 0) // 你要传给后台的参数值 key/value
+  } else if ((query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) && store.getters.countryId !== 1) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
@@ -63,6 +66,10 @@ export function searchstockArrival(query) {
   // if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
   //   params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
   // }
+
+  if ((query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) && store.getters.countryId !== 1) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
   if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
     params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
   }

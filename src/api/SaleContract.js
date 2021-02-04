@@ -119,3 +119,14 @@ export function updatesaleContract2(query) {
     data: params
   })
 }
+
+// 销售合同打印接口
+export function creatContract(query) {
+  var params = new URLSearchParams()
+  params.append('id', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/saleContract/creatContract',
+    method: 'post',
+    data: params
+  })
+}

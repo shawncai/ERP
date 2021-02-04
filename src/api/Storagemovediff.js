@@ -119,3 +119,14 @@ export function editestoragemovediff2(query) {
     data: params
   })
 }
+
+// 返还库存
+export function returnInventory(query) {
+  var params = new URLSearchParams()
+  params.append('reportId', query) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/moveDiff/returnInventory',
+    method: 'post',
+    data: params
+  })
+}

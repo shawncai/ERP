@@ -964,7 +964,7 @@ export const asyncRouterMap = [
         path: 'AddStoragemovediff',
         component: () => import('@/views/Storagemovediff/adddiff'),
         name: 'AddStoragemovediff',
-        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-361-1'] }
+        meta: { title: 'AddStoragemovediff', noCache: false, roles: ['131-141-361-1-1-1-1-1'] }
       },
       {
         path: 'difflist',
@@ -1049,20 +1049,21 @@ export const asyncRouterMap = [
     meta: {
       title: 'InventoryReceipt',
       icon: 'sunhuai',
-      type: 4
+      type: 4,
+      roles: ['131-415-1', '131-415-4']
     },
     children: [
       {
         path: 'NewInventoryReceipt',
         component: () => import('@/views/InventoryReceipt/NewInventoryReceipt'),
         name: 'NewInventoryReceipt',
-        meta: { title: 'NewInventoryReceipt', noCache: false }
+        meta: { title: 'NewInventoryReceipt', noCache: false, roles: ['131-415-1'] }
       },
       {
         path: 'InventoryReceiptList',
         component: () => import('@/views/InventoryReceipt/InventoryReceiptList'),
         name: 'InventoryReceiptList',
-        meta: { title: 'InventoryReceiptList', noCache: false }
+        meta: { title: 'InventoryReceiptList', noCache: false, roles: ['131-415-1', '131-415-2', '131-415-3', '131-415-4', '131-415-5', '131-415-6', '131-415-7', '131-415-17', '131-415-18', '131-415-76'] }
       }
     ]
   },

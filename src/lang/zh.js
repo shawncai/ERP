@@ -4577,7 +4577,7 @@ export default {
     nowStock: '现有库存',
     xxyj: '下限预警',
     sxyj: '上限预警',
-    aqkcyj: '安全库存预警',
+    aqkcyj: '安全库存',
     niyou: '你有',
     tiaodanbanderenwu: '条待办的任务',
     tiaodaichuli: '条待处理的事件',
@@ -4620,6 +4620,13 @@ export default {
     shoukuandanzhinajin: '收款单(滞纳金)',
     shoukandajlreceiptNumber: '赔偿单编号',
     shoukandanquerenshouk: '确认收款',
-    querenmingxi: '确认明细'
+    querenmingxi: '确认明细',
+    dayu: '逾期金额大于',
+    xiaoyu: '逾期金额小于',
+    querenfanhuan: '确认返还库存',
+    shengchengpeichangdan: '生成赔偿单',
+    quedingfanhuan: '确定返还？',
+    queding: '确定'
+
   }
 }

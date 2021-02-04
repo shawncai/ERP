@@ -645,6 +645,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据123
       this.listLoading = true
+      console.log('getemplist', this.getemplist, this.$store.getters)
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           const needlist = res.data.data.content.list

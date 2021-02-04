@@ -13,9 +13,11 @@
         width="500"
         size="small"
         trigger="click">
-        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleOrder.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable/>
-        <!-- <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+        <!-- <el-input v-model="getemplist.customerName" :placeholder="$t('SaleOrder.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable/>
+        <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
         <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/> -->
+        <el-input v-model="customerName" :placeholder="$t('SaleReturn.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
+        <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -441,11 +443,7 @@ export default {
     },
     // 选择客户focus
     chooseCustomer() {
-      if (this.getemplist.customerType === '1') {
-        this.agentcontrol = true
-      } else if (this.getemplist.customerType === '2') {
-        this.customercontrol = true
-      }
+      this.customercontrol = true
     },
     customerdata(val) {
       this.getemplist.customerId = val.id

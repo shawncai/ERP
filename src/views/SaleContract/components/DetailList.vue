@@ -340,6 +340,7 @@
 <script>
 import printJS from 'print-js'
 import { searchRepository3 } from '@/api/Repository'
+import { creatContract } from '@/api/SaleContract'
 // import datazzz from '@/utils/salecontract'
 var _that
 export default {
@@ -515,7 +516,11 @@ export default {
       this.categoryVisible = false
     },
     setdata() {
-      this.categoryVisible = true
+      creatContract(this.personalForm.id).then(res => {
+        console.log('res', res)
+        window.location.href = res.request.responseURL + '?id=' + this.personalForm.id
+      })
+      // this.categoryVisible = true
       // console.log(this.$store.getters.printdata)
       // const routeUrl = this.$router.resolve({
       //   path: '/SaleContract/download'

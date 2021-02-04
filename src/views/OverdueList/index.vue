@@ -11,6 +11,9 @@
       <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearFilter"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
 
+      <el-input v-model="getemplist.dayu" :placeholder="$t('update4.dayu')" size="small" type="number" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.xiaoyu" :placeholder="$t('update4.xiaoyu')" size="small" type="number" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -613,6 +616,9 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      if (this.getemplist.dayu && this.getemplist.xiaoyu) {
+        this.getemplist.xiaoyu = ''
+      }
       installmentlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

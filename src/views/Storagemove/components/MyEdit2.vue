@@ -1,5 +1,15 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" class="edit" width="1010px" top="10px" @close="$emit('update:editcontrol', false)">
+  <el-dialog
+    :visible.sync="editVisible"
+    :editcontrol="editcontrol"
+    :editdata="editdata"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    :before-close="closemove"
+    class="edit"
+    width="1010px"
+    top="10px"
+    @close="$emit('update:editcontrol', false)" >
     <!-- 基本信息 -->
     <el-card class="box-card">
       <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
@@ -232,6 +242,7 @@
 
 <script>
 import { updateStoragemove, editStoragein, confirmStoragein, updateStoragemove2 } from '@/api/Storagemove'
+import { createstoragemovediff } from '@/api/Storagemovediff'
 import { getdeptlist } from '@/api/BasicSettings'
 import { locationlist } from '@/api/public'
 import MyRepository from './MyRepository'
@@ -270,6 +281,7 @@ export default {
   },
   data() {
     return {
+      diffDetailArr: [],
       ischeck: false,
       // 单据id
       id: '',
@@ -382,15 +394,17 @@ export default {
           for (const i in this.list4) {
             if (this.list4[i].stat === 2) {
               count++
-              this.list4.confirmNumber = count
             }
           }
-          if (this.list4.confirmNumber === this.list4.length) {
+          if (count === this.list4.length) {
             console.log('监听变化')
             const parms = JSON.stringify(reviewParms)
             updateStoragemove2(parms).then(res => {
               console.log(res)
-              this.$emit('rest', true)
+              if (res.data.ret === 200) {
+                this.$emit('rest', true)
+                this.editVisible = false
+              }
             })
           }
         }
@@ -407,6 +421,10 @@ export default {
     _that = this
   },
   methods: {
+    closemove() {
+      this.$emit('rest', true)
+      this.editVisible = false
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -449,6 +467,7 @@ export default {
     },
     // 确认入库数量
     handleEdit2(row) {
+      console.log('row', row)
       this.ischeck = true
       if (row.data.locationId === null) {
         this.$notify.error({
@@ -460,7 +479,7 @@ export default {
         return false
       }
       console.log(row.data.id)
-      console.log(row.id)
+      // console.log(row.id)
       const confirmPersonId = this.$store.getters.userId
       const query = JSON.stringify(row.data)
       const that = this
@@ -472,6 +491,67 @@ export default {
             if (res.data.ret === 200) {
               row.data.stat = 2
               that.ischeck = false
+
+              const rest = this.$refs.editable3.getRecords()
+
+              if (Number(row.data.actualQuantity) !== Number(row.data.moveQuantity)) {
+                that.diffDetailArr.push(row.data)
+              }
+
+              console.log('diffDetailArr', that.diffDetailArr)
+              const diffData = {
+                title: 'auto diff ' + that.personalForm.moveNumber,
+                moveNumber: that.personalForm.moveNumber,
+                inRepositoryId: that.personalForm.moveInRepository,
+                outRepositoryId: that.personalForm.moveOutRepository,
+                arrivalDate: that.personalForm.requestArrivalDate,
+                moveDate: that.personalForm.createDate,
+                createPersonId: that.$store.getters.userId,
+                countryId: that.$store.getters.countryId,
+                repositoryId: that.$store.getters.repositoryId,
+                regionId: that.$store.getters.regionId,
+                requestDeptId: that.$store.getters.deptId
+              }
+
+              const actualDiffDetail = that.diffDetailArr.map(item => {
+                return {
+                  productCode: item.productCode,
+                  productName: item.productName,
+                  color: item.color,
+                  sendQuantity: item.moveQuantity,
+                  actualQuantity: item.actualQuantity,
+                  diffQuantity: Math.abs(Number(item.moveQuantity) - Number(item.actualQuantity)),
+                  diffMoney: 0,
+                  result: null
+                }
+              })
+
+              console.log('diffData', diffData)
+              console.log('actualDiffDetail', actualDiffDetail)
+              console.log('this.list4', this.list4)
+              console.log('rest', rest)
+              const isEveryArr = rest.map(item => {
+                return item.stat
+              }).every(item => {
+                return item === 2
+              })
+
+              console.log('isEveryArr', isEveryArr)
+
+              if (isEveryArr) {
+                console.log('监听变化')
+
+                const diffDataParms = JSON.stringify(diffData)
+                const diffDetailDataParms = JSON.stringify(actualDiffDetail)
+
+                createstoragemovediff(diffDataParms, diffDetailDataParms, diffData).then(res => {
+                  console.log('res2', res)
+                  if (res.data.ret === 200) {
+                    this.$emit('rest', true)
+                    this.editVisible = false
+                  }
+                })
+              }
             }
           })
         } else {

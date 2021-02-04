@@ -333,6 +333,7 @@ export default {
 
       this.newApprovalParms.processNames = name.join(',')
       this.newApprovalParms.processIds = id.join(',')
+      this.newApprovalParms.createId = this.$store.getters.userId
       console.log('this.newApprovalParms', this.newApprovalParms)
       if (!this.newApprovalParms.remark) {
         this.$notify.error({

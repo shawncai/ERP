@@ -213,7 +213,7 @@
 
 <script>
 import { getRepositoryList, detailList } from '@/api/Expenses'
-import { regionlist } from '@/api/public'
+import { regionlist, getregionlistbyreid } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchlist, deletestoragemove, updateStoragemove2 } from '@/api/Storagemove'
 import waves from '@/directive/waves' // Waves directive
@@ -257,6 +257,7 @@ export default {
   },
   data() {
     return {
+      usersRegions: [],
       sploading: false,
       tableHeight: 200,
 
@@ -350,6 +351,7 @@ export default {
     this.getlist()
     this.getallrepositorys()
     this.getallregionlist()
+    this.getChildRegion()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -358,6 +360,20 @@ export default {
     _that = this
   },
   methods: {
+    getChildRegion() {
+      const parms = {
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionId
+      }
+
+      getregionlistbyreid(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.usersRegions = res.data.data.content.map(item => {
+            return item.id
+          })
+        }
+      })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -835,10 +851,12 @@ export default {
       console.log(this.$store.getters.userId)
       console.log(this.$store.getters.regionId)
       console.log('userepository', userepository)
+      const judgeRegion = this.usersRegions.includes(row.moveOutRepositoryRegion)
+      console.log('judgeRegion', judgeRegion)
       if (row.moveType === 1) {
         console.log('row', row)
         console.log('row.modifyStat', row.modifyStat)
-        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (this.$store.getters.regionId === row.moveOutRepositoryRegion && this.$store.getters.repositoryId === 0))) {
+        if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0 && (userepository === row.moveOutRepository || (judgeRegion && this.$store.getters.repositoryId === 0))) {
           console.log(1233444444)
           const approvalUse = row.approvalUseVos
           const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
