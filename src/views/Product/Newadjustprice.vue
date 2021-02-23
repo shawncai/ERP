@@ -24,7 +24,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Product.saleprice2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('StockAlarm.salePrice2')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.saleprice" placeholder="请输入当前零售价" clearable style="width: 200px"/>
                 </el-form-item>
               </el-col>

@@ -96,7 +96,7 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
+      <el-table-column :label="$t('StockAlarm.salePrice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.salePrice }}</span>
         </template>
@@ -217,7 +217,7 @@ export default {
     }
   },
   created() {
-    this.getlist()
+    // this.getlist()
   },
   beforeCreate() {
     _that = this
@@ -254,7 +254,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      this.getemplist.searchRepositoryId = ''
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

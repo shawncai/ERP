@@ -13,7 +13,7 @@
         <el-form-item :label="$t('Product.productcode')" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.productCode" disabled/>
         </el-form-item>
-        <el-form-item :label="$t('Product.saleprice2')" style="width: 40%;margin-top:1%">
+        <el-form-item :label="$t('StockAlarm.salePrice2')" style="width: 40%;margin-top:1%">
           <el-input v-model="personalForm.salePrice" disabled/>
         </el-form-item>
         <el-form-item :label="$t('Product.tradeprice2')" style="width: 40%;margin-top:1%">

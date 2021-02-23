@@ -86,7 +86,7 @@
           <span>{{ scope.row.point }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Product.saleprice')" :resizable="false" prop="costPrice" align="center" width="100">
+      <el-table-column :label="$t('StockAlarm.salePrice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.salePrice }}</span>
         </template>

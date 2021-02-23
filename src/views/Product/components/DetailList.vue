@@ -209,7 +209,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="width: 100%;">
+              <el-form-item :label="$t('StockAlarm.salePrice')" prop="saleprice" style="width: 100%;">
                 {{ personalForm.salePrice }}
               </el-form-item>
             </el-col>

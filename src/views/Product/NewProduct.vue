@@ -378,7 +378,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('Product.saleprice')" prop="saleprice" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+              <el-form-item :label="$t('StockAlarm.salePrice')" prop="saleprice" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                 <el-input v-model="personalForm.saleprice" placeholder="请输入零售价" style="width: 200px" clearable/>
               </el-form-item>
             </el-col>
