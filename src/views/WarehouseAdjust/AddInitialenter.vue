@@ -55,11 +55,15 @@
         <div class="buttons" style="margin-top: 58px">
           <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button type="warning" @click="exportExcel">{{ $t('updates.drsj') }}</el-button>
+          <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+
         </div>
         <my-detail :control.sync="control" :checklist.sync="checklist" @product="productdetail"/>
         <div class="container">
           <el-editable
             ref="editable"
+            :key="tableKey"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
@@ -97,11 +101,21 @@
               </template>
             </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
-            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
+
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.rkje')" prop="totalMoney" align="center" min-width="170">
+              <template slot="edit" slot-scope="scope">
+                <el-input-number
+                  :precision="2"
+                  :controls="false"
+                  :min="0"
+                  v-model="scope.row.totalMoney"/>
+              </template>
+            </el-editable-column>
+            <!-- <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
               </template>
-            </el-editable-column>
+            </el-editable-column> -->
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
         </div>
@@ -125,6 +139,8 @@ import { getdeptlist } from '@/api/BasicSettings'
 import MyCreate from './components/MyCreate'
 import MyRepository from './components/MyRepository'
 import MyDetail from './components/MyDetail'
+import XLSX from 'xlsx'
+
 var _that
 export default {
   name: 'AddInitialenter',
@@ -139,6 +155,12 @@ export default {
       }
     }
     return {
+      tableKey: 0,
+      loading: false,
+      excelData: {
+        header: null,
+        results: null
+      },
       saveloding: false,
       checklist: [],
       locationlistparms: {
@@ -206,6 +228,128 @@ export default {
     _that = this
   },
   methods: {
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    clearuplod() {
+      this.exportparms = {
+        typeid: '',
+        categoryid: ''
+      }
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    onSuccess({ results, header }) {
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: 'Loading',
+      //   spinner: 'el-icon-loading',
+      //   background: 'rgba(0, 0, 0, 0.7)'
+      // })
+
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          productCode: item.物品编号,
+          productName: item.物品名称,
+          color: item.颜色,
+          productType: item.规格型号,
+          unit: item.单位,
+          enterQuantity: item.入库数量,
+          price: item.单价,
+          totalMoney: item.入库金额,
+          remarks: item.备注,
+          typeId: item.规格id,
+          basicQuantity: item.基本数量
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.list2 = uploaddata
+      this.tableKey = Math.random()
+      // const jsonupload = JSON.stringify(uploaddata)
+      // setTimeout(() => {
+      //   loading.close()
+      // }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    exportExcel() {
+      this.$refs['excel-upload-input'].click()
+    },
     mykeyevent(row, index, e) {
       const keyCode = e.keyCode || e.which || e.charCode
       const oldvalue = row.enterQuantity

@@ -447,13 +447,13 @@
         <el-button :loading="saveloding" type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
       </div>
-      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+      <el-dialog :visible.sync="receiptVisible2" :title="$t('updates.kckz')" class="normal" width="600px" center>
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;" style="    width: 500px;">
-            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
+            <div style="width: 100%; height: 50vh;overflow: hidden;background: white;" >
               <el-table
                 :data="list111"
-                height="220"
+                height="500"
                 style="margin-left: 18px;width: 100%;margin-bottom: 0"
               >
                 <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
@@ -466,7 +466,7 @@
                     <span >{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="ableStock" align="center" min-width="150">
+                <el-table-column :resizable="false" :label="$t('countlist.ableStock')" align="center" min-width="150">
                   <template slot-scope="scope">
                     <span >{{ scope.row.ableStock }}</span>
                   </template>
@@ -483,7 +483,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { searchRoleDiscount } from '@/api/BasicSettings'
-import { countlist, getRate } from '@/api/public'
+import { countlist, getRate, countlist3 } from '@/api/public'
 import { createsaleContract } from '@/api/SaleContract'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -1104,11 +1104,11 @@ export default {
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$message.error('please single product ')
       } else {
-        countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
+        countlist3(this.personalForm.saleRepositoryId, this.moreaction[0].productCode).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
-            console.log('res.data.data.content', res.data.data.content.list)
-            this.list111 = res.data.data.content.list
+            console.log('res.data.data.content', res.data.data.content)
+            this.list111 = res.data.data.content
             this.receiptVisible2 = true
           } else {
             this.$notify.error({

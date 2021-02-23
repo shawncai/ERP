@@ -9,7 +9,13 @@
         <el-option :label="$t('updates.yes')" value="2"/>
       </el-select>
 
-      <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('updates.djbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('LogisticsCar.sourcenumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="getemplist.invoiceNumber" :placeholder="$t('update4.invoiceNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
+      <el-input v-model="supplierId" :placeholder="$t('SupplierAdjust.supplierId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="clearSupplier"/>
+
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -446,6 +452,10 @@ export default {
     stockName(val) {
       this.stockPersonId = val.personName
       this.getemplist.stockPersonId = val.id
+    },
+    clearSupplier() {
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     // 供应商输入框focus事件触发
     handlechoose() {

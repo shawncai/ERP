@@ -652,7 +652,9 @@ export default {
       handler(oldval, newval) {
         let num = 0
         for (const i in this.list2) {
-          num += Number(this.list2[i].includeTaxMoney)
+          if (this.list2[i].productCode.slice(0, 2) === '01') {
+            num += Number(this.list2[i].includeTaxMoney)
+          }
         }
         if (this.personalForm.isSecondApply === 1 || this.personalForm.sourceType === '2') {
           this.price = num

@@ -143,7 +143,7 @@
             <el-button v-permission="['131-141-360-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
             <el-button v-permission="['131-141-360-2']" v-if="scope.row.judgeStat === 0" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('public.delete') }}</el-button>
             <el-button v-permission="['131-141-360-84']" v-show="scope.row.judgeStat === 2&& scope.row.receiptStat === 2" :loading="returnLoading" type="success" size="mini" @click="handReturnInventory(scope.row)">{{ $t('update4.querenfanhuan') }}</el-button>
-            <el-button v-permission="['131-141-360-85']" v-show="scope.row.judgeStat === 2&& scope.row.receiptStat === 2" type="success" size="mini" @click="handleReview3(scope.row)">{{ $t('update4.shengchengpeichangdan') }}</el-button>
+            <!-- <el-button v-permission="['131-141-360-85']" v-show="scope.row.judgeStat === 2&& scope.row.receiptStat === 2" type="success" size="mini" @click="handleReview3(scope.row)">{{ $t('update4.shengchengpeichangdan') }}</el-button> -->
 
           </template>
         </el-table-column>

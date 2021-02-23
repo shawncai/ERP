@@ -149,7 +149,8 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: _that.$t('route.Inventorydamaged'),
-        2: _that.$t('route.InventoryCount')
+        2: _that.$t('route.InventoryCount'),
+        3: _that.$t('route.difflist')
       }
       return statusMap[status]
     },

@@ -145,7 +145,7 @@ export default {
     moverepostirylist: '配置调拨仓库',
     Storagemovediff: '库存差异报告',
     AddStoragemovediff: '新建调拨差异报告',
-    difflist: '调拨差异报告列表',
+    difflist: '调拨差异报告',
     AddMoveApplication: '新建调拨申请',
     MoveApplicationList: '调拨申请列表',
     StockAlarm: '库存预警',

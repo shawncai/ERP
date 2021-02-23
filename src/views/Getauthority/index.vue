@@ -138,7 +138,8 @@ export default {
       listLoading: true,
       getemplist: {
         createPersonId: this.$store.getters.userId,
-        rolename: null
+        rolename: null,
+        isConfirm: 2
       },
       checkroleId: null
     }
@@ -244,6 +245,7 @@ export default {
     },
     restAllForm() {
       this.getemplist.rolename = null
+      this.getemplist.confirmParms = 2
     },
     // 新建角色
     newRole() {

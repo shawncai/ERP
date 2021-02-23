@@ -18,6 +18,7 @@
                   <el-select v-model="personalForm.sourceType" style="width: 200px" >
                     <el-option :label="$t('route.Inventorydamaged')" value="1"/>
                     <el-option :label="$t('route.InventoryCount')" value="2"/>
+                    <el-option :label="$t('route.difflist')" value="3"/>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -26,7 +27,8 @@
                   <el-input v-model="personalForm.sourceNumber" style="width: 200px" @focus="chooseSourceType"/>
                 </el-form-item>
                 <my-damage :saleoutcontrol.sync ="damageControl" @damageData="damageData"/>
-                <my-count :countcontrol.sync = "countcontrol" @countData="countData"/>
+                <my-count :countcontrol.sync ="countcontrol" @countData="countData"/>
+                <my-diff :diffcontrol.sync="diffcontrol" @diffData="diffData"/>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('recoveryCarDetail.repositoryName')" prop="handleRepositryId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
@@ -110,12 +112,13 @@ import MyRepository from '../SaleOrder/components/MyRepository'
 import MyEmp from '../SaleOrder/components/MyEmp'
 import MyDamage from './components/MyDamage'
 import MyCount from './components/MyCount'
+import MyDiff from './components/MyDiff'
 
 import { addCustomerProduct } from '@/api/Customer'
 
 export default {
   name: 'NewCustomerGroup',
-  components: { MyCustomer, MyRepository, MyEmp, MyDamage, MyCount },
+  components: { MyCustomer, MyRepository, MyEmp, MyDamage, MyCount, MyDiff },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
@@ -141,6 +144,7 @@ export default {
       }
     }
     return {
+      diffcontrol: false,
       countcontrol: false,
       damageControl: false,
       repositorycontrol: false,
@@ -186,6 +190,15 @@ export default {
     }
   },
   methods: {
+    diffData(val) {
+      console.log('val3', val)
+      this.personalForm.sourceNumber = val.moveNumber
+      this.handlePersonId = val.createPersonName
+      this.personalForm.handlePersonId = val.createPersonId
+      this.handleRepositryId = val.inRepositoryName
+      this.personalForm.handleRepositryId = val.inRepositoryId
+      this.getEmpData()
+    },
     countData(val) {
       console.log('val2', val)
       this.personalForm.sourceNumber = val.countNumber
@@ -207,8 +220,10 @@ export default {
     chooseSourceType() {
       if (this.personalForm.sourceType === '1') {
         this.damageControl = true
-      } else {
+      } else if (this.personalForm.sourceType === '2') {
         this.countcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.diffcontrol = true
       }
     },
     repositoryname(val) {

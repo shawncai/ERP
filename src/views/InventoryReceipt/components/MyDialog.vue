@@ -16,6 +16,8 @@
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" >
                   <el-option :label="$t('route.Inventorydamaged')" value="1"/>
                   <el-option :label="$t('route.InventoryCount')" value="2"/>
+                  <el-option :label="$t('route.difflist')" value="3"/>
+
                 </el-select>
               </el-form-item>
             </el-col>
@@ -25,6 +27,8 @@
               </el-form-item>
               <my-damage :saleoutcontrol.sync ="damageControl" @damageData="damageData"/>
               <my-count :countcontrol.sync = "countcontrol" @countData="countData"/>
+              <my-diff :diffcontrol.sync="diffcontrol" @diffData="diffData"/>
+
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('recoveryCarDetail.repositoryName')" prop="handleRepositryId" style="width: 100%;">
@@ -108,10 +112,11 @@ import MyRepository from '../../SaleOrder/components/MyRepository'
 import MyEmp from '../../SaleOrder/components/MyEmp'
 import MyDamage from './MyDamage'
 import MyCount from './MyCount'
+import MyDiff from './MyDiff'
 
 var _that
 export default {
-  components: { MyCustomer, MyRepository, MyEmp, MyDamage, MyCount },
+  components: { MyCustomer, MyRepository, MyEmp, MyDamage, MyCount, MyDiff },
   props: {
     editcontrol: {
       type: Boolean,
@@ -147,6 +152,7 @@ export default {
       }
     }
     return {
+      diffcontrol: false,
 
       // 弹窗组件的控制
       editVisible: this.editcontrol,
@@ -210,6 +216,15 @@ export default {
     _that = this
   },
   methods: {
+    diffData(val) {
+      console.log('val3', val)
+      this.personalForm.sourceNumber = val.moveNumber
+      this.handlePersonId = val.createPersonName
+      this.personalForm.handlePersonId = val.createPersonId
+      this.handleRepositryId = val.inRepositoryName
+      this.personalForm.handleRepositryId = val.inRepositoryId
+      this.getEmpData()
+    },
     countData(val) {
       console.log('val2', val)
       this.personalForm.sourceNumber = val.countNumber
@@ -231,8 +246,10 @@ export default {
     chooseSourceType() {
       if (this.personalForm.sourceType === '1') {
         this.damageControl = true
-      } else {
+      } else if (this.personalForm.sourceType === '2') {
         this.countcontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.diffcontrol = true
       }
     },
     repositoryname(val) {

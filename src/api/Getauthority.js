@@ -25,6 +25,10 @@ export function addrole(query) {
   if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
     params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
   }
+  if (query.isConfirm !== '' && query.isConfirm !== null && query.isConfirm !== undefined) {
+    params.append('isConfirm', query.isConfirm) // 你要传给后台的参数值 key/value
+  }
+
   return request({
     url: '/role/addrole',
     method: 'post',

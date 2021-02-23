@@ -83,11 +83,20 @@
           <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" width="150px"/> -->
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="enterQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.rkje')" prop="totalMoney" align="center" min-width="170">
+            <template slot="edit" slot-scope="scope">
+              <el-input-number
+                :precision="2"
+                :controls="false"
+                :min="0"
+                v-model="scope.row.totalMoney"/>
+            </template>
+          </el-editable-column>
+          <!-- <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
       </div>

@@ -100,6 +100,7 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
+            height="500"
             class="click-table1"
             border
             size="small"

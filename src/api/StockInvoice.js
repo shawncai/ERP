@@ -27,6 +27,9 @@ export function stockInvoiceList(query) {
   if (query.invoiceNumber !== '' && query.invoiceNumber !== null && query.invoiceNumber !== undefined) {
     params.append('invoiceNumber', query.invoiceNumber) // 你要传给后台的参数值 key/value
   }
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }

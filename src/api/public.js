@@ -12,7 +12,7 @@ export function getPrintCount(query) {
   return request({
     url: '/printNum/getPrintCount',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -31,7 +31,7 @@ export function addPrint(query) {
   return request({
     url: '/printNum/addPrint',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -53,7 +53,7 @@ export function vehicleInfo(query) {
   return request({
     url: '/vehicleTrack/vehicleInfo',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -66,7 +66,7 @@ export function getRate(query) {
   return request({
     url: '/zcc/getRate',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -100,7 +100,7 @@ export function endMonthCount(query) {
   return request({
     url: '/endmonth/endMonthCount',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -116,7 +116,7 @@ export function countlist3(query1, query2) {
   return request({
     url: '/allinventory/countlist3',
     method: 'post',
-    params: params
+    data: params
   })
 }
 
@@ -135,7 +135,7 @@ export function countlist(query1, query2, query3) {
   return request({
     url: '/allinventory/countlist',
     method: 'post',
-    params: params
+    data: params
   })
 }
 // 库存查询
@@ -167,7 +167,7 @@ export function getcountrylist(query) {
   return request({
     url: '/country/getcountrylist',
     method: 'post',
-    params: query
+    data: query
   })
 }
 
@@ -176,7 +176,7 @@ export function regionlist(query) {
   return request({
     url: '/region/detaillist',
     method: 'post',
-    params: query
+    data: query
   })
 }
 
@@ -185,7 +185,7 @@ export function regionlist2(query) {
   return request({
     url: '/region/detaillist',
     method: 'post',
-    params: query
+    data: query
   })
 }
 

@@ -1076,6 +1076,12 @@ export default {
           })
           return false
         }
+        for (const i in EnterDetail) {
+          if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
+            EnterDetail[i].thisMoney = 0
+          }
+        }
+
         const parms2 = JSON.stringify(EnterDetail)
         const Data = this.personalForm
         for (const key in Data) {
@@ -1125,6 +1131,11 @@ export default {
             offset: 100
           })
           return false
+        }
+        for (const i in EnterDetail) {
+          if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
+            EnterDetail[i].thisMoney = 0
+          }
         }
         console.log('EnterDetail', EnterDetail)
         const parms2 = JSON.stringify(EnterDetail)

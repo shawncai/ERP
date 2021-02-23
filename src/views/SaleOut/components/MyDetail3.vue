@@ -267,6 +267,7 @@ export default {
       console.log('this.query', this.query)
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       this.getemplist.customerId = this.query.customerId
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       if (this.$store.getters.countryId === 1) {
         const that = this
         chooseCustomerProduct(this.getemplist).then(res => {

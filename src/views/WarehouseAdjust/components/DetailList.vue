@@ -5,6 +5,7 @@
       <el-card class="box-card">
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-if="personalForm.judgeStat !== 0 || personalForm.judgeStat !== 3" class="print" style="font-size: 13px;background: white;" @click="printdata">{{ $t('updates.print') }}</button>
+        <el-button :loading="downloadLoading" class="print" style="font-size: 13px;background: white;" @click="exportData">{{ $t('public.export') }}</el-button>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="100px" style="margin-left: 30px;">
             <el-row>
@@ -88,11 +89,7 @@
             <!-- <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" /> -->
             <el-editable-column :label="$t('updates.rksl')" prop="enterQuantity" align="center" />
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" />
-            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" >
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.enterQuantity, scope.row.price) }}</p>
-              </template>
-            </el-editable-column>
+            <el-editable-column :label="$t('updates.rkje')" prop="totalMoney" align="center" />
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" />
           </el-editable>
         </div>
@@ -173,6 +170,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       // 审核步骤数据
       reviewList: [],
       // 弹窗组件的控制
@@ -249,6 +247,26 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    exportData() {
+      console.log('this.list2', this.list2)
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '颜色', '规格型号', '单位', '入库数量', '单价', '入库金额', '备注', '规格id', '基本数量']
+          const filterVal = ['productCode', 'productName', 'color', 'productType', 'unit', 'enterQuantity', 'price', 'totalMoney', 'remarks', 'typeId', 'basicQuantity']
+          const data = this.formatJson(filterVal, this.list2)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '导出'
+          })
+          this.downloadLoading = false
+        })
+    },
     getlist() {
       // 部门列表数据
       getdeptlist().then(res => {
