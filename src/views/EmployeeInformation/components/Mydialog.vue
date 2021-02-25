@@ -188,7 +188,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('NewEmployeeInformation.regionids')" style="width: 100%;">
-                <el-input v-model="chargeRegions" style="margin-left: 18px;width: 200px" @focus="treechoose"/>
+                <el-input v-model="chargeRegions" style="margin-left: 18px;width: 200px" clearable @focus="treechoose" @clear="clearRegions"/>
                 <my-tree :treecontrol.sync="treecontrol" :supp.sync="supp" @ids2="ids2" @ids="ids" @names="names"/>
               </el-form-item>
             </el-col>
@@ -409,6 +409,10 @@ export default {
     _that = this
   },
   methods: {
+    clearRegions() {
+      this.personalForm.chargeRegions = ''
+      this.chargeRegions = ''
+    },
     clearrepo() {
       this.personalForm.repositoryId = ''
     },

@@ -279,7 +279,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
-          const seven = 60 * 24 * 60 * 60 * 1000
+          const seven = 130 * 24 * 60 * 60 * 1000
           const sevenDays = _now - seven
           return time.getTime() > _now || time.getTime() < sevenDays
         }
@@ -1080,6 +1080,9 @@ export default {
           if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
             EnterDetail[i].thisMoney = 0
           }
+          if (EnterDetail[i].penalty === null || EnterDetail[i].penalty === undefined) {
+            EnterDetail[i].penalty = 0
+          }
         }
 
         const parms2 = JSON.stringify(EnterDetail)
@@ -1136,7 +1139,11 @@ export default {
           if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
             EnterDetail[i].thisMoney = 0
           }
+          if (EnterDetail[i].penalty === null || EnterDetail[i].penalty === undefined) {
+            EnterDetail[i].penalty = 0
+          }
         }
+
         console.log('EnterDetail', EnterDetail)
         const parms2 = JSON.stringify(EnterDetail)
         console.log('this.personalForm.couponSupports', this.personalForm.couponSupports)

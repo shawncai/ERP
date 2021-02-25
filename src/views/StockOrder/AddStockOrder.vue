@@ -153,7 +153,7 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgddmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" size="mini" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
+          <my-detail v-if="reflash" :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button :disabled="addsouce" size="mini" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
           <my-plan :plancontrol.sync="plancontrol" :supp.sync="supp" @plan="plan" @allPlaninfo="allPlaninfo"/>
@@ -421,6 +421,7 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      reflash: false,
       repositorycontrol: false,
       stockRepositoryId: '',
       // 控制采购类型，采购部门是否可以编辑
@@ -1429,6 +1430,7 @@ export default {
       this.IsStockTypeId = false
       // 控制部门是否可以编辑
       this.IsDeptId = false
+      this.reflash = false
     },
     // 深拷贝
     deepClone(obj) {
@@ -1438,6 +1440,7 @@ export default {
     },
     // 保存操作
     handlesave() {
+      this.reflash = true
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.editable.validate().then(valid => {

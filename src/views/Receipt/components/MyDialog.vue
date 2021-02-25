@@ -95,6 +95,7 @@
               <el-form-item :label="$t('Receipt.receiptDate')" prop="payDate" style="width: 100%;">
                 <el-date-picker
                   v-model="personalForm.receiptDate"
+                  :picker-options="pickerOptions2"
                   type="date"
                   value-format="yyyy-MM-dd"
                   style="margin-left: 18px;width: 200px"/>
@@ -279,6 +280,14 @@ export default {
       }
     }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 130 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       personalForm2: {
         couponSupports: [
           {
@@ -1073,6 +1082,7 @@ export default {
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
+
       if (this.personalForm.customerType === '1') {
         const EnterDetail = this.$refs.editable.getRecords()
         if (EnterDetail.length === 0) {
@@ -1082,6 +1092,14 @@ export default {
             offset: 100
           })
           return false
+        }
+        for (const i in EnterDetail) {
+          if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
+            EnterDetail[i].thisMoney = 0
+          }
+          if (EnterDetail[i].penalty === null || EnterDetail[i].penalty === undefined) {
+            EnterDetail[i].penalty = 0
+          }
         }
         const parms2 = JSON.stringify(EnterDetail)
         const Data = this.personalForm
@@ -1133,6 +1151,14 @@ export default {
             offset: 100
           })
           return false
+        }
+        for (const i in EnterDetail) {
+          if (EnterDetail[i].thisMoney === null || EnterDetail[i].thisMoney === undefined) {
+            EnterDetail[i].thisMoney = 0
+          }
+          if (EnterDetail[i].penalty === null || EnterDetail[i].penalty === undefined) {
+            EnterDetail[i].penalty = 0
+          }
         }
         const parms2 = JSON.stringify(EnterDetail)
         console.log('this.personalForm.couponSupports', this.personalForm2.couponSupports)

@@ -152,7 +152,7 @@
       <div ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">采购订货单明细</div>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="addpro" size="mini" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" :supp.sync="supp" @product="productdetail"/>
+        <my-detail v-if="editVisible" :control.sync="control" :supp.sync="supp" @product="productdetail"/>
         <el-button :disabled="addsouce" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
         <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
         <my-plan :plancontrol.sync="plancontrol" :supp.sync="supp" @plan="plan" @allPlaninfo="allPlaninfo"/>
