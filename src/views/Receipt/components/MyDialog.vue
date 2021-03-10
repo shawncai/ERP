@@ -525,7 +525,7 @@ export default {
     },
     changereceiptmoney(money) {
       console.log()
-      const val = Number(money) + Number(this.personalForm.couponSupport)
+      const val = Number(money)
       console.log(val)
       this.$refs.editable2.clear()
       const data = this.deepClone(this.allorderarr)

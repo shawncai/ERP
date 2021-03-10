@@ -595,7 +595,7 @@ export default {
       let jungle = false
       if (row.storageMoveDetailConfirmVos.length === row.storageMoveDetailVos.length) {
         jungle = true
-      } else {
+      } else if (row.storageMoveDetailConfirmVos.length === 0 && row.storageMoveDetailVos.length === 0) {
         jungle = false
       }
       if (row.judgeStat === 2 && jungle === false) {

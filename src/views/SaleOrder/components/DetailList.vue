@@ -133,6 +133,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
+            height="500"
             size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>

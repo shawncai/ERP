@@ -456,9 +456,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(6)
             } else {
-              return prev
+              return Number(prev).toFixed(6)
             }
           }, 0)
           sums[index] += ''
@@ -539,6 +539,21 @@ export default {
           offset: 100
         })
         return false
+      }
+      for (const i in EnterDetail) {
+        for (const j in EnterDetail2) {
+          if (EnterDetail[i].productCode === EnterDetail2[j].productCode && Number(EnterDetail[i].quantity) !== Number(EnterDetail2[j].quantity)) {
+            console.log('EnterDetail[i].quantity', EnterDetail[i].quantity)
+            console.log('EnterDetail2[j].quantity', EnterDetail2[j].quantity)
+
+            this.$notify.error({
+              title: 'wrong',
+              message: '加工后明细和原材料明细数量不一致',
+              offset: 100
+            })
+            return false
+          }
+        }
       }
       const parms2 = JSON.stringify(EnterDetail)
       const parms3 = JSON.stringify(EnterDetail2)

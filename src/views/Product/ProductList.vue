@@ -14,7 +14,7 @@
         width="500"
         size="small"
         trigger="click">
-        <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" size="small" clearable style="width: 40%;float: left;margin-left: 20px">
+        <el-select v-model="getemplist.typeid" :placeholder="$t('Hmodule.qxzggxh')" filterable size="small" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option
             v-for="(item, index) in types"
             :key="index"

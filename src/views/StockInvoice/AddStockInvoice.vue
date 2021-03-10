@@ -203,7 +203,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ scope.row.includeTaxPrice }}</p>
+                <p v-show="jundgeprice()">{{ (scope.row.includeTaxPrice).toFixed(2) }}</p>
               </template>
               <!-- <template slot-scope="scope">
                 <el-input-number
@@ -244,7 +244,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   v-show="jundgeprice()"
-                  :precision="6"
+                  :precision="2"
                   v-model="scope.row.discountRate"
                   @input="getdiscountRate(scope.row, scope)"/>
               </template>
@@ -253,7 +253,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   v-show="jundgeprice()"
-                  :precision="6"
+                  :precision="2"
                   v-model="scope.row.discountMoney"
                   @change="getdiscountMoney(scope.row)"/>
               </template>
@@ -682,10 +682,10 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
               console.log(prev)
-              return prev
+              return Number(prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -714,7 +714,7 @@ export default {
     getdiscountMoney(row) {
       console.log(row)
       if (row.includeTaxPrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = (((row.discountMoney / row.includeTaxMoney).toFixed(6)) * 100).toFixed(6)
+        row.discountRate = (((row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
       }
     },
     // 通过折扣计算折扣额
@@ -736,7 +736,7 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.quantity * (row.discountRate / 100)).toFixed(6)
+        row.discountMoney = (row.includeTaxPrice * row.quantity * (row.discountRate / 100)).toFixed(2)
       }
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
         if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
@@ -774,33 +774,33 @@ export default {
         }
       }
       if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
       }
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {
       if (row.price !== 0) {
-        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(6)
+        row.taxRate = ((row.includeTaxPrice / row.price - 1) * 100).toFixed(2)
         console.log(row.taxRate)
       }
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.tax = Number(row.includeTaxMoney) - Number(row.money)
+      row.tax = (Number(row.includeTaxMoney) - Number(row.money)).toFixed(2)
       return row.tax
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(6)
+      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.price).toFixed(6)
+      row.money = (row.quantity * row.price).toFixed(2)
       return row.money
     },
     getways() {
@@ -905,7 +905,7 @@ export default {
       console.log('newnewarr======>', newnewarr)
       for (let i = 0; i < newnewarr.length; i++) {
         newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity - newnewarr[i].unJudgeQuantity).toFixed(6)
-        this.$refs.editable.insert(newnewarr[i])
+        this.$refs.editable.insertAt(newnewarr[i], -1)
       }
       this.$store.dispatch('getmyflagApproval', '')
     },

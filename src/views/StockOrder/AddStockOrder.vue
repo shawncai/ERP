@@ -153,7 +153,7 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgddmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="addpro" size="mini" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail v-if="reflash" :control.sync="control" :supp.sync="supp" @product="productdetail"/>
+          <my-detail v-if="control" :control.sync="control" :supp.sync="supp" @product="productdetail"/>
           <el-button :disabled="addsouce" size="mini" style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
           <my-apply :applycontrol.sync="applycontrol" @apply="apply" @allapplyinfo="allapplyinfo"/>
           <my-plan :plancontrol.sync="plancontrol" :supp.sync="supp" @plan="plan" @allPlaninfo="allPlaninfo"/>
@@ -871,7 +871,7 @@ export default {
     // 通过税率计算含税价
     gettaxRate(row) {
       console.log('row==============110', row.flag)
-      if (row.flag === undefined) {
+      if (!row.flag) {
         row.flag = true
       } else {
         return row.taxRate

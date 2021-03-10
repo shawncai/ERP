@@ -7,6 +7,16 @@
         <el-option value="1" label="工艺BOM"/>
         <el-option value="2" label="设计BOM"/>
         <el-option value="3" label="制造BOM"/>
+        <el-option value="4" label="采购BOM"/>
+        <el-option value="5" label="销售BOM"/>
+      </el-select>
+      <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" filterable clearable size="small" class="filter-item" >
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
       </el-select>
       <!--      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechoose"/>-->
       <!--      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>-->
@@ -95,6 +105,8 @@
 </template>
 
 <script>
+import { searchEmpCategory2 } from '@/api/Product'
+
 import { searchUnitGroup } from '@/api/UnitGroup'
 import { materialslist } from '@/api/MaterialsList'
 import { productlist } from '@/api/Product'
@@ -199,6 +211,7 @@ export default {
       this.productVisible = this.materialcontrol
       console.log(this.control)
       this.getlist()
+      this.getTypes()
 
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
@@ -207,11 +220,19 @@ export default {
   },
   created() {
     this.getlist()
+    this.getTypes()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getTypes() {
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
+    },
     // 物料清单列表数据
     getlist() {
       this.listLoading = true

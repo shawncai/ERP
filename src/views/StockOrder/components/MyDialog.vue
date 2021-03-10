@@ -729,7 +729,7 @@ export default {
       // if (row.includeTaxPrice !== 0) {
       //   row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       // }
-      if (row.flag === undefined) {
+      if (!row.flag) {
         row.flag = true
       } else {
         return row.taxRate

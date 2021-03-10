@@ -330,6 +330,14 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.planRepositoryId = this.personalForm.planRepositoryName
       this.personalForm.id = this.personalForm.parentid
+      this.personalForm.sourceType = String(this.personalForm.sourceType)
+      if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
+        this.addsouce = false
+        this.addpro = false
+      } else if (this.personalForm.sourceType === '3') {
+        this.addpro = false
+        this.addsouce = true
+      }
       for (const i in this.personalForm.stockPlanDetailVos) {
         delete this.personalForm.stockPlanDetailVos[i].stockPlanDetailVos
       }

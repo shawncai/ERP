@@ -246,6 +246,7 @@ export default {
   watch: {
     requirecontrol() {
       this.employeeVisible = this.requirecontrol
+      this.getlist()
 
       setTimeout(() => {
         this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
@@ -254,7 +255,6 @@ export default {
     requirerep() {
       this.getemplist.repositoryId = this.requirerep
       console.log('this.requirerep', this.requirerep)
-      this.getlist()
     }
   },
   beforeCreate() {

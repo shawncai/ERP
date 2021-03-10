@@ -410,8 +410,8 @@ export default {
       let num4 = 0
       let num5 = 0
       for (const i in this.list2) {
-        console.log(this.list2[i].basicQuantity)
-        num += this.list2[i].basicQuantity
+        console.log(this.list2[i].actualEnterQuantity)
+        num += this.list2[i].actualEnterQuantity
         num2 += this.list2[i].enterMoney
         num3 += this.list2[i].includeTaxMoney
         num4 += this.list2[i].taxMoney
@@ -704,7 +704,7 @@ export default {
             { field: 'productName', displayName: '物料名称', columnSize: `100px` },
             { field: 'productType', displayName: '规格型号', columnSize: `100px` },
             { field: 'unit', displayName: '单位', columnSize: `100px` },
-            { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
+            { field: 'actualEnterQuantity', displayName: '数量', columnSize: `100px` },
             { field: 'orderNumber', displayName: '订单编号', columnSize: `100px` },
             { field: 'sourceNumber', displayName: '源单编号', columnSize: `100px` },
             { field: 'remarks', displayName: '备注', columnSize: `100px` }
@@ -811,7 +811,7 @@ export default {
                 { field: 'productName', displayName: '物料名称', columnSize: `100px` },
                 { field: 'productType', displayName: '规格型号', columnSize: `100px` },
                 { field: 'unit', displayName: '单位', columnSize: `100px` },
-                { field: 'basicQuantity', displayName: '数量', columnSize: `100px` },
+                { field: 'actualEnterQuantity', displayName: '数量', columnSize: `100px` },
                 { field: 'remarks', displayName: '备注', columnSize: `100px` }
               ],
               header: `<div class="pringtitle">

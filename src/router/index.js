@@ -686,20 +686,20 @@ export const asyncRouterMap = [
       title: 'LogisticsCar',
       icon: 'wuliu',
       type: 9,
-      roles: ['1-247-248-1', '1-247-249-4']
+      roles: ['235-247-248-1', '235-247-249-4']
     },
     children: [
       {
         path: 'AddLogisticsCar',
         component: () => import('@/views/LogisticsCar/AddLogisticsCar'),
         name: 'AddLogisticsCar',
-        meta: { title: 'AddLogisticsCar', noCache: false, roles: ['1-247-248-1'] }
+        meta: { title: 'AddLogisticsCar', noCache: false, roles: ['235-247-248-1'] }
       },
       {
         path: 'LogisticsCarlist',
         component: () => import('@/views/LogisticsCar/LogisticsCarlist'),
         name: 'LogisticsCarlist',
-        meta: { title: 'LogisticsCarlist', noCache: false, roles: ['1-247-249-1', '1-247-249-2', '1-247-249-3', '1-247-249-4', '1-247-249-5', '1-247-249-6', '1-247-249-7'] }
+        meta: { title: 'LogisticsCarlist', noCache: false, roles: ['235-247-249-1', '235-247-249-2', '235-247-249-3', '235-247-249-4', '235-247-249-5', '235-247-249-6', '235-247-249-7'] }
       }
     ]
   },

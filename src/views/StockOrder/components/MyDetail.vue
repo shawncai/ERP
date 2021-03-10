@@ -157,7 +157,7 @@ export default {
       getRowKeys(row) {
         return row.code
       },
-      tableHeight: 200,
+      tableHeight: 500,
 
       // 供应商回显
       supplierId: '',
@@ -204,7 +204,7 @@ export default {
       console.log(this.control)
       this.getlist()
       setTimeout(() => {
-        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 180
+        this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop
       }, 100)
     },
     supp() {

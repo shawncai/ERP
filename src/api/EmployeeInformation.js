@@ -164,7 +164,7 @@ export function Verifyaccount(query) {
 // 提交修改
 export function updateemp(query) {
   var params = new URLSearchParams()
-  if (query.chargeRegions !== '' && query.chargeRegions !== null && query.chargeRegions !== undefined) {
+  if (query.chargeRegions !== null && query.chargeRegions !== undefined) {
     params.append('chargeRegions', query.chargeRegions) // 你要传给后台的参数值 key/value
   }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {

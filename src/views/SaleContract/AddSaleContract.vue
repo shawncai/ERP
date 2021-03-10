@@ -23,7 +23,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleContract.sourceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('SaleContract.sourceNumber')" :rules="personalForm.sourceType === '3' ? personalrules.sourceType:[{ required: true, message: '请选择配置', trigger: 'change' }]" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input :disabled="personalForm.sourceType === '3'" v-model="personalForm.sourceNumber" style="width: 200px" @focus="chooseData"/>
                 </el-form-item>
                 <my-opportunity :opportunitycontrol.sync="opportunitycontrol" @opportunityDetail="opportunityDetail" @opportunity="opportunity"/>
@@ -218,11 +218,11 @@
                   <el-date-picker
                     v-model="personalForm.installmentBegintime"
                     :picker-options="pickerOptions0"
-                    disabled
                     type="month"
                     value-format="yyyy-MM"
                     style="width: 200px"
-                    @change="clearfinal"/>
+                    @change="setEndTime"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="height: 57px">
@@ -505,6 +505,8 @@ import MyCustomer2 from './components/MyCustomer2'
 import MyRepository from './components/MyRepository'
 import { isSpecial } from '@/utils/judgeisspecial'
 
+import { addmulMonth } from '@/utils'
+
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
@@ -717,9 +719,7 @@ export default {
         deptId: [
           { required: true, message: 'please select dept', trigger: 'change' }
         ],
-        sourceType: [
-          { required: true, message: 'please select sourcetype', trigger: 'change' }
-        ],
+
         stockTypeId: [
           { required: true, message: 'please select stocktype', trigger: 'change' }
         ],
@@ -771,6 +771,11 @@ export default {
     _that = this
   },
   methods: {
+    setEndTime(val) {
+      const z = addmulMonth(val, this.personalForm.installmentCount)
+      console.log('z', z)
+      this.personalForm.installmentEndtime = z
+    },
     repositoryname(val) {
       this.saleRepositoryId = val.repositoryName
       this.personalForm.saleRepositoryId = val.id
@@ -812,7 +817,9 @@ export default {
         emonth = bmonth + this.personalForm.installmentCount % 12
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
-      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      const z = addmulMonth(this.personalForm.installmentBegintime, this.personalForm.installmentCount)
+      console.log('z', z)
+      this.personalForm.installmentEndtime = z
       if (this.personalForm.isManila === 2) {
         this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
       } else if (this.personalForm.isManila === 1) {
@@ -1680,7 +1687,9 @@ export default {
         emonth = bmonth + val.installmentCount % 12
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
-      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      const z = addmulMonth(this.personalForm.installmentBegintime, this.personalForm.installmentCount)
+      console.log('z', z)
+      this.personalForm.installmentEndtime = z
       this.personalForm.eachMoney = ((val.totalMoney) / val.installmentCount).toFixed(6)
     },
     // 更新类型

@@ -594,6 +594,7 @@ export default {
       if (this.regionId !== '' && this.regionId !== null && this.regionId !== undefined) {
         this.personalForm.regionId = this.regionId[this.regionId.length - 1]
       }
+      console.log('this.personalForm', this.personalForm)
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
           this.$refs.connectForm.validate((valid) => {

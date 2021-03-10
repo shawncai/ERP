@@ -456,9 +456,9 @@ export default {
       if (this.countquery.beginTime !== '') {
         this.getemplist.endTime = this.countquery.endTime
       }
-      // this.getlist()
+      this.getlist()
     } else {
-      // this.getlist()
+      this.getlist()
     }
     // this.getlist()
     setTimeout(() => {

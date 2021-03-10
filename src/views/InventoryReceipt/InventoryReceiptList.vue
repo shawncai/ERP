@@ -76,8 +76,7 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @row-click="clickRow"
-        @selection-change="handleSelectionChange">
+      >
         <el-table-column
           :selectable="selectInit"
           type="selection"
@@ -89,7 +88,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.receiptNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="detailData"/>
         </el-table-column>
         <el-table-column :label="$t('Storagemovediff.title')" :resizable="false" fixed="left" align="center" >
           <template slot-scope="scope">
@@ -124,8 +123,8 @@
 
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center">
           <template slot-scope="scope">
-            <el-button v-permission="['131-415-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" :key="scope.row.id + Math.random()" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission="['131-415-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" :key="scope.row.id + Math.random()" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['131-415-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['131-415-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-show="judgeStat(scope.row)" :title="$t('update4.shoukandanquerenshouk')" type="success" size="mini" icon="el-icon-check" circle @click="handleConfirm(scope.row)"/>
@@ -191,6 +190,7 @@ export default {
   },
   data() {
     return {
+      detailData: {},
       confirmData: '',
       confirmControl: false,
       empId: '',
@@ -587,7 +587,7 @@ export default {
     handleDetail(row) {
       console.log(row)
       this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      this.detailData = Object.assign({}, row)
     },
     // // 判断审核按钮
     // isReview(row) {

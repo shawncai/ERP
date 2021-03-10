@@ -289,3 +289,25 @@ export function uniqueArr(arr) {
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+
+export function addmulMonth(dtstr, z)
+    {  
+        var s = dtstr.split("-");
+        var yy = parseInt(s[0]);
+        var mm = parseInt(s[1]); 
+        var dd = '01'; 
+        var dt = new Date(yy, mm, dd); 
+        var n = z - 1
+        console.log('n', n)
+        
+        var num=dt.getMonth() + parseInt(n);
+        if(num/12>1){
+           yy+=Math.floor(num/12) ;
+           mm=num%12;
+        }else{
+            mm+=parseInt(n);
+        }
+     
+        return yy + "-" + mm 
+    }   

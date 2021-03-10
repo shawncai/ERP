@@ -98,7 +98,7 @@
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('public.createPersonName2')" prop="stockType" style="width: 100%;">
+                <el-form-item :label="$t('public.createPersonName2')" style="width: 100%;">
                   {{ personalForm.createPersonName }}
                 </el-form-item>
               </el-col>
@@ -108,22 +108,22 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('public.endPersonName')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('public.endPersonName')" style="width: 100%;">
                   {{ personalForm.endPersonName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('public.endDate')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('public.endDate')" style="width: 100%;">
                   {{ personalForm.endDate }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('public.modifyPersonName')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('public.modifyPersonName')" style="width: 100%;">
                   {{ personalForm.modifyPersonName }}
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('public.modifyDate')" prop="applyDate" style="width: 100%;">
+                <el-form-item :label="$t('public.modifyDate')" style="width: 100%;">
                   {{ personalForm.modifyDate }}
                 </el-form-item>
               </el-col>

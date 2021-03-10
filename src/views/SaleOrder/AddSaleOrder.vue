@@ -236,6 +236,7 @@
             :summary-method="getSummaries"
             class="click-table1"
             show-summary
+            height="500"
             stripe
             border
             size="small"
@@ -256,7 +257,7 @@
                 <el-input-number
                   :precision="6"
                   :controls="false"
-                  :min="1.00"
+                  :min="0.00"
                   v-model="scope.row.quantity"
                   @change="queryStock(scope.row)"
                 />

@@ -387,7 +387,7 @@ export default {
           console.log('监听开始')
           const reviewParms = {}
           reviewParms.id = this.id
-          reviewParms.confirmPersonId = this.$store.getters.userId
+          // reviewParms.confirmPersonId = ''
           reviewParms.confirmDate = this.getdatatime()
           reviewParms.businessStat = 4
           let count = 0

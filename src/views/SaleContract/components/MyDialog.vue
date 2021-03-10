@@ -424,6 +424,7 @@ import MyAgent from './MyAgent'
 import MyCustomer from '../../SaleOpportunity/components/MyCustomer'
 import MyPackage from './MyPackage'
 import { isSpecial } from '@/utils/judgeisspecial'
+import { addmulMonth } from '@/utils'
 
 // eslint-disable-next-line no-unused-vars
 var _that
@@ -708,7 +709,9 @@ export default {
         emonth = bmonth + this.personalForm.installmentCount % 12
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
-      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      const z = addmulMonth(this.personalForm.installmentBegintime, this.personalForm.installmentCount)
+      console.log('z', z)
+      this.personalForm.installmentEndtime = z
       if (this.personalForm.isManila === 2) {
         this.personalForm.eachMoney = ((this.personalForm.totalMoney) / this.personalForm.installmentCount).toFixed(6)
       } else if (this.personalForm.isManila === 1) {
@@ -1257,7 +1260,9 @@ export default {
         emonth = bmonth + val.installmentCount % 12
       }
       this.personalForm.installmentBegintime = `${byear}-${bmonth}`
-      this.personalForm.installmentEndtime = `${eyear}-${emonth}`
+      const z = addmulMonth(this.personalForm.installmentBegintime, this.personalForm.installmentCount)
+      console.log('z', z)
+      this.personalForm.installmentEndtime = z
       this.personalForm.eachMoney = ((val.totalMoney) / val.installmentCount).toFixed(6)
     },
     // 更新类型

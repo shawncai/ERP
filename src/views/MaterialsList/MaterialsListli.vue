@@ -14,11 +14,19 @@
 
       <el-input v-model="getemplist.productName" :placeholder="$t('MaterialsList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productCode" :placeholder="$t('MaterialsList.productCode')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="mini" clearable class="filter-item">
+      <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable class="filter-item">
         <el-option :label="$t('updates.wsh')" value="0"/>
         <el-option :label="$t('updates.shz')" value="1"/>
         <el-option :label="$t('updates.shtg')" value="2"/>
         <el-option :label="$t('updates.shptg')" value="3"/>
+      </el-select>
+      <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" filterable clearable size="small" class="filter-item" >
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
       </el-select>
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" @click="handleFilter">{{ $t('public.search') }}</el-button>
 
@@ -127,6 +135,8 @@
 </template>
 
 <script>
+import { searchEmpCategory2 } from '@/api/Product'
+
 import { materialslist, deletematerials, updatematerials2 } from '@/api/MaterialsList'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves' // Waves directive
@@ -171,6 +181,7 @@ export default {
   },
   data() {
     return {
+      types: [],
       tableHeight: 200,
 
       select_order_number: [],
@@ -215,12 +226,14 @@ export default {
   },
   activated() {
     this.getlist()
+    this.getTypes()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getlist()
+    this.getTypes()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -229,6 +242,13 @@ export default {
     _that = this
   },
   methods: {
+    getTypes() {
+      searchEmpCategory2(2).then(res => {
+        if (res.data.ret === 200) {
+          this.types = res.data.data.content.list
+        }
+      })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

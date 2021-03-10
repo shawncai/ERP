@@ -486,7 +486,7 @@ export default {
       return objClone
     },
     changereceiptmoney(money) {
-      const val = Number(money) + Number(this.personalForm.couponSupport) - Number(this.personalForm.penaltyMoney)
+      const val = Number(money)
       console.log(val)
       console.log(this.personalForm.couponSupport)
       console.log(this.personalForm.penaltyMoney)
@@ -611,14 +611,17 @@ export default {
       this.moreaction = val
       this.personalForm.receiptMoney = 0
       const processdata = this.moreaction
+      console.log('processdata', processdata)
       for (const i in processdata) {
-        this.personalForm.receiptMoney += processdata[i].unpay
+        this.personalForm.receiptMoney += processdata[i].thisMoney
       }
-      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+      this.personalForm.totalLackMoney = this.personalForm.receiptMoney
+      console.log('this.personalForm.', this.personalForm)
+      console.log('this.allmoney.', this.allmoney)
     },
     handleSelectionChange2(val) {
       this.moreaction2 = val
-      this.personalForm.totalLackMoney = this.allmoney - this.personalForm.receiptMoney
+      this.personalForm.totalLackMoney = this.personalForm.receiptMoney
     },
     setinformation() {
       if (this.$store.getters.newreceiptdata) {
