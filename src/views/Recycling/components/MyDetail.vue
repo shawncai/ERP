@@ -187,7 +187,7 @@ export default {
         productid: '',
         code: '',
         productname: '',
-        categoryid: '99',
+        categoryid: '',
         typeid: '',
         isactive: '',
         Productid: '',

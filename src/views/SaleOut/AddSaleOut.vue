@@ -1924,7 +1924,7 @@ export default {
         // }
       } else if (val === '6') {
         this.IsSourceNumber = true
-        this.Isproduct = true
+        this.Isproduct = false
         this.personalForm.saleType = '1'
       } else if (val === '2') {
         this.Isproduct = true

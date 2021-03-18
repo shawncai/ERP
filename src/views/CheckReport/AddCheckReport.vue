@@ -123,11 +123,11 @@
               <el-col :span="6">
                 <el-form-item :label="$t('CheckReport.productCode')" prop="productCode" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.productCode" style="margin-left: 18px;width:200px" @focus="handlemater"/>
-                  <my-mater :matercontrol.sync="matercontrol" @mater="mater"/>
-                  <detail-report :reportcontrol.sync="reportcontrol" :number.sync="number3" :reportdata.sync="reportdata" @report="report"/>
-                  <detail-report2 :reportcontrol2.sync="reportcontrol2" :number.sync="number2" :reportdata2.sync="reportdata2" @report2="report2"/>
-                  <detail-report3 :reportcontrol3.sync="reportcontrol3" :number.sync="number4" :reportdata3.sync="reportdata3" @report3="report3"/>
-                  <detail-report4 :reportcontrol4.sync="reportcontrol4" :number.sync="number5" :reportdata4.sync="reportdata4" @report4="report4"/>
+                  <my-mater v-if="matercontrol" :matercontrol.sync="matercontrol" @mater="mater"/>
+                  <detail-report v-if="reportcontrol" :reportcontrol.sync="reportcontrol" :number.sync="number3" :reportdata.sync="reportdata" @report="report"/>
+                  <detail-report2 v-if="reportcontrol2" :reportcontrol2.sync="reportcontrol2" :number.sync="number2" :reportdata2.sync="reportdata2" @report2="report2"/>
+                  <detail-report3 v-if="reportcontrol3" :reportcontrol3.sync="reportcontrol3" :number.sync="number4" :reportdata3.sync="reportdata3" @report3="report3"/>
+                  <detail-report4 v-if="reportcontrol4" :reportcontrol4.sync="reportcontrol4" :number.sync="number5" :reportdata4.sync="reportdata4" @report4="report4"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

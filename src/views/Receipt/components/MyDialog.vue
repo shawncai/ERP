@@ -1079,6 +1079,9 @@ export default {
     },
     // 保存操作
     handlesave() {
+      delete this.personalForm.receiptDetails
+      delete this.personalForm.approvalUseVos
+
       if (this.personalForm.couponSupportOld === null || this.personalForm.couponSupportOld === '' || this.personalForm.couponSupportOld === undefined) {
         this.personalForm.couponSupportOld = 0
       }
@@ -1181,6 +1184,8 @@ export default {
         const parms = JSON.stringify(Data)
         this.$refs.personalForm.validate((valid) => {
           if (valid) {
+            console.log('parms', parms)
+            console.log('parms2', parms2)
             updatereceipt2(parms, parms2).then(res => {
               if (res.data.ret === 200) {
                 this.$notify({

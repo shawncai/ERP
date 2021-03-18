@@ -328,6 +328,7 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.testMoney = this.detaildata.diffMoney
+      this.personalForm.shouldMoney = this.detaildata.shouldMoney
       this.list2 = this.personalForm.returnExchangeRetreatVos
       this.list3 = this.personalForm.returnExchangeOutVos
       for (const i in this.list2) {

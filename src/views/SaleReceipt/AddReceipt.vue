@@ -123,9 +123,7 @@
               <el-col :span="6">
                 <el-form-item
                   :label="$t('StockInvoice.invoiceNumber')"
-                  :rules="$store.getters.countryId === 2? personalrules.invoiceNumber: [
-                    { required: true, message: '请输入发票号', trigger: 'blur' }
-                  ]"
+
                   prop="invoiceNumber"
                   style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
@@ -301,6 +299,23 @@ export default {
         callback()
       }
     }
+    const validatePass8 = (rule, value, callback) => {
+      console.log('value', value)
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      if (this.$store.getters.countryId === 2 && value.length !== 8) {
+        callback(new Error('发票号位数不正确'))
+      } else {
+        callback()
+      }
+      // :rules="$store.getters.countryId === 2? personalrules.invoiceNumber: [
+      //               { required: true, validator:validatePass8, trigger: 'blur' }
+      //             ]"
+      // if (this.personalForm.deductionMoney > this.yufu) {
+      //   callback(new Error('抵扣额不可大于预付款'))
+      // } else {
+      //   callback()
+      // }
+    }
     return {
       repositorycontrol: false,
       // 收款门店
@@ -366,7 +381,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { message: '请输入发票号', trigger: 'blur' }
+          { required: true, validator: validatePass8, trigger: 'blur' }
         ],
         customerPay: [
           { required: true, message: '请输入客户支付金额', trigger: 'change' }

@@ -268,6 +268,7 @@
           <el-editable
             ref="editable3"
             :data.sync="list4"
+            :key="tableKey"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             class="click-table1"
@@ -513,6 +514,7 @@ export default {
   },
   data() {
     return {
+      tableKey: 1,
       // 配送信息数据
       deliverGoodsdata: [],
       deliverGoodsListdata: {
@@ -587,6 +589,7 @@ export default {
       this.editVisible = this.detailcontrol
     },
     detaildata() {
+      console.log('12222')
       this.personalForm = this.detaildata
       this.moveOutRepository = this.personalForm.moveOutRepositoryName
       this.moveInRepository = this.personalForm.moveInRepositoryName
@@ -594,15 +597,16 @@ export default {
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
       this.list4 = this.personalForm.storageMoveDetailConfirmVos
+      this.tableKey = Math.random()
       this.personalForm.allIncludeTaxMoney = 0
       for (const i in this.list2) {
         this.personalForm.allIncludeTaxMoney = this.personalForm.allIncludeTaxMoney + this.list2[i].moveMoney
       }
-      for (const i in this.list4) {
-        if (this.list4[i].stat === 1) {
-          this.list4[i].actualQuantity = 0
-        }
-      }
+      // for (const i in this.list4) {
+      //   if (this.list4[i].stat === 1) {
+      //     this.list4[i].actualQuantity = 0
+      //   }
+      // }
       this.reviewList = []
       const review = this.personalForm.approvalUseVos
       for (const i in review) {

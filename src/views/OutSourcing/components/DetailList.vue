@@ -107,6 +107,7 @@
             <el-editable-column :label="$t('updates.ybjsl')" prop="reportCheckingQuantity" align="center" width="150px"/>
             <!-- <el-editable-column :label="$t('updates.jgf')" prop="money" align="center" />
             <el-editable-column :label="$t('Hmodule.je')" prop="totalMoney" align="center" /> -->
+            <el-editable-column :label="$t('StockQuery.taxRate')" prop="taxRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.enterMoney')" prop="enterMoney" align="center" min-width="150px"/>
           </el-editable>
@@ -142,6 +143,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('stockTrackList.price')" prop="includeTaxPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('stockTrackList.money')" prop="includeTaxMoney" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('StockQuery.taxRate')" prop="taxRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('repair.Discountrate')" prop="discountRate" align="center" min-width="150px"/>
             <el-editable-column :label="$t('repair.Discountamount')" prop="discountMoney" align="center" min-width="150px"/>
           </el-editable>

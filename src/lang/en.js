@@ -4620,6 +4620,8 @@ export default {
     shoukuandanzhinajin: 'collection bill(penalty)',
     shoukandajlreceiptNumber: 'compensation bill  Number',
     shoukandanquerenshouk: 'verify received payment',
-    querenmingxi: ' verify detail'
+    querenmingxi: ' verify detail',
+    zhehoujine: 'zhehoujine',
+    zhehouhanshuijine: 'zhehouhanshuijine'
   }
 }

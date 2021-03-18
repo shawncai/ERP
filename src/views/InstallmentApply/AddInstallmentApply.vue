@@ -177,7 +177,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="31.00" :controls="false" style="width: 200px" clearable/>
+                  <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="31.00" :controls="false" style="width: 200px" clearable @change="handleChangeDays"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -1131,6 +1131,22 @@ export default {
     _that = this
   },
   methods: {
+    handleChangeDays(val) {
+      const date = new Date()
+      const day = date.getDate()
+      console.log('day', day)
+      let maxDays = 0
+      if (day + 15 >= 31) {
+        maxDays = 31
+      } else {
+        maxDays = val + 15
+      }
+      if (val > maxDays) {
+        this.$nextTick(() => {
+          this.personalForm.installmentDays = day
+        })
+      }
+    },
     haveAccessAddress2() {
       confirmAddress(this.personalForm.permanentAddress).then(res => {
         console.log('xxx', res)

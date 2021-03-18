@@ -4626,7 +4626,9 @@ export default {
     querenfanhuan: '确认返还库存',
     shengchengpeichangdan: '生成赔偿单',
     quedingfanhuan: '确定返还？',
-    queding: '确定'
-
+    queding: '确定',
+    zhehoujine: '折后金额',
+    zhehouhanshuijine: '折后含税金额',
+    zhehoujineheji: '折后金额合计'
   }
 }

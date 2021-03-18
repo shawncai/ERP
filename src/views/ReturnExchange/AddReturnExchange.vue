@@ -71,6 +71,15 @@
                   <el-input v-model="personalForm.applyNumber" style="width: 200px" disabled clearable/>
                 </el-form-item>
               </el-col>
+
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOut.saleType')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.saleType" style="width: 200px" @change="handleChangeSaleType">
+                    <el-option :label="$t('prompt.xj')" value="1" />
+                    <el-option :label="$t('prompt.fq')" value="2" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('ReturnExchange.handlePersonId')" prop="handlePersonId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="handlePersonId" style="width: 200px" @focus="handlechooseStock"/>
@@ -108,6 +117,7 @@
           <el-editable
             ref="editable"
             :data.sync="list2"
+            :key="talbeKey"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             class="click-table1"
@@ -350,6 +360,8 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      talbeKey: 1,
+      saleOutData: {},
       saveLoading: false,
       moreaction: [],
       productnumber: null,
@@ -395,7 +407,8 @@ export default {
         stat: '1',
         diffMoney: '0.00',
         sourceMoney: '0.00',
-        isManila: 2
+        isManila: 2,
+        saleType: ''
       },
       // 配送单规则数据
       personalrules: {
@@ -462,8 +475,17 @@ export default {
         }
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.shouldMoney = (num2 - num1).toFixed(6)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
+
+        this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+
+        // if (this.personalForm.saleType === '1') {
+        //   this.personalForm.shouldMoney = (num2 - num1).toFixed(6)
+        //   this.personalForm.diffMoney = (num2 - num1).toFixed(6)
+        // } else if (this.personalForm.saleType === '2') {
+        //   this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
+        //   this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+        // }
       },
       deep: true,
       immediate: true
@@ -481,8 +503,16 @@ export default {
         console.log('list3', this.list3)
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.shouldMoney = (num2 - num1).toFixed(6)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
+        this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        // if (this.personalForm.saleType === '1') {
+        //   this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        //   this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        // } else if (this.personalForm.saleType === '2') {
+        //   this.personalForm.shouldMoney = this.saleOutData.shouldMoney
+
+        //   this.personalForm.diffMoney = this.saleOutData.shouldMoney
+        // }
       },
       deep: true,
       immediate: true
@@ -496,6 +526,23 @@ export default {
     _that = this
   },
   methods: {
+    /**
+     *
+     * @param val 改变数据
+     */
+    handleChangeSaleType(val) {
+      console.log('val', val)
+      console.log('this.personalForm.saleOutData', this.saleOutData)
+      if (this.saleOutData.saleType === 2 && val === '1') {
+        this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
+        this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+      } else if (this.saleOutData.saleType === 2 && val === '2') {
+        this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
+        this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+      }
+    },
     // 批量操作
     handleSelectionChange(val) {
       console.log(val)
@@ -993,6 +1040,7 @@ export default {
     saleOutDetail(val) {
       console.log('saleout data', val)
       this.list2 = val
+      this.talbeKey = Math.random()
       // this.$refs.editable.clear()
       // for (let i = 0; i < val.length; i++) {
       //   this.$refs.editable.insert(val[i])
@@ -1000,16 +1048,24 @@ export default {
     },
     saleOutdata(val) {
       console.log(val)
+      this.saleOutData = val
       // this.personalForm.isManila = val.isManila
       this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
-      this.personalForm.sourceMoney = val.allIncludeTaxMoney
       this.personalForm.customerType = String(val.customerType)
+      this.personalForm.saleType = String(val.saleType)
+      if (this.personalForm.saleType === '1') {
+        this.personalForm.sourceMoney = val.allIncludeTaxMoney
+        this.personalForm.diffMoney = val.allIncludeTaxMoney
+      } else if (this.personalForm.saleType === '2') {
+        this.personalForm.sourceMoney = val.shouldMoney
+        this.personalForm.diffMoney = val.shouldMoney
+      }
       this.Issource = true
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId
-      this.personalForm.diffMoney = val.actualMoney
+
       // this.personalForm.sourceMoney = val.actualMoney
       this.repositoryId = val.saleRepositoryName
       this.personalForm.repositoryId = val.saleRepositoryId
@@ -1076,7 +1132,8 @@ export default {
         customerType: '2',
         exchangeDate: null,
         stat: '1',
-        isManila: 2
+        isManila: 2,
+        saleType: ''
 
       }
       this.customerId = ''

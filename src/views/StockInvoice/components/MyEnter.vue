@@ -213,7 +213,7 @@ export default {
       default: false
     },
     supp: {
-      type: Number,
+      type: [Number, String],
       default: null
     },
     checklist: {
@@ -528,6 +528,7 @@ export default {
           actualEnterQuantity: item.actualEnterQuantity,
           invoiceQuantity: item.invoiceQuantity,
           unJudgeQuantity: item.unJudgeQuantity
+
         }
       })
       for (let i = 0; i < enterDetail.length; i++) {

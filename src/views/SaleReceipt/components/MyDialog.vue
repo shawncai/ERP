@@ -120,9 +120,6 @@
             <el-col :span="12">
               <el-form-item
                 :label="$t('StockInvoice.invoiceNumber')"
-                :rules="$store.getters.countryId === 2? personalrules.invoiceNumber: [
-                  { required: true, message: '请输入发票号', trigger: 'blur' }
-                ]"
                 prop="invoiceNumber"
                 style="width: 100%;">
                 <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width: 200px" clearable/>
@@ -289,6 +286,15 @@ export default {
         callback()
       }
     }
+    const validatePass8 = (rule, value, callback) => {
+      console.log('value', value)
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      if (this.$store.getters.countryId === 2 && value.length !== 8) {
+        callback(new Error('发票号位数不正确'))
+      } else {
+        callback()
+      }
+    }
     return {
       personalForm2: {
         couponSupports: [
@@ -345,7 +351,7 @@ export default {
       // 销售订单规则数据
       personalrules: {
         invoiceNumber: [
-          { message: '请输入发票号', trigger: 'change' }
+          { required: true, validator: validatePass8, trigger: 'blur' }
         ],
         customerPay: [
           { required: true, message: '请输入客户支付金额', trigger: 'change' }

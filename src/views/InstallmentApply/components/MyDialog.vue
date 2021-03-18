@@ -176,7 +176,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('InstallmentApply.installmentDays')" prop="installmentDays" style="width: 100%;">
-                <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="31.00" :controls="false" style="margin-left: 18px;width: 200px" clearable/>
+                <el-input-number v-model="personalForm.installmentDays" :min="1.00" :max="31.00" :controls="false" style="margin-left: 18px;width: 200px" clearable @change="handleChangeDays"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -1042,6 +1042,22 @@ export default {
     _that = this
   },
   methods: {
+    handleChangeDays(val) {
+      const date = new Date()
+      const day = date.getDate()
+      console.log('day', day)
+      let maxDays = 0
+      if (day + 15 >= 31) {
+        maxDays = 31
+      } else {
+        maxDays = val + 15
+      }
+      if (val > maxDays) {
+        this.$nextTick(() => {
+          this.personalForm.installmentDays = day
+        })
+      }
+    },
     cancel2() {
       this.comakerVisible = false
       this.newcomarker = {}

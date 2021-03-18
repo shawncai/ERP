@@ -81,6 +81,9 @@ export function outsourceEnterlist(query) {
   if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
     params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
   }
+  if (query.outFactoryName !== '' && query.outFactoryName !== null && query.outFactoryName !== undefined) {
+    params.append('outFactoryName', query.outFactoryName) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

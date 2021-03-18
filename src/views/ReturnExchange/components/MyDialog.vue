@@ -65,6 +65,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('SaleOut.saleType')" style="width: 100%;">
+                <el-select v-model="personalForm.saleType" style="margin-left: 18px;width: 200px" @change="handleChangeSaleType">
+                  <el-option :label="$t('prompt.xj')" value="1" />
+                  <el-option :label="$t('prompt.fq')" value="2" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                 <el-input v-model="handlePersonId" style="margin-left: 18px;width: 200px" @focus="handlechooseStock"/>
               </el-form-item>
@@ -100,6 +108,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :key="talbeKey"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
@@ -331,6 +340,8 @@ export default {
           return time.getTime() > _now || time.getTime() < sevenDays
         }
       },
+      talbeKey: 1,
+      saleOutData: {},
       batchlist: [],
       packagecontrol: false,
       // 选择的数据
@@ -417,6 +428,8 @@ export default {
       this.customerId = this.personalForm.customerName
       this.handlePersonId = this.personalForm.handlePersonName
       this.repositoryId = this.personalForm.repositoryName
+      this.personalForm.shouldMoney = this.detaildata.shouldMoney
+
       this.list2 = this.personalForm.returnExchangeRetreatVos
       for (const i in this.list2) {
         this.list2[i].taxPrice = this.list2[i].salePrice + this.list2[i].taxMoney
@@ -435,7 +448,12 @@ export default {
         }
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
+        console.log('this.saleOutData', this.saleOutData)
+
+        if (this.saleOutData) {
+          this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+          this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        }
       },
       deep: true,
       immediate: true
@@ -453,7 +471,11 @@ export default {
         console.log('list3', this.list3)
         console.log('num1', num1)
         console.log('num2', num2)
-        this.personalForm.diffMoney = (num2 - num1).toFixed(6)
+        console.log('this.saleOutData', this.saleOutData)
+        if (this.saleOutData) {
+          this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+          this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+        }
       },
       deep: true,
       immediate: true
@@ -466,6 +488,23 @@ export default {
     _that = this
   },
   methods: {
+    /**
+     *
+     * @param val 改变数据
+     */
+    handleChangeSaleType(val) {
+      console.log('val', val)
+      console.log('this.personalForm.saleOutData', this.saleOutData)
+      if (this.saleOutData.saleType === 2 && val === '1') {
+        this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
+        this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+      } else if (this.saleOutData.saleType === 2 && val === '2') {
+        this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
+        this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+      }
+    },
     isEdit4(row) {
       console.log('222', row)
       const re = row.productCode.slice(0, 2)
@@ -843,24 +882,35 @@ export default {
     },
     // 源单类型为销售出库单时
     saleOutDetail(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
+      this.list2 = val
+      this.talbeKey = Math.random()
+      // this.$refs.editable.clear()
+      // for (let i = 0; i < val.length; i++) {
+      //   this.$refs.editable.insert(val[i])
+      // }
     },
     saleOutdata(val) {
       console.log(val)
+      this.saleOutData = val
       this.personalForm.applyNumber = val.applyNumber
       this.personalForm.sourceNumber = val.number
-      this.personalForm.sourceMoney = val.allIncludeTaxMoney
+      // this.personalForm.sourceMoney = val.allIncludeTaxMoney
       this.personalForm.customerType = String(val.customerType)
+      this.personalForm.saleType = String(val.saleType)
+      if (this.personalForm.saleType === '1') {
+        this.personalForm.sourceMoney = val.allIncludeTaxMoney
+        this.personalForm.diffMoney = val.allIncludeTaxMoney
+      } else if (this.personalForm.saleType === '2') {
+        this.personalForm.sourceMoney = val.shouldMoney
+        this.personalForm.diffMoney = val.shouldMoney
+      }
       this.Issource = true
       this.customerId = val.customerName
       // this.personalForm.isManila = val.isManila
 
       this.personalForm.customerPhone = val.phoneNumber
       this.personalForm.customerId = val.customerId
-      this.personalForm.diffMoney = val.actualMoney
+      // this.personalForm.diffMoney = val.actualMoney
       // this.personalForm.sourceMoney = val.actualMoney
       this.repositoryId = val.saleRepositoryName
       this.personalForm.repositoryId = val.saleRepositoryId

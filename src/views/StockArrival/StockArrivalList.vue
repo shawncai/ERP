@@ -140,22 +140,22 @@
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allMoney')" :resizable="false" align="center" min-width="100">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allMoney')" :resizable="true" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allTaxMoney')" :resizable="false" align="center" min-width="100">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allTaxMoney')" :resizable="true" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="false" align="center" min-width="100">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockArrival.allIncludeTaxMoney')" :resizable="true" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allIncludeTaxMoney }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.discountMoney')" :resizable="false" align="center" min-width="100">
+        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.discountMoney')" :resizable="true" align="center" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.allDiscountMoney }}</span>
           </template>
@@ -652,10 +652,10 @@ export default {
           const newarr = res.data.data.content.list.map(item => {
             return item.stockArrivalDetailVos
           })
-          console.table('newarr==============', newarr)
+          // console.table('newarr==============', newarr)
           const newarr2 = [].concat.apply([], newarr)
           const processarr = this._.cloneDeep(newarr2)
-          console.table('newarr2==============', newarr2)
+          // console.table('newarr2==============', newarr2)
           for (const i in needlist) {
             for (const j in processarr) {
               if (needlist[i].id === processarr[j].stockArrivalId) {
@@ -731,22 +731,7 @@ export default {
         this.getemplist.endTime = this.date[1]
       }
       this.getemplist.pageNum = 1
-      searchstockArrival(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          for (const j in this.list) {
-            const newarr = []
-            for (const i in this.list[j].stockArrivalDetailVos) {
-              newarr.push(this.list[j].stockArrivalDetailVos[i].productName)
-            }
-            this.list[j].presentdata = newarr.join('      ||     ')
-          }
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
     },
     // 采购人focus事件
     handlechooseStock() {

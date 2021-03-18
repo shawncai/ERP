@@ -115,6 +115,18 @@
             <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate2" align="center" min-width="170px"/>
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px"/>
+            <el-editable-column v-if="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px"/>
+            <el-editable-column :label="$t('update4.zhehoujine')" prop="discountreduceMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ getdiscountreduceMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('update4.zhehouhanshuijine')" prop="discountreduceMoney2" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ getdiscountreduceMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
@@ -122,8 +134,7 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px"/>
-            <el-editable-column v-if="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px"/>
+
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
           </el-editable>
@@ -267,7 +278,7 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: '采购入库',
-        2: '采购发票'
+        2: '委外入库单'
       }
       return statusMap[status]
     },
@@ -341,6 +352,14 @@ export default {
     _that = this
   },
   methods: {
+    getdiscountreduceMoney(row) {
+      row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      return row.discountreduceMoney
+    },
+    getdiscountreduceMoney2(row) {
+      row.discountreduceMoney2 = (Number(row.includeTaxMoney) - Number(row.discountMoney)).toFixed(2)
+      return row.discountreduceMoney2
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles

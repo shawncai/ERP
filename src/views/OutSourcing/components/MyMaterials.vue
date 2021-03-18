@@ -320,6 +320,7 @@ export default {
           totalMoney: 0,
           enterQuantity: 0,
           damageQuantity: 0,
+          taxRate: item.taxRate,
           idx: item.id,
           includeTaxPrice: item.includeTaxPrice,
           discountRate: item.discountRate
@@ -360,6 +361,7 @@ export default {
           for (const j in finalproduct) {
             if (productDetail[i].idx === finalproduct[j].idx) {
               // finalproduct[j].money = productDetail[i].money
+              finalproduct[j].taxRate = productDetail[i].taxRate
               finalproduct[j].price = productDetail[i].price
               finalproduct[j].includeTaxPrice = productDetail[i].includeTaxPrice
               finalproduct[j].includeTaxMoney = Number(productDetail[i].includeTaxPrice) * productDetail[i].quantity

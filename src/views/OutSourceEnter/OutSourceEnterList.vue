@@ -11,6 +11,8 @@
           :value="item.id"
           :label="item.deptName"/>
       </el-select>
+      <el-input v-model="getemplist.outFactoryName" :placeholder="$t('OutSource.outFactoryName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+
       <!-- 更多搜索条件下拉栏 -->
       <el-popover
         v-model="visible2"
@@ -79,7 +81,6 @@
         @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
@@ -95,11 +96,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('OutSource.outFactoryName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
+            <span>{{ scope.row.outFactoryName }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>
@@ -580,7 +581,9 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.id).join()
+      const ids = this.moreaction.map(item => item.id).filter(item => {
+        return item.judgeStat === 0
+      }).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -648,17 +651,33 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockenterName', 'StockenterShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
+      console.log('this.moreaction', this.moreaction)
+      const arr = []
+      for (const i in this.moreaction) {
+        this.moreaction[i].outsourceEnterDetailVos[0].createDate = this.moreaction[i].createDate
+        this.moreaction[i].outsourceEnterDetailVos[0].outFactoryName = this.moreaction[i].outFactoryName
+        this.moreaction[i].outsourceEnterDetailVos[0].enterNumber = this.moreaction[i].enterNumber
+        this.moreaction[i].outsourceEnterDetailVos[0].enterPersonName = this.moreaction[i].enterPersonName
+        this.moreaction[i].outsourceEnterDetailVos[0].judgeStat = this.moreaction[i].judgeStat
+        for (const j in this.moreaction[i].outsourceEnterDetailVos) {
+          const detailData = this.moreaction[i].outsourceEnterDetailVos
+          if (this.moreaction[i].id === detailData[j].enterId) {
+            arr.push(detailData[j])
+          }
+        }
+      }
+      console.log('arr', arr)
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['单据编号', '日期', '加工单位', '物品编号', '物品名称', '颜色', '规格', '单位', '入库数量', '入库价格', '入库金额', '货位', '批次', '入库人']
+        const filterVal = ['enterNumber', 'createDate', 'outFactoryName', 'productCode', 'productName', 'color', 'productType', 'unit', 'actualEnterQuantity', 'enterPrice', 'enterMoney', 'locationCode', 'batch', 'enterPersonName']
+        const data = this.formatJson(filterVal, arr)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '委外入库单'
         })
+        this.downloadLoading = false
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

@@ -130,15 +130,17 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column prop="basicQuantity" align="center" :label="$t('updates.jbel')" />-->
-            <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
-            <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" />
-            <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" >
-              <template slot-scope="scope">
-                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
-              </template>
-            </el-editable-column>
-            <!--            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />-->
-          </el-editable>
+            <el-editable-column prop="invoiceQuantity" align="center" label="已开票数量" min-width="100px" />
+            <el-editable-column v-if="jundgeprice()" prop="noinvoiceQuantity" align="center" label="未开票数量" min-width="100px" >
+              <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" />
+              <el-editable-column :label="$t('update4.enterPrice')" prop="enterPrice" align="center" />
+              <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" >
+                <template slot-scope="scope">
+                  <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+                </template>
+              </el-editable-column>
+              <!--            <el-editable-column :edit-render="{name: 'ElInput'}" :label="$t('updates.bz')" prop="remarks" align="center" />-->
+          </el-editable-column></el-editable>
         </div>
       </el-card>
       <!-- 合计信息 -->

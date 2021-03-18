@@ -92,6 +92,11 @@
             <span>{{ scope.row.isRed | isRedFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('updates.wbgc')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.factoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockInvoice.createDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createDate }}</span>

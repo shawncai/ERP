@@ -192,21 +192,6 @@
                   @input="gettaxRate(scope.row)"/>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney(scope.row) }}</p>
-              </template>
-            </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
-              <template slot-scope="scope">
-                <p>{{ getTaxMoney2(scope.row) }}</p>
-              </template>
-            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -223,6 +208,22 @@
                   @change="getdiscountMoney(scope.row)"/>
               </template>
             </el-editable-column>
+            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p>{{ getTaxMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
           </el-editable>

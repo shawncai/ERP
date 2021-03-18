@@ -359,9 +359,9 @@ export default {
       this.list2 = this.personalForm.storageMoveDetailApplyVos
       this.list3 = this.personalForm.storageMoveDetailVos
       console.log('原始数据===================================>', this.personalForm.storageMoveDetailConfirmVos)
-      for (const i in this.personalForm.storageMoveDetailConfirmVos) {
-        this.personalForm.storageMoveDetailConfirmVos[i].actualQuantity = this.personalForm.storageMoveDetailConfirmVos[i].moveQuantity
-      }
+      // for (const i in this.personalForm.storageMoveDetailConfirmVos) {
+      //   this.personalForm.storageMoveDetailConfirmVos[i].actualQuantity = this.personalForm.storageMoveDetailConfirmVos[i].moveQuantity
+      // }
       // for (const i of this.personalForm.storageMoveDetailConfirmVos) {
       //   this.personalForm.storageMoveDetailConfirmVos[i].actualQuantity = this.personalForm.storageMoveDetailConfirmVos[i].moveQuantity
       // }
@@ -549,6 +549,12 @@ export default {
                   if (res.data.ret === 200) {
                     this.$emit('rest', true)
                     this.editVisible = false
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
                   }
                 })
               }

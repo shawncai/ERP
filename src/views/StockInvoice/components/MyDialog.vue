@@ -11,7 +11,8 @@
                 <el-form-item :label="$t('StockInvoice.sourceType')" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" disabled style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购入库单" />
-                    <el-option value="2" label="采购发票" />
+                    <el-option value="2" label="委外入库单" />
+
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -39,11 +40,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col v-if="personalForm.sourceType === '1'" :span="12">
                 <el-form-item :label="$t('StockInvoice.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose" @clear="clearinfo"/>
+                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
+              </el-col>
+              <el-col v-if="personalForm.sourceType === '2'" :span="12">
+                <el-form-item :label="$t('OutSourcing.outFactoryId')" prop="outFactoryId" style="width: 100%;">
+                  <el-input v-model="outFactoryId" style="margin-left: 18px;width: 200px" clearable @focus="chooseFactory"/>
+                </el-form-item>
+                <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('StockInvoice.settleMode')" prop="settleMode" style="width: 100%;">
@@ -153,6 +161,8 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
         <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
+        <my-outsource :outsourcecontrol.sync="outsourcecontrol" :factoryname.sync="outFactoryId" @outSource="outSource"/>
+
         <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
         <my-detail :control.sync="control" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
@@ -162,6 +172,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :key="tableKey"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           :summary-method="getSummaries"
@@ -216,21 +227,6 @@
                   @input="gettaxRate(scope.row, scope)"/>
               </template> -->
           </el-editable-column>
-          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
-            <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
-            <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
-            </template>
-          </el-editable-column>
-          <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
-            <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
-            </template>
-          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
@@ -247,6 +243,31 @@
                 :precision="6"
                 v-model="scope.row.discountMoney"
                 @change="getdiscountMoney(scope.row)"/>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('update4.zhehoujine')" prop="discountreduceMoney" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getdiscountreduceMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+          <el-editable-column :label="$t('update4.zhehouhanshuijine')" prop="discountreduceMoney2" align="center" min-width="150px">
+            <template slot-scope="scope">
+              <p v-show="jundgeprice()">{{ getdiscountreduceMoney2(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
@@ -288,6 +309,11 @@
                   <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('update4.zhehoujineheji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="alldiscountmoney2" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -302,6 +328,7 @@
 </template>
 
 <script>
+import { searchoutsourcing } from '@/api/OutSourcing'
 import { itemList } from '@/api/SubjectFinance'
 import { updatestockinvoice } from '@/api/StockInvoice'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -317,10 +344,12 @@ import MyDelivery from './MyDelivery'
 import MyLnquiry from './MyLnquiry'
 import MyOrder from './MyOrder'
 import MyArrival from './MyArrival'
+import MyFactory from './MyFactory'
+import MyOutsource from './MyOutsource'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyFactory, MyOutsource },
   props: {
     editcontrol: {
       type: Boolean,
@@ -365,12 +394,25 @@ export default {
         callback()
       }
     }
+    const validatePass6 = (rule, value, callback) => {
+      console.log(value)
+      if (this.outFactoryId === undefined || this.outFactoryId === null || this.outFactoryId === '') {
+        callback(new Error('请选择外包工厂'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      alldiscountmoney2: '',
+      tableKey: 1,
+      outsourcecontrol: false,
+      factorycontrol: false,
+      outFactoryId: '',
       // 回显仓库
       retreatRepositoryId: '',
       // 控制仓库
@@ -440,6 +482,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        outFactoryId: [
+          { required: true, validator: validatePass6, trigger: 'change' }
+        ],
         supplierId: [
           { required: true, validator: validatePass2, trigger: 'change' }
         ],
@@ -504,6 +549,118 @@ export default {
     _that = this
   },
   methods: {
+    async  outSource(val) {
+      console.log('val', val)
+      const outSourceParms = {
+        number: val.sourceNumber,
+        pageNum: 1,
+        pageSize: 10
+      }
+      const outSourceData = await new Promise((resovle, reject) => {
+        searchoutsourcing(outSourceParms).then((res) => {
+          resovle(res.data.data.content.list)
+        })
+      })
+      console.log('outSourceData', outSourceData)
+      const outsourcingDetailVos = outSourceData[0].outsourcingDetailVos
+      const outsourcingEnterDetailVos = outSourceData[0].outsourcingEnterDetailVos
+      // eslint-disable-next-line prefer-const
+      let newarr = []
+      for (const i in outsourcingEnterDetailVos) {
+        for (const j in outsourcingDetailVos) {
+          if (outsourcingDetailVos[j].idx === outsourcingEnterDetailVos[i].idx) {
+            // eslint-disable-next-line prefer-const
+            let obj = {}
+            obj.productCode = outsourcingEnterDetailVos[j].productCode
+            obj.price = outsourcingDetailVos[j].price
+            obj.money = outsourcingDetailVos[j].totalMoney
+            obj.includeTaxPrice = outsourcingDetailVos[j].includeTaxPrice
+            obj.includeTaxMoney = outsourcingDetailVos[j].includeTaxMoney
+            obj.taxRate = outsourcingDetailVos[j].taxRate
+            newarr.push(obj)
+          }
+        }
+      }
+      console.log('newarr', newarr)
+      for (const x in newarr) {
+        for (const y in val.outsourceEnterDetailVos) {
+          if (newarr[x].productCode === val.outsourceEnterDetailVos[y].productCode) {
+            newarr[x].productName = val.outsourceEnterDetailVos[y].productName
+            newarr[x].productType = val.outsourceEnterDetailVos[y].productType
+            newarr[x].typeName = val.outsourceEnterDetailVos[y].productType
+            newarr[x].typeId = val.outsourceEnterDetailVos[y].typeId
+            newarr[x].unit = val.outsourceEnterDetailVos[y].unit
+            newarr[x].color = val.outsourceEnterDetailVos[y].color
+            newarr[x].arrivalQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+            newarr[x].retreatQuantity = 0
+            newarr[x].retreatReason = val.outsourceEnterDetailVos[y].retreatReason
+            newarr[x].sourceNumber = val.enterNumber
+            newarr[x].sourceSerialNumber = val.outsourceEnterDetailVos[y].id
+            newarr[x].remark = val.outsourceEnterDetailVos[y].remark
+            newarr[x].quantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+            newarr[x].quantity2 = val.outsourceEnterDetailVos[y].actualEnterQuantity
+            newarr[x].discountMoney = 0
+            newarr[x].discountRate = 0
+            newarr[x].actualEnterQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+            newarr[x].invoiceQuantity = 0
+          }
+        }
+      }
+
+      this.list2 = newarr
+      this.tableKey = Math.random()
+
+      // const detailData = val.outsourceEnterDetailVos.map((item) => {
+      //   return {
+      //     productCode: item.productCode,
+      //     productName: item.productName,
+      //     productType: item.productType,
+      //     typeName: item.productType,
+      //     typeId: item.typeId,
+      //     unit: item.unit,
+      //     color: item.color,
+      //     arrivalQuantity: item.actualEnterQuantity,
+      //     retreatQuantity: 0,
+      //     retreatReason: '',
+      //     sourceNumber: item.sourceNumber,
+      //     sourceSerialNumber: item.id,
+      //     remark: item.remark,
+      //     quantity: item.actualEnterQuantity,
+      //     quantity2: item.actualEnterQuantity,
+      //     price: item.enterPrice,
+      //     includeTaxPrice: item.enterPrice,
+      //     taxRate: 0,
+      //     money: item.enterMoney,
+      //     includeTaxMoney: 0,
+      //     taxMoney: 0,
+      //     discountMoney: 0.0,
+      //     discountRate: 0.0,
+      //     actualEnterQuantity: item.actualEnterQuantity,
+      //     invoiceQuantity: item.invoiceQuantity,
+      //     unJudgeQuantity: item.unJudgeQuantity
+      //   }
+      // })
+      // this.list2 = detailData
+      // this.tableKey = Math.random()
+    },
+    handleChange() {
+      this.outFactoryId = ''
+      this.personalForm.outFactoryId = ''
+      this.supplierId = ''
+      this.supp = ''
+      this.personalForm.supplierId = ''
+      this.list2 = []
+      this.tableKey = Math.random()
+    },
+    // 外包工厂focus事件
+    chooseFactory() {
+      this.factorycontrol = true
+    },
+    // 外包工厂回显
+    factoryName(val) {
+      this.outFactoryId = val.factoryName
+      this.personalForm.outFactoryId = val.id
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -659,15 +816,15 @@ export default {
       sums[5] = ''
       sums[6] = ''
       sums[10] = ''
-      sums[14] = ''
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
-      this.allMoney = sums[11]
-      this.allTaxMoney = sums[13]
-      this.allIncludeTaxMoney = sums[12]
-      this.allDiscountMoney = sums[15]
-      this.allMoneyMoveDiscount = sums[12] - sums[15]
+      this.allMoney = sums[13]
+      this.allTaxMoney = sums[15]
+      this.allIncludeTaxMoney = sums[14]
+      this.allDiscountMoney = sums[12]
+      this.allMoneyMoveDiscount = sums[17]
+      this.alldiscountmoney2 = sums[16]
       return sums
     },
     // 通过折扣额计算折扣
@@ -739,6 +896,14 @@ export default {
 
       return row.tax
     },
+    getdiscountreduceMoney(row) {
+      row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      return row.discountreduceMoney
+    },
+    getdiscountreduceMoney2(row) {
+      row.discountreduceMoney2 = (Number(row.includeTaxMoney) - Number(row.discountMoney)).toFixed(2)
+      return row.discountreduceMoney2
+    },
     // 计算含税金额
     getTaxMoney(row) {
       row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
@@ -795,15 +960,34 @@ export default {
     },
     // 从源单中添加商品
     handleAddSouce() {
-      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
-        this.$notify.error({
-          title: 'wrong',
-          message: '请先选择供应商',
-          duration: 0
-        })
-        return false
+      if (this.personalForm.sourceType === '1') {
+        if (this.supplierId === null || this.supplierId === undefined || this.supplierId === '') {
+          this.$notify.error({
+            title: 'wrong',
+            message: '请先选择供应商',
+            duration: 0
+          })
+          return false
+        }
+        this.entercontrol = true
+        if (this.list2.length > 0) {
+          console.log('this.list2========>', this.list2)
+          this.checklist = this.list2
+          console.log('this.checklist', this.checklist)
+        } else {
+          this.checklist = []
+        }
+      } else if (this.personalForm.sourceType === '2') {
+        if (this.outFactoryId === null || this.outFactoryId === undefined || this.outFactoryId === '') {
+          this.$notify.error({
+            title: 'wrong',
+            message: '请先选择外包工厂',
+            duration: 0
+          })
+          return false
+        }
+        this.outsourcecontrol = true
       }
-      this.entercontrol = true
     },
     enter(val) {
       this.$refs.editable.clear()

@@ -87,7 +87,12 @@
           sortable
           width="240"
           align="center"/>
-
+        <el-table-column
+          :label="$t('InstallmentList.Latefee')"
+          prop="penalty"
+          sortable
+          width="240"
+          align="center"/>
         <el-table-column
           :label="$t('collectAndPay.collectMoney')"
           prop="collectMoney"

@@ -111,7 +111,7 @@ export default {
       default: null
     },
     packagerepository: {
-      type: Number,
+      type: [Number, String],
       default: null
     }
   },
