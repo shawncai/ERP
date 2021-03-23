@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import { chooseCustomerProduct, customerlist2 } from '@/api/Customer'
 import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -223,19 +224,76 @@ export default {
     _that = this
   },
   methods: {
-    getlist() {
+    async  getlist() {
+      this.list = []
       // 商品列表数据
       this.listLoading = true
-      this.getemplist.searchRepositoryId = ''
-      chooseProduct(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
+      console.log('this.query', this.query)
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      this.getemplist.customerId = this.query.customerId
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      const customerData = await new Promise((resolve, reject) => {
+        customerlist2(this.getemplist.customerId).then(res => {
+          resolve(res.data.data.content)
+        })
       })
+      console.log('customerData', customerData)
+      this.getemplist.levelId = customerData.level
+      if (this.$store.getters.countryId === 1) {
+        const that = this
+        chooseCustomerProduct(this.getemplist).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              chooseProduct(that.getemplist).then(res => {
+                if (res.data.ret === 200) {
+                  that.list = res.data.data.content.list.filter(item => {
+                    return item.existStock > 0
+                  })
+                  that.total = res.data.data.content.totalCount
+                }
+                setTimeout(() => {
+                  that.listLoading = false
+                }, 0.5 * 100)
+              })
+            } else {
+              that.list = res.data.data.content.list.filter(item => {
+                return item.existStock > 0
+              })
+              that.total = res.data.data.content.totalCount
+            }
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      } else {
+        const that = this
+        chooseProduct(that.getemplist).then(res => {
+          if (res.data.ret === 200) {
+            that.list = res.data.data.content.list.filter(item => {
+              return item.existStock > 0
+            })
+            that.total = res.data.data.content.totalCount
+          }
+          setTimeout(() => {
+            that.listLoading = false
+          }, 0.5 * 100)
+        })
+      }
+
+      // querycount(this.queryemplist).then(res => {
+      //   if (res.data.ret === 200) {
+      //     const result = res.data.data.content.list
+      //     for (const i in result) {
+      //       this.detailList.code = result[i].code
+      //       productlist(this.detailList).then(res => {
+      //         this.list.push(res.data.data.content.list[0])
+      //         console.log(this.list)
+      //       })
+      //     }
+      //     this.listLoading = false
+      //   }
+      // })
       // 规格型号数据
       searchEmpCategory2(2).then(res => {
         if (res.data.ret === 200) {
@@ -252,18 +310,59 @@ export default {
       this.getemplist.supplierid = ''
     },
     // 搜索
-    handleFilter() {
+    async  handleFilter() {
       this.getemplist.pagenum = 1
-      this.getemplist.searchRepositoryId = ''
-      chooseProduct(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
+      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      this.getemplist.customerId = this.query.customerId
+      const customerData = await new Promise((resolve, reject) => {
+        customerlist2(this.getemplist.customerId).then(res => {
+          resolve(res.data.data.content)
+        })
       })
+      console.log('customerData', customerData)
+      this.getemplist.levelId = customerData.level
+      const that = this
+      if (this.$store.getters.countryId === 1) {
+        const that = this
+        chooseCustomerProduct(this.getemplist).then(res => {
+          if (res.data.ret === 200) {
+            if (res.data.data.content.list.length === 0) {
+              chooseProduct(that.getemplist).then(res => {
+                if (res.data.ret === 200) {
+                  that.list = res.data.data.content.list.filter(item => {
+                    return item.existStock > 0
+                  })
+                  that.total = res.data.data.content.totalCount
+                }
+                setTimeout(() => {
+                  that.listLoading = false
+                }, 0.5 * 100)
+              })
+            } else {
+              that.list = res.data.data.content.list.filter(item => {
+                return item.existStock > 0
+              })
+              that.total = res.data.data.content.totalCount
+            }
+          }
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 100)
+        })
+      } else {
+        const that = this
+        chooseProduct(that.getemplist).then(res => {
+          if (res.data.ret === 200) {
+            that.list = res.data.data.content.list.filter(item => {
+              return item.existStock > 0
+            })
+            that.total = res.data.data.content.totalCount
+          }
+          setTimeout(() => {
+            that.listLoading = false
+          }, 0.5 * 100)
+        })
+      }
     },
     // 批量操作
     handleSelectionChange(val) {

@@ -428,8 +428,8 @@ export default {
       this.customerId = this.personalForm.customerName
       this.handlePersonId = this.personalForm.handlePersonName
       this.repositoryId = this.personalForm.repositoryName
-      this.personalForm.shouldMoney = this.detaildata.shouldMoney
 
+      console.log('this.personalForm', this.personalForm)
       this.list2 = this.personalForm.returnExchangeRetreatVos
       for (const i in this.list2) {
         this.list2[i].taxPrice = this.list2[i].salePrice + this.list2[i].taxMoney
@@ -450,7 +450,8 @@ export default {
         console.log('num2', num2)
         console.log('this.saleOutData', this.saleOutData)
 
-        if (this.saleOutData) {
+        if (this.saleOutData.shouldMoney) {
+          console.log('12', 22222)
           this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
           this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
         }
@@ -472,7 +473,7 @@ export default {
         console.log('num1', num1)
         console.log('num2', num2)
         console.log('this.saleOutData', this.saleOutData)
-        if (this.saleOutData) {
+        if (this.saleOutData.shouldMoney) {
           this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
           this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
         }

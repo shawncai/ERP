@@ -321,6 +321,7 @@ export default {
       }
 
       row.enterMoney = Number(row.enterPrice) * row.quantity
+      row.sourceMoney = Number(row.sourcePrice) * row.quantity
       this.changelistdata()
     },
     // 外包工厂focus事件
@@ -573,6 +574,9 @@ export default {
         const parms2 = JSON.stringify(EnterDetail)
         // 原材料明细
         const parms3 = JSON.stringify(EnterDetail2)
+        console.log('EnterDetail', EnterDetail)
+        console.log('EnterDetail2', EnterDetail2)
+
         const Data = this.personalForm
         for (const key in Data) {
           if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

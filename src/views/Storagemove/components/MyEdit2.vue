@@ -349,6 +349,7 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.diffDetailArr = []
     },
     editdata() {
       this.personalForm = this.editdata
@@ -710,10 +711,12 @@ export default {
           })
           this.$emit('rest', true)
           this.$refs.editable.clear()
+          this.diffDetailArr = []
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
         } else {
+          this.diffDetailArr = []
           this.$notify.error({
             title: 'wrong',
             message: 'wrong',
@@ -724,6 +727,7 @@ export default {
     },
     handlecancel() {
       this.$refs.editable.clear()
+      this.diffDetailArr = []
       this.editVisible = false
     }
     // 修改操作结束 -------------------------------------------------

@@ -131,7 +131,7 @@
 
 <script>
 import { searchEmpCategory2, chooseProduct } from '@/api/Product'
-import { chooseCustomerProduct } from '@/api/Customer'
+import { chooseCustomerProduct, customerlist2 } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -260,7 +260,7 @@ export default {
     _that = this
   },
   methods: {
-    getlist() {
+    async  getlist() {
       this.list = []
       // 商品列表数据
       this.listLoading = true
@@ -268,6 +268,13 @@ export default {
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       this.getemplist.customerId = this.query.customerId
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      const customerData = await new Promise((resolve, reject) => {
+        customerlist2(this.getemplist.customerId).then(res => {
+          resolve(res.data.data.content)
+        })
+      })
+      console.log('customerData', customerData)
+      this.getemplist.levelId = customerData.level
       if (this.$store.getters.countryId === 1) {
         const that = this
         chooseCustomerProduct(this.getemplist).then(res => {
@@ -339,10 +346,17 @@ export default {
       this.getemplist.supplierid = ''
     },
     // 搜索
-    handleFilter() {
+    async  handleFilter() {
       this.getemplist.pagenum = 1
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       this.getemplist.customerId = this.query.customerId
+      const customerData = await new Promise((resolve, reject) => {
+        customerlist2(this.getemplist.customerId).then(res => {
+          resolve(res.data.data.content)
+        })
+      })
+      console.log('customerData', customerData)
+      this.getemplist.levelId = customerData.level
       const that = this
       if (this.$store.getters.countryId === 1) {
         const that = this

@@ -4,6 +4,8 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+        <el-button @click="exportData">{{ $t('public.export') }}</el-button>
+
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -283,7 +285,23 @@ export default {
     _that = this
   },
   methods: {
-
+    exportData() {
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '规格', '颜色', '单位', '旧价格', '新价格', '规格id']
+          const filterVal = ['productCode', 'productName', 'productType', 'color', 'unit', 'oldPrice', 'newPrice', 'typeId']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.personalForm.number + '客户组调价明细表'
+          })
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    }
   }
 }
 </script>

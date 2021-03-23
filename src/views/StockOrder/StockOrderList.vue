@@ -426,8 +426,12 @@ export default {
     console.log('$route.query', this.$route.query)
     try {
       if (this.$route.query) {
-        this.getemplist.supplierId = this.$route.query.arry.id
-        this.supplierId = this.$route.query.arry.name
+        if (this.$route.query.arry.id === 784836221) {
+          this.getemplist.orderNumber = this.$route.query.arry.name
+        } else {
+          this.getemplist.supplierId = this.$route.query.arry.id
+          this.supplierId = this.$route.query.arry.name
+        }
 
         this.getlist()
       }
@@ -440,7 +444,6 @@ export default {
     if (this.countquery) {
       console.log('this.countquery====', this.countquery)
       this.getemplist.supplierId = this.countquery.id
-      this.supplierId = this.$route.query.arry.name
       this.supplierId = this.countquery.name
       if (this.countquery.beginTime !== '') {
         this.getemplist.beginTime = this.countquery.beginTime
@@ -460,8 +463,13 @@ export default {
   mounted() {
     console.log('$route.query', this.$route.query)
     if (this.$route.query) {
-      this.getemplist.supplierId = this.$route.query.arry.id
-      this.supplierId = this.$route.query.arry.name
+      if (this.$route.query.arry.id === 784836221) {
+        this.getemplist.orderNumber = this.$route.query.arry.name
+      } else {
+        this.getemplist.supplierId = this.$route.query.arry.id
+        this.supplierId = this.$route.query.arry.name
+      }
+
       this.getlist()
     }
     this.countquery = this.$store.getters.empcontract

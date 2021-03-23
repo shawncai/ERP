@@ -1081,7 +1081,7 @@ export default {
     countryid: '国家',
     provinceid: '省',
     cityid: '市',
-    level: '客户优质级别',
+    level: '客户级别',
     level2: '经销商优质级别',
     address: '详细地址',
     repositoryid: '所属门店',

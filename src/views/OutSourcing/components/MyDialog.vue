@@ -409,7 +409,21 @@ export default {
         this.$refs.editable2.insert(nowlistdata2[j])
       }
     },
-    handelechangequantity() {
+    handelechangequantity(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.quantity !== '' && row.quantity !== null && row.quantity !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            this.list2[i].quantity = row.quantity
+          }
+          console.log(row)
+        }
+      }
+
+      row.enterMoney = Number(row.enterPrice) * row.quantity
+      row.sourceMoney = Number(row.sourcePrice) * row.quantity
       this.changelistdata()
     },
     // 外包工厂focus事件

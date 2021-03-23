@@ -13,10 +13,25 @@
                   <el-input v-model="personalForm.groupName" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item :label="$t('update4.khm')" prop="customerId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="customerId" style="width: 200px" @focus="chooseCustomer"/>
                   <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.level')" prop="levelId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select ref="clear" v-model="personalForm.levelId" :value="personalForm.levelId" style="width: 200px" @focus="handleFocus">
+                    <el-option v-show="false" label="" value=""/>
+                    <el-option
+                      v-for="(item, index) in levels"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.categoryName"/>
+                    <template>
+                      <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
+                    </template>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -42,6 +57,8 @@
           <el-button @click="chooseProduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button @click="uploadData()">导入</el-button>
+          <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
         </div>
         <div class="container">
           <el-editable
@@ -83,6 +100,8 @@
 import MyCustomer from '../SaleOrder/components/MyCustomer'
 import MyDetail from './components/MyDetail'
 import { addCustomerProduct } from '@/api/Customer'
+import { searchCusCategory } from '@/api/Customer'
+import XLSX from 'xlsx'
 
 export default {
   name: 'NewCustomerGroup',
@@ -96,14 +115,19 @@ export default {
       }
     }
     return {
+      excelData: {
+        header: null,
+        results: null
+      },
+
       personalForm: {
         stat: '1',
         createId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId
       },
       personalrules: {
-        customerId: [
-          { required: true, validator: validatePass, trigger: 'change' }
+        levelId: [
+          { required: true, message: '选择客户级别', trigger: 'change' }
         ],
         groupName: [
           { required: true, message: '填写主题', trigger: 'blur' }
@@ -116,10 +140,165 @@ export default {
       control: false,
       moreaction: '',
       tableKey: 0,
+      // 发送参数
+      // 判断增加按钮
+      isshow: false,
+      levels: [],
+      levelstype: 2,
       currencyList: [{ value: 1, label: 'PHP' }, { value: 2, label: 'USD' }, { value: 3, label: 'RMB' }, { value: 4, label: 'LKR' }]
     }
   },
   methods: {
+    clearuplod() {
+      this.exportparms = {
+        typeid: '',
+        categoryid: ''
+      }
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    onSuccess({ results, header }) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          productCode: item.物品编号,
+          productName: item.物品名称,
+          productCategoryName: item.物品分类,
+          productCategory: item.物品分类id,
+          productTypeName: item.规格,
+          productType: item.规格id,
+          typeId: item.规格id,
+          type: item.规格id,
+          color: item.颜色,
+          unit: item.单位,
+          price: item.销售单价,
+          currency: 3
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.list = uploaddata
+      this.tableKey = Math.random()
+      loading.close()
+      setTimeout(() => {
+        loading.close()
+      }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    // 批量更新操作
+    handleUpload() {
+      this.$refs['excel-upload-input'].click()
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    uploadData() {
+      this.$refs['excel-upload-input'].click()
+    },
+    // 触发下拉框brlu
+    go_creat() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear.blur()
+    },
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-14-21-1')
+      console.log(this.isshow)
+    },
+    handleFocus() {
+      this.getCategory()
+      this.jungleshow()
+    },
+    getCategory() {
+      // 获取客户优质级别
+      searchCusCategory(this.levelstype).then(res => {
+        if (res.data.ret === 200) {
+          this.levels = res.data.data.content.list
+        } else {
+          console.log('客户优质级别错误')
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val

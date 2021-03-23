@@ -96,6 +96,11 @@
             <span>{{ scope.row.productTypeName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Recycling.recyclingRepositoryId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.recyclingRepositoryName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Recycling.productCategory')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.productCategoryName }}</span>

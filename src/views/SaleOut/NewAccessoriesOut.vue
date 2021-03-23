@@ -128,7 +128,6 @@
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150"/>
             <el-editable-column :fixed="isfixed" :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150"/>
-            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150"/>
             <el-editable-column :label="$t('Hmodule.hw')" :fixed="isfixed" prop="location" align="center" min-width="150">
               <template slot-scope="scope">
                 <p>{{ getLocationData(scope.row) }}</p>
@@ -154,6 +153,7 @@
             <!-- <el-editable-column :label="$t('updates.spjf')" prop="point" align="center" min-width="150"/> -->
             <el-editable-column :label="$t('updates.ydsl')" prop="allQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.wcksl')" prop="allQuantity" align="center" min-width="150"/>
+            <el-editable-column :label="$t('updates.kcsl')" :fixed="isfixed" prop="countNumber" align="center" min-width="150"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cksli')" prop="quantity" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -398,6 +398,8 @@
                     <el-option value="3" label="old cash voucher amount"/>
                     <el-option value="4" label="special discount amount"/>
                     <el-option value="5" label="freebies/promo"/>
+                    <el-option value="6" label="special unit trade in"/>
+
                   </el-select>
                 </el-form-item>
               </el-col>

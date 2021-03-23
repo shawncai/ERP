@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :recyclingcontrol="recyclingcontrol" :close-on-press-escape="false" top="10px" title="选择销售机会单" append-to-body width="1100px" @close="$emit('update:recyclingcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :recyclingcontrol="recyclingcontrol" :close-on-press-escape="false" top="10px" title="选择二手回收单" append-to-body width="1100px" @close="$emit('update:recyclingcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -45,12 +45,23 @@
         @current-change="handleCurrentChange">
         <el-table-column :label="$t('public.id')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.opportunityNumber }}</span>
+            <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Recycling.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.number }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('ReturnExchange.customerId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.customerName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.ys')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Recycling.productCode')" :resizable="false" align="center" min-width="150">
@@ -247,6 +258,13 @@ export default {
       searchrecycling(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (const i in this.list) {
+            for (const j in this.list[i].recyclingDetailVos) {
+              if (this.list[i].id === this.list[i].recyclingDetailVos[j].recyclingId) {
+                this.list[i].color = this.list[i].recyclingDetailVos[j].color
+              }
+            }
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

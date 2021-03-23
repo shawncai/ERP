@@ -11,10 +11,25 @@
                 <el-input v-model="personalForm.groupName" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item :label="$t('update4.khm')" prop="customerId" style="width: 100%;">
                 <el-input v-model="customerId" style="margin-left: 18px;width: 200px" @focus="chooseCustomer"/>
                 <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.level')" prop="levelId" style="width: 100%;">
+                <el-select ref="clear" v-model="personalForm.levelId" :value="personalForm.levelId" style="margin-left: 18px;width: 200px" @focus="handleFocus">
+                  <el-option v-show="false" label="" value=""/>
+                  <el-option
+                    v-for="(item, index) in levels"
+                    :key="index"
+                    :value="item.id"
+                    :label="item.categoryName"/>
+                  <template>
+                    <el-button v-if="isshow" icon="el-icon-circle-plus-outline" style="width:100%" @click="go_creat">{{ $t('updates.create') }}</el-button>
+                  </template>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -82,6 +97,7 @@
 import { updateCustomerProduct } from '@/api/Customer'
 import MyCustomer from '../../SaleOrder/components/MyCustomer'
 import MyDetail from './MyDetail'
+import { searchCusCategory } from '@/api/Customer'
 
 var _that
 export default {
@@ -122,6 +138,10 @@ export default {
       control: false,
       moreaction: '',
       tableKey: 0,
+      // 判断增加按钮
+      isshow: false,
+      levels: [],
+      levelstype: 2,
       currencyList: [{ value: 1, label: 'PHP' }, { value: 2, label: 'USD' }, { value: 3, label: 'RMB' }, { value: 4, label: 'LKR' }]
     }
   },
@@ -141,6 +161,30 @@ export default {
     _that = this
   },
   methods: {
+    // 触发下拉框brlu
+    go_creat() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear.blur()
+    },
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-14-21-1')
+      console.log(this.isshow)
+    },
+    handleFocus() {
+      this.getCategory()
+      this.jungleshow()
+    },
+    getCategory() {
+      // 获取客户优质级别
+      searchCusCategory(this.levelstype).then(res => {
+        if (res.data.ret === 200) {
+          this.levels = res.data.data.content.list
+        } else {
+          console.log('客户优质级别错误')
+        }
+      })
+    },
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val

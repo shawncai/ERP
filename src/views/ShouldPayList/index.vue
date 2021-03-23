@@ -74,6 +74,11 @@
             <span>{{ scope.row.payDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.update4')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.update4 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ShouldPayList.currency')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.currency | currencyFilter }}</span>

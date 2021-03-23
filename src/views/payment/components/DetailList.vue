@@ -102,7 +102,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <!--          <el-editable-column prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
+            <el-editable-column prop="invoiceDate" align="center" label="发票日期" min-width="180px"/>
             <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" />
             <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" />
             <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" />
@@ -273,9 +273,9 @@ export default {
     },
     currencyIdFilter(status) {
       const statusMap = {
-        1: 'PHP',
+        1: 'RMB',
         2: 'USD',
-        3: 'RMB',
+        3: 'PHP',
         4: 'LKR'
       }
       return statusMap[status]

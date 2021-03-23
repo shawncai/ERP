@@ -147,6 +147,30 @@
                 <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
               </template>
             </el-editable-column>
+            <el-editable-column label="原材料价格" prop="sourcePrice" align="center" width="150px"/>
+            <el-editable-column label="原材料金额" prop="sourceMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.sourcePrice) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column label="加工未税单价" prop="processPrice" align="center" width="150px"/>
+            <el-editable-column label="加工未税金额" prop="processMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.processPrice) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column label="加工含税单价" prop="processIncludeTaxPrice" align="center" width="150px"/>
+            <el-editable-column label="加工含税金额" prop="processIncludeTaxMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.actualEnterQuantity, scope.row.processIncludeTaxPrice) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column label="加工税率" prop="processTaxRate" align="center" width="150px"/>
+            <el-editable-column label="加工税额" prop="processTaxMoney" align="center" width="150px">
+              <template slot-scope="scope">
+                <p>{{ getSize(scope.row.processIncludeTaxMoney, scope.row.processTaxRate) }}</p>
+              </template>
+            </el-editable-column>
             <!-- <el-editable-column v-show="false" :label="$t('updates.rkje')" prop="id" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getmylocation(scope) }}</p>

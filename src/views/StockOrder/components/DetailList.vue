@@ -261,6 +261,11 @@
               label="到货单编号"
               min-width="150"/>
             <el-table-column
+              :label="$t('Hmodule.wpmc')"
+              prop="productName"
+              align="center"
+              min-width="150"/>
+            <el-table-column
               :label="$t('Hmodule.wpbh')"
               prop="productCode"
               align="center"
@@ -656,6 +661,7 @@ export default {
                 return {
                   number: item.number,
                   productCode: elem.productCode,
+                  productName: elem.productName,
                   arrivalQuantity: elem.arrivalQuantity,
                   arrivalDate: item.arrivalDate,
                   acceptPersonName: item.acceptPersonName

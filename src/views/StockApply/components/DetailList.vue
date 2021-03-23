@@ -4,8 +4,9 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
-        <button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</button>
+        <el-button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</el-button>
+        <el-button style="font-size: 10px;margin-left: 10px" @click="handleMyReceipt2()">{{ $t('updates.fzdj') }}</el-button>
+        <el-button @click="exportData">{{ $t('public.export') }}</el-button>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -266,6 +267,23 @@ export default {
     _that = this
   },
   methods: {
+    exportData() {
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编号', '物品名称', '规格', '颜色', '单位', '需求日期', '申请数量', '需求数量', '已下达数量']
+          const filterVal = ['productCode', 'productName', 'productType', 'color', 'unit', 'requireDate', 'applyQuantity', 'requireQuantity', 'alreadyEnterQuantity']
+          const data = this.formatJson(filterVal, this.list3)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.personalForm.applyNumber + '采购需求导出表'
+          })
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     handleMyReceipt2() {
       console.log(this.detaildata)
       this.$store.dispatch('getsaleoutcopy', this.detaildata)

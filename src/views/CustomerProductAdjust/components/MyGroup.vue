@@ -61,9 +61,9 @@
             <span>{{ scope.row.groupName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.customerName')" :resizable="false" align="center" >
+        <el-table-column :label="$t('Customer.level')" :resizable="false" align="center" >
           <template slot-scope="scope">
-            <span>{{ scope.row.customerName }}</span>
+            <span>{{ scope.row.levelName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('update4.stat')" :resizable="false" prop="stat" align="center">

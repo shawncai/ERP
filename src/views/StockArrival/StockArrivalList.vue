@@ -324,14 +324,34 @@ export default {
     }
   },
   activated() {
-    this.getlist()
+    try {
+      if (this.$route.query) {
+        if (this.$route.query.arry.id === 784836221) {
+          this.getemplist.number = this.$route.query.arry.name
+        }
+
+        this.getlist()
+      }
+    } catch (err) {
+      this.getlist()
+    }
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getinformation()
-    this.getlist()
+    try {
+      if (this.$route.query) {
+        if (this.$route.query.arry.id === 784836221) {
+          this.getemplist.number = this.$route.query.arry.name
+        }
+
+        this.getlist()
+      }
+    } catch (err) {
+      this.getlist()
+    }
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)

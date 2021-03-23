@@ -808,8 +808,11 @@ export function chooseCustomerProduct(query) {
   if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
     params.append('supplierid', query.supplierId) // 你要传给后台的参数值 key/value
   }
-  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
-    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  // if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+  //   params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  // }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
   }
   params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value

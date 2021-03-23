@@ -313,6 +313,17 @@ export default {
       this.employeeVisible = false
       console.log(this.choosedata)
       const outsourcingDetailVos = this.choosedata.outsourcingEnterDetailVos
+      const outsourcingDetailVos2 = this.choosedata.outsourcingDetailVos
+      for (const i in outsourcingDetailVos) {
+        for (const j in outsourcingDetailVos2) {
+          if (outsourcingDetailVos[i].idx === outsourcingDetailVos2[j].idx) {
+            outsourcingDetailVos[i].processPrice = outsourcingDetailVos2[j].price
+            outsourcingDetailVos[i].processMoney = outsourcingDetailVos2[j].totalMoney
+            outsourcingDetailVos[i].processIncludeTaxPrice = outsourcingDetailVos2[j].includeTaxPrice
+            outsourcingDetailVos[i].processIncludeTaxMoney = outsourcingDetailVos2[j].includeTaxMoney
+          }
+        }
+      }
       const OrderNumber = this.choosedata.number
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {
@@ -333,8 +344,8 @@ export default {
           kpiGrade: '0.00',
           point: '0.00',
           allQuantity: item.quantity,
-          taxRate: item.taxRate,
-          taxMoney: item.taxMoney,
+          processTaxRate: item.taxRate,
+          processTaxMoney: item.taxMoney,
           discountRate: item.discountRate,
           discountMoney: item.discountMoney,
           carCode: 0,
@@ -345,7 +356,9 @@ export default {
           quantity: item.quantity,
           enterPrice: item.enterPrice,
           enterMoney: item.enterMoney,
-          alreadyOutQuantity: item.alreadyOutQuantity
+          alreadyOutQuantity: item.alreadyOutQuantity,
+          sourcePrice: item.sourcePrice,
+          sourceMoney: item.sourceMoney
         }
       })
       console.log(58520, outSourceDetail)

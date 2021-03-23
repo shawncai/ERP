@@ -320,7 +320,7 @@ export default {
           totalMoney: 0,
           enterQuantity: 0,
           damageQuantity: 0,
-          taxRate: item.taxRate,
+          ç: item.taxRate,
           idx: item.id,
           includeTaxPrice: item.includeTaxPrice,
           discountRate: item.discountRate
@@ -380,8 +380,10 @@ export default {
             if (data[i].data.ret === 200) {
               for (const j in productDetail) {
                 if (data[i].data.data.productCode === productDetail[j].productCode) {
-                  productDetail[j].enterPrice = data[i].data.data.content
-                  productDetail[j].enterMoney = data[i].data.data.content
+                  productDetail[j].enterPrice = (data[i].data.data.content).toFixed(2)
+                  productDetail[j].enterMoney = (data[i].data.data.content).toFixed(2)
+                  productDetail[j].sourcePrice = (data[i].data.data.materialPrice).toFixed(2)
+                  productDetail[j].sourceMoney = (data[i].data.data.materialPrice).toFixed(2)
                 }
               }
               this.$emit('product4', productDetail)

@@ -178,6 +178,8 @@
                   <el-option :value="3" label="old cash voucher amount"/>
                   <el-option :value="4" label="special discount amount"/>
                   <el-option :value="5" label="freebies/promo"/>
+                  <el-option value="6" label="special unit trade in"/>
+
                 </el-select>
               </el-form-item>
             </el-col>

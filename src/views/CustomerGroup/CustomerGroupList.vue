@@ -3,9 +3,16 @@
     <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
       <el-input v-model="getemplist.productCode" :placeholder="$t('Hmodule.wpbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productName" :placeholder="$t('Hmodule.wpmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="customerId" :placeholder="$t('update4.khm')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearCustomer"/>
+      <!-- <el-input v-model="customerId" :placeholder="$t('update4.khm')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearCustomer"/>
       <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
-
+ -->
+      <el-select v-model="getemplist.levelId" :value="getemplist.levelId" :placeholder="$t('Customer.level')" size="small" class="filter-item">
+        <el-option
+          v-for="(item, index) in levels"
+          :key="index"
+          :value="item.id"
+          :label="item.categoryName"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -97,9 +104,9 @@
             <span>{{ scope.row.groupName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SaleOrder.customerName')" :resizable="false" align="center" >
+        <el-table-column :label="$t('Customer.level')" :resizable="false" align="center" >
           <template slot-scope="scope">
-            <span>{{ scope.row.customerName }}</span>
+            <span>{{ scope.row.levelName }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('update4.stat')" :resizable="false" prop="stat" align="center">
@@ -138,6 +145,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import MyCustomer from '../SaleOrder/components/MyCustomer'
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList'
+import { searchCusCategory } from '@/api/Customer'
 
 var _that
 export default {
@@ -233,7 +241,9 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      levels: [],
+      levelstype: 2
     }
   },
   activated() {
@@ -254,6 +264,20 @@ export default {
     _that = this
   },
   methods: {
+    handleFocus() {
+      this.getCategory()
+      // this.jungleshow()
+    },
+    getCategory() {
+      // 获取客户优质级别
+      searchCusCategory(this.levelstype).then(res => {
+        if (res.data.ret === 200) {
+          this.levels = res.data.data.content.list
+        } else {
+          console.log('客户优质级别错误')
+        }
+      })
+    },
     numFormat(num) {
       var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
         return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {

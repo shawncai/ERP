@@ -50,7 +50,12 @@
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <!-- <el-button @click="chooseProduct">{{ $t('Hmodule.tjsp') }}</el-button>
           <my-detail :control.sync="control" @product="productdetail"/> -->
+          <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
+          <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <el-button @click="uploadData()">导入</el-button>
+          <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+
         </div>
         <div class="container">
           <el-editable
@@ -94,10 +99,12 @@ import MyCustomer from '../SaleOrder/components/MyCustomer'
 import MyEmp from '../SaleReturn/components/MyEmp'
 import MyGroup from './components/MyGroup'
 import { addCustomerProductAdjust } from '@/api/Customer'
+import XLSX from 'xlsx'
+import MyDetail from './components/MyDetail'
 
 export default {
   name: 'NewCustomerProductAdjust',
-  components: { MyCustomer, MyEmp, MyGroup },
+  components: { MyCustomer, MyEmp, MyGroup, MyDetail },
   data() {
     const validatePass = (rule, value, callback) => {
       if (this.groupId === undefined || this.groupId === null || this.groupId === '') {
@@ -107,6 +114,12 @@ export default {
       }
     }
     return {
+      datalist: [],
+      excelData: {
+        header: null,
+        results: null
+      },
+
       pickerOptions2: {
         disabledDate: (time) => {
           const _now = Date.now()
@@ -145,6 +158,149 @@ export default {
     this.getdatatime()
   },
   methods: {
+    // 采购申请明细来源
+    handleAddproduct() {
+      // this.supp = this.personalForm.supplierId
+      this.control = true
+    },
+    clearuplod() {
+      this.exportparms = {
+        typeid: '',
+        categoryid: ''
+      }
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    onSuccess({ results, header }) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          productCode: item.物品编号,
+          productName: item.物品名称,
+          productTypeName: item.规格,
+          productType: item.规格id,
+          typeId: item.规格id,
+          type: item.规格id,
+          color: item.颜色,
+          unit: item.单位,
+          oldPrice: item.旧价格,
+          newPrice: item.新价格
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.list = uploaddata
+      this.tableKey = Math.random()
+      loading.close()
+      setTimeout(() => {
+        loading.close()
+      }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    // 批量更新操作
+    handleUpload() {
+      this.$refs['excel-upload-input'].click()
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    uploadData() {
+      this.$refs['excel-upload-input'].click()
+    },
+    // 触发下拉框brlu
+    go_creat() {
+      this.$router.push('/Customer/CustomerCategory')
+      this.$refs.clear.blur()
+    },
+    jungleshow() {
+      const roles = this.$store.getters.roles
+      this.isshow = roles.includes('1-14-21-1')
+      console.log(this.isshow)
+    },
+    handleFocus() {
+      this.getCategory()
+      this.jungleshow()
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -169,6 +325,8 @@ export default {
       this.groupId = val.groupName
       this.personalForm.groupId = val.id
       this.list = val.customerProductGroupDetailVos
+      this.datalist = val.customerProductGroupDetailVos
+
       for (const i in this.list) {
         this.list[i].oldPrice = this.list[i].price
         this.list[i].newPrice = this.list[i].price

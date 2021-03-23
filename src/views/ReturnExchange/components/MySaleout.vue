@@ -101,6 +101,16 @@
             <span>{{ scope.row.outDate }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('ReturnExchange.customerId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.customerName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.ys')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.color }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('SaleOut.saleRepositoryId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.saleRepositoryName }}</span>
@@ -323,6 +333,20 @@ export default {
           this.list = res.data.data.content.list.filter(item => {
             return item.confirmPersonId !== null
           })
+
+          console.log('123', 123)
+          for (const i in this.list) {
+            // console.log('this.list[i]', this.list[i].saleOutDetailVos)
+            for (const j in this.list[i].saleOutDetailVos) {
+              // console.log('this.list[i]', this.list[i])
+              // console.log('this.list[i].saleOutDetailVos[j]', this.list[i].saleOutDetailVos[j])
+              // console.log('this.list[i].saleOutDetailVos[j].productCode.substring(0, 2)', this.list[i].saleOutDetailVos[j].productCode.substring(0, 2))
+
+              if (this.list[i].id === this.list[i].saleOutDetailVos[j].saleOutId && this.list[i].saleOutDetailVos[j].productCode.substring(0, 2) === '01') {
+                this.list[i].color = this.list[i].saleOutDetailVos[j].color
+              }
+            }
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -362,17 +386,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchsaleOut(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list.filter(item => {
-            return item.confirmPersonId !== null
-          })
-          this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
-        }
-      })
+      this.getlist()
     },
     // 采购人focus事件
     handlechooseStock() {

@@ -574,7 +574,8 @@ export default {
         2: 'employee discount amount',
         3: 'old cash voucher amount',
         4: 'special discount amount',
-        5: 'freebies/promo'
+        5: 'freebies/promo',
+        6: 'special unit trade in'
       }
       return statusMap[sta]
     },

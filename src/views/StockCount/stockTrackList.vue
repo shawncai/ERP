@@ -47,7 +47,11 @@
           prop="orderNumber"
           fixed="left"
           width="200"
-          align="center"/>
+          align="center">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleDetail2(scope.row)">{{ scope.row.orderNumber }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('stockDetailCount.productCode')"
           prop="productCode"
@@ -70,7 +74,7 @@
           width="200"
           align="center">
           <template slot-scope="scope">
-            <p> {{ scope.row.orderArrivalVos.length > 0 ? scope.row.orderArrivalVos[0].arrivalNumber : '未建到货单' }}</p>
+            <p class="link-type" @click="handleDetail3(scope.row)"> {{ scope.row.orderArrivalVos.length > 0 ? scope.row.orderArrivalVos[0].arrivalNumber : '未建到货单' }}</p>
           </template>
         </el-table-column>
         <el-table-column :label="$t('stockTrackList.warehouseReceiptNumber')" prop="delayNum" width="200" align="center">
@@ -83,7 +87,7 @@
                 <el-table-column label="订单编号" min-width="200" property="enterNumber"/>
                 <el-table-column label="入库日期" min-width="200" property="enterDate"/>
               </el-table>
-              <div slot="reference" class="name-wrapper link-type">
+              <div slot="reference" class="name-wrapper link-type" @click="handleDetail4(scope.row)">
                 {{ scope.row.orderEnterVos.length > 0 ? scope.row.orderEnterVos.length > 1 ? '...' : scope.row.orderEnterVos[0].enterNumber : '无' }}
               </div>
             </el-popover>
@@ -316,6 +320,27 @@ export default {
     _that = this
   },
   methods: {
+    handleDetail4(row) {
+      const query_params = {
+        id: 784836221,
+        name: row.orderArrivalVos[0].enterNumber
+      }
+      this.$router.push({ path: '/Stockenter/Stockenterlist', query: { arry: query_params }})
+    },
+    handleDetail3(row) {
+      const query_params = {
+        id: 784836221,
+        name: row.orderArrivalVos[0].arrivalNumber
+      }
+      this.$router.push({ path: '/StockArrival/StockArrivalList', query: { arry: query_params }})
+    },
+    handleDetail2(row) {
+      const query_params = {
+        id: 784836221,
+        name: row.orderNumber
+      }
+      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
