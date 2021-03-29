@@ -461,7 +461,10 @@ export default {
     CustomerProductAdjustList: '客户商品调价单',
     InventoryReceipt: '员工赔偿收款单',
     NewInventoryReceipt: '新建员工赔偿收款单',
-    InventoryReceiptList: '员工赔偿收款单列表'
+    InventoryReceiptList: '员工赔偿收款单列表',
+    EmployeeReceipt: '员工收款单',
+    newEmployeeReceipt: '新建员工收款单',
+    employeeReceiptList: '员工收款单列表'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -4629,6 +4632,7 @@ export default {
     queding: '确定',
     zhehoujine: '折后金额',
     zhehouhanshuijine: '折后含税金额',
-    zhehoujineheji: '折后金额合计'
+    zhehoujineheji: '折后金额合计',
+    yuangongpeichagn: '员工赔偿单'
   }
 }

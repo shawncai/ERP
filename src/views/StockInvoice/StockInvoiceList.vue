@@ -62,7 +62,7 @@
           align="center"/>
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span v-if="scope.row.judgeStat === 0" class="link-type" @click="handleEdit(scope.row)">{{ scope.row.number }}</span>
+            <span v-if="scope.row.judgeStat === 0" class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
             <span v-else class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column :label="$t('saleBillList.money')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney - scope.row.allDiscountMoney }}</span>
+            <span>{{ scope.row.money }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockInvoice.isRed')" :resizable="false" align="center" min-width="150">
@@ -408,6 +408,9 @@ export default {
           //     this.list[i].stockInvoiceDetailVos[j].taxRate2 = this.list[i].stockInvoiceDetailVos[j].taxRate * 100
           //   }
           // }
+          for (const i in this.list) {
+            this.list[i].money = (this.list[i].allIncludeTaxMoney - this.list[i].allDiscountMoney).toFixed(2)
+          }
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -442,6 +445,9 @@ export default {
       stockInvoiceList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (const i in this.list) {
+            this.list[i].money = (this.list[i].allIncludeTaxMoney - this.list[i].allDiscountMoney).toFixed(2)
+          }
           this.total = res.data.data.content.totalCount
           // this.restFilter()
         } else {

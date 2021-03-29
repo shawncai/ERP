@@ -131,7 +131,7 @@
 
 <script>
 import { searchEmpCategory2, chooseProduct } from '@/api/Product'
-import { chooseCustomerProduct, customerlist2 } from '@/api/Customer'
+import { chooseCustomerProduct, customerlist2, customerProductList } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import MySupplier from '../../Product/components/MySupplier'
@@ -275,33 +275,34 @@ export default {
       })
       console.log('customerData', customerData)
       this.getemplist.levelId = customerData.level
-      if (this.$store.getters.countryId === 1) {
+
+      if (this.$store.getters.countryId === 1 && this.getemplist.levelId) {
         const that = this
-        chooseCustomerProduct(this.getemplist).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.list.length === 0) {
-              chooseProduct(that.getemplist).then(res => {
-                if (res.data.ret === 200) {
-                  that.list = res.data.data.content.list.filter(item => {
-                    return item.existStock > 0
-                  })
-                  that.total = res.data.data.content.totalCount
-                }
-                setTimeout(() => {
-                  that.listLoading = false
-                }, 0.5 * 100)
-              })
-            } else {
-              that.list = res.data.data.content.list.filter(item => {
-                return item.existStock > 0
-              })
+
+        const judgeIscustomerGroup = await new Promise((resolve, reject) => {
+          customerProductList(this.getemplist).then(res => {
+            resolve(res.data.data.content)
+          })
+        })
+
+        console.log('judgeIscustomerGroup', judgeIscustomerGroup)
+        if (judgeIscustomerGroup.list.length !== 0) {
+          chooseCustomerProduct(this.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              that.list = res.data.data.content.list
               that.total = res.data.data.content.totalCount
             }
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
+            that.listLoading = false
+          })
+        } else {
+          chooseProduct(that.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              that.list = res.data.data.content.list
+              that.total = res.data.data.content.totalCount
+            }
+            that.listLoading = false
+          })
+        }
       } else {
         const that = this
         chooseProduct(that.getemplist).then(res => {
@@ -350,6 +351,7 @@ export default {
       this.getemplist.pagenum = 1
       this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       this.getemplist.customerId = this.query.customerId
+      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       const customerData = await new Promise((resolve, reject) => {
         customerlist2(this.getemplist.customerId).then(res => {
           resolve(res.data.data.content)
@@ -357,34 +359,34 @@ export default {
       })
       console.log('customerData', customerData)
       this.getemplist.levelId = customerData.level
-      const that = this
-      if (this.$store.getters.countryId === 1) {
+
+      if (this.$store.getters.countryId === 1 && this.getemplist.levelId) {
         const that = this
-        chooseCustomerProduct(this.getemplist).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.content.list.length === 0) {
-              chooseProduct(that.getemplist).then(res => {
-                if (res.data.ret === 200) {
-                  that.list = res.data.data.content.list.filter(item => {
-                    return item.existStock > 0
-                  })
-                  that.total = res.data.data.content.totalCount
-                }
-                setTimeout(() => {
-                  that.listLoading = false
-                }, 0.5 * 100)
-              })
-            } else {
-              that.list = res.data.data.content.list.filter(item => {
-                return item.existStock > 0
-              })
+
+        const judgeIscustomerGroup = await new Promise((resolve, reject) => {
+          customerProductList(this.getemplist).then(res => {
+            resolve(res.data.data.content)
+          })
+        })
+
+        console.log('judgeIscustomerGroup', judgeIscustomerGroup)
+        if (judgeIscustomerGroup.list.length !== 0) {
+          chooseCustomerProduct(this.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              that.list = res.data.data.content.list
               that.total = res.data.data.content.totalCount
             }
-          }
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 100)
-        })
+            that.listLoading = false
+          })
+        } else {
+          chooseProduct(that.getemplist).then(res => {
+            if (res.data.ret === 200) {
+              that.list = res.data.data.content.list
+              that.total = res.data.data.content.totalCount
+            }
+            that.listLoading = false
+          })
+        }
       } else {
         const that = this
         chooseProduct(that.getemplist).then(res => {

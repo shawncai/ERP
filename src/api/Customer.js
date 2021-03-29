@@ -645,6 +645,9 @@ export function customerProductList(query) {
   if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
     params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
   }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({

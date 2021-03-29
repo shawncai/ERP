@@ -166,15 +166,16 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="12">
-                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
-                  <span>{{ personalForm.allDiscountMoney }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
                   <span>{{ personalForm.allIncludeTaxMoney - personalForm.allDiscountMoney }}</span>
                 </el-form-item>
               </el-col>
+              <el-col v-if="jundgeprice()" :span="12">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="width: 100%;">
+                  <span>{{ personalForm.allDiscountMoney }}</span>
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </el-form>
         </div>

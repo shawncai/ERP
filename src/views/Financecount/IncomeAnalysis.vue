@@ -114,7 +114,8 @@ export default {
         8: _that.$t('update4.xiaoshoushoukuan'),
         9: _that.$t('update4.huanhuodan'),
         10: _that.$t('update4.shoukuandanbenjin'),
-        11: _that.$t('update4.shoukuandanzhinajin')
+        11: _that.$t('update4.shoukuandanzhinajin'),
+        12: _that.$t('update4.yuangongpeichagn')
 
       }
       return statusMap[sta]

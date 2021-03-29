@@ -84,8 +84,11 @@ export function deletestockinvoice(query, query2) {
 }
 
 //  修改采购退货
-export function updatestockinvoice(query, query2) {
+export function updatestockinvoice(query, query2, query3) {
   var params = new URLSearchParams()
+  if (query3 !== '' && query3 !== null && query3 !== undefined) {
+    params.append('number', query3) // 你要传给后台的参数值 key/value
+  }
   params.append('stockInvoiceJson', query) // 你要传给后台的参数值 key/value
   params.append('stockInvoiceDetailJson', query2) // 你要传给后台的参数值 key/value
   return request({

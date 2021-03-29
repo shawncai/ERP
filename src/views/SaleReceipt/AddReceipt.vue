@@ -302,7 +302,7 @@ export default {
     const validatePass8 = (rule, value, callback) => {
       console.log('value', value)
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
-      if (this.$store.getters.countryId === 2 && value.length !== 8) {
+      if (this.$store.getters.countryId === 1 && value.length !== 8) {
         callback(new Error('发票号位数不正确'))
       } else {
         callback()

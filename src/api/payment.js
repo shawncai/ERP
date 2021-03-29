@@ -67,12 +67,15 @@ export function paymentlist(query) {
 }
 
 //  更新付款单
-export function updatepayment(query, query2, query3) {
+export function updatepayment(query, query2, query3, query4) {
   var params = new URLSearchParams()
   params.append('paymentJson', query) // 你要传给后台的参数值 key/value
   params.append('paymentDetailJson', query2) // 你要传给后台的参数值 key/value
   if (query3.picids !== '' && query3.picids !== null && query3.picids !== undefined) {
     params.append('picids', query3.picids) // 你要传给后台的参数值 key/value
+  }
+  if (query4 !== '' && query4 !== null && query4 !== undefined) {
+    params.append('paymentNumber', query4) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/payment/updatepayment',

@@ -55,7 +55,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('CostInvoice.invoiceNumber')" prop="invoiceNumber" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('CostInvoice.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -154,17 +154,18 @@
             :edit-rules="validRules"
             :summary-method="getSummaries"
             class="click-table1"
+            height="600"
             show-summary
             stripe
             border
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" :label="$t('updates.fymc')" prop="costName" align="center" min-width="150px"/>
+            <el-editable-column type="selection" min-width="55" align="center" fixed/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+            <el-editable-column :edit-render="{name: 'ElSelect',options: costs ,type: 'visible', events: {change: change2}}" :label="$t('updates.fymc')" prop="costName" align="center" min-width="150px" fixed/>
             <el-editable-column :label="$t('updates.fydm')" prop="costCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.fylx')" prop="costCategory" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('updates.fylx')" prop="costCategoryName" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.jldw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
@@ -461,12 +462,14 @@ export default {
     },
     change2(val) {
       console.log('val', val)
+      console.log('this.costs', this.costs)
       for (let i = 0; i < this.costs.length; i++) {
         if (this.costs[i].costName === val.row.costName) {
           console.log('this.costs[i]', this.costs[i])
           val.row.costName = this.costs[i].costName
           val.row.costCode = this.costs[i].costCode
           val.row.costCategory = this.costs[i].costCategory
+          val.row.costCategoryName = this.costs[i].costCategoryName
           val.row.subject = this.costs[i].subjectId
           val.row.subjectName = this.costs[i].subjectName
           val.row.unit = this.costs[i].unit

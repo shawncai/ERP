@@ -461,7 +461,10 @@ export default {
     CustomerProductAdjustList: 'CustomerProductAdjustList',
     InventoryReceipt: 'InventoryReceipt',
     NewInventoryReceipt: 'NewInventoryReceipt',
-    InventoryReceiptList: 'InventoryReceiptList'
+    InventoryReceiptList: 'InventoryReceiptList',
+    EmployeeReceipt: 'EmployeeReceipt',
+    newEmployeeReceipt: 'newEmployeeReceipt',
+    employeeReceiptList: 'employeeReceiptList'
   },
   installmentAnalyze: {
     repositoryName: 'warehouse name',
@@ -4621,7 +4624,15 @@ export default {
     shoukandajlreceiptNumber: 'compensation bill  Number',
     shoukandanquerenshouk: 'verify received payment',
     querenmingxi: ' verify detail',
-    zhehoujine: 'zhehoujine',
-    zhehouhanshuijine: 'zhehouhanshuijine'
+    dayu: 'delayed amount more than',
+    xiaoyu: 'delayed amount less than',
+    querenfanhuan: 'confirm return stock',
+    shengchengpeichangdan: 'create compensation list',
+    quedingfanhuan: 'confirm return？',
+    queding: 'confirm',
+    zhehoujine: 'discounted amount',
+    zhehouhanshuijine: 'discounted amount w/tax',
+    zhehoujineheji: 'total discounted amount',
+    yuangongpeichagn: 'employee compensation list'
   }
 }

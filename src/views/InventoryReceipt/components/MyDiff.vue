@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :personaldata="personalForm" :close-on-press-escape="false" top="10px" title="选择差异单" append-to-body width="1100px" @close="$emit('update:countcontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :personaldata="personalForm" :close-on-press-escape="false" top="10px" title="选择差异单" append-to-body width="1100px" @close="$emit('update:diffcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">

@@ -136,6 +136,12 @@
           width="240"
           align="center"/>
         <el-table-column
+          :label="$t('update4.yuangongpeichagn')"
+          prop="empReceipt"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('collectAndPay.saleReturn')"
           prop="saleReturn"
           width="240"
@@ -530,12 +536,12 @@ export default {
     },
     myytablehead({ row, column, rowIndex, columnIndex }) {
       // console.log('myindex=================>', row, column, rowIndex, columnIndex)
-      if (columnIndex === 12) {
+      if (columnIndex === 13) {
         return 'border-right:3px solid red'
       }
     },
     myTable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 12) {
+      if (columnIndex === 13) {
         return 'border-right:3px solid red'
       }
     },

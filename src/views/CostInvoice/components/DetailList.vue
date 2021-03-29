@@ -107,7 +107,8 @@
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('updates.fydm')" prop="costCode" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.fymc')" prop="costName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.fylx')" prop="costCategory" align="center" min-width="150px"/>
+            <!-- <el-editable-column :label="$t('updates.fylx')" prop="costCategory" align="center" min-width="150px"/> -->
+            <el-editable-column :label="$t('updates.fylx')" prop="costCategoryName" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.jldw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>

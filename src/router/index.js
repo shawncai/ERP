@@ -1050,7 +1050,7 @@ export const asyncRouterMap = [
       title: 'InventoryReceipt',
       icon: 'sunhuai',
       type: 4,
-      roles: ['131-415-1', '131-415-4']
+      roles: ['131-415-1', '131-416-4']
     },
     children: [
       {
@@ -1063,7 +1063,7 @@ export const asyncRouterMap = [
         path: 'InventoryReceiptList',
         component: () => import('@/views/InventoryReceipt/InventoryReceiptList'),
         name: 'InventoryReceiptList',
-        meta: { title: 'InventoryReceiptList', noCache: false, roles: ['131-415-1', '131-415-2', '131-415-3', '131-415-4', '131-415-5', '131-415-6', '131-415-7', '131-415-17', '131-415-18', '131-415-76'] }
+        meta: { title: 'InventoryReceiptList', noCache: false, roles: ['131-416-1', '131-416-2', '131-416-3', '131-416-4', '131-416-5', '131-416-6', '131-416-7', '131-416-17', '131-416-18', '131-416-76'] }
       }
     ]
   },
@@ -3046,6 +3046,35 @@ export const asyncRouterMap = [
       }
     ]
   },
+
+  {
+    path: '/EmployeeReceipt',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'EmployeeReceipt',
+    alwaysShow: true,
+    meta: {
+      title: 'EmployeeReceipt',
+      icon: 'shoukuan',
+      type: 6,
+      roles: ['200-213-4', '200-214-1']
+    },
+    children: [
+      {
+        path: 'newEmployeeReceipt',
+        component: () => import('@/views/EmployeeReceipt/newEmployeeReceipt'),
+        name: 'newEmployeeReceipt',
+        meta: { title: 'newEmployeeReceipt', noCache: false, roles: ['200-214-1'] }
+      },
+      {
+        path: 'employeeReceiptList',
+        component: () => import('@/views/EmployeeReceipt/employeeReceiptList'),
+        name: 'employeeReceiptList',
+        meta: { title: 'employeeReceiptList', noCache: false, roles: ['200-213-1', '200-213-2', '200-213-3', '200-213-4', '200-213-5', '200-213-6', '200-213-7', '200-213-16'] }
+      }
+    ]
+  },
+
   {
     path: '/Coupon',
     component: Layout,

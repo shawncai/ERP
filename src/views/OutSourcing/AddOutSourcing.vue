@@ -320,8 +320,8 @@ export default {
         }
       }
 
-      row.enterMoney = Number(row.enterPrice) * row.quantity
-      row.sourceMoney = Number(row.sourcePrice) * row.quantity
+      row.enterMoney = (Number(row.enterPrice) * Number(row.quantity)).toFixed(2)
+      row.sourceMoney = (Number(row.sourcePrice) * Number(row.quantity)).toFixed(2)
       this.changelistdata()
     },
     // 外包工厂focus事件
@@ -350,15 +350,15 @@ export default {
     },
     // 明细表金额
     gettotalMoney(quantity, money, row) {
-      row.totalMoney = quantity * money
+      row.totalMoney = (Number(quantity) * Number(money)).toFixed(2)
       return row.totalMoney
     },
     getincludeTaxMoney(quantity, includeTaxPrice, row) {
-      row.includeTaxMoney = quantity * includeTaxPrice
+      row.includeTaxMoney = (Number(quantity) * Number(includeTaxPrice)).toFixed(2)
       return row.includeTaxMoney
     },
     getdiscountMoney(includeTaxMoney, discountRate, row) {
-      row.discountMoney = includeTaxMoney * (discountRate / 100)
+      row.discountMoney = (Number(includeTaxMoney) * (discountRate / 100)).toFixed(2)
       return row.discountMoney
     },
     // 总计

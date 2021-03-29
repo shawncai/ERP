@@ -7,6 +7,12 @@
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
             <el-row>
+
+              <el-col :span="12">
+                <el-form-item :label="$t('public.id')" style="width: 100%;">
+                  <el-input v-model="personalForm.paymentNumber" style="margin-left: 18px;width:200px" @change="changeEditNumber"/>
+                </el-form-item>
+              </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('payment.title')" style="width: 100%;">
                   <el-input v-model="personalForm.title" style="margin-left: 18px;width: 200px" clearable/>
@@ -223,6 +229,8 @@ export default {
       }
     }
     return {
+      editNumber: '',
+      inputNumber: '',
       path: '',
       payDate: null,
       // 选择的数据
@@ -319,6 +327,8 @@ export default {
     },
     editdata() {
       this.personalForm = this.editdata
+      this.inputNumber = this.personalForm.paymentNumber
+
       this.supplierId = this.personalForm.supplierName
       this.handlePersonId = this.personalForm.handlePersonName
       this.list2 = this.personalForm.paymentDetailVos
@@ -332,6 +342,13 @@ export default {
     _that = this
   },
   methods: {
+    changeEditNumber(val) {
+      if (val !== this.inputNumber && val) {
+        this.editNumber = val
+      } else {
+        this.editNumber = ''
+      }
+    },
     handlechange(row) {
       row.payThis = row.shouldMoney - row.advanceMoney
     },
@@ -605,6 +622,7 @@ export default {
         return elem
       })
       const parms2 = JSON.stringify(EnterDetail)
+      delete this.personalForm.number
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
@@ -612,7 +630,7 @@ export default {
         }
       }
       const parms = JSON.stringify(Data)
-      updatepayment(parms, parms2, this.personalForm).then(res => {
+      updatepayment(parms, parms2, this.personalForm, this.editNumber).then(res => {
         if (res.data.ret === 200) {
           this.$notify({
             title: this.$t('prompt.czcg'),

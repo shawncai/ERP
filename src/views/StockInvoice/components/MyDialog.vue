@@ -8,6 +8,11 @@
           <el-row>
             <el-row>
               <el-col :span="12">
+                <el-form-item :label="$t('public.id')" style="width: 100%;">
+                  <el-input v-model="personalForm.number" style="margin-left: 18px;width:200px" @change="changeEditNumber"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="$t('StockInvoice.sourceType')" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" disabled style="margin-left: 18px;width: 200px">
                     <el-option value="1" label="采购入库单" />
@@ -24,7 +29,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
+                <el-form-item :label="$t('StockInvoice.invoiceNumber')" style="width: 100%;">
                   <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                 </el-form-item>
@@ -42,7 +47,7 @@
               </el-col>
               <el-col v-if="personalForm.sourceType === '1'" :span="12">
                 <el-form-item :label="$t('StockInvoice.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose" @clear="clearinfo"/>
+                  <el-input v-model="supplierId" style="margin-left: 18px;width: 200px" clearable @focus="handlechoose" />
                   <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
                   <my-emp :control.sync="stockControl" @stockName="stockName"/>
                 </el-form-item>
@@ -139,7 +144,6 @@
                 <el-form-item :label="$t('update4.invoiceDate')" style="width: 100%;">
                   <el-date-picker
                     v-model="personalForm.invoiceDate"
-                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px;width: 200px"/>
@@ -305,15 +309,16 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
-                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('update4.zhehoujineheji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="alldiscountmoney2" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
+                  <el-input v-model="allMoneyMoveDiscount" style="margin-left: 18px;width:200px" disabled/>
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -346,6 +351,7 @@ import MyOrder from './MyOrder'
 import MyArrival from './MyArrival'
 import MyFactory from './MyFactory'
 import MyOutsource from './MyOutsource'
+import { deleterepairproject } from '../../../api/repair'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
@@ -408,6 +414,8 @@ export default {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      editNumber: '',
+      inputNumber: '',
       alldiscountmoney2: '',
       tableKey: 1,
       outsourcecontrol: false,
@@ -535,6 +543,7 @@ export default {
       this.supplierId = this.personalForm.supplierName
       this.handlePersonId = this.personalForm.handlePersonName
       this.personalForm.invoiceType = String(this.personalForm.invoiceType)
+      this.inputNumber = this.personalForm.number
       // for (const i in this.personalForm.stockInvoiceDetailVos) {
       //   this.personalForm.stockInvoiceDetailVos[i].taxRate = Number(this.personalForm.stockInvoiceDetailVos[i].taxRate) * 100
       // }
@@ -549,6 +558,13 @@ export default {
     _that = this
   },
   methods: {
+    changeEditNumber(val) {
+      if (val !== this.inputNumber && val) {
+        this.editNumber = val
+      } else {
+        this.editNumber = ''
+      }
+    },
     async  outSource(val) {
       console.log('val', val)
       const outSourceParms = {
@@ -1242,17 +1258,18 @@ export default {
             return elem
           })
           const parms2 = JSON.stringify(EnterDetail)
+          delete this.personalForm.number
           const Data = this.personalForm
-          for (const key in Data) {
-            if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
-              delete Data[key]
-            }
-            if (key === 'judgeStat') {
-              delete Data[key]
-            }
-          }
+          // for (const key in Data) {
+          //   if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          //     delete Data[key]
+          //   }
+          //   if (key === 'judgeStat') {
+          //     delete Data[key]
+          //   }
+          // }
           const parms = JSON.stringify(Data)
-          updatestockinvoice(parms, parms2).then(res => {
+          updatestockinvoice(parms, parms2, this.editNumber).then(res => {
             console.log(res)
             if (res.data.ret === 200) {
               this.$notify({

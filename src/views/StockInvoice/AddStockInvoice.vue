@@ -139,7 +139,6 @@
                 <el-form-item :label="$t('update4.invoiceDate')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.invoiceDate"
-                    :picker-options="pickerOptions1"
                     type="date"
                     value-format="yyyy-MM-dd"
                     style="width: 200px"/>
@@ -316,14 +315,13 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allMoneyMoveDiscount" style="width: 200px" disabled/>
-                </el-form-item>
-              </el-col>
-
-              <el-col v-if="jundgeprice()" :span="6">
                 <el-form-item :label="$t('update4.zhehoujineheji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="alldiscountmoney2" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allMoneyMoveDiscount" style="width: 200px" disabled/>
                 </el-form-item>
               </el-col>
 

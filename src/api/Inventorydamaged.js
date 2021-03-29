@@ -229,3 +229,100 @@ export function confirmReceipt(query, query2) {
     data: params
   })
 }
+
+// 员工收款单新建
+export function addEmpReceipt(query, query3, query2) {
+  var params = new URLSearchParams()
+  params.append('empReceiptJson', query) // 你要传给后台的参数值 key/value
+  params.append('empReceiptDetailJson', query3) // 你要传给后台的参数值 key/value
+
+  if (query2.repositoryId !== '' && query2.repositoryId !== null && query2.repositoryId !== undefined) {
+    params.append('repositoryId', query2.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query2.regionId !== '' && query2.regionId !== null && query2.regionId !== undefined) {
+    params.append('regionId', query2.regionId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/empReceipt/addEmpReceipt',
+    method: 'post',
+    data: params
+  })
+}
+
+// 员工赔偿收款单列表
+export function empReceiptlist(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptNumber !== '' && query.receiptNumber !== null && query.receiptNumber !== undefined) {
+    params.append('receiptNumber', query.receiptNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.empId !== '' && query.empId !== null && query.empId !== undefined) {
+    params.append('empId', query.empId) // 你要传给后台的参数值 key/value
+  }
+  if (query.handleRepositoryId !== '' && query.handleRepositoryId !== null && query.handleRepositoryId !== undefined) {
+    params.append('handleRepositoryId', query.handleRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/empReceipt/empReceiptlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除员工收款单
+export function deleteReceipt2(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null && query !== undefined) {
+    params.append('receiptIds', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/empReceipt/deleteReceipt',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改审核员工收款单
+export function updateEmpReceipt(query, query2) {
+  var params = new URLSearchParams()
+  params.append('empReceiptJson', query) // 你要传给后台的参数值 key/value
+  if (query2) {
+    params.append('empReceiptDetailJson', query2) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/empReceipt/updateEmpReceipt',
+    method: 'post',
+    data: params
+  })
+}
