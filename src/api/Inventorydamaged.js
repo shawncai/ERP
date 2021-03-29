@@ -138,6 +138,9 @@ export function addInventoryReceipt(query, query3, query2) {
 // 员工赔偿收款单列表
 export function inventoryReceiptlist(query) {
   var params = new URLSearchParams()
+  if (query.receiptId !== '' && query.receiptId !== null && query.receiptId !== undefined) {
+    params.append('receiptId', query.receiptId) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }

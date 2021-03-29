@@ -502,7 +502,7 @@ export const asyncRouterMap = [
       title: 'Customer',
       icon: 'kehu',
       type: 10,
-      roles: ['1-14-15-1', '1-14-16-4', '1-14-19-13', '1-14-17-1', '1-14-18-4', '1-14-21-4']
+      roles: ['1-14-15-1', '1-14-16-4', '1-14-19-13', '1-14-17-1', '1-14-18-4', '1-14-21-4', '1-14-418-1', '1-14-417-4', '1-14-420-1', '1-14-419-4']
     },
     children: [
       {
@@ -521,25 +521,25 @@ export const asyncRouterMap = [
         path: 'NewCustomerGroup',
         component: () => import('@/views/CustomerGroup/NewCustomerGroup'),
         name: 'NewCustomerGroup',
-        meta: { title: 'NewCustomerGroup', noCache: false, roles: ['1-14-15-1'] }
+        meta: { title: 'NewCustomerGroup', noCache: false, roles: ['1-14-418-1'] }
       },
       {
         path: 'CustomerGroupList',
         component: () => import('@/views/CustomerGroup/CustomerGroupList'),
         name: 'CustomerGroupList',
-        meta: { title: 'CustomerGroupList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
+        meta: { title: 'CustomerGroupList', noCache: false, roles: ['1-14-417-1', '1-14-417-2', '1-14-417-3', '1-14-417-4'] }
       },
       {
         path: 'NewCustomerProductAdjust',
         component: () => import('@/views/CustomerProductAdjust/NewCustomerProductAdjust'),
         name: 'NewCustomerProductAdjust',
-        meta: { title: 'NewCustomerProductAdjust', noCache: false, roles: ['1-14-15-1'] }
+        meta: { title: 'NewCustomerProductAdjust', noCache: false, roles: ['1-14-420-1'] }
       },
       {
         path: 'CustomerProductAdjustList',
         component: () => import('@/views/CustomerProductAdjust/CustomerProductAdjustList'),
         name: 'CustomerProductAdjustList',
-        meta: { title: 'CustomerProductAdjustList', noCache: false, roles: ['1-14-16-1', '1-14-16-2', '1-14-16-3', '1-14-16-4', '1-14-16-5', '1-14-16-6', '1-14-16-7', '1-14-16-11'] }
+        meta: { title: 'CustomerProductAdjustList', noCache: false, roles: ['1-14-419-1', '1-14-419-2', '1-14-419-3', '1-14-419-4', '1-14-419-5', '1-14-419-6', '1-14-419-7', '1-14-419-17', '1-14-419-18', '1-14-419-76'] }
       },
       // {
       //   path: 'ManyCustomer',
@@ -3057,20 +3057,20 @@ export const asyncRouterMap = [
       title: 'EmployeeReceipt',
       icon: 'shoukuan',
       type: 6,
-      roles: ['200-213-4', '200-214-1']
+      roles: ['131-421-4', '131-422-1']
     },
     children: [
       {
         path: 'newEmployeeReceipt',
         component: () => import('@/views/EmployeeReceipt/newEmployeeReceipt'),
         name: 'newEmployeeReceipt',
-        meta: { title: 'newEmployeeReceipt', noCache: false, roles: ['200-214-1'] }
+        meta: { title: 'newEmployeeReceipt', noCache: false, roles: ['131-422-1'] }
       },
       {
         path: 'employeeReceiptList',
         component: () => import('@/views/EmployeeReceipt/employeeReceiptList'),
         name: 'employeeReceiptList',
-        meta: { title: 'employeeReceiptList', noCache: false, roles: ['200-213-1', '200-213-2', '200-213-3', '200-213-4', '200-213-5', '200-213-6', '200-213-7', '200-213-16'] }
+        meta: { title: 'employeeReceiptList', noCache: false, roles: ['131-421-1', '131-421-2', '131-421-3', '131-421-4', '131-421-5', '131-421-6', '131-421-7', '131-421-17', '131-421-18', '131-421-76'] }
       }
     ]
   },

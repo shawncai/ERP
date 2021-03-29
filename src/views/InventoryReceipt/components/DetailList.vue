@@ -143,6 +143,8 @@
 // import { productlist } from '@/api/public'
 // import { searchprepReceipt } from '@/api/PrepReceipt'
 // import { searchsaleOut } from '@/api/SaleOut'
+import { inventoryReceiptlist } from '@/api/Inventorydamaged'
+
 var _that
 export default {
   filters: {
@@ -242,6 +244,12 @@ export default {
         pageSize: 9999,
         sourceNumber: this.detaildata.number,
         repositoryId: 0
+      },
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
       }
     }
   },
@@ -250,23 +258,32 @@ export default {
       this.editVisible = this.detailcontrol
     },
     detaildata() {
-      this.personalForm = this.detaildata
-      this.list = this.personalForm.inventoryReceiptDetailVos
-      this.tableKey = Math.random()
-      this.reviewList = []
-      const review = this.personalForm.approvalUseVos
-      for (const i in review) {
-        if (review[i].actualStepHandler !== null) {
-          this.reviewList.push(review[i])
-        }
-      }
+      this.getemplist.receiptId = this.detaildata.id
+      this.getData()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    getData() {
+      inventoryReceiptlist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          const detaildata = res.data.data.content.list[0]
+          this.personalForm = detaildata
 
+          this.list = detaildata.inventoryReceiptDetailVos
+          this.tableKey = Math.random()
+          this.reviewList = []
+          const review = detaildata.approvalUseVos
+          for (const i in review) {
+            if (review[i].actualStepHandler !== null) {
+              this.reviewList.push(review[i])
+            }
+          }
+        }
+      })
+    }
   }
 }
 </script>

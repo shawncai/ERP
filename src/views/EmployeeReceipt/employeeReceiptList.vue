@@ -4,6 +4,13 @@
       <el-input v-model="getemplist.title" :placeholder="$t('Storagemovediff.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.receiptNumber" :placeholder="$t('update4.shoukandajlreceiptNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-input v-model="empId" :placeholder="$t('update4.empId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseEmp" @clear="clearEmp"/>
+      <my-emp :control.sync="stockControl" @stockName="stockName"/>
+
+      <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
+
+      <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -50,15 +57,15 @@
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['131-415-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item v-permission="['131-421-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <!-- <el-button v-permission="['131-415-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
+      <!-- <el-button v-permission="['131-421-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
       <!-- 打印操作 -->
-      <!-- <el-button v-permission="['131-415-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
+      <!-- <el-button v-permission="['131-421-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
-      <el-button v-permission="['131-415-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button v-permission="['131-421-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -69,6 +76,9 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
+        :span-method="arraySpanMethod"
+        :summary-method="getSummaries2"
+        show-summary
         border
         fit
         highlight-current-row
@@ -97,6 +107,34 @@
             <span>{{ scope.row.handlePersonName }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column :label="$t('update4.shouldMoney')" :resizable="false" prop="shouldMoney" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.shouldMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Advancemanage.advanceMoney')" :resizable="false" prop="moneyThis" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.moneyThis }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('update4.uncollectMoney')" :resizable="false" prop="uncollectMoney" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.uncollectMoney }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('update4.empId')" :resizable="false" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.empName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('recoveryCarDetail.repositoryName')" :resizable="false" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.handleRepositoryName }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('StockInvoice.sourceType')" :resizable="false" align="center" >
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
@@ -120,8 +158,8 @@
 
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center">
           <template slot-scope="scope">
-            <el-button v-permission="['131-415-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission="['131-415-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['131-421-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['131-421-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
 
@@ -147,6 +185,9 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 // import MyCustomer from '../SaleOrder/components/MyCustomer'
 import MyDialog from './components/MyDialog'
 import DetailList from './components/DetailList'
+import MyRepository from '../SaleOrder/components/MyRepository'
+import MyEmp from '../SaleOrder/components/MyEmp'
+
 // import MyEmp from '../SaleOrder/components/MyEmp'
 // import ConfirmTable from './components/confirmTable.vue'
 
@@ -154,7 +195,7 @@ var _that
 export default {
   name: 'EmployeeReceiptList',
   directives: { waves, permission, permission2 },
-  components: { Pagination, MyDialog, DetailList },
+  components: { Pagination, MyDialog, DetailList, MyRepository, MyEmp },
   filters: {
     sourceTypeFilter(status) {
       const statusMap = {
@@ -279,6 +320,109 @@ export default {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
+    getlist() {
+      // 物料需求计划列表数据
+      this.listLoading = true
+      empReceiptlist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          // this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
+          const list = res.data.data.content.list
+          const arr = res.data.data.content.list.map(item => {
+            return item.empReceiptDetailVos
+          })
+          const process = [].concat.apply([], arr)
+          const detailList = this._.cloneDeep(process)
+          for (const i in list) {
+            for (const j in detailList) {
+              if (list[i].id === detailList[j].receiptId) {
+                detailList[j].approvalUseVos = list[i].approvalUseVos
+                detailList[j].createDate = list[i].createDate
+                detailList[j].createPersonId = list[i].createPersonId
+                detailList[j].createPersonName = list[i].createPersonName
+                detailList[j].handlePersonId = list[i].handlePersonId
+                detailList[j].handlePersonName = list[i].handlePersonName
+                detailList[j].handleRepositoryName = list[i].handleRepositoryName
+                detailList[j].handleRepositryId = list[i].handleRepositryId
+                detailList[j].id = list[i].id
+                detailList[j].empReceiptDetailVos = list[i].empReceiptDetailVos
+                detailList[j].judgeDate = list[i].judgeDate
+                detailList[j].judgePersonId = list[i].judgePersonId
+                detailList[j].judgePersonName = list[i].judgePersonName
+                detailList[j].judgeStat = list[i].judgeStat
+                detailList[j].modifyDate = list[i].modifyDate
+                detailList[j].modifyPersonId = list[i].modifyPersonId
+                detailList[j].modifyPersonName = list[i].modifyPersonName
+                detailList[j].receiptNumber = list[i].receiptNumber
+                detailList[j].receiptStat = list[i].receiptStat
+                detailList[j].sourceNumber = list[i].sourceNumber
+                detailList[j].sourceType = list[i].sourceType
+                detailList[j].title = list[i].title
+                this.list.push(detailList[j])
+              }
+            }
+          }
+          console.log('this.list', this.list)
+          this.list = detailList
+          this.getSpanArr(this.list)
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
+      })
+    },
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1)
+          this.pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].receiptId === data[i - 1].receiptId) {
+            this.spanArr[this.pos] += 1
+            this.spanArr.push(0)
+          } else {
+            this.spanArr.push(1)
+            this.pos = i
+          }
+        }
+      }
+      // console.log('this.spanArr=================', this.spanArr)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      const _row = this.spanArr[rowIndex]
+      const _col = _row > 0 ? 1 : 0
+      if (columnIndex !== 3 && columnIndex !== 4 && columnIndex !== 5 && columnIndex !== 6 && columnIndex !== 7) {
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
     judgeStat(row) {
       const stats =
       row.inventoryReceiptDetailVos
@@ -416,33 +560,33 @@ export default {
       })
       return res
     },
-    // 总计
-    getSummaries2(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '总计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = this.numFormat(values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(6)
-            } else {
-              return (Number(prev)).toFixed(6)
-            }
-          }, 0))
-          // console.log('sums[index]', sums[index])
-          sums[index] += ''
-        } else {
-          sums[index] = ''
-        }
-      })
-      return sums
-    },
+    // // 总计
+    // getSummaries2(param) {
+    //   const { columns, data } = param
+    //   const sums = []
+    //   columns.forEach((column, index) => {
+    //     if (index === 0) {
+    //       sums[index] = '总计'
+    //       return
+    //     }
+    //     const values = data.map(item => Number(item[column.property]))
+    //     if (!values.every(value => isNaN(value))) {
+    //       sums[index] = this.numFormat(values.reduce((prev, curr) => {
+    //         const value = Number(curr)
+    //         if (!isNaN(value)) {
+    //           return (Number(prev) + Number(curr)).toFixed(6)
+    //         } else {
+    //           return (Number(prev)).toFixed(6)
+    //         }
+    //       }, 0))
+    //       // console.log('sums[index]', sums[index])
+    //       sums[index] += ''
+    //     } else {
+    //       sums[index] = ''
+    //     }
+    //   })
+    //   return sums
+    // },
     // 反结单操作
     // handleReview3(row) {
     //   this.reviewParms = {}
@@ -481,10 +625,17 @@ export default {
     //   //   return true
     //   // }
     // },
+    handlechooseRep() {
+      this.repositorycontrol = true
+    },
+    clearrep() {
+      this.getemplist.handleRepositoryId = ''
+      this.repositoryId = ''
+    },
     repositoryname(val) {
       console.log(val)
       this.repositoryId = val.repositoryName
-      this.getemplist.repositoryId = val.id
+      this.getemplist.handleRepositoryId = val.id
     },
     // 仓库列表focus事件触发
 
@@ -520,19 +671,19 @@ export default {
     updatecountry() {
       this.getlist()
     },
-    getlist() {
-      // 物料需求计划列表数据
-      this.listLoading = true
-      empReceiptlist(this.getemplist).then(res => {
-        if (res.data.ret === 200) {
-          this.list = res.data.data.content.list
-          this.total = res.data.data.content.totalCount
-        }
-        setTimeout(() => {
-          this.listLoading = false
-        }, 0.5 * 100)
-      })
-    },
+    // getlist() {
+    //   // 物料需求计划列表数据
+    //   this.listLoading = true
+    //   empReceiptlist(this.getemplist).then(res => {
+    //     if (res.data.ret === 200) {
+    //       this.list = res.data.data.content.list
+    //       this.total = res.data.data.content.totalCount
+    //     }
+    //     setTimeout(() => {
+    //       this.listLoading = false
+    //     }, 0.5 * 100)
+    //   })
+    // },
     // 清空搜索条件
     restFilter() {
       this.customerName = ''

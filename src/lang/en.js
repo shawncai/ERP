@@ -459,9 +459,9 @@ export default {
     CustomerGroupList: 'CustomerGroupList',
     NewCustomerProductAdjust: 'NewCustomerProductAdjust',
     CustomerProductAdjustList: 'CustomerProductAdjustList',
-    InventoryReceipt: 'InventoryReceipt',
-    NewInventoryReceipt: 'NewInventoryReceipt',
-    InventoryReceiptList: 'InventoryReceiptList',
+    InventoryReceipt: 'compensation',
+    NewInventoryReceipt: 'compensation form',
+    InventoryReceiptList: 'compensationList',
     EmployeeReceipt: 'EmployeeReceipt',
     newEmployeeReceipt: 'newEmployeeReceipt',
     employeeReceiptList: 'employeeReceiptList'

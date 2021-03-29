@@ -105,7 +105,7 @@
 
 <script>
 import { getemplist } from '@/api/EmployeeInformation'
-import { updateInventoryReceipt } from '@/api/Inventorydamaged'
+import { updateInventoryReceipt, inventoryReceiptlist } from '@/api/Inventorydamaged'
 import MyCustomer from '../../SaleOrder/components/MyCustomer'
 // import MyDetail from './components/MyDetail'
 import MyRepository from '../../SaleOrder/components/MyRepository'
@@ -194,6 +194,12 @@ export default {
         regionIds: this.$store.getters.regionIds,
         stat: 1,
         time: ''
+      },
+      getemplist2: {
+        pageNum: 1,
+        pageSize: 10,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds
       }
     }
   },
@@ -203,19 +209,30 @@ export default {
     },
     editdata() {
       console.log(this.editdata)
-      this.personalForm = this.editdata
-      this.personalForm.sourceType = String(this.editdata.sourceType)
-      this.handleRepositryId = this.personalForm.handleRepositoryName
-      this.handlePersonId = this.personalForm.handlePersonName
-      this.list = this.personalForm.inventoryReceiptDetailVos
-      this.tableKey = Math.random()
-      this.getEmpData()
+      this.getemplist.receiptId = this.editdata.id
+      this.getData()
     }
   },
   beforeCreate() {
     _that = this
   },
   methods: {
+    async getData() {
+      const detaildata = await new Promise((resolve, reject) => {
+        inventoryReceiptlist(this.getemplist2).then(res => {
+          if (res.data.ret === 200) {
+            resolve(res.data.data.content.list[0])
+          }
+        })
+      })
+      this.personalForm = detaildata
+      this.personalForm.sourceType = String(detaildata.sourceType)
+      this.handleRepositryId = detaildata.handleRepositoryName
+      this.handlePersonId = detaildata.handlePersonName
+      this.list = detaildata.inventoryReceiptDetailVos
+      this.tableKey = Math.random()
+      this.getEmpData()
+    },
     diffData(val) {
       console.log('val3', val)
       this.personalForm.sourceNumber = val.moveNumber

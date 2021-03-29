@@ -118,6 +118,12 @@
           sortable
           align="center"/>
         <el-table-column
+          :label="$t('update4.yuangongpeichagn')"
+          prop="empReceipt"
+          sortable
+          width="240"
+          align="center"/>
+        <el-table-column
           :label="$t('collectAndPay.totalCollect')"
           prop="totalCollect"
           sortable
@@ -135,12 +141,7 @@
           sortable
           width="240"
           align="center"/>
-        <el-table-column
-          :label="$t('update4.yuangongpeichagn')"
-          prop="empReceipt"
-          sortable
-          width="240"
-          align="center"/>
+
         <el-table-column
           :label="$t('collectAndPay.saleReturn')"
           prop="saleReturn"
