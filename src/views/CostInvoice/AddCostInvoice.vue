@@ -578,9 +578,9 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(6)
+              return (prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -594,10 +594,10 @@ export default {
       sums[5] = ''
       sums[12] = ''
       sums[13] = ''
-      this.allNumber = sums[6]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[9]
-      this.allIncludeTaxMoney = sums[8]
+      this.allNumber = Number(sums[6]).toFixed(2)
+      this.allMoney = Number(sums[12]).toFixed(2)
+      this.allTaxMoney = Number(sums[9]).toFixed(2)
+      this.allIncludeTaxMoney = Number(sums[8]).toFixed(2)
       return sums
     },
     getdiscountMoney(row) {

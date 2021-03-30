@@ -662,8 +662,12 @@ export default {
         }
       }
 
-      this.list2 = newarr
-      this.tableKey = Math.random()
+      for (const i in newarr) {
+        this.$refs.editable.insertAt(newarr[i], -1)
+      }
+
+      // this.list2 = newarr
+      // this.tableKey = Math.random()
 
       // const detailData = val.outsourceEnterDetailVos.map((item) => {
       //   return {
@@ -879,6 +883,7 @@ export default {
     // 通过折扣计算折扣额
     getdiscountRate(row, scope) {
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        console.log('row', row)
         if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
           for (let i = 0; i < this.list2.length; i++) {
             this.list2[i].temp = i

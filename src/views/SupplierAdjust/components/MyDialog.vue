@@ -104,7 +104,10 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.bl')" prop="proportion" align="center" min-width="170px">
+          <el-editable-column :label="$t('updates.bl')" prop="proportion" align="center" min-width="150px"/>
+          <el-editable-column :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="150px"/>
+
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.bl')" prop="proportion" align="center" min-width="170px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 :precision="6"
@@ -120,7 +123,7 @@
                 v-model="scope.row.newSalePrice"
               />
             </template>
-          </el-editable-column>
+          </el-editable-column> -->
         </el-editable>
       </div>
     </el-card>
