@@ -21,6 +21,7 @@ selenium-debug.log
 *.njsproj
 *.sln
 
+deploy.config.js
 package-lock.json
 CCC.zip
 test.zip
