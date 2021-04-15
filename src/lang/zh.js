@@ -4633,6 +4633,7 @@ export default {
     zhehoujine: '折后金额',
     zhehouhanshuijine: '折后含税金额',
     zhehoujineheji: '折后金额合计',
-    yuangongpeichagn: '员工赔偿单'
+    yuangongpeichagn: '员工赔偿单',
+    nowFirst: '换货后首付金额'
   }
 }

@@ -322,6 +322,7 @@ export default {
           productCategory: item.categoryId,
           productTypeName: item.productType,
           productType: item.productType,
+          categoryId: item.categoryId,
           typeId: item.typeId,
           type: item.typeId,
           color: item.color,

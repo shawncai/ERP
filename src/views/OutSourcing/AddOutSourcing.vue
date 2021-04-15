@@ -449,7 +449,9 @@ export default {
       // })
       // const alldata = [...val, ...nowlistdata]
       // const filterdata = this.uniqueArray(alldata, 'productCode')
-
+      if (val.length === 0) {
+        return
+      }
       const alldata = [...val, ...nowlistdata]
       console.log('alldata=============', val, alldata)
       const filterdata = this.uniqueArray2(alldata, 'productCode', 'idx')

@@ -61,6 +61,11 @@
                   <el-input-number v-model="personalForm.diffMoney" :controls="false" :step="0.1" style="width: 200px"/>
                 </el-form-item>
               </el-col>
+              <el-col v-show="personalForm.saleType === '2'" :span="6">
+                <el-form-item :label="$t('update4.nowFirst')" prop="nowFirst" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input-number v-model="personalForm.nowFirst" :controls="false" :step="0.1" style="width: 200px" @change="changeFirst"/>
+                </el-form-item>
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('SaleOut.invoiceNumber')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.invoiceNumber" style="width: 200px" @blur="judgeinvoce"/>
@@ -412,6 +417,9 @@ export default {
       },
       // 配送单规则数据
       personalrules: {
+        nowFirst: [
+          { required: true, message: 'please input nowFirst', trigger: 'blur' }
+        ],
         invoiceNumber: [
           { required: true, message: 'please input invoiceNumber', trigger: 'blur' }
         ],
@@ -505,6 +513,7 @@ export default {
         console.log('num2', num2)
         this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
         this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
+
         // if (this.personalForm.saleType === '1') {
         //   this.personalForm.shouldMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
         //   this.personalForm.diffMoney = (num2 - Number(this.saleOutData.shouldMoney)).toFixed(6)
@@ -526,6 +535,16 @@ export default {
     _that = this
   },
   methods: {
+    changeFirst(val) {
+      console.log('val', val)
+      this.$nextTick(() => {
+        if (this.personalForm.saleType === '2') {
+        // this.$set(this.personalForm, 'sourceMoney', this.personalForm.shouldMoney)
+          this.personalForm.shouldMoney = val - Number(this.personalForm.sourceMoney)
+          this.personalForm.diffMoney = val - Number(this.personalForm.sourceMoney)
+        }
+      })
+    },
     /**
      *
      * @param val 改变数据
@@ -541,6 +560,7 @@ export default {
         this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
         this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
         this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.nowFirst = 0
       }
     },
     // 批量操作
@@ -1060,6 +1080,7 @@ export default {
       } else if (this.personalForm.saleType === '2') {
         this.personalForm.sourceMoney = val.shouldMoney
         this.personalForm.diffMoney = val.shouldMoney
+        this.personalForm.nowFirst = val.shouldMoney
       }
       this.Issource = true
       this.customerId = val.customerName

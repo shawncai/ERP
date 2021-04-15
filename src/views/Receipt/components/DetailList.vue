@@ -103,7 +103,7 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >收款明细</h2>
+        <h2 ref="fuzhu" class="form-name" >collection list</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -113,15 +113,15 @@
             border
             size="small"
             style="width: 100%">
-            <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="penalty" align="center" label="滞纳金" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收金额" min-width="150px"/>
-            <el-editable-column :key="Math.random()" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.term')" prop="presentCount" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.aleadypaid')" prop="collectedMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.unpaid')" prop="uncollectedMoney" align="center" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>

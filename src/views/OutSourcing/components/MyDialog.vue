@@ -374,6 +374,9 @@ export default {
     },
     detailproduct(val) {
       const nowlistdata = this.$refs.editable2.getRecords()
+      if (val.length === 0) {
+        return
+      }
       nowlistdata.forEach(item => {
         const index = val.findIndex(items => items.productCode === item.productCode)
         if (index > -1) {

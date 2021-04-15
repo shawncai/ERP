@@ -134,7 +134,7 @@
       </div>
     </el-card>
     <el-card v-if="personalForm.customerType === '2' || personalForm.customerType === 2" class="box-card" style="margin-top: 15px;margin-bottom: 30px" shadow="never">
-      <h2 ref="fuzhu" class="form-name" >收款明细</h2>
+      <h2 ref="fuzhu" class="form-name" >collection list</h2>
       <el-button v-if="isshow" type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       <div class="container">
         <el-editable
@@ -151,10 +151,10 @@
           @selection-change="handleSelectionChange">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :key="Math.random()" :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :key="Math.random()" prop="presentCount" align="center" label="当前期数" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="returnMoney" align="center" label="本期还款金额" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="returnSource" align="center" label="本期还款本金" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="reward" align="center" label="奖励" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.term')" prop="presentCount" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.monthlypayment')" prop="returnMoney" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.originalamout')" prop="returnSource" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.rebate')" prop="reward" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.penalty')" prop="penalty" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
@@ -166,10 +166,10 @@
               />
             </template>
           </el-editable-column>
-          <el-editable-column :key="Math.random()" prop="returnInterest" align="center" label="本期还款利息" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
-          <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收金额" min-width="150px"/>
-          <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.interest')" prop="returnInterest" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.aleadypaid')" prop="collectedMoney" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.unpaid')" prop="uncollectedMoney" align="center" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('update4.paid')" prop="thisMoney" align="center" min-width="150px"/>
         </el-editable>
       </div>
     </el-card>

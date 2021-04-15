@@ -1121,6 +1121,7 @@ export default {
       this.personalForm.unit = ''
       this.typeId = ''
       this.personalForm.typeId = ''
+      this.personalForm.checkResult = '1'
       // this.personalForm = {
       //   createPersonId: this.$store.getters.userId,
       //   countryId: this.$store.getters.countryId,

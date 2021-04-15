@@ -60,6 +60,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('update4.nowFirst')" prop="nowFirst" style="width: 100%;">
+                <el-input v-model="personalForm.nowFirst" :controls="false" :step="0.1" style="margin-left: 18px;width: 200px" clearable @change="changeFirst"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.applyNumber')" style="width: 100%;">
                 <el-input v-model="personalForm.applyNumber" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
@@ -378,6 +383,9 @@ export default {
       depts: [],
       // 配送单规则数据
       personalrules: {
+        nowFirst: [
+          { required: true, message: 'please input nowFirst', trigger: 'blur' }
+        ],
         title: [
           { required: true, message: '请输入换货单主题', trigger: 'blur' }
         ],
@@ -489,6 +497,16 @@ export default {
     _that = this
   },
   methods: {
+    changeFirst(val) {
+      console.log('val', val)
+      this.$nextTick(() => {
+        if (this.personalForm.saleType === '2') {
+        // this.$set(this.personalForm, 'sourceMoney', this.personalForm.shouldMoney)
+          this.personalForm.shouldMoney = val - Number(this.personalForm.sourceMoney)
+          this.personalForm.diffMoney = val - Number(this.personalForm.sourceMoney)
+        }
+      })
+    },
     /**
      *
      * @param val 改变数据
@@ -504,6 +522,7 @@ export default {
         this.$set(this.personalForm, 'sourceMoney', this.saleOutData.shouldMoney)
         this.personalForm.shouldMoney = 0 - Number(this.saleOutData.shouldMoney)
         this.personalForm.diffMoney = 0 - Number(this.saleOutData.shouldMoney)
+        this.personalForm.nowFirst = 0
       }
     },
     isEdit4(row) {

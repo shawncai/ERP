@@ -4,7 +4,7 @@
       <!-- 搜索条件栏目 -->
       <el-input v-model="getemplist.code" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="getemplist.productname" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechoose"/>
+      <!-- <el-input v-model="supplierid" :placeholder="$t('Product.supplierid')" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechoose"/> -->
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-select v-model="getemplist.categoryid" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
         <el-option :label="$t('otherlanguage.zc')" value="1"/>
@@ -30,10 +30,10 @@
             :value="item.id"
           />
         </el-select>
-        <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
+        <!-- <el-select v-model="getemplist.isactive" :placeholder="$t('Hmodule.qxzsxj')" clearable style="width: 40%;float: right;margin-right: 20px">
           <el-option :label="$t('Hmodule.s1')" value="1"/>
           <el-option :label="$t('Hmodule.x2')" value="2"/>
-        </el-select>
+        </el-select> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -63,7 +63,7 @@
         align="center"/>
       <el-table-column :label="$t('Product.code')" :resizable="false" prop="code" align="center" width="120">
         <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
+          <span>{{ scope.row.code || scope.row.productCode }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.productname')" :resizable="false" prop="ProductName" align="center" width="100">
@@ -73,7 +73,7 @@
       </el-table-column>
       <el-table-column :label="$t('Product.categoryid')" :resizable="false" prop="category" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.category }}</span>
+          <span>{{ scope.row.category || scope.row.productCategory }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.typeid')" :resizable="false" align="center" width="100">
@@ -98,7 +98,7 @@
       </el-table-column>
       <el-table-column :label="$t('StockAlarm.salePrice')" :resizable="false" prop="costPrice" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.salePrice }}</span>
+          <span>{{ scope.row.salePrice || scope.row.price }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Product.purchaseprice')" :resizable="false" prop="purchasePrice" align="center" width="150">
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { chooseCustomerProduct, customerlist2, customerProductList } from '@/api/Customer'
+import { chooseCustomerProduct, customerlist2, customerProductList, chooseGroupProduct } from '@/api/Customer'
 import { chooseProduct, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -250,7 +250,7 @@ export default {
 
         console.log('judgeIscustomerGroup', judgeIscustomerGroup)
         if (judgeIscustomerGroup.list.length !== 0) {
-          chooseCustomerProduct(this.getemplist).then(res => {
+          chooseGroupProduct(this.getemplist).then(res => {
             if (res.data.ret === 200) {
               that.list = res.data.data.content.list
               that.total = res.data.data.content.totalCount
@@ -331,7 +331,7 @@ export default {
 
         console.log('judgeIscustomerGroup', judgeIscustomerGroup)
         if (judgeIscustomerGroup.list.length !== 0) {
-          chooseCustomerProduct(this.getemplist).then(res => {
+          chooseGroupProduct(this.getemplist).then(res => {
             if (res.data.ret === 200) {
               that.list = res.data.data.content.list
               that.total = res.data.data.content.totalCount
@@ -397,28 +397,28 @@ export default {
       console.log(this.moreaction)
       const productDetail = this.moreaction.map(function(item) {
         return {
-          productCode: item.code,
+          productCode: item.code || item.productCode,
           productName: item.productName,
-          productCategoryName: item.category,
+          productCategoryName: item.category || item.productCategory,
           productCategory: item.categoryId,
           productTypeName: item.productType,
           productType: item.typeId,
           typeId: item.typeId,
           type: item.typeId,
           color: item.color,
-          unit: item.saleMeasu,
+          unit: item.saleMeasu || item.unit,
           performanceScore: item.kpiGrade,
           productScore: item.point,
           quantity: 0,
-          salePrice: (item.salePrice).toFixed(6),
-          costPrice: item.costPrice,
+          salePrice: item.salePrice || item.price,
+          costPrice: item.costPrice || item.price,
           costMoney: 0,
           includeTaxMoney: 0,
           taxRate: 0,
           taxMoney: 0,
           money: 0,
           includeTaxCostMoney: '0.00',
-          discount: 100,
+          discount: 0,
           discountRate: 0,
           discountMoney: 0,
           taxprice: '0.00',

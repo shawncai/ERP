@@ -825,3 +825,37 @@ export function chooseCustomerProduct(query) {
     data: params
   })
 }
+
+// 客户组所有客户level的物品
+export function chooseGroupProduct(query, query2, query3) {
+  var params = new URLSearchParams()
+
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productname !== '' && query.productname !== null && query.productname !== undefined) {
+    params.append('productName', query.productname) // 你要传给后台的参数值 key/value
+  }
+  if (query.categoryid !== '' && query.categoryid !== null && query.categoryid !== undefined) {
+    params.append('categoryid', query.categoryid) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeid !== '' && query.typeid !== null && query.typeid !== undefined) {
+    params.append('typeid', query.typeid) // 你要传给后台的参数值 key/value
+  }
+  if (query.condition !== '' && query.condition !== null && query.condition !== undefined) {
+    params.append('condition', query.condition) // 你要传给后台的参数值 key/value
+  }
+  if (query.condition !== '' && query.condition !== null && query.condition !== undefined) {
+    params.append('condition', query.condition) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customerProduct/chooseGroupProduct',
+    method: 'post',
+    data: params
+  })
+}

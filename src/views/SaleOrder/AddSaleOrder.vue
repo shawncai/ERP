@@ -1257,17 +1257,20 @@ export default {
       this.personalForm = {
         createDate: null,
         createPersonId: this.$store.getters.userId,
+        salePersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
+        saleRepositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
         customerType: '2',
         backType: '2',
         backMoney: '0.00',
         sendType: '2',
+        exchangeRate: '1.0000',
+        currency: '1',
         transDate: null,
         sourceType: '1',
-        saleRepositoryId: this.$store.getters.repositoryId,
-        salePersonId: this.$store.getters.userId
+        otherMoney: '0.00'
       }
       this.salePersonId = this.$store.getters.name
       this.customerId = null

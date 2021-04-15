@@ -57,6 +57,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('update4.nowFirst')" style="width: 100%;">
+                <span>{{ personalForm.nowFirst }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('ReturnExchange.handlePersonId')" prop="handlePersonId" style="width: 100%;">
                 <span>{{ personalForm.handlePersonName }}</span>
               </el-form-item>
