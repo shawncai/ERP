@@ -17,6 +17,12 @@
 
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
 
+      <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable >
+        <el-option :label="$t('updates.wsh')" value="0"/>
+        <el-option :label="$t('updates.shz')" value="1"/>
+        <el-option :label="$t('updates.shtg')" value="2"/>
+        <el-option :label="$t('updates.shptg')" value="3"/>
+      </el-select>
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>

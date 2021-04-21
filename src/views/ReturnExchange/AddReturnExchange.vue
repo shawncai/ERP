@@ -61,7 +61,7 @@
                   <el-input-number v-model="personalForm.diffMoney" :controls="false" :step="0.1" style="width: 200px"/>
                 </el-form-item>
               </el-col>
-              <el-col v-show="personalForm.saleType === '2'" :span="6">
+              <el-col v-if="personalForm.saleType === '2'" :span="6">
                 <el-form-item :label="$t('update4.nowFirst')" prop="nowFirst" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input-number v-model="personalForm.nowFirst" :controls="false" :step="0.1" style="width: 200px" @change="changeFirst"/>
                 </el-form-item>
@@ -1154,7 +1154,9 @@ export default {
         exchangeDate: null,
         stat: '1',
         isManila: 2,
-        saleType: ''
+        saleType: '',
+        diffMoney: '0.00',
+        shouldMoney: '0.00'
 
       }
       this.customerId = ''
