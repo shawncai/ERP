@@ -5,7 +5,7 @@
     :detaildata="detaildata"
     :detailid="detailid"
     :close-on-press-escape="false"
-    :title="personalForm.code + $t('updates.xqxx') + '     ' + personalForm.productName"
+    :title="personalForm.code + '     ' + personalForm.productName"
     append-to-body
     width="1010px"
     class="edit"
@@ -15,7 +15,9 @@
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
-        <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <el-button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</el-button>
+        <el-button @click="createQrcode">生成二维码</el-button>
+        <QrPic :visible.sync="qrvisible" :qr-data="qrdata"/>
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -450,10 +452,12 @@ import permission from '@/directive/permission/index.js' // 权限判断指令
 import Pagination from '@/components/Pagination'
 import MyRepository from './MyRepository'
 import MySupplier from '../../StockPlan/components/MySupplier' // Secondary package based on el-pagination
+import QrPic from './QrPic'
 var _that
 export default {
   directives: { permission },
-  components: { MySupplier, MyRepository, Pagination },
+
+  components: { MySupplier, MyRepository, Pagination, QrPic },
   filters: {
     sourceFilter(status) {
       const statusMap = {
@@ -536,6 +540,8 @@ export default {
   },
   data() {
     return {
+      qrdata: '',
+      qrvisible: false,
       // 采购信息
       tableData4: [],
       // 采购发送数据
@@ -613,6 +619,7 @@ export default {
     },
     detaildata() {
       this.personalForm = this.detaildata
+      this.qrdata = this.detaildata
       console.log('this.personalForm', this.personalForm)
     },
     detailid() {
@@ -630,6 +637,13 @@ export default {
     _that = this
   },
   methods: {
+    test(dataUrl, id) {
+      console.log(dataUrl, id)
+    },
+    createQrcode() {
+      console.log('123', 123)
+      this.qrvisible = true
+    },
     checkPermission,
     // 采购信息详情
     getstockinfo() {

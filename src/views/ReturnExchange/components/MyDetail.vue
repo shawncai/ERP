@@ -51,7 +51,7 @@
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
-      :height="tableHeight"
+      height="700"
       size="small"
       border
       fit

@@ -163,7 +163,7 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.hcmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
+          <my-detail v-if="control" :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button @click="handleAddpackage">{{ $t('otherlanguage.xztc') }}</el-button>
           <my-package :packagecontrol.sync="packagecontrol" :productnumber.sync="productnumber" :packagerepository.sync="packagerepository" @packagedata="packagedata" @ismanla="ismanla"/>
           <el-button type="danger" @click="$refs.editable2.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>

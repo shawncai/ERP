@@ -48,10 +48,10 @@
     <el-table
       v-loading="listLoading"
       ref="table"
-      :height="tableHeight"
       :key="tableKey"
       :data="list"
       :row-key="getRowKeys"
+      height="700"
       size="small"
       border
       fit

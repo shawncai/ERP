@@ -76,7 +76,7 @@
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgsqdmxly') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
           <el-button :disabled="Isproduct" size="mini" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-          <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
+          <my-detail v-if="control" :control.sync="control" @product="productdetail" @product2="productdetail2"/>
           <el-button type="danger" size="mini" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" size="mini" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
         </div>

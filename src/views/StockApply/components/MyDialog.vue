@@ -66,7 +66,7 @@
       <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.cgsqdmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="Isproduct" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail" @product2="productdetail2"/>
+        <my-detail v-if="control" :control.sync="control" @product="productdetail" @product2="productdetail2"/>
         <el-button type="danger" @click="deleteEdit">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
@@ -164,6 +164,7 @@ import { materialslist2 } from '@/api/MaterialsList'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyOrder from './MyOrder'
+import { deleteselfchecking } from '../../../api/repair'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
@@ -508,6 +509,9 @@ export default {
     // 修改和取消按钮
     // 修改按钮
     handleEditok() {
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

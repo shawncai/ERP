@@ -212,7 +212,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ (scope.row.includeTaxPrice).toFixed(2) }}</p>
+                <p v-show="jundgeprice()">{{ (scope.row.includeTaxPrice).toFixed(6) }}</p>
               </template>
               <!-- <template slot-scope="scope">
                 <el-input-number
@@ -938,7 +938,7 @@ export default {
         }
       }
       if (row.includeTaxPrice !== 0) {
-        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+        row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
       }
     },
     getdiscountreduceMoney(row) {
@@ -958,7 +958,7 @@ export default {
     },
     // 计算单价
     getprice(row) {
-      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(2)
+      row.includeTaxPrice = (row.price * (1 + row.taxRate / 100)).toFixed(6)
     },
     // 计算税额
     getTaxMoney2(row) {
