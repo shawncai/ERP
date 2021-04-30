@@ -74,7 +74,7 @@
           ref="editable2"
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
-          :edit-rules="validRules"
+
           class="click-table1"
           stripe
           border
@@ -422,7 +422,10 @@ export default {
         // }
       }
     },
-    changeDate2() {},
+    changeDate2(val) {
+      // console.log('val', val)
+      val.row.requireQuantity = val.row.applyQuantity
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'

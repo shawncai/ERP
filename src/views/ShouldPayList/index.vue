@@ -30,7 +30,7 @@
       <!-- 表格导出操作 -->
       <el-button v-permission="['266-128-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-permission="['266-128-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['266-128-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -74,11 +74,11 @@
             <span>{{ scope.row.payDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('update4.update4')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column :label="$t('update4.update4')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.update4 }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('ShouldPayList.currency')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.currency | currencyFilter }}</span>
@@ -415,15 +415,28 @@ export default {
     },
     // 导出
     handleExport() {
+      const obj = {
+        1: 'RMB',
+        2: 'USD',
+        3: 'PHP'
+      }
+      const obj2 = {
+        1: '采购发票',
+        2: '费用发票'
+      }
+      for (const i in this.list) {
+        this.list[i].bizhong = obj[this.list[i].currency]
+        this.list[i].fapiaoleib = obj2[this.list[i].invoiceType]
+      }
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'ShouldPayListName', 'ShouldPayListShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['源单编号', '供应商名称', '外包工厂', '付款日期', '币种', '应付款金额', '已付款金额', '未付金额', '退货抵扣', '发票号', '发票类型']
+          const filterVal = ['sourceNumber', 'supplierName', 'factoryName', 'payDate', 'bizhong', 'shouldMoney', 'paidMoney', 'payingMoney', 'returnOffset', 'invoiceNumber', 'fapiaoleib']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '应付款表'
           })
           this.downloadLoading = false
         })

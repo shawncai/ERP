@@ -967,7 +967,7 @@ export default {
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (Number(row.quantity).toFixed(2) * Number(row.includeTaxPrice).toFixed(2)).toFixed(2)
+      row.includeTaxMoney = (Number(row.quantity).toFixed(6) * Number(row.includeTaxPrice).toFixed(6)).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额

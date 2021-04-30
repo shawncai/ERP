@@ -85,7 +85,7 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
-            :edit-rules="validRules"
+
             class="click-table1"
             stripe
             border
