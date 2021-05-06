@@ -265,6 +265,7 @@ export default {
     getbatterylist() {
       batteryList().then(res => {
         if (res.data.ret === 200) {
+          console.log('res', res)
           const bttery1 = res.data.data.content[0].productClassfyVos
           const bttery2 = res.data.data.content[1].productClassfyVos
           this.batterylistdata = [...bttery1, ...bttery2]
