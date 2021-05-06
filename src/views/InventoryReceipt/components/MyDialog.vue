@@ -44,6 +44,18 @@
               </el-form-item>
             </el-col>
 
+            <el-col :span="12">
+              <el-form-item :label="$t('inventoryAlarm.createTime')" prop="createDate" style="width: 100%;">
+
+                <el-date-picker
+                  v-model="personalForm.createDate"
+                  :picker-options="pickerOptions2"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  style="margin-left: 18px;width: 200px"/>
+              </el-form-item>
+            </el-col>
+
           </el-row>
         </el-form>
       </div>
@@ -151,7 +163,24 @@ export default {
         callback()
       }
     }
+
+    const validatePass4 = (rule, value, callback) => {
+      if (this.personalForm.createDate === undefined || this.personalForm.createDate === null || this.personalForm.createDate === '') {
+        callback(new Error('please select createDate'))
+      } else {
+        callback()
+      }
+    }
+
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 130 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       diffcontrol: false,
 
       // 弹窗组件的控制
@@ -176,6 +205,9 @@ export default {
         ],
         sourceType: [
           { required: true, message: 'please select sourceType', trigger: 'blur' }
+        ],
+        createDate: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       customercontrol: false,

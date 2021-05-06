@@ -40,6 +40,17 @@
                 </el-form-item>
               </el-col>
 
+              <el-col :span="6">
+                <el-form-item :label="$t('inventoryAlarm.createTime')" prop="createDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-date-picker
+                    v-model="personalForm.createDate"
+                    :picker-options="pickerOptions2"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    style="width: 200px"/>
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </el-form>
         </div>
@@ -131,7 +142,22 @@ export default {
         callback()
       }
     }
+    const validatePass4 = (rule, value, callback) => {
+      if (this.personalForm.createDate === undefined || this.personalForm.createDate === null || this.personalForm.createDate === '') {
+        callback(new Error('please select createDate'))
+      } else {
+        callback()
+      }
+    }
     return {
+      pickerOptions2: {
+        disabledDate: (time) => {
+          const _now = Date.now()
+          const seven = 130 * 24 * 60 * 60 * 1000
+          const sevenDays = _now - seven
+          return time.getTime() > _now || time.getTime() < sevenDays
+        }
+      },
       receiptcontrol: false,
       diffcontrol: false,
       countcontrol: false,
@@ -144,7 +170,9 @@ export default {
         sourceType: '1',
         createPersonId: this.$store.getters.userId,
         repositoryId: this.$store.getters.repositoryId,
-        regionId: this.$store.getters.regionId
+        regionId: this.$store.getters.regionId,
+        createDate: null
+
       },
       personalrules: {
         handlePersonId: [
@@ -158,6 +186,9 @@ export default {
         ],
         sourceType: [
           { required: true, message: 'please select sourceType', trigger: 'blur' }
+        ],
+        createDate: [
+          { required: true, validator: validatePass4, trigger: 'change' }
         ]
       },
       customercontrol: false,
@@ -179,7 +210,26 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getdatatime()
+  },
   methods: {
+    // 默认显示今天
+    getdatatime() { // 默认显示今天
+      var date = new Date()
+      var seperator1 = '-'
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      this.personalForm.createDate = currentdate
+    },
     inventoryData(val) {
       console.log('val', val)
       this.personalForm.sourceNumber = val.receiptNumber
@@ -281,7 +331,9 @@ export default {
         createPersonId: this.$store.getters.userId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        createDate: null
+
       }
       this.handlePersonId = ''
       this.handleRepositryId = ''

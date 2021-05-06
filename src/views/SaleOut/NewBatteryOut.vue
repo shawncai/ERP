@@ -3019,7 +3019,8 @@ export default {
       })
       const battery1 = needbatterycategorys[0].productClassfyVos
       const battery2 = needbatterycategorys[1].productClassfyVos
-      const batterycategorys = [...battery1, ...battery2]
+      const battery3 = needbatterycategorys[2].productClassfyVos
+      const batterycategorys = [...battery1, ...battery2, ...battery3]
       const batterycategorysdetail = batterycategorys.map(item => {
         return item.id
       })

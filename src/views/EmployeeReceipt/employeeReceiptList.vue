@@ -140,6 +140,11 @@
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('inventoryAlarm.createTime')" :resizable="false" align="center" >
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('LogisticsCar.sourcenumber')" :resizable="false" align="center" >
           <template slot-scope="scope">
             <span>{{ scope.row.sourceNumber }}</span>

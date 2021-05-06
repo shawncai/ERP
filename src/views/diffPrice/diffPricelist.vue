@@ -268,7 +268,8 @@ export default {
           console.log('res', res)
           const bttery1 = res.data.data.content[0].productClassfyVos
           const bttery2 = res.data.data.content[1].productClassfyVos
-          this.batterylistdata = [...bttery1, ...bttery2]
+          const bttery3 = res.data.data.content[2].productClassfyVos
+          this.batterylistdata = [...bttery1, ...bttery2, ...bttery3]
         }
       })
     },

@@ -4,6 +4,7 @@
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 ###  重大操作  
 ```
+deploy-cli-service deploy --mode dev
 安装插件步骤出错后操作
 - npm install -g cnpm --registry=https://registry.npm.taobao.org     安装cnmp
 - cnpm install node-sass    安装node-sass
