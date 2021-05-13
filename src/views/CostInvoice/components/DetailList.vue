@@ -219,7 +219,8 @@ export default {
         1: 'PHP',
         2: 'USD',
         3: 'RMB',
-        4: 'LKR'
+        4: 'LKR',
+        5: 'THB'
       }
       return statusMap[status]
     },
@@ -252,7 +253,8 @@ export default {
         1: 'PHP',
         2: 'USD',
         3: 'RMB',
-        4: 'LKR'
+        4: 'LKR',
+        5: 'THB'
       }
       return statusMap[status]
     },

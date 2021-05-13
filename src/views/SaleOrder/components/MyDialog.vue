@@ -122,6 +122,7 @@
                   <el-option value="2" label="USD"/>
                   <el-option value="3" label="RMB"/>
                   <el-option value="4" label="LKR"/>
+                  <el-option value="5" label="THB"/>
                 </el-select>
               </el-form-item>
             </el-col>

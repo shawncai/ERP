@@ -488,11 +488,11 @@ export default {
       if (value === null || value === undefined || value === '') {
         callback(new Error('请输入'))
       } else {
-        if (!Number.isInteger(value)) {
-          console.log('successful', Number.isInteger(value))
+        if (!Number(value)) {
+          console.log('successful', Number(value))
           callback(new Error('请输入正确数字'))
         } else {
-          console.log('失败', Number.isInteger(value))
+          console.log('失败', Number(value))
           callback()
         }
       }
@@ -501,11 +501,11 @@ export default {
       console.log(value)
       value = Number(value)
       setTimeout(() => {
-        if (!Number.isInteger(value)) {
+        if (!Number(value)) {
           callback(new Error('请输入正确数字'))
-          console.log('successful', Number.isInteger(value))
+          console.log('successful', Number(value))
         } else {
-          console.log('失败', Number.isInteger(value))
+          console.log('失败', Number(value))
           callback()
         }
       }, 1000)

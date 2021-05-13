@@ -436,7 +436,7 @@ export default {
     // 判断反审批按钮
     isReview4(row) {
       console.log(row)
-      if ((row.judgeStat === 2 || row.judgeStat === 1) && row.receiptStat === 2) {
+      if ((row.judgeStat === 2 || row.judgeStat === 1)) {
         return true
       }
     },
@@ -751,11 +751,7 @@ export default {
         console.log('row.createPersonDept', row.createPersonDept)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           console.log('approvalUse2.step', approvalUse2.step)
-          if (approvalUse2.step === 1) {
-            if (row.createPersonDept === this.$store.getters.deptId) {
-              return true
-            }
-          } else {
+          if (row.createPersonDept === this.$store.getters.deptId) {
             return true
           }
         }

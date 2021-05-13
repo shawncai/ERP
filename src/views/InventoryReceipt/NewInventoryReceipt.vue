@@ -211,7 +211,7 @@ export default {
       getemplist: {
         repositoryid: '',
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 999999,
         loginRepositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
         stat: 1,
