@@ -260,7 +260,7 @@
               <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+          <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
             <template slot-scope="scope">
               <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
             </template>
@@ -909,12 +909,15 @@ export default {
       // } else {
       //   row.tax = 0
       // }
-      row.tax = (Number(row.includeTaxMoney) - Number(row.money)).toFixed(2)
+      // row.tax = (Number(row.includeTaxMoney) - Number(row.money)).toFixed(2)
+      row.taxMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + (row.taxRate / 100))) * (row.taxRate / 100)).toFixed(2)
 
-      return row.tax
+      return row.taxMoney
     },
     getdiscountreduceMoney(row) {
-      row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      // row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      row.discountreduceMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + row.taxRate / 100))).toFixed(2)
+
       return row.discountreduceMoney
     },
     getdiscountreduceMoney2(row) {

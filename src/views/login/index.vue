@@ -39,6 +39,7 @@
       <el-form-item>
         <el-select v-model="loginForm.country" clearable style="margin-left: 18px;width: 88%">
           <el-option label="china" value="1"/>
+          <!-- <el-option label="南京" value="1"/> -->
           <el-option label="philippines" value="2"/>
           <el-option label="Thailand" value="3"/>
           <el-option label="srilanka" value="4"/>

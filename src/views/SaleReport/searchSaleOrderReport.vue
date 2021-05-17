@@ -35,44 +35,44 @@
           type="index"
           sortable
           fixed
-          width="60"
+
           align="center"/>
         <el-table-column
           :label="first"
           prop="name"
           sortable
           fixed
-          width="150"
+
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderReport.money')"
           prop="money"
           sortable
-          width="240"
+
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderReport.discountMoney')"
           prop="discountMoney"
           sortable
-          width="240"
+
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderReport.taxMoney')"
           prop="taxMoney"
           sortable
-          width="240"
+
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderReport.otherMoney')"
           prop="otherMoney"
           sortable
-          width="240"
+
           align="center"/>
         <el-table-column
           :label="$t('searchSaleOrderReport.actualMoney')"
           prop="actualMoney"
           sortable
-          width="240"
+
           align="center"/>
       </el-table>
       <!-- 列表结束 -->

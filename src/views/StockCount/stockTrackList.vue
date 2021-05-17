@@ -19,14 +19,23 @@
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
     </el-card>
+    <el-card :body-style=" { padding: '6px'}" class="box-card" shadow="never">
 
+      <!-- 表格导出操作 -->
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- 打印操作 -->
+      <!-- <el-button v-permission="['131-153-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/> -->
+    </el-card>
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         ref="table"
         :height="tableHeight"
         :data="list"
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
 
         border
         style="width: 100%"
@@ -321,6 +330,65 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['供应商名称', '单据日期', '单据编号', '物品编号', '到货时间', '到货单号', '入库单号', '交货日期', '物品名称', '单位', '数量', '含税价', '含税金额', '到货数量', '到货金额', '已入库', '未入库', '已开票数', '未开票数', '已开票额', '未开票额']
+          const filterVal = ['supplierName', 'receiptDate', 'orderNumber', 'productCode', 'arrivalDate', 'arrivalNumber', 'delayNum', 'deliveryDate', 'productName', 'unit', 'quantity', 'price', 'money', 'arrivalQuantity', 'arrivalMoney', 'enterQuantity', 'notenterQuantity', 'invoiceQuantity', 'notinvoiceQuantity', 'invoiceMoney', 'notinvoiceMoney']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '采购订单全程跟踪表'
+          })
+          this.downloadLoading = false
+        })
+    },
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        if (index === 3) {
+          sums[index] = ' '
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(6)
+            } else {
+              return (Number(prev)).toFixed(6)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     handleDetail4(row) {
       const query_params = {
         id: 784836221,
@@ -412,7 +480,13 @@ export default {
             this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(6)
             this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(6)
             this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(6)
+            this.list[i].arrivalDate = this.list[i].orderArrivalVos[0].arrivalDate
+            this.list[i].arrivalNumber = this.list[i].orderArrivalVos[0].arrivalNumber
+
+            this.list[i].enterDate = this.list[i].orderEnterVos[0].enterDate
+            this.list[i].enterNumber = this.list[i].orderEnterVos[0].enterNumber
           }
+          console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

@@ -484,28 +484,20 @@ export default {
     }
     const validatePass2 = (rule, value, callback) => {
       console.log(value)
-      value = Number(value)
+      // value = Number(value)
       if (value === null || value === undefined || value === '') {
         callback(new Error('请输入'))
       } else {
-        if (!Number(value)) {
-          console.log('successful', Number(value))
-          callback(new Error('请输入正确数字'))
-        } else {
-          console.log('失败', Number(value))
-          callback()
-        }
+        callback()
       }
     }
     const validatePass3 = (rule, value, callback) => {
       console.log(value)
       value = Number(value)
       setTimeout(() => {
-        if (!Number(value)) {
-          callback(new Error('请输入正确数字'))
-          console.log('successful', Number(value))
+        if (value === null || value === undefined || value === '') {
+          callback(new Error('请输入'))
         } else {
-          console.log('失败', Number(value))
           callback()
         }
       }, 1000)

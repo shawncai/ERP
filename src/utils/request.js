@@ -21,6 +21,9 @@ service.interceptors.request.use(
     if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
       config.baseURL = process.env.BASE_API + '8888/erp'
     }
+    // if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
+    //   config.baseURL = process.env.BASE_API + '8787/nanjing'
+    // }
     if (store.getters.useCountry === 2 || store.getters.useCountry === '2') {
       config.baseURL = process.env.BASE_API + '9999/philippines'
     }

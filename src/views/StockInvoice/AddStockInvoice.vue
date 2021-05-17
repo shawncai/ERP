@@ -943,7 +943,8 @@ export default {
       }
     },
     getdiscountreduceMoney(row) {
-      row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      // row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      row.discountreduceMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + row.taxRate / 100))).toFixed(2)
       return row.discountreduceMoney
     },
     getdiscountreduceMoney2(row) {
@@ -963,7 +964,7 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.tax = (Number(row.includeTaxMoney) - Number(row.money)).toFixed(2)
+      row.tax = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + (row.taxRate / 100))) * (row.taxRate / 100)).toFixed(2)
       return row.tax
     },
     // 计算含税金额
