@@ -613,7 +613,7 @@ export default {
   methods: {
     getcurrency() {
       const mycountry = this.$store.getters.countryId
-      console.log('mycountry============', mycountry)
+      // console.log('mycountry============', mycountry)
       if (mycountry === 1) {
         this.personalForm.currency = '3'
       } else if (mycountry === 2) {
@@ -627,7 +627,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handlechooseRep() {
@@ -927,7 +927,7 @@ export default {
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.stockQuantity * row.price).toFixed(6)
+      row.money = (row.stockQuantity * (Number(row.includeTaxPrice) / (1 + (row.taxRate / 100)))).toFixed(2)
       return row.money
     },
     // 选择源单类型事件

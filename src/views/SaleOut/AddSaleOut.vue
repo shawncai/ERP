@@ -21,7 +21,7 @@
                     <el-option :label="$t('prompt.xsjh')" value="4"/>
                     <el-option :label="$t('prompt.wly')" value="5"/>
                     <el-option :label="$t('prompt.eshsd')" value="6"/>
-                    <el-option label="bom" value="7"/>
+                    <el-option label= "bom" value="7"/>
                   </el-select>
                 </el-form-item>
               </el-col>

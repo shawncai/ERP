@@ -932,7 +932,8 @@ export default {
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.price).toFixed(2)
+      row.money = (row.quantity * (Number(row.includeTaxPrice) / (1 + (row.taxRate / 100)))).toFixed(2)
+
       return row.money
     },
     getways() {

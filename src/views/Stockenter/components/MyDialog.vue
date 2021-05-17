@@ -181,7 +181,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ getSize(scope.row.actualEnterQuantity, scope.row.enterPrice) }}</p>
+              <p v-show="jundgeprice()">{{ getSize(scope.row) }}</p>
             </template>
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
@@ -570,8 +570,9 @@ export default {
       }
     },
     // 入库金额计算
-    getSize(quan, pric) {
-      return quan * pric
+    getSize(row) {
+      row.money = (row.actualEnterQuantity * (Number(row.includeTaxPrice) / (1 + (row.taxRate / 100)))).toFixed(2)
+      return row.money
     },
     getmylocation(scope) {
       if (scope.row.flag === undefined) {

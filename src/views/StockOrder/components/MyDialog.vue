@@ -780,7 +780,8 @@ export default {
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.stockQuantity * row.price).toFixed(6)
+      row.money = (row.stockQuantity * (Number(row.includeTaxPrice) / (1 + (row.taxRate / 100)))).toFixed(2)
+
       return row.money
     },
     // 选择源单类型事件
