@@ -12,7 +12,7 @@
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" style="margin-left: 0" type="primary">
+        <el-button v-waves class="filter-item" e="margin-left: 0" type="primary">
           {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
