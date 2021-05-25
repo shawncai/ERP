@@ -751,7 +751,11 @@ export default {
         console.log('row.createPersonDept', row.createPersonDept)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
           console.log('approvalUse2.step', approvalUse2.step)
-          if (row.createPersonDept === this.$store.getters.deptId) {
+          if (approvalUse2.step === 1) {
+            if (row.createPersonDept === this.$store.getters.deptId) {
+              return true
+            }
+          } else {
             return true
           }
         }

@@ -43,7 +43,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <!-- <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" style="padding: 0" @pagination="getlist" /> -->
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" style="padding: 0" @pagination="getlist" />
       <span slot="footer" class="dialog-footer">
         <el-button v-waves type="success" style="text-align: center;" @click="handleAddTo">{{ $t('Hmodule.sure') }}</el-button>
       </span>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { getSupplierDetailById } from '@/api/SupplierAdjust'
 import { productlist, searchEmpCategory2 } from '@/api/Product'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -76,10 +77,8 @@ export default {
       default: false
     },
     datalist: {
-      type: Array,
-      default() {
-        return []
-      }
+      type: [String, Number],
+      default: ''
     }
   },
   data() {
@@ -101,7 +100,7 @@ export default {
       // 批量操作
       moreaction: '',
       // 表格数据
-      list: this.datalist,
+      list: [],
       // 表格数据条数
       total: 0,
       // 表格识别
@@ -110,15 +109,9 @@ export default {
       listLoading: false,
       // 物品列表查询加展示参数
       getemplist: {
-        productid: '',
-        code: '',
-        productname: '',
-        categoryid: '',
-        typeid: '',
-        isactive: '',
-        Productid: '',
-        pagenum: 1,
-        pagesize: 10
+        supplierId: '',
+        pageNum: 1,
+        pageSize: 10
       }
     }
   },
@@ -126,23 +119,26 @@ export default {
     control() {
       this.productVisible = this.control
       console.log(this.control)
+      this.getlist()
     },
     datalist() {
-      this.list = this.datalist
+      this.getemplist.supplierId = this.datalist
     }
   },
   created() {
-    // this.getlist()
+    this.getlist()
   },
   beforeCreate() {
     _that = this
   },
   methods: {
     getlist() {
+      console.log('this.datalist', this.datalist)
       // 商品列表数据
       this.listLoading = true
-      productlist(this.getemplist).then(res => {
+      getSupplierDetailById(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log('res', res)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
         }

@@ -4634,6 +4634,6 @@ export default {
     zhehouhanshuijine: 'discounted amount w/tax',
     zhehoujineheji: 'total discounted amount',
     yuangongpeichagn: 'employee compensation list',
-    nowFirst: 'nowFirst'
+    nowFirst: 'now DP'
   }
 }

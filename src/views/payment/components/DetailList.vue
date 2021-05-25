@@ -102,7 +102,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column prop="invoiceDate" align="center" label="发票日期" min-width="180px"/>
+            <el-editable-column :label="$t('update4.invoiceDate')" prop="invoiceDate" align="center" min-width="180px"/>
             <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" />
             <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" />
             <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" />
@@ -188,6 +188,7 @@
                   <span> {{ personalForm.otherMoney }} </span>
                 </el-form-item>
               </el-col>
+
             </el-row>
           </el-form>
         </div>

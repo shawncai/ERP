@@ -3,47 +3,119 @@
     <div class="app-container" style="padding-right: 0">
       <!--基本信息-->
       <el-card class="box-card" shadow="never">
-        <h2 ref="geren" class="form-name">红字采购发票{{ $t('Hmodule.basicinfo') }}</h2>
+        <h2 ref="geren" class="form-name">
+          红字采购发票{{ $t("Hmodule.basicinfo") }}
+        </h2>
         <div class="container" style="margin-top: 37px">
-          <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form
+            ref="personalForm"
+            :model="personalForm"
+            :rules="personalrules"
+            :inline="true"
+            status-icon
+            class="demo-ruleForm"
+            label-width="130px"
+          >
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.sourceType')" style="width: 100%;">
-                  <el-select v-model="personalForm.sourceType" disabled style="margin-left: 18px;width: 200px">
-                    <el-option value="2" label="采购发票" />
+                <el-form-item
+                  :label="$t('StockInvoice.sourceType')"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.sourceType"
+                    style="margin-left: 18px; width: 200px"
+                  >
+                    <el-option value="1" label="采购入库单" />
+                    <el-option value="3" label="采购发票" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.subject')" prop="type" style="width: 100%;">
-                  <el-select v-model="personalForm.subject" disabled filterable style="margin-left: 18px;width: 200px">
-                    <el-option v-for="(item, index) in subjects" :key="index" :value="item.id" :label="item.itemName"/>
+                <el-form-item
+                  :label="$t('StockInvoice.subject')"
+                  prop="type"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.subject"
+
+                    filterable
+                    style="margin-left: 18px; width: 200px"
+                  >
+                    <el-option
+                      v-for="(item, index) in subjects"
+                      :key="index"
+                      :value="item.id"
+                      :label="item.itemName"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.invoiceNumber')" prop="invoiceNumber" style="width: 100%;">
-                  <el-input v-model="personalForm.invoiceNumber" style="margin-left: 18px;width:200px" clearable/>
-                  <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+                <el-form-item
+                  :label="$t('StockInvoice.invoiceNumber')"
+                  prop="invoiceNumber"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="personalForm.invoiceNumber"
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                  />
+                  <my-supplier
+                    :control.sync="empcontrol"
+                    @supplierName="supplierName"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.invoiceType')" prop="invoiceType" style="width: 100%;">
-                  <el-select v-model="personalForm.invoiceType" disabled style="margin-left: 18px;width: 200px">
-                    <el-option value="1" label="增值税" />
-                    <el-option value="2" label="普通" />
+                <el-form-item
+                  :label="$t('StockInvoice.invoiceType')"
+                  prop="invoiceType"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.invoiceType"
+
+                    style="margin-left: 18px; width: 200px"
+                  >
+                    <el-option value="1" label="增值税专用发票" />
+                    <el-option value="2" label="增值税普通发票" />
+                    <el-option value="3" label="普通发票" />
+                    <el-option value="4" label="无票" />
+                    <el-option value="5" label="其他" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.supplierId')" prop="supplierId" style="width: 100%;">
-                  <el-input v-model="supplierId" style="margin-left: 18px;width:200px" clearable @focus="handlechoose"/>
-                  <my-emp :control.sync="stockControl" @stockName="stockName"/>
+                <el-form-item
+                  :label="$t('StockInvoice.supplierId')"
+                  prop="supplierId"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="supplierId"
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                    @focus="handlechoose"
+                  />
+                  <my-emp :control.sync="stockControl" @stockName="stockName" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.settleMode')" prop="settleMode" style="width: 100%;">
-                  <el-select v-model="personalForm.settleMode" disabled placeholder="请选择结算方式" style="margin-left: 18px;width: 200px" @change="change()">
+                <el-form-item
+                  :label="$t('StockInvoice.settleMode')"
+                  prop="settleMode"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.settleMode"
+
+                    placeholder="请选择结算方式"
+                    style="margin-left: 18px; width: 200px"
+                    @change="change()"
+                  >
                     <el-option
                       v-for="(item, index) in settleModes"
                       :key="index"
@@ -65,28 +137,62 @@
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.address')" style="width: 100%;">
-                  <el-input v-model="personalForm.address" disabled style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item
+                  :label="$t('StockInvoice.address')"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="personalForm.address"
+
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('Supplier.taxNumber')" style="width: 100%;">
-                  <el-input v-model="personalForm.taxNumber" disabled style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item
+                  :label="$t('Supplier.taxNumber')"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="personalForm.taxNumber"
+
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.bank')" prop="bank" style="width: 100%;">
-                  <el-input v-model="personalForm.bank" disabled style="margin-left: 18px;width:200px" clearable/>
+                <el-form-item
+                  :label="$t('StockInvoice.bank')"
+                  prop="bank"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="personalForm.bank"
+                    disabled
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.currency')" style="width: 100%;">
-                  <el-select v-model="personalForm.currency" disabled clearable style="margin-left: 18px;width: 200px" @change="change()">
-                    <el-option value="1" label="PHP"/>
-                    <el-option value="2" label="USD"/>
-                    <el-option value="3" label="RMB"/>
-                    <el-option value="4" label="LKR"/>
-                    <el-option value="5" label="THB"/>
+                <el-form-item
+                  :label="$t('StockInvoice.currency')"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.currency"
+
+                    clearable
+                    style="margin-left: 18px; width: 200px"
+                    @change="change()"
+                  >
+                    <el-option value="1" label="PHP" />
+                    <el-option value="2" label="USD" />
+                    <el-option value="3" label="RMB" />
+                    <el-option value="4" label="LKR" />
+                    <el-option value="5" label="THB" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -99,30 +205,51 @@
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.handlePersonId')" prop="handlePersonId" style="width: 100%;">
-                  <el-input v-model="handlePersonId" style="margin-left: 18px;width:200px" clearable @focus="handlechooseStock"/>
+                <el-form-item
+                  :label="$t('StockInvoice.handlePersonId')"
+                  prop="handlePersonId"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="handlePersonId"
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                    @focus="handlechooseStock"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.deptId')" style="width: 100%;">
-                  <el-select v-model="personalForm.deptId" clearable style="margin-left: 18px;width: 200px">
+                <el-form-item
+                  :label="$t('StockInvoice.deptId')"
+                  style="width: 100%"
+                >
+                  <el-select
+                    v-model="personalForm.deptId"
+                    clearable
+                    style="margin-left: 18px; width: 200px"
+                  >
                     <el-option
                       v-for="(item, index) in depts"
                       :key="index"
                       :value="item.id"
-                      :label="item.deptName"/>
+                      :label="item.deptName"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('StockInvoice.payDate')" style="width: 100%;">
+                <el-form-item
+                  :label="$t('StockInvoice.payDate')"
+                  style="width: 100%"
+                >
                   <el-date-picker
                     v-model="personalForm.payDate"
                     :picker-options="pickerOptions1"
                     type="date"
-                    disabled
+
                     value-format="yyyy-MM-dd"
-                    style="margin-left: 18px;width:200px"/>
+                    style="margin-left: 18px; width: 200px"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -131,20 +258,31 @@
       </el-card>
       <!--子件信息-->
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" >红字采购发票明细</h2>
-        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
-          <my-invoice :entercontrol.sync="entercontrol" :supp.sync="supp" @enter="enter" @enterinfo="enterinfo"/>
+        <h2 ref="fuzhu" class="form-name">红字采购发票明细</h2>
+        <div class="buttons" style="margin-top: 35px; margin-bottom: 10px">
+          <el-button style="width: 130px" @click="handleAddSouce">{{
+            $t("updates.cydzxz")
+          }}</el-button>
+          <my-invoice
+            :entercontrol.sync="entercontrol"
+            :supp.sync="supp"
+            @enter="enter"
+            @enterinfo="enterinfo"
+          />
+          <my-enter :entercontrol.sync="stockentercontrol" :supp.sync="supp" :checklist.sync="checklist" @enter="stockenter" @enterinfo="stockenterinfo"/>
+
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
-          <my-detail :control.sync="control" @product="productdetail"/>
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+          <my-detail :control.sync="control" @product="productdetail" />
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{
+            $t("Hmodule.delete")
+          }}</el-button>
           <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
         </div>
         <div class="container">
           <el-editable
             ref="editable"
             :data.sync="list2"
-            :edit-config="{ showIcon: true, showStatus: true}"
+            :edit-config="{ showIcon: true, showStatus: true }"
             :edit-rules="validRules"
             :summary-method="getSummaries"
             class="click-table1"
@@ -153,80 +291,191 @@
             border
             size="small"
             style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-editable-column type="selection" min-width="55" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px">
+            @selection-change="handleSelectionChange"
+          >
+            <el-editable-column
+              type="selection"
+              min-width="55"
+              align="center"
+            />
+            <el-editable-column
+              :label="$t('Hmodule.xh')"
+              min-width="55"
+              align="center"
+              type="index"
+            />
+            <el-editable-column
+              :label="$t('Hmodule.wpbh')"
+              prop="productCode"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :label="$t('Hmodule.wpmc')"
+              prop="productName"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :label="$t('Hmodule.gg')"
+              prop="productType"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :label="$t('updates.ys')"
+              prop="color"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :label="$t('Hmodule.dw')"
+              prop="unit"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :edit-render="{
+                name: 'ElInputNumber',
+                attrs: { min: 0, precision: 6 },
+                type: 'visible',
+              }"
+              :label="$t('updates.shuli')"
+              prop="quantity"
+              align="center"
+              min-width="150px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   :max="scope.row.quantity2"
-                  v-model="scope.row.quantity"/>
+                  v-model="scope.row.quantity"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
+            <el-editable-column
+              :label="$t('Hmodule.dj')"
+              prop="price"
+              align="center"
+              min-width="170px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.price"
-                  @input="getprice(scope.row)"/>
+                  @input="getprice(scope.row)"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
+            <el-editable-column
+              :label="$t('updates.hsj')"
+              prop="includeTaxPrice"
+              align="center"
+              min-width="170px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.includeTaxPrice"
-                  @input="getincludeTaxPrice(scope.row)"/>
+                  @input="getincludeTaxPrice(scope.row)"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
+            <el-editable-column
+              :label="$t('updates.sl')"
+              prop="taxRate"
+              align="center"
+              min-width="170px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.taxRate"
-                  @input="gettaxRate(scope.row)"/>
+                  @input="gettaxRate(scope.row)"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.zk')" prop="discountRate" align="center" min-width="170px">
+            <el-editable-column
+              :edit-render="{
+                name: 'ElInputNumber',
+                attrs: { min: 0 },
+                type: 'visible',
+              }"
+              :label="$t('updates.zk')"
+              prop="discountRate"
+              align="center"
+              min-width="170px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.discountRate"
-                  @change="getdiscountRate(scope.row)"/>
+                  @change="getdiscountRate(scope.row)"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="170px">
+            <el-editable-column
+              :edit-render="{
+                name: 'ElInputNumber',
+                attrs: { min: 0 },
+                type: 'visible',
+              }"
+              :label="$t('updates.cke')"
+              prop="discountMoney"
+              align="center"
+              min-width="170px"
+            >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.discountMoney"
-                  @change="getdiscountMoney(scope.row)"/>
+                  @change="getdiscountMoney(scope.row)"
+                />
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('Hmodule.je')" prop="money" align="center" min-width="150px">
+            <el-editable-column
+              :label="$t('Hmodule.je')"
+              prop="money"
+              align="center"
+              min-width="150px"
+            >
               <template slot-scope="scope">
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.hsje')" prop="includeTaxMoney" align="center" min-width="150px">
+            <el-editable-column
+              :label="$t('updates.hsje')"
+              prop="includeTaxMoney"
+              align="center"
+              min-width="150px"
+            >
               <template slot-scope="scope">
                 <p>{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+            <el-editable-column
+              :label="$t('updates.se')"
+              prop="tax"
+              align="center"
+              min-width="150px"
+            >
               <template slot-scope="scope">
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
 
-            <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
+            <el-editable-column
+              :label="$t('updates.ydbh')"
+              prop="sourceNumber"
+              align="center"
+              min-width="150px"
+            />
+            <el-editable-column
+              :label="$t('updates.dddh')"
+              prop="orderNumber"
+              align="center"
+              min-width="150px"
+            />
           </el-editable>
         </div>
       </el-card>
@@ -261,31 +510,63 @@
       <!--      </el-card>-->
       <!--操作-->
       <div class="buttons" style="margin-top: 20px">
-        <el-button v-no-more-click type="primary" style="background:#3696fd;border-color:#3696fd;width: 98px" @click="handlesave()">{{ $t('Hmodule.baoc') }}</el-button>
-        <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
+        <el-button
+          v-no-more-click
+          type="primary"
+          style="background: #3696fd; border-color: #3696fd; width: 98px"
+          @click="handlesave()"
+        >{{ $t("Hmodule.baoc") }}</el-button
+        >
+        <el-button type="danger" @click="handlecancel()">{{
+          $t("Hmodule.cancel")
+        }}</el-button>
       </div>
-      <el-dialog :visible.sync="receiptVisible2" title="库存快照" class="normal" width="600px" center>
+      <el-dialog
+        :visible.sync="receiptVisible2"
+        title="库存快照"
+        class="normal"
+        width="600px"
+        center
+      >
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
-          <el-form-item label-width="100px;" style="    width: 500px;">
-            <div style="width: 100%; height: 220px;overflow: hidden;background: white;" >
-              <el-table
-                :data="list111"
-                height="220"
-                style="width: 100%;"
-              >
-                <el-table-column :resizable="false" :label="$t('updates.cangk')" align="center" min-width="150">
+          <el-form-item label-width="100px;" style="width: 500px">
+            <div
+              style="
+                width: 100%;
+                height: 220px;
+                overflow: hidden;
+                background: white;
+              "
+            >
+              <el-table :data="list111" height="220" style="width: 100%">
+                <el-table-column
+                  :resizable="false"
+                  :label="$t('updates.cangk')"
+                  align="center"
+                  min-width="150"
+                >
                   <template slot-scope="scope">
-                    <span >{{ scope.row.repositoryName }}</span>
+                    <span>{{ scope.row.repositoryName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" :label="$t('updates.spmc')" align="center" min-width="150">
+                <el-table-column
+                  :resizable="false"
+                  :label="$t('updates.spmc')"
+                  align="center"
+                  min-width="150"
+                >
                   <template slot-scope="scope">
-                    <span >{{ scope.row.productName }}</span>
+                    <span>{{ scope.row.productName }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :resizable="false" label="可用库存量" align="center" min-width="150">
+                <el-table-column
+                  :resizable="false"
+                  label="可用库存量"
+                  align="center"
+                  min-width="150"
+                >
                   <template slot-scope="scope">
-                    <span >{{ scope.row.ableStock }}</span>
+                    <span>{{ scope.row.ableStock }}</span>
                   </template>
                 </el-table-column>
               </el-table>
@@ -319,12 +600,29 @@ import MyInvoice from './components/MyInvoice'
 import MyRepository from './components/MyRepository'
 var _that
 export default {
-  name: 'AddStockInvoice',
-  components: { MyRepository, MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyEnter, MyInvoice },
+  name: 'AddRedStockInvoice',
+  components: {
+    MyRepository,
+    MyArrival,
+    MyOrder,
+    MyLnquiry,
+    MyDelivery,
+    MyPlan,
+    MyApply,
+    MySupplier,
+    MyDetail,
+    MyEmp,
+    MyEnter,
+    MyInvoice
+  },
   data() {
     const validatePass = (rule, value, callback) => {
       console.log(this.handlePersonId)
-      if (this.handlePersonId === undefined || this.handlePersonId === null || this.handlePersonId === '') {
+      if (
+        this.handlePersonId === undefined ||
+        this.handlePersonId === null ||
+        this.handlePersonId === ''
+      ) {
         callback(new Error('请选择采购员'))
       } else {
         callback()
@@ -332,7 +630,11 @@ export default {
     }
     const validatePass2 = (rule, value, callback) => {
       console.log(this.supplierId)
-      if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
+      if (
+        this.supplierId === undefined ||
+        this.supplierId === null ||
+        this.supplierId === ''
+      ) {
         callback(new Error('请选择供应商'))
       } else {
         callback()
@@ -340,7 +642,11 @@ export default {
     }
     const validatePass4 = (rule, value, callback) => {
       console.log(this.supplierId)
-      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+      if (
+        this.personalForm.invoiceNumber === undefined ||
+        this.personalForm.invoiceNumber === null ||
+        this.personalForm.invoiceNumber === ''
+      ) {
         callback(new Error('请输入发票号'))
       } else {
         callback()
@@ -348,16 +654,27 @@ export default {
     }
     const validatePass5 = (rule, value, callback) => {
       console.log(this.supplierId)
-      if (this.personalForm.deptId === undefined || this.personalForm.deptId === null || this.personalForm.deptId === '') {
+      if (
+        this.personalForm.deptId === undefined ||
+        this.personalForm.deptId === null ||
+        this.personalForm.deptId === ''
+      ) {
         callback(new Error('请选择部门'))
       } else {
         callback()
       }
     }
     const validatePass6 = (rule, value, callback) => {
-      if (this.personalForm.invoiceNumber === undefined || this.personalForm.invoiceNumber === null || this.personalForm.invoiceNumber === '') {
+      if (
+        this.personalForm.invoiceNumber === undefined ||
+        this.personalForm.invoiceNumber === null ||
+        this.personalForm.invoiceNumber === ''
+      ) {
         callback(new Error('请输入发票号'))
-      } else if (this.personalForm.invoiceType === '1' && this.personalForm.invoiceNumber.length !== 8) {
+      } else if (
+        this.personalForm.invoiceType === '1' &&
+        this.personalForm.invoiceNumber.length !== 8
+      ) {
         callback(new Error('发票号位数不正确'))
       } else {
         callback()
@@ -434,7 +751,7 @@ export default {
         deptId: this.$store.getters.deptId,
         isRed: 2,
         isVat: 1,
-        sourceType: '2',
+        sourceType: '3',
         payDate: null,
         invoiceType: '1'
       },
@@ -468,12 +785,13 @@ export default {
       // 采购申请单明细数据
       list2: [],
       // 采购申请单明细列表规则
-      validRules: {
-      },
+      validRules: {},
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      stockentercontrol: false,
+      checklist: []
     }
   },
   created() {
@@ -487,6 +805,53 @@ export default {
     _that = this
   },
   methods: {
+    stockenter(val) {
+      console.log('val==========', val)
+      const myval = this.$store.getters.myflagApproval
+      for (let i = 0; i < this.checklist.length; i++) {
+        for (let j = 0; j < myval.length; j++) {
+          if (this.checklist[i].sourceNumber === myval[j]) {
+            this.checklist.splice(i, 1)
+            i--
+          }
+        }
+      }
+      const mychecklist = this.checklist
+      console.log('mychecklist=====>', mychecklist, val)
+      const mychecklistprop = this.checklist.map(item => {
+        return item.sourceNumber
+      })
+      const checklistprop = Array.from(new Set(mychecklistprop))
+      console.log('checklistprop', checklistprop)
+      for (let i = 0; i < val.length; i++) {
+        var index = checklistprop.findIndex(item => item === val[i].sourceNumber)
+        console.log(i, !index)
+        if (!index) {
+          val.splice(i, 1)
+          i--
+        }
+      }
+      const newarr = val.concat(mychecklist)
+      // const newnewarr = this.uniqueArray(newarr, 'productCode', 'sourceNumber')
+      const newnewarr = newarr
+
+      // const obj = {}
+      // const processaction = newarr.reduce((cur, next) => {
+      //   obj[next.sourceNumber] ? '' : obj[next.sourceNumber] = true && cur.push(next)
+      //   return cur
+      // }, [])
+      this.$refs.editable.clear()
+      console.log('newnewarr======>', newnewarr)
+      for (let i = 0; i < newnewarr.length; i++) {
+        newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity - newnewarr[i].unJudgeQuantity).toFixed(6)
+        this.$refs.editable.insertAt(newnewarr[i], -1)
+      }
+      this.$store.dispatch('getmyflagApproval', '')
+    },
+    stockenterinfo(val) {
+
+    },
+
     // 重置一下下拉
     change() {
       this.$forceUpdate()
@@ -496,7 +861,11 @@ export default {
       if (this.moreaction.length > 1 || this.moreaction.length === 0) {
         this.$message.error('请选择单个商品')
       } else {
-        countlist(this.$store.getters.repositoryId, this.$store.getters.regionId, this.moreaction[0].productCode).then(res => {
+        countlist(
+          this.$store.getters.repositoryId,
+          this.$store.getters.regionId,
+          this.moreaction[0].productCode
+        ).then((res) => {
           console.log(res)
           if (res.data.ret === 200) {
             console.log('res.data.data.content', res.data.data.content.list)
@@ -533,13 +902,21 @@ export default {
         this.personalForm.payDate = this.$store.getters.empcontract.payDate
         this.supplierId = this.$store.getters.empcontract.supplierName
         this.handlePersonId = this.$store.getters.empcontract.handlePersonName
-        if (this.personalForm.currency !== null && this.personalForm.currency !== '' && this.personalForm.currency !== undefined) {
-          this.personalForm.currency = String(this.$store.getters.empcontract.currency)
+        if (
+          this.personalForm.currency !== null &&
+          this.personalForm.currency !== '' &&
+          this.personalForm.currency !== undefined
+        ) {
+          this.personalForm.currency = String(
+            this.$store.getters.empcontract.currency
+          )
         }
         if (this.personalForm.invoiceType !== null) {
-          this.personalForm.invoiceType = String(this.$store.getters.empcontract.invoiceType)
+          this.personalForm.invoiceType = String(
+            this.$store.getters.empcontract.invoiceType
+          )
         }
-        this.personalForm.sourceType = '2'
+        this.personalForm.sourceType = '3'
         this.personalForm.isRed = 2
         this.list2 = this.$store.getters.empcontract.stockInvoiceDetailVos
         for (let i = 0; i < this.list2.length; i++) {
@@ -551,7 +928,8 @@ export default {
         this.$store.dispatch('getempcontract', '')
       }
     },
-    getdatatime() { // 默认显示今天
+    getdatatime() {
+      // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
       var year = date.getFullYear()
@@ -584,14 +962,15 @@ export default {
           sums[index] = '总计'
           return
         }
-        const values = data.map(item => Number(item[column.property]))
+        const values = data.map((item) => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(6)
+              console.log(prev)
+              return Number(prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -619,8 +998,15 @@ export default {
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
-      if (row.includeTaxPrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
-        row.discountRate = ((1 - (row.discountMoney / row.includeTaxMoney).toFixed(6)) * 100).toFixed(6)
+      if (
+        row.includeTaxPrice !== 0 &&
+        row.quantity !== 0 &&
+        row.discountMoney !== 0
+      ) {
+        row.discountRate = (
+          (1 - (row.discountMoney / row.includeTaxMoney).toFixed(6)) *
+          100
+        ).toFixed(6)
       }
     },
     // 通过折扣计算折扣额
@@ -628,7 +1014,11 @@ export default {
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
-        row.discountMoney = (row.includeTaxPrice * row.quantity * (1 - row.discountRate / 100)).toFixed(6)
+        row.discountMoney = (
+          row.includeTaxPrice *
+          row.quantity *
+          (1 - row.discountRate / 100)
+        ).toFixed(6)
       }
     },
     // 通过税率计算含税价
@@ -651,7 +1041,7 @@ export default {
     // 计算税额
     getTaxMoney2(row) {
       if (row.quantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.quantity).toFixed(6)
+        row.tax = (((row.price * row.taxRate) / 100) * row.quantity).toFixed(6)
       } else {
         row.tax = 0
       }
@@ -669,25 +1059,25 @@ export default {
     },
     getways() {
       // 交货方式
-      searchCategory(2).then(res => {
+      searchCategory(2).then((res) => {
         if (res.data.ret === 200) {
           this.giveIds = res.data.data.content.list
         }
       })
       // 运送方式
-      searchCategory(3).then(res => {
+      searchCategory(3).then((res) => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
         }
       })
       // 结算方式
-      searchCategory(5).then(res => {
+      searchCategory(5).then((res) => {
         if (res.data.ret === 200) {
           console.log('123')
           this.settleModes = res.data.data.content.list
         }
       })
-      searchCategory(7).then(res => {
+      searchCategory(7).then((res) => {
         if (res.data.ret === 200) {
           console.log('res.data.data.content.list', res.data.data.content.list)
           this.payModes = res.data.data.content.list
@@ -697,23 +1087,19 @@ export default {
     },
     // 选择源单类型事件
     chooseType() {
-      console.log(this.personalForm.sourceType)
-      if (this.personalForm.sourceType === '1') {
-        this.addsouce = false
-        this.addpro = true
+      try {
         this.$refs.editable.clear()
-        this.$refs.personalForm.clearValidate()
-      } else if (this.personalForm.sourceType === '2') {
-        this.addpro = false
-        this.addsouce = true
-        this.personalForm.sourceNumber = ''
-        this.$refs.editable.clear()
-        this.$refs.personalForm.clearValidate()
+      } catch (e) {
+        console.log(e)
       }
     },
     // 从源单中添加商品
     handleAddSouce() {
-      if (this.personalForm.supplierId === null || this.personalForm.supplierId === undefined || this.personalForm.supplierId === '') {
+      if (
+        this.personalForm.supplierId === null ||
+        this.personalForm.supplierId === undefined ||
+        this.personalForm.supplierId === ''
+      ) {
         this.$notify.error({
           title: 'wrong',
           message: '请先选择供应商',
@@ -721,7 +1107,19 @@ export default {
         })
         return false
       }
-      this.entercontrol = true
+
+      if (this.personalForm.sourceType === '3') {
+        this.entercontrol = true
+      } else if (this.personalForm.sourceType === '1') {
+        this.stockentercontrol = true
+        if (this.list2.length > 0) {
+          console.log('this.list2========>', this.list2)
+          this.checklist = this.list2
+          console.log('this.checklist', this.checklist)
+        } else {
+          this.checklist = []
+        }
+      }
     },
     enter(val) {
       this.$refs.editable.clear()
@@ -743,13 +1141,17 @@ export default {
       this.personalForm.payDate = val.payDate
       this.supplierId = val.supplierName
       this.handlePersonId = val.handlePersonName
-      if (this.personalForm.currency !== null && this.personalForm.currency !== '' && this.personalForm.currency !== undefined) {
+      if (
+        this.personalForm.currency !== null &&
+        this.personalForm.currency !== '' &&
+        this.personalForm.currency !== undefined
+      ) {
         this.personalForm.currency = String(val.currency)
       }
       if (this.personalForm.invoiceType !== null) {
         this.personalForm.invoiceType = String(val.invoiceType)
       }
-      this.personalForm.sourceType = '2'
+      this.personalForm.sourceType = '3'
       this.personalForm.isRed = 2
       this.list2 = val.stockInvoiceDetailVos
       for (let i = 0; i < this.list2.length; i++) {
@@ -765,19 +1167,19 @@ export default {
     getTypes() {
       const param = {}
       param.subjectId = 1
-      itemList(param).then(res => {
+      itemList(param).then((res) => {
         if (res.data.ret === 200) {
           this.subjects = res.data.data.content
         }
       })
       // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
+      searchStockCategory(this.typeparms).then((res) => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
       })
       // 部门列表数据
-      getdeptlist().then(res => {
+      getdeptlist().then((res) => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         }
@@ -793,16 +1195,32 @@ export default {
       this.supplierId = val.supplierName
       this.supp = val.id
       this.personalForm.supplierId = val.id
-      if (val.detailAddress !== null && val.detailAddress !== undefined && val.detailAddress !== '') {
+      if (
+        val.detailAddress !== null &&
+        val.detailAddress !== undefined &&
+        val.detailAddress !== ''
+      ) {
         this.personalForm.address = val.detailAddress
       }
-      if (val.taxNumber !== null && val.taxNumber !== undefined && val.taxNumber !== '') {
+      if (
+        val.taxNumber !== null &&
+        val.taxNumber !== undefined &&
+        val.taxNumber !== ''
+      ) {
         this.personalForm.taxNumber = val.taxNumber
       }
-      if (val.bankName !== null && val.bankName !== undefined && val.bankName !== '') {
+      if (
+        val.bankName !== null &&
+        val.bankName !== undefined &&
+        val.bankName !== ''
+      ) {
         this.personalForm.bank = val.bankName
       }
-      if (val.stockPersonId !== null && val.stockPersonId !== undefined && val.stockPersonId !== '') {
+      if (
+        val.stockPersonId !== null &&
+        val.stockPersonId !== undefined &&
+        val.stockPersonId !== ''
+      ) {
         this.personalForm.handlePersonId = val.stockPersonId
         this.handlePersonId = val.stockPersonName
       }
@@ -860,7 +1278,7 @@ export default {
         regionId: this.$store.getters.regionId,
         deptId: this.$store.getters.deptId,
         isVat: 1,
-        sourceType: '1',
+        sourceType: '3',
         payDate: null,
         invoiceType: '1'
       }
@@ -892,91 +1310,207 @@ export default {
         EnterDetail.map(function(elem) {
           return elem
         }).forEach(function(elem) {
-          if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
+          if (
+            elem.productCode === null ||
+            elem.productCode === '' ||
+            elem.productCode === undefined
+          ) {
             delete elem.productCode
           }
-          if (elem.productName === null || elem.productName === '' || elem.productName === undefined) {
+          if (
+            elem.productName === null ||
+            elem.productName === '' ||
+            elem.productName === undefined
+          ) {
             delete elem.productName
           }
-          if (elem.type === null || elem.type === '' || elem.type === undefined) {
+          if (
+            elem.type === null ||
+            elem.type === '' ||
+            elem.type === undefined
+          ) {
             delete elem.type
           }
-          if (elem.unit === null || elem.unit === '' || elem.unit === undefined) {
+          if (
+            elem.unit === null ||
+            elem.unit === '' ||
+            elem.unit === undefined
+          ) {
             delete elem.unit
           }
-          if (elem.price === null || elem.price === '' || elem.price === undefined) {
+          if (
+            elem.price === null ||
+            elem.price === '' ||
+            elem.price === undefined
+          ) {
             delete elem.price
           }
-          if (elem.arrivalQuantity === null || elem.arrivalQuantity === '' || elem.arrivalQuantity === undefined) {
+          if (
+            elem.arrivalQuantity === null ||
+            elem.arrivalQuantity === '' ||
+            elem.arrivalQuantity === undefined
+          ) {
             delete elem.arrivalQuantity
           }
-          if (elem.retreatQuantity === null || elem.retreatQuantity === '' || elem.retreatQuantity === undefined) {
+          if (
+            elem.retreatQuantity === null ||
+            elem.retreatQuantity === '' ||
+            elem.retreatQuantity === undefined
+          ) {
             delete elem.retreatQuantity
           }
-          if (elem.retreatReason === null || elem.retreatReason === '' || elem.retreatReason === undefined) {
+          if (
+            elem.retreatReason === null ||
+            elem.retreatReason === '' ||
+            elem.retreatReason === undefined
+          ) {
             delete elem.retreatReason
           }
-          if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+          if (
+            elem.sourceSerialNumber === null ||
+            elem.sourceSerialNumber === '' ||
+            elem.sourceSerialNumber === undefined
+          ) {
             delete elem.sourceSerialNumber
           }
-          if (elem.includeTaxPrice === null || elem.includeTaxPrice === '' || elem.includeTaxPrice === undefined) {
+          if (
+            elem.includeTaxPrice === null ||
+            elem.includeTaxPrice === '' ||
+            elem.includeTaxPrice === undefined
+          ) {
             delete elem.includeTaxPrice
           }
-          if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-            elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
+          if (
+            elem.includeTaxPrice !== null ||
+            elem.includeTaxPrice !== '' ||
+            elem.includeTaxPrice !== undefined
+          ) {
+            elem.includeTaxPrice = elem.includeTaxPrice.toFixed(6)
           }
-          if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
+          if (
+            elem.taxRate === null ||
+            elem.taxRate === '' ||
+            elem.taxRate === undefined
+          ) {
             delete elem.taxRate
           }
-          if (elem.taxRate !== null || elem.taxRate !== '' || elem.taxRate !== undefined) {
+          if (
+            elem.taxRate !== null ||
+            elem.taxRate !== '' ||
+            elem.taxRate !== undefined
+          ) {
             elem.taxRate = elem.taxRate / 100
           }
-          if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          if (
+            elem.discountRate === null ||
+            elem.discountRate === '' ||
+            elem.discountRate === undefined
+          ) {
             delete elem.discountRate
           }
-          if (elem.discountRate !== null || elem.discountRate !== '' || elem.discountRate !== undefined) {
+          if (
+            elem.discountRate !== null ||
+            elem.discountRate !== '' ||
+            elem.discountRate !== undefined
+          ) {
             elem.discountRate = elem.discountRate / 100
           }
-          if (elem.money === null || elem.money === '' || elem.money === undefined) {
+          if (
+            elem.money === null ||
+            elem.money === '' ||
+            elem.money === undefined
+          ) {
             delete elem.money
           }
-          if (elem.includeTaxMoney === null || elem.includeTaxMoney === '' || elem.includeTaxMoney === undefined) {
+          if (
+            elem.includeTaxMoney === null ||
+            elem.includeTaxMoney === '' ||
+            elem.includeTaxMoney === undefined
+          ) {
             delete elem.includeTaxMoney
           }
-          if (elem.taxMoney === null || elem.taxMoney === '' || elem.taxMoney === undefined) {
+          if (
+            elem.taxMoney === null ||
+            elem.taxMoney === '' ||
+            elem.taxMoney === undefined
+          ) {
             delete elem.taxMoney
           }
-          if (elem.discountRate === null || elem.discountRate === '' || elem.discountRate === undefined) {
+          if (
+            elem.discountRate === null ||
+            elem.discountRate === '' ||
+            elem.discountRate === undefined
+          ) {
             delete elem.discountRate
           }
-          if (elem.discountMoney === null || elem.discountMoney === '' || elem.discountMoney === undefined) {
+          if (
+            elem.discountMoney === null ||
+            elem.discountMoney === '' ||
+            elem.discountMoney === undefined
+          ) {
             delete elem.discountMoney
           }
-          if (elem.remark === null || elem.remark === '' || elem.remark === undefined) {
+          if (
+            elem.remark === null ||
+            elem.remark === '' ||
+            elem.remark === undefined
+          ) {
             delete elem.remark
           }
-          if (elem.sourceNumber === null || elem.sourceNumber === '' || elem.sourceNumber === undefined) {
+          if (
+            elem.sourceNumber === null ||
+            elem.sourceNumber === '' ||
+            elem.sourceNumber === undefined
+          ) {
             delete elem.sourceNumber
           }
-          if (elem.sourceSerialNumber === null || elem.sourceSerialNumber === '' || elem.sourceSerialNumber === undefined) {
+          if (
+            elem.sourceSerialNumber === null ||
+            elem.sourceSerialNumber === '' ||
+            elem.sourceSerialNumber === undefined
+          ) {
             delete elem.sourceSerialNumber
           }
-          if (elem.hadStorageQuantity === null || elem.hadStorageQuantity === '' || elem.hadStorageQuantity === undefined) {
+          if (
+            elem.hadStorageQuantity === null ||
+            elem.hadStorageQuantity === '' ||
+            elem.hadStorageQuantity === undefined
+          ) {
             delete elem.hadStorageQuantity
           }
-          if (elem.reportCheckingQuantity === null || elem.reportCheckingQuantity === '' || elem.reportCheckingQuantity === undefined) {
+          if (
+            elem.reportCheckingQuantity === null ||
+            elem.reportCheckingQuantity === '' ||
+            elem.reportCheckingQuantity === undefined
+          ) {
             delete elem.reportCheckingQuantity
           }
-          if (elem.actualCheckingQuantity === null || elem.actualCheckingQuantity === '' || elem.actualCheckingQuantity === undefined) {
+          if (
+            elem.actualCheckingQuantity === null ||
+            elem.actualCheckingQuantity === '' ||
+            elem.actualCheckingQuantity === undefined
+          ) {
             delete elem.actualCheckingQuantity
           }
-          if (elem.qualifyQuantity === null || elem.qualifyQuantity === '' || elem.qualifyQuantity === undefined) {
+          if (
+            elem.qualifyQuantity === null ||
+            elem.qualifyQuantity === '' ||
+            elem.qualifyQuantity === undefined
+          ) {
             delete elem.qualifyQuantity
           }
-          if (elem.unqualifyQuantity === null || elem.unqualifyQuantity === '' || elem.unqualifyQuantity === undefined) {
+          if (
+            elem.unqualifyQuantity === null ||
+            elem.unqualifyQuantity === '' ||
+            elem.unqualifyQuantity === undefined
+          ) {
             delete elem.unqualifyQuantity
           }
-          if (elem.returnQuantity === null || elem.returnQuantity === '' || elem.returnQuantity === undefined) {
+          if (
+            elem.returnQuantity === null ||
+            elem.returnQuantity === '' ||
+            elem.returnQuantity === undefined
+          ) {
             delete elem.returnQuantity
           }
           return elem
@@ -984,12 +1518,16 @@ export default {
         const parms2 = JSON.stringify(EnterDetail)
         const Data = this.personalForm
         for (const key in Data) {
-          if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {
+          if (
+            Data[key] === '' ||
+            Data[key] === undefined ||
+            Data[key] === null
+          ) {
             delete Data[key]
           }
         }
         const parms = JSON.stringify(Data)
-        addStockInvoice(parms, parms2, this.personalForm).then(res => {
+        addStockInvoice(parms, parms2, this.personalForm).then((res) => {
           console.log(res)
           if (res.data.ret === 200) {
             this.$notify({
@@ -1016,47 +1554,51 @@ export default {
     // 取消操作
     handlecancel() {
       this.$router.go(-1)
-      const view = { path: '/StockInvoice/AddStockInvoice', name: 'AddStockInvoice', fullPath: '/StockInvoice/AddStockInvoice', title: 'AddStockInvoice' }
-      this.$store.dispatch('delView', view).then(({ visitedViews }) => {
-      })
+      const view = {
+        path: '/StockInvoice/AddStockInvoice',
+        name: 'AddStockInvoice',
+        fullPath: '/StockInvoice/AddStockInvoice',
+        title: 'AddStockInvoice'
+      }
+      this.$store.dispatch('delView', view).then(({ visitedViews }) => {})
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ERP-container{
-    margin-right: 0;
-    .form-name{
-      font-size: 18px;
-      color: #373e4f;
-      margin-bottom: -20px;
-      margin-top: 20px;
-    }
-    .container{
-      margin-top: 40px;
-    }
-    .el-button+.el-button{
-      width: 98px;
-    }
+.ERP-container {
+  margin-right: 0;
+  .form-name {
+    font-size: 18px;
+    color: #373e4f;
+    margin-bottom: -20px;
+    margin-top: 20px;
   }
+  .container {
+    margin-top: 40px;
+  }
+  .el-button + .el-button {
+    width: 98px;
+  }
+}
 </style>
 <style rel="stylesheet/css" scoped>
-  .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
+.normal >>> .el-dialog__header {
+  padding: 20px 20px 10px;
+  background: #fff;
+  position: static;
+  top: auto;
+  z-index: auto;
+  width: auto;
+  border-bottom: none;
+}
+.normal >>> .el-dialog {
+  -webkit-transform: none;
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+  height: auto;
+}
 </style>

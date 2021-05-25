@@ -199,7 +199,7 @@ export default {
         }
       },
       saveloding: false,
-      datalist: [],
+      datalist: '',
       // 带入的供应商
       supp: null,
       // 控制币种是否可以编辑
@@ -608,21 +608,22 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
-      this.datalist = val.supplierDetailVos
+      // this.datalist = val.supplierDetailVos
       this.$refs.editable.clear()
-      for (let i = 0; i < val.supplierDetailVos.length; i++) {
-        val.supplierDetailVos[i].id = ''
-        val.supplierDetailVos[i].typeId = val.supplierDetailVos[i].type
-        val.supplierDetailVos[i].type = val.supplierDetailVos[i].productTypeName
-        val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
-        val.supplierDetailVos[i].oldIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
-        val.supplierDetailVos[i].oldTaxRate = val.supplierDetailVos[i].taxRate
-        val.supplierDetailVos[i].newPrice = val.supplierDetailVos[i].price
-        val.supplierDetailVos[i].newIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
-        val.supplierDetailVos[i].newTaxRate = val.supplierDetailVos[i].taxRate
-        val.supplierDetailVos[i].newSalePrice = val.supplierDetailVos[i].oldSalePrice
-        this.$refs.editable.insert(val.supplierDetailVos[i])
-      }
+      // for (let i = 0; i < val.supplierDetailVos.length; i++) {
+      //   val.supplierDetailVos[i].id = ''
+      //   val.supplierDetailVos[i].typeId = val.supplierDetailVos[i].type
+      //   val.supplierDetailVos[i].type = val.supplierDetailVos[i].productTypeName
+      //   val.supplierDetailVos[i].oldPrice = val.supplierDetailVos[i].price
+      //   val.supplierDetailVos[i].oldIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
+      //   val.supplierDetailVos[i].oldTaxRate = val.supplierDetailVos[i].taxRate
+      //   val.supplierDetailVos[i].newPrice = val.supplierDetailVos[i].price
+      //   val.supplierDetailVos[i].newIncludeTaxPrice = val.supplierDetailVos[i].includeTaxPrice
+      //   val.supplierDetailVos[i].newTaxRate = val.supplierDetailVos[i].taxRate
+      //   val.supplierDetailVos[i].newSalePrice = val.supplierDetailVos[i].oldSalePrice
+      //   this.$refs.editable.insert(val.supplierDetailVos[i])
+      // }
+      this.datalist = val.id
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.supp = val.id
@@ -688,6 +689,16 @@ export default {
             val[i].discountRate = nowlistdata2[p].discountRate
             val[i].price = nowlistdata2[p].price
             val[i].includeTaxPrice = nowlistdata2[p].includeTaxPrice
+
+            val[i].typeId = nowlistdata2[p].type
+            val[i].type = nowlistdata2[p].productTypeName
+            val[i].oldPrice = nowlistdata2[p].price
+            val[i].oldIncludeTaxPrice = nowlistdata2[p].includeTaxPrice
+            val[i].oldTaxRate = nowlistdata2[p].taxRate
+            val[i].newPrice = nowlistdata2[p].price
+            val[i].newIncludeTaxPrice = nowlistdata2[p].includeTaxPrice
+            val[i].newTaxRate = nowlistdata2[p].taxRate
+            val[i].newSalePrice = nowlistdata2[p].oldSalePrice
           }
         }
         this.$refs.editable.insert(val[i])

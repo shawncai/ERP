@@ -90,3 +90,18 @@ export function updateSupplierAdjust2(query) {
     data: params
   })
 }
+
+//  选择供应商可选择商品
+export function getSupplierDetailById(query) {
+  var params = new URLSearchParams()
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/supplier/getSupplierDetailById',
+    method: 'post',
+    data: params
+  })
+}

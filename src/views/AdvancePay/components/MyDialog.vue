@@ -16,6 +16,8 @@
               <el-form-item :label="$t('StockArrival.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" >
                   <el-option value="1" label="采购订单" />
+                  <el-option value="2" label="采购发票" />
+                  <el-option value="3" label="其他" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -264,7 +266,7 @@ export default {
           offset: 100
         })
         return false
-      } else {
+      } else if (this.personalForm.sourceType === '1') {
         this.ordercontrol = true
       }
     },

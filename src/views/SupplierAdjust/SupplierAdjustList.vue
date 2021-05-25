@@ -1,53 +1,150 @@
+/* eslint-disable vue/html-indent */
 <template>
   <div class="ERP-container">
-    <el-card :body-style="	{ padding: '5px' }" class="box-card" style="margin-top: 5px" shadow="never">
-
-      <el-input v-model="getemplist.title" :placeholder="$t('SupplierAdjust.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="getemplist.number" :placeholder="$t('updates.bgdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
-      <el-input v-model="applyPersonId" :placeholder="$t('SupplierAdjust.applyPersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clear="restFilter2"/>
-      <my-emp :control.sync="stockControl" @stockName="stockName"/>
-      <el-input v-model="supplierId" size="small" placeholder="供应商" class="filter-item" clearable @focus="handlechoose" @clear="restFilter"/>
-      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
-      <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" size="small" clearable class="filter-item">
-        <el-option :label="$t('updates.wsh')" value="0"/>
-        <el-option :label="$t('updates.shz')" value="1"/>
-        <el-option :label="$t('updates.shtg')" value="2"/>
-        <el-option :label="$t('updates.shptg')" value="3"/>
+    <el-card
+      :body-style="{ padding: '5px' }"
+      class="box-card"
+      style="margin-top: 5px"
+      shadow="never"
+    >
+      <el-input
+        v-model="getemplist.title"
+        :placeholder="$t('SupplierAdjust.title')"
+        size="small"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+      />
+      <el-input
+        v-model="getemplist.number"
+        :placeholder="$t('updates.bgdbh')"
+        size="small"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+      />
+      <el-input
+        v-model="applyPersonId"
+        :placeholder="$t('SupplierAdjust.applyPersonId')"
+        size="small"
+        class="filter-item"
+        clearable
+        @keyup.enter.native="handleFilter"
+        @focus="handlechooseStock"
+        @clear="restFilter2"
+      />
+      <my-emp :control.sync="stockControl" @stockName="stockName" />
+      <el-input
+        v-model="supplierId"
+        size="small"
+        placeholder="供应商"
+        class="filter-item"
+        clearable
+        @focus="handlechoose"
+        @clear="restFilter"
+      />
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName" />
+      <el-select
+        v-model="getemplist.judgeStat"
+        :value="getemplist.judgeStat"
+        :placeholder="$t('updates.spzt')"
+        size="small"
+        clearable
+        class="filter-item"
+      >
+        <el-option :label="$t('updates.wsh')" value="0" />
+        <el-option :label="$t('updates.shz')" value="1" />
+        <el-option :label="$t('updates.shtg')" value="2" />
+        <el-option :label="$t('updates.shptg')" value="3" />
       </el-select>
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button
+        v-waves
+        class="filter-item"
+        size="small"
+        type="primary"
+        icon="el-icon-search"
+        style="width: 86px; margin-top: 10px"
+        round
+        @click="handleFilter"
+      >{{ $t("public.search") }}</el-button
+      >
     </el-card>
-    <el-card :body-style="	{ padding: '6px'}" class="box-card" shadow="never">
+    <el-card :body-style="{ padding: '6px' }" class="box-card" shadow="never">
       <!-- 批量操作 -->
       <el-dropdown @command="handleCommand">
-        <el-button v-waves class="filter-item" size="small" style="margin-left: 0" type="primary">
-          {{ $t('public.batchoperation') }} <i class="el-icon-arrow-down el-icon--right"/>
+        <el-button
+          v-waves
+          class="filter-item"
+          size="small"
+          style="margin-left: 0"
+          type="primary"
+        >
+          {{ $t("public.batchoperation") }}
+          <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown" style="width: 140px">
-          <el-dropdown-item v-permission="['104-114-2']" style="text-align: left" command="delete"><svg-icon icon-class="shanchu" style="width: 40px"/>{{ $t('public.delete') }}</el-dropdown-item>
+          <el-dropdown-item
+            v-permission="['104-114-2']"
+            style="text-align: left"
+            command="delete"
+          ><svg-icon icon-class="shanchu" style="width: 40px" />{{
+            $t("public.delete")
+          }}</el-dropdown-item
+          >
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['104-114-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <el-button
+        v-permission="['104-114-6']"
+        v-waves
+        :loading="downloadLoading"
+        size="small"
+        class="filter-item2"
+        style="width: 86px"
+        @click="handleExport"
+      ><svg-icon icon-class="daochu" />{{ $t("public.export") }}</el-button
+      >
       <!-- 打印操作 -->
-      <el-button v-permission="['104-114-7']" v-waves size="small" class="filter-item2" style="width: 86px" @click="handleImport"> <svg-icon icon-class="daochu"/>{{ $t('updates.drsj') }}</el-button>
+      <el-button
+        v-permission="['104-114-7']"
+        v-waves
+        size="small"
+        class="filter-item2"
+        style="width: 86px"
+        @click="handleImport"
+      ><svg-icon icon-class="daochu" />{{ $t("updates.drsj") }}</el-button
+      >
       <!-- <el-button v-permission="['104-114-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <el-dialog
         :visible.sync="dialogVisible"
         title="导入数据"
         class="normal"
-        width="600px">
-        <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload"/>
+        width="600px"
+      >
+        <upload-excel-component
+          :on-success="handleSuccess"
+          :before-upload="beforeUpload"
+        />
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
         </span>
       </el-dialog>
       <!-- 新建操作 -->
-      <el-button v-permission="['1-22-255-1']" v-waves size="small" class="filter-item2" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
+      <el-button
+        v-permission="['1-22-255-1']"
+        v-waves
+        size="small"
+        class="filter-item2"
+        icon="el-icon-plus"
+        type="success"
+        style="width: 86px"
+        @click="handleAdd"
+      >{{ $t("public.add") }}</el-button
+      >
     </el-card>
 
-    <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
-
+    <el-card :body-style="{ padding: '10px' }" class="box-card" shadow="never">
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -59,65 +156,171 @@
         fit
         size="small"
         highlight-current-row
-        style="width: 100%;"
+        style="width: 100%"
         @row-click="clickRow"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+      >
         <el-table-column
           :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
-          align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+          align="center"
+        />
+        <el-table-column
+          :label="$t('public.id')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
-            <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
+            <span class="link-type" @click="handleDetail(scope.row)">{{
+              scope.row.number
+            }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm2"/>
+          <detail-list
+            :detailcontrol.sync="detailvisible"
+            :detaildata.sync="personalForm2"
+          />
         </el-table-column>
-        <el-table-column :label="$t('SupplierAdjust.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SupplierAdjust.title')"
+          :resizable="false"
+          fixed="left"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SupplierAdjust.applyPersonId')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SupplierAdjust.applyPersonId')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.applyPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SupplierAdjust.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SupplierAdjust.supplierId')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('SupplierAdjust.applyDate')" :resizable="false" align="center" min-width="150">
+        <el-table-column
+          :label="$t('SupplierAdjust.applyDate')"
+          :resizable="false"
+          align="center"
+          min-width="150"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.applyDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="270">
+        <el-table-column
+          :label="$t('public.actions')"
+          :resizable="false"
+          align="center"
+          min-width="270"
+        >
           <template slot-scope="scope">
-            <el-button v-permission="['1-22-255-3']" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['1-22-255-2']" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['1-22-255-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-
+            <el-button
+              v-permission="['1-22-255-3']"
+              v-show="scope.row.judgeStat === 0 && scope.row.receiptStat === 1"
+              :key="scope.row.id + Math.random()"
+              :title="$t('updates.xg')"
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              circle
+              @click="handleEdit(scope.row)"
+            />
+            <el-button
+              v-show="
+                isReview(scope.row) &&
+                  (scope.row.receiptStat === 1 ||
+                  scope.row.receiptStat === 2 ||
+                  scope.row.receiptStat === 3)
+              "
+              :title="$t('updates.spi')"
+              type="warning"
+              size="mini"
+              icon="el-icon-view"
+              circle
+              @click="handleReview(scope.row)"
+            />
+            <el-button
+              v-permission="['1-22-255-2']"
+              v-show="
+                scope.row.judgeStat === 0 &&
+                  (scope.row.receiptStat === 1 ||
+                  scope.row.receiptStat === 2 ||
+                  scope.row.receiptStat === 3)
+              "
+              :key="scope.row.id + Math.random()"
+              :title="$t('updates.sc')"
+              scope-row-create-person-id-
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="handleDelete(scope.row)"
+            />
+            <el-button
+              v-permission="['1-22-255-76']"
+              v-show="
+                isReview4(scope.row) &&
+                  (scope.row.receiptStat === 1 || scope.row.receiptStat === 2)
+              "
+              :title="$t('updates.fsp')"
+              type="warning"
+              size="mini"
+              circle
+              @click="handleReview4(scope.row)"
+            ><svg-icon
+              icon-class="fanhui"
+            /></el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="getemplist.pageNum"
+        :limit.sync="getemplist.pageSize"
+        @pagination="getlist"
+      />
       <!--修改开始=================================================-->
-      <my-dialog :editcontrol.sync="editVisible" :editdata.sync="personalForm" @rest="refreshlist"/>
+      <my-dialog
+        :editcontrol.sync="editVisible"
+        :editdata.sync="personalForm"
+        @rest="refreshlist"
+      />
       <!--修改结束=================================================-->
-      <el-dialog :visible.sync="receiptVisible" title="采购进程" class="normal" width="600px" center>
+      <el-dialog
+        :visible.sync="receiptVisible"
+        title="采购进程"
+        class="normal"
+        width="600px"
+        center
+      >
         <el-form class="demo-ruleForm" style="margin: 0px 6%; width: 400px">
           <el-form-item label-width="100px;">
-            <el-steps :space="200" style="width: 150%;" finish-status="success">
-              <el-step :status="step4" title="采购订单"/>
-              <el-step :status="step5" title="采购到货"/>
-              <el-step :status="step6" title="质检"/>
-              <el-step :status="step7" title="采购入库"/>
-              <el-step :status="step8" title="完成"/>
+            <el-steps :space="200" style="width: 150%" finish-status="success">
+              <el-step :status="step4" title="采购订单" />
+              <el-step :status="step5" title="采购到货" />
+              <el-step :status="step6" title="质检" />
+              <el-step :status="step7" title="采购入库" />
+              <el-step :status="step8" title="完成" />
             </el-steps>
           </el-form-item>
         </el-form>
@@ -127,7 +330,12 @@
 </template>
 
 <script>
-import { SupplierAdjustlist, deleteSupplierAdjust, updateSupplierAdjust2, addSupplierAdjust } from '@/api/SupplierAdjust'
+import {
+  SupplierAdjustlist,
+  deleteSupplierAdjust,
+  updateSupplierAdjust2,
+  addSupplierAdjust
+} from '@/api/SupplierAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { checkReceiptOrder } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -146,7 +354,14 @@ var _that
 export default {
   name: 'SupplierAdjustList',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier, UploadExcelComponent },
+  components: {
+    MyDialog,
+    DetailList,
+    MyEmp,
+    Pagination,
+    MySupplier,
+    UploadExcelComponent
+  },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -256,13 +471,15 @@ export default {
   activated() {
     this.getlist()
     setTimeout(() => {
-      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+      this.tableHeight =
+        window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   mounted() {
     this.getlist()
     setTimeout(() => {
-      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+      this.tableHeight =
+        window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
   beforeCreate() {
@@ -278,34 +495,36 @@ export default {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.fsp'),
         type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 0
-        const parms = JSON.stringify(this.reviewParms)
-        updateSupplierAdjust2(parms).then(res => {
-          if (res.data.ret === 200) {
-            if (res.data.data.result === false) {
-              this.$message({
-                type: 'error',
-                message: this.$t('prompt.fspsb')
-              })
+      })
+        .then(() => {
+          this.reviewParms.judgeStat = 0
+          const parms = JSON.stringify(this.reviewParms)
+          updateSupplierAdjust2(parms).then((res) => {
+            if (res.data.ret === 200) {
+              if (res.data.data.result === false) {
+                this.$message({
+                  type: 'error',
+                  message: this.$t('prompt.fspsb')
+                })
+              } else {
+                this.$message({
+                  type: 'success',
+                  message: this.$t('prompt.fspcg')
+                })
+              }
+              this.getlist()
             } else {
               this.$message({
                 type: 'success',
                 message: this.$t('prompt.fspcg')
               })
             }
-            this.getlist()
-          } else {
-            this.$message({
-              type: 'success',
-              message: this.$t('prompt.fspcg')
-            })
-          }
+            // this.fsploading = false
+          })
+        })
+        .catch((action) => {
           // this.fsploading = false
         })
-      }).catch(action => {
-        // this.fsploading = false
-      })
     },
     isReview4(row) {
       // 测试阶段临时
@@ -339,7 +558,30 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       this.tableData = results
-      this.tableHeader = ['主题', '申请人', '申请人id', '部门', '部门id', '供应商', '供应商id', '申请日期', '物品编号', '物品名称', '规格', '颜色', '单位', '采购单原价', '采购单现价', '原含税价', '新含税价', '原税率', '新税率', '比例', '原销售价', '新销售价']
+      this.tableHeader = [
+        '主题',
+        '申请人',
+        '申请人id',
+        '部门',
+        '部门id',
+        '供应商',
+        '供应商id',
+        '申请日期',
+        '物品编号',
+        '物品名称',
+        '规格',
+        '颜色',
+        '单位',
+        '采购单原价',
+        '采购单现价',
+        '原含税价',
+        '新含税价',
+        '原税率',
+        '新税率',
+        '比例',
+        '原销售价',
+        '新销售价'
+      ]
       this.uploadHead = results.map(function(item) {
         return {
           title: item.主题,
@@ -367,7 +609,7 @@ export default {
         }
       })
       console.log('this.uploadHead', this.uploadHead)
-      const detaildata = this.uploadHead.map(item => {
+      const detaildata = this.uploadHead.map((item) => {
         return {
           mainid: item.supplierId,
           productCode: item.productCode,
@@ -384,11 +626,10 @@ export default {
           calcitem: item.calcitem,
           oldSalePrice: item.oldSalePrice,
           newSalePrice: item.newSalePrice
-
         }
       })
 
-      const maindata = this.uploadHead.map(item => {
+      const maindata = this.uploadHead.map((item) => {
         return {
           mainid: item.supplierId,
           title: item.title,
@@ -413,7 +654,13 @@ export default {
       var keys = Object.keys(jmap)
       for (var i = 0; i < keys.length; i++) {
         var rs = keys[i].split('_')
-        result.push({ supplierId: rs[0], title: jmap[keys[i]][0].title, applyPersonId: jmap[keys[i]][0].applyPersonId, deptId: jmap[keys[i]][0].deptId, value: jmap[keys[i]] })
+        result.push({
+          supplierId: rs[0],
+          title: jmap[keys[i]][0].title,
+          applyPersonId: jmap[keys[i]][0].applyPersonId,
+          deptId: jmap[keys[i]][0].deptId,
+          value: jmap[keys[i]]
+        })
       }
 
       console.log('result', result)
@@ -433,7 +680,7 @@ export default {
         const parms2 = result[i].value
         const sendparms = JSON.stringify(parms)
         const sendparms2 = JSON.stringify(parms2)
-        addSupplierAdjust(sendparms, sendparms2, needparms).then(res => {
+        addSupplierAdjust(sendparms, sendparms2, needparms).then((res) => {
           if (res.data.ret === 200) {
             _that.$notify({
               title: 'successful',
@@ -527,7 +774,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 2
         const parms = JSON.stringify(this.reviewParms)
-        updateSupplierAdjust2(parms).then(res => {
+        updateSupplierAdjust2(parms).then((res) => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -541,7 +788,10 @@ export default {
     // 判断结单按钮
     isReview2(row) {
       console.log(row)
-      if (row.receiptStat !== 3 && (row.judgeStat === 2 || row.judgeStat === 3)) {
+      if (
+        row.receiptStat !== 3 &&
+        (row.judgeStat === 2 || row.judgeStat === 3)
+      ) {
         return true
       }
     },
@@ -557,7 +807,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 3
         const parms = JSON.stringify(this.reviewParms)
-        updateSupplierAdjust2(parms).then(res => {
+        updateSupplierAdjust2(parms).then((res) => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -627,7 +877,7 @@ export default {
     handleReceipt(row) {
       this.receiptVisible = true
       console.log('row', row)
-      checkReceiptOrder(row.orderNumber).then(res => {
+      checkReceiptOrder(row.orderNumber).then((res) => {
         if (res.data.ret === 200) {
           console.log('res.data.data', res.data.data)
           this.contorlstep4(res.data.data.orderStat)
@@ -657,7 +907,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      SupplierAdjustlist(this.getemplist).then(res => {
+      SupplierAdjustlist(this.getemplist).then((res) => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -667,13 +917,13 @@ export default {
         }, 0.5 * 100)
       })
       // 部门列表数据
-      getdeptlist().then(res => {
+      getdeptlist().then((res) => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         }
       })
       // 采购类别数据
-      searchStockCategory(this.typeparms).then(res => {
+      searchStockCategory(this.typeparms).then((res) => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
@@ -691,7 +941,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      SupplierAdjustlist(this.getemplist).then(res => {
+      SupplierAdjustlist(this.getemplist).then((res) => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -740,9 +990,16 @@ export default {
     },
     // 判断审核按钮
     isReview(row) {
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+      if (
+        row.approvalUseVos !== '' &&
+        row.approvalUseVos !== null &&
+        row.approvalUseVos !== undefined &&
+        row.approvalUseVos.length !== 0
+      ) {
         const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(
+          ',' + this.$store.getters.userId + ','
+        )
         console.log(approvalUse[approvalUse.length - 1].stepHandler)
         console.log(index)
         if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
@@ -760,56 +1017,56 @@ export default {
         confirmButtonText: this.$t('prompt.tg'),
         cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updateSupplierAdjust2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: this.$t('prompt.shcg')
+      })
+        .then(() => {
+          this.reviewParms.judgeStat = 2
+          const parms = JSON.stringify(this.reviewParms)
+          updateSupplierAdjust2(parms).then((res) => {
+            if (res.data.ret === 200) {
+              this.$message({
+                type: 'success',
+                message: this.$t('prompt.shcg')
+              })
+              this.getlist()
+            }
+          })
+        })
+        .catch((action) => {
+          if (action === 'cancel') {
+            // 取消弹框
+            this.$confirm('是否确认审核不通过？', 'Warning', {
+              distinguishCancelAndClose: true,
+              confirmButtonText: '确认',
+              cancelButtonText: '取消'
             })
-            this.getlist()
+              .then(() => {
+                this.reviewParms.judgeStat = 3
+                const parms = JSON.stringify(this.reviewParms)
+                updateSupplierAdjust2(parms).then((res) => {
+                  if (res.data.ret === 200) {
+                    this.$message({
+                      type: 'success',
+                      message: this.$t('prompt.shcg')
+                    })
+                    this.getlist()
+                  } else {
+                    this.$notify.error({
+                      title: 'wrong',
+                      message: res.data.msg,
+                      offset: 100
+                    })
+                  }
+                })
+              })
+              .catch((action) => {
+                this.$message({
+                  type: 'info',
+                  message: action === 'cancel' ? '确认取消' : '停留在当前页面'
+                })
+              })
+            // ================取消弹框结束
           }
         })
-      }).catch(action => {
-        if (action === 'cancel') {
-          // 取消弹框
-          this.$confirm('是否确认审核不通过？', 'Warning', {
-            distinguishCancelAndClose: true,
-            confirmButtonText: '确认',
-            cancelButtonText: '取消'
-          })
-            .then(() => {
-              this.reviewParms.judgeStat = 3
-              const parms = JSON.stringify(this.reviewParms)
-              updateSupplierAdjust2(parms).then(res => {
-                if (res.data.ret === 200) {
-                  this.$message({
-                    type: 'success',
-                    message: this.$t('prompt.shcg')
-                  })
-                  this.getlist()
-                } else {
-                  this.$notify.error({
-                    title: 'wrong',
-                    message: res.data.msg,
-                    offset: 100
-                  })
-                }
-              })
-            })
-            .catch(action => {
-              this.$message({
-                type: 'info',
-                message: action === 'cancel'
-                  ? '确认取消'
-                  : '停留在当前页面'
-              })
-            })
-          // ================取消弹框结束
-        }
-      })
     },
     // 批量操作
     handleSelectionChange(val) {
@@ -818,38 +1075,42 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const needdeletedata = this.moreaction.filter(item => {
+      const needdeletedata = this.moreaction.filter((item) => {
         return item.judgeStat === 0
       })
-      const ids = needdeletedata.map(item => item.id).join()
+      const ids = needdeletedata.map((item) => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
           cancelButtonText: this.$t('prompt.qx'),
           type: 'warning'
-        }).then(() => {
-          deleteSupplierAdjust(ids, this.$store.getters.userId).then(res => {
-            if (res.data.ret === 200 || res.data.ret === 100) {
-              this.$notify({
-                title: this.$t('prompt.sccg'),
-                type: 'success',
-                offset: 100
-              })
-              this.getlist()
-            } else {
-              this.$notify.error({
-                title: 'wrong',
-                message: 'wrong',
-                offset: 100
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: this.$t('prompt.yqxsc')
-          })
         })
+          .then(() => {
+            deleteSupplierAdjust(ids, this.$store.getters.userId).then(
+              (res) => {
+                if (res.data.ret === 200 || res.data.ret === 100) {
+                  this.$notify({
+                    title: this.$t('prompt.sccg'),
+                    type: 'success',
+                    offset: 100
+                  })
+                  this.getlist()
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: 'wrong',
+                    offset: 100
+                  })
+                }
+              }
+            )
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: this.$t('prompt.yqxsc')
+            })
+          })
       }
     },
     // 单条删除
@@ -858,29 +1119,33 @@ export default {
         confirmButtonText: this.$t('prompt.qd'),
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
-      }).then(() => {
-        deleteSupplierAdjust(row.id, this.$store.getters.userId).then(res => {
-          if (res.data.ret === 200 || res.data.ret === 100) {
-            this.$notify({
-              title: this.$t('prompt.sccg'),
-              type: 'success',
-              offset: 100
-            })
-            this.getlist()
-          } else {
-            this.$notify.error({
-              title: 'wrong',
-              message: 'wrong',
-              offset: 100
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$t('prompt.yqxsc')
-        })
       })
+        .then(() => {
+          deleteSupplierAdjust(row.id, this.$store.getters.userId).then(
+            (res) => {
+              if (res.data.ret === 200 || res.data.ret === 100) {
+                this.$notify({
+                  title: this.$t('prompt.sccg'),
+                  type: 'success',
+                  offset: 100
+                })
+                this.getlist()
+              } else {
+                this.$notify.error({
+                  title: 'wrong',
+                  message: 'wrong',
+                  offset: 100
+                })
+              }
+            }
+          )
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$t('prompt.yqxsc')
+          })
+        })
     },
     // 新增数据
     handleAdd() {
@@ -898,7 +1163,7 @@ export default {
       }
       this.downloadLoading = true
       const maindata = this.moreaction
-      const detaildata = this.moreaction.map(item => {
+      const detaildata = this.moreaction.map((item) => {
         return item.supplierAdjustDetailVos
       })
       const needdetaildata = [].concat.apply([], detaildata)
@@ -917,22 +1182,70 @@ export default {
         }
       }
 
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['主题', '申请人', '申请人id', '部门', '部门id', '供应商', '供应商id', '申请日期', '物品编号', '物品名称', '规格', '颜色', '单位', '采购单原价', '采购单现价', '原含税价', '新含税价', '原税率', '新税率', '比例', '原销售价', '新销售价']
-          const filterVal = ['title', 'applyPersonName', 'applyPersonId', 'deptName', 'deptId', 'supplierName', 'supplierId', 'applyDate', 'productCode', 'productName', 'productType', 'color', 'unit', 'oldPrice', 'newPrice', 'oldIncludeTaxPrice', 'newIncludeTaxPrice', 'oldTaxRate', 'newTaxRate', 'calcitem', 'oldSalePrice', 'newSalePrice']
-          const data = this.formatJson(filterVal, needdetaildata)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '供应商调价单资料表'
-          })
-          this.downloadLoading = false
+      import('@/vendor/Export2Excel').then((excel) => {
+        const tHeader = [
+          '主题',
+          '申请人',
+          '申请人id',
+          '部门',
+          '部门id',
+          '供应商',
+          '供应商id',
+          '申请日期',
+          '物品编号',
+          '物品名称',
+          '规格',
+          '颜色',
+          '单位',
+          '采购单原价',
+          '采购单现价',
+          '原含税价',
+          '新含税价',
+          '原税率',
+          '新税率',
+          '比例',
+          '原销售价',
+          '新销售价'
+        ]
+        const filterVal = [
+          'title',
+          'applyPersonName',
+          'applyPersonId',
+          'deptName',
+          'deptId',
+          'supplierName',
+          'supplierId',
+          'applyDate',
+          'productCode',
+          'productName',
+          'productType',
+          'color',
+          'unit',
+          'oldPrice',
+          'newPrice',
+          'oldIncludeTaxPrice',
+          'newIncludeTaxPrice',
+          'oldTaxRate',
+          'newTaxRate',
+          'calcitem',
+          'oldSalePrice',
+          'newSalePrice'
+        ]
+        const data = this.formatJson(filterVal, needdetaildata)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '供应商调价单资料表'
         })
+        this.downloadLoading = false
+      })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        return v[j]
-      }))
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
+          return v[j]
+        })
+      )
     },
     // 打印
     handlePrint() {
@@ -973,49 +1286,49 @@ export default {
 
 <style rel="stylesheet/css" scoped>
 .normal >>> .el-dialog__header {
-    padding: 20px 20px 10px;
-    background: #fff;
-    position: static;
-    top: auto;
-    z-index: auto;
-    width: auto;
-    border-bottom: none;
-  }
-  .normal >>> .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    height: auto;
-  }
-  .app-container >>> .el-table .cell {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    line-height: 24px;
-    word-break: keep-all;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-  .ERP-container {
-    margin-left:10px;
-  }
-  .filter-container{
-    padding: 20px;
-    padding-left: 0px;
-  }
-  .filter-item{
-    width: 180px;
-    margin-left: 10px;
-    padding: 10px 0;
-  }
-  .filter-item2{
-    width: 180px;
-    margin-left: 5px;
-    padding: 10px 0;
-  }
-  .box-card {
-    /* border : 1px solid #f1f1ff !important; */
-    border-bottom : 1px solid #f1f1ff00 !important
-  }
+  padding: 20px 20px 10px;
+  background: #fff;
+  position: static;
+  top: auto;
+  z-index: auto;
+  width: auto;
+  border-bottom: none;
+}
+.normal >>> .el-dialog {
+  -webkit-transform: none;
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+  height: auto;
+}
+.app-container >>> .el-table .cell {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 24px;
+  word-break: keep-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.ERP-container {
+  margin-left: 10px;
+}
+.filter-container {
+  padding: 20px;
+  padding-left: 0px;
+}
+.filter-item {
+  width: 180px;
+  margin-left: 10px;
+  padding: 10px 0;
+}
+.filter-item2 {
+  width: 180px;
+  margin-left: 5px;
+  padding: 10px 0;
+}
+.box-card {
+  /* border : 1px solid #f1f1ff !important; */
+  border-bottom: 1px solid #f1f1ff00 !important;
+}
 </style>

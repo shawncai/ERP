@@ -1,24 +1,24 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :entercontrol="entercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购入库单" append-to-body width="1100px" @close="$emit('update:entercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :entercontrol="entercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购发票" append-to-body width="1100px" @close="$emit('update:entercontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="getemplist.title" :placeholder="$t('Stockenter.title')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.sourceNumber" :placeholder="$t('LogisticsCar.sourcenumber')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          <!-- <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
               <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter2"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-          </el-col>
+          </el-col> -->
           <!--更多搜索条件-->
           <!--          <el-col :span="3" style="margin-left: 30px">-->
           <!--            <el-popover-->

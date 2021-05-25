@@ -755,6 +755,11 @@ export default {
         this.saleRepositoryId = this.$store.getters.repositoryName
         this.personalForm.customerType = String(this.$store.getters.empcontract.customerType)
         this.customerId = this.$store.getters.empcontract.customerName
+        for (const i in this.personalForm.saleOrderDetailVos) {
+          this.personalForm.saleOrderDetailVos[i].alreadyApplicationQuantity = 0
+          this.personalForm.saleOrderDetailVos[i].alreadyOutQuantity = 0
+          this.personalForm.saleOrderDetailVos[i].alreadyProduceQuantity = 0
+        }
         this.list2 = this.personalForm.saleOrderDetailVos
         this.personalForm.createPersonId = this.$store.getters.userId
         this.personalForm.countryId = this.$store.getters.countryId

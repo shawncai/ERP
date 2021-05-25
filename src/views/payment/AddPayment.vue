@@ -277,6 +277,8 @@
                 @change="handlechange(scope.row)"/>
             </template>
             </el-editable-column>
+            <el-editable-column :label="$t('update4.invoiceDate')" prop="invoiceDate" align="center" min-width="150px" />
+
           </el-editable>
         </div>
       </el-card>
