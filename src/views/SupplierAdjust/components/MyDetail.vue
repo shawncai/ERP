@@ -2,6 +2,28 @@
   <el-dialog :visible.sync="productVisible" :control="control" :close-on-press-escape="false" :title="$t('Hmodule.xzsp')" top="10px" append-to-body @close="$emit('update:control', false)">
     <div class="filter-container">
       <!-- 搜索条件栏目 -->
+      <el-input v-model="getemplist.productCode" :placeholder="$t('Product.code')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productName" :placeholder="$t('Product.productname')" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-select v-model="getemplist.categoryId" :placeholder="$t('Hmodule.wpfl')" class="filter-item" clearable>
+        <el-option :label="$t('otherlanguage.zc')" value="1"/>
+        <el-option :label="$t('otherlanguage.pj')" value="2"/>
+        <el-option :label="$t('otherlanguage.jgj')" value="3"/>
+        <el-option :label="$t('otherlanguage.xhp')" value="4"/>
+        <el-option :label="$t('otherlanguage.dc')" value="5"/>
+        <el-option :label="$t('otherlanguage.xss')" value="6"/>
+        <el-option :label="$t('otherlanguage.pjj')" value="7"/>
+        <el-option :label="$t('otherlanguage.hj')" value="8"/>
+      </el-select>
+      <el-select v-model="getemplist.typeId" :placeholder="$t('Hmodule.qxzggxh')" clearable class="filter-item">
+        <el-option
+          v-for="(item, index) in types"
+          :key="index"
+          :label="item.categoryName"
+          :value="item.id"
+        />
+      </el-select>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="width: 86px" @click="handleFilter">{{ $t('public.search') }}</el-button>
+
       <!-- 列表开始 -->
       <el-table
         v-loading="listLoading"
@@ -134,6 +156,8 @@ export default {
   methods: {
     getlist() {
       console.log('this.datalist', this.datalist)
+      this.getemplist.supplierId = this.datalist
+
       // 商品列表数据
       this.listLoading = true
       getSupplierDetailById(this.getemplist).then(res => {
@@ -164,14 +188,15 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      productlist(this.getemplist).then(res => {
+      getSupplierDetailById(this.getemplist).then(res => {
         if (res.data.ret === 200) {
+          console.log('res', res)
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 批量操作

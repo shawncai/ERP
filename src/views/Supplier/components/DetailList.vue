@@ -143,11 +143,12 @@
         <div class="container">
           <el-editable
             ref="editable"
-            :data.sync="list2"
+            :data.sync="showlist"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             stripe
             border
+            height="600px"
             size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" width="55px" align="center" type="index"/>
@@ -162,6 +163,14 @@
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="150px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate" align="center" min-width="150px"/>
           </el-editable>
+
+          <pagination
+            v-show="total > 0"
+            :total="total"
+            :page.sync="getemplist.pageNum"
+            :limit.sync="getemplist.pageSize"
+            @pagination="getlist"
+          />
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
@@ -534,6 +543,7 @@ import { paylist } from '@/api/AdvancePay'
 import { searchstockArrival } from '@/api/StockArrival'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
+
 var _that
 export default {
   components: { Pagination },
@@ -621,6 +631,12 @@ export default {
   },
   data() {
     return {
+      showlist: [],
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      total4: 0,
       downloadLoading: false,
       // 延迟记录数据
       tableData7: [],
@@ -712,6 +728,8 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.supplierDetailVos
+      this.showlist = this.list2.slice(0, 10)
+      this.total4 = this.personalForm.supplierDetailVos.length
       this.tableData6 = this.personalForm.supplierPunishments
     },
     detailid() {
@@ -733,6 +751,17 @@ export default {
     _that = this
   },
   methods: {
+    getlist(val) {
+      console.log('val', val)
+      console.log('this.list2', this.list2)
+      const previndex = (val.page - 1) * val.limit
+      const nextindex = val.page * val.limit
+      const quanlity = val.limit
+      console.log('previndex', previndex)
+      console.log('nextindex', nextindex)
+      this.showlist = this.list2.slice(previndex, nextindex)
+      console.log('showlist', this.showlist)
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles

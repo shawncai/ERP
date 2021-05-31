@@ -54,12 +54,12 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" :datalist = "datalist" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <el-button type="danger" @click="removedetail">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
         <el-editable
           ref="editable"
-          :data.sync="list2"
+          :data.sync="showlist"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
@@ -125,6 +125,13 @@
             </template>
           </el-editable-column> -->
         </el-editable>
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="getemplist.pageNum"
+          :limit.sync="getemplist.pageSize"
+          @pagination="getlist"
+        />
       </div>
     </el-card>
     <el-card class="box-card" style="position: fixed;width: 1010px;z-index: 100;height: 70px;bottom: 0;" shadow="never">
@@ -143,8 +150,9 @@ import { searchStockCategory } from '@/api/StockCategory'
 import { searchCategory } from '@/api/Supplier'
 import { searchsupplier } from '@/api/public'
 import { search } from '@/api/Supplier'
+import Pagination from '@/components/Pagination'
 import MyEmp from './MyEmp'
-import MyDetail from './MyDetail2'
+import MyDetail from './MyDetail'
 import MySupplier from './MySupplier'
 import MyApply from './MyApply'
 import MyPlan from './MyPlan'
@@ -154,7 +162,7 @@ import MyContract from './MyContract'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp },
+  components: { MyContract, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, Pagination },
   props: {
     editcontrol: {
       type: Boolean,
@@ -199,6 +207,14 @@ export default {
       }
     }
     return {
+
+      showlist: [],
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      total: 0,
+
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -338,6 +354,8 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.list2 = this.personalForm.supplierAdjustDetailVos
+      this.total = this.personalForm.supplierAdjustDetailVos.length
+      this.showlist = this.list2.slice(0, 10)
       const param = {}
       param.id = this.personalForm.supplierId
       search(param).then(res => {
@@ -362,6 +380,53 @@ export default {
     _that = this
   },
   methods: {
+    updateList() {
+      const previndex = (this.getemplist.pageNum - 1) * this.getemplist.pageSize
+      const nextindex = this.getemplist.pageNum * this.getemplist.pageSize
+
+      for (let i = 0; i < this.showlist.length; i++) {
+        this.list2[previndex + i] = this.showlist[i]
+      }
+    },
+    removedetail() {
+      this.$refs.editable.removeSelecteds()
+      console.log('this.$refs.editable.getRemoveRecords()', this.$refs.editable.getRemoveRecords())
+      const deleteData = this.$refs.editable.getRemoveRecords()
+      console.log('showlist', this.showlist)
+      for (let i = 0; i < deleteData.length; i++) {
+        for (let j = 0; j < this.list2.length; j++) {
+          if (deleteData[i].id === this.list2[j].id) {
+            this.list2.splice(j, 1)
+            j--
+          }
+        }
+      }
+      this.total = this.list2.length
+
+      // const previndex = (this.getemplist.pageNum - 1) * this.getemplist.pageSize
+      // const nextindex = this.getemplist.pageNum * this.getemplist.pageSize
+
+      // for (let i = 0; i < this.showlist.length; i++) {
+      //   this.list2[previndex + i] = this.showlist[i]
+      // }
+
+      console.log('this.getemplist', this.getemplist)
+    },
+    getlist(val) {
+      console.log('val', val)
+      console.log('this.list2', this.list2)
+      const previndex = (val.page - 1) * val.limit
+      const nextindex = val.page * val.limit
+      const quanlity = val.limit
+      console.log('previndex', previndex)
+      console.log('nextindex', nextindex)
+      this.showlist = this.list2.slice(previndex, nextindex)
+
+      console.log('showlist', this.showlist)
+      for (let i = 0; i < this.showlist.length; i++) {
+        this.list2[previndex + i] = this.showlist[i]
+      }
+    },
     getnewprice(row, scope) {
       // if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
       //   if (row.newIncludeTaxPrice !== '' && row.newIncludeTaxPrice !== null && row.newIncludeTaxPrice !== undefined) {
@@ -373,6 +438,7 @@ export default {
       //     }
       //   }
       // }
+      this.updateList()
       if (row.newTaxRate && row.newIncludeTaxPrice) {
         row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       }
@@ -396,6 +462,7 @@ export default {
       }
     },
     gettaxRate2(row, scope) {
+      this.updateList()
       console.log('row========tax', row)
       row.taxRateFlag = 1
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
@@ -934,7 +1001,8 @@ export default {
     // 供应商列表返回数据
     supplierName(val) {
       console.log(val)
-      this.datalist = val.supplierDetailVos
+      this.datalist = val.id
+
       this.$refs.editable.clear()
       // for (let i = 0; i < val.supplierDetailVos.length; i++) {
       //   val.supplierDetailVos[i].id = ''
@@ -1002,7 +1070,7 @@ export default {
         }, 0.5 * 100)
       })
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata = this.list2
       const nowlistdata2 = this.supplierIdDetail
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
@@ -1037,8 +1105,11 @@ export default {
           }
         }
         console.log('val[i]', val[i])
-        this.$refs.editable.insert(val[i])
+        this.list2.push(val[i])
       }
+
+      this.showlist = this.list2.slice(0, 10)
+      this.total = this.list2.length
     },
     // 清空记录
     restAllForm() {
@@ -1091,7 +1162,7 @@ export default {
       this.personalForm.modifyPersonId = this.$store.getters.userId
       this.$refs.personalForm.validate((valid) => {
         if (valid) {
-          const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
+          const EnterDetail = this.deepClone(this.list2)
           if (EnterDetail.length === 0) {
             this.$notify.error({
               title: 'wrong',
@@ -1180,6 +1251,8 @@ export default {
             })
             return false
           }
+          console.log('EnterDetail.', this.list2)
+
           const parms2 = JSON.stringify(EnterDetail)
           const Data = this.personalForm
           for (const key in Data) {

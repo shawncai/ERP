@@ -205,19 +205,20 @@
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
         <my-detail :control.sync="control" @product="productdetail"/>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <el-button type="danger" @click="removedetail">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">
         <el-editable
           ref="editable"
           :key="tableKey2"
-          :data.sync="list2"
+          :data.sync="showlist"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           class="click-table1"
           stripe
           border
           size="small"
+          height="600px"
           style="width: 100%">
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
@@ -229,7 +230,7 @@
           <!--          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" label="供货比列(%)" prop="proportion" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">
-              <el-input v-model="scope.row.proportion" @focus="handlechoose2(scope)"/>
+              <el-input v-model="scope.row.proportion" @focus="handlechoose2(scope)" @change="handlechangeproportion"/>
               <!--              <my-supplier :control.sync="proporcontrol" :procode="procode" @supplierName="personName2(scope, $event)"/>-->
             </template>
           </el-editable-column>
@@ -273,6 +274,14 @@
             </template>
           </el-editable-column>
         </el-editable>
+
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="getemplist.pageNum"
+          :limit.sync="getemplist.pageSize"
+          @pagination="getlist"
+        />
       </div>
     </el-card>
     <el-card class="box-card" shadow="never" style="margin-top: 10px">
@@ -398,6 +407,7 @@
                 </template>
               </el-table-column>
             </el-table>
+
             <el-button v-waves type="success" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
           </div>
         </el-form-item>
@@ -413,12 +423,14 @@ import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import waves from '@/directive/waves'
 import permission from '@/directive/permission/index.js' // 权限判断指令
+import Pagination from '@/components/Pagination'
+
 // import { forEach } from '../../../../../../OA前台代码/nwow_oa/src/lib/util' // Waves directive
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
   directives: { waves, permission },
-  components: { MyDetail, MyEmp },
+  components: { MyDetail, MyEmp, Pagination },
 
   props: {
     editcontrol: {
@@ -432,6 +444,13 @@ export default {
   },
   data() {
     return {
+      showlist: [],
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      total: 0,
+
       tableKey: 0,
       tableKey2: 0,
       listLoading: true,
@@ -520,6 +539,8 @@ export default {
       this.personalForm = this.editdata
       this.buyerId = this.editdata.buyerName
       this.list2 = this._.cloneDeep(this.personalForm.supplierDetailVos)
+      this.total = this.personalForm.supplierDetailVos.length
+      this.showlist = this.list2.slice(0, 10)
       this.handlechange(this.personalForm.countryId)
       this.handlechange2(this.personalForm.provinceId)
       getRegion(this.personalForm.regionId).then(res => {
@@ -539,6 +560,56 @@ export default {
     _that = this
   },
   methods: {
+    handlechangeproportion() {
+      this.updateList()
+    },
+    updateList() {
+      const previndex = (this.getemplist.pageNum - 1) * this.getemplist.pageSize
+      const nextindex = this.getemplist.pageNum * this.getemplist.pageSize
+
+      for (let i = 0; i < this.showlist.length; i++) {
+        this.list2[previndex + i] = this.showlist[i]
+      }
+    },
+    removedetail() {
+      this.$refs.editable.removeSelecteds()
+      console.log('this.$refs.editable.getRemoveRecords()', this.$refs.editable.getRemoveRecords())
+      const deleteData = this.$refs.editable.getRemoveRecords()
+      console.log('showlist', this.showlist)
+      for (let i = 0; i < deleteData.length; i++) {
+        for (let j = 0; j < this.list2.length; j++) {
+          if (deleteData[i].id === this.list2[j].id) {
+            this.list2.splice(j, 1)
+            j--
+          }
+        }
+      }
+      this.total = this.list2.length
+
+      // const previndex = (this.getemplist.pageNum - 1) * this.getemplist.pageSize
+      // const nextindex = this.getemplist.pageNum * this.getemplist.pageSize
+
+      // for (let i = 0; i < this.showlist.length; i++) {
+      //   this.list2[previndex + i] = this.showlist[i]
+      // }
+
+      console.log('this.getemplist', this.getemplist)
+    },
+    getlist(val) {
+      console.log('val', val)
+      console.log('this.list2', this.list2)
+      const previndex = (val.page - 1) * val.limit
+      const nextindex = val.page * val.limit
+      const quanlity = val.limit
+      console.log('previndex', previndex)
+      console.log('nextindex', nextindex)
+      this.showlist = this.list2.slice(previndex, nextindex)
+
+      console.log('showlist', this.showlist)
+      for (let i = 0; i < this.showlist.length; i++) {
+        this.list2[previndex + i] = this.showlist[i]
+      }
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -619,6 +690,7 @@ export default {
       }
     },
     handlechoose2(scope) {
+      console.log('12')
       this.listLoading = true
       this.proporcontrol = true
       // this.kongscope = scope
@@ -639,7 +711,7 @@ export default {
     },
     productdetail(val) {
       console.log(val)
-      const nowlistdata = this.$refs.editable.getRecords()
+      const nowlistdata = this.list2
       for (let i = 0; i < val.length; i++) {
         console.log(val[i].price)
         let m = 1
@@ -657,9 +729,13 @@ export default {
         // val[i].discountRate = 0
         // val[i].price = val[i].purchasePrice
         if (m === 1) {
-          this.$refs.editable.insert(val[i])
+          this.list2.push(val[i])
         }
       }
+
+      console.log('this.list2', this.list2)
+      this.showlist = this.list2.slice(0, 10)
+      this.total = this.list2.length
     },
     // 国籍列表
     getnationlist() {
@@ -823,7 +899,7 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
-      const EnterDetail = this.$refs.editable.getRecords()
+      const EnterDetail = this.list2
       EnterDetail.map(function(elem) {
         return elem
       }).forEach(function(elem) {

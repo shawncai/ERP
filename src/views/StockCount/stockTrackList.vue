@@ -337,10 +337,11 @@ export default {
     },
     // 导出
     handleExport() {
+      console.log('this.list', this.list)
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['供应商名称', '单据日期', '单据编号', '物品编号', '到货时间', '到货单号', '入库单号', '交货日期', '物品名称', '单位', '数量', '含税价', '含税金额', '到货数量', '到货金额', '已入库', '未入库', '已开票数', '未开票数', '已开票额', '未开票额']
-          const filterVal = ['supplierName', 'receiptDate', 'orderNumber', 'productCode', 'arrivalDate', 'arrivalNumber', 'delayNum', 'deliveryDate', 'productName', 'unit', 'quantity', 'price', 'money', 'arrivalQuantity', 'arrivalMoney', 'enterQuantity', 'notenterQuantity', 'invoiceQuantity', 'notinvoiceQuantity', 'invoiceMoney', 'notinvoiceMoney']
+          const filterVal = ['supplierName', 'receiptDate', 'orderNumber', 'productCode', 'arrivalDate', 'arrivalNumber', 'enterNumber', 'deliveryDate', 'productName', 'unit', 'quantity', 'price', 'money', 'arrivalQuantity', 'arrivalMoney', 'enterQuantity', 'notenterQuantity', 'invoiceQuantity', 'notinvoiceQuantity', 'invoiceMoney', 'notinvoiceMoney']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
@@ -526,6 +527,11 @@ export default {
             this.list[i].notenterQuantity = (this.list[i].quantity - this.list[i].enterQuantity).toFixed(6)
             this.list[i].notinvoiceQuantity = (this.list[i].quantity - this.list[i].invoiceQuantity).toFixed(6)
             this.list[i].notinvoiceMoney = (this.list[i].money - this.list[i].invoiceMoney).toFixed(6)
+            this.list[i].arrivalDate = this.list[i].orderArrivalVos[0].arrivalDate
+            this.list[i].arrivalNumber = this.list[i].orderArrivalVos[0].arrivalNumber
+
+            this.list[i].enterDate = this.list[i].orderEnterVos[0].enterDate
+            this.list[i].enterNumber = this.list[i].orderEnterVos[0].enterNumber
           }
           this.total = res.data.data.content.totalCount
           // this.restFilter()

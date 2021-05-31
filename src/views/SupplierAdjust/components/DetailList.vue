@@ -49,12 +49,14 @@
         <div class="container">
           <el-editable
             ref="editable"
-            :data.sync="list2"
+            :data.sync="showlist"
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
+            height="600px"
             size="small"
-            style="width: 100%">
+            style="width: 100%"
+          >
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed="left" align="center" />
             <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed="left" align="center" />
@@ -70,6 +72,13 @@
             <el-editable-column :label="$t('updates.oldSalePrice')" prop="oldSalePrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.newSalePrice')" prop="newSalePrice" align="center" min-width="150px"/>
           </el-editable>
+          <pagination
+            v-show="total > 0"
+            :total="total"
+            :page.sync="getemplist.pageNum"
+            :limit.sync="getemplist.pageSize"
+            @pagination="getlist"
+          />
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
@@ -153,9 +162,15 @@
 <script>
 import { searchstockArrival } from '@/api/StockArrival'
 import { getPrintCount, addPrint } from '@/api/public'
+import Pagination from '@/components/Pagination'
 import printJS from 'print-js'
 var _that
 export default {
+  components: {
+
+    Pagination
+
+  },
   filters: {
     isVatFilter(status) {
       const statusMap = {
@@ -220,6 +235,12 @@ export default {
   },
   data() {
     return {
+      showlist: [],
+      getemplist: {
+        pageNum: 1,
+        pageSize: 10
+      },
+      total: 0,
       // 质检信息
       Checkreportdata: [],
       // 到货信息
@@ -253,6 +274,8 @@ export default {
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.supplierAdjustDetailVos
+      this.showlist = this.list2.slice(0, 10)
+      this.total = this.personalForm.supplierAdjustDetailVos.length
       this.reviewList = this.personalForm.approvalUseVos
       this.stockArrivaldata.sourceNumber = this.personalForm.orderNumber
       this.getstockArrivalList()
@@ -262,6 +285,20 @@ export default {
     _that = this
   },
   methods: {
+    getlist(val) {
+      console.log('val', val)
+      console.log('this.list2', this.list2)
+      const previndex = (val.page - 1) * val.limit
+      const nextindex = val.page * val.limit
+      const quanlity = val.limit
+      console.log('previndex', previndex)
+      console.log('nextindex', nextindex)
+      this.showlist = this.list2.slice(previndex, nextindex)
+      console.log('showlist', this.showlist)
+    },
+    test(val) {
+      console.log('val', val)
+    },
     cutnull(data) {
       for (const x in data) {
         if (data[x] === null) { // 如果是null 把直接内容转为 ''
@@ -280,6 +317,8 @@ export default {
       return data
     },
     async printdata() {
+      // console.log('this.$ref.editable', this.$refs.editable)
+
       const arr = this.cutnull(this.list2)
       for (const i in arr) {
         arr[i].step = Number(i) + 1

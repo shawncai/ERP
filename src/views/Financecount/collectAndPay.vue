@@ -537,12 +537,12 @@ export default {
     },
     myytablehead({ row, column, rowIndex, columnIndex }) {
       // console.log('myindex=================>', row, column, rowIndex, columnIndex)
-      if (columnIndex === 13) {
+      if (columnIndex === 19) {
         return 'border-right:3px solid red'
       }
     },
     myTable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 13) {
+      if (columnIndex === 19) {
         return 'border-right:3px solid red'
       }
     },
