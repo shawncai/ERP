@@ -123,7 +123,7 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150"/>
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/> -->
           <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
@@ -158,7 +158,7 @@
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
           <el-editable-column :label="$t('prompt.dbcbj')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('prompt.dbje')" prop="totalMoney" align="center" width="150px" />
-          <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
+          <el-editable-column :label="$t('update4.ckzt')" prop="stat" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
             </template>
@@ -208,7 +208,7 @@
           <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('prompt.dbcbj')" prop="movePrice" align="center" width="150px"/>
           <el-editable-column :label="$t('prompt.dbje')" prop="totalMoney" align="center" width="150px"/>
-          <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
+          <el-editable-column :label="$t('update4.rkzt')" prop="stat" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | inFilter }}</p>
             </template>

@@ -21,12 +21,12 @@
             <el-form-item label="国家" style="width: 40%;margin-top:1%">
               <el-input v-model="personalForm.countryName" disabled/>
             </el-form-item>
-            <el-form-item label="制单人" style="width: 40%;margin-top:1%">
+            <el-form-item :label="$t('update4.zdr')" style="width: 40%;margin-top:1%">
               <el-input v-model="personalForm.createPersonName" disabled/>
             </el-form-item>
             <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
             <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
-              <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" disabled style="width: 100%;">
+              <el-select v-model="personalForm.countDeptId" :placeholder="$t('update4.qszpdbm')" disabled style="width: 100%;">
                 <el-option
                   v-for="(item, index) in depts"
                   :key="index"
@@ -63,7 +63,7 @@
                 style="width: 100%"/>
             </el-form-item>
             <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
-              <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" disabled/>
+              <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" type="textarea" disabled/>
             </el-form-item>
           </el-form>
         </div>
@@ -90,7 +90,7 @@
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" />
             <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" />
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
-            <el-editable-column prop="price" align="center" label="价格" />
+            <el-editable-column :label="$t('update4.jg')" prop="price" align="center" />
             <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" >
               <template slot-scope="scope">
                 <p>{{ scope.row.inventoryQuantity }}</p>

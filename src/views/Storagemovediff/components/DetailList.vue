@@ -1,5 +1,15 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.id +'    差异报告单详情'" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog
+    :visible.sync="editVisible"
+    :detailcontrol="detailcontrol"
+    :detaildata="detaildata"
+    :close-on-press-escape="false"
+    :title="$t('update4.cybgxq')"
+    append-to-body
+    width="1010px"
+    class="edit"
+    top="-10px"
+    @close="$emit('update:detailcontrol', false)">
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
@@ -54,7 +64,7 @@
       </el-card>
       <!--调拨差异明细-->
       <el-card class="box-card" style="margin-top: 15px">
-        <h2 ref="fuzhu" class="form-name">差异报告明细</h2>
+        <h2 ref="fuzhu" class="form-name">{{ $t('update4.cybgmx') }}</h2>
         <div class="container">
           <el-editable
             ref="editable"
@@ -90,11 +100,11 @@
             <!-- <el-editable-column prop="productType" align="center" :label="$t('Hmodule.gg')" width="150px"/> -->
             <!-- <el-editable-column prop="unit" align="center" :label="$t('Hmodule.dw')" width="150px"/> -->
             <el-editable-column :label="$t('updates.fhsl')" prop="sendQuantity" align="center" min-width="150"/>
-            <el-editable-column prop="actualQuantity" align="center" label="收货数量" min-width="150"/>
+            <el-editable-column :label="$t('update4.shsl')" prop="actualQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.cbj')" prop="costPrice" align="center" width="150px"/>
-            <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
-            <el-editable-column prop="result" align="center" label="处理结果" width="150px"/>
+            <el-editable-column :label="$t('update4.cyje')" prop="diffMoney" align="center" width="150px"/>
+            <el-editable-column :label="$t('update4.cljg')" prop="result" align="center" width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -143,17 +153,17 @@
             <el-table-column
               prop="deliverNumber"
               align="center"
-              label="配送单号"
+              :label="$t('update4.psdh')"
               min-width="150"/>
             <el-table-column
               prop="requireArriveDate"
               align="center"
-              label="配送时间"
+              :label="$t('update4.pssj')"
               min-width="150"/>
             <el-table-column
               prop="deliverPersonName"
               align="center"
-              label="配送人"
+              :label="$t('update4.psr')"
               min-width="150"/>
             <el-table-column
               prop="arrivalDate"
@@ -168,7 +178,7 @@
             <el-table-column
               prop="stat"
               align="center"
-              label="配送单状态"
+              :label="$t('update4.psdzt')"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statFilter }}</span>

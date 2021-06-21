@@ -709,27 +709,34 @@ export default {
     handleAddproduct() {
       this.control = true
     },
+
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
       console.log(val)
       const nowlistdata = this.list2
-      for (let i = 0; i < val.length; i++) {
-        console.log(val[i].price)
-        let m = 1
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (val[i].productCode === nowlistdata[j].productCode) {
-            m = 2
-            // this.$notify.error({
-            //   title: 'wrong',
-            //   message: this.$t('prompt.wpytj'),
-            //   offset: 100
-            // })
-            // return false
-          }
-        }
-        // val[i].discountRate = 0
-        // val[i].price = val[i].purchasePrice
-        if (m === 1) {
-          this.list2.push(val[i])
+      this.list2 = []
+      const alldata = [...val, ...nowlistdata]
+      const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata', filterdata)
+      for (let i = 0; i < filterdata.length; i++) {
+        if (filterdata[i]) {
+          this.list2.push(filterdata[i])
         }
       }
 

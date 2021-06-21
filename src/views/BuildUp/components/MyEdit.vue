@@ -36,7 +36,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('BuildUp.summary')" prop="summary" style="width: 100%;">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width:200px" clearable/>
+                <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width:200px" clearable/>
               </el-form-item>
             </el-col>
             <!--            <el-col :span="6">-->

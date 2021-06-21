@@ -29,7 +29,7 @@
               <!--                <el-form-item :label="$t('payment.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-select v-model="personalForm.sourceType" style="width: 200px">-->
               <!--                    <el-option value="1" label="采购订单" />-->
-              <!--                    <el-option value="2" label="无来源" />-->
+              <!--                    <el-option value="2" :label="$t('update4.wulaiyuan')" />-->
               <!--                  </el-select>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->

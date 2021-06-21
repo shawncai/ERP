@@ -286,6 +286,14 @@
                 <span v-show="jundgeprice() === false"/>
               </template>
             </el-editable-column>
+
+            <!-- <el-editable-column :label="$t('updates.ckje')" prop="money" align="center">
+              <template slot-scope="scope">
+                <span v-show="jundgeprice()">{{ scope.row.money }}</span>
+                <span v-show="jundgeprice() === false"/>
+              </template>
+            </el-editable-column> -->
+
             <el-editable-column :formatter="formatter" :label="$t('updates.ckl')" prop="discountRate" align="center"/>
             <el-editable-column :label="$t('updates.cke')" prop="discountMoney" align="center" />
             <el-editable-column :label="$t('updates.cjbm')" prop="carCode" align="center" />
@@ -519,7 +527,7 @@
         </div>
       </el-card>
       <el-card class="box-card" shadow="never" style="margin-top: 10px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">利润明细</h2>
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('update4.lirunmingxi') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-form ref="personalForm2" :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -605,8 +613,8 @@ export default {
     saleTypeFilter(sta) {
       const statusMap = {
 
-        1: '现金',
-        2: '分期'
+        1: _that.$t('update4.xianjian'),
+        2: _that.$t('update4.fengqi')
 
       }
       return statusMap[sta]
@@ -626,7 +634,7 @@ export default {
     customerTypeFilter(status) {
       const statusMap = {
         1: '经销商',
-        2: '零售'
+        2: _that.$t('update4.linsghou')
       }
       return statusMap[status]
     },
@@ -639,7 +647,7 @@ export default {
     },
     outTypeFilter(status) {
       const statusMap = {
-        1: '销售出库',
+        1: _that.$t('update4.xioashouchuk'),
         2: '换货出库',
         3: '以旧换新'
       }

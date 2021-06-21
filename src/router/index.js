@@ -3426,14 +3426,14 @@ export const asyncRouterMap = [
       title: 'Financecount',
       icon: 'shuxing',
       type: 12,
-      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '311-314-375-4', '311-313-380-4', '311-314-409-4']
+      roles: ['311-314-328-4', '311-314-329-4', '311-314-367-4', '311-314-368-4', '311-314-375-4', '311-313-380-4', '311-314-409-4', '311-314-423-4']
     },
     children: [
       {
         path: 'CostPriceHistory',
         component: () => import('@/views/Financecount/costPriceHistory'),
         name: 'CostPriceHistory',
-        meta: { title: 'CostPriceHistory', noCache: false, roles: ['311-314-409-4'] }
+        meta: { title: 'CostPriceHistory', noCache: false, roles: ['311-314-423-4'] }
       },
       {
         path: 'IncomeAnalysis',

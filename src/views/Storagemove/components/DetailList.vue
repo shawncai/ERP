@@ -132,9 +132,9 @@
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
             <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
-            <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
+            <el-editable-column prop="movePrice" align="center" :label="$t('update4.dbcbenj')" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.dbje')" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
@@ -166,9 +166,9 @@
             <el-editable-column prop="typeName" align="center" :label="$t('Hmodule.gg')" />
             <el-editable-column prop="unitName" align="center" :label="$t('Hmodule.dw')" />
             <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" />
-            <el-editable-column prop="movePrice" align="center" label="调拨成本价" />
+            <el-editable-column prop="movePrice" align="center" :label="$t('update4.dbcbenj')" />
             <el-editable-column prop="moveQuantity" align="center" label="调拨数量" />
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" >
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.dbje')" >
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
@@ -216,7 +216,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150"/>
             <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/> -->
             <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
           </el-editable>
@@ -251,9 +251,9 @@
             <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
             <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
             <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-            <el-editable-column prop="price" align="center" label="调拨成本价" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px" />
-            <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
+            <el-editable-column :label="$t('update4.dbcbenj')" prop="price" align="center" width="150px"/>
+            <el-editable-column :label="$t('update4.dbje')" prop="totalMoney" align="center" width="150px" />
+            <el-editable-column :label="$t('update4.ckzt')" prop="stat" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ scope.row.stat | statFilter }}</p>
               </template>
@@ -291,14 +291,14 @@
             <el-editable-column :label="$t('tongyo.controlCode')" prop="controlCode" align="center" />
             <el-editable-column :label="$t('tongyo.chargeCode')" prop="chargeCode" align="center" />
             <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
-            <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px"/>
-            <el-editable-column prop="stat" align="center" label="入库状态" width="150px">
+            <el-editable-column :label="$t('update4.dbcbenj')" prop="movePrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('update4.dbje')" prop="totalMoney" align="center" width="150px"/>
+            <el-editable-column :label="$t('update4.rkzt')" prop="stat" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ scope.row.stat | inFilter }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="actualQuantity" align="center" label="实际入库数量" min-width="150px"/>
+            <el-editable-column :label="$t('update4.sjrkshl')" prop="actualQuantity" align="center" min-width="150px"/>
           </el-editable>
         </div>
       </el-card>
@@ -338,26 +338,26 @@
         </div>
       </el-card>
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
-        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">配送信息</h2>
+        <h2 ref="fuzhu" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.psxx') }}</h2>
         <div class="container" style="margin-top: 37px">
           <el-table
             :data="deliverGoodsdata"
             border
             style="width: 100%">
             <el-table-column
+              :label="$t('update4.psdh')"
               prop="deliverNumber"
               align="center"
-              label="配送单号"
               min-width="150"/>
             <el-table-column
+              :label="$t('update4.pssj')"
               prop="requireArriveDate"
               align="center"
-              label="配送时间"
               min-width="150"/>
             <el-table-column
+              :label="$t('update4.psr')"
               prop="deliverPersonName"
               align="center"
-              label="配送人"
               min-width="150"/>
             <el-table-column
               :label="$t('updates.clbh')"
@@ -370,9 +370,9 @@
               align="center"
               min-width="150"/>
             <el-table-column
+              :label="$t('update4.psdzt')"
               prop="stat"
               align="center"
-              label="配送单状态"
               min-width="150">
               <template slot-scope="scope">
                 <span>{{ scope.row.stat | statFilter }}</span>

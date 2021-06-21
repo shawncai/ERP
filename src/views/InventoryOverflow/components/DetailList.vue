@@ -30,7 +30,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="制单人" style="width: 100%;">
+                <el-form-item :label="$t('update4.zdr')" style="width: 100%;">
                   <el-input v-model="personalForm.createPersonName" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
@@ -53,7 +53,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('InventoryOverflow.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

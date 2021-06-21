@@ -18,7 +18,7 @@
                   <el-option value="2" label="采购计划" />
                   <el-option value="3" label="采购询价单" />
                   <el-option value="4" label="采购合同" />
-                  <el-option value="5" label="无来源" />
+                  <el-option :label="$t('update4.wulaiyuan')" value="5" />
                 </el-select>
               </el-form-item>
             </el-col>

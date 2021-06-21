@@ -141,7 +141,7 @@
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.sqsl')" prop="applyQuantity" align="center" min-width="150"/>
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/> -->
           <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
         </el-editable>
@@ -215,7 +215,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6}}" prop="price" align="center" label="调拨成本价" width="150px">
+          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible', attrs: {min: 0.00, precision: 6}}" :label="$t('update4.dbcbenj')" prop="price" align="center" width="150px">
             <template slot="edit" slot-scope="scope">
               <el-input-number
                 v-if="isEdit3(scope.row)"
@@ -227,12 +227,12 @@
               <span v-else>{{ scope.row.price }}</span>
             </template>
           </el-editable-column>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+          <el-editable-column :label="$t('update4.dbje')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column prop="stat" align="center" label="出库状态" width="150px">
+          <el-editable-column :label="$t('update4.ckzt')" prop="stat" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ scope.row.stat | statFilter }}</p>
             </template>

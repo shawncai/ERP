@@ -20,7 +20,7 @@
             <my-detail :control.sync="control" @product="productdetail"/>
             <el-input v-model="getemplist.productName" :placeholder="$t('saleBillList.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" />
 
-            <el-select v-model="getemplist.countDeptId" size="small" placeholder="请选择盘点部门" clearable class="filter-item">
+            <el-select v-model="getemplist.countDeptId" size="small" :placeholder="$t('update4.qszpdbm')" clearable class="filter-item">
               <el-option
                 v-for="(item, index) in depts"
                 :key="index"

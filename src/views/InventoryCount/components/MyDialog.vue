@@ -13,7 +13,7 @@
           </el-form-item>
           <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
           <el-form-item :label="$t('InventoryCount.countDeptId')" style="width: 40%;margin-top:1%">
-            <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" clearable style="width: 100%;">
+            <el-select v-model="personalForm.countDeptId" :placeholder="$t('update4.qszpdbm')" clearable style="width: 100%;">
               <el-option
                 v-for="(item, index) in depts"
                 :key="index"
@@ -48,7 +48,7 @@
               style="width: 350px"/>
           </el-form-item>
           <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="width: 80%;margin-top:1%">
-            <el-input v-model="personalForm.summary" placeholder="请输入摘要" type="textarea" clearable/>
+            <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" type="textarea" clearable/>
           </el-form-item>
         </el-form>
       </div>
@@ -124,7 +124,7 @@
           <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
-          <el-editable-column prop="price" align="center" label="价格" width="150px"/>
+          <el-editable-column :label="$t('update4.jg')" prop="price" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">

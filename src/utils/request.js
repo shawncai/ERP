@@ -21,9 +21,11 @@ service.interceptors.request.use(
     if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
       config.baseURL = process.env.BASE_API + '8888/erp'
     }
-    // if (store.getters.useCountry === 1 || store.getters.useCountry === '1') {
+    // if (store.getters.useCountry === 1 || store.getters.useCountry === '1') { // 南京自用
     //   config.baseURL = process.env.BASE_API + '8787/nanjing'
     // }
+
+    
     if (store.getters.useCountry === 2 || store.getters.useCountry === '2') {
       config.baseURL = process.env.BASE_API + '9999/philippines'
     }
@@ -35,6 +37,9 @@ service.interceptors.request.use(
     }
     if (store.getters.useCountry === 5 || store.getters.useCountry === '5') {
       config.baseURL = process.env.BASE_API + '5555/cambodia'
+    }
+    if (store.getters.useCountry === 6 || store.getters.useCountry === '6') { // 腾哥自用
+      config.baseURL = process.env.BASE_API + '9898/weitong'
     }
     store.dispatch('getuploadApi', config.baseURL)
     // console.log('config', config)

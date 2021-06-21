@@ -49,7 +49,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
                   <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
-                    <el-option value="1" label="无来源" />
+                    <el-option :label="$t('update4.wulaiyuan')" value="1" />
                     <!-- <el-option value="2" label="销售计划" />
                     <el-option value="3" label="采购需求" /> -->
                   </el-select>

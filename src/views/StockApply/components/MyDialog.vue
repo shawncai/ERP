@@ -42,7 +42,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('StockApply.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseSourceType">
-                  <el-option value="1" label="无来源" />
+                  <el-option :label="$t('update4.wulaiyuan')" value="1" />
                   <!-- <el-option value="2" label="销售订单" /> -->
                 </el-select>
               </el-form-item>
@@ -265,7 +265,7 @@ export default {
       this.personalForm = this.editdata
       this.applyPersonId = this.personalForm.applyPersonName
       this.list2 = this.personalForm.stockApplyDetailVos
-      this.list3 = this.personalForm.stockApplyDetailVos
+      // this.list3 = this.personalForm.stockApplyDetailVos
       this.getdatatime()
     }
   },
@@ -514,7 +514,7 @@ export default {
     handleEditok() {
       delete this.personalForm.judgeStat
       delete this.personalForm.receiptStat
-
+      delete this.personalForm.stockApplyDetailVos
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

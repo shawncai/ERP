@@ -18,7 +18,7 @@
                   <el-option value="2" label="采购计划" />
                   <el-option value="3" label="采购询价单" />
                   <el-option value="4" label="采购合同" />
-                  <el-option value="5" label="无来源" />
+                  <el-option :label="$t('update4.wulaiyuan')" value="5" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -754,7 +754,7 @@ export default {
           })
         }
       }
-      row.flag = false
+      row.flag = true
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {

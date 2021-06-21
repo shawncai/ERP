@@ -39,7 +39,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="制单人" style="width: 100%;">
+                <el-form-item :label="$t('update4.zdr')" style="width: 100%;">
                   <span>{{ personalForm.createPersonName }}</span>
                 </el-form-item>
               </el-col>

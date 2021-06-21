@@ -21,7 +21,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
                   <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 150px" disabled >
-                    <el-option value="1" label="无来源"/>
+                    <el-option :label="$t('update4.wulaiyuan')" value="1"/>
                     <el-option value="2" label="外包单"/>
                   </el-select>
                 </el-form-item>
@@ -89,12 +89,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.time')" style="width: 100%;">
-                  <el-input v-model="personalForm.outDate" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="personalForm.outDate" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -177,12 +177,12 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.heji')" style="width: 100%;">
-                  <el-input v-model="heji" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="heji" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.heji2')" style="width: 100%;">
-                  <el-input v-model="heji2" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" disabled/>
+                  <el-input v-model="heji2" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" disabled/>
                 </el-form-item>
               </el-col>
             </el-row>

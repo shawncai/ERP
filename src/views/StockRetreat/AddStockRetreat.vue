@@ -23,7 +23,7 @@
                   <el-select v-model="personalForm.sourceType" size="mini" style="margin-left: 18px;width: 200px" @change="chooseType">
                     <el-option value="1" label="采购到货单" />
                     <el-option value="2" label="采购入库单" />
-                    <el-option value="4" label="无来源" />
+                    <el-option :label="$t('update4.wulaiyuan')" value="4" />
                   </el-select>
                 </el-form-item>
               </el-col>

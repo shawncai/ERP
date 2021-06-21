@@ -14,7 +14,7 @@
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 150px" @change="chooseSource" >
-                  <el-option value="1" label="无来源"/>
+                  <el-option :label="$t('update4.wulaiyuan')" value="1"/>
                   <el-option value="2" label="外包单"/>
                 </el-select>
               </el-form-item>
@@ -86,7 +86,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('StockOut.summary')" prop="summary" style="width: 100%;">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
           </el-row>

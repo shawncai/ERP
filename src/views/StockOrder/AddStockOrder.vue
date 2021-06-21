@@ -36,7 +36,7 @@
                     <el-option value="1" label="采购申请" />
                     <el-option value="2" label="采购计划" />
                     <el-option value="3" label="采购询价单" />
-                    <el-option value="5" label="无来源" />
+                    <el-option :label="$t('update4.wulaiyuan')" value="5" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -162,6 +162,8 @@
           <my-contract :contractcontrol.sync="contractcontrol" :supp.sync="supp" @contract="contract" @allcontractinfo="allcontractinfo"/>
           <el-button type="danger" size="mini" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" size="mini" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
+          <el-button type="warning" @click="exportExcel">{{ $t('updates.drsj') }}</el-button>
+          <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
         </div>
         <div class="container">
           <el-editable
@@ -370,6 +372,8 @@ import MyLnquiry from './components/MyLnquiry'
 import MyContract from './components/MyContract'
 import MyRepository from './components/MyRepository'
 import MyArrival from '../Stockenter/components/MyArrival'
+import XLSX from 'xlsx'
+
 var _that
 export default {
   name: 'AddStockOrder',
@@ -416,7 +420,10 @@ export default {
       }
     }
     return {
-
+      excelData: {
+        header: null,
+        results: null
+      },
       pickerOptions1: {
         disabledDate: (time) => {
           return time.getTime() < new Date().getTime() - 8.64e7
@@ -611,6 +618,136 @@ export default {
     _that = this
   },
   methods: {
+    upload(rawFile) {
+      this.$refs['excel-upload-input'].value = null // fix can't select the same excel
+
+      if (!this.beforeUpload) {
+        this.readerData(rawFile)
+        return
+      }
+      const before = this.beforeUpload(rawFile)
+      if (before) {
+        this.readerData(rawFile)
+      }
+    },
+    readerData(rawFile) {
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = e => {
+          const data = e.target.result
+          const fixedData = this.fixData(data)
+          const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const header = this.getHeaderRow(worksheet)
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.generateData({ header, results })
+          this.loading = false
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
+    },
+    fixData(data) {
+      let o = ''
+      let l = 0
+      const w = 10240
+      for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
+      return o
+    },
+    getHeaderRow(sheet) {
+      const headers = []
+      const range = XLSX.utils.decode_range(sheet['!ref'])
+      let C
+      const R = range.s.r
+      /* start in the first row */
+      for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        /* find the cell in the first row */
+        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
+        headers.push(hdr)
+      }
+      return headers
+    },
+    isExcel(file) {
+      return /\.(xlsx|xls|csv)$/.test(file.name)
+    },
+    clearuplod() {
+      this.exportparms = {
+        typeid: '',
+        categoryid: ''
+      }
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+
+      if (isLt1M) {
+        return true
+      }
+
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
+    },
+    handleClick(e) {
+      const files = e.target.files
+      const rawFile = files[0] // only use files[0]
+      if (!rawFile) return
+      this.upload(rawFile)
+    },
+    onSuccess({ results, header }) {
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: 'Loading',
+      //   spinner: 'el-icon-loading',
+      //   background: 'rgba(0, 0, 0, 0.7)'
+      // })
+
+      console.log('results', results)
+      const uploaddata = results.map(item => {
+        return {
+          productCode: item.物品编号,
+          productName: item.物品名称,
+          color: item.颜色,
+          productType: item.规格型号,
+          unit: item.单位,
+          stockQuantity: item.出库数量,
+          price: item.单价,
+          totalMoney: item.入库金额,
+          remarks: item.备注,
+          typeId: item.规格id,
+          basicQuantity: item.基本数量
+        }
+      })
+      console.log('uploaddata', uploaddata)
+      this.list2 = uploaddata
+      this.tableKey = Math.random()
+      // const jsonupload = JSON.stringify(uploaddata)
+      // setTimeout(() => {
+      //   loading.close()
+      // }, 180000)
+    },
+    generateData({ header, results }) {
+      this.excelData.header = header
+      this.excelData.results = results
+      this.onSuccess && this.onSuccess(this.excelData)
+    },
+    exportExcel() {
+      if (!this.supplierId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: 'please select supplier',
+          offset: 100
+        })
+        return false
+      }
+      this.$refs['excel-upload-input'].click()
+    },
     getcurrency() {
       const mycountry = this.$store.getters.countryId
       // console.log('mycountry============', mycountry)
@@ -887,6 +1024,8 @@ export default {
             if (res.data.data.content.length > 0) {
               row.taxRate = res.data.data.content[0].taxRate || 0
               row.includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+              row.price = res.data.data.content[0].price || 0
+              row.unit = res.data.data.content[0].unit || ''
             } else {
               this.$notify.error({
                 title: 'wrong',
@@ -897,7 +1036,7 @@ export default {
           })
         }
       }
-      row.flag = false
+      row.flag = true
     },
     // 通过含税价计算税率
     getincludeTaxPrice(row) {

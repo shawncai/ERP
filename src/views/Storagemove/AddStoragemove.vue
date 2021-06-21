@@ -199,7 +199,7 @@
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/> -->
             <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row) }}</p>
@@ -277,13 +277,13 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+            <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.dbje')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="totalMoney" align="center" label="出库状态" width="150px">
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.ckzt')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
@@ -364,13 +364,13 @@
               </template>
             </el-editable-column>
             <el-editable-column prop="price" align="center" :label="$t('updates.dbdj')" width="150px"/>
-            <el-editable-column prop="movePrice" align="center" label="调拨成本价" width="150px"/>
-            <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+            <el-editable-column prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/>
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.dbje')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column prop="totalMoney" align="center" label="出库状态" width="150px">
+            <el-editable-column prop="totalMoney" align="center" :label="$t('update4.ckzt')" width="150px">
               <template slot-scope="scope">
                 <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
               </template>

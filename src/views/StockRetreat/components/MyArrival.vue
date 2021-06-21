@@ -271,7 +271,7 @@ export default {
       // 采购申请查询加展示参数
       getemplist: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         judgeStat: 2, receiptStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
@@ -356,11 +356,25 @@ export default {
       searchstockArrival(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j < this.list[i].stockArrivalDetailVos.length; j++) {
+              if (this.list[i].stockArrivalDetailVos[j].unqualifyQuantity === 0) {
+                this.list[i].stockArrivalDetailVos.splice(j, 1)
+                j--
+              }
+            }
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].stockArrivalDetailVos.length === 0) {
+              this.list.splice(i, 1)
+              i--
+            }
+          }
           this.total = res.data.data.content.totalCount
-          // this.restFilter()
-        } else {
-          // this.restFilter()
         }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 100)
       })
     },
     // 采购人focus事件

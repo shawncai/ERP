@@ -31,7 +31,7 @@
               </el-select>
               <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" placeholder="源单类型" clearable style="width: 40%;float: left;margin-left: 20px">
                 <el-option value="1" label="生产任务单" />
-                <el-option value="2" label="无来源" />
+                <el-option :label="$t('update4.wulaiyuan')" value="2" />
               </el-select>
               <el-input v-model="getemplist.taskNumber" placeholder="生产任务单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="handleAddSouce"/>
               <produce-task :procontrol.sync="producecontrol" @moredata="moredata"/>

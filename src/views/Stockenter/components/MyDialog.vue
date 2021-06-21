@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.acceptPersonId')" style="width: 100%">
-                <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
+                <el-input v-model="acceptPersonId" :placeholder="$t('update4.qxzyashour')" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
               </el-form-item>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
             </el-col>

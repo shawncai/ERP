@@ -143,8 +143,8 @@
                 {{ scope.row.diffQuantity }}
               </template>
             </el-editable-column>
-            <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="result" align="center" label="处理结果" width="300px"/>
+            <el-editable-column :label="$t('update4.cyje')" prop="diffMoney" align="center" width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('update4.cljg')" prop="result" align="center" width="300px"/>
           </el-editable>
         </div>
       </el-card>

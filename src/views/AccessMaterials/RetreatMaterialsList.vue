@@ -21,7 +21,7 @@
         </el-select>
         <el-select v-model="getemplist.sourceType" :value="getemplist.sourceType" size="small" placeholder="源单类型" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option value="1" label="领料单" />
-          <el-option value="2" label="无来源" />
+          <el-option :label="$t('update4.wulaiyuan')" value="2" />
         </el-select>
         <el-input v-model="accessMaterialsId" size="small" placeholder="领料单" style="width: 40%;float: right;margin-right: 20px;margin-top: 20px" clearable @focus="choosemate" @clear="restFilter3"/>
         <my-materials :matecontrol.sync="matecontrol" @alldata="alldata"/>

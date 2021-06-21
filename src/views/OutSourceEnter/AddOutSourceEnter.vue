@@ -15,7 +15,7 @@
               <el-col :span="6">
                 <el-form-item :label="$t('StockOut.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="width: 200px" @change="chooseSource" >
-                    <!-- <el-option value="1" label="无来源"/> -->
+                    <!-- <el-option value="1" :label="$t('update4.wulaiyuan')"/> -->
                     <el-option value="2" label="外包单"/>
                   </el-select>
                 </el-form-item>
@@ -39,7 +39,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.acceptPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="width: 200px" clearable @focus="handlechoose"/>
+                  <el-input v-model="acceptPersonId" :placeholder="$t('update4.qxzyashour')" style="width: 200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
@@ -78,20 +78,20 @@
               </el-col>
               <!--              <el-col :span="6">-->
               <!--                <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
-              <!--                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="width: 200px" clearable/>-->
+              <!--                  <el-input v-model="personalForm.enterReason" :placeholder="$t('update4.qshruyuany')"style="width: 200px" clearable/>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <!--              <el-col :span="6">-->
               <!--                <el-form-item :label="$t('Stockenter.newOrOld')" style="margin-left: 18px;width: 100%;margin-bottom: 0">-->
               <!--                  <el-radio-group v-model="personalForm.newOrOld" style="margin-left: 18px;width: 200px">-->
-              <!--                    <el-radio :label="1" style="width: 100px">全新</el-radio>-->
-              <!--                    <el-radio :label="2">二手车</el-radio>-->
+              <!--                    <el-radio :label="1" style="width: 100px">{{$t('update4.qx')}}</el-radio>-->
+              <!--                    <el-radio :label="2">{{$t('update4.esc')}}</el-radio>-->
               <!--                  </el-radio-group>-->
               <!--                </el-form-item>-->
               <!--              </el-col>-->
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

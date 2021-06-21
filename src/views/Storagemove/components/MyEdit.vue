@@ -193,7 +193,7 @@
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('updates.dbdj')" prop="movePrice" align="center" width="150px"/>
-          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/> -->
+          <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" prop="movePrice" align="center" :label="$t('update4.dbcbenj')" width="150px"/> -->
           <el-editable-column :label="$t('updates.spje')" prop="moveMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row) }}</p>

@@ -63,7 +63,7 @@
             </el-col> -->
             <!-- <el-col :span="6">
               <el-form-item :label="$t('Storagemovediff.acceptPersonId')" style="width: 100%">
-                <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
+                <el-input v-model="acceptPersonId" :placeholder="$t('update4.qxzyashour')" style="margin-left: 18px;width: 150px" clearable @focus="handlechooseAccept"/>
               </el-form-item>
               <my-accept :accetpcontrol.sync="accetpcontrol" @acceptName="acceptName"/>
             </el-col> -->
@@ -138,8 +138,8 @@
               {{ scope.row.diffQuantity }}
             </template>
           </el-editable-column>
-          <el-editable-column prop="diffMoney" align="center" label="差异金额" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" prop="result" align="center" label="处理结果" width="300px"/>
+          <el-editable-column :label="$t('update4.cyje')" prop="diffMoney" align="center" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('update4.cljg')" prop="result" align="center" width="300px"/>
         </el-editable>
       </div>
     </el-card>

@@ -27,7 +27,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.acceptPersonId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="acceptPersonId" placeholder="请选择验收人" style="width: 200px" clearable @focus="handlechoose"/>
+                  <el-input v-model="acceptPersonId" :placeholder="$t('update4.qxzyashour')" style="width: 200px" clearable @focus="handlechoose"/>
                 </el-form-item>
                 <my-create :createcontrol.sync="createcontrol" @createname="createname"/>
               </el-col>
@@ -56,7 +56,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.enterReason')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.enterReason" placeholder="请输入原因" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.enterReason" :placeholder="$t('update4.qshruyuany')" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -69,7 +69,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('Stockenter.summary')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="width: 200px" clearable/>
+                  <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
             </el-row>

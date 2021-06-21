@@ -92,9 +92,9 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unitName" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.dbdj')" prop="price" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="movePrice" align="center" label="调拨成本价" width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('update4.dbcbenj')" prop="movePrice" align="center" width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInputNumber'}" prop="moveQuantity" align="center" label="调拨数量" width="150px"/>
-          <el-editable-column prop="totalMoney" align="center" label="调拨金额" width="150px">
+          <el-editable-column :label="$t('update4.dbje')" prop="totalMoney" align="center" width="150px">
             <template slot-scope="scope">
               <p>{{ getSize(scope.row.movePrice, scope.row.moveQuantity) }}</p>
             </template>

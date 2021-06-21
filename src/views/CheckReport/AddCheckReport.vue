@@ -19,7 +19,7 @@
                     <el-option value="2" label="采购到货单" />
                     <el-option value="3" label="生产任务单" />
                     <el-option value="4" label="外包单" />
-                    <!--                    <el-option value="4" label="无来源" />-->
+                    <!--                    <el-option value="4" :label="$t('update4.wulaiyuan')" />-->
                   </el-select>
                 </el-form-item>
               </el-col>

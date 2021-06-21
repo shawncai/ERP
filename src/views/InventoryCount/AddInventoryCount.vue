@@ -10,7 +10,7 @@
 
             <el-col :span="6">
               <el-form-item :label="$t('InventoryCount.title')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                <el-input v-model="personalForm.title" placeholder="请输入入盘点单主题" style="width: 200px" clearable/>
+                <el-input v-model="personalForm.title" :placeholder="$t('update4.qsrpadzt')" style="width: 200px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -21,7 +21,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('InventoryCount.countDeptId')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                <el-select v-model="personalForm.countDeptId" placeholder="请选择盘点部门" style="width: 200px" clearable>
+                <el-select v-model="personalForm.countDeptId" :placeholder="$t('update4.qszpdbm')" style="width: 200px" clearable>
                   <el-option
                     v-for="(item, index) in depts"
                     :key="index"
@@ -59,7 +59,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('InventoryCount.summary')" prop="summary" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                <el-input v-model="personalForm.summary" placeholder="请输入摘要" style="width: 200px" clearable/>
+                <el-input v-model="personalForm.summary" :placeholder="$t('update4.qsrzy')" style="width: 200px" clearable/>
               </el-form-item>
             </el-col>
 

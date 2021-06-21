@@ -248,7 +248,7 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
             <el-editable-column prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>
-            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 6,controls:false}, type: 'visible'}" prop="price" align="center" label="价格" min-width="150px" @change="getprice(scope.row)"/> -->
+            <!-- <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,precision: 6,controls:false}, type: 'visible'}" prop="price" align="center" :label="$t('update4.jg')" min-width="150px" @change="getprice(scope.row)"/> -->
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -665,28 +665,32 @@ export default {
       console.log(val)
       // const nowlistdata = this.$refs.editable.getRecords()
       const nowlistdata = this.$refs.editable.getRecords()
+      this.$refs.editable.clear()
       const alldata = [...val, ...nowlistdata]
       const filterdata = this.uniqueArray(alldata, 'productCode')
+      console.log('filterdata', filterdata)
 
       for (let i = 0; i < filterdata.length; i++) {
-        console.log(filterdata[i].price)
-        let m = 1
-        for (let j = 0; j < nowlistdata.length; j++) {
-          if (filterdata[i].productCode === nowlistdata[j].productCode) {
-            m = 2
-            // this.$notify.error({
-            //   title: 'wrong',
-            //   message: this.$t('prompt.wpytj'),
-            //   offset: 100
-            // })
-            // return false
-          }
-        }
+        this.$refs.editable.insert(filterdata[i])
+
+        // console.log(filterdata[i].price)
+        // let m = 1
+        // for (let j = 0; j < nowlistdata.length; j++) {
+        //   if (filterdata[i].productCode === nowlistdata[j].productCode) {
+        //     m = 2
+        //     // this.$notify.error({
+        //     //   title: 'wrong',
+        //     //   message: this.$t('prompt.wpytj'),
+        //     //   offset: 100
+        //     // })
+        //     // return false
+        //   }
+        // }
         // filterdata[i].discountRate = 0
         // filterdata[i].price = filterdata[i].purchasePrice
-        if (m === 1) {
-          this.$refs.editable.insert(filterdata[i])
-        }
+        // if (m === 1) {
+        //   this.$refs.editable.insert(filterdata[i])
+        // }
       }
     },
     // 国籍列表
