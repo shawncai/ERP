@@ -428,6 +428,12 @@ export default {
       this.getemplist.supplierId = this.$store.getters.empcontract.supplierId
       this.getemplist.beginTime = this.$store.getters.empcontract.beginTime
       this.getemplist.endTime = this.$store.getters.empcontract.endTime
+      this.getemplist.arrivalFlag = this.$store.getters.empcontract.arrivalFlag
+    }
+    if (this.$store.getters.empcontract.stockPersonId) {
+      this.getemplist.stockPersonId = this.$store.getters.empcontract.stockPersonId
+      this.getemplist.beginTime = this.$store.getters.empcontract.beginTime
+      this.getemplist.endTime = this.$store.getters.empcontract.endTime
     }
     this.getlist()
     setTimeout(() => {
@@ -436,8 +442,10 @@ export default {
   },
   deactivated() {
     this.getemplist.supplierId = ''
+    this.getemplist.stockPersonId = ''
     this.getemplist.beginTime = ''
     this.getemplist.endTime = ''
+    this.getemplist.arrivalFlag = ''
     this.$store.dispatch('getempcontract', '')
   },
   mounted() {

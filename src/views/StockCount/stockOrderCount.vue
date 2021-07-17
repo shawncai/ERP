@@ -8,6 +8,9 @@
         <el-option value="4" label="种类"/>
       </el-select>
 
+      <el-input v-model="supplierId" :placeholder="$t('StockContract.supplierId')" size="small" class="filter-item" clearable @focus="handlechoose" @clear="restFilter"/>
+      <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
       <el-date-picker
         v-model="date"
         size="small"
@@ -73,7 +76,11 @@
           :label="$t('stockOrderCount.notArrivedQuantity')"
           prop="notArrivedQuantity"
           width="200"
-          align="center"/>
+          align="center">
+          <template slot-scope="scope">
+            <span class="link-type" @click="handleGotoOrder(scope.row)">{{ scope.row.notArrivedQuantity }}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 列表结束 -->
       <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
@@ -94,12 +101,13 @@ import DetailList from './components/DetailList'
 import MyDialog from './components/MyDialog'
 import MyCustomer from './components/MyCustomer'
 import MyAgent from './components/MyAgent'
+import MySupplier from './components/MySupplier'
 
 var _that
 export default {
   name: 'StockOrderCount',
   directives: { waves, permission, permission2 },
-  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination },
+  components: { MyDialog, DetailList, MyEmp, MyCustomer, MyAgent, Pagination, MySupplier },
   filters: {
     judgeStatFilter(status) {
       const statusMap = {
@@ -224,6 +232,44 @@ export default {
     _that = this
   },
   methods: {
+    handleGotoOrder(row) {
+      const param = {}
+      param.supplierId = row.id
+      param.beginTime = this.date[0]
+      param.endTime = this.date[1]
+      param.arrivalFlag = 2
+      this.$store.dispatch('getempcontract', param)
+      this.$router.push('/StockOrder/StockOrderList')
+    },
+    // 详情操作
+    handleDetail(row) {
+      console.log('row========>', row)
+      if (this.getemplist.type === '1') {
+        const param = {}
+        param.supplierId = row.id
+        param.beginTime = this.date[0]
+        param.endTime = this.date[1]
+        this.$store.dispatch('getempcontract', param)
+        this.$router.push('/StockOrder/StockOrderList')
+      }
+      if (this.getemplist.type === '2') {
+        const param = {}
+        param.stockPersonId = row.id
+        param.beginTime = this.date[0]
+        param.endTime = this.date[1]
+        this.$store.dispatch('getempcontract', param)
+        this.$router.push('/StockOrder/StockOrderList')
+      }
+      if (this.getemplist.type === '4') {
+        this.first = '种类名称'
+      }
+      // console.log(row)
+      // const query_params = {
+      //   id: row.id,
+      //   name: row.name
+      // }
+      // this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
+    },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
         return v[j]
@@ -349,8 +395,8 @@ export default {
     },
     // 清空搜索条件
     restFilter() {
-      this.customerName = ''
-      this.getemplist.customerId = ''
+      this.supplierId = ''
+      this.getemplist.supplierId = ''
     },
     restFilter2() {
       this.stockPersonId = ''
@@ -423,16 +469,7 @@ export default {
         this.getlist()
       }
     },
-    // 详情操作
-    handleDetail(row) {
-      console.log('row========>', row)
-      // console.log(row)
-      // const query_params = {
-      //   id: row.id,
-      //   name: row.name
-      // }
-      // this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
-    },
+
     // 判断审核按钮
     isReview(row) {
       if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {

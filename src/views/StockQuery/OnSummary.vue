@@ -1,7 +1,7 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.productName" :placeholder="$t('StockQuery.productName')" size= "mini" class="filter-item" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" size= "mini" class="filter-item" clearable style="width: 200px" @keyup.enter.native="handleFilter"/>
       <my-detail :control.sync="control" @product="product"/>
       <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" size= "mini" class="filter-item" style="width: 200px" @keyup.enter.native="handleFilter" @focus="handlechoose" @clear="restFilter"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
@@ -24,7 +24,7 @@
       <!-- 表格导出操作 -->
       <el-button v-waves class="filter-item" style="width: 86px" size= "mini" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
       <!-- 打印操作 -->
-      <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" size= "mini" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-waves class="filter-item" icon="el-icon-printer" style="width: 86px" size= "mini" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
     </el-card>
 
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -73,7 +73,7 @@
         </el-table-column>
         <el-table-column :label="$t('StockQuery.typeId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.typeId }}</span>
+            <span>{{ scope.row.productType }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockQuery.unit')" :resizable="false" align="center" min-width="150">
@@ -255,13 +255,13 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockQueryName', 'StockQueryShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['采购订单编号', '采购日期', '物品编号', '物品名称', '供应商编号', '供应商名称', '规格', '单位', '采购数量', '到货数量', '在途数量', '含税进价', '去税进价', '在途含税金额', '在途去税金额']
+          const filterVal = ['orderNumber', 'stockDate', 'productCode', 'productName', 'suppilerId', 'suppilerName', 'productType', 'unit', 'stockQuantity', 'arrivalQuantity', 'onQuantity', 'includeTaxMoney', 'money', 'onIncludedTax', 'onUnIncludedTax']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '在途物品查询'
           })
           this.downloadLoading = false
         })

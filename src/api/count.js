@@ -424,6 +424,9 @@ export function stockOrderCount(query) {
   if (query.type !== '' && query.type !== null && query.type !== undefined) {
     params.append('type', query.type) // 你要传给后台的参数值 key/value
   }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
   }
@@ -450,6 +453,9 @@ export function stockDetailCount(query) {
   }
   if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
     params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
   }
   if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
     params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value

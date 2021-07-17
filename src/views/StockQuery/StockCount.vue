@@ -16,6 +16,7 @@
         end-placeholder="End"
       />
       <el-button v-waves type="primary" icon="el-icon-search" size="mini" class="filter-item" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
@@ -86,6 +87,7 @@ import Pagination from '@/components/Pagination'
 import DetailList from './components/DetailList'
 import MyDetail from './components/MyDetail'
 import MySupplier from './components/MySupplier'
+import { GMTToStr } from '@/utils'
 
 var _that
 export default {
@@ -126,7 +128,8 @@ export default {
       // 修改控制组件数据
       editVisible: false,
       // 开始时间到结束时间
-      date: []
+      date: [],
+      downloadLoading: false
     }
   },
   watch: {
@@ -148,6 +151,7 @@ export default {
     }, 100)
     this.getchecked()
     this.getamouthDate()
+    this.handleFilter()
   },
   beforeCreate() {
     _that = this
@@ -206,8 +210,8 @@ export default {
     handleFilter() {
       this.getemplist.pageNum = 1
       if (this.date !== null && this.date !== '') {
-        this.getemplist.beginTime = this.date[0]
-        this.getemplist.endTime = this.date[1]
+        this.getemplist.beginTime = GMTToStr(this.date[0])
+        this.getemplist.endTime = GMTToStr(this.date[1])
       } else {
         this.getemplist.beginTime = null
         this.getemplist.endTime = null
@@ -232,13 +236,13 @@ export default {
     handleExport() {
       this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'StockQueryName', 'StockQueryShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+          const tHeader = ['物品名称', '供应商名称', '数量', '含税金额合计', '含税价', '金额合计']
+          const filterVal = ['productName', 'supplierName', 'quantity', 'includeTaxMoney', 'includeTaxPrice', 'totalMoney']
           const data = this.formatJson(filterVal, this.list)
           excel.export_json_to_excel({
             header: tHeader,
             data,
-            filename: '经销商资料表'
+            filename: '采购汇总表'
           })
           this.downloadLoading = false
         })
