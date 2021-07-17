@@ -724,12 +724,13 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
+      this.getemplist.pageSize = 10
     },
     detaildata() {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.supplierDetailVos
       this.showlist = this.list2.slice(0, 10)
-      this.total4 = this.personalForm.supplierDetailVos.length
+      this.total = this.personalForm.supplierDetailVos.length
       this.tableData6 = this.personalForm.supplierPunishments
     },
     detailid() {

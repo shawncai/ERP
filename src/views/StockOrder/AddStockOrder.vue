@@ -591,11 +591,11 @@ export default {
           num5 += Number(this.list2[i].discountMoney)
         }
         this.allNumber = num1
-        this.allMoney = num2
-        this.allTaxMoney = num3
-        this.allIncludeTaxMoney = num4
-        this.allDiscountMoney = num5
-        this.allMoneyMoveDiscount = num4 - num5
+        this.allMoney = (num2).toFixed(2)
+        this.allTaxMoney = (num3).toFixed(2)
+        this.allIncludeTaxMoney = (num4).toFixed(2)
+        this.allDiscountMoney = (num5).toFixed(2)
+        this.allMoneyMoveDiscount = (Number(num4) - Number(num5)).toFixed(2)
       },
       deep: true
     }
@@ -959,10 +959,10 @@ export default {
       sums[18] = ''
       sums[19] = ''
       this.allNumber = sums[7]
-      this.allMoney = sums[13]
-      this.allTaxMoney = sums[15]
-      this.allIncludeTaxMoney = sums[14]
-      this.allDiscountMoney = sums[17]
+      this.allMoney = (sums[13]).toFixed(2)
+      this.allTaxMoney = (sums[15]).toFixed(2)
+      this.allIncludeTaxMoney = (sums[14]).toFixed(2)
+      this.allDiscountMoney = (sums[17]).toFixed(2)
       this.allMoneyMoveDiscount = (sums[14] - sums[17]).toFixed(6)
       return sums
     },
@@ -1052,7 +1052,7 @@ export default {
     // 计算税额
     getTaxMoney2(row) {
       if (row.stockQuantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.stockQuantity).toFixed(6)
+        row.tax = (row.price * row.taxRate / 100 * row.stockQuantity).toFixed(2)
       } else {
         row.tax = 0
       }
@@ -1061,7 +1061,7 @@ export default {
     // 计算含税金额
     getTaxMoney(row) {
       row.includeTaxMoney = (row.stockQuantity * row.includeTaxPrice).toFixed(6)
-      row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (row.discountRate / 100)).toFixed(6)
+      row.discountMoney = (row.includeTaxPrice * row.stockQuantity * (row.discountRate / 100)).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额

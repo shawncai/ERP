@@ -439,7 +439,7 @@ export default {
         }
       })
       for (let i = 0; i < arrivalDetail.length; i++) {
-        if (arrivalDetail[i].unqualifyQuantity === 0) {
+        if (arrivalDetail[i].unqualifyQuantity === 0 || arrivalDetail[i].returnQuantity !== 0) {
           arrivalDetail.splice(i, 1)
           i--
         }

@@ -76,6 +76,7 @@
             v-show="total > 0"
             :total="total"
             :page.sync="getemplist.pageNum"
+            :page-sizes.sync="pageArr"
             :limit.sync="getemplist.pageSize"
             @pagination="getlist"
           />
@@ -259,7 +260,8 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      pageArr: [10]
     }
   },
   watch: {
@@ -269,7 +271,13 @@ export default {
         window.addEventListener('afterprint', () => {
           console.log('打印完成==========')
         }, true)
+        this.getemplist.pageSize = 10
       }
+      const parms = {
+        page: 1,
+        limit: 50
+      }
+      this.getlist(parms)
     },
     detaildata() {
       this.personalForm = this.detaildata

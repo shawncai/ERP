@@ -439,7 +439,7 @@ export default {
       //   }
       // }
       this.updateList()
-      if (row.newTaxRate && row.newIncludeTaxPrice) {
+      if (row.newTaxRate !== null && row.newTaxRate !== '' && row.newTaxRate !== undefined && row.newIncludeTaxPrice) {
         row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       }
       if (row.proportion && row.newIncludeTaxPrice) {
@@ -457,6 +457,7 @@ export default {
       //     }
       //   }
       // }
+      console.log('scopegetprice', scope)
       if (row.newTaxRate && row.newPrice) {
         row.newIncludeTaxPrice = (row.newPrice * (1 + row.newTaxRate / 100))
       }

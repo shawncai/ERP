@@ -374,7 +374,7 @@ export default {
       //     }
       //   }
       // }
-      if (row.newTaxRate && row.newIncludeTaxPrice) {
+      if (row.newTaxRate !== null && row.newTaxRate !== '' && row.newTaxRate !== undefined && row.newIncludeTaxPrice) {
         row.newPrice = row.newIncludeTaxPrice / (1 + row.newTaxRate / 100)
       }
       if (row.proportion && row.newIncludeTaxPrice) {

@@ -167,7 +167,9 @@
           :data.sync="list2"
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
+          :summary-method="getSummaries"
           class="click-table1"
+          show-summary
           stripe
           border
           size="small"
@@ -280,32 +282,32 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('updates.cgslhj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allQuantity" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allNumber" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.hehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allTaxMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allTaxMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allIncludeTaxMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allIncludeTaxMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allDiscountMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allDiscountMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
               <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0;">
-                <el-input v-model="personalForm.allIncludeTaxDiscountMoney" size="mini" style="margin-left: 18px;width: 200px" disabled/>
+                <el-input v-model="allMoneyMoveDiscount" size="mini" style="margin-left: 18px;width: 200px" disabled/>
               </el-form-item>
             </el-col>
             <el-col v-if="jundgeprice()" :span="12">
@@ -541,6 +543,9 @@ export default {
       this.personalForm.id = this.personalForm.parentId
       this.list2 = this.personalForm.stockOrderDetailVos
       this.changeRate()
+    },
+    list2() {
+      console.log('this.list2', this.list2)
     }
   },
   created() {
@@ -663,25 +668,25 @@ export default {
           sums[index] = ''
         }
       })
-      sums[2] = ''
-      sums[3] = ''
-      sums[4] = ''
-      sums[5] = ''
-      sums[7] = ''
-      sums[8] = ''
+      // sums[2] = ''
+      // sums[3] = ''
+      // sums[4] = ''
+      // sums[5] = ''
+      // sums[7] = ''
+      // sums[8] = ''
       sums[9] = ''
-      sums[13] = ''
-      sums[14] = ''
-      sums[16] = ''
-      sums[17] = ''
-      sums[18] = ''
-      sums[19] = ''
-      this.allNumber = sums[6]
-      this.allMoney = sums[10]
-      this.allTaxMoney = sums[12]
-      this.allIncludeTaxMoney = sums[11]
-      this.allDiscountMoney = sums[15]
-      this.allMoneyMoveDiscount = sums[11] - sums[15]
+      // sums[13] = ''
+      // sums[14] = ''
+      // sums[16] = ''
+      // sums[17] = ''
+      // sums[18] = ''
+      // sums[19] = ''
+      this.allNumber = Number(sums[7])
+      this.allMoney = Number(sums[13]).toFixed(2)
+      this.allTaxMoney = Number(sums[15]).toFixed(2)
+      this.allIncludeTaxMoney = Number(sums[14]).toFixed(2)
+      this.allDiscountMoney = Number(sums[17]).toFixed(2)
+      this.allMoneyMoveDiscount = (Number(sums[14]) - Number(sums[17])).toFixed(2)
       return sums
     },
     getways() {
@@ -1178,7 +1183,7 @@ export default {
             return false
           }
         }
-        this.$refs.editable.insert(val[i])
+        this.$refs.editable.insertAt(val[i], -1)
       }
     },
     // 清空记录

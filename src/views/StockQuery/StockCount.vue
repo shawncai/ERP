@@ -14,7 +14,6 @@
         style="width: 230px;"
         start-placeholder="Start"
         end-placeholder="End"
-        value-format="yyyy-MM-dd"
       />
       <el-button v-waves type="primary" icon="el-icon-search" size="mini" class="filter-item" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 

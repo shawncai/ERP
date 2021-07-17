@@ -220,13 +220,13 @@
           size="small"
           height="600px"
           style="width: 100%">
-          <el-editable-column type="selection" min-width="55" align="center"/>
-          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
+          <el-editable-column type="selection" min-width="55" align="center" fixed/>
+          <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="100px" fixed/>
+          <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="100px" fixed/>
+          <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="100px" fixed/>
+          <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="100px" fixed/>
+          <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="100px" fixed/>
           <!--          <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0,max: 100,precision: 6,controls:false}, type: 'visible'}" prop="proportion" align="center" label="供货比列(%)" min-width="150px"/>-->
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" label="供货比列(%)" prop="proportion" align="center" min-width="150px">
             <template slot="edit" slot-scope="scope">

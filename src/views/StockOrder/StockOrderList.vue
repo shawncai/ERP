@@ -423,71 +423,24 @@ export default {
     }
   },
   activated() {
-    console.log('$route.query', this.$route.query)
-    try {
-      if (this.$route.query) {
-        if (this.$route.query.arry.id === 784836221) {
-          this.getemplist.orderNumber = this.$route.query.arry.name
-        } else {
-          this.getemplist.supplierId = this.$route.query.arry.id
-          this.supplierId = this.$route.query.arry.name
-        }
-
-        this.getlist()
-      }
-    } catch (err) {
-      this.getlist()
+    console.log('this.$store.getters.empcontract', this.$store.getters.empcontract)
+    if (this.$store.getters.empcontract.supplierId) {
+      this.getemplist.supplierId = this.$store.getters.empcontract.supplierId
+      this.getemplist.beginTime = this.$store.getters.empcontract.beginTime
+      this.getemplist.endTime = this.$store.getters.empcontract.endTime
     }
-
-    this.getinformation()
-    this.countquery = this.$store.getters.empcontract
-    if (this.countquery) {
-      console.log('this.countquery====', this.countquery)
-      this.getemplist.supplierId = this.countquery.id
-      this.supplierId = this.countquery.name
-      if (this.countquery.beginTime !== '') {
-        this.getemplist.beginTime = this.countquery.beginTime
-      }
-      if (this.countquery.beginTime !== '') {
-        this.getemplist.endTime = this.countquery.endTime
-      }
-      this.getlist()
-    } else {
-      this.getlist()
-    }
-
+    this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
+  deactivated() {
+    this.getemplist.supplierId = ''
+    this.getemplist.beginTime = ''
+    this.getemplist.endTime = ''
+    this.$store.dispatch('getempcontract', '')
+  },
   mounted() {
-    console.log('$route.query', this.$route.query)
-    if (this.$route.query) {
-      if (this.$route.query.arry.id === 784836221) {
-        this.getemplist.orderNumber = this.$route.query.arry.name
-      } else {
-        this.getemplist.supplierId = this.$route.query.arry.id
-        this.supplierId = this.$route.query.arry.name
-      }
-
-      this.getlist()
-    }
-    this.countquery = this.$store.getters.empcontract
-    if (this.countquery) {
-      console.log('this.countquery====', this.countquery)
-      this.getemplist.supplierId = this.countquery.id
-      this.supplierId = this.countquery.name
-      if (this.countquery.beginTime !== '') {
-        this.getemplist.beginTime = this.countquery.beginTime
-      }
-      if (this.countquery.beginTime !== '') {
-        this.getemplist.endTime = this.countquery.endTime
-      }
-      this.getlist()
-    } else {
-      this.getlist()
-    }
-    // this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -759,17 +712,13 @@ export default {
       this.listLoading = true
       stockorderlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          console.log('res.data.data.content.list', res.data.data.content.list)
           if (res.data.data.content.list !== '' && res.data.data.content.list !== undefined && res.data.data.content.list !== null) {
             for (let i = 0; i < res.data.data.content.list.length; i++) {
-              console.log('res.data.data.content.list[i].stockOrderDetailVos', res.data.data.content.list[i].stockOrderDetailVos)
               const list2 = res.data.data.content.list[i].stockOrderDetailVos
-              console.log('list2', list2)
               if (list2 !== '' && list2 !== undefined && list2 !== null) {
                 for (let j = 0; j < list2.length; j++) {
                   list2[j].taxRate = list2[j].taxRate * 100
                   list2[j].discountRate = list2[j].discountRate * 100
-                  console.log('list2[j].taxRate', list2[j].taxRate)
                 }
               }
             }
@@ -840,7 +789,6 @@ export default {
           }
           this.list = process
           this.getSpanArr(this.list)
-          console.log('this.list==================', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {

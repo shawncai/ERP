@@ -72,18 +72,11 @@
                   <el-input v-model="personalForm.payAccount" style="width: 200px" clearable/>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-                <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.ratioId" style="width: 200px" @change="handerchoose">
-                    <el-option
-                      v-for="(item, index) in ratios"
-                      :key="index"
-                      :label="item.categoryName"
-                      :value="item.id"
-                    />
-                  </el-select>
+              <el-col :span="6">
+                <el-form-item :label="$t('Customer.openingbank')" prop="bankName" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="personalForm.bankName" style="width: 200px" clearable/>
                 </el-form-item>
-              </el-col> -->
+              </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioRate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-input v-model="personalForm.ratioRate" type="number" style="width: 200px" clearable @input="handerchoose"/>
@@ -155,6 +148,15 @@ export default {
       console.log(this.supplierId)
       if (this.supplierId === undefined || this.supplierId === null || this.supplierId === '') {
         callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatePass5 = (rule, value, callback) => {
+      console.log(this.personalForm.bankName, value)
+      if (this.personalForm.bankName === undefined || this.personalForm.bankName === null || this.personalForm.bankName === '') {
+        callback(new Error('请输入开户行'))
       } else {
         callback()
       }
@@ -232,6 +234,9 @@ export default {
       },
       // 采购申请单规则数据
       personalrules: {
+        bankName: [
+          { required: true, validator: validatePass5, trigger: 'blur' }
+        ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'change' }
         ],
@@ -299,7 +304,7 @@ export default {
       // })
       // console.log('needratio', needratio)
       console.log('this.personalForm.ratioRate', this.personalForm.ratioRate)
-      this.personalForm.totalMoney = Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)
+      this.personalForm.totalMoney = (Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)).toFixed(2)
     },
     getinformation() {
       if (this.$store.getters.empcontract) {
@@ -490,6 +495,7 @@ export default {
       this.stockPersonId = val.buyerName
       this.personalForm.stockPersonId = val.buyerId
       this.personalForm.settleMode = val.paymentId
+      this.personalForm.bankName = val.bankName
       if (val.moneyId !== '' && val.moneyId !== null && val.moneyId !== undefined) {
         this.personalForm.currency = String(val.moneyId)
       }

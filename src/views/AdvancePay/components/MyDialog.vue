@@ -70,6 +70,12 @@
                 <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width: 200px" clearable/>
               </el-form-item>
             </el-col>
+
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.openingbank')" prop="bankName" style="width: 100%;">
+                <el-input v-model="personalForm.bankName" style="margin-left: 18px;width: 200px" clearable/>
+              </el-form-item>
+            </el-col>
             <!-- <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
                 <el-select v-model="personalForm.ratioId" style="margin-left: 18px;width: 200px" @change="handerchoose">
@@ -200,6 +206,9 @@ export default {
       control: false,
       // 采购申请单规则数据
       personalrules: {
+        bankName: [
+          { required: true, message: '请输入开户行', trigger: 'blur' }
+        ],
         supplierId: [
           { required: true, validator: validatePass, trigger: 'focus' }
         ],
@@ -256,7 +265,7 @@ export default {
   methods: {
     handerchoose(val) {
       console.log('this.personalForm.ratioRate', this.personalForm.ratioRate)
-      this.personalForm.totalMoney = Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)
+      this.personalForm.totalMoney = (Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)).toFixed(2)
     },
     handleAddSouce() {
       if (this.supp === '' || this.supp === undefined || this.supp === null) {
@@ -399,6 +408,7 @@ export default {
       this.personalForm.deliveryModeId = val.deliveryMode
       this.personalForm.isVat = val.isVat
       this.personalForm.currencyId = val.currency
+      this.personalForm.bankName = val.bankName
     },
     // 采购员focus事件
     handlechooseStock() {
@@ -479,7 +489,6 @@ export default {
             offset: 100
           })
           this.$emit('rest', true)
-          this.$refs.editable.clear()
           this.$refs.personalForm.clearValidate()
           this.$refs.personalForm.resetFields()
           this.editVisible = false
@@ -493,7 +502,6 @@ export default {
       })
     },
     handlecancel() {
-      this.$refs.editable.clear()
       this.$refs.personalForm.clearValidate()
       this.$refs.personalForm.resetFields()
       this.editVisible = false

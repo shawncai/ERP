@@ -18,6 +18,8 @@
 
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -35,11 +37,6 @@
           prop="id"
           width="200"
           align="center"/>
-        <!-- <el-table-column
-          :label="first"
-          prop="name"
-          width="300"
-          align="center"/> -->
         <el-table-column :label="first" :resizable="false" align="center" min-width="300">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.name }}</span>
@@ -227,6 +224,56 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      this.downloadLoading = true
+
+      if (this.getemplist.type === '1') {
+       import('@/vendor/Export2Excel').then(excel => {
+         const tHeader = ['供应商名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+         const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+         const data = this.formatJson(filterVal, this.list)
+         excel.export_json_to_excel({
+           header: tHeader,
+           data,
+           filename: '采购订单汇总表'
+         })
+         this.downloadLoading = false
+       })
+      }
+      if (this.getemplist.type === '2') {
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['经办人名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+          const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '采购订单汇总表'
+          })
+          this.downloadLoading = false
+        })
+      }
+      if (this.getemplist.type === '4') {
+         import('@/vendor/Export2Excel').then(excel => {
+           const tHeader = ['种类名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+           const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+           const data = this.formatJson(filterVal, this.list)
+           excel.export_json_to_excel({
+             header: tHeader,
+             data,
+             filename: '采购订单汇总表'
+           })
+           this.downloadLoading = false
+         })
+      }
+    },
+
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -238,9 +285,6 @@ export default {
       }
       if (this.getemplist.type === '2') {
         this.first = '经办人名称'
-      }
-      if (this.getemplist.type === '3') {
-        this.first = '品牌名称'
       }
       if (this.getemplist.type === '4') {
         this.first = '种类名称'
@@ -381,12 +425,13 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      const query_params = {
-        id: row.id,
-        name: row.name
-      }
-      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
+      console.log('row========>', row)
+      // console.log(row)
+      // const query_params = {
+      //   id: row.id,
+      //   name: row.name
+      // }
+      // this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
     },
     // 判断审核按钮
     isReview(row) {

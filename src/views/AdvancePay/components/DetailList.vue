@@ -46,6 +46,12 @@
                 <span>{{ personalForm.payAccount }}</span>
               </el-form-item>
             </el-col>
+
+            <el-col :span="12">
+              <el-form-item :label="$t('Customer.openingbank')" style="width: 100%;">
+                <span>{{ personalForm.bankName }}</span>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('AdvancePay.ratioId')" prop="ratioId" style="width: 100%;">
                 <span>{{ personalForm.ratioRate }}</span>
@@ -100,6 +106,15 @@
             min-width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.stat | statfilter }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('public.judgePersonName')"
+            prop="allName"
+            align="center"
+            min-width="150">
+            <template slot-scope="scope">
+              <span>{{ scope.row.allName }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -240,12 +255,12 @@ export default {
       this.personalForm = this.detaildata
       this.list2 = this.personalForm.stockArrivalDetailVos
       this.reviewList = []
-      const review = this.personalForm.approvalUseVos
-      for (const i in review) {
-        if (review[i].actualStepHandler !== null) {
-          this.reviewList.push(review[i])
-        }
-      }
+      this.reviewList = this.personalForm.approvalUseVos
+      // for (const i in review) {
+      //   if (review[i].actualStepHandler !== null) {
+      //     this.reviewList.push(review[i])
+      //   }
+      // }
     }
   },
   beforeCreate() {
