@@ -316,9 +316,22 @@ export function addmulMonth(dtstr, z)
 
     export function GMTToStr(time){
         let date = new Date(time)
+        let month = ''
+        if(date.getMonth() > 9) {
+          month = date.getMonth() + 1
+        }  else {
+          month = '0' +  (date.getMonth() + 1)
+        }
+
+        let day = '' 
+        if(date.getDate() > 10) {
+          day = date.getDate()
+        }  else {
+          day = '0' +  date.getDate()
+        }
         let Str=date.getFullYear() + '-' +
-        (date.getMonth() + 1) + '-' +
-        date.getDate()
+        month + '-' +
+        day
         // date.getHours() + ':' +
         // date.getMinutes() + ':' +
         // date.getSeconds()

@@ -411,7 +411,7 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+          <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
             <template slot-scope="scope">
               <p v-show="jundgeprice()">{{ getincludeTaxCostMoney(scope.row) }}</p>
               <p v-show="jundgeprice() === false"/>
@@ -1408,11 +1408,25 @@ export default {
         console.log('this.heji3', this.heji3)
         console.log('this.heji4', this.heji4)
         console.log('this.personalForm.couponMoney', this.personalForm.couponMoney)
+
+        console.log('this.personalForm.pointSupport', this.personalForm.pointSupport)
+
+        console.log('this.personalForm.ridMoney', this.personalForm.ridMoney)
+
+        console.log('this.personalForm.ridBikeMoney', this.personalForm.ridBikeMoney)
+
+        console.log('this.personalForm.advanceMoney', this.personalForm.advanceMoney)
+
+        console.log('this.personalForm.couponSupportOld', this.personalForm.couponSupportOld)
+
+        console.log('this.personalForm.otherMoney', this.personalForm.otherMoney)
+
         let needmoney = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
         const needmoney2 = (this.heji3 - this.heji4 - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld)) + Number(this.personalForm.otherMoney)
         if (needmoney < 0) {
           needmoney = 0
         }
+        console.log('needmoney', needmoney)
         this.$set(this.personalForm, 'shouldMoney', needmoney)
         // 未减去优惠券额的金额
         this.$set(this.personalForm, 'receivableMoney2', needmoney2)
@@ -1681,7 +1695,7 @@ export default {
       if (re === '01' || re === '05') { return true } else { return false }
     },
     isEdit5(row) {
-      console.log('this.$store.getters.countryId', this.$store.getters.countryId)
+      // console.log('this.$store.getters.countryId', this.$store.getters.countryId)
       const re = row.productCode.slice(0, 2)
       if (re !== '05' && re !== '01' && this.personalForm.sourceType !== '2' && this.$store.getters.countryId !== 1) { return true } else if (this.$store.getters.countryId === 1) {
         return true

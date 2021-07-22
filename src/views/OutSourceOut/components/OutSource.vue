@@ -325,7 +325,7 @@ export default {
       const outSourceDetail = outsourcingDetailVos.map(function(item) {
         return {
           outQuantity: item.quantity,
-          outPrice: item.money,
+          outPrice: item.price,
           productCode: item.productCode,
           productName: item.productName,
           categoryName: item.productCategoryName,
@@ -347,6 +347,7 @@ export default {
           carCode: 0,
           motorCode: 0,
           batteryCode: 0,
+          // outPrice: item.price,
           sourceNumber: OrderNumber,
           sourceSerialNumber: item.id,
           quantity: item.quantity,

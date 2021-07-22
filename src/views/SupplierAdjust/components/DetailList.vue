@@ -271,6 +271,7 @@ export default {
         window.addEventListener('afterprint', () => {
           console.log('打印完成==========')
         }, true)
+        this.getemplist.pageNum = 1
         this.getemplist.pageSize = 10
       }
       const parms = {

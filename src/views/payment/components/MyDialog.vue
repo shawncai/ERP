@@ -71,7 +71,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.bankName')" style="width: 100%;">
                   <el-input v-model="personalForm.payAccount" style="margin-left: 18px;width: 200px" clearable/>
                 </el-form-item>
               </el-col>
@@ -160,7 +160,7 @@
           <el-editable-column type="selection" min-width="55" align="center"/>
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <!--          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
-          <el-editable-column prop="invoiceDate" align="center" label="发票日期" min-width="180px"/>
+          <el-editable-column :label="$t('update4.faiaochuangjiariqil')" prop="invoiceDate" align="center" min-width="180px"/>
           <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" min-width="150px"/>
@@ -499,8 +499,8 @@ export default {
       this.supplierId = val.supplierName
       this.personalForm.supplierId = val.id
       this.personalForm.currencyId = val.moneyId
-      this.personalForm.payAccount = val.account
-      this.personalForm.payAccountNumber = val.accountName
+      this.personalForm.payAccount = val.bankName
+      this.personalForm.payAccountNumber = val.account
       this.yufu = val.advanceMoney
       await shouldPayList(val.id).then(res => {
         if (res.data.ret === 200) {

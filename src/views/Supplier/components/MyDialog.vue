@@ -534,6 +534,8 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.getemplist.pageNum = 1
+      this.getemplist.pageSize = 10
     },
     editdata() {
       this.personalForm = this.editdata

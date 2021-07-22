@@ -124,6 +124,8 @@
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
             <!--            <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" />-->
             <el-editable-column :edit-render="{name: 'ElInputNumber'}" :label="$t('updates.cksli')" prop="outQuantity" align="center" />
+            <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" width="150px"/>
+            <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" width="150px" />
             <!-- <el-editable-column :label="$t('Hmodule.dj')" prop="outPrice" align="center" />
             <el-editable-column :label="$t('updates.ckje')" prop="totalMoney" align="center" >
               <template slot-scope="scope">

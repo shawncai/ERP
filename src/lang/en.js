@@ -4670,8 +4670,12 @@ export default {
     xioashouchuk: 'sales stock out',
     xianjian: 'cash',
     fengqi: 'installment',
-    lirunmingxi: 'profit details'
-
+    lirunmingxi: 'profit details',
+    redQuantity: 'redQuantity',
+    invoiceQuantity: 'invoiceQuantity',
+    faiaochuangjiariqil: 'create invoice date',
+    xiasohouchukdanriqi: 'sale out date',
+    gegnxingjiage: 'update price'
   }
 }
 

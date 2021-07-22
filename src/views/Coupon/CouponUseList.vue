@@ -5,6 +5,8 @@
       <el-row>
         <el-input v-model="getemplist.couponName" :placeholder="$t('updates.yhjmc')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
         <el-input v-model="getemplist.repositoryName" :placeholder="$t('collectAndPay.repositoryName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleReturn.customerName')" size="small" class="filter-item" clearable />
+
         <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
       </el-row>

@@ -148,6 +148,7 @@ export default {
   watch: {
     editcontrol() {
       this.editVisible = this.editcontrol
+      this.getCategory()
     },
     editdata() {
       console.log(this.editdata)
@@ -197,8 +198,34 @@ export default {
     chooseCustomer() {
       this.customercontrol = true
     },
+    uniqueArray(array, key) {
+      var result = [array[0]]
+      for (var i = 1; i < array.length; i++) {
+        var item = array[i]
+        var repeat = false
+        for (var j = 0; j < result.length; j++) {
+          if (item[key] === result[j][key]) {
+            repeat = true
+            break
+          }
+        }
+        if (!repeat) {
+          result.push(item)
+        }
+      }
+      return result
+    },
     productdetail(val) {
-      this.list = val
+      const nowlistdata = this.$refs.editable.getRecords()
+      // console.log('val ====> ', val)
+      // console.log('nowlistdata', nowlistdata)
+      // console.log('this.list', this.list)
+      const newarr = [...val, ...nowlistdata]
+      // console.log('needarr', newarr)
+
+      const needarr2 = this.uniqueArray(newarr, 'productCode')
+      // console.log('needarr2', needarr2)
+      this.list = needarr2
       this.tableKey = Math.random()
     },
     chooseProduct() {

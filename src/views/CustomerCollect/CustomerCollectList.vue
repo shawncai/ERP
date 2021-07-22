@@ -6,6 +6,9 @@
       <el-input v-model="getemplist.customerName" :placeholder="$t('installmentPayList.customerName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="searchRepositoryId" :placeholder="$t('updates.xsmd')" size="small" class="filter-item" @focus="handlechooseRep" @clear="restFilter"/>
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
+      <el-input v-model="getemplist.title" :placeholder="$t('SaleOut.title')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.outNumber" :placeholder="$t('updates.ckdbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-date-picker
         v-model="date"
         :default-time="['00:00:00', '23:59:59']"
@@ -108,6 +111,17 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
         </el-table-column>
+        <el-table-column :label="$t('SaleOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockOut.code')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.sourceNumber }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('installmentPayList.customerName')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.customerName }}</span>

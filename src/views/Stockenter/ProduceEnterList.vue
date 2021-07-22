@@ -75,7 +75,6 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
           :selectable="selectInit"
@@ -156,7 +155,7 @@
 
 <script>
 import { getdeptlist } from '@/api/BasicSettings'
-import { produceenterlist, deleteproduceenter, updatestockenter4 } from '@/api/Stockenter'
+import { produceenterlist, deleteproduceenter, updatestockenter4, updateotherenter6 } from '@/api/Stockenter'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -281,7 +280,7 @@ export default {
       }).then(() => {
         this.reviewParms.judgeStat = 0
         const parms = JSON.stringify(this.reviewParms)
-        updatestockenter4(parms).then(res => {
+        updatestockenter4(this.reviewParms).then(res => {
           if (res.data.ret === 200) {
             if (res.data.data.result === false) {
               this.$message({
@@ -322,8 +321,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.reviewParms.receiptStat = 2
+        console.log('this.reviewParms', this.reviewParms)
         const parms = JSON.stringify(this.reviewParms)
-        updatestockenter4(parms).then(res => {
+        updatestockenter4(this.reviewParms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -353,7 +353,7 @@ export default {
       }).then(() => {
         this.reviewParms.receiptStat = 3
         const parms = JSON.stringify(this.reviewParms)
-        updatestockenter4(parms).then(res => {
+        updatestockenter4(this.reviewParms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -496,13 +496,19 @@ export default {
     },
     // 审批操作
     handleReview(row) {
+      // eslint-disable-next-line prefer-const
+      let parms = {
+        id: row.id,
+        judgePersonId: this.$store.getters.userId,
+        judgeStat: 2
+      }
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
         confirmButtonText: this.$t('prompt.tg'),
         cancelButtonText: this.$t('prompt.btg'),
         type: 'warning'
       }).then(() => {
-        updatestockenter4(row, 2, this.$store.getters.userId).then(res => {
+        updatestockenter4(parms).then(res => {
           if (res.data.ret === 200) {
             this.$message({
               type: 'success',
@@ -520,7 +526,8 @@ export default {
             cancelButtonText: '取消'
           })
             .then(() => {
-              updatestockenter4(row, 1, this.$store.getters.userId).then(res => {
+              parms.judgeStat = 1
+              updatestockenter4(parms).then(res => {
                 if (res.data.ret === 200) {
                   this.$message({
                     type: 'success',

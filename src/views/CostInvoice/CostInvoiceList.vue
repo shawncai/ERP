@@ -62,7 +62,7 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="180">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="180" sortable prop="number">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>

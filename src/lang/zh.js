@@ -4670,6 +4670,11 @@ export default {
     xioashouchuk: '销售出库',
     xianjian: '现金',
     fengqi: '分期',
-    lirunmingxi: '利润明细'
+    lirunmingxi: '利润明细',
+    redQuantity: '红字数量',
+    invoiceQuantity: '发票数量',
+    faiaochuangjiariqil: '发票创建日期',
+    xiasohouchukdanriqi: '销售出库单日期',
+    gegnxingjiage: '更新价格'
   }
 }

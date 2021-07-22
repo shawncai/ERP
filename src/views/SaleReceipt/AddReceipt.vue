@@ -174,8 +174,10 @@
         </div>
       </el-card> -->
       <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
-
         <div ref="fuzhu" style="margin-bottom: 20px;" class="form-name" >collection details</div>
+        <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        </div>
         <div class="container">
           <el-editable
             ref="editable"
@@ -189,6 +191,7 @@
             size="small"
             style="width: 100%"
             @selection-change="handleSelectionChange2">
+            <el-editable-column type="selection" min-width="55" align="center" />
             <el-editable-column :key="Math.random()" :label="$t('update4.bh')" prop="customerCollectId" min-width="200" align="center" />
             <el-editable-column :key="Math.random()" :label="$t('update4.yskje')" prop="shouldMoney" align="center" min-width="150px"/>
             <!-- <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/> -->
@@ -205,6 +208,7 @@
                 />
               </template>
             </el-editable-column>
+            <el-editable-column :key="Math.random()" :label="$t('update4.xiasohouchukdanriqi')" prop="outDate" align="center" min-width="150px" />
             <!-- <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="deductionMoney" align="center" label="本次抵扣预收款" min-width="150px"/> -->
           </el-editable>
         </div>
@@ -303,7 +307,9 @@ export default {
     const validatePass8 = (rule, value, callback) => {
       console.log('value', value)
       console.log('this.$store.getters.countryId', this.$store.getters.countryId)
-      if (this.$store.getters.countryId === 1 && value.length !== 8) {
+      if (!value) {
+        callback(new Error('发票号位数不正确'))
+      } else if (this.$store.getters.countryId === 1 && value.length !== 8) {
         callback(new Error('发票号位数不正确'))
       } else {
         callback()
@@ -648,7 +654,8 @@ export default {
             collectedMoney: item.paidMoney,
             uncollectedMoney: item.shouldMoney - item.paidMoney,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
-            installmentId: item.installmentId
+            installmentId: item.installmentId,
+            outDate: item.outDate
           }
         })
         console.log('InstallmentDetail', InstallmentDetail)
@@ -680,6 +687,7 @@ export default {
     setinformation() {
       if (this.$store.getters.empcontract) {
         const val = this.$store.getters.empcontract
+        console.log('val', val)
         this.customerId = this.$store.getters.empcontract.customerName
         this.personalForm.customerId = this.$store.getters.empcontract.customerId
         const valmap = []
@@ -690,7 +698,8 @@ export default {
             shouldMoney: item.shouldMoney,
             collectedMoney: item.collectedMoney,
             uncollectedMoney: item.uncollectedMoney,
-            thisMoney: item.uncollectedMoney
+            thisMoney: item.uncollectedMoney,
+            outDate: item.outDate
           }
         })
         this.list2 = Detail
@@ -732,7 +741,8 @@ export default {
               collectedMoney: item.paidMoney,
               uncollectedMoney: item.shouldMoney - item.paidMoney,
               thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
-              installmentId: item.installmentId
+              installmentId: item.installmentId,
+              outDate: item.outDate
             }
           })
           console.log('InstallmentDetail', InstallmentDetail)
@@ -772,7 +782,8 @@ export default {
             retreatMoney: item.returnMoney,
             collectedMoney: item.collectedMoney,
             uncollectedMoney: item.uncollectedMoney,
-            thisMoney: '0.00'
+            thisMoney: '0.00',
+            outDate: item.outDate
           }
         })
         setTimeout(() => {
@@ -935,7 +946,9 @@ export default {
                 collectedMoney: item.collectedMoney,
                 uncollectedMoney: item.uncollectedMoney,
                 thisMoney: '0.00',
-                deductionMoney: '0.00'
+                deductionMoney: '0.00',
+                outDate: item.outDate
+
               }
             })
             for (let i = 0; i < agentcollectDetail.length; i++) {
@@ -976,7 +989,8 @@ export default {
             collectedMoney: item.paidMoney,
             uncollectedMoney: item.unpay,
             thisMoney: item.shouldMoney - item.paidMoney - item.reward + Number(item.penalty),
-            installmentId: item.installmentId
+            installmentId: item.installmentId,
+            outDate: item.outDate
           }
         })
         // console.log('shushushushushsuhsuhsuhsuhsushu', InstallmentDetail)

@@ -119,6 +119,7 @@
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.se')" prop="taxMoney" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckl')" prop="discountRate" align="center" />
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.cke')" prop="discountMoney" align="center" />
+            <el-editable-column :label="$t('update4.invoiceQuantity')" prop="invoiceQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.bz')" prop="remark" align="center" />
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" />
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" />

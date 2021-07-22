@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
-                <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
+                <el-input v-model="personalForm.sourceNumber" disabled placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" clearable/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -72,8 +72,8 @@
     <el-card class="box-card" style="margin-top: 15px">
       <h2 ref="fuzhu" class="form-name">{{ $t('updates.rkdmx') }}</h2>
       <div class="buttons" style="margin-top: 28px;margin-bottom: 20px">
-        <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+        <!-- <el-button type="success" style="background:#3696fd;border-color:#3696fd " @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button> -->
+        <!-- <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button> -->
       </div>
       <my-detail :control.sync="control" @product="productdetail"/>
       <div class="container">
@@ -106,7 +106,7 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeIdname" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.jbel')" prop="basicQuantity" align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="enterPrice" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.rkje')" prop="enterMoney" align="center" width="150px">
             <template slot-scope="scope">

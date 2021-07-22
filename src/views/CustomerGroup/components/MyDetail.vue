@@ -261,7 +261,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      this.getemplist.searchRepositoryId = this.query.saleRepositoryId
+      // this.getemplist.searchRepositoryId = this.query.saleRepositoryId
       chooseProduct(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

@@ -8,11 +8,13 @@
       <el-input v-model="repositoryId" :placeholder="$t('StockAlarm.searchRepositoryId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseRep" @clear="clearrep"/>
 
       <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+
       <el-popover
         v-model="visible2"
         placement="bottom"
         width="500"
         trigger="click">
+
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option :label="$t('updates.zd')" value="1"/>
           <el-option :label="$t('updates.zx')" value="2"/>
@@ -24,15 +26,17 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
-        <!--<el-date-picker-->
-        <!--v-model="date"-->
-        <!--type="daterange"-->
-        <!--range-separator="-"-->
-        <!--unlink-panels-->
-        <!--start-placeholder="销售日期"-->
-        <!--end-placeholder="销售日期"-->
-        <!--value-format="yyyy-MM-dd"-->
-        <!--style="margin-top: 20px;margin-left: 20px"/>-->
+        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleReturn.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter"/>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="-"
+          unlink-panels
+          size="small"
+          start-placeholder="销售日期"
+          end-placeholder="销售日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -552,6 +556,13 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
+      if (this.date && this.date.length !== 0) {
+        this.getemplist.beginTime = this.date[0] + ' 00:00:00'
+        this.getemplist.endTime = this.date[1] + ' 23:59:59'
+      } else {
+        this.getemplist.beginTime = ''
+        this.getemplist.endTime = ''
+      }
       exchangelist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list

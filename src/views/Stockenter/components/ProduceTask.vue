@@ -357,6 +357,7 @@ export default {
           color: item.color,
           workHours: 0,
           finishQuantity: 0,
+          enterPrice: 0,
           passQuantity: item.passQuantity,
           actualEnterQuantity: item.passQuantity,
           passRate: 0,

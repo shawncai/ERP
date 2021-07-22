@@ -3,6 +3,12 @@ import request from '@/utils/request'
 // 查询分类属性
 export function customerCollectList(query) {
   var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.outNumber !== '' && query.outNumber !== null && query.outNumber !== undefined) {
+    params.append('outNumber', query.outNumber) // 你要传给后台的参数值 key/value
+  }
   if (query.customerName !== '' && query.customerName !== null && query.customerName !== undefined) {
     params.append('customerName', query.customerName) // 你要传给后台的参数值 key/value
   }

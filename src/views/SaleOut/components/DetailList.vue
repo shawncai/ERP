@@ -280,14 +280,14 @@
 
             <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" />
             <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" />
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center">
+            <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center">
               <template slot-scope="scope">
                 <span v-show="jundgeprice()">{{ scope.row.includeTaxCostMoney }}</span>
                 <span v-show="jundgeprice() === false"/>
               </template>
             </el-editable-column>
 
-            <!-- <el-editable-column :label="$t('updates.ckje')" prop="money" align="center">
+            <!-- <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="money" align="center">
               <template slot-scope="scope">
                 <span v-show="jundgeprice()">{{ scope.row.money }}</span>
                 <span v-show="jundgeprice() === false"/>

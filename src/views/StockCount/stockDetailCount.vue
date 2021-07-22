@@ -244,19 +244,38 @@ export default {
     },
     // 导出
     handleExport() {
-      console.log('this.list', this.list)
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['物品编号', '物品名称', '型号规格', '单位', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
-          const filterVal = ['productCode', 'productName', 'productType', 'unit', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '采购订单明细表'
+      const parms = {
+        pageNum: 1,
+        pageSize: 100000,
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        productName: this.getemplist.productName,
+        productCode: this.getemplist.productCode,
+        supplierId: this.getemplist.supplierId,
+        beginTime: this.getemplist.beginTime,
+        endTime: this.getemplist.endTime
+      }
+
+      stockDetailCount(parms).then(res => {
+        if (res.data.ret === 200) {
+          const printData = res.data.data.content.list
+          for (let i = 0; i < printData.length; i++) {
+            printData[i].heji = printData[i].totalMoney + printData[i].taxMoney
+          }
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['物品编号', '物品名称', '型号规格', '单位', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+            const filterVal = ['productCode', 'productName', 'productType', 'unit', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+            const data = this.formatJson(filterVal, printData)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购订单明细表'
+            })
+            this.downloadLoading = false
           })
-          this.downloadLoading = false
-        })
+        }
+      })
     },
     clickRow(val) {
       if (val.judgeStat === 0) {

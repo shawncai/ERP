@@ -389,7 +389,9 @@ export default {
           shouldMoney: item.shouldMoney,
           collectedMoney: item.collectedMoney,
           uncollectedMoney: item.uncollectedMoney,
-          thisMoney: item.uncollectedMoney
+          thisMoney: item.uncollectedMoney,
+          outDate: item.outDate
+
         }
       })
       console.log('mypaydata', mypaydata)

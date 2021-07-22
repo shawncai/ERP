@@ -681,16 +681,22 @@ export function updatestockenter3(query, query2, query3) {
 }
 
 // 审核生产完成入库单操作
-export function updatestockenter4(query, query2, query3) {
+export function updatestockenter4(query) {
   var params = new URLSearchParams()
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('enterId', query.id) // 你要传给后台的参数值 key/value
   }
-  if (query3 !== '' && query3 !== null && query3 !== undefined) {
-    params.append('judgePersonId', query3) // 你要传给后台的参数值 key/value
+  if (query.judgePersonId !== '' && query.judgePersonId !== null && query.judgePersonId !== undefined) {
+    params.append('judgePersonId', query.judgePersonId) // 你要传给后台的参数值 key/value
   }
-  if (query2 !== '' && query2 !== null && query2 !== undefined) {
-    params.append('judgeStat', query2) // 你要传给后台的参数值 key/value
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.endPersonId !== '' && query.endPersonId !== null && query.endPersonId !== undefined) {
+    params.append('endPersonId', query.endPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
   }
   return request({
     url: '/produceenter/updatestockenter',

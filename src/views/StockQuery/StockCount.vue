@@ -189,8 +189,8 @@ export default {
       this.listLoading = true
       stockcountlist(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          this.list = res.data.data.content
-          this.total = res.data.data.content.length
+          this.list = res.data.data.content.list
+          this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
           this.listLoading = false
@@ -235,17 +235,30 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['物品名称', '供应商名称', '数量', '含税金额合计', '含税价', '金额合计']
-          const filterVal = ['productName', 'supplierName', 'quantity', 'includeTaxMoney', 'includeTaxPrice', 'totalMoney']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '采购汇总表'
-          })
-          this.downloadLoading = false
-        })
+      const parms = {
+        productCode: this.getemplist.productCode,
+        supplierId: this.getemplist.supplierId,
+        beginTime: this.getemplist.beginTime,
+        endTime: this.getemplist.endTime,
+        pageNum: 1,
+        pageSize: 1000000
+      }
+      stockcountlist(parms).then(res => {
+        if (res.data.ret === 200) {
+         import('@/vendor/Export2Excel').then(excel => {
+           const tHeader = ['物品名称', '供应商名称', '数量', '含税金额合计', '含税价', '金额合计']
+           const filterVal = ['productName', 'supplierName', 'quantity', 'includeTaxMoney', 'includeTaxPrice', 'totalMoney']
+           const data = this.formatJson(filterVal, res.data.data.content.list)
+           excel.export_json_to_excel({
+             header: tHeader,
+             data,
+             filename: '采购汇总表'
+           })
+           this.downloadLoading = false
+         })
+          // this.restFilter()
+        }
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

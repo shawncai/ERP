@@ -100,18 +100,20 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
+            :summary-method="getSummaries"
+            :show-summary="jundgeprice()"
             height="500"
             class="click-table1"
             border
             size="small"
             style="width: 100%">
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="150px"/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="90px" fixed/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="90px" fixed/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="50px" fixed/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="50px" fixed/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="50px" fixed/>
+            <el-editable-column :label="$t('updates.shuli')" prop="quantity" align="center" min-width="90px" fixed/>
             <el-editable-column v-if="jundgeprice()" :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px"/>
             <el-editable-column v-if="jundgeprice()" :label="$t('updates.sl')" prop="taxRate2" align="center" min-width="170px"/>
@@ -134,7 +136,7 @@
                 <p>{{ getTaxMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-
+            <el-editable-column :label="$t('update4.redQuantity')" prop="redQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
           </el-editable>
@@ -165,9 +167,16 @@
                   <span>{{ personalForm.allIncludeTaxMoney }}</span>
                 </el-form-item>
               </el-col>
+
+              <el-col v-if="jundgeprice()" :span="12">
+                <el-form-item :label="$t('update4.zhehoujineheji')" style="width: 100%;">
+                  <span>{{ alldiscountmoney2 }}</span>
+                </el-form-item>
+              </el-col>
+
               <el-col v-if="jundgeprice()" :span="12">
                 <el-form-item :label="$t('updates.zhhsjehj')" style="width: 100%;">
-                  <span>{{ personalForm.allIncludeTaxMoney - personalForm.allDiscountMoney }}</span>
+                  <span>{{ allMoneyMoveDiscount }}</span>
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="12">
@@ -279,7 +288,9 @@ export default {
     sourceTypeFilter(status) {
       const statusMap = {
         1: '采购入库',
-        2: '委外入库单'
+        2: '委外入库单',
+        3: '采购发票',
+        4: '采购退货'
       }
       return statusMap[status]
     },
@@ -325,6 +336,8 @@ export default {
       // 详细表数据
       list2: [],
       list3: [],
+      alldiscountmoney2: 0,
+      allMoneyMoveDiscount: 0,
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
@@ -354,6 +367,44 @@ export default {
     _that = this
   },
   methods: {
+    // 总计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              console.log(prev)
+              return Number(prev).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[1] = ''
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[10] = ''
+      sums[18] = ''
+      sums[19] = ''
+      this.allMoneyMoveDiscount = sums[13]
+      this.alldiscountmoney2 = sums[12]
+      return sums
+    },
     getdiscountreduceMoney(row) {
       // row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
       row.discountreduceMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + row.taxRate / 100))).toFixed(2)

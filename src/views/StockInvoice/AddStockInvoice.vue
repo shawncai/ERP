@@ -158,7 +158,7 @@
       <el-card :body-style=" { padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px">
         <div ref="fuzhu" class="form-name" >{{ $t('updates.cgfpmx') }}</div>
         <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
-          <el-button style="width: 130px" @click="handleAddSouce">{{ $t('updates.cydzxz') }}</el-button>
+          <el-button style="width: 130px" @click="handleAddSouce" >{{ $t('updates.cydzxz') }}</el-button>
           <my-enter :entercontrol.sync="entercontrol" :supp.sync="supp" :checklist.sync="checklist" @enter="enter" @enterinfo="enterinfo"/>
 
           <my-outsource :outsourcecontrol.sync="outsourcecontrol" :factoryname.sync="outFactoryId" @outSource="outSource"/>
@@ -186,17 +186,18 @@
             @selection-change="handleSelectionChange">
             <el-editable-column type="selection" min-width="55" fixed align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" fixed align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
-            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" prop="quantity" align="center" min-width="200px">
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" min-width="90px"/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" min-width="90px"/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" fixed align="center" min-width="90px"/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" fixed align="center" min-width="90px"/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" fixed align="center" min-width="90px"/>
+            <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0, precision: 6}, type: 'visible'}" :label="$t('updates.shuli')" fixed prop="quantity" align="center" min-width="200px">
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
                   :max="scope.row.quantity2"
-                  v-model="scope.row.quantity"/>
+                  v-model="scope.row.quantity"
+                  @change="calculationMoney"/>
               </template>
             </el-editable-column>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
@@ -263,7 +264,7 @@
                 <p v-show="jundgeprice()">{{ getTaxMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.se')" prop="tax" align="center" min-width="150px">
+            <el-editable-column :label="$t('updates.se')" prop="taxMoney" align="center" min-width="150px">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ getTaxMoney2(scope.row) }}</p>
               </template>
@@ -279,7 +280,7 @@
                 <p v-show="jundgeprice()">{{ getdiscountreduceMoney2(scope.row) }}</p>
               </template>
             </el-editable-column>
-
+            <el-editable-column :label="$t('update4.redQuantity')" prop="redQuantity" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
           </el-editable>
@@ -605,60 +606,83 @@ export default {
     _that = this
   },
   methods: {
-    async  outSource(val) {
-      console.log('val', val)
-      const outSourceParms = {
-        number: val.sourceNumber,
-        pageNum: 1,
-        pageSize: 10
+    calculationMoney() {
+      // eslint-disable-next-line prefer-const
+      let listData = this.$refs.editable.getRecords()
+      let countMoney = 0
+      let countdiscountreduceMoney = 0
+      let countdiscountreduceMoney2 = 0
+
+      for (const i in listData) {
+        const money = listData[i].quantity * (Number(listData[i].includeTaxPrice) / (1 + (listData[i].taxRate / 100)))
+        const money2 = ((Number(listData[i].includeTaxMoney) - Number(listData[i].discountMoney)) / (1 + listData[i].taxRate / 100))
+        const money3 = Number(listData[i].includeTaxMoney) - Number(listData[i].discountMoney)
+
+        countMoney += money
+        countdiscountreduceMoney += money2
+        countdiscountreduceMoney2 += money3
       }
-      const outSourceData = await new Promise((resovle, reject) => {
-        searchoutsourcing(outSourceParms).then((res) => {
-          resovle(res.data.data.content.list)
+
+      this.allMoney = Number(countMoney).toFixed(2)
+      this.alldiscountmoney2 = Number(countdiscountreduceMoney).toFixed(2)
+      this.allMoneyMoveDiscount = Number(countdiscountreduceMoney2).toFixed(2)
+
+      console.log('countMoney   =====> countMoney', countMoney)
+    },
+    async  outSource(val) {
+      // console.log('val', val)
+
+      const moreSourceData = await Promise.all(val.map((item, index) => {
+        return new Promise((resolve, reject) => {
+          searchoutsourcing({ number: item.sourceNumber, pageNum: 1, pageSize: 10 }).then(res => {
+            resolve(res.data.data.content.list[0])
+          })
         })
-      })
-      console.log('outSourceData', outSourceData)
-      const outsourcingDetailVos = outSourceData[0].outsourcingDetailVos
-      const outsourcingEnterDetailVos = outSourceData[0].outsourcingEnterDetailVos
+      }))
+
+      // console.log('moreSourceData', moreSourceData)
       // eslint-disable-next-line prefer-const
       let newarr = []
-      for (const i in outsourcingEnterDetailVos) {
-        for (const j in outsourcingDetailVos) {
-          if (outsourcingDetailVos[j].idx === outsourcingEnterDetailVos[i].idx) {
-            // eslint-disable-next-line prefer-const
-            let obj = {}
-            obj.productCode = outsourcingEnterDetailVos[j].productCode
-            obj.price = outsourcingDetailVos[j].price
-            obj.money = outsourcingDetailVos[j].totalMoney
-            obj.includeTaxPrice = outsourcingDetailVos[j].includeTaxPrice
-            obj.includeTaxMoney = outsourcingDetailVos[j].includeTaxMoney
-            obj.taxRate = outsourcingDetailVos[j].taxRate
-            newarr.push(obj)
+      for (const i in moreSourceData) {
+        for (const j in moreSourceData[i].outsourcingDetailVos) {
+          for (const x in moreSourceData[i].outsourcingEnterDetailVos) {
+            if (moreSourceData[i].outsourcingDetailVos[j].idx === moreSourceData[i].outsourcingEnterDetailVos[x].idx) {
+              const obj = {}
+              obj.productCode = moreSourceData[i].outsourcingEnterDetailVos[x].productCode
+              obj.price = moreSourceData[i].outsourcingDetailVos[j].price
+              obj.money = moreSourceData[i].outsourcingDetailVos[j].totalMoney
+              obj.includeTaxPrice = moreSourceData[i].outsourcingDetailVos[j].includeTaxPrice
+              obj.includeTaxMoney = moreSourceData[i].outsourcingDetailVos[j].includeTaxMoney
+              obj.taxRate = moreSourceData[i].outsourcingDetailVos[j].taxRate
+              newarr.push(obj)
+            }
           }
         }
       }
-      console.log('newarr', newarr)
+
       for (const x in newarr) {
-        for (const y in val.outsourceEnterDetailVos) {
-          if (newarr[x].productCode === val.outsourceEnterDetailVos[y].productCode) {
-            newarr[x].productName = val.outsourceEnterDetailVos[y].productName
-            newarr[x].productType = val.outsourceEnterDetailVos[y].productType
-            newarr[x].typeName = val.outsourceEnterDetailVos[y].productType
-            newarr[x].typeId = val.outsourceEnterDetailVos[y].typeId
-            newarr[x].unit = val.outsourceEnterDetailVos[y].unit
-            newarr[x].color = val.outsourceEnterDetailVos[y].color
-            newarr[x].arrivalQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
-            newarr[x].retreatQuantity = 0
-            newarr[x].retreatReason = val.outsourceEnterDetailVos[y].retreatReason
-            newarr[x].sourceNumber = val.enterNumber
-            newarr[x].sourceSerialNumber = val.outsourceEnterDetailVos[y].id
-            newarr[x].remark = val.outsourceEnterDetailVos[y].remark
-            newarr[x].quantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
-            newarr[x].quantity2 = val.outsourceEnterDetailVos[y].actualEnterQuantity
-            newarr[x].discountMoney = 0
-            newarr[x].discountRate = 0
-            newarr[x].actualEnterQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
-            newarr[x].invoiceQuantity = 0
+        for (const z in val) {
+          for (const y in val[z].outsourceEnterDetailVos) {
+            if (newarr[x].productCode === val[z].outsourceEnterDetailVos[y].productCode) {
+              newarr[x].productName = val[z].outsourceEnterDetailVos[y].productName
+              newarr[x].productType = val[z].outsourceEnterDetailVos[y].productType
+              newarr[x].typeName = val[z].outsourceEnterDetailVos[y].productType
+              newarr[x].typeId = val[z].outsourceEnterDetailVos[y].typeId
+              newarr[x].unit = val[z].outsourceEnterDetailVos[y].unit
+              newarr[x].color = val[z].outsourceEnterDetailVos[y].color
+              newarr[x].arrivalQuantity = val[z].outsourceEnterDetailVos[y].actualEnterQuantity
+              newarr[x].retreatQuantity = 0
+              newarr[x].retreatReason = val[z].outsourceEnterDetailVos[y].retreatReason
+              newarr[x].sourceNumber = val[z].enterNumber
+              newarr[x].sourceSerialNumber = val[z].outsourceEnterDetailVos[y].id
+              newarr[x].remark = val[z].outsourceEnterDetailVos[y].remark
+              newarr[x].quantity = val[z].outsourceEnterDetailVos[y].actualEnterQuantity
+              newarr[x].quantity2 = val[z].outsourceEnterDetailVos[y].actualEnterQuantity
+              newarr[x].discountMoney = 0
+              newarr[x].discountRate = 0
+              newarr[x].actualEnterQuantity = val[z].outsourceEnterDetailVos[y].actualEnterQuantity
+              newarr[x].invoiceQuantity = 0
+            }
           }
         }
       }
@@ -666,6 +690,68 @@ export default {
       for (const i in newarr) {
         this.$refs.editable.insertAt(newarr[i], -1)
       }
+
+      this.calculationMoney()
+
+      // const outSourceParms = {
+      //   number: val.sourceNumber,
+      //   pageNum: 1,
+      //   pageSize: 10
+      // }
+      // const outSourceData = await new Promise((resovle, reject) => {
+      //   searchoutsourcing(outSourceParms).then((res) => {
+      //     resovle(res.data.data.content.list)
+      //   })
+      // })
+      // console.log('outSourceData', outSourceData)
+      // const outsourcingDetailVos = outSourceData[0].outsourcingDetailVos
+      // const outsourcingEnterDetailVos = outSourceData[0].outsourcingEnterDetailVos
+      // // eslint-disable-next-line prefer-const
+      // let newarr = []
+      // for (const i in outsourcingEnterDetailVos) {
+      //   for (const j in outsourcingDetailVos) {
+      //     if (outsourcingDetailVos[j].idx === outsourcingEnterDetailVos[i].idx) {
+      //       // eslint-disable-next-line prefer-const
+      //       let obj = {}
+      //       obj.productCode = outsourcingEnterDetailVos[j].productCode
+      //       obj.price = outsourcingDetailVos[j].price
+      //       obj.money = outsourcingDetailVos[j].totalMoney
+      //       obj.includeTaxPrice = outsourcingDetailVos[j].includeTaxPrice
+      //       obj.includeTaxMoney = outsourcingDetailVos[j].includeTaxMoney
+      //       obj.taxRate = outsourcingDetailVos[j].taxRate
+      //       newarr.push(obj)
+      //     }
+      //   }
+      // }
+      // console.log('newarr', newarr)
+      // for (const x in newarr) {
+      //   for (const y in val.outsourceEnterDetailVos) {
+      //     if (newarr[x].productCode === val.outsourceEnterDetailVos[y].productCode) {
+      //       newarr[x].productName = val.outsourceEnterDetailVos[y].productName
+      //       newarr[x].productType = val.outsourceEnterDetailVos[y].productType
+      //       newarr[x].typeName = val.outsourceEnterDetailVos[y].productType
+      //       newarr[x].typeId = val.outsourceEnterDetailVos[y].typeId
+      //       newarr[x].unit = val.outsourceEnterDetailVos[y].unit
+      //       newarr[x].color = val.outsourceEnterDetailVos[y].color
+      //       newarr[x].arrivalQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+      //       newarr[x].retreatQuantity = 0
+      //       newarr[x].retreatReason = val.outsourceEnterDetailVos[y].retreatReason
+      //       newarr[x].sourceNumber = val.enterNumber
+      //       newarr[x].sourceSerialNumber = val.outsourceEnterDetailVos[y].id
+      //       newarr[x].remark = val.outsourceEnterDetailVos[y].remark
+      //       newarr[x].quantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+      //       newarr[x].quantity2 = val.outsourceEnterDetailVos[y].actualEnterQuantity
+      //       newarr[x].discountMoney = 0
+      //       newarr[x].discountRate = 0
+      //       newarr[x].actualEnterQuantity = val.outsourceEnterDetailVos[y].actualEnterQuantity
+      //       newarr[x].invoiceQuantity = 0
+      //     }
+      //   }
+      // }
+
+      // for (const i in newarr) {
+      //   this.$refs.editable.insertAt(newarr[i], -1)
+      // }
 
       // this.list2 = newarr
       // this.tableKey = Math.random()
@@ -865,24 +951,26 @@ export default {
       sums[10] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[7]
-      this.allMoney = sums[13]
-      this.allTaxMoney = sums[15]
-      this.allIncludeTaxMoney = sums[14]
-      this.allDiscountMoney = sums[12]
-      this.allMoneyMoveDiscount = sums[17]
-      this.alldiscountmoney2 = sums[16]
+      this.allNumber = Number(sums[7]).toFixed(2)
+      // this.allMoney = Number(sums[13]).toFixed(2)
+      this.allTaxMoney = Number(sums[15]).toFixed(2)
+      this.allIncludeTaxMoney = Number(sums[14]).toFixed(2)
+      this.allDiscountMoney = Number(sums[12]).toFixed(2)
+      // this.allMoneyMoveDiscount = Number(sums[17]).toFixed(2)
+      // this.alldiscountmoney2 = Number(sums[16]).toFixed(2)
       return sums
     },
     // 通过折扣额计算折扣
     getdiscountMoney(row) {
       console.log(row)
+      this.calculationMoney()
       if (row.includeTaxPrice !== 0 && row.quantity !== 0 && row.discountMoney !== 0) {
         row.discountRate = (((row.discountMoney / row.includeTaxMoney).toFixed(2)) * 100).toFixed(2)
       }
     },
     // 通过折扣计算折扣额
     getdiscountRate(row, scope) {
+      this.calculationMoney()
       if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
         console.log('row', row)
         if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
@@ -964,8 +1052,8 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.tax = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + (row.taxRate / 100))) * (row.taxRate / 100)).toFixed(2)
-      return row.tax
+      row.taxMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + (row.taxRate / 100))) * (row.taxRate / 100)).toFixed(2)
+      return row.taxMoney
     },
     // 计算含税金额
     getTaxMoney(row) {

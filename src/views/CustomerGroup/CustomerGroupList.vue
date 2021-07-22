@@ -469,6 +469,8 @@ export default {
       if (row.stat !== null) {
         this.personalForm.stat = String(row.stat)
       }
+      this.personalForm.levelId = String(row.levelId)
+
       this.editVisible = true
     },
     // 修改组件修改成功后返回

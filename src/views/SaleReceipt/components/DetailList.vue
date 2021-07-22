@@ -115,6 +115,8 @@
             <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
             <el-editable-column :key="Math.random()" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+            <el-editable-column :key="Math.random()" :label="$t('update4.xiasohouchukdanriqi')" prop="outDate" align="center" min-width="150px" />
+
           </el-editable>
         </div>
       </el-card>

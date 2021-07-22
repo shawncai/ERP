@@ -15,8 +15,7 @@
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="yyyy-MM"/>
+          end-placeholder="结束日期"/>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
@@ -29,6 +28,7 @@
 
 <script>
 import { purchaseAccounting, outSourceAccounting } from '@/api/AccountingCalculation'
+import { GMTToStr } from '@/utils'
 export default {
   name: 'AccountingCalculation',
   data() {
@@ -68,7 +68,7 @@ export default {
 
       switch (this.visibleType) {
         case 1:
-          purchaseAccounting(this.value6[0], this.value6[1]).then(res => {
+          purchaseAccounting(GMTToStr(this.value6[0]), GMTToStr(this.value6[1])).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 message: '核算成功',
@@ -84,7 +84,7 @@ export default {
         case 2:
           break
         case 3:
-          outSourceAccounting(this.value6[0], this.value6[1]).then(res => {
+          outSourceAccounting(GMTToStr(this.value6[0]), GMTToStr(this.value6[1])).then(res => {
             if (res.data.ret === 200) {
               this.$message({
                 message: '核算成功',

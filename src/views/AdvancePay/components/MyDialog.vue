@@ -472,6 +472,9 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      delete this.personalForm.judgeStat
+      delete this.personalForm.receiptStat
+
       const Data = this.personalForm
       for (const key in Data) {
         if (Data[key] === '' || Data[key] === undefined || Data[key] === null) {

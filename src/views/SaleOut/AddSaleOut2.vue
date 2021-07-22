@@ -344,7 +344,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
               </template>

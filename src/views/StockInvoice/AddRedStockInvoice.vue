@@ -13,6 +13,7 @@
             :rules="personalrules"
             :inline="true"
             status-icon
+            size="mini"
             class="demo-ruleForm"
             label-width="130px"
           >
@@ -28,6 +29,7 @@
                   >
                     <el-option value="1" label="采购入库单" />
                     <el-option value="3" label="采购发票" />
+                    <el-option value="4" label="采购退货" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -39,7 +41,6 @@
                 >
                   <el-select
                     v-model="personalForm.subject"
-
                     filterable
                     style="margin-left: 18px; width: 200px"
                   >
@@ -77,7 +78,6 @@
                 >
                   <el-select
                     v-model="personalForm.invoiceType"
-
                     style="margin-left: 18px; width: 200px"
                   >
                     <el-option value="1" label="增值税专用发票" />
@@ -111,7 +111,6 @@
                 >
                   <el-select
                     v-model="personalForm.settleMode"
-
                     placeholder="请选择结算方式"
                     style="margin-left: 18px; width: 200px"
                     @change="change()"
@@ -143,7 +142,6 @@
                 >
                   <el-input
                     v-model="personalForm.address"
-
                     style="margin-left: 18px; width: 200px"
                     clearable
                   />
@@ -156,7 +154,6 @@
                 >
                   <el-input
                     v-model="personalForm.taxNumber"
-
                     style="margin-left: 18px; width: 200px"
                     clearable
                   />
@@ -183,7 +180,6 @@
                 >
                   <el-select
                     v-model="personalForm.currency"
-
                     clearable
                     style="margin-left: 18px; width: 200px"
                     @change="change()"
@@ -246,7 +242,6 @@
                     v-model="personalForm.payDate"
                     :picker-options="pickerOptions1"
                     type="date"
-
                     value-format="yyyy-MM-dd"
                     style="margin-left: 18px; width: 200px"
                   />
@@ -260,7 +255,7 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name">红字采购发票明细</h2>
         <div class="buttons" style="margin-top: 35px; margin-bottom: 10px">
-          <el-button style="width: 130px" @click="handleAddSouce">{{
+          <el-button style="width: 130px" size="small" @click="handleAddSouce">{{
             $t("updates.cydzxz")
           }}</el-button>
           <my-invoice
@@ -269,11 +264,25 @@
             @enter="enter"
             @enterinfo="enterinfo"
           />
-          <my-enter :entercontrol.sync="stockentercontrol" :supp.sync="supp" :checklist.sync="checklist" @enter="stockenter" @enterinfo="stockenterinfo"/>
+          <my-enter
+            :entercontrol.sync="stockentercontrol"
+            :supp.sync="supp"
+            :checklist.sync="checklist"
+            @enter="stockenter"
+            @enterinfo="stockenterinfo"
+          />
+
+          <my-retreat
+            :retreatcontrol.sync="retreatcontrol"
+            :supp.sync="supp"
+            :checklist.sync="checklist"
+            @retreat="stockretreat"
+            @retreatinfo="stockretreatinfo"
+          />
 
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail" />
-          <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{
+          <el-button type="danger" size="small" @click="$refs.editable.removeSelecteds()">{{
             $t("Hmodule.delete")
           }}</el-button>
           <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
@@ -285,8 +294,9 @@
             :edit-config="{ showIcon: true, showStatus: true }"
             :edit-rules="validRules"
             :summary-method="getSummaries"
-            class="click-table1"
             show-summary
+            class="click-table1"
+            height="600"
             stripe
             border
             size="small"
@@ -297,53 +307,61 @@
               type="selection"
               min-width="55"
               align="center"
+              fixed
             />
             <el-editable-column
               :label="$t('Hmodule.xh')"
               min-width="55"
               align="center"
               type="index"
+              fixed
             />
             <el-editable-column
               :label="$t('Hmodule.wpbh')"
               prop="productCode"
               align="center"
-              min-width="150px"
+              min-width="90px"
+              fixed
             />
             <el-editable-column
               :label="$t('Hmodule.wpmc')"
               prop="productName"
               align="center"
-              min-width="150px"
+              min-width="90px"
+              fixed
             />
             <el-editable-column
               :label="$t('Hmodule.gg')"
               prop="productType"
               align="center"
-              min-width="150px"
+              min-width="90px"
+              fixed
             />
             <el-editable-column
               :label="$t('updates.ys')"
               prop="color"
               align="center"
-              min-width="150px"
+              min-width="90px"
+              fixed
             />
             <el-editable-column
               :label="$t('Hmodule.dw')"
               prop="unit"
               align="center"
-              min-width="150px"
+              min-width="90px"
+              fixed
             />
             <el-editable-column
               :edit-render="{
                 name: 'ElInputNumber',
                 attrs: { min: 0, precision: 6 },
-                type: 'visible',
+                type: 'visible'
               }"
               :label="$t('updates.shuli')"
               prop="quantity"
               align="center"
               min-width="150px"
+              fixed
             >
               <template slot="edit" slot-scope="scope">
                 <el-input-number
@@ -399,7 +417,7 @@
               :edit-render="{
                 name: 'ElInputNumber',
                 attrs: { min: 0 },
-                type: 'visible',
+                type: 'visible'
               }"
               :label="$t('updates.zk')"
               prop="discountRate"
@@ -410,7 +428,7 @@
                 <el-input-number
                   :precision="6"
                   v-model="scope.row.discountRate"
-                  @change="getdiscountRate(scope.row)"
+                  @input="getdiscountRate(scope.row, scope)"
                 />
               </template>
             </el-editable-column>
@@ -418,7 +436,7 @@
               :edit-render="{
                 name: 'ElInputNumber',
                 attrs: { min: 0 },
-                type: 'visible',
+                type: 'visible'
               }"
               :label="$t('updates.cke')"
               prop="discountMoney"
@@ -464,6 +482,17 @@
               </template>
             </el-editable-column>
 
+            <el-editable-column :label="$t('update4.zhehoujine')" prop="discountreduceMoney" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ getdiscountreduceMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+            <el-editable-column :label="$t('update4.zhehouhanshuijine')" prop="discountreduceMoney2" align="center" min-width="150px">
+              <template slot-scope="scope">
+                <p v-show="jundgeprice()">{{ getdiscountreduceMoney2(scope.row) }}</p>
+              </template>
+            </el-editable-column>
+
             <el-editable-column
               :label="$t('updates.ydbh')"
               prop="sourceNumber"
@@ -477,6 +506,51 @@
               min-width="150px"
             />
           </el-editable>
+        </div>
+      </el-card>
+      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
+        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+        <div class="container" style="margin-top: 37px">
+          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item :label="$t('SaleOrder.heji1')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allNumber" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.hehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allMoney" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allTaxMoney" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allIncludeTaxMoney" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allDiscountMoney" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('update4.zhehoujineheji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="alldiscountmoney2" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="jundgeprice()" :span="6">
+                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-input v-model="allMoneyMoveDiscount" style="width: 200px" disabled/>
+                </el-form-item>
+              </el-col>
+
+            </el-row>
+          </el-form>
         </div>
       </el-card>
       <!--      <el-card class="box-card" shadow="never">-->
@@ -509,7 +583,7 @@
       <!--        </div>-->
       <!--      </el-card>-->
       <!--操作-->
-      <div class="buttons" style="margin-top: 20px">
+      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
         <el-button
           v-no-more-click
           type="primary"
@@ -598,6 +672,7 @@ import MyArrival from './components/MyArrival'
 import MyEnter from './components/MyEnter'
 import MyInvoice from './components/MyInvoice'
 import MyRepository from './components/MyRepository'
+import MyRetreat from './components/MyRetreat'
 var _that
 export default {
   name: 'AddRedStockInvoice',
@@ -613,7 +688,8 @@ export default {
     MyDetail,
     MyEmp,
     MyEnter,
-    MyInvoice
+    MyInvoice,
+    MyRetreat
   },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -682,10 +758,11 @@ export default {
     }
     return {
       pickerOptions1: {
-        disabledDate: (time) => {
+        disabledDate: time => {
           return time.getTime() < new Date().getTime() - 8.64e7
         }
       },
+      retreatcontrol: false,
       // 回显仓库
       retreatRepositoryId: '',
       // 控制仓库
@@ -698,6 +775,7 @@ export default {
       allDiscountMoney: '',
       allMoneyMoveDiscount: '',
       allOthermoney: '',
+      alldiscountmoney2: '',
       // 交货方式
       giveIds: [],
       // 单据类型数据
@@ -805,6 +883,42 @@ export default {
     _that = this
   },
   methods: {
+    stockretreat(val) {
+      this.$refs.editable.clear()
+      for (let i = 0; i < val.length; i++) {
+        this.$refs.editable.insert(val[i])
+      }
+    },
+    stockretreatinfo(val) {
+      console.log('stockretreatinfo =====> val', val)
+      this.personalForm.address = val.acceptAddress
+      this.personalForm.handlePersonId = val.stockPersonId
+      this.personalForm.deptId = val.deptId
+      this.supplierId = val.supplierName
+      this.handlePersonId = val.stockPersonName
+      this.personalForm.sourceType = '4'
+      this.personalForm.isRed = 2
+      // this.list2 = val.stockInvoiceDetailVos
+    },
+    jundgeprice() {
+      const value = ['1-22-24-115']
+      const roles = this.$store.getters && this.$store.getters.roles
+      const permissionRoles = value
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+      // console.log('hasPermission=======', hasPermission)
+      return hasPermission
+    },
+    getdiscountreduceMoney(row) {
+      // row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
+      row.discountreduceMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + row.taxRate / 100))).toFixed(2)
+      return row.discountreduceMoney
+    },
+    getdiscountreduceMoney2(row) {
+      row.discountreduceMoney2 = (Number(row.includeTaxMoney) - Number(row.discountMoney)).toFixed(2)
+      return row.discountreduceMoney2
+    },
     stockenter(val) {
       console.log('val==========', val)
       const myval = this.$store.getters.myflagApproval
@@ -824,7 +938,9 @@ export default {
       const checklistprop = Array.from(new Set(mychecklistprop))
       console.log('checklistprop', checklistprop)
       for (let i = 0; i < val.length; i++) {
-        var index = checklistprop.findIndex(item => item === val[i].sourceNumber)
+        var index = checklistprop.findIndex(
+          item => item === val[i].sourceNumber
+        )
         console.log(i, !index)
         if (!index) {
           val.splice(i, 1)
@@ -843,13 +959,17 @@ export default {
       this.$refs.editable.clear()
       console.log('newnewarr======>', newnewarr)
       for (let i = 0; i < newnewarr.length; i++) {
-        newnewarr[i].quantity = (newnewarr[i].actualEnterQuantity - newnewarr[i].invoiceQuantity - newnewarr[i].unJudgeQuantity).toFixed(6)
+        newnewarr[i].quantity = (
+          newnewarr[i].actualEnterQuantity -
+          newnewarr[i].invoiceQuantity -
+          newnewarr[i].unJudgeQuantity
+        ).toFixed(6)
         this.$refs.editable.insertAt(newnewarr[i], -1)
       }
       this.$store.dispatch('getmyflagApproval', '')
     },
     stockenterinfo(val) {
-
+      this.personalForm.isRed = 2
     },
 
     // 重置一下下拉
@@ -865,7 +985,7 @@ export default {
           this.$store.getters.repositoryId,
           this.$store.getters.regionId,
           this.moreaction[0].productCode
-        ).then((res) => {
+        ).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
             console.log('res.data.data.content', res.data.data.content.list)
@@ -962,7 +1082,7 @@ export default {
           sums[index] = '总计'
           return
         }
-        const values = data.map((item) => Number(item[column.property]))
+        const values = data.map(item => Number(item[column.property]))
         if (!values.every(value => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
@@ -984,15 +1104,15 @@ export default {
       sums[5] = ''
       sums[6] = ''
       sums[10] = ''
-      sums[15] = ''
       sums[18] = ''
       sums[19] = ''
-      this.allNumber = sums[7]
-      this.allMoney = sums[12]
-      this.allTaxMoney = sums[14]
-      this.allIncludeTaxMoney = sums[13]
-      this.allDiscountMoney = sums[16]
-      this.allMoneyMoveDiscount = sums[13] - sums[16]
+      this.allNumber = Number(sums[7]).toFixed(2)
+      this.allMoney = Number(sums[13]).toFixed(2)
+      this.allTaxMoney = Number(sums[15]).toFixed(2)
+      this.allIncludeTaxMoney = Number(sums[14]).toFixed(2)
+      this.allDiscountMoney = Number(sums[12]).toFixed(2)
+      this.alldiscountmoney2 = Number(sums[16]).toFixed(2)
+      this.allMoneyMoveDiscount = Number(sums[17]).toFixed(2)
       return sums
     },
     // 通过折扣额计算折扣
@@ -1010,7 +1130,21 @@ export default {
       }
     },
     // 通过折扣计算折扣额
-    getdiscountRate(row) {
+    getdiscountRate(row, scope) {
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        console.log('row', row)
+        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('需求值=========', this.list2[i].discountRate)
+            console.log(222)
+            this.list2[i].discountRate = row.discountRate
+          }
+          console.log(row)
+        }
+      }
       if (row.discountRate === 0) {
         row.discountMoney = 0
       } else {
@@ -1019,6 +1153,25 @@ export default {
           row.quantity *
           (1 - row.discountRate / 100)
         ).toFixed(6)
+      }
+      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+          for (let i = 0; i < this.list2.length; i++) {
+            this.list2[i].temp = i
+          }
+          for (let i = row.temp; i < this.list2.length; i++) {
+            console.log('this.list2[i].discountRate', this.list2[i].discountRate)
+            if (this.list2[i].discountRate !== null && this.list2[i].discountRate !== 0 && this.list2[i].discountRate !== '' && this.list2[i].discountRate !== undefined) {
+              // this.list2[i].requireDate = row.requireDate
+              // this.list2[i].requireQuantity = row.requireQuantity
+            } else {
+              console.log(222)
+              // this.list2[i].requireDate = row.requireDate
+              this.list2[i].discountRate = row.discountRate
+            }
+          }
+          console.log(row)
+        }
       }
     },
     // 通过税率计算含税价
@@ -1041,7 +1194,7 @@ export default {
     // 计算税额
     getTaxMoney2(row) {
       if (row.quantity !== 0) {
-        row.tax = (((row.price * row.taxRate) / 100) * row.quantity).toFixed(6)
+        row.tax = (((row.price * row.taxRate) / 100) * row.quantity).toFixed(2)
       } else {
         row.tax = 0
       }
@@ -1049,35 +1202,35 @@ export default {
     },
     // 计算含税金额
     getTaxMoney(row) {
-      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(6)
+      row.includeTaxMoney = (row.quantity * row.includeTaxPrice).toFixed(2)
       return row.includeTaxMoney
     },
     // 计算金额
     getMoney(row) {
-      row.money = (row.quantity * row.price).toFixed(6)
+      row.money = (row.quantity * row.price).toFixed(2)
       return row.money
     },
     getways() {
       // 交货方式
-      searchCategory(2).then((res) => {
+      searchCategory(2).then(res => {
         if (res.data.ret === 200) {
           this.giveIds = res.data.data.content.list
         }
       })
       // 运送方式
-      searchCategory(3).then((res) => {
+      searchCategory(3).then(res => {
         if (res.data.ret === 200) {
           this.transportIds = res.data.data.content.list
         }
       })
       // 结算方式
-      searchCategory(5).then((res) => {
+      searchCategory(5).then(res => {
         if (res.data.ret === 200) {
           console.log('123')
           this.settleModes = res.data.data.content.list
         }
       })
-      searchCategory(7).then((res) => {
+      searchCategory(7).then(res => {
         if (res.data.ret === 200) {
           console.log('res.data.data.content.list', res.data.data.content.list)
           this.payModes = res.data.data.content.list
@@ -1107,11 +1260,19 @@ export default {
         })
         return false
       }
-
       if (this.personalForm.sourceType === '3') {
         this.entercontrol = true
       } else if (this.personalForm.sourceType === '1') {
         this.stockentercontrol = true
+        if (this.list2.length > 0) {
+          console.log('this.list2========>', this.list2)
+          this.checklist = this.list2
+          console.log('this.checklist', this.checklist)
+        } else {
+          this.checklist = []
+        }
+      } else if (this.personalForm.sourceType === '4') {
+        this.retreatcontrol = true
         if (this.list2.length > 0) {
           console.log('this.list2========>', this.list2)
           this.checklist = this.list2
@@ -1167,19 +1328,19 @@ export default {
     getTypes() {
       const param = {}
       param.subjectId = 1
-      itemList(param).then((res) => {
+      itemList(param).then(res => {
         if (res.data.ret === 200) {
           this.subjects = res.data.data.content
         }
       })
       // 采购类别数据
-      searchStockCategory(this.typeparms).then((res) => {
+      searchStockCategory(this.typeparms).then(res => {
         if (res.data.ret === 200) {
           this.types = res.data.data.content.list
         }
       })
       // 部门列表数据
-      getdeptlist().then((res) => {
+      getdeptlist().then(res => {
         if (res.data.ret === 200) {
           this.depts = res.data.data.content
         }
@@ -1297,7 +1458,15 @@ export default {
     },
     // 保存操作
     handlesave() {
-      this.$refs.personalForm.validate((valid) => {
+      this.$refs.personalForm.validate(valid => {
+        if (!valid) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'Information is incomplete',
+            offset: 100
+          })
+          return false
+        }
         const EnterDetail = this.deepClone(this.$refs.editable.getRecords())
         if (EnterDetail.length === 0) {
           this.$notify.error({
@@ -1516,6 +1685,7 @@ export default {
           return elem
         })
         const parms2 = JSON.stringify(EnterDetail)
+        this.personalForm.isRed = 2
         const Data = this.personalForm
         for (const key in Data) {
           if (
@@ -1527,7 +1697,8 @@ export default {
           }
         }
         const parms = JSON.stringify(Data)
-        addStockInvoice(parms, parms2, this.personalForm).then((res) => {
+
+        addStockInvoice(parms, parms2, this.personalForm).then(res => {
           console.log(res)
           if (res.data.ret === 200) {
             this.$notify({

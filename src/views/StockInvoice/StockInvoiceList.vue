@@ -61,12 +61,11 @@
         @row-click="clickRow"
         @selection-change="handleSelectionChange">
         <el-table-column
-          :selectable="selectInit"
           type="selection"
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" prop="number" align="center" min-width="150" sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.judgeStat === 0" class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
             <span v-else class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
@@ -191,9 +190,10 @@ export default {
     },
     sourceTypeFilter(status) {
       const statusMap = {
-        1: _that.$t('updates.cgrkd'),
-        2: _that.$t('Hmodule.Nosource'),
-        3: _that.$t('updates.cgrkd')
+        1: '采购入库',
+        2: '委外入库单',
+        3: '采购发票',
+        4: '采购退货'
       }
       return statusMap[status]
     }
@@ -638,10 +638,10 @@ export default {
         }).then(() => {
           this.reviewParms.judgeStat = 2
           for (let i = 0; i < this.moreaction.length; i++) {
-            if (this.moreaction[i].judgeStat !== 0) {
-              this.$message.error(`第${i + 1}条数据已经审核`)
-              continue
-            }
+            // if (this.moreaction[i].judgeStat !== 0) {
+            //   this.$message.error(`第${i + 1}条数据已经审核`)
+            //   continue
+            // }
             if (this.moreaction[i].approvalUseVos !== '' && this.moreaction[i].approvalUseVos !== null && this.moreaction[i].approvalUseVos !== undefined && this.moreaction[i].approvalUseVos.length !== 0) {
               const approvalUse = this.moreaction[i].approvalUseVos
               const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
@@ -678,10 +678,10 @@ export default {
               .then(() => {
                 this.reviewParms.judgeStat = 3
                 for (let i = 0; i < this.moreaction.length; i++) {
-                  if (this.moreaction[i].judgeStat !== 0) {
-                    this.$message.error(`第${i + 1}条数据已经审核`)
-                    continue
-                  }
+                  // if (this.moreaction[i].judgeStat !== 0) {
+                  //   this.$message.error(`第${i + 1}条数据已经审核`)
+                  //   continue
+                  // }
                   if (this.moreaction[i].approvalUseVos !== '' && this.moreaction[i].approvalUseVos !== null && this.moreaction[i].approvalUseVos !== undefined && this.moreaction[i].approvalUseVos.length !== 0) {
                     const approvalUse = this.moreaction[i].approvalUseVos
                     const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')

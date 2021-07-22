@@ -164,6 +164,8 @@
           <el-button type="primary" size="mini" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
           <el-button type="warning" @click="exportExcel">{{ $t('updates.drsj') }}</el-button>
           <input v-show="false" ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+          <el-button type="primary" @click="updateCopyPrice()">{{ $t('update4.gegnxingjiage') }}</el-button>
+
         </div>
         <div class="container">
           <el-editable
@@ -618,6 +620,29 @@ export default {
     _that = this
   },
   methods: {
+    updateCopyPrice() {
+      if (!this.levelId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择供应商',
+          offset: 100
+        })
+        return false
+      }
+      // eslint-disable-next-line prefer-const
+      let listdata = this.$refs.editable.getRecords()
+      for (const i in listdata) {
+        querytax(this.personalForm.supplierId, listdata[i].productCode).then(res => {
+          if (res.data.data.content.length > 0) {
+            listdata[i].taxRate = res.data.data.content[0].taxRate || 0
+            listdata[i].includeTaxPrice = res.data.data.content[0].includeTaxPrice || 0
+            listdata[i].price = res.data.data.content[0].price || 0
+            listdata[i].unit = res.data.data.content[0].unit || ''
+          }
+        })
+        console.log('listdata ========> listdata', listdata)
+      }
+    },
     upload(rawFile) {
       this.$refs['excel-upload-input'].value = null // fix can't select the same excel
 
@@ -721,7 +746,8 @@ export default {
           totalMoney: item.入库金额,
           remarks: item.备注,
           typeId: item.规格id,
-          basicQuantity: item.基本数量
+          basicQuantity: item.基本数量,
+          deliveryDate: ''
         }
       })
       console.log('uploaddata', uploaddata)
@@ -813,6 +839,7 @@ export default {
     copydate(row, scope) {
       if (scope.row !== '' && scope.row !== null && scope.row !== undefined && scope.$index === 0) {
         if (scope.row.deliveryDate !== '' && scope.row.deliveryDate !== null && scope.row.deliveryDate !== undefined) {
+          console.log()
           for (let i = 0; i < this.list2.length; i++) {
             this.list2[i].temp = i
           }
@@ -1052,7 +1079,7 @@ export default {
     // 计算税额
     getTaxMoney2(row) {
       if (row.stockQuantity !== 0) {
-        row.tax = (row.price * row.taxRate / 100 * row.stockQuantity).toFixed(2)
+        row.tax = (row.price * (row.taxRate / 100) * row.stockQuantity).toFixed(2)
       } else {
         row.tax = 0
       }

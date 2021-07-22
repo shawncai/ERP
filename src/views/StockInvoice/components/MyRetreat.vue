@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="employeeVisible" :entercontrol="entercontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购入库单" append-to-body width="1100px" @close="$emit('update:entercontrol', false)">
+  <el-dialog :visible.sync="employeeVisible" :retreatcontrol="retreatcontrol" :supp="supp" :close-on-press-escape="false" top="10px" title="选择采购退货单" append-to-body width="1100px" @close="$emit('update:retreatcontrol', false)">
     <el-card class="box-card" style="margin-top: 15px;height: 60px;padding-left:0 " shadow="never">
       <el-row>
         <el-form ref="getemplist" :model="getemplist" style="margin-top: -9px">
@@ -10,15 +10,15 @@
           </el-col>
           <el-col :span="3" style="margin-left: 5px">
             <el-form-item>
-              <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" clearable @keyup.enter.native="handleFilter"/>
+              <el-input v-model="getemplist.number" :placeholder="$t('updates.djbh')" clearable @keyup.enter.native="handleFilter"/>
             </el-form-item>
           </el-col>
-          <el-col :span="3" style="margin-left: 20px">
+          <!-- <el-col :span="3" style="margin-left: 20px">
             <el-form-item>
               <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" clearable @keyup.enter.native="handleFilter" @focus="handlechooseDelivery" @clear="restFilter2"/>
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
-          </el-col>
+          </el-col> -->
           <!--更多搜索条件-->
           <!--          <el-col :span="3" style="margin-left: 30px">-->
           <!--            <el-popover-->
@@ -68,6 +68,7 @@
         ref="multipleTable"
         :height="tableHeight"
         :key="tableKey"
+
         :data="list"
         :row-key="getRowKeys"
         size="small"
@@ -78,65 +79,35 @@
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange">
         <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
-        <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" prop="id" align="center" width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <el-popover
               placement="right"
               width="720"
               trigger="hover">
-              <el-table :data="scope.row.stockEnterDetailVos" border size="small">
+              <el-table :data="scope.row.stockRetreatDetailVos" border size="small">
                 <el-table-column :label="$t('Hmodule.wpbh')" min-width="200" property="productCode"/>
                 <el-table-column :label="$t('Hmodule.wpmc')" min-width="200" property="productName"/>
-                <el-table-column :label="$t('updates.dhsl')" min-width="100" property="arrivalQuantity"/>
-                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="productType"/>
+                <el-table-column :label="$t('updates.thsl')" min-width="100" property="retreatQuantity"/>
+                <el-table-column :label="$t('Hmodule.gg')" min-width="100" property="typeName"/>
                 <!-- <el-table-column :label="$t('updates.jhrq')" min-width="200" property="deliveryDate"/> -->
                 <el-table-column :label="$t('updates.ys')" min-width="100" property="color"/>
                 <el-table-column :label="$t('Hmodule.dw')" min-width="100" property="unit"/>
               </el-table>
               <div slot="reference" class="name-wrapper">
-                <el-tag size="small">{{ scope.row.enterNumber }}</el-tag>
+                <el-tag size="small">{{ scope.row.number }}</el-tag>
               </div>
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Stockenter.title')" :resizable="false" fixed="left" prop="title" align="center" width="150">
+        <el-table-column :label="$t('StockRetreat.supplierId')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
-            <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
+        <el-table-column :label="$t('updates.thsl')" :resizable="false" fixed="left" align="center" min-width="75">
           <template slot-scope="scope">
-            <span>{{ scope.row.enterNumber }}</span>
-          </template>
-        </el-table-column> -->
-        <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.acceptPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.enterDeptId')" :resizable="false" prop="deliveryPersonName" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.deliveryPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.endPersonName')" :resizable="false" prop="endPersonName" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.enterPersonName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.endDate')" :resizable="false" prop="endDate" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.enterDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Stockenter.summary')" :resizable="false" prop="stockEnterDetails" align="center" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.summary }}</span>
+            <span>{{ scope.row.retreatQuantity }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.judgeStat')" :resizable="false" prop="judgeStat" align="center" width="150">
@@ -159,7 +130,7 @@
 </template>
 
 <script>
-import { stockenterlist } from '@/api/Stockenter'
+import { searchstockRetreat } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -207,7 +178,7 @@ export default {
     }
   },
   props: {
-    entercontrol: {
+    retreatcontrol: {
       type: Boolean,
       default: false
     },
@@ -231,7 +202,7 @@ export default {
         return row.id
       },
       // 选择框控制
-      employeeVisible: this.entercontrol,
+      employeeVisible: this.retreatcontrol,
       // 类别获取参数
       typeparms: {
         pagenum: 1,
@@ -269,8 +240,8 @@ export default {
       listLoading: true,
       // 采购申请查询加展示参数
       getemplist: {
-        pagenum: 1,
-        pagesize: 10,
+        pageNum: 1,
+        pageSize: 10,
         judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
@@ -291,8 +262,8 @@ export default {
     }
   },
   watch: {
-    entercontrol() {
-      this.employeeVisible = this.entercontrol
+    retreatcontrol() {
+      this.employeeVisible = this.retreatcontrol
       this.getlist()
       setTimeout(() => {
         this.$refs.multipleTable.clearSelection()
@@ -344,10 +315,10 @@ export default {
     memoryChecked() {
       console.log('我执行啦')
       this.list.forEach((row, index) => {
-        if (this.checklistprop.includes(row.enterNumber)) {
+        if (this.checklistprop.includes(row.number)) {
           this.$refs.multipleTable.toggleRowSelection(row, true)
           // myarr = []
-          this.myarr.push(row.enterNumber)
+          this.myarr.push(row.number)
           this.flagarr = Array.from(new Set(this.myarr))
           console.log('this.flagarr=====================>', this.flagarr)
         } else {
@@ -388,23 +359,9 @@ export default {
     getlist() {
       // 采购入库单列表数据
       this.listLoading = true
-      stockenterlist(this.getemplist).then(res => {
+      searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
-          for (let i = 0; i < this.list.length; i++) {
-            for (let j = 0; j < this.list[i].stockEnterDetailVos.length; j++) {
-              if (this.list[i].stockEnterDetailVos[j].invoiceQuantity === this.list[i].stockEnterDetailVos[j].actualEnterQuantity) {
-                this.list[i].stockEnterDetailVos.splice(j, 1)
-                j--
-              }
-            }
-          }
-          for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].stockEnterDetailVos.length === 0) {
-              this.list.splice(i, 1)
-              i--
-            }
-          }
           this.total = res.data.data.content.totalCount
           this.memoryChecked()
         }
@@ -435,7 +392,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      stockenterlist(this.getemplist).then(res => {
+      searchstockRetreat(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -491,9 +448,9 @@ export default {
       // const number = this.choosedata.enterNumber
       const enterdata = []
       for (const i in this.moreaction) {
-        for (let j = 0; j < this.moreaction[i].stockEnterDetailVos.length; j++) {
-          this.moreaction[i].stockEnterDetailVos[j].sourceNumber = this.moreaction[i].enterNumber
-          enterdata.push(this.moreaction[i].stockEnterDetailVos[j])
+        for (let j = 0; j < this.moreaction[i].stockRetreatDetailVos.length; j++) {
+          this.moreaction[i].stockRetreatDetailVos[j].sourceNumber = this.moreaction[i].number
+          enterdata.push(this.moreaction[i].stockRetreatDetailVos[j])
         }
         // this.moreaction[i].stockEnterDetailVos.sourceNumber = this.moreaction[i].enterNumber
         // enterdata.push(this.moreaction[i].stockEnterDetailVos)
@@ -502,31 +459,31 @@ export default {
         return {
           productCode: item.productCode,
           productName: item.productName,
-          productType: item.productType,
-          typeName: item.productType,
-          typeId: item.typeId,
+          productType: item.typeName,
+          typeName: item.typeName,
+          typeId: item.type,
           unit: item.unit,
           color: item.color,
-          arrivalQuantity: item.arrivalQuantity,
-          retreatQuantity: 0,
-          retreatReason: '',
+          arrivalQuantity: 0,
+          retreatQuantity: item.retreatQuantity,
+          retreatReason: item.retreatQuantity,
           sourceNumber: item.sourceNumber,
           sourceSerialNumber: item.id,
           remark: item.remark,
-          quantity: item.actualEnterQuantity,
-          quantity2: item.actualEnterQuantity,
-          price: item.enterPrice,
+          quantity: item.retreatQuantity,
+          quantity2: item.retreatQuantity,
+          price: item.price,
           includeTaxPrice: item.includeTaxPrice,
           taxRate: item.taxRate,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
-          taxMoney: 0,
+          taxMoney: item.taxMoney,
           discountMoney: 0.0,
           discountRate: 0.0,
           orderNumber: item.orderNumber,
-          actualEnterQuantity: item.actualEnterQuantity,
+          actualEnterQuantity: 0,
           invoiceQuantity: item.invoiceQuantity,
-          unJudgeQuantity: item.unJudgeQuantity
+          unJudgeQuantity: 0
 
         }
       })
@@ -551,7 +508,7 @@ export default {
       // checklistprop在flagarr有在moreaction没有说明取消，否则未取消
       this.checklistprop.forEach(item => {
         console.log(item)
-        var index = processaction.findIndex(myindex => myindex.enterNumber === item)
+        var index = processaction.findIndex(myindex => myindex.number === item)
         console.log('index', index)
         console.log(this.flagarr.includes(item), !processaction.includes(item))
         if (this.flagarr.includes(item) && index) {
@@ -561,8 +518,8 @@ export default {
       console.log('取消的id', cancelid)
       console.log(myenterDetail)
       this.$store.dispatch('getmyflagApproval', cancelid)
-      this.$emit('enter', myenterDetail)
-      this.$emit('enterinfo', this.moreaction)
+      this.$emit('retreat', myenterDetail)
+      this.$emit('retreatinfo', this.moreaction[0])
     }
     // 仓库管理员选择结束
   }

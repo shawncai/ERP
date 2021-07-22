@@ -90,7 +90,7 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" sortable prop="paymentNumber" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.paymentNumber }}</span>
           </template>
@@ -310,7 +310,7 @@ export default {
     // 反审批操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentId
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,

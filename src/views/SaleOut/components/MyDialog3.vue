@@ -394,7 +394,7 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
-          <el-editable-column v-if="jundgeprice()" :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+          <el-editable-column v-if="jundgeprice()" :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
             <template slot-scope="scope">
               <p>{{ getincludeTaxCostMoney(scope.row) }}</p>
             </template>

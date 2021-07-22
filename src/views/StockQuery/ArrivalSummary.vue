@@ -1,7 +1,9 @@
 <template>
   <div class="ERP-container">
     <el-card class="box-card" style="margin-top: 10px" shadow="never">
-      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" class="filter-item" size="mini" clearable style="width: 200px" @keyup.enter.native="handleFilter"/>
+      <el-input v-model="getemplist.productCode" :placeholder="$t('StockQuery.productCode')" class="filter-item" size="mini" clearable style="width: 200px" @keyup.enter.native="handleFilter" @focus="handleAddproduct"/>
+      <my-detail :control.sync="control" @product="product"/>
+
       <el-input v-model="supplierId" :placeholder="$t('StockQuery.supplierId')" size="mini" class="filter-item" style="width: 200px" clearable @keyup.enter.native="handleFilter" @clear="restFilter" @focus="handlechoose"/>
       <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
       <el-date-picker
@@ -170,14 +172,14 @@ export default {
       this.supplierId = val.supplierName
       this.getemplist.supplierId = val.id
     },
-    // // 物品名称focus控制
-    // handleAddproduct() {
-    //   this.control = true
-    // },
-    // // 物品返回数据
-    // product(val) {
-    //   this.getemplist.productName = val.productName
-    // },
+    // 物品名称focus控制
+    handleAddproduct() {
+      this.control = true
+    },
+    // 物品返回数据
+    product(val) {
+      this.getemplist.productCode = val.code
+    },
     getlist() {
       // 采购价格分析列表数据
       this.listLoading = true
@@ -215,8 +217,6 @@ export default {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
           // this.restFilter()
-        } else {
-          // this.restFilter()
         }
       })
     },
@@ -229,17 +229,32 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '物品编号', '物品名称', '规格', '单位', '到货数量', '含税到货金额', '去税到货金额', '退货数量', '含税退货金额', '去税退货金额']
-          const filterVal = ['suppilerId', 'suppilerName', 'productCode', 'productName', 'productType', 'unit', 'arrivalQuantity', 'arrivalIncludedTax', 'arrivalUnIncludedTax', 'returnQuantity', 'returnIncludedTax', 'returnUnIncludedTax']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '到货汇总'
+      const parms = {
+        repositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        pageNum: 1,
+        pageSize: 100000,
+        productCode: this.getemplist.productCode,
+        supplierId: this.getemplist.supplierId,
+        beginTime: this.getemplist.beginTime,
+        endTime: this.getemplist.endTime
+      }
+
+      searchArrivalSummary(parms).then(res => {
+        if (res.data.ret === 200) {
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['供应商编号', '供应商名称', '物品编号', '物品名称', '规格', '单位', '到货数量', '含税到货金额', '去税到货金额', '退货数量', '含税退货金额', '去税退货金额']
+            const filterVal = ['suppilerId', 'suppilerName', 'productCode', 'productName', 'productType', 'unit', 'arrivalQuantity', 'arrivalIncludedTax', 'arrivalUnIncludedTax', 'returnQuantity', 'returnIncludedTax', 'returnUnIncludedTax']
+            const data = this.formatJson(filterVal, res.data.data.content.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '到货汇总'
+            })
+            this.downloadLoading = false
           })
-          this.downloadLoading = false
-        })
+        }
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

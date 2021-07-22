@@ -55,12 +55,15 @@
         :key="tableKey"
         :data="list"
         :height="tableHeight"
+        :row-key="getRowKeys"
         size="small"
         border
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange">
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange">
+        <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
         <el-table-column :label="$t('Stockenter.id')" :resizable="false" fixed="left" align="center" min-width="80">
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.enterNumber }}</span>
@@ -108,7 +111,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-top: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
       <!--修改结束=================================================-->
@@ -142,7 +145,9 @@ export default {
   data() {
     return {
       tableHeight: 200,
-
+      getRowKeys(row) {
+        return row.id
+      },
       // 选择框控制
       employeeVisible: this.factorycontrol,
       // 详情组件数据
@@ -221,6 +226,28 @@ export default {
     _that = this
   },
   methods: {
+    handleSelectionChange(rows) {
+      // console.log(val)
+      // this.moreaction = val
+      console.log('myrows==========>', rows)
+      const obj = {}
+      const processaction = rows.reduce((cur, next) => {
+        obj[next.id] ? '' : obj[next.id] = true && cur.push(next)
+        return cur
+      }, [])
+      this.moreaction = processaction
+      console.log('this.moreaction===>', this.moreaction)
+      this.select_order_number = this.moreaction.length
+      this.select_orderId = []
+      if (rows) {
+        rows.forEach(row => {
+          if (row) {
+            this.select_orderId.push(row.id)
+          }
+        })
+      }
+      console.log('this.select_orderId', this.select_orderId)
+    },
     getlist() {
       // 入库列表数据
       this.listLoading = true
@@ -327,7 +354,7 @@ export default {
     // 确认添加数据
     handleConfirm() {
       this.employeeVisible = false
-      this.$emit('outSource', this.choosedata)
+      this.$emit('outSource', this.moreaction)
     }
   }
 }

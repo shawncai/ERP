@@ -49,7 +49,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item :label="$t('payment.payAccount')" style="width: 100%;">
+                <el-form-item :label="$t('Supplier.bankName')" style="width: 100%;">
                   <span>{{ personalForm.payAccount }}</span>
                 </el-form-item>
               </el-col>
@@ -102,7 +102,7 @@
             style="width: 100%">
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('update4.invoiceDate')" prop="invoiceDate" align="center" min-width="180px"/>
+            <el-editable-column :label="$t('update4.faiaochuangjiariqil')" prop="invoiceDate" align="center" min-width="180px"/>
             <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" />
             <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" />
             <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" />

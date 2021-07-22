@@ -724,6 +724,7 @@ export default {
   watch: {
     detailcontrol() {
       this.editVisible = this.detailcontrol
+      this.getemplist.pageNum = 1
       this.getemplist.pageSize = 10
     },
     detaildata() {

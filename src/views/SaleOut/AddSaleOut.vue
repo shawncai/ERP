@@ -218,6 +218,7 @@
           <my-recycling :recyclingcontrol.sync="recyclingcontrol" @recyclingdata="recyclingdata"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds();test()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
+          <el-button v-show="personalForm.countryId === 1" type="primary" @click="updateCopyPrice()">{{ $t('update4.gegnxingjiage') }}</el-button>
         </div>
         <div class="container">
           <el-editable
@@ -226,7 +227,9 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
             class="click-table1"
+            show-summary
             stripe
             border
             size="small"
@@ -315,7 +318,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ getincludeTaxCostMoney(scope.row) }}</p>
                 <p v-show="jundgeprice() === false"/>
@@ -653,7 +656,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { searchRoleDiscount } from '@/api/BasicSettings'
-import { customerlist2 } from '@/api/Customer'
+import { customerlist2, getPriceByGroup } from '@/api/Customer'
 import { returnMoney } from '@/api/Coupon'
 import { materialslist2 } from '@/api/MaterialsList'
 import { getPackage } from '@/api/Package'
@@ -951,7 +954,8 @@ export default {
       ableSubmission: true,
       // 批次列表
       batchlist: [],
-      flag: true
+      flag: true,
+      levelId: ''
     }
   },
   computed: {
@@ -1036,6 +1040,80 @@ export default {
     _that = this
   },
   methods: {
+    updateCopyPrice() {
+      if (!this.levelId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择客户',
+          offset: 100
+        })
+        return false
+      }
+      // eslint-disable-next-line prefer-const
+      let listdata = this.$refs.editable.getRecords()
+      for (const i in listdata) {
+        // eslint-disable-next-line prefer-const
+        let searchParms = {
+          productCode: listdata[i].productCode,
+          levelId: this.levelId
+        }
+        getPriceByGroup(searchParms).then(res => {
+          console.log('res ======> customerProductList', res)
+          if (res.data.ret === 200) {
+            listdata[i].salePrice = res.data.data.content.price
+          }
+        })
+      }
+      console.log('listdata ========> listdata', listdata)
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              console.log(prev)
+              return Number(prev).toFixed(2)
+            }
+          }, 0)
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[1] = ''
+      sums[2] = ''
+      sums[3] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      sums[7] = ''
+      sums[8] = ''
+      sums[9] = ''
+      sums[10] = ''
+      sums[11] = ''
+      sums[12] = ''
+      sums[13] = ''
+      sums[17] = ''
+      sums[22] = ''
+      sums[23] = ''
+      sums[24] = ''
+      sums[25] = ''
+      sums[26] = ''
+      sums[27] = ''
+      sums[28] = ''
+
+      return sums
+    },
     changeAdvanceMoney(val) {
       console.log('val', val)
       if (Number(val) > this.flexAdvanceMoney) {
@@ -2043,60 +2121,60 @@ export default {
       this.personalForm.otherMoney = sums[12]
       return sums
     },
-    // 总计
-    getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = 'summery'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return (Number(prev) + Number(curr)).toFixed(6)
-            } else {
-              return (Number(prev)).toFixed(6)
-            }
-          }, 0)
-          sums[index] += ''
-        } else {
-          sums[index] = ''
-        }
-      })
-      sums[1] = ''
-      sums[2] = ''
-      sums[3] = ''
-      sums[4] = ''
-      sums[5] = ''
-      sums[6] = ''
-      sums[7] = ''
-      sums[8] = ''
-      sums[9] = ''
-      sums[10] = ''
-      sums[11] = ''
-      sums[12] = ''
-      sums[13] = ''
-      sums[15] = ''
-      sums[16] = ''
-      sums[17] = ''
-      sums[21] = ''
-      sums[22] = ''
-      sums[23] = ''
-      sums[24] = ''
-      sums[25] = ''
-      this.heji1 = Number(sums[14])
-      this.heji3 = Number(sums[18])
-      this.heji4 = Number(sums[20])
-      // this.heji5 = sums[25]
-      // this.heji6 = sums[19] - sums[25]
-      // this.heji7 = sums[23]
-      // this.heji8 = sums[18]
-      return sums
-    },
+    // // 总计
+    // getSummaries(param) {
+    //   const { columns, data } = param
+    //   const sums = []
+    //   columns.forEach((column, index) => {
+    //     if (index === 0) {
+    //       sums[index] = 'summery'
+    //       return
+    //     }
+    //     const values = data.map(item => Number(item[column.property]))
+    //     if (!values.every(value => isNaN(value))) {
+    //       sums[index] = values.reduce((prev, curr) => {
+    //         const value = Number(curr)
+    //         if (!isNaN(value)) {
+    //           return (Number(prev) + Number(curr)).toFixed(6)
+    //         } else {
+    //           return (Number(prev)).toFixed(6)
+    //         }
+    //       }, 0)
+    //       sums[index] += ''
+    //     } else {
+    //       sums[index] = ''
+    //     }
+    //   })
+    //   sums[1] = ''
+    //   sums[2] = ''
+    //   sums[3] = ''
+    //   sums[4] = ''
+    //   sums[5] = ''
+    //   sums[6] = ''
+    //   sums[7] = ''
+    //   sums[8] = ''
+    //   sums[9] = ''
+    //   sums[10] = ''
+    //   sums[11] = ''
+    //   sums[12] = ''
+    //   sums[13] = ''
+    //   sums[15] = ''
+    //   sums[16] = ''
+    //   sums[17] = ''
+    //   sums[21] = ''
+    //   sums[22] = ''
+    //   sums[23] = ''
+    //   sums[24] = ''
+    //   sums[25] = ''
+    //   this.heji1 = Number(sums[14])
+    //   this.heji3 = Number(sums[18])
+    //   this.heji4 = Number(sums[20])
+    //   // this.heji5 = sums[25]
+    //   // this.heji6 = sums[19] - sums[25]
+    //   // this.heji7 = sums[23]
+    //   // this.heji8 = sums[18]
+    //   return sums
+    // },
     // 计算成本金额
     getcostMoney(row) {
       row.costMoney = (row.costPrice * row.quantity).toFixed(6)
@@ -2278,6 +2356,7 @@ export default {
       this.personalForm.transAddress = val.address
       this.personalForm.customerId = val.id
       customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res ====> customer', res)
         if (res.data.ret === 200) {
           if (this.isdeduct === 1) {
             this.personalForm.advanceMoney = res.data.data.content.advanceMoney
@@ -2286,6 +2365,7 @@ export default {
             this.personalForm.advanceMoney = 0
             this.flexAdvanceMoney = 0
           }
+          this.levelId = res.data.data.content.level
         }
 
         this.getReceivableMoney()

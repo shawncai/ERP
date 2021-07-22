@@ -348,6 +348,7 @@ export default {
         console.log('judgeIscustomerGroup', judgeIscustomerGroup)
         if (judgeIscustomerGroup.list.length !== 0) {
           chooseCustomerProduct(this.getemplist).then(res => {
+            console.log('eeee')
             if (res.data.ret === 200) {
               that.list = res.data.data.content.list
               that.total = res.data.data.content.totalCount

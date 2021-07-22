@@ -24,7 +24,7 @@
             :label="item.repositoryName"
             :value="item.id"/>
         </el-select>
-        <el-input v-model="customerName" :placeholder="$t('SaleReturn.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
+        <el-input v-model="getemplist.customerName" :placeholder="$t('SaleReturn.customerName')" size="small" style="width: 40%;float: right;margin-right: 20px;" clearable @clear="restFilter" @focus="chooseCustomer"/>
         <my-customer :customercontrol.sync="customercontrol" @customerdata="customerdata"/>
         <my-agent :agentcontrol.sync="agentcontrol" @agentdata="agentdata"/>
         <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" size="small" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">

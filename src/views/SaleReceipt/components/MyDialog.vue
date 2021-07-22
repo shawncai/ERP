@@ -163,6 +163,9 @@
     </el-card> -->
     <el-card class="box-card" style="margin-top: 15px" shadow="never">
       <div ref="fuzhu" style="margin-bottom: 20px;" class="form-name" >收款明细</div>
+      <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
+        <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
+      </div>
       <div class="container">
         <el-editable
           ref="editable"
@@ -176,6 +179,7 @@
           size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange2">
+          <el-editable-column type="selection" min-width="55" align="center" />
           <el-editable-column :key="Math.random()" prop="customerCollectId" label="编号" min-width="200" align="center" />
           <el-editable-column :key="Math.random()" prop="shouldMoney" align="center" label="应收款金额" min-width="150px"/>
           <!-- <el-editable-column :key="Math.random()" :label="$t('updates.cke')" prop="discountMoney" align="center" min-width="150px"/> -->
@@ -183,6 +187,8 @@
           <el-editable-column :key="Math.random()" prop="collectedMoney" align="center" label="已收金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" prop="uncollectedMoney" align="center" label="未收款金额" min-width="150px"/>
           <el-editable-column :key="Math.random()" :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible'}" prop="thisMoney" align="center" label="本次收款" min-width="150px"/>
+          <el-editable-column :key="Math.random()" :label="$t('update4.xiasohouchukdanriqi')" prop="outDate" align="center" min-width="150px" />
+
         </el-editable>
       </div>
     </el-card>

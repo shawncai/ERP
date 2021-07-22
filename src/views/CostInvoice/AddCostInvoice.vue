@@ -306,6 +306,14 @@ export default {
         callback()
       }
     }
+
+    const validatePass5 = (rule, value, callback) => {
+      if (this.personalForm.invoiceType === undefined || this.personalForm.invoiceType === null || this.personalForm.invoiceType === '') {
+        callback(new Error('请选择发票类型'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions1: {
         disabledDate: (time) => {
@@ -372,6 +380,7 @@ export default {
       // 采购申请单信息数据
       personalForm: {
         payDate: null,
+        invoiceType: null,
         handlePersonId: this.$store.getters.userId,
         createPersonId: this.$store.getters.userId,
         countryId: this.$store.getters.countryId,
@@ -386,7 +395,7 @@ export default {
       // 采购申请单规则数据
       personalrules: {
         invoiceType: [
-          { required: true, message: '请选择发票类型', trigger: 'change' }
+          { required: true, validator: validatePass5, trigger: 'change' }
         ],
         supplierId: [
           { required: true, validator: validatePass2, trigger: 'change' }
@@ -429,9 +438,10 @@ export default {
     this.getways()
     this.getdatatime()
   },
-
-  mounted() {
+  activated() {
     this.getinformation()
+  },
+  mounted() {
     this.getcurrency()
   },
   beforeCreate() {
@@ -485,12 +495,14 @@ export default {
       // this.$refs.editable.insertAt(-1)
       const row = this.$refs.editable.insertAt('', -1)
       this.$nextTick(() => this.$refs.editable.setActiveCell(row, 'name'))
-      this.list2[0].quantity = 1
-      const mycountry = this.$store.getters.countryId
-      if (mycountry === 1) {
-        this.list2[0].currency = 3
-      } else if (mycountry === 2) {
-        this.list2[0].currency = 1
+      for (const i in this.list2) {
+        this.list2[i].quantity = 1
+        const mycountry = this.$store.getters.countryId
+        if (mycountry === 1) {
+          this.list2[i].currency = 3
+        } else if (mycountry === 2) {
+          this.list2[i].currency = 1
+        }
       }
     },
     // 重置一下下拉
@@ -523,21 +535,22 @@ export default {
       this.moreaction = val
     },
     getinformation() {
+      console.log('this.$store.getters.empcontract', this.$store.getters.empcontract)
       if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-        this.personalForm.sourceType = '1'
-        this.chooseType()
-        this.allarrivalinfo(this.$store.getters.empcontract)
-        for (let i = 0; i < this.$store.getters.empcontract.stockArrivalDetailVos.length; i++) {
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].typeName = this.$store.getters.empcontract.stockArrivalDetailVos[i].productType
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].type = this.$store.getters.empcontract.stockArrivalDetailVos[i].typeId
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].retreatQuantity = 0
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].retreatReason = ''
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceNumber = this.$store.getters.empcontract.number
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].sourceSerialNumber = this.$store.getters.empcontract.stockArrivalDetailVos[i].id
-          this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate = this.$store.getters.empcontract.stockArrivalDetailVos[i].taxRate * 100
+        const copyData = this.$store.getters.empcontract
+        this.personalForm.settleMode = copyData.settleMode
+        this.personalForm.subject = copyData.subject
+        this.personalForm.isInclude = copyData.isInclude
+        this.personalForm.isInclude = copyData.isInclude
+        this.personalForm.invoiceType = copyData.invoiceType
+        this.personalForm.supplierId = copyData.supplierId
+        this.supplierId = copyData.supplierName
+        this.personalForm.taxNumber = copyData.taxNumber
+        this.personalForm.address = copyData.address
+        this.personalForm.bank = copyData.bank
+        for (const i in copyData.costInvoiceDetailVos) {
+          this.$refs.editable.insert(copyData.costInvoiceDetailVos[i])
         }
-        this.arrival(this.$store.getters.empcontract.stockArrivalDetailVos)
         this.$store.dispatch('getempcontract', '')
       }
     },
@@ -581,7 +594,7 @@ export default {
             if (!isNaN(value)) {
               return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return (prev).toFixed(2)
+              return Number(prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -647,59 +660,6 @@ export default {
           console.log('this.payModes', this.payModes)
         }
       })
-    },
-    // 选择源单类型事件
-    chooseType() {
-      console.log(this.personalForm.sourceType)
-      if (this.personalForm.sourceType === '1') {
-        this.addsouce = false
-        this.addpro = true
-        this.$refs.editable.clear()
-        this.$refs.personalForm.clearValidate()
-      } else if (this.personalForm.sourceType === '2') {
-        this.addpro = false
-        this.addsouce = true
-        this.personalForm.sourceNumber = ''
-        this.$refs.editable.clear()
-        this.$refs.personalForm.clearValidate()
-      }
-    },
-    // 从源单中添加商品
-    handleAddSouce() {
-      this.arrivalcontrol = true
-    },
-    arrival(val) {
-      this.$refs.editable.clear()
-      for (let i = 0; i < val.length; i++) {
-        this.$refs.editable.insert(val[i])
-      }
-    },
-    allarrivalinfo(val) {
-      this.personalForm.sourceNumber = val.number
-      this.personalForm.supplierId = val.supplierId
-      this.supplierId = val.supplierName
-      if (val.stockTypeId !== null && val.stockTypeId !== undefined && val.stockTypeId !== '') {
-        this.personalForm.stockTypeId = val.stockTypeId
-      }
-      this.personalForm.isVat = val.isVat
-      if (val.stockPersonId !== null && val.stockPersonId !== undefined && val.stockPersonId !== '') {
-        this.personalForm.stockPersonId = val.stockPersonId
-        this.stockPersonId = val.stockPersonName
-      }
-      if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
-        this.personalForm.payMode = val.payMode
-      }
-      if (val.deliveryModeId !== null && val.deliveryModeId !== undefined && val.deliveryModeId !== '') {
-        this.personalForm.deliveryModeId = val.deliveryModeId
-      }
-      if (val.currencyId !== null && val.currencyId !== undefined && val.currencyId !== '') {
-        this.personalForm.currencyId = String(val.currencyId)
-      }
-      this.getTypes()
-    },
-    // 更新类型
-    updatecountry() {
-      this.getTypes()
     },
     getTypes() {
       getcountrylist().then(res => {

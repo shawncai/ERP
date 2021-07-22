@@ -151,6 +151,7 @@
             <el-editable-column :label="$t('updates.rksl')" prop="actualEnterQuantity" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.bz')" prop="remarks" align="center" width="150px"/>
             <el-editable-column :label="$t('updates.ydxh')" prop="sourceSerialNumber" align="center" width="150px"/>
+            <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.cjbm')" prop="carCode" align="center" min-width="150" >
               <template slot="edit" slot-scope="scope">
                 <el-input v-if="isEdit2(scope.row)" v-model="scope.row.carCode" clearable/>
@@ -370,7 +371,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
         const re = val[i].productCode.slice(0, 2)
-        if (re === '01' && that.$store.getters.countryId === 2) {
+        if (re === '01') {
           const arrlength = Number(val[i].actualEnterQuantity)
           let newobj = {}
           for (let index = 0; index < arrlength; index++) {
@@ -431,7 +432,7 @@ export default {
         this.$refs.editable.insert(val[i])
         // val[i].actualEnterQuantity = val[i].produceQuantity - val[i].alreadyEnterQuantity
         const re = val[i].productCode.slice(0, 2)
-        if (re === '01' && that.$store.getters.countryId === 2) {
+        if (re === '01') {
           const arrlength = Number(val[i].passQuantity)
           let newobj = {}
           for (let index = 0; index < arrlength; index++) {
@@ -572,7 +573,7 @@ export default {
       }).forEach(function(elem) {
         const re = elem.productCode.slice(0, 2)
         if (re === '01') {
-          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '' || elem.batteryCode === null || elem.batteryCode === undefined || elem.batteryCode === '') {
+          if (elem.carCode === null || elem.carCode === undefined || elem.carCode === '' || elem.motorCode === null || elem.motorCode === undefined || elem.motorCode === '') {
             m = 2
           }
           if (elem.actualEnterQuantity !== 1) {

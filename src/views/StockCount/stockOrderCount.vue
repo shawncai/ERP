@@ -280,43 +280,106 @@ export default {
       this.downloadLoading = true
 
       if (this.getemplist.type === '1') {
-       import('@/vendor/Export2Excel').then(excel => {
-         const tHeader = ['供应商名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
-         const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
-         const data = this.formatJson(filterVal, this.list)
-         excel.export_json_to_excel({
-           header: tHeader,
-           data,
-           filename: '采购订单汇总表'
-         })
-         this.downloadLoading = false
-       })
+        const parms = {
+          pageNum: 1,
+          pageSize: 1000000,
+          repositoryId: this.$store.getters.repositoryId,
+          regionIds: this.$store.getters.regionIds,
+          type: '1',
+          supplierId: this.getemplist.supplierId,
+          beginTime: this.getemplist.beginTime,
+          endTime: this.getemplist.endTime
+        }
+
+        stockOrderCount(parms).then(res => {
+          if (res.data.ret === 200) {
+            // eslint-disable-next-line prefer-const
+            let printData = res.data.data.content.list
+            for (let i = 0; i < printData.length; i++) {
+              printData[i].heji = printData[i].totalMoney + printData[i].taxMoney
+            }
+
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['供应商名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+            const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+            const data = this.formatJson(filterVal, printData)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购订单汇总表'
+            })
+            this.downloadLoading = false
+          })
+          }
+        })
       }
       if (this.getemplist.type === '2') {
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['经办人名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
-          const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '采购订单汇总表'
+        const parms = {
+          pageNum: 1,
+          pageSize: 1000000,
+          repositoryId: this.$store.getters.repositoryId,
+          regionIds: this.$store.getters.regionIds,
+          type: '2',
+          supplierId: this.getemplist.supplierId,
+          beginTime: this.getemplist.beginTime,
+          endTime: this.getemplist.endTime
+        }
+
+        stockOrderCount(parms).then(res => {
+          if (res.data.ret === 200) {
+            // eslint-disable-next-line prefer-const
+            let printData = res.data.data.content.list
+            for (let i = 0; i < printData.length; i++) {
+              printData[i].heji = printData[i].totalMoney + printData[i].taxMoney
+            }
+
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['经办人名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+            const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+            const data = this.formatJson(filterVal, this.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购订单汇总表'
+            })
+            this.downloadLoading = false
           })
-          this.downloadLoading = false
+          }
         })
       }
       if (this.getemplist.type === '4') {
-         import('@/vendor/Export2Excel').then(excel => {
-           const tHeader = ['种类名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
-           const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
-           const data = this.formatJson(filterVal, this.list)
-           excel.export_json_to_excel({
-             header: tHeader,
-             data,
-             filename: '采购订单汇总表'
-           })
-           this.downloadLoading = false
-         })
+        const parms = {
+          pageNum: 1,
+          pageSize: 1000000,
+          repositoryId: this.$store.getters.repositoryId,
+          regionIds: this.$store.getters.regionIds,
+          type: '4',
+          supplierId: this.getemplist.supplierId,
+          beginTime: this.getemplist.beginTime,
+          endTime: this.getemplist.endTime
+        }
+
+        stockOrderCount(parms).then(res => {
+          if (res.data.ret === 200) {
+            // eslint-disable-next-line prefer-const
+            let printData = res.data.data.content.list
+            for (let i = 0; i < printData.length; i++) {
+              printData[i].heji = printData[i].totalMoney + printData[i].taxMoney
+            }
+
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['种类名称', '订货数量', '订货金额', '订货税额', '合计', '已到货数量', '未到货数量']
+            const filterVal = ['name', 'orderQuantity', 'totalMoney', 'taxMoney', 'heji', 'arrivedQuantity', 'notArrivedQuantity']
+            const data = this.formatJson(filterVal, printData)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购订单汇总表'
+            })
+            this.downloadLoading = false
+          })
+          }
+        })
       }
     },
 

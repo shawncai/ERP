@@ -165,6 +165,11 @@
             <span>{{ scope.row.receiptMoney }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('update4.changeMoney')" :resizable="false" prop="changeMoney" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.changeMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Receipt.receiptDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.receiptDate }}</span>

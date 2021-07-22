@@ -859,3 +859,20 @@ export function chooseGroupProduct(query, query2, query3) {
     data: params
   })
 }
+
+// 查询客户组商品价格
+export function getPriceByGroup(query) {
+  var params = new URLSearchParams()
+
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/customerProduct/getPriceByGroup',
+    method: 'post',
+    data: params
+  })
+}

@@ -57,6 +57,11 @@
                   style="margin-left: 18px;width:200px"/>
               </el-form-item>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('update4.remark')" style="width: 100%;">
+                <el-input v-model="personalForm.summary" size="mini" style="margin-left: 18px;width:200px" clearable/>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>

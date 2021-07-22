@@ -870,7 +870,7 @@ export default {
           for (const i in needlist) {
             for (const j in obj) {
               if (needlist[i].id === obj[j].primaryTableId) {
-                needlist[i].resultmoney = obj[j].money
+                needlist[i].resultmoney = Number(obj[j].money).toFixed(2)
               }
             }
           }
@@ -887,7 +887,7 @@ export default {
             for (const j in dataarr) {
               if (needlist[i].id === dataarr[j].primaryTableId) {
                 dataarr[j].id = needlist[i].id
-                dataarr[j].resultmoney = needlist[i].resultmoney
+                dataarr[j].resultmoney = Number(needlist[i].resultmoney).toFixed(2)
                 dataarr[j].approvalUseVos = needlist[i].approvalUseVos
                 dataarr[j].countryId = needlist[i].countryId
                 dataarr[j].createDate = needlist[i].createDate

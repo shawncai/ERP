@@ -117,7 +117,9 @@
             :data.sync="list2"
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
+            :summary-method="getSummaries"
             class="click-table1"
+            show-summary
             stripe
             border
             height="600"
@@ -207,7 +209,7 @@
                 <p>{{ getMoney(scope.row) }}</p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('updates.ckje')" prop="includeTaxCostMoney" align="center" min-width="170">
+            <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
               <template slot-scope="scope">
                 <p v-show="jundgeprice()">{{ getincludeTaxCostMoney(scope.row) }}</p>
                 <p v-show="jundgeprice() === false"/>
@@ -2078,7 +2080,7 @@ export default {
       const sums = []
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = 'summery'
+          sums[index] = '合计'
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -2109,17 +2111,18 @@ export default {
       sums[11] = ''
       sums[12] = ''
       sums[13] = ''
-      sums[15] = ''
-      sums[16] = ''
-      sums[17] = ''
+      sums[20] = ''
       sums[21] = ''
       sums[22] = ''
       sums[23] = ''
       sums[24] = ''
       sums[25] = ''
-      this.heji1 = sums[14]
-      this.heji3 = sums[18]
-      this.heji4 = sums[20]
+      sums[26] = ''
+      sums[27] = ''
+      sums[28] = ''
+      // this.heji1 = sums[14]
+      // this.heji3 = sums[18]
+      // this.heji4 = sums[20]
       // this.heji5 = sums[25]
       // this.heji6 = sums[19] - sums[25]
       // this.heji7 = sums[23]
