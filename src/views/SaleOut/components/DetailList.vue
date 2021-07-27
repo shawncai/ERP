@@ -564,6 +564,11 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2)" :loading="judgeloading" type="warning" size="mini" @click="handleReview()">{{ $t('updates.spi') }}</el-button>
+          <el-button v-permission="['54-55-49']" v-waves v-show="personalFormjudgeStat === 2&&personalForm.isDeliver === 1&&personalForm.customerType ==='1' " class="filter-item" type="primary" style="width: 82px" @click="handleReceipt()"><span style="margin-left: -15px;">生成配送单</span></el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -571,10 +576,15 @@
 
 <script>
 import { getPrintCount, addPrint } from '@/api/public'
+import { updatesaleOut2 } from '@/api/SaleOut'
+import waves from '@/directive/waves' // Waves directive
+import permission from '@/directive/permission/index.js' // 权限判断指令
+
 import printJS from 'print-js'
 import { productlist } from '@/api/public'
 var _that
 export default {
+  directives: { waves, permission },
   filters: {
     couponRemarkFilter(sta) {
       const statusMap = {
@@ -698,6 +708,7 @@ export default {
   },
   data() {
     return {
+      judgeloading: false,
       downloadLoading: false,
       itemlist: [],
       // 退货入库数据
@@ -748,6 +759,87 @@ export default {
     _that = this
   },
   methods: {
+    handleReceipt() {
+      console.log('this.personalForm', this.personalForm)
+      this.$store.dispatch('getempcontract', this.personalForm)
+      this.editVisible = false
+      this.$router.push('/DeliverGoods/AddDeliverGoods')
+    },
+    // 审批操作
+    handleReview() {
+      this.judgeloading = true
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOut2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+
+            this.$emit('rest', true)
+          }
+          this.judgeloading = false
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: 'confirm',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatesaleOut2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+
+          // ================取消弹框结束
+        }
+        this.judgeloading = false
+      })
+    },
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        // console.log(index)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
         return v[j]

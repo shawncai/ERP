@@ -81,7 +81,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Storagemovediff.title')" :resizable="false" fixed="left" align="center" >
           <template slot-scope="scope">
@@ -113,7 +113,6 @@
           <template slot-scope="scope">
             <el-button v-permission="['1-14-419-3']" v-show="scope.row.judgeStat === 0" :title="$t('updates.xg')" :key="scope.row.id + Math.random()" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission="['1-14-419-2']" v-show="scope.row.judgeStat === 0" :title="$t('updates.sc')" :key="scope.row.id + Math.random()" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
 
             <el-button v-permission="['1-14-419-76']" v-show="isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
 
@@ -130,7 +129,7 @@
 </template>
 
 <script>
-import { supplierAdjustList, deleteCustomerProductAdjust, updateCustomerAdjust } from '@/api/Customer'
+import { supplierAdjustList, deleteCustomerProductAdjust, updateCustomerAdjust, supplierAdjustGetList } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -517,7 +516,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      supplierAdjustList(this.getemplist).then(res => {
+      supplierAdjustGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -547,7 +546,7 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      supplierAdjustList(this.getemplist).then(res => {
+      supplierAdjustGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -559,12 +558,22 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.personalForm = Object.assign({}, row)
-      if (row.stat !== null) {
-        this.personalForm.stat = String(row.stat)
+      const parms = {
+        adjustId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      this.editVisible = true
+      supplierAdjustList(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          if (res.data.data.content.list[0].stat !== null) {
+            this.personalForm.stat = String(res.data.data.content.list[0].stat)
+          }
+          this.editVisible = true
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -574,9 +583,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        adjustId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      supplierAdjustList(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // // 判断审核按钮
     // isReview(row) {

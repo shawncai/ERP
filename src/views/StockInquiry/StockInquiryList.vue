@@ -96,7 +96,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.inquiryNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('StockInquiry.inquiryPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -157,7 +157,6 @@
           <template slot-scope="scope">
             <el-button v-permission="['104-110-42']" v-show="scope.row.judgeStat === 0" title="再次询价" type="primary" size="mini" icon="el-icon-d-arrow-right" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission2="['104-110-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['104-110-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['104-110-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['104-110-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -176,7 +175,7 @@
 </template>
 
 <script>
-import { stockplanlist, updatestockInquiry2, deletestockInquiry } from '@/api/StockInquiry'
+import { stockplanlist, updatestockInquiry2, deletestockInquiry, stockplanGetList } from '@/api/StockInquiry'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -441,7 +440,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      stockplanlist(this.getemplist).then(res => {
+      stockplanGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -479,7 +478,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      stockplanlist(this.getemplist).then(res => {
+      stockplanGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -510,11 +509,21 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      stockplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          this.personalForm.currency = String(res.data.data.content.list[0].currency)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -524,9 +533,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      stockplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { searchoutFactory, deleteoutFactory } from '@/api/OutFactory'
+import { searchoutFactory, deleteoutFactory, outFactoryGetList } from '@/api/OutFactory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -177,7 +177,7 @@ export default {
     async getlist() {
       // 外包工厂列表数据
       this.listLoading = true
-      await searchoutFactory(this.getemplist).then(res => {
+      await outFactoryGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -191,7 +191,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      searchoutFactory(this.getemplist).then(res => {
+      outFactoryGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -230,10 +230,21 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      searchoutFactory(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -243,10 +254,21 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      searchoutFactory(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

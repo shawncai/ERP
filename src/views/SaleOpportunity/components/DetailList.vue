@@ -166,6 +166,10 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button type="primary" style="width: 107px" @click="handleMyReceipt1()"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -285,6 +289,11 @@ export default {
     _that = this
   },
   methods: {
+    handleMyReceipt1() {
+      this.$store.dispatch('getempcontract2', this.personalForm)
+      this.editVisible = false
+      this.$router.push('/SaleOut/AddSaleOut')
+    },
     handlecancel() {
       this.editVisible = false
     }

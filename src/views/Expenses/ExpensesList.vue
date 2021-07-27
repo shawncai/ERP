@@ -142,7 +142,6 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
-        :span-method="arraySpanMethod"
         :summary-method="getSummaries2"
         size="small"
         show-summary
@@ -162,7 +161,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Expenses.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -234,7 +233,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['266-92-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['266-92-17']" v-show="isReview3(scope.row)" :key="scope.row.id + Math.random()" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -276,7 +274,7 @@
 <script>
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail } from '@/api/voucher'
-import { searchexpenses, updateexpenses2, deleteexpenses, getRepositoryList, detailList } from '@/api/Expenses'
+import { searchexpenses, updateexpenses2, deleteexpenses, getRepositoryList, detailList, searchexpensesGetList } from '@/api/Expenses'
 import { regionlist, searchRepository } from '@/api/public'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -858,74 +856,74 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchexpenses(this.getemplist).then(res => {
+      searchexpensesGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const needlist = res.data.data.content.list
-          const listdata = res.data.data.content.list.map(item => {
-            return item.expensesDetailVos
-          })
-          const dataarr2 = [].concat.apply([], listdata)
-          const dataarr = this._.cloneDeep(dataarr2)
-          const obj = this.trans(dataarr)
-          for (const i in needlist) {
-            for (const j in obj) {
-              if (needlist[i].id === obj[j].primaryTableId) {
-                needlist[i].resultmoney = Number(obj[j].money).toFixed(2)
-              }
-            }
-          }
+          this.list = res.data.data.content.list
+          // const listdata = res.data.data.content.list.map(item => {
+          //   return item.expensesDetailVos
+          // })
+          // const dataarr2 = [].concat.apply([], listdata)
+          // const dataarr = this._.cloneDeep(dataarr2)
+          // const obj = this.trans(dataarr)
           // for (const i in needlist) {
-          //   for (const j in dataarr) {
-          //     if (needlist[i].id === dataarr[j].primaryTableId) {
-          //       dataarr[j].summary = dataarr2[i].summary
-          //       dataarr[j] = { ...dataarr[j], ...needlist[i] }
+          //   for (const j in obj) {
+          //     if (needlist[i].id === obj[j].primaryTableId) {
+          //       needlist[i].resultmoney = Number(obj[j].money).toFixed(2)
           //     }
           //   }
           // }
-          console.log('dataarr', dataarr)
-          for (const i in needlist) {
-            for (const j in dataarr) {
-              if (needlist[i].id === dataarr[j].primaryTableId) {
-                dataarr[j].id = needlist[i].id
-                dataarr[j].resultmoney = Number(needlist[i].resultmoney).toFixed(2)
-                dataarr[j].approvalUseVos = needlist[i].approvalUseVos
-                dataarr[j].countryId = needlist[i].countryId
-                dataarr[j].createDate = needlist[i].createDate
-                dataarr[j].createPersonId = needlist[i].createPersonId
-                dataarr[j].createPersonName = needlist[i].createPersonName
-                dataarr[j].currency = needlist[i].currency
-                dataarr[j].direction = needlist[i].direction
-                dataarr[j].endDate = needlist[i].endDate
-                dataarr[j].endPersonId = needlist[i].endPersonId
-                dataarr[j].endPersonName = needlist[i].endPersonName
-                dataarr[j].handlePersonId = needlist[i].handlePersonId
-                dataarr[j].handlePersonName = needlist[i].handlePersonName
-                dataarr[j].judgeDate = needlist[i].judgeDate
-                dataarr[j].judgePersonId = needlist[i].judgePersonId
-                dataarr[j].judgePersonName = needlist[i].judgePersonName
-                dataarr[j].judgeStat = needlist[i].judgeStat
-                dataarr[j].modifyDate = needlist[i].modifyDate
-                dataarr[j].modifyPersonId = needlist[i].modifyPersonId
-                dataarr[j].number = needlist[i].number
-                dataarr[j].picPaths = needlist[i].picPaths
-                dataarr[j].receiptStat = needlist[i].receiptStat
-                // dataarr[j].summary = needlist[i].summary
-                dataarr[j].taxRate = needlist[i].taxRate
-                dataarr[j].title = needlist[i].title
-                dataarr[j].expensesDate = needlist[i].expensesDate
-                dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
-                dataarr[j].expensesAccount = needlist[i].expensesAccount
-                dataarr[j].expensesAccount = needlist[i].expensesAccount
-                dataarr[j].expensesRegionId = needlist[i].expensesRegionId
-                dataarr[j].expensesRegionName = needlist[i].expensesRegionName
-                dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
-                dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
-                dataarr[j].isVoucher = needlist[i].isVoucher
-              }
-            }
-          }
-          this.list = dataarr
-          this.getSpanArr(this.list)
+          // // for (const i in needlist) {
+          // //   for (const j in dataarr) {
+          // //     if (needlist[i].id === dataarr[j].primaryTableId) {
+          // //       dataarr[j].summary = dataarr2[i].summary
+          // //       dataarr[j] = { ...dataarr[j], ...needlist[i] }
+          // //     }
+          // //   }
+          // // }
+          // console.log('dataarr', dataarr)
+          // for (const i in needlist) {
+          //   for (const j in dataarr) {
+          //     if (needlist[i].id === dataarr[j].primaryTableId) {
+          //       dataarr[j].id = needlist[i].id
+          //       dataarr[j].resultmoney = Number(needlist[i].resultmoney).toFixed(2)
+          //       dataarr[j].approvalUseVos = needlist[i].approvalUseVos
+          //       dataarr[j].countryId = needlist[i].countryId
+          //       dataarr[j].createDate = needlist[i].createDate
+          //       dataarr[j].createPersonId = needlist[i].createPersonId
+          //       dataarr[j].createPersonName = needlist[i].createPersonName
+          //       dataarr[j].currency = needlist[i].currency
+          //       dataarr[j].direction = needlist[i].direction
+          //       dataarr[j].endDate = needlist[i].endDate
+          //       dataarr[j].endPersonId = needlist[i].endPersonId
+          //       dataarr[j].endPersonName = needlist[i].endPersonName
+          //       dataarr[j].handlePersonId = needlist[i].handlePersonId
+          //       dataarr[j].handlePersonName = needlist[i].handlePersonName
+          //       dataarr[j].judgeDate = needlist[i].judgeDate
+          //       dataarr[j].judgePersonId = needlist[i].judgePersonId
+          //       dataarr[j].judgePersonName = needlist[i].judgePersonName
+          //       dataarr[j].judgeStat = needlist[i].judgeStat
+          //       dataarr[j].modifyDate = needlist[i].modifyDate
+          //       dataarr[j].modifyPersonId = needlist[i].modifyPersonId
+          //       dataarr[j].number = needlist[i].number
+          //       dataarr[j].picPaths = needlist[i].picPaths
+          //       dataarr[j].receiptStat = needlist[i].receiptStat
+          //       // dataarr[j].summary = needlist[i].summary
+          //       dataarr[j].taxRate = needlist[i].taxRate
+          //       dataarr[j].title = needlist[i].title
+          //       dataarr[j].expensesDate = needlist[i].expensesDate
+          //       dataarr[j].expensesDetailVos = needlist[i].expensesDetailVos
+          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
+          //       dataarr[j].expensesAccount = needlist[i].expensesAccount
+          //       dataarr[j].expensesRegionId = needlist[i].expensesRegionId
+          //       dataarr[j].expensesRegionName = needlist[i].expensesRegionName
+          //       dataarr[j].expensesRepositoryId = needlist[i].expensesRepositoryId
+          //       dataarr[j].expensesRepositoryName = needlist[i].expensesRepositoryName
+          //       dataarr[j].isVoucher = needlist[i].isVoucher
+          //     }
+          //   }
+          // }
+          // this.list = dataarr
+          // this.getSpanArr(this.list)
 
           this.total = res.data.data.content.totalCount
         }
@@ -1086,8 +1084,18 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.gettree(row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      searchexpenses(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.gettree(res.data.data.content.list[0])
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -1097,9 +1105,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      searchexpenses(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

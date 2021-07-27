@@ -191,6 +191,10 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview()"/>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -198,6 +202,8 @@
 
 <script>
 var _that
+import { updatestockapply2 } from '@/api/StockApply'
+
 export default {
   filters: {
     statfilter(status) {
@@ -272,6 +278,90 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const approvalUse2 = approvalUse[approvalUse.length - 1]
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log('asdasdasdasdadasdasda', index)
+        console.log('row.createPersonDept', this.personalForm.createPersonDept)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          console.log('approvalUse2.step', approvalUse2.step)
+          if (approvalUse2.step === 1) {
+            if (this.personalForm.createPersonDept === this.$store.getters.deptId) {
+              return true
+            }
+          } else {
+            return true
+          }
+        }
+      }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatestockapply2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          } else {
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockapply2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     exportData() {
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['物品编号', '物品名称', '规格', '颜色', '单位', '需求日期', '申请数量', '需求数量', '已下达数量']

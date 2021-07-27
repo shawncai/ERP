@@ -647,8 +647,8 @@ export default {
       sums[15] = ''
       sums[18] = ''
       console.log()
-      this.personalForm.offsetAdvance = sums[8]
-      this.personalForm.moneyThis = sums[7]
+      this.personalForm.offsetAdvance = sums[9]
+      this.personalForm.moneyThis = sums[8]
       return sums
     },
     getways() {

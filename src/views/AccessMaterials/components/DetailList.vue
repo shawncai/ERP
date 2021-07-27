@@ -53,6 +53,11 @@
                   <span>{{ personalForm.accessRepositoryName }}</span>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('updates.lx')" style="width: 100%;">
+                  <span>{{ personalForm.accessType | accessTypeFilter }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -186,6 +191,15 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button
+            v-show="isReview()"
+            type="warning"
+            size="mini"
+            @click="handleReview()" >
+            {{ $t('AccessMaterials.shengpi') }}
+          </el-button>
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -194,9 +208,18 @@
 <script>
 import printJS from 'print-js'
 import { searchEmpCategory2 } from '@/api/Product'
+import { updateaccess2 } from '@/api/AccessMaterials'
+
 var _that
 export default {
   filters: {
+    accessTypeFilter(sta) {
+      const staMaps = {
+        1: _that.$t('update4.shenghcang'),
+        2: _that.$t('update4.feishengchanleixing')
+      }
+      return staMaps[sta]
+    },
     statfilter(status) {
       const statusMap = {
         1: _that.$t('Hmodule.shz'),
@@ -272,6 +295,75 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateaccess2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updateaccess2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     shuchu() {
       console.log('1234567', this.$t())
     },

@@ -611,7 +611,7 @@ export default {
 
   mounted() {
     this.getcurrency()
-    this.getinformation()
+    // this.getinformation()
   },
   activated() {
     this.getinformation()
@@ -621,7 +621,7 @@ export default {
   },
   methods: {
     updateCopyPrice() {
-      if (!this.levelId) {
+      if (!this.personalForm.supplierId) {
         this.$notify.error({
           title: 'wrong',
           message: '请先选择供应商',
@@ -889,21 +889,22 @@ export default {
       }
     },
     getinformation() {
-      if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-        this.personalForm = this.$store.getters.empcontract
+      console.log('this.$store.getters.stockOrder', this.$store.getters.stockOrder)
+      if (this.$store.getters.stockOrder) {
+        console.log('getempcontract', this.$store.getters.stockOrder)
+        this.personalForm = this.$store.getters.stockOrder
         this.personalForm.sourceType = (this.personalForm.sourceType).toString()
         this.personalForm.currency = (this.personalForm.currency).toString()
         // this.getRate()
-        this.supplierId = this.$store.getters.empcontract.supplierName
-        this.stockPersonId = this.$store.getters.empcontract.stockPersonName
-        this.signPersonId = this.$store.getters.empcontract.signPersonName
+        this.supplierId = this.$store.getters.stockOrder.supplierName
+        this.stockPersonId = this.$store.getters.stockOrder.stockPersonName
+        this.signPersonId = this.$store.getters.stockOrder.signPersonName
         this.list2 = this.personalForm.stockOrderDetailVos
         this.personalForm.createPersonId = this.$store.getters.userId
         this.personalForm.countryId = this.$store.getters.countryId
         this.personalForm.repositoryId = this.$store.getters.repositoryId
         this.personalForm.regionId = this.$store.getters.regionId
-        this.$store.dispatch('getempcontract', '')
+        this.$store.dispatch('getstockOrder', '')
       }
     },
     checkStock(row) {

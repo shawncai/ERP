@@ -24,6 +24,9 @@ export function saleplanlist(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
   if (query.planNumber !== '' && query.planNumber !== null && query.planNumber !== undefined) {
     params.append('planNumber', query.planNumber) // 你要传给后台的参数值 key/value
   }

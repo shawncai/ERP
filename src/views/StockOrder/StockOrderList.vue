@@ -162,7 +162,6 @@
         ref="table"
         :data="list"
         :height="tableHeight"
-        :span-method="arraySpanMethod"
         border
         size="small"
         fit
@@ -175,14 +174,14 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalFormdetail"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalFormdetail" @rest="refreshlist"/>
         </el-table-column>
-        <!-- <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column> -->
-        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
+        </el-table-column>
+        <!-- <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
@@ -211,17 +210,17 @@
           <template slot-scope="scope">
             <span>{{ scope.row.arrivalDate }}</span>
           </template>
-        </el-table-column>
-        <!-- <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
+        </el-table-column> -->
+        <el-table-column :label="$t('StockOrder.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>
           </template>
-        </el-table-column> -->
-        <!-- <el-table-column :label="$t('StockOrder.sourceType')" :resizable="false" align="center" min-width="150">
+        </el-table-column>
+        <el-table-column :label="$t('StockOrder.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :label="$t('StockOrder.stockPersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockPersonName }}</span>
@@ -232,7 +231,7 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
+        <!-- <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
           </template>
@@ -251,8 +250,8 @@
           <template slot-scope="scope">
             <span>{{ scope.row.allDiscountMoney }}</span>
           </template>
-        </el-table-column>
-        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        </el-table-column> -->
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -261,11 +260,10 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="270">
           <template slot-scope="scope">
             <el-button v-permission2="['104-114-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['104-114-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['104-114-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['104-114-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -298,7 +296,7 @@
 </template>
 
 <script>
-import { stockorderlist, deletestockorder, updatestockorder2 } from '@/api/StockOrder'
+import { stockorderlist, deletestockorder, updatestockorder2, stockorderGetList } from '@/api/StockOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { checkReceiptOrder } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -718,7 +716,7 @@ export default {
       // console.log('this.getemplist', this.getemplist)
       // 物料需求计划列表数据1212
       this.listLoading = true
-      stockorderlist(this.getemplist).then(res => {
+      stockorderGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           if (res.data.data.content.list !== '' && res.data.data.content.list !== undefined && res.data.data.content.list !== null) {
             for (let i = 0; i < res.data.data.content.list.length; i++) {
@@ -731,72 +729,72 @@ export default {
               }
             }
           }
-          const needlist = res.data.data.content.list
-          const newarr = res.data.data.content.list.map(item => {
-            return item.stockOrderDetailVos
-          })
-          const newarr2 = [].concat.apply([], newarr)
-          const process = this._.cloneDeep(newarr2)
-          for (const i in needlist) {
-            for (const j in process) {
-              if (needlist[i].id === process[j].orderId) {
-                process[j].parentId = needlist[i].id
-                process[j].orderNumber = needlist[i].orderNumber
-                process[j].title = needlist[i].title
-                process[j].sourceType = needlist[i].sourceType
-                process[j].stockTypeId = needlist[i].stockTypeId
-                process[j].supplierId = needlist[i].supplierId
-                process[j].stockRepositoryId = needlist[i].stockRepositoryId
-                process[j].stockPersonId = needlist[i].stockPersonId
-                process[j].deptId = needlist[i].deptId
-                process[j].payMode = needlist[i].payMode
-                process[j].orderDate = needlist[i].orderDate
-                process[j].isVat = needlist[i].isVat
-                process[j].deliveryMode = needlist[i].deliveryMode
-                process[j].settleMode = needlist[i].settleMode
-                process[j].signPersonId = needlist[i].signPersonId
-                process[j].currency = needlist[i].currency
-                process[j].receiptStat = needlist[i].receiptStat
-                process[j].judgeStat = needlist[i].judgeStat
-                process[j].createPersonId = needlist[i].createPersonId
-                process[j].createDate = needlist[i].createDate
-                process[j].judgePersonId = needlist[i].judgePersonId
-                process[j].judgeDate = needlist[i].judgeDate
-                process[j].endPersonId = needlist[i].endPersonId
-                process[j].endDate = needlist[i].endDate
-                process[j].modifyPersonId = needlist[i].modifyPersonId
-                process[j].modifyDate = needlist[i].modifyDate
-                process[j].countryId = needlist[i].countryId
-                process[j].otherMoney = needlist[i].otherMoney
-                process[j].supplierNumber = needlist[i].supplierNumber
-                process[j].arrivalDate = needlist[i].arrivalDate
-                process[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
-                process[j].approvalUseVos = needlist[i].approvalUseVos
-                process[j].stockType = needlist[i].stockType
-                process[j].supplierName = needlist[i].supplierName
-                process[j].stockPersonName = needlist[i].stockPersonName
-                process[j].deptName = needlist[i].deptName
-                process[j].signPersonName = needlist[i].signPersonName
-                process[j].createPersonName = needlist[i].createPersonName
-                process[j].judgePersonName = needlist[i].judgePersonName
-                process[j].endPersonName = needlist[i].endPersonName
-                process[j].modifyPersonName = needlist[i].modifyPersonName
-                process[j].countryName = needlist[i].countryName
-                process[j].stockRepositoryName = needlist[i].stockRepositoryName
-                process[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
-                process[j].allMoney = needlist[i].allMoney
-                process[j].allTaxMoney = needlist[i].allTaxMoney
-                process[j].settleModeName = needlist[i].settleModeName
-                process[j].allQuantity = needlist[i].allQuantity
-                process[j].allDiscountMoney = needlist[i].allDiscountMoney
-                process[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
-                process[j].deliveryModeName = needlist[i].deliveryModeName
-                process[j].payModeName = needlist[i].payModeName
-              }
-            }
-          }
-          this.list = process
-          this.getSpanArr(this.list)
+          this.list = res.data.data.content.list
+          // const newarr = res.data.data.content.list.map(item => {
+          //   return item.stockOrderDetailVos
+          // })
+          // const newarr2 = [].concat.apply([], newarr)
+          // const process = this._.cloneDeep(newarr2)
+          // for (const i in needlist) {
+          //   for (const j in process) {
+          //     if (needlist[i].id === process[j].orderId) {
+          //       process[j].parentId = needlist[i].id
+          //       process[j].orderNumber = needlist[i].orderNumber
+          //       process[j].title = needlist[i].title
+          //       process[j].sourceType = needlist[i].sourceType
+          //       process[j].stockTypeId = needlist[i].stockTypeId
+          //       process[j].supplierId = needlist[i].supplierId
+          //       process[j].stockRepositoryId = needlist[i].stockRepositoryId
+          //       process[j].stockPersonId = needlist[i].stockPersonId
+          //       process[j].deptId = needlist[i].deptId
+          //       process[j].payMode = needlist[i].payMode
+          //       process[j].orderDate = needlist[i].orderDate
+          //       process[j].isVat = needlist[i].isVat
+          //       process[j].deliveryMode = needlist[i].deliveryMode
+          //       process[j].settleMode = needlist[i].settleMode
+          //       process[j].signPersonId = needlist[i].signPersonId
+          //       process[j].currency = needlist[i].currency
+          //       process[j].receiptStat = needlist[i].receiptStat
+          //       process[j].judgeStat = needlist[i].judgeStat
+          //       process[j].createPersonId = needlist[i].createPersonId
+          //       process[j].createDate = needlist[i].createDate
+          //       process[j].judgePersonId = needlist[i].judgePersonId
+          //       process[j].judgeDate = needlist[i].judgeDate
+          //       process[j].endPersonId = needlist[i].endPersonId
+          //       process[j].endDate = needlist[i].endDate
+          //       process[j].modifyPersonId = needlist[i].modifyPersonId
+          //       process[j].modifyDate = needlist[i].modifyDate
+          //       process[j].countryId = needlist[i].countryId
+          //       process[j].otherMoney = needlist[i].otherMoney
+          //       process[j].supplierNumber = needlist[i].supplierNumber
+          //       process[j].arrivalDate = needlist[i].arrivalDate
+          //       process[j].stockOrderDetailVos = needlist[i].stockOrderDetailVos
+          //       process[j].approvalUseVos = needlist[i].approvalUseVos
+          //       process[j].stockType = needlist[i].stockType
+          //       process[j].supplierName = needlist[i].supplierName
+          //       process[j].stockPersonName = needlist[i].stockPersonName
+          //       process[j].deptName = needlist[i].deptName
+          //       process[j].signPersonName = needlist[i].signPersonName
+          //       process[j].createPersonName = needlist[i].createPersonName
+          //       process[j].judgePersonName = needlist[i].judgePersonName
+          //       process[j].endPersonName = needlist[i].endPersonName
+          //       process[j].modifyPersonName = needlist[i].modifyPersonName
+          //       process[j].countryName = needlist[i].countryName
+          //       process[j].stockRepositoryName = needlist[i].stockRepositoryName
+          //       process[j].allIncludeTaxMoney = needlist[i].allIncludeTaxMoney
+          //       process[j].allMoney = needlist[i].allMoney
+          //       process[j].allTaxMoney = needlist[i].allTaxMoney
+          //       process[j].settleModeName = needlist[i].settleModeName
+          //       process[j].allQuantity = needlist[i].allQuantity
+          //       process[j].allDiscountMoney = needlist[i].allDiscountMoney
+          //       process[j].allIncludeTaxDiscountMoney = needlist[i].allIncludeTaxDiscountMoney
+          //       process[j].deliveryModeName = needlist[i].deliveryModeName
+          //       process[j].payModeName = needlist[i].payModeName
+          //     }
+          //   }
+          // }
+          // this.list = process
+          // this.getSpanArr(this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -867,13 +865,23 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      // console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        orderId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
+      stockorderlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          // console.log(row)
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currency !== null) {
+            this.personalForm.currency = String(res.data.data.content.list[0].currency)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -883,9 +891,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalFormdetail = Object.assign({}, row)
+      const parms = {
+        orderId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      stockorderlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalFormdetail = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

@@ -1,10 +1,55 @@
 import request from '@/utils/request'
 
+// 极速查询出库单
+export function searchOutGetList(query) {
+  var params = new URLSearchParams()
+  if (query.code !== '' && query.code !== null && query.code !== undefined) {
+    params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
+    params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.outPersonId !== '' && query.outPersonId !== null && query.outPersonId !== undefined) {
+    params.append('outPersonId', query.outPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.begintime !== '' && query.begintime !== null && query.begintime !== undefined) {
+    params.append('begintime', query.begintime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endtime !== '' && query.endtime !== null && query.endtime !== undefined) {
+    params.append('endtime', query.endtime) // 你要传给后台的参数值 key/value
+  }
+  if (query.outReasonId !== '' && query.outReasonId !== null && query.outReasonId !== undefined) {
+    params.append('outReasonId', query.outReasonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.stat !== '' && query.stat !== null && query.stat !== undefined) {
+    params.append('stat', query.stat) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/otherout/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询出库单
 export function searchOutlist(query) {
   var params = new URLSearchParams()
   if (query.code !== '' && query.code !== null && query.code !== undefined) {
     params.append('code', query.code) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value

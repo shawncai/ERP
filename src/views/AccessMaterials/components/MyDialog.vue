@@ -64,6 +64,14 @@
               </el-form-item>
               <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
             </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('updates.lx')" style="width: 100%;">
+                <el-select v-model="personalForm.accessType" style="margin-left: 18px;width: 200px">
+                  <el-option :label="$t('update4.shenghcang')" value="1" />
+                  <el-option :label="$t('update4.feishengchanleixing')" value="2" />
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
       </div>
@@ -264,6 +272,7 @@ export default {
       this.personalForm = this.editdata
       this.accessPersonId = this.personalForm.accessPersonName
       this.accessRepositoryId = this.personalForm.accessRepositoryName
+      this.personalForm.accessType = String(this.editdata.accessType)
       this.list2 = this.personalForm.accessMaterialsDetailVos
       this.addsouce = false
       this.choosedept()

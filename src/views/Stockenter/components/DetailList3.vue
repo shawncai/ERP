@@ -172,6 +172,10 @@
             </el-table-column>
           </el-table>
         </div>
+        <div>
+          <el-button v-show="isReview()" :loading="reviewStat" type="warning" size="mini" @click="handleReview( )">{{ $t('public.review') }}</el-button>
+
+        </div>
       </el-card>
       <div class="buttons" style="margin-top: 20px;margin-left: 30px">
         <el-button type="danger" @click="handlecancel()">{{ $t('Hmodule.cancel') }}</el-button>
@@ -183,7 +187,7 @@
 <script>
 import { locationlist } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
-import { updateotherenter } from '@/api/Stockenter'
+import { updateotherenter, updateotherenter5 } from '@/api/Stockenter'
 import MyRepository from './MyRepository'
 import MyDelivery from './MyDelivery'
 import MyAccept from './MyAccept'
@@ -273,7 +277,8 @@ export default {
       validRules: {
         locationId: [
         ]
-      }
+      },
+      reviewStat: false
     }
   },
   watch: {
@@ -314,6 +319,74 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewStat = true
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        updateotherenter5(this.personalForm, 2, this.$store.getters.userId).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+
+            this.$emit('rest', true)
+          }
+          this.reviewStat = false
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              updateotherenter5(this.personalForm, 1, this.$store.getters.userId).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+
+                  this.$emit('rest', true)
+                }
+                this.reviewStat = false
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+        this.reviewStat = false
+      })
+    },
     // 部门列表数据
     getlist() {
       getdeptlist().then(res => {

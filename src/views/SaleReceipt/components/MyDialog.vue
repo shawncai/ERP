@@ -923,10 +923,10 @@ export default {
       })
       // sums[1] = ''
       // this.allmoney = sums[5]
-      this.personalForm.totalLackMoney = sums[3]
+      this.personalForm.totalLackMoney = sums[4]
       // this.personalForm.receiptMoney = sums[6] - Number(this.personalForm.couponSupport)
       // this.personalForm.deductionMoney = sums[7]
-      this.personalForm.receiptMoney = sums[4]
+      this.personalForm.receiptMoney = sums[5]
       // this.personalForm.totalLackMoney = sums[5] - sums[6]
       return sums
     },

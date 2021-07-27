@@ -94,13 +94,26 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.applyNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('InstallmentApply.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column :label="$t('InstallmentApply.saleRepositoryId')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.saleRepositoryName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('InstallmentApply.applyDate')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.applyDate }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('InstallmentApply.customerName')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.applyPersonName }}</span>
@@ -116,6 +129,7 @@
             <span>{{ scope.row.currentAddress }}</span>
           </template>
         </el-table-column>
+
         <el-table-column :label="$t('InstallmentApply.totalMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.totalMoney }}</span>
@@ -156,7 +170,6 @@
             <el-button v-show="scope.row.inquirePersonId !== null && scope.row.judgeStat === 0" size="mini" type="primary" @click="handleDispatch2(scope.row)">{{ $t('otherlanguage.zcfp') }}</el-button>
             <el-button v-show="scope.row.inquirePersonId === null && scope.row.judgeStat !== 4" size="mini" type="success" @click="handleDispatch(scope.row)">{{ $t('repair.Dispatch') }}</el-button>
             <el-button v-permission2="['200-201-3', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['200-201-2', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
             <el-button v-permission="['200-201-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -208,7 +221,7 @@
 import { searchsaleContract } from '@/api/SaleContract'
 import { checkReceiptApply2 } from '@/api/public'
 import { getremplist2 } from '@/api/repair'
-import { applylist, deleteapply, updateapply2 } from '@/api/InstallmentApply'
+import { applylist, deleteapply, updateapply2, applyGetList } from '@/api/InstallmentApply'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { CustomerSurveyReportList2 } from '@/api/CustomerSurveyReport'
@@ -578,8 +591,19 @@ export default {
     // 打开客户报告
     handlerdetail(row) {
       console.log(row)
-      this.detailvisible2 = true
-      this.personalForm2 = Object.assign({}, row.InvestigationDetailvos[0])
+      const parms = {
+        applyId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      applylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible2 = true
+          this.personalForm2 = Object.assign({}, res.data.data.content.list[0].InvestigationDetailvos[0])
+        }
+      })
     },
     getisInvestigation(row) {
       checkReceiptApply2(row.applyNumber).then(res => {
@@ -770,7 +794,7 @@ export default {
       console.log(regionIds)
       // 物料需求计划列表数据
       this.listLoading = true
-      const needdata = await (applylist(this.getemplist).then(res => {
+      const needdata = await (applyGetList(this.getemplist).then(res => {
         return res
       }))
       const processdata = needdata.data.data.content.list
@@ -850,28 +874,39 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.workType !== null) {
-        this.personalForm.workType = String(row.workType)
+      const parms = {
+        applyId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.mateWorkType !== null) {
-        this.personalForm.mateWorkType = String(row.mateWorkType)
-      }
-      if (row.mateLiveStauts !== null) {
-        this.personalForm.mateLiveStauts = String(row.mateLiveStauts)
-      }
-      if (row.certificateType !== null) {
-        this.personalForm.certificateType = String(row.certificateType)
-      }
-      if (row.liveStauts !== null) {
-        this.personalForm.liveStauts = String(row.liveStauts)
-      }
-      if (row.suretyCertificateType !== null) {
-        this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
-      }
+
+      applylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].workType !== null) {
+            this.personalForm.workType = String(res.data.data.content.list[0].workType)
+          }
+          if (res.data.data.content.list[0].mateWorkType !== null) {
+            this.personalForm.mateWorkType = String(res.data.data.content.list[0].mateWorkType)
+          }
+          if (res.data.data.content.list[0].mateLiveStauts !== null) {
+            this.personalForm.mateLiveStauts = String(res.data.data.content.list[0].mateLiveStauts)
+          }
+          if (res.data.data.content.list[0].certificateType !== null) {
+            this.personalForm.certificateType = String(res.data.data.content.list[0].certificateType)
+          }
+          if (res.data.data.content.list[0].liveStauts !== null) {
+            this.personalForm.liveStauts = String(res.data.data.content.list[0].liveStauts)
+          }
+          if (res.data.data.content.list[0].suretyCertificateType !== null) {
+            this.personalForm.suretyCertificateType = String(res.data.data.content.list[0].suretyCertificateType)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -882,9 +917,20 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        applyId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      applylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

@@ -83,6 +83,7 @@
         :key="tableKey"
         :data="list"
         :summary-method="getSummaries2"
+        size="small"
         show-summary
         border
         fit
@@ -101,7 +102,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('SaleOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -156,16 +157,11 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="540">
           <template slot-scope="scope">
             <el-button v-permission2="['54-57-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['54-57-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
             <el-button v-permission="['54-57-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['54-57-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
 
-            <el-button v-permission="['54-57-22']" v-show="scope.row.judgeStat === 2&&scope.row.flag===1" type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
-            <el-button v-permission="['54-57-23']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
-            <el-button v-permission="['54-57-24']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt3(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
-            <el-button v-permission="['54-57-25']" v-show="scope.row.judgeStat === 2&&scope.row.flag!==3" type="primary" style="width: 97px" @click="handleMyReceipt4(scope.row)"><span style="margin-left: -15px;">{{ $t('newupd.rrr') }}</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -192,7 +188,7 @@
 
 <script>
 import { checkReceiptOrder2, searchRepository } from '@/api/public'
-import { searchsaleOrder, deletesaleOrder, updatesaleOrder2 } from '@/api/SaleOrder'
+import { searchsaleOrder, deletesaleOrder, updatesaleOrder2, saleOrderGetList } from '@/api/SaleOrder'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -459,7 +455,7 @@ export default {
       })
     },
     repositoryname(val) {
-      console.log(val)
+      // console.log(val)
       this.repositoryId = val.repositoryName
       this.getemplist.repositoryId = val.id
     },
@@ -473,7 +469,7 @@ export default {
     },
     // 根据区域选择门店
     getrepos() {
-      console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
+      // console.log('this.$store.getters.repositoryId', this.$store.getters.repositoryId)
       if (this.$store.getters.repositoryId !== '' && this.$store.getters.repositoryId !== null && this.$store.getters.repositoryId !== undefined) {
         searchRepository(null, this.$store.getters.repositoryId, this.$store.getters.regionIds).then(res => {
           if (res.data.ret === 200) {
@@ -557,7 +553,7 @@ export default {
     // 进程操作
     handleReceipt(row) {
       this.receiptVisible = true
-      console.log('row', row)
+      // console.log('row', row)
       checkReceiptOrder2(row.number).then(res => {
         if (res.data.ret === 200) {
           console.log('res.data.data', res.data.data)
@@ -612,7 +608,7 @@ export default {
         console.log('this.countquery====', this.countquery)
         this.getemplist.supplierId = this.countquery
       }
-      searchsaleOrder(this.getemplist).then(res => {
+      saleOrderGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -654,7 +650,7 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      searchsaleOrder(this.getemplist).then(res => {
+      saleOrderGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -685,22 +681,30 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0
       }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.saleType !== null) {
-        this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
-      this.editVisible = true
+      searchsaleOrder(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(row.sourceType)
+          if (row.currency !== null) {
+            this.personalForm.currency = String(row.currency)
+          }
+          if (row.customerType !== null) {
+            this.personalForm.customerType = String(row.customerType)
+          }
+          if (row.saleType !== null) {
+            this.personalForm.saleType = String(row.saleType)
+          }
+          if (row.payType !== null) {
+            this.personalForm.payType = String(row.payType)
+          }
+          this.editVisible = true
+        }
+      })
+      // console.log(row)
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -711,21 +715,29 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-    },
-    // 判断审核按钮
-    isReview(row) {
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-        const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
-        }
+      const parms = {
+        id: row.id,
+        repositoryId: 0
       }
+      searchsaleOrder(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
+    // // 判断审核按钮
+    // isReview(row) {
+    //   if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
+    //     const approvalUse = row.approvalUseVos
+    //     const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+    //     // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+    //     // console.log(index)
+    //     if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
+    //       return true
+    //     }
+    //   }
+    // },
     // 审批操作
     handleReview(row) {
       this.reviewParms = {}

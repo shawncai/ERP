@@ -273,12 +273,20 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :loading="sploading" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)">
+            {{ $t('updates.spi') }}
+          </el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import { updatesaleReturn2 } from '@/api/SaleReturn'
+
 var _that
 export default {
   filters: {
@@ -369,7 +377,8 @@ export default {
       // 弹窗组件的控制
       editVisible: this.detailcontrol,
       // 供应商信息数据
-      personalForm: this.detaildata
+      personalForm: this.detaildata,
+      sploading: false
     }
   },
   watch: {
@@ -398,6 +407,82 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.sploading = true
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleReturn2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+
+            this.$emit('rest', true)
+            this.sploading = false
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('comfirm not approved?', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: 'yes',
+            cancelButtonText: 'no'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatesaleReturn2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.sploading = false
+                  this.editVisible = false
+
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? 'cancel'
+                  : 'stay this page'
+              })
+            })
+          this.sploading = false
+
+          // ================取消弹框结束
+        }
+      })
+    },
     handlecancel() {
       this.editVisible = false
     }

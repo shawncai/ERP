@@ -147,6 +147,12 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-permission="['266-92-18']" v-show="isReview5()" :title="$t('updates.spi')" type="warning" size="mini" @click="handleReview()">
+            {{ $t('updates.spi') }}
+          </el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -154,7 +160,11 @@
 
 <script>
 var _that
+import permission from '@/directive/permission/index.js' // 权限判断指令
+import { updatevoucher } from '@/api/voucher'
+
 export default {
+  directives: { permission },
   filters: {
     statfilter(status) {
       const statusMap = {
@@ -241,6 +251,42 @@ export default {
     }
   },
   methods: {
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.voucherId
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.qx'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.voucherStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatevoucher(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          }
+        }).catch(action => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          })
+        })
+      })
+    },
+    // 判断审批按钮
+    isReview5() {
+      if (this.personalForm.voucherStat === 1) {
+        return true
+      }
+    },
     currencyname(row) {
       console.log(row)
       return row.currency === 1 ? '人民币' : row.currency === 2 ? '比索' : '未知'

@@ -1516,9 +1516,9 @@ export default {
 
         console.log('needmoney2', needmoney2)
 
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', Number(needmoney).toFixed(2))
         // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', Number(needmoney2).toFixed(2))
       } else if (this.$store.getters.newsaleoutdata.firstMoney) {
         console.log('firstmoney')
         let needmoney = (Number(this.$store.getters.newsaleoutdata.firstMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney) - Number(this.personalForm.advanceMoney)
@@ -1526,9 +1526,9 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', Number(needmoney).toFixed(2))
         // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', Number(needmoney2).toFixed(2))
       } else if (this.shouldMoney !== '' && this.shouldMoney !== null && this.shouldMoney !== undefined) {
         console.log('3')
         console.log('this.shouldMoney', this.shouldMoney)
@@ -1538,9 +1538,9 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', Number(needmoney).toFixed(2))
         // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', Number(needmoney2).toFixed(2))
       } else {
         console.log('4')
         let needmoney = (Number(this.heji3) - Number(this.heji4) - Number(this.personalForm.pointSupport) - Number(this.personalForm.ridMoney) - Number(this.personalForm.ridBikeMoney) - Number(this.personalForm.advanceMoney) - Number(this.personalForm.couponSupportOld) - Number(this.personalForm.couponMoney)) + Number(this.personalForm.otherMoney)
@@ -1548,9 +1548,9 @@ export default {
         if (needmoney < 0) {
           needmoney = 0
         }
-        this.$set(this.personalForm, 'shouldMoney', needmoney)
+        this.$set(this.personalForm, 'shouldMoney', Number(needmoney).toFixed(2))
         // 未减去优惠券额的金额
-        this.$set(this.personalForm, 'receivableMoney2', needmoney2)
+        this.$set(this.personalForm, 'receivableMoney2', Number(needmoney2).toFixed(2))
       }
 
       // if (this.personalForm.pointSupport && this.personalForm.couponSupport && this.personalForm.ridMoney && this.personalForm.ridBikeMoney && this.personalForm.advanceMoney) {
@@ -2177,7 +2177,7 @@ export default {
     // },
     // 计算成本金额
     getcostMoney(row) {
-      row.costMoney = (row.costPrice * row.quantity).toFixed(6)
+      row.costMoney = (Number(row.costPrice) * Number(row.quantity)).toFixed(6)
       return row.costMoney
     },
     // 计算含税金额
@@ -2320,18 +2320,17 @@ export default {
     // },
     // 计算金额
     getMoney(row) {
-      console.log(row.quantity, row.salePrice)
-      row.money = (row.quantity * row.salePrice).toFixed(6)
+      row.money = (Number(row.quantity) * Number(row.salePrice)).toFixed(2)
       return row.money
     },
     // 含税价
     gettaxprice(row) {
-      row.taxprice = (row.salePrice * (1 + row.taxRate / 100)).toFixed(6)
+      row.taxprice = (Number(row.salePrice) * (1 + Number(row.taxRate) / 100)).toFixed(6)
       return row.taxprice
     },
     getincludeTaxCostMoney(row) {
-      row.includeTaxCostMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
-      row.includeTaxMoney = Number(row.salePrice * row.quantity) + Number(row.taxMoney)
+      row.includeTaxCostMoney = (Number(row.salePrice * row.quantity) + Number(row.taxMoney)).toFixed(2)
+      row.includeTaxMoney = (Number(row.salePrice * row.quantity) + Number(row.taxMoney)).toFixed(2)
       return row.includeTaxCostMoney
     },
     // 选择客户类型时清理客户名称

@@ -287,6 +287,12 @@
               min-width="150"/>
           </el-table>
         </div>
+        <div>
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" type="warning" size="mini" @click="handleReview()">
+            {{ $t('updates.spi') }}
+          </el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -295,6 +301,8 @@
 <script>
 import { searchstockArrival } from '@/api/StockArrival'
 import { getPrintCount, addPrint } from '@/api/public'
+import { updatestockorder2 } from '@/api/StockOrder'
+
 import printJS from 'print-js'
 var _that
 export default {
@@ -404,6 +412,79 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.parentId
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatestockorder2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockorder2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -411,7 +492,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     cutnull(data) {
@@ -450,7 +531,7 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
+      // console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,
@@ -646,7 +727,7 @@ export default {
     },
     handleMyReceipt2() {
       console.log(this.detaildata)
-      this.$store.dispatch('getempcontract', this.detaildata)
+      this.$store.dispatch('getstockOrder', this.detaildata)
       this.$router.push('/StockOrder/AddStockOrder')
       this.editVisible = false
     },

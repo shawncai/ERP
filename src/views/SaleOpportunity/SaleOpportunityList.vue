@@ -161,7 +161,6 @@
             <!--<el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>-->
             <el-button v-permission2="['54-63-2', scope.row.createPersonId]" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button :title="$t('updates.jc')" size="mini" type="primary" icon="el-icon-sort" circle @click="handleReceipt(scope.row)"/>
-            <el-button type="primary" style="width: 107px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -15px;">生成销售出库单</span></el-button>
             <el-button type="primary" style="width: 107px" @click="handleMyReceipt2(scope.row)"><span style="margin-left: -15px;">follow up</span></el-button>
           </template>
         </el-table-column>
@@ -189,7 +188,7 @@
 </template>
 
 <script>
-import { saleopportunitylist, deletesaleopportunity } from '@/api/SaleOpportunity'
+import { saleopportunitylist, deletesaleopportunity, saleopportunityGetList } from '@/api/SaleOpportunity'
 import { getdeptlist } from '@/api/BasicSettings'
 import { checkReceiptOpportunity } from '@/api/public'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -470,7 +469,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      saleopportunitylist(this.getemplist).then(res => {
+      saleopportunityGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -511,7 +510,7 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      saleopportunitylist(this.getemplist).then(res => {
+      saleopportunityGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -542,19 +541,29 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.isSale !== null) {
-        this.personalForm.isSale = String(row.isSale)
-      }
+      saleopportunitylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(row)
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currency !== null) {
+            this.personalForm.currency = String(res.data.data.content.list[0].currency)
+          }
+          if (res.data.data.content.list[0].customerType !== null) {
+            this.personalForm.customerType = String(res.data.data.content.list[0].customerType)
+          }
+          if (res.data.data.content.list[0].isSale !== null) {
+            this.personalForm.isSale = String(res.data.data.content.list[0].isSale)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -565,8 +574,18 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      saleopportunitylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

@@ -12,9 +12,13 @@ const publics = {
     myflagApproval: '',
     printdata: '',
     uploadApi: '',
-    saleoutcopy: ''
+    saleoutcopy: '',
+    stockOrder: ''
   },
   mutations: {
+    set_stockOrder: (state, stockOrder) => {
+      state.stockOrder = stockOrder
+    },
     set_saleoutcopy: (state, saleoutcopy) => {
       state.saleoutcopy = saleoutcopy
     },
@@ -56,6 +60,9 @@ const publics = {
     }
   },
   actions: {
+    getstockOrder({ commit }, stockOrder) {
+      commit('set_stockOrder', stockOrder)
+    },
     getsaleoutcopy({ commit }, saleoutcopy) {
       commit('set_saleoutcopy', saleoutcopy)
     },

@@ -182,6 +182,7 @@
           <detail-list
             :detailcontrol.sync="detailvisible"
             :detaildata.sync="personalForm2"
+            @rest="refreshlist"
           />
         </el-table-column>
         <el-table-column
@@ -243,20 +244,7 @@
               circle
               @click="handleEdit(scope.row)"
             />
-            <el-button
-              v-show="
-                isReview(scope.row) &&
-                  (scope.row.receiptStat === 1 ||
-                  scope.row.receiptStat === 2 ||
-                  scope.row.receiptStat === 3)
-              "
-              :title="$t('updates.spi')"
-              type="warning"
-              size="mini"
-              icon="el-icon-view"
-              circle
-              @click="handleReview(scope.row)"
-            />
+
             <el-button
               v-permission="['1-22-255-2']"
               v-show="
@@ -334,7 +322,8 @@ import {
   SupplierAdjustlist,
   deleteSupplierAdjust,
   updateSupplierAdjust2,
-  addSupplierAdjust
+  addSupplierAdjust,
+  SupplierAdjustlistGetList
 } from '@/api/SupplierAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import { checkReceiptOrder } from '@/api/public'
@@ -907,7 +896,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      SupplierAdjustlist(this.getemplist).then((res) => {
+      SupplierAdjustlistGetList(this.getemplist).then((res) => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -941,7 +930,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      SupplierAdjustlist(this.getemplist).then((res) => {
+      SupplierAdjustlistGetList(this.getemplist).then((res) => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -972,9 +961,19 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        adjustId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      SupplierAdjustlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -984,9 +983,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm2 = Object.assign({}, row)
+      const parms = {
+        adjustId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      SupplierAdjustlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm2 = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

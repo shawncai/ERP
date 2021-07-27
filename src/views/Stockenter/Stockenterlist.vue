@@ -77,7 +77,6 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
-        :span-method="arraySpanMethod"
         size="small"
         border
         fit
@@ -95,14 +94,14 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.enterNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.supplierId')" :resizable="false" fixed="left" prop="title" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
+        <!-- <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
           </template>
@@ -126,7 +125,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <!-- <el-table-column :label="$t('Stockenter.enterNumber')" :resizable="false" prop="sourceNumber" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.enterNumber }}</span>
@@ -175,7 +174,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="300">
           <template slot-scope="scope">
             <el-button v-permission="['131-132-133-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-show="isReview(scope.row)" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-132-133-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-132-133-101']" v-show="isReview6(scope.row)" type="primary" size="mini" @click="handleReview6(scope.row)">{{ $t('collectAndPayDetail.fjf') }}</el-button>
             <el-button v-permission="['131-132-133-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
@@ -195,7 +193,7 @@
 </template>
 
 <script>
-import { addPurchaseVoucher, stockenterlist, deletestockenter, updatestockenter3, updatestockenter, updateExtra } from '@/api/Stockenter'
+import { addPurchaseVoucher, stockenterlist, deletestockenter, updatestockenter3, updatestockenter, updateExtra, stockenterGetList } from '@/api/Stockenter'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -566,69 +564,69 @@ export default {
     getlist() {
       // 采购入库单列表数据
       this.listLoading = true
-      stockenterlist(this.getemplist).then(res => {
+      stockenterGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const needlist = res.data.data.content.list
-          const newarr = res.data.data.content.list.map(item => {
-            return item.stockEnterDetailVos
-          })
-          const newarr2 = [].concat.apply([], newarr)
-          const processarr = this._.cloneDeep(newarr2)
-          for (const i in needlist) {
-            for (const j in processarr) {
-              if (needlist[i].id === processarr[j].enterId) {
-                processarr[j].acceptPersonId = needlist[i].acceptPersonId
-                processarr[j].acceptPersonName = needlist[i].acceptPersonName
-                processarr[j].approvalUseVos = needlist[i].approvalUseVos
-                processarr[j].batch = needlist[i].batch
-                processarr[j].countryId = needlist[i].countryId
-                processarr[j].countryName = needlist[i].countryName
-                processarr[j].createDate = needlist[i].createDate
-                processarr[j].createPersonId = needlist[i].createPersonId
-                processarr[j].createPersonName = needlist[i].createPersonName
-                processarr[j].deliveryPersonId = needlist[i].deliveryPersonId
-                processarr[j].deliveryPersonName = needlist[i].deliveryPersonName
-                processarr[j].endDate = needlist[i].endDate
-                processarr[j].endPersonId = needlist[i].endPersonId
-                processarr[j].endPersonName = needlist[i].endPersonName
-                processarr[j].enterDate = needlist[i].enterDate
-                processarr[j].enterDeptId = needlist[i].enterDeptId
-                processarr[j].enterDeptName = needlist[i].enterDeptName
-                processarr[j].enterNumber = needlist[i].enterNumber
-                processarr[j].enterPersonId = needlist[i].enterPersonId
-                processarr[j].enterPersonName = needlist[i].enterPersonName
-                processarr[j].enterRepositoryId = needlist[i].enterRepositoryId
-                processarr[j].enterRepositoryName = needlist[i].enterRepositoryName
-                processarr[j].extraMoney = needlist[i].extraMoney
-                processarr[j].extraPersonId = needlist[i].extraPersonId
-                processarr[j].id = needlist[i].id
-                processarr[j].judgeDate = needlist[i].judgeDate
-                processarr[j].judgePersonId = needlist[i].judgePersonId
-                processarr[j].judgePersonName = needlist[i].judgePersonName
-                processarr[j].judgeStat = needlist[i].judgeStat
-                processarr[j].modifyDate = needlist[i].modifyDate
-                processarr[j].modifyPersonId = needlist[i].modifyPersonId
-                processarr[j].modifyPersonName = needlist[i].modifyPersonName
-                processarr[j].receiptStat = needlist[i].receiptStat
-                processarr[j].repositoryTypeId = needlist[i].repositoryTypeId
-                processarr[j].sourceNumber = needlist[i].sourceNumber
-                processarr[j].sourceType = needlist[i].sourceType
-                processarr[j].stat = needlist[i].stat
-                processarr[j].stockDeptId = needlist[i].stockDeptId
-                processarr[j].stockDeptName = needlist[i].stockDeptName
-                processarr[j].stockEnterDetailVos = this._.cloneDeep(needlist[i].stockEnterDetailVos)
-                processarr[j].stockPersonId = needlist[i].stockPersonId
-                processarr[j].stockPersonName = needlist[i].stockPersonName
-                processarr[j].summary = needlist[i].summary
-                processarr[j].supplierId = needlist[i].supplierId
-                processarr[j].supplierName = needlist[i].supplierName
-                processarr[j].title = needlist[i].title
-              }
-            }
-          }
-          console.log('newarr2============', newarr2)
-          this.list = processarr
-          this.getSpanArr(processarr)
+          this.list = res.data.data.content.list
+          // const newarr = res.data.data.content.list.map(item => {
+          //   return item.stockEnterDetailVos
+          // })
+          // const newarr2 = [].concat.apply([], newarr)
+          // const processarr = this._.cloneDeep(newarr2)
+          // for (const i in needlist) {
+          //   for (const j in processarr) {
+          //     if (needlist[i].id === processarr[j].enterId) {
+          //       processarr[j].acceptPersonId = needlist[i].acceptPersonId
+          //       processarr[j].acceptPersonName = needlist[i].acceptPersonName
+          //       processarr[j].approvalUseVos = needlist[i].approvalUseVos
+          //       processarr[j].batch = needlist[i].batch
+          //       processarr[j].countryId = needlist[i].countryId
+          //       processarr[j].countryName = needlist[i].countryName
+          //       processarr[j].createDate = needlist[i].createDate
+          //       processarr[j].createPersonId = needlist[i].createPersonId
+          //       processarr[j].createPersonName = needlist[i].createPersonName
+          //       processarr[j].deliveryPersonId = needlist[i].deliveryPersonId
+          //       processarr[j].deliveryPersonName = needlist[i].deliveryPersonName
+          //       processarr[j].endDate = needlist[i].endDate
+          //       processarr[j].endPersonId = needlist[i].endPersonId
+          //       processarr[j].endPersonName = needlist[i].endPersonName
+          //       processarr[j].enterDate = needlist[i].enterDate
+          //       processarr[j].enterDeptId = needlist[i].enterDeptId
+          //       processarr[j].enterDeptName = needlist[i].enterDeptName
+          //       processarr[j].enterNumber = needlist[i].enterNumber
+          //       processarr[j].enterPersonId = needlist[i].enterPersonId
+          //       processarr[j].enterPersonName = needlist[i].enterPersonName
+          //       processarr[j].enterRepositoryId = needlist[i].enterRepositoryId
+          //       processarr[j].enterRepositoryName = needlist[i].enterRepositoryName
+          //       processarr[j].extraMoney = needlist[i].extraMoney
+          //       processarr[j].extraPersonId = needlist[i].extraPersonId
+          //       processarr[j].id = needlist[i].id
+          //       processarr[j].judgeDate = needlist[i].judgeDate
+          //       processarr[j].judgePersonId = needlist[i].judgePersonId
+          //       processarr[j].judgePersonName = needlist[i].judgePersonName
+          //       processarr[j].judgeStat = needlist[i].judgeStat
+          //       processarr[j].modifyDate = needlist[i].modifyDate
+          //       processarr[j].modifyPersonId = needlist[i].modifyPersonId
+          //       processarr[j].modifyPersonName = needlist[i].modifyPersonName
+          //       processarr[j].receiptStat = needlist[i].receiptStat
+          //       processarr[j].repositoryTypeId = needlist[i].repositoryTypeId
+          //       processarr[j].sourceNumber = needlist[i].sourceNumber
+          //       processarr[j].sourceType = needlist[i].sourceType
+          //       processarr[j].stat = needlist[i].stat
+          //       processarr[j].stockDeptId = needlist[i].stockDeptId
+          //       processarr[j].stockDeptName = needlist[i].stockDeptName
+          //       processarr[j].stockEnterDetailVos = this._.cloneDeep(needlist[i].stockEnterDetailVos)
+          //       processarr[j].stockPersonId = needlist[i].stockPersonId
+          //       processarr[j].stockPersonName = needlist[i].stockPersonName
+          //       processarr[j].summary = needlist[i].summary
+          //       processarr[j].supplierId = needlist[i].supplierId
+          //       processarr[j].supplierName = needlist[i].supplierName
+          //       processarr[j].title = needlist[i].title
+          //     }
+          //   }
+          // }
+          // console.log('newarr2============', newarr2)
+          // this.list = processarr
+          // this.getSpanArr(processarr)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -675,10 +673,21 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      stockenterlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -688,10 +697,21 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      stockenterlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(row)
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

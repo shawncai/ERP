@@ -83,7 +83,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.payNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('AdvancePay.payDate')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -128,7 +128,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['266-222-3', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-222-2', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['266-222-98']" v-show="scope.row.judgeStat === 2&&scope.row.confirmPersonId === null&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission="['266-222-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
@@ -146,7 +145,7 @@
 </template>
 
 <script>
-import { paylist, updateadvancepay2, deleteadvancepay } from '@/api/AdvancePay'
+import { paylist, updateadvancepay2, deleteadvancepay, payGetList } from '@/api/AdvancePay'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -396,7 +395,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      paylist(this.getemplist).then(res => {
+      payGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -430,7 +429,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      paylist(this.getemplist).then(res => {
+      payGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -461,16 +460,26 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currencyId !== null) {
-        this.personalForm.currencyId = String(row.currencyId)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.payId !== null) {
-        this.personalForm.payId = String(row.payId)
-      }
+      paylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currencyId !== null) {
+            this.personalForm.currencyId = String(res.data.data.content.list[0].currencyId)
+          }
+          if (res.data.data.content.list[0].payId !== null) {
+            this.personalForm.payId = String(res.data.data.content.list[0].payId)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -480,9 +489,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      paylist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

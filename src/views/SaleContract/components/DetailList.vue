@@ -184,6 +184,18 @@
                   </a>
                 </el-form-item>
               </el-col>
+
+              <el-col :span="12">
+                <el-form-item :label="$t('SaleContract.signDate')" style="width: 100%;">
+                  <span>{{ personalForm.signDate }}</span>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item :label="$t('update4.shoufuzhekou')" style="width: 100%;">
+                  <span>{{ personalForm.firstDiscount }}</span>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -332,6 +344,10 @@
           </el-form>
         </div>
       </el-card>
+      <div>
+        <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" type="warning" size="mini" @click="handleReview()">{{ $t('updates.spi') }}</el-button>
+
+      </div>
     </div>
   </el-dialog>
 
@@ -340,7 +356,7 @@
 <script>
 import printJS from 'print-js'
 import { searchRepository3 } from '@/api/Repository'
-import { creatContract } from '@/api/SaleContract'
+import { creatContract, updatesaleContract2 } from '@/api/SaleContract'
 // import datazzz from '@/utils/salecontract'
 var _that
 export default {
@@ -480,6 +496,83 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          if (this.personalForm.InvestigationResult === 1 && this.personalForm.isSecondApply === 1) {
+            return true
+          } else if (this.personalForm.InvestigationResult === 2 && this.personalForm.isSecondApply === 1) {
+            return false
+          } else if (!this.personalForm.InvestigationResult && this.personalForm.isSecondApply === 1) {
+            return false
+          } else if (!this.personalForm.InvestigationResult && this.personalForm.isSecondApply === 2) {
+            return true
+          }
+        }
+      }
+    },
+    // 审批操作
+    handleReview(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleContract2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+
+            this.$emit('rest', true)
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('can not approve ?', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: 'comfirm',
+            cancelButtonText: 'cancel'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatesaleContract2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? 'comfirm cancel'
+                  : 'stay this page'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     jundgeprice() {
       if (this.$store.getters.countryId === 2) {
         return true

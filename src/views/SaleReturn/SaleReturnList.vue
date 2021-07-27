@@ -13,10 +13,10 @@
         width="500"
         size="small"
         trigger="click">
-        <el-select v-model="getemplist.customerType" :placeholder="$t('SaleReturn.customerType')" size="small" clearable style="width: 40%;float: left;margin-left: 20px">
+        <!-- <el-select v-model="getemplist.customerType" :placeholder="$t('SaleReturn.customerType')" size="small" clearable style="width: 40%;float: left;margin-left: 20px">
           <el-option value="1" label="经销商"/>
           <el-option value="2" label="零售"/>
-        </el-select>
+        </el-select> -->
         <el-select v-model="getemplist.searchRepositoryId" :placeholder="$t('Hmodule.xzmd')" size="small" clearable filterable class="filter-item">
           <el-option
             v-for="(item, index) in repositories"
@@ -105,7 +105,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('SaleReturn.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -169,12 +169,11 @@
         </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
-            <el-button v-permission2="['54-59-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :loading="sploading" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
-            <el-button v-permission="['54-59-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.fsp')" :loading="jdloding" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
-            <el-button v-permission="['54-59-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
-            <el-button v-permission="['54-59-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
-            <el-button v-permission2="['54-59-2', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
+            <el-button v-permission="['54-59-3']" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
+            <el-button v-permission="['54-59-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" :loading="jdloding" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['54-59-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
+            <el-button v-permission="['54-59-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
+            <el-button v-permission="['54-59-2']" v-show="scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -189,7 +188,7 @@
 
 <script>
 import { voucherlist, addReturnVoucher } from '@/api/voucher'
-import { searchsaleReturn, deletesaleReturn, updatesaleReturn2 } from '@/api/SaleReturn'
+import { searchsaleReturn, deletesaleReturn, updatesaleReturn2, saleReturnGetList } from '@/api/SaleReturn'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchRepository } from '@/api/public'
 
@@ -582,7 +581,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleReturn(this.getemplist).then(res => {
+      saleReturnGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -623,7 +622,7 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      searchsaleReturn(this.getemplist).then(res => {
+      saleReturnGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -654,25 +653,35 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.closeStatusId !== null) {
-        this.personalForm.closeStatusId = String(row.closeStatusId)
-      }
-      if (row.enterStatusId !== null) {
-        this.personalForm.enterStatusId = String(row.enterStatusId)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
+
+      searchsaleReturn(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currency !== null) {
+            this.personalForm.currency = String(res.data.data.content.list[0].currency)
+          }
+          if (res.data.data.content.list[0].customerType !== null) {
+            this.personalForm.customerType = String(res.data.data.content.list[0].customerType)
+          }
+          if (res.data.data.content.list[0].closeStatusId !== null) {
+            this.personalForm.closeStatusId = String(res.data.data.content.list[0].closeStatusId)
+          }
+          if (res.data.data.content.list[0].enterStatusId !== null) {
+            this.personalForm.enterStatusId = String(res.data.data.content.list[0].enterStatusId)
+          }
+          if (res.data.data.content.list[0].payType !== null) {
+            this.personalForm.payType = String(res.data.data.content.list[0].payType)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -682,82 +691,20 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-    },
-    // 判断审核按钮
-    isReview(row) {
-      if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {
-        const approvalUse = row.approvalUseVos
-        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        console.log(index)
-        if (index > -1 && (row.judgeStat === 1 || row.judgeStat === 0)) {
-          return true
-        }
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-    },
-    // 审批操作
-    handleReview(row) {
-      this.reviewParms = {}
-      this.sploading = true
-      this.reviewParms.id = row.id
-      this.reviewParms.judgePersonId = this.$store.getters.userId
-      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
-        distinguishCancelAndClose: true,
-        confirmButtonText: this.$t('prompt.tg'),
-        cancelButtonText: this.$t('prompt.btg'),
-        type: 'warning'
-      }).then(() => {
-        this.reviewParms.judgeStat = 2
-        const parms = JSON.stringify(this.reviewParms)
-        updatesaleReturn2(parms).then(res => {
-          if (res.data.ret === 200) {
-            this.$message({
-              type: 'success',
-              message: this.$t('prompt.shcg')
-            })
-            this.getlist()
-            this.sploading = false
-          }
-        })
-      }).catch(action => {
-        if (action === 'cancel') {
-          // 取消弹框
-          this.$confirm('comfirm not approved?', 'Warning', {
-            distinguishCancelAndClose: true,
-            confirmButtonText: 'yes',
-            cancelButtonText: 'no'
-          })
-            .then(() => {
-              this.reviewParms.judgeStat = 3
-              const parms = JSON.stringify(this.reviewParms)
-              updatesaleReturn2(parms).then(res => {
-                if (res.data.ret === 200) {
-                  this.$message({
-                    type: 'success',
-                    message: this.$t('prompt.shcg')
-                  })
-                  this.sploading = false
-                  this.getlist()
-                }
-              })
-            })
-            .catch(action => {
-              this.$message({
-                type: 'info',
-                message: action === 'cancel'
-                  ? 'cancel'
-                  : 'stay this page'
-              })
-            })
-          this.sploading = false
-
-          // ================取消弹框结束
+      searchsaleReturn(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
         }
       })
     },
+
     // 批量操作
     handleSelectionChange(val) {
       this.moreaction = val

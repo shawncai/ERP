@@ -84,7 +84,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.bomNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('MaterialsList.productName2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -119,7 +119,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['171-174-3']" v-show="scope.row.judgeStat === 0" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['171-174-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['171-174-2']" v-show="scope.row.judgeStat === 0" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
           </template>
@@ -137,7 +136,7 @@
 <script>
 import { searchEmpCategory2 } from '@/api/Product'
 
-import { materialslist, deletematerials, updatematerials2 } from '@/api/MaterialsList'
+import { materialslist, deletematerials, updatematerials2, materialsgetList } from '@/api/MaterialsList'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves' // Waves directive
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -308,7 +307,7 @@ export default {
     // 物料清单列表数据
     getlist() {
       this.listLoading = true
-      materialslist(this.getemplist).then(res => {
+      materialsgetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -334,7 +333,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      materialslist(this.getemplist).then(res => {
+      materialsgetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -346,11 +345,19 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log('1', row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.bomTypeId = String(row.bomTypeId)
-      console.log('2', row)
+      const parms = {
+        materialsId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      materialslist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.bomTypeId = String(res.data.data.content.list[0].bomTypeId)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -360,11 +367,21 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.version = String(row.version)
-      this.personalForm.bomTypeId = String(row.bomTypeId)
+      const parms = {
+        materialsId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      materialslist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(row)
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.version = String(res.data.data.content.list[0].version)
+          this.personalForm.bomTypeId = String(res.data.data.content.list[0].bomTypeId)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

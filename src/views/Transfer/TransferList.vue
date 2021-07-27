@@ -118,7 +118,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Transfer.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -185,7 +185,6 @@
             <el-button v-show="shwobuttons2(scope)&&scope.row.stat === 1 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="确认" type="primary" size="mini" icon="el-icon-check" circle @click="handleReview1(scope.row)"/>
             <el-button v-show="shwobuttons2(scope)&&scope.row.stat === 2 &&scope.row.judgeStat === 2 && isReview(scope.row)" title="反确认" type="primary" size="mini" icon="el-icon-back" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission2="['266-94-3', scope.row.createPersonId]" v-show="shwobuttons2(scope)&&scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission2="['266-94-2', scope.row.createPersonId]" v-show="shwobuttons2(scope)&&scope.row.judgeStat === 0&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :key="scope.row.id + Math.random()" :title="$t('updates.sc')" scope-row-create-person-id- size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-show="shwobuttons1(scope)&&isReview4(scope.row)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['266-373-1']" v-show="scope.row.judgeStat === 2&&scope.row.stat === 2" type="primary" style="width: 80px" @click="handleMyReceipt1(scope.row)"><span style="margin-left: -5px;">生成凭证</span></el-button>
@@ -221,7 +220,7 @@
 </template>
 
 <script>
-import { searchtransfer, updatetransfer2, deletetransfer, addTransferVoucher } from '@/api/Transfer'
+import { searchtransfer, updatetransfer2, deletetransfer, addTransferVoucher, transferGetList } from '@/api/Transfer'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { subjectList } from '@/api/SubjectFinance'
 import { getSubjectDetail } from '@/api/voucher'
@@ -609,26 +608,26 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchtransfer(this.getemplist).then(res => {
+      transferGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           // const detaildata = res.data.data.content.list.map(item => {
           //   return item.approvalUseVos
           // })
-          const listdata = res.data.data.content.list.map(item => {
-            return item.transferDetailVos
-          })
-          const dataarr = [].concat.apply([], listdata)
+          // const listdata = res.data.data.content.list.map(item => {
+          //   return item.transferDetailVos
+          // })
+          // const dataarr = [].concat.apply([], listdata)
 
-          const obj = this.trans(dataarr)
-          for (const i in this.list) {
-            for (const j in obj) {
-              if (this.list[i].id === obj[j].transferId) {
-                this.list[i].resultmoney = (obj[j].money).toFixed(2)
-              }
-            }
-          }
-          console.log('this.list', this.list)
+          // const obj = this.trans(dataarr)
+          // for (const i in this.list) {
+          //   for (const j in obj) {
+          //     if (this.list[i].id === obj[j].transferId) {
+          //       this.list[i].resultmoney = (obj[j].money).toFixed(2)
+          //     }
+          //   }
+          // }
+          // console.log('this.list', this.list)
           this.total = res.data.data.content.totalCount
         }
         setTimeout(() => {
@@ -809,8 +808,19 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.gettree(row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      searchtransfer(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.gettree(res.data.data.content.list[0])
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -820,9 +830,20 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      searchtransfer(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

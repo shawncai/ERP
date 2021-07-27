@@ -190,6 +190,49 @@ export function voucherlist(query) {
   })
 }
 
+// 极速凭证列表
+export function voucherGetList(query) {
+  var params = new URLSearchParams()
+  if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
+    params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.voucherId !== '' && query.voucherId !== null && query.voucherId !== undefined) {
+    params.append('voucherId', query.voucherId) // 你要传给后台的参数值 key/value
+  }
+  if (query.voucherNo !== '' && query.voucherNo !== null && query.voucherNo !== undefined) {
+    params.append('voucherNo', query.voucherNo) // 你要传给后台的参数值 key/value
+  }
+  if (query.voucherStat !== '' && query.voucherStat !== null && query.voucherStat !== undefined) {
+    params.append('voucherStat', query.voucherStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptdate !== '' && query.receiptdate !== null && query.receiptdate !== undefined) {
+    params.append('receiptdate', query.receiptdate) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.subjectCode !== '' && query.subjectCode !== null && query.subjectCode !== undefined) {
+    params.append('subjectCode', query.subjectCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/voucher/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 修改凭证
 export function updatevoucher(query, query2) {
   var params = new URLSearchParams()

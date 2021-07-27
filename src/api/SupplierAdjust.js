@@ -54,6 +54,42 @@ export function SupplierAdjustlist(query) {
   })
 }
 
+// 极速采购订单列表
+export function SupplierAdjustlistGetList(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustId !== '' && query.adjustId !== null && query.adjustId !== undefined) {
+    params.append('adjustId', query.adjustId) // 你要传给后台的参数值 key/value
+  }
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierId !== '' && query.supplierId !== null && query.supplierId !== undefined) {
+    params.append('supplierId', query.supplierId) // 你要传给后台的参数值 key/value
+  }
+  if (query.applyPersonId !== '' && query.applyPersonId !== null && query.applyPersonId !== undefined) {
+    params.append('applyPersonId', query.applyPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/supplieradjust/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 //  更新采购订单
 export function updateSupplierAdjust(query, query2) {
   var params = new URLSearchParams()

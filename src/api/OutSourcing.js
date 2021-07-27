@@ -24,6 +24,9 @@ export function searchoutsourcing(query) {
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
@@ -46,6 +49,42 @@ export function searchoutsourcing(query) {
   params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
     url: '/outsourcing/search',
+    method: 'post',
+    data: params
+  })
+}
+
+// 极速查询外包单
+export function outsourcingGetList(query) {
+  var params = new URLSearchParams()
+  if (query.numisActiveber !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.outFactoryId !== '' && query.outFactoryId !== null && query.outFactoryId !== undefined) {
+    params.append('outFactoryId', query.outFactoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.paymentAgreementId !== '' && query.paymentAgreementId !== null && query.paymentAgreementId !== undefined) {
+    params.append('paymentAgreementId', query.paymentAgreementId) // 你要传给后台的参数值 key/value
+  }
+  if (query.billingTypeId !== '' && query.billingTypeId !== null && query.billingTypeId !== undefined) {
+    params.append('billingTypeId', query.billingTypeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/outsourcing/getList',
     method: 'post',
     data: params
   })
@@ -113,11 +152,47 @@ export function addFactoryAdjust(query, query2, query3) {
   })
 }
 
+// 极速查询外包工厂调价单
+export function factoryAdjustGetList(query) {
+  var params = new URLSearchParams()
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.factoryId !== '' && query.factoryId !== null && query.factoryId !== undefined) {
+    params.append('factoryId', query.factoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustId !== '' && query.adjustId !== null && query.adjustId !== undefined) {
+    params.append('adjustId', query.adjustId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/outsourceadjust/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 查询外包工厂调价单
 export function factoryAdjustList(query) {
   var params = new URLSearchParams()
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('adjustId', query.id) // 你要传给后台的参数值 key/value
   }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value

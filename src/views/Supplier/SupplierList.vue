@@ -181,7 +181,7 @@
 
 <script>
 import { searchRepository, regionlist } from '@/api/public'
-import { searchCategory, search, search2, delete2, searchGroup, createGroup, deleteGroup, update } from '@/api/Supplier'
+import { searchCategory, search, search2, delete2, searchGroup, createGroup, deleteGroup, update, searchGetList } from '@/api/Supplier'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -344,9 +344,19 @@ export default {
     checkPermission,
     // 详情操作
     async handleDetail(row) {
-      this.detailid = row.id
-      this.edtiForm = Object.assign({}, row)
-      this.detailvisible = true
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      search(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailid = res.data.data.content.list[0].id
+          this.edtiForm = Object.assign({}, res.data.data.content.list[0])
+          this.detailvisible = true
+        }
+      })
     },
     // 供应商惩罚
     handlePunish() {
@@ -406,7 +416,7 @@ export default {
         this.getemplist.isRole = 2
       }
       console.log(this.getemplist.isRole)
-      search(this.getemplist).then(res => {
+      searchGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -463,7 +473,7 @@ export default {
       this.getemplist.pagenum = 1
       this.getemplist.regionId = this.getemplistregions[this.getemplistregions.length - 1]
       console.log(this.getemplist)
-      search(this.getemplist).then(res => {
+      searchGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -478,15 +488,25 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
-      this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
-      this.personalForm.groupId = row.groupId.split(',').map(function(item) {
-        return Number(item)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      search(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.isHot = String(res.data.data.content.list[0].isHot)
+          this.personalForm.isEffective = String(res.data.data.content.list[0].isEffective)
+          this.personalForm.moneyId = String(res.data.data.content.list[0].moneyId)
+          this.personalForm.companyTypeId = String(res.data.data.content.list[0].companyTypeId)
+          this.personalForm.groupId = res.data.data.content.list[0].groupId.split(',').map(function(item) {
+            return Number(item)
+          })
+        }
       })
     },
     // 修改组件修改成功后返回

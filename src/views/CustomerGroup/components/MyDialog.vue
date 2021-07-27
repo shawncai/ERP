@@ -55,7 +55,7 @@
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.ddmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button @click="chooseProduct">{{ $t('Hmodule.tjsp') }}</el-button>
-        <my-detail :control.sync="control" @product="productdetail"/>
+        <my-detail v-if="control" :control.sync="control" @product="productdetail"/>
         <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
       </div>
       <div class="container">

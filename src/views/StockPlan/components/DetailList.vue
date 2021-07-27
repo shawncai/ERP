@@ -198,6 +198,10 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview()"/>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -205,6 +209,9 @@
 
 <script>
 import { getPrintCount, addPrint } from '@/api/public'
+import { updatestockplan2 } from '@/api/StockPlan'
+import { addstockorder } from '@/api/StockOrder'
+
 import printJS from 'print-js'
 var _that
 export default {
@@ -288,6 +295,210 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
+    // 审批操作123
+    handleReview() {
+      var _that = this
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.parentid
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        // console.log('row', row)
+
+        updatestockplan2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+            console.log('row.stockPlanDetailVos', this.personalForm.stockPlanDetailVos)
+            const arr = this.personalForm.stockPlanDetailVos
+            // var b = {}
+            // var c = []
+            // row.stockPlanDetailVos.forEach(v => {
+            //   !b[v.supplierId] ? (b[v.supplierId] = [v]) : b[v.supplierId].push(v)
+            // })
+            // console.log('b', b)
+            // var i = 0
+            // for (var o in b) {
+            //   c[i] = {
+            //     'supplierId': o,
+            //     'oarr': b[o]
+            //   }
+            //   i++
+            // }
+            // console.log('c', c)
+            var jmap = {}
+            var c = []
+
+            arr.forEach(function(al) {
+              var key = al.supplierId + '_' + al.planDeliveryDate
+              if (typeof jmap[key] === 'undefined') {
+                jmap[key] = []
+              }
+              jmap[key].push(al)
+            })
+
+            var keys = Object.keys(jmap)
+            for (var i = 0; i < keys.length; i++) {
+              var rs = keys[i].split('_')
+              c.push({ supplierId: rs[0], planDeliveryDate: rs[1], oarr: jmap[keys[i]] })
+            }
+            console.log('c', c)
+            for (const z in c) {
+              console.log('c[z]', c[z])
+              const arr = []
+              for (const k in c[z].oarr) {
+                let orderQuantity = 0
+                if (c[z].oarr[k].orderQuantity === null) {
+                  orderQuantity = 0
+                } else {
+                  orderQuantity = c[z].oarr[k].orderQuantity
+                }
+                const stockorderparms2 = {
+                  productCode: c[z].oarr[k].productCode,
+                  productName: c[z].oarr[k].productName,
+                  productType: c[z].oarr[k].productType,
+                  typeName: c[z].oarr[k].productType,
+                  type: c[z].oarr[k].typeId,
+                  color: c[z].oarr[k].color,
+                  unit: c[z].oarr[k].unit,
+                  planQuantity: c[z].oarr[k].planQuantity,
+                  orderQuantity: orderQuantity,
+                  deliveryDate: c[z].oarr[k].planDeliveryDate,
+                  applicationReason: c[z].oarr[k].applyReason,
+                  sourceNumber: this.personalForm.planNumber,
+                  sourceSerialNumber: c[z].oarr[k].id,
+                  remark: 0,
+                  discountRate: 0,
+                  discountMoney: 0,
+                  arrivalQuantity: 0,
+                  price: c[z].oarr[k].basicPrice,
+                  includeTaxPrice: c[z].oarr[k].includeTaxPrice,
+                  supplierId: c[z].oarr[k].supplierId,
+                  returnQuantity: 0,
+                  tax: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice) - Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
+                  actualArrivalQuantity: 0,
+                  stockQuantity: c[z].oarr[k].planQuantity,
+                  taxRate: Number(c[z].oarr[k].taxRate) / 100,
+                  money: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].basicPrice),
+                  includeTaxMoney: Number(c[z].oarr[k].planQuantity) * Number(c[z].oarr[k].includeTaxPrice),
+                  typeId: c[z].oarr[k].typeId
+                }
+                arr.push(stockorderparms2)
+              }
+              const stockorderparms1 = {
+                title: '自动生成采购订单',
+                stockRepositoryId: this.personalForm.planRepositoryId,
+                stockPersonId: this.personalForm.planPersonId,
+                createPersonId: this.personalForm.planPersonId,
+                countryId: this.$store.getters.countryId,
+                repositoryId: this.$store.getters.repositoryId,
+                regionId: this.$store.getters.regionId,
+                isVat: 1,
+                settleMode: 4,
+                sourceType: '2',
+                currency: '3',
+                orderDate: this.todaytime,
+                deptId: this.$store.getters.deptId,
+                exchangeRate: '1.0000',
+                supplierId: c[z].supplierId,
+                stockTypeId: this.personalForm.stockType
+              }
+              const orderparms = JSON.stringify(stockorderparms1)
+
+              const parms2 = JSON.stringify(arr)
+              console.log('arr', arr)
+              console.log('stockorderparms1', stockorderparms1)
+              setTimeout(function() {
+                addstockorder(orderparms, parms2, stockorderparms1).then(res => {
+                  if (res.data.ret === 200) {
+                    loading.close()
+                    _that.$notify({
+                      title: 'successful',
+                      message: 'save successful',
+                      type: 'success',
+                      offset: 100
+                    })
+                  }
+                })
+              }, z * 500)
+            }
+            loading.close()
+          } else {
+            loading.close()
+            this.$notify.error({
+              title: 'wrong',
+              message: res.data.msg,
+              offset: 100
+            })
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatestockplan2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                } else {
+                  this.$notify.error({
+                    title: 'wrong',
+                    message: res.data.msg,
+                    offset: 100
+                  })
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     handleMyReceipt2() {
       console.log(this.detaildata)
       this.$store.dispatch('getsaleoutcopy', this.detaildata)

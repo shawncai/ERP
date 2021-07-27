@@ -53,6 +53,7 @@ const getters = {
   myflagApproval: state => state.publics.myflagApproval,
   printdata: state => state.publics.printdata,
   uploadApi: state => state.publics.uploadApi,
-  saleoutcopy: state => state.publics.saleoutcopy
+  saleoutcopy: state => state.publics.saleoutcopy,
+  stockOrder: state => state.publics.stockOrder
 }
 export default getters

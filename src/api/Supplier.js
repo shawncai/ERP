@@ -232,6 +232,68 @@ export function search(query) {
   })
 }
 
+// 极速供应商列表
+export function searchGetList(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.isEffective !== '' && query.isEffective !== null && query.isEffective !== undefined) {
+    params.append('isEffective', query.isEffective) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.settleMode !== '' && query.settleMode !== null && query.settleMode !== undefined) {
+    params.append('settleMode', query.settleMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.deliveryMode !== '' && query.deliveryMode !== null && query.deliveryMode !== undefined) {
+    params.append('deliveryMode', query.deliveryMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.supplierName !== '' && query.supplierName !== null && query.supplierName !== undefined) {
+    params.append('supplierName', query.supplierName) // 你要传给后台的参数值 key/value
+  }
+  if (query.payMode !== '' && query.payMode !== null && query.payMode !== undefined) {
+    params.append('payMode', query.payMode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== '' && query.typeId !== null && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.groupId !== '' && query.groupId !== null && query.groupId !== undefined) {
+    params.append('groupId', query.groupId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionId !== '' && query.regionId !== null && query.regionId !== undefined) {
+    params.append('regionId', query.regionId) // 你要传给后台的参数值 key/value
+  }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
+  if (query.pagenum !== '' && query.pagenum !== null && query.pagenum !== undefined) {
+    params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pagesize !== '' && query.pagesize !== null && query.pagesize !== undefined) {
+    params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  }
+  if (query.isRole !== '' && query.isRole !== null && query.isRole !== undefined) {
+    params.append('isRole', query.isRole) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  // params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/supplier/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 供应商列表
 export function search2(query) {
   var params = new URLSearchParams()

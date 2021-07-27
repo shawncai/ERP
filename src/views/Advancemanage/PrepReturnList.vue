@@ -86,7 +86,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.returnNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" fixed="left"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" fixed="left" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Advancemanage.title2')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
@@ -146,7 +146,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['54-84-89-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-84-89-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['54-84-89-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-84-89-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -164,7 +163,7 @@
 </template>
 
 <script>
-import { advancereturnlist, deleteadvancereturn, updateadvancereturn2 } from '@/api/Advancemanage'
+import { advancereturnlist, deleteadvancereturn, updateadvancereturn2, advancereturnGetList } from '@/api/Advancemanage'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -486,7 +485,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      advancereturnlist(this.getemplist).then(res => {
+      advancereturnGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -520,7 +519,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      advancereturnlist(this.getemplist).then(res => {
+      advancereturnGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -551,28 +550,38 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.payMode !== null) {
-        this.personalForm.payMode = String(row.payMode)
-      }
-      if (row.saleType !== null) {
-        this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
+      advancereturnlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currency !== null) {
+            this.personalForm.currency = String(res.data.data.content.list[0].currency)
+          }
+          if (res.data.data.content.list[0].customerType !== null) {
+            this.personalForm.customerType = String(res.data.data.content.list[0].customerType)
+          }
+          if (res.data.data.content.list[0].payMode !== null) {
+            this.personalForm.payMode = String(res.data.data.content.list[0].payMode)
+          }
+          if (res.data.data.content.list[0].saleType !== null) {
+            this.personalForm.saleType = String(res.data.data.content.list[0].saleType)
+          }
+          if (res.data.data.content.list[0].payType !== null) {
+            this.personalForm.payType = String(res.data.data.content.list[0].payType)
+          }
+          if (res.data.data.content.list[0].payType !== null) {
+            this.personalForm.payType = String(res.data.data.content.list[0].payType)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -582,9 +591,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      advancereturnlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

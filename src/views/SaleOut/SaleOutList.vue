@@ -102,7 +102,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm2"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm2" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('SaleOut.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -148,10 +148,8 @@
           <template slot-scope="scope">
             <el-button v-permission="['54-55-98']" v-show="(scope.row.judgeStat === 2 || scope.row.judgeStat === 1)&&scope.row.confirmPersonId === null&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :loading="isconfirm" title="confirm" type="primary" size="mini" icon="el-icon-check" circle @click="handleEdit2(scope.row)"/>
             <el-button v-permission2="['54-55-3', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&scope.row.receiptStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :loading="judgeloading" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['54-55-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2)" :loading="fsploading" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['54-55-2', scope.row.createPersonId]" v-show="(scope.row.judgeStat === 0||scope.row.judgeStat === 4)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.sc')" :key="scope.row.id + Math.random()" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
-            <el-button v-permission="['54-55-49']" v-waves v-show="scope.row.judgeStat === 2&&scope.row.isDeliver === 1&&scope.row.customerType ==='1' " class="filter-item" type="primary" style="width: 82px" @click="handleReceipt(scope.row)"><span style="margin-left: -15px;">生成配送单</span></el-button>
             <el-button v-permission="['54-55-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['54-55-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
           </template>
@@ -170,7 +168,7 @@
 
 <script>
 import { voucherlist, addSaleVoucher, addSaleCostVouche } from '@/api/voucher'
-import { searchsaleOut, deletesaleOut, updatesaleOut2 } from '@/api/SaleOut'
+import { searchsaleOut, deletesaleOut, updatesaleOut2, saleOutGetList } from '@/api/SaleOut'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import waves from '@/directive/waves' // Waves directive
@@ -569,7 +567,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      searchsaleOut(this.getemplist).then(res => {
+      saleOutGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -619,7 +617,7 @@ export default {
       } else {
         this.getemplist.customerType = null
       }
-      searchsaleOut(this.getemplist).then(res => {
+      saleOutGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -651,118 +649,134 @@ export default {
     // 修改操作
     handleEdit(row) {
       console.log(row)
-      if (row.isFree === 1 && row.useMonth === null && row.useType === null) {
-        console.log(12, 3, 4, 4, 5, 5)
-        this.returncontrol = true
-        this.personalForm4 = Object.assign({}, row)
-        this.personalForm4.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm4.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm4.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm4.payMode = row.payMode
-        }
-        if (row.saleType !== null) {
-          this.personalForm4.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm4.payType = String(row.payType)
-        }
-        if (row.outType !== null) {
-          this.personalForm4.outType = String(row.outType)
-        }
-      } else if ((row.useMonth !== null && row.useMonth !== undefined && row.useMonth !== '' && row.useType !== null && row.useType !== undefined && row.useType !== '')) {
-        this.batteryreturn = true
-        this.personalForm3 = Object.assign({}, row)
-        this.personalForm3.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm3.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm3.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm3.payMode = row.payMode
-        }
-        if (row.saleType !== null) {
-          this.personalForm3.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm3.payType = String(row.payType)
-        }
-        if (row.outType !== null) {
-          this.personalForm3.outType = String(row.outType)
-        }
-      } else if (row.saleOutItems.length !== 0) {
-        this.returncontrol = true
-        this.personalForm4 = Object.assign({}, row)
-        this.personalForm4.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm4.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm4.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm4.payMode = row.payMode
-        }
-        if (row.saleType !== null) {
-          this.personalForm4.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm4.payType = String(row.payType)
-        }
-        if (row.outType !== null) {
-          this.personalForm4.outType = String(row.outType)
-        }
-      } else if (row.isAppService === 1) {
-        this.returncontrol = true
-        this.personalForm4 = Object.assign({}, row)
-        this.personalForm4.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm4.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm4.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm4.payMode = row.payMode
-        }
-        if (row.saleType !== null) {
-          this.personalForm4.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm4.payType = String(row.payType)
-        }
-        if (row.outType !== null) {
-          this.personalForm4.outType = String(row.outType)
-        }
-      } else {
-        this.editVisible = true
-        this.personalForm1 = Object.assign({}, row)
-        this.personalForm1.sourceType = String(row.sourceType)
-        if (row.currency !== null) {
-          this.personalForm1.currency = String(row.currency)
-        }
-        if (row.customerType !== null) {
-          this.personalForm1.customerType = String(row.customerType)
-        }
-        if (row.payMode !== null) {
-          this.personalForm1.payMode = row.payMode
-        }
-        if (row.saleType !== null) {
-          this.personalForm1.saleType = String(row.saleType)
-        }
-        if (row.payType !== null) {
-          this.personalForm1.payType = String(row.payType)
-        }
-        if (row.outType !== null) {
-          this.personalForm1.outType = String(row.outType)
-        }
+      const parms = {
+        id: row.id,
+        repositoryId: 0
       }
+
+      searchsaleOut(parms).then(res => {
+        if (res.data.data.content.list[0].isFree === 1 && res.data.data.content.list[0].useMonth === null && res.data.data.content.list[0].useType === null) {
+          if (res.data.ret === 200) {
+            this.returncontrol = true
+            this.personalForm4 = Object.assign({}, res.data.data.content.list[0])
+            this.personalForm4.sourceType = String(res.data.data.content.list[0].sourceType)
+            if (res.data.data.content.list[0].currency !== null) {
+              this.personalForm4.currency = String(res.data.data.content.list[0].currency)
+            }
+            if (res.data.data.content.list[0].customerType !== null) {
+              this.personalForm4.customerType = String(res.data.data.content.list[0].customerType)
+            }
+            if (res.data.data.content.list[0].payMode !== null) {
+              this.personalForm4.payMode = res.data.data.content.list[0].payMode
+            }
+            if (res.data.data.content.list[0].saleType !== null) {
+              this.personalForm4.saleType = String(res.data.data.content.list[0].saleType)
+            }
+            if (res.data.data.content.list[0].payType !== null) {
+              this.personalForm4.payType = String(res.data.data.content.list[0].payType)
+            }
+            if (res.data.data.content.list[0].outType !== null) {
+              this.personalForm4.outType = String(res.data.data.content.list[0].outType)
+            }
+          }
+        } else if ((res.data.data.content.list[0].useMonth !== null && res.data.data.content.list[0].useMonth !== undefined && res.data.data.content.list[0].useMonth !== '' && res.data.data.content.list[0].useType !== null && res.data.data.content.list[0].useType !== undefined && res.data.data.content.list[0].useType !== '')) {
+          if (res.data.ret === 200) {
+            this.batteryreturn = true
+            this.personalForm3 = Object.assign({}, res.data.data.content.list[0])
+            this.personalForm3.sourceType = String(res.data.data.content.list[0].sourceType)
+            if (res.data.data.content.list[0].currency !== null) {
+              this.personalForm3.currency = String(res.data.data.content.list[0].currency)
+            }
+            if (res.data.data.content.list[0].customerType !== null) {
+              this.personalForm3.customerType = String(res.data.data.content.list[0].customerType)
+            }
+            if (res.data.data.content.list[0].payMode !== null) {
+              this.personalForm3.payMode = res.data.data.content.list[0].payMode
+            }
+            if (res.data.data.content.list[0].saleType !== null) {
+              this.personalForm3.saleType = String(res.data.data.content.list[0].saleType)
+            }
+            if (res.data.data.content.list[0].payType !== null) {
+              this.personalForm3.payType = String(res.data.data.content.list[0].payType)
+            }
+            if (res.data.data.content.list[0].outType !== null) {
+              this.personalForm3.outType = String(res.data.data.content.list[0].outType)
+            }
+          }
+        } else if (res.data.data.content.list[0].saleOutItems.length !== 0) {
+          if (res.data.ret === 200) {
+            this.returncontrol = true
+            this.personalForm4 = Object.assign({}, res.data.data.content.list[0])
+            this.personalForm4.sourceType = String(res.data.data.content.list[0].sourceType)
+            if (res.data.data.content.list[0].currency !== null) {
+              this.personalForm4.currency = String(res.data.data.content.list[0].currency)
+            }
+            if (res.data.data.content.list[0].customerType !== null) {
+              this.personalForm4.customerType = String(res.data.data.content.list[0].customerType)
+            }
+            if (res.data.data.content.list[0].payMode !== null) {
+              this.personalForm4.payMode = res.data.data.content.list[0].payMode
+            }
+            if (res.data.data.content.list[0].saleType !== null) {
+              this.personalForm4.saleType = String(res.data.data.content.list[0].saleType)
+            }
+            if (res.data.data.content.list[0].payType !== null) {
+              this.personalForm4.payType = String(res.data.data.content.list[0].payType)
+            }
+            if (res.data.data.content.list[0].outType !== null) {
+              this.personalForm4.outType = String(res.data.data.content.list[0].outType)
+            }
+          }
+        } else if (res.data.data.content.list[0].isAppService === 1) {
+          if (res.data.ret === 200) {
+            this.returncontrol = true
+            this.personalForm4 = Object.assign({}, res.data.data.content.list[0])
+            this.personalForm4.sourceType = String(res.data.data.content.list[0].sourceType)
+            if (res.data.data.content.list[0].currency !== null) {
+              this.personalForm4.currency = String(res.data.data.content.list[0].currency)
+            }
+            if (res.data.data.content.list[0].customerType !== null) {
+              this.personalForm4.customerType = String(res.data.data.content.list[0].customerType)
+            }
+            if (res.data.data.content.list[0].payMode !== null) {
+              this.personalForm4.payMode = res.data.data.content.list[0].payMode
+            }
+            if (res.data.data.content.list[0].saleType !== null) {
+              this.personalForm4.saleType = String(res.data.data.content.list[0].saleType)
+            }
+            if (res.data.data.content.list[0].payType !== null) {
+              this.personalForm4.payType = String(res.data.data.content.list[0].payType)
+            }
+            if (res.data.data.content.list[0].outType !== null) {
+              this.personalForm4.outType = String(res.data.data.content.list[0].outType)
+            }
+          }
+        } else {
+          if (res.data.ret === 200) {
+            this.editVisible = true
+            this.personalForm1 = Object.assign({}, res.data.data.content.list[0])
+            this.personalForm1.sourceType = String(res.data.data.content.list[0].sourceType)
+            if (res.data.data.content.list[0].currency !== null) {
+              this.personalForm1.currency = String(res.data.data.content.list[0].currency)
+            }
+            if (res.data.data.content.list[0].customerType !== null) {
+              this.personalForm1.customerType = String(res.data.data.content.list[0].customerType)
+            }
+            if (res.data.data.content.list[0].payMode !== null) {
+              this.personalForm1.payMode = res.data.data.content.list[0].payMode
+            }
+            if (res.data.data.content.list[0].saleType !== null) {
+              this.personalForm1.saleType = String(res.data.data.content.list[0].saleType)
+            }
+            if (res.data.data.content.list[0].payType !== null) {
+              this.personalForm1.payType = String(res.data.data.content.list[0].payType)
+            }
+            if (res.data.data.content.list[0].outType !== null) {
+              this.personalForm1.outType = String(res.data.data.content.list[0].outType)
+            }
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -772,13 +786,17 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = this._.cloneDeep(row)
-      this.personalForm2 = this._.cloneDeep(row)
-      // this.personalForm = Object.assign({}, row)
-      console.log('row', row)
-      console.log('this.personalForm', this.personalForm2)
+      const parms = {
+        id: row.id,
+        repositoryId: 0
+      }
+      searchsaleOut(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = this._.cloneDeep(res.data.data.content.list[0])
+          this.personalForm2 = this._.cloneDeep(res.data.data.content.list[0])
+        }
+      })
     },
     // 深拷贝
     deepClone(obj) {

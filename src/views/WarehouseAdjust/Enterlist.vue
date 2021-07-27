@@ -94,7 +94,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.enterNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('WarehouseAdjust.title')" :resizable="false" fixed="left" prop="title" align="center" min-width="150">
           <template slot-scope="scope">
@@ -134,7 +134,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission="['131-163-166-3']" v-show="scope.row.judgeStat === 0||scope.row.judgeStat === 4" type="primary" size="mini" @click="handleEdit(scope.row)">{{ $t('public.edit') }}</el-button>
-            <el-button v-show="isReview(scope.row)" :loading="reviewStat" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('public.review') }}</el-button>
             <el-button v-permission="['131-163-166-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :loading="fsploading" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['131-163-166-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['131-163-166-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -152,7 +151,7 @@
 </template>
 
 <script>
-import { enterlist, deleteenter, updateenter2 } from '@/api/WarehouseAdjust'
+import { enterlist, deleteenter, updateenter2, entergetList } from '@/api/WarehouseAdjust'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -420,7 +419,7 @@ export default {
     getlist() {
       // 采购入库单列表数据
       this.listLoading = true
-      enterlist(this.getemplist).then(res => {
+      entergetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -438,7 +437,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pageNum = 1
-      enterlist(this.getemplist).then(res => {
+      entergetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -461,13 +460,24 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
-      this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
+      const parms = {
+        enterId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      enterlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.isHot = String(res.data.data.content.list[0].isHot)
+          this.personalForm.isEffective = String(res.data.data.content.list[0].isEffective)
+          this.personalForm.moneyId = String(res.data.data.content.list[0].moneyId)
+          this.personalForm.companyTypeId = String(res.data.data.content.list[0].companyTypeId)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -477,13 +487,24 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.isHot = String(row.isHot)
-      this.personalForm.isEffective = String(row.isEffective)
-      this.personalForm.moneyId = String(row.moneyId)
-      this.personalForm.companyTypeId = String(row.companyTypeId)
+      const parms = {
+        enterId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      enterlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.isHot = String(res.data.data.content.list[0].isHot)
+          this.personalForm.isEffective = String(res.data.data.content.list[0].isEffective)
+          this.personalForm.moneyId = String(res.data.data.content.list[0].moneyId)
+          this.personalForm.companyTypeId = String(res.data.data.content.list[0].companyTypeId)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

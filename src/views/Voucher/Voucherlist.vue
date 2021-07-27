@@ -116,7 +116,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.createDate }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column :label="$t('Voucher.pzzh')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
@@ -191,7 +191,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-permission="['266-92-18']" v-show="isReview5(scope.row)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['266-92-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission2="['266-92-2', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <!-- <el-button v-permission2="['266-92-3', scope.row.createPersonId]" v-show="scope.row.voucherStat === 1" :title="$t('otherlanguage.jzsy')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleswitchtojz(scope.row)"/> -->
@@ -306,7 +305,7 @@
 
 <script>
 import { searchexpenses, updateexpenses2, deleteexpenses } from '@/api/Expenses'
-import { voucherlist, updatevoucher, deletevoucher, addProduceVoucher, endProfit } from '@/api/voucher'
+import { voucherlist, updatevoucher, deletevoucher, addProduceVoucher, endProfit, voucherGetList } from '@/api/voucher'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -835,53 +834,53 @@ export default {
       //   }, 0.5 * 100)
       // })
 
-      voucherlist(this.getemplist).then(res => {
+      voucherGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           console.log(res)
-          const resarr = res.data.data.content
-          const arrlistz = resarr.map(item => {
-            return item.voucherDetails
-          })
-          const arrlist = [].concat.apply([], arrlistz)
+          this.list = res.data.data.content
+          // const arrlistz = resarr.map(item => {
+          //   return item.voucherDetails
+          // })
+          // const arrlist = [].concat.apply([], arrlistz)
 
-          const arrlist2 = [].concat.apply([], arrlist)
+          // const arrlist2 = [].concat.apply([], arrlist)
 
-          for (const i in resarr) {
-            for (const j in arrlist2) {
-              if (resarr[i].id === arrlist2[j].voucherId) {
-                arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
-                arrlist2[j].voucherStat = resarr[i].voucherStat
-                arrlist2[j].voucherNo = resarr[i].voucherNo
-                arrlist2[j].createDate = resarr[i].createDate
-                arrlist2[j].createPersonName = resarr[i].createPersonName
-              }
-            }
-          }
-          // console.log('arrlist2=====', arrlist2)
-          // this.list = arrlist2
-          if (this.switchparms === 1) {
-            this.list = arrlist2.filter(item => {
-              return (item.total === 1 || item.total === 3)
-            })
-            this.switchparms = 2
-            console.log('this.list', this.list)
-          } else if (this.switchparms === 2) {
-            this.list = arrlist2.filter(item => {
-              return (item.total === 2 || item.total === 3)
-            })
-            this.switchparms = 1
-            for (const i in this.list) {
-              this.list[i].currency = 1
-              if (this.list[i].creditMoney === null) {
-                this.list[i].creditMoney = 0
-              }
-              if (this.list[i].debitMoney === null) {
-                this.list[i].debitMoney = 0
-              }
-            }
-            console.log('this.list', this.list)
-          }
-          this.getSpanArr(this.list)
+          // for (const i in resarr) {
+          //   for (const j in arrlist2) {
+          //     if (resarr[i].id === arrlist2[j].voucherId) {
+          //       arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
+          //       arrlist2[j].voucherStat = resarr[i].voucherStat
+          //       arrlist2[j].voucherNo = resarr[i].voucherNo
+          //       arrlist2[j].createDate = resarr[i].createDate
+          //       arrlist2[j].createPersonName = resarr[i].createPersonName
+          //     }
+          //   }
+          // }
+          // // console.log('arrlist2=====', arrlist2)
+          // // this.list = arrlist2
+          // if (this.switchparms === 1) {
+          //   this.list = arrlist2.filter(item => {
+          //     return (item.total === 1 || item.total === 3)
+          //   })
+          //   this.switchparms = 2
+          //   console.log('this.list', this.list)
+          // } else if (this.switchparms === 2) {
+          //   this.list = arrlist2.filter(item => {
+          //     return (item.total === 2 || item.total === 3)
+          //   })
+          //   this.switchparms = 1
+          //   for (const i in this.list) {
+          //     this.list[i].currency = 1
+          //     if (this.list[i].creditMoney === null) {
+          //       this.list[i].creditMoney = 0
+          //     }
+          //     if (this.list[i].debitMoney === null) {
+          //       this.list[i].debitMoney = 0
+          //     }
+          //   }
+          //   console.log('this.list', this.list)
+          // }
+          // this.getSpanArr(this.list)
         }
         setTimeout(() => {
           this.listLoading = false
@@ -910,41 +909,41 @@ export default {
     },
     // 搜索
     handleFilter() {
-      voucherlist(this.getemplist).then(res => {
+      voucherGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           console.log(res)
-          const resarr = res.data.data.content
-          const arrlistz = resarr.map(item => {
-            return item.voucherDetails
-          })
-          const arrlist = [].concat.apply([], arrlistz)
-          const arrlist2 = [].concat.apply([], arrlist)
+          this.list = res.data.data.content
+          // const arrlistz = resarr.map(item => {
+          //   return item.voucherDetails
+          // })
+          // const arrlist = [].concat.apply([], arrlistz)
+          // const arrlist2 = [].concat.apply([], arrlist)
 
-          for (const i in resarr) {
-            for (const j in arrlist2) {
-              if (resarr[i].id === arrlist2[j].voucherId) {
-                arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
-                arrlist2[j].voucherStat = resarr[i].voucherStat
-                arrlist2[j].voucherNo = resarr[i].voucherNo
-                arrlist2[j].createDate = resarr[i].createDate
-                arrlist2[j].createPersonName = resarr[i].createPersonName
-              }
-            }
-          }
-          if (this.switchparms === 2) {
-            this.list = arrlist2.filter(item => {
-              return item.total === 1
-            })
-            this.switchparms = 2
-            console.log('this.list', this.list)
-          } else if (this.switchparms === 1) {
-            this.list = arrlist2.filter(item => {
-              return (item.total === 2 || item.total === 3)
-            })
-            this.switchparms = 1
-            console.log('this.list', this.list)
-          }
-          this.getSpanArr(arrlist2)
+          // for (const i in resarr) {
+          //   for (const j in arrlist2) {
+          //     if (resarr[i].id === arrlist2[j].voucherId) {
+          //       arrlist2[j].approvalUseVos = resarr[i].approvalUseVos
+          //       arrlist2[j].voucherStat = resarr[i].voucherStat
+          //       arrlist2[j].voucherNo = resarr[i].voucherNo
+          //       arrlist2[j].createDate = resarr[i].createDate
+          //       arrlist2[j].createPersonName = resarr[i].createPersonName
+          //     }
+          //   }
+          // }
+          // if (this.switchparms === 2) {
+          //   this.list = arrlist2.filter(item => {
+          //     return item.total === 1
+          //   })
+          //   this.switchparms = 2
+          //   console.log('this.list', this.list)
+          // } else if (this.switchparms === 1) {
+          //   this.list = arrlist2.filter(item => {
+          //     return (item.total === 2 || item.total === 3)
+          //   })
+          //   this.switchparms = 1
+          //   console.log('this.list', this.list)
+          // }
+          // this.getSpanArr(arrlist2)
         }
         setTimeout(() => {
           this.listLoading = false

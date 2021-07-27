@@ -513,7 +513,7 @@ export default {
           sourceNumber: item.sourceNumber,
           sourceSerialNumber: item.id,
           remark: item.remark,
-          quantity: item.actualEnterQuantity,
+          quantity: item.actualEnterQuantity || 0,
           quantity2: item.actualEnterQuantity,
           price: item.enterPrice,
           includeTaxPrice: item.includeTaxPrice,

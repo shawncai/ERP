@@ -14,7 +14,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="$t('AccessMaterials.sourceType')" prop="sourceType" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-select v-model="personalForm.sourceType" style="margin-left: 18px;width: 200px" @change="chooseType">
+                  <el-select v-model="personalForm.sourceType" style="width: 200px" @change="chooseType">
                     <el-option :label="$t('Hmodule.Productiontasks')" value="1" />
                     <el-option :label="$t('Hmodule.Nosource')" value="2" />
                   </el-select>
@@ -64,6 +64,14 @@
                   <el-input v-model="accessRepositoryId" style="width: 200px" clearable @focus="handlechooseRep"/>
                 </el-form-item>
                 <my-repository :repositorycontrol.sync="repositorycontrol" @repositoryname="repositoryname"/>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="$t('updates.lx')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                  <el-select v-model="personalForm.accessType" style="width: 200px">
+                    <el-option :label="$t('update4.shenghcang')" value="1" />
+                    <el-option :label="$t('update4.feishengchanleixing')" value="2" />
+                  </el-select>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -227,7 +235,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        accessType: '1'
       },
       // 生产任务规则数据
       personalrules: {
@@ -631,7 +640,8 @@ export default {
         countryId: this.$store.getters.countryId,
         repositoryId: this.$store.getters.repositoryId,
         regionId: this.$store.getters.regionId,
-        sourceType: '1'
+        sourceType: '1',
+        accessType: '1'
       }
       this.produceTaskNumber = null
       this.accessPersonId = null

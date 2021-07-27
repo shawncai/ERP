@@ -416,6 +416,13 @@
             </el-row>
           </el-form>
         </div>
+        <div class="buttons">
+          <el-button v-show="isJudgeReview()" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('updates.spi') }}</el-button>
+          <el-button v-permission="['54-57-22']" v-show="personalForm.judgeStat === 2&& personalForm.flag===1" type="primary" style="width: 107px" @click="handleMyReceipt1()"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
+          <el-button v-permission="['54-57-23']" v-show="personalForm.judgeStat === 2&&personalForm.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt5()"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
+          <el-button v-permission="['54-57-24']" v-show="personalForm.judgeStat === 2&&personalForm.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt3()"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
+          <el-button v-permission="['54-57-25']" v-show="personalForm.judgeStat === 2&&personalForm.flag!==3" type="primary" style="width: 97px" @click="handleMyReceipt4()"><span style="margin-left: -15px;">{{ $t('newupd.rrr') }}</span></el-button>
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -423,12 +430,16 @@
 
 <script>
 import { getPrintCount, addPrint } from '@/api/public'
+import { updatesaleOrder2 } from '@/api/SaleOrder'
 import printJS from 'print-js'
 import { productlist } from '@/api/public'
 import { searchprepReceipt } from '@/api/PrepReceipt'
 import { searchsaleOut } from '@/api/SaleOut'
+import permission from '@/directive/permission/index.js' // 权限判断指令
+
 var _that
 export default {
+  directives: { permission },
   filters: {
     currencyFilter(status) {
       const statusMap = {
@@ -562,6 +573,96 @@ export default {
     _that = this
   },
   methods: {
+    // 跳转生成别的订单
+    handleMyReceipt1() {
+      this.editVisible = false
+      this.$store.dispatch('getempcontract', this.personalForm)
+      this.$router.push('/SaleOut/AddSaleOut')
+    },
+    handleMyReceipt5() {
+      this.$store.dispatch('getempcontract', this.personalForm)
+      this.editVisible = false
+      this.$router.push('/ProducePlan/AddProducePlan')
+    },
+    handleMyReceipt3() {
+      this.$store.dispatch('getempcontract', this.personalForm)
+      this.editVisible = false
+      this.$router.push('/StockApply/AddStockApply')
+    },
+    handleMyReceipt4() {
+      this.$store.dispatch('getempcontract', this.personalForm)
+      this.editVisible = false
+      this.$router.push('/PrepReceipt/AddPrepReceipt')
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatesaleOrder2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('是否确认审核不通过？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updatesaleOrder2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? '确认取消'
+                  : '停留在当前页面'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
+    // 判断审核按钮
+    isJudgeReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+          return true
+        }
+      }
+    },
     handleMyReceipt2() {
       console.log(this.detaildata)
       this.$store.dispatch('getempcontract', this.detaildata)

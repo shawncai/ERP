@@ -125,7 +125,12 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="typeId" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('update4.jg')" prop="price" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px"/>
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
+            <template slot-scope="scope">
+              <p>{{ getquantity(scope.row) }}</p>
+            </template>
+          </el-editable-column>
+
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
@@ -362,7 +367,7 @@ export default {
   },
   methods: {
     getBatch(row) {
-      if (row.flag === undefined) {
+      if (!row.flag) {
         row.flag = true
       } else {
         return row.batch
@@ -392,7 +397,7 @@ export default {
         })
         return row.batch
       }
-      row.flag = false
+      row.flag = true
     },
     getLocationData(row) {
       // 默认批次
@@ -437,21 +442,21 @@ export default {
     // 删除明细
     handleDelete() {
       this.$refs.editable.removeSelecteds()
-      const ids = this.moreaction.map(item => item.id).join()
-      console.log('ids', ids)
-      console.log(ids)
-      deletecountdetail(ids).then(res => {
-        console.log(res)
-        if (res.data.ret === 200) {
-          this.$emit('rest', true)
-        } else {
-          this.$notify.error({
-            title: 'wrong',
-            message: '删除失败',
-            offset: 100
-          })
-        }
-      })
+      // const ids = this.moreaction.map(item => item.id).join()
+      // console.log('ids', ids)
+      // console.log(ids)
+      // deletecountdetail(ids).then(res => {
+      //   console.log(res)
+      //   if (res.data.ret === 200) {
+      //     this.$emit('rest', true)
+      //   } else {
+      //     this.$notify.error({
+      //       title: 'wrong',
+      //       message: '删除失败',
+      //       offset: 100
+      //     })
+      //   }
+      // })
     },
     getlist() {
       // 部门列表数据
@@ -538,7 +543,7 @@ export default {
       return quan * pric
     },
     getquantity(sco) {
-      if (sco.flag2 === undefined) {
+      if (!sco.flag2) {
         sco.flag2 = true
       }
       console.log(sco.flag2)
@@ -557,7 +562,7 @@ export default {
           return sco.inventoryQuantity
         }
       }
-      sco.flag2 = false
+      sco.flag2 = true
     },
     // updatebatch(event, scope) {
     //   if (event === true) {

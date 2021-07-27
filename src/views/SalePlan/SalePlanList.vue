@@ -179,7 +179,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.planNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" />
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
         <el-table-column
           :label="$t('SalePlan.title')"
@@ -280,15 +280,7 @@
               circle
               @click="handleEdit(scope.row)"
             />
-            <el-button
-              v-show="isReview(scope.row)"
-              :title="$t('updates.spi')"
-              type="warning"
-              size="mini"
-              icon="el-icon-view"
-              circle
-              @click="handleReview(scope.row)"
-            />
+
             <el-button
               v-show="isTrace(scope.row)"
               :title="$t('updates.gz')"
@@ -717,30 +709,41 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.currency !== null) {
-        this.personalForm.currency = String(row.currency)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.customerType !== null) {
-        this.personalForm.customerType = String(row.customerType)
-      }
-      if (row.payMode !== null) {
-        this.personalForm.payMode = String(row.payMode)
-      }
-      if (row.saleType !== null) {
-        this.personalForm.saleType = String(row.saleType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
-      if (row.payType !== null) {
-        this.personalForm.payType = String(row.payType)
-      }
-      if (row.planType !== null) {
-        this.personalForm.planType = String(row.planType)
-      }
+
+      saleplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].currency !== null) {
+            this.personalForm.currency = String(res.data.data.content.list[0].currency)
+          }
+          if (res.data.data.content.list[0].customerType !== null) {
+            this.personalForm.customerType = String(res.data.data.content.list[0].customerType)
+          }
+          if (res.data.data.content.list[0].payMode !== null) {
+            this.personalForm.payMode = String(res.data.data.content.list[0].payMode)
+          }
+          if (res.data.data.content.list[0].saleType !== null) {
+            this.personalForm.saleType = String(res.data.data.content.list[0].saleType)
+          }
+          if (res.data.data.content.list[0].payType !== null) {
+            this.personalForm.payType = String(res.data.data.content.list[0].payType)
+          }
+          if (res.data.data.content.list[0].payType !== null) {
+            this.personalForm.payType = String(res.data.data.content.list[0].payType)
+          }
+          if (res.data.data.content.list[0].planType !== null) {
+            this.personalForm.planType = String(res.data.data.content.list[0].planType)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -750,8 +753,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      saleplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

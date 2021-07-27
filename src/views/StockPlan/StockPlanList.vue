@@ -75,7 +75,6 @@
         :key="tableKey"
         :data="list"
         :height="tableHeight"
-        :span-method="arraySpanMethod"
         border
         fit
         size="small"
@@ -92,42 +91,7 @@
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.planNumber }}</span>
           </template>
-          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm"/>
-        </el-table-column>
-        <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
-          <template slot-scope="scope">
-            <span>{{ scope.row.productName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('updates.ys')" :resizable="false" fixed="left" align="center" min-width="75">
-          <template slot-scope="scope">
-            <span>{{ scope.row.color }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('updates.jhsl')" :resizable="false" fixed="left" align="center" min-width="75">
-          <template slot-scope="scope">
-            <span>{{ scope.row.planQuantity }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Hmodule.dw')" :resizable="false" fixed="left" align="center" min-width="75">
-          <template slot-scope="scope">
-            <span>{{ scope.row.unit }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('update4.allIncludeTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allIncludeTaxMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('update4.allPlanMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allPlanMoney }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('update4.allTaxMoney')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.allTaxMoney }}</span>
-          </template>
+          <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
 
         <el-table-column :label="$t('StockPlan.planPersonId')" :resizable="false" align="center" min-width="150">
@@ -145,16 +109,16 @@
             <span>{{ scope.row.planDate }}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('StockApply.stockType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.stockTypeName }}</span>
           </template>
-        </el-table-column> -->
-        <!-- <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
+        </el-table-column>
+        <el-table-column :label="$t('StockPlan.sourceType')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <!-- <el-table-column :label="$t('StockPlan.isused')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.isused">已调用</span>
@@ -174,7 +138,6 @@
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['104-108-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
-            <el-button v-show="isReview(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)"/>
             <el-button v-permission="['104-108-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
             <el-button v-permission="['104-108-16']" v-show="isReview2(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.jd')" type="success" size="mini" icon="el-icon-check" circle @click="handleReview2(scope.row)"/>
             <el-button v-permission="['104-108-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
@@ -209,7 +172,7 @@
 
 <script>
 import { addstockorder } from '@/api/StockOrder'
-import { stockplanlist, deletestockplan, updatestockplan2 } from '@/api/StockPlan'
+import { stockplanlist, deletestockplan, updatestockplan2, stockplanGetList } from '@/api/StockPlan'
 import { stockorderlist2 } from '@/api/StockOrder'
 import { checkReceiptPlan } from '@/api/public'
 import { getdeptlist } from '@/api/BasicSettings'
@@ -616,68 +579,68 @@ export default {
       // 数据待处理
       // 物料需求计划列表数据
       this.listLoading = true
-      const needdata = await (stockplanlist(this.getemplist).then(res => {
+      const needdata = await (stockplanGetList(this.getemplist).then(res => {
         return res
       }))
-      const processdata = needdata.data.data.content.list
+      this.list = needdata.data.data.content.list
       this.total = needdata.data.data.content.totalCount
-      const newarr = processdata.map(item => {
-        return item.stockPlanDetailVos
-      })
-      const newarr2 = [].concat.apply([], newarr)
-      const processdata2 = this._.cloneDeep(newarr2)
-      // console.log('newarr2=========', newarr2)
-      for (const i in processdata) {
-        for (const j in newarr2) {
-          if (processdata[i].id === processdata2[j].planId) {
-            processdata2[j].parentid = processdata[i].id
-            processdata2[j].planNumber = processdata[i].planNumber
-            processdata2[j].title = processdata[i].title
-            processdata2[j].stockType = processdata[i].stockType
-            processdata2[j].planPersonId = processdata[i].planPersonId
-            processdata2[j].stockDeptId = processdata[i].stockDeptId
-            processdata2[j].stockPersonId = processdata[i].stockPersonId
-            processdata2[j].planDate = processdata[i].planDate
-            processdata2[j].sourceType = processdata[i].sourceType
-            processdata2[j].totalQuantity = processdata[i].totalQuantity
-            processdata2[j].allMoney = processdata[i].allMoney
-            processdata2[j].receiptStat = processdata[i].receiptStat
-            processdata2[j].judgeStat = processdata[i].judgeStat
-            processdata2[j].createPersonId = processdata[i].createPersonId
-            processdata2[j].createDate = processdata[i].createDate
-            processdata2[j].judgePersonId = processdata[i].judgePersonId
-            processdata2[j].judgeDate = processdata[i].judgeDate
-            processdata2[j].endPersonId = processdata[i].endPersonId
-            processdata2[j].endDate = processdata[i].endDate
-            processdata2[j].summary = processdata[i].summary
-            processdata2[j].countryId = processdata[i].countryId
-            processdata2[j].planRepositoryId = processdata[i].planRepositoryId
-            processdata2[j].planPersonName = processdata[i].planPersonName
-            processdata2[j].planRepositoryName = processdata[i].planRepositoryName
-            processdata2[j].stockDeptName = processdata[i].stockDeptName
-            processdata2[j].stockPersonName = processdata[i].stockPersonName
-            processdata2[j].planRepositoryName = processdata[i].planRepositoryName
-            processdata2[j].createPersonName = processdata[i].createPersonName
-            processdata2[j].judgePersonName = processdata[i].judgePersonName
-            processdata2[j].endPersonName = processdata[i].endPersonName
-            processdata2[j].modifyPersonName = processdata[i].modifyPersonName
-            processdata2[j].countryName = processdata[i].countryName
-            processdata2[j].stockTypeName = processdata[i].stockTypeName
-            processdata2[j].isused = processdata[i].isused
-            processdata2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
-            processdata2[j].approvalUseVos = processdata[i].approvalUseVos
+      // const newarr = processdata.map(item => {
+      //   return item.stockPlanDetailVos
+      // })
+      // const newarr2 = [].concat.apply([], newarr)
+      // const processdata2 = this._.cloneDeep(newarr2)
+      // // console.log('newarr2=========', newarr2)
+      // for (const i in processdata) {
+      //   for (const j in newarr2) {
+      //     if (processdata[i].id === processdata2[j].planId) {
+      //       processdata2[j].parentid = processdata[i].id
+      //       processdata2[j].planNumber = processdata[i].planNumber
+      //       processdata2[j].title = processdata[i].title
+      //       processdata2[j].stockType = processdata[i].stockType
+      //       processdata2[j].planPersonId = processdata[i].planPersonId
+      //       processdata2[j].stockDeptId = processdata[i].stockDeptId
+      //       processdata2[j].stockPersonId = processdata[i].stockPersonId
+      //       processdata2[j].planDate = processdata[i].planDate
+      //       processdata2[j].sourceType = processdata[i].sourceType
+      //       processdata2[j].totalQuantity = processdata[i].totalQuantity
+      //       processdata2[j].allMoney = processdata[i].allMoney
+      //       processdata2[j].receiptStat = processdata[i].receiptStat
+      //       processdata2[j].judgeStat = processdata[i].judgeStat
+      //       processdata2[j].createPersonId = processdata[i].createPersonId
+      //       processdata2[j].createDate = processdata[i].createDate
+      //       processdata2[j].judgePersonId = processdata[i].judgePersonId
+      //       processdata2[j].judgeDate = processdata[i].judgeDate
+      //       processdata2[j].endPersonId = processdata[i].endPersonId
+      //       processdata2[j].endDate = processdata[i].endDate
+      //       processdata2[j].summary = processdata[i].summary
+      //       processdata2[j].countryId = processdata[i].countryId
+      //       processdata2[j].planRepositoryId = processdata[i].planRepositoryId
+      //       processdata2[j].planPersonName = processdata[i].planPersonName
+      //       processdata2[j].planRepositoryName = processdata[i].planRepositoryName
+      //       processdata2[j].stockDeptName = processdata[i].stockDeptName
+      //       processdata2[j].stockPersonName = processdata[i].stockPersonName
+      //       processdata2[j].planRepositoryName = processdata[i].planRepositoryName
+      //       processdata2[j].createPersonName = processdata[i].createPersonName
+      //       processdata2[j].judgePersonName = processdata[i].judgePersonName
+      //       processdata2[j].endPersonName = processdata[i].endPersonName
+      //       processdata2[j].modifyPersonName = processdata[i].modifyPersonName
+      //       processdata2[j].countryName = processdata[i].countryName
+      //       processdata2[j].stockTypeName = processdata[i].stockTypeName
+      //       processdata2[j].isused = processdata[i].isused
+      //       processdata2[j].stockPlanDetailVos = processdata[i].stockPlanDetailVos
+      //       processdata2[j].approvalUseVos = processdata[i].approvalUseVos
 
-            processdata2[j].allIncludeTaxMoney = processdata[i].allIncludeTaxMoney
-            processdata2[j].allPlanMoney = processdata[i].allPlanMoney
+      //       processdata2[j].allIncludeTaxMoney = processdata[i].allIncludeTaxMoney
+      //       processdata2[j].allPlanMoney = processdata[i].allPlanMoney
 
-            processdata2[j].allTaxMoney = processdata[i].allTaxMoney
-          }
-        }
-      }
-      this.list = processdata2
-      this.getSpanArr(this.list)
+      //       processdata2[j].allTaxMoney = processdata[i].allTaxMoney
+      //     }
+      //   }
+      // }
+      // this.list = processdata2
+      // this.getSpanArr(this.list)
       this.listLoading = false
-      console.log('数据数据数据22222222', processdata2)
+      // console.log('数据数据数据22222222', processdata2)
       // 部门列表数据
       getdeptlist().then(res => {
         if (res.data.ret === 200) {
@@ -721,10 +684,21 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        planId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      stockplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -734,9 +708,20 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        planId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+
+      stockplanlist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

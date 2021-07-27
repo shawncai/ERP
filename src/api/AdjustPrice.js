@@ -34,6 +34,9 @@ export function adjustlist(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.adjustId !== '' && query.adjustId !== null && query.adjustId !== undefined) {
+    params.append('adjustId', query.adjustId) // 你要传给后台的参数值 key/value
+  }
   if (query.adjustNumber !== '' && query.adjustNumber !== null && query.adjustNumber !== undefined) {
     params.append('adjustNumber', query.adjustNumber) // 你要传给后台的参数值 key/value
   }
@@ -75,6 +78,59 @@ export function adjustlist(query) {
   }
   return request({
     url: '/repoadjustprice/adjustlist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 极速调价单列表
+export function adjustGetList(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+
+  if (query.adjustNumber !== '' && query.adjustNumber !== null && query.adjustNumber !== undefined) {
+    params.append('adjustNumber', query.adjustNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustDeptId !== '' && query.adjustDeptId !== null && query.adjustDeptId !== undefined) {
+    params.append('adjustDeptId', query.adjustDeptId) // 你要传给后台的参数值 key/value
+  }
+  if (query.adjustRepositoryId !== '' && query.adjustRepositoryId !== null && query.adjustRepositoryId !== undefined) {
+    params.append('adjustRepositoryId', query.adjustRepositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageNum !== '' && query.pageNum !== null && query.pageNum !== undefined) {
+    params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  }
+  if (query.pageSize !== '' && query.pageSize !== null && query.pageSize !== undefined) {
+    params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/repoadjustprice/getList',
     method: 'post',
     data: params
   })

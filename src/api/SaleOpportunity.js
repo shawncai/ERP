@@ -13,10 +13,64 @@ export function addsaleopportunity(query, query2) {
 }
 
 // 销售机会列表
+export function saleopportunityGetList(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.opportunityNumber !== '' && query.opportunityNumber !== null && query.opportunityNumber !== undefined) {
+    params.append('opportunityNumber', query.opportunityNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.opportunityType !== '' && query.opportunityType !== null && query.opportunityType !== undefined) {
+    params.append('opportunityType', query.opportunityType) // 你要传给后台的参数值 key/value
+  }
+  if (query.opportunitySource !== '' && query.opportunitySource !== null && query.opportunitySource !== undefined) {
+    params.append('opportunitySource', query.opportunitySource) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerType !== '' && query.customerType !== null && query.customerType !== undefined) {
+    params.append('customerType', query.customerType) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.isUse !== '' && query.isUse !== null && query.isUse !== undefined) {
+    params.append('isUse', query.isUse) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/saleopportunity/getList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 销售机会列表
 export function saleopportunitylist(query) {
   var params = new URLSearchParams()
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('opportunityId', query.id) // 你要传给后台的参数值 key/value
   }
   if (query.opportunityNumber !== '' && query.opportunityNumber !== null && query.opportunityNumber !== undefined) {
     params.append('opportunityNumber', query.opportunityNumber) // 你要传给后台的参数值 key/value

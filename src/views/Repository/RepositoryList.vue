@@ -638,7 +638,7 @@ export default {
         employeename: '',
         pagenum: 1,
         pagesize: 10,
-        stat: 1,
+        stat: '',
         loginRepositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
         time: '',
@@ -953,17 +953,31 @@ export default {
     // 导出
     handleExport() {
       this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['仓库名称', '类别', '经度', '纬度', '电话', '地址', '所属区域', '类型', '店长/仓库管理员', '开业时间', '小区经理', '国家', '仓库说明']
-          const filterVal = ['repositoryName', 'typeName', 'longitude', 'latitude', 'phone', 'address', 'regionName', 'categoryName', 'managerName', 'openTime', 'leaders', 'countryName', 'description']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '仓库资料表'
+      const parms = {
+        repositoryName: this.getemplist.repositoryName,
+        type: this.getemplist.type,
+        iseffective: this.getemplist.iseffective,
+        regionId: this.getemplist.regionid,
+        loginRepositoryId: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
+        pagenum: 1,
+        pagesize: 100000
+      }
+      searchRepository3(parms).then(res => {
+        if (res.data.ret === 200) {
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['仓库名称', '类别', '经度', '纬度', '电话', '地址', '所属区域', '类型', '店长/仓库管理员', '开业时间', '小区经理', '国家', '仓库说明']
+            const filterVal = ['repositoryName', 'typeName', 'longitude', 'latitude', 'phone', 'address', 'regionName', 'categoryName', 'managerName', 'openTime', 'regionPersonName', 'countryName', 'description']
+            const data = this.formatJson(filterVal, res.data.data.content.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '仓库资料表'
+            })
+            this.downloadLoading = false
           })
-          this.downloadLoading = false
-        })
+        }
+      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

@@ -44,6 +44,9 @@ export function accesslist(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('accessId', query.id) // 你要传给后台的参数值 key/value
+  }
   if (query.accessNumber !== '' && query.accessNumber !== null && query.accessNumber !== undefined) {
     params.append('accessNumber', query.accessNumber) // 你要传给后台的参数值 key/value
   }
@@ -90,6 +93,63 @@ export function accesslist(query) {
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
     url: '/accessmaterials/accesslist',
+    method: 'post',
+    data: params
+  })
+}
+
+// 极速领料单列表
+export function accessGetList(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.accessNumber !== '' && query.accessNumber !== null && query.accessNumber !== undefined) {
+    params.append('accessNumber', query.accessNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourcetype !== '' && query.sourcetype !== null && query.sourcetype !== undefined) {
+    params.append('sourcetype', query.sourcetype) // 你要传给后台的参数值 key/value
+  }
+  if (query.taskNumber !== '' && query.taskNumber !== null && query.taskNumber !== undefined) {
+    params.append('taskNumber', query.taskNumber) // 你要传给后台的参数值 key/value
+  }
+  if (query.workCenterId !== '' && query.workCenterId !== null && query.workCenterId !== undefined) {
+    params.append('workCenterId', query.workCenterId) // 你要传给后台的参数值 key/value
+  }
+  if (query.processType !== '' && query.processType !== null && query.processType !== undefined) {
+    params.append('processType', query.processType) // 你要传给后台的参数值 key/value
+  }
+  if (query.accessPersonId !== '' && query.accessPersonId !== null && query.accessPersonId !== undefined) {
+    params.append('accessPersonId', query.accessPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.accessTime !== '' && query.accessTime !== null && query.accessTime !== undefined) {
+    params.append('accessTime', query.accessTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.providePersonId !== '' && query.providePersonId !== null && query.providePersonId !== undefined) {
+    params.append('providePersonId', query.providePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.isActive !== '' && query.isActive !== null && query.isActive !== undefined) {
+    params.append('isActive', query.isActive) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/accessmaterials/getList',
     method: 'post',
     data: params
   })
@@ -161,12 +221,68 @@ export function createretreatMaterials(query, query2, query3) {
     data: params
   })
 }
+// 极速查询退料单
+export function retreatMaterialsGetList(query) {
+  var params = new URLSearchParams()
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.sourceType !== '' && query.sourceType !== null && query.sourceType !== undefined) {
+    params.append('sourceType', query.sourceType) // 你要传给后台的参数值 key/value
+  }
+  if (query.accessMaterialsId !== '' && query.accessMaterialsId !== null && query.accessMaterialsId !== undefined) {
+    params.append('accessMaterialsId', query.accessMaterialsId) // 你要传给后台的参数值 key/value
+  }
+  if (query.workCenterId !== '' && query.workCenterId !== null && query.workCenterId !== undefined) {
+    params.append('workCenterId', query.workCenterId) // 你要传给后台的参数值 key/value
+  }
+  if (query.processType !== '' && query.processType !== null && query.processType !== undefined) {
+    params.append('processType', query.processType) // 你要传给后台的参数值 key/value
+  }
+  if (query.retreatPersonId !== '' && query.retreatPersonId !== null && query.retreatPersonId !== undefined) {
+    params.append('retreatPersonId', query.retreatPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiveDate !== '' && query.receiveDate !== null && query.receiveDate !== undefined) {
+    params.append('receiveDate', query.receiveDate) // 你要传给后台的参数值 key/value
+  }
+  if (query.receivePersonId !== '' && query.receivePersonId !== null && query.receivePersonId !== undefined) {
+    params.append('receivePersonId', query.receivePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.receiptStat !== '' && query.receiptStat !== null && query.receiptStat !== undefined) {
+    params.append('receiptStat', query.receiptStat) // 你要传给后台的参数值 key/value
+  }
+  if (query.createPersonId !== '' && query.createPersonId !== null && query.createPersonId !== undefined) {
+    params.append('createPersonId', query.createPersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId !== '' && query.repositoryId !== null && query.repositoryId !== undefined) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  if (query.regionIds !== '' && query.regionIds !== null && query.regionIds !== undefined) {
+    params.append('regionIds', query.regionIds) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/retreatMaterials/getList',
+    method: 'post',
+    data: params
+  })
+}
 
 // 查询退料单
 export function searchretreatMaterials(query) {
   var params = new URLSearchParams()
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value

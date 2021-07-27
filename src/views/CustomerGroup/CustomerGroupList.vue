@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { customerProductList, deleteCustomerProduct } from '@/api/Customer'
+import { customerProductList, deleteCustomerProduct, customerProductGetList } from '@/api/Customer'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -422,7 +422,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      customerProductList(this.getemplist).then(res => {
+      customerProductGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -452,7 +452,7 @@ export default {
         this.getemplist.endTime = ''
       }
       this.getemplist.pageNum = 1
-      customerProductList(this.getemplist).then(res => {
+      customerProductGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -464,14 +464,24 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.personalForm = Object.assign({}, row)
-      if (row.stat !== null) {
-        this.personalForm.stat = String(row.stat)
+      const parms = {
+        groupId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      this.personalForm.levelId = String(row.levelId)
+      customerProductList(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          if (res.data.data.content.list[0].stat !== null) {
+            this.personalForm.stat = String(res.data.data.content.list[0].stat)
+          }
+          this.personalForm.levelId = String(res.data.data.content.list[0].levelId)
 
-      this.editVisible = true
+          this.editVisible = true
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -481,9 +491,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        groupId: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      customerProductList(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

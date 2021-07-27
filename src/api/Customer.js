@@ -657,6 +657,39 @@ export function customerProductList(query) {
   })
 }
 
+// 极速客户组列表
+export function customerProductGetList(query) {
+  var params = new URLSearchParams()
+  if (query.groupId !== '' && query.groupId !== null && query.groupId !== undefined) {
+    params.append('groupId', query.groupId) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.levelId !== '' && query.levelId !== null && query.levelId !== undefined) {
+    params.append('levelId', query.levelId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customerProduct/getList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 删除客户组
 export function deleteCustomerProduct(query, query2) {
   var params = new URLSearchParams()
@@ -722,6 +755,9 @@ export function supplierAdjustList(query) {
   if (query.number !== '' && query.number !== null && query.number !== undefined) {
     params.append('number', query.number) // 你要传给后台的参数值 key/value
   }
+  if (query.adjustId !== '' && query.adjustId !== null && query.adjustId !== undefined) {
+    params.append('adjustId', query.adjustId) // 你要传给后台的参数值 key/value
+  }
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
@@ -744,6 +780,39 @@ export function supplierAdjustList(query) {
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
   return request({
     url: '/customerAdjust/supplierAdjustList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 极速客户组调价单列表
+export function supplierAdjustGetList(query) {
+  var params = new URLSearchParams()
+  if (query.number !== '' && query.number !== null && query.number !== undefined) {
+    params.append('number', query.number) // 你要传给后台的参数值 key/value
+  }
+  if (query.title !== '' && query.title !== null && query.title !== undefined) {
+    params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.handlePersonId !== '' && query.handlePersonId !== null && query.handlePersonId !== undefined) {
+    params.append('handlePersonId', query.handlePersonId) // 你要传给后台的参数值 key/value
+  }
+  if (query.customerId !== '' && query.customerId !== null && query.customerId !== undefined) {
+    params.append('customerId', query.customerId) // 你要传给后台的参数值 key/value
+  }
+  if (query.beginTime !== '' && query.beginTime !== null && query.beginTime !== undefined) {
+    params.append('beginTime', query.beginTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.endTime !== '' && query.endTime !== null && query.endTime !== undefined) {
+    params.append('endTime', query.endTime) // 你要传给后台的参数值 key/value
+  }
+  if (query.judgeStat !== '' && query.judgeStat !== null && query.judgeStat !== undefined) {
+    params.append('judgeStat', query.judgeStat) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/customerAdjust/getList',
     method: 'post',
     data: params
   })

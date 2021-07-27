@@ -176,7 +176,7 @@
 
 <script>
 import { voucherlist, addChangeCountVoucher } from '@/api/voucher'
-import { changelist, deletechange, updatechange2 } from '@/api/ChangeCount'
+import { changelist, deletechange, updatechange2, changeGetList } from '@/api/ChangeCount'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
 import { searchRepository } from '@/api/public'
@@ -434,7 +434,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      changelist(this.getemplist).then(res => {
+      changeGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -474,7 +474,7 @@ export default {
         this.getemplist.endTime = this.date[1] + ' 23:59:59'
       }
       this.getemplist.pageNum = 1
-      changelist(this.getemplist).then(res => {
+      changeGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -496,28 +496,38 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      if (row.certificateType !== null) {
-        this.personalForm.certificateType = String(row.certificateType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
       }
-      if (row.workStat !== null) {
-        this.personalForm.workStat = String(row.workStat)
-      }
-      if (row.mateCertificateType !== null) {
-        this.personalForm.mateCertificateType = String(row.mateCertificateType)
-      }
-      if (row.mateWorkStat !== null) {
-        this.personalForm.mateWorkStat = String(row.mateWorkStat)
-      }
-      if (row.enterpriseNature !== null) {
-        this.personalForm.enterpriseNature = String(row.enterpriseNature)
-      }
-      if (row.suretyCertificateType !== null) {
-        this.personalForm.suretyCertificateType = String(row.suretyCertificateType)
-      }
+      changelist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          if (res.data.data.content.list[0].certificateType !== null) {
+            this.personalForm.certificateType = String(res.data.data.content.list[0].certificateType)
+          }
+          if (res.data.data.content.list[0].workStat !== null) {
+            this.personalForm.workStat = String(res.data.data.content.list[0].workStat)
+          }
+          if (res.data.data.content.list[0].mateCertificateType !== null) {
+            this.personalForm.mateCertificateType = String(res.data.data.content.list[0].mateCertificateType)
+          }
+          if (res.data.data.content.list[0].mateWorkStat !== null) {
+            this.personalForm.mateWorkStat = String(res.data.data.content.list[0].mateWorkStat)
+          }
+          if (res.data.data.content.list[0].enterpriseNature !== null) {
+            this.personalForm.enterpriseNature = String(res.data.data.content.list[0].enterpriseNature)
+          }
+          if (res.data.data.content.list[0].suretyCertificateType !== null) {
+            this.personalForm.suretyCertificateType = String(res.data.data.content.list[0].suretyCertificateType)
+          }
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -527,9 +537,19 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      changelist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {

@@ -81,6 +81,7 @@
         <el-editable
           ref="editable"
           :data.sync="list2"
+          :key="tableKey"
           :edit-config="{ showIcon: false, showStatus: true,trigger: 'click', mode: 'cell'}"
           :edit-rules="validRules"
           class="click-table1"
@@ -119,7 +120,7 @@
           <!--              </el-select>-->
           <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="150">
             <template slot-scope="scope">
-              <span>{{ getBatch(scope.row) }}</span>
+              <span>{{ getBatch(scope.row, scope) }}</span>
             </template>
           </el-editable-column>
           <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" width="150px"/>
@@ -128,11 +129,8 @@
           <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" width="150px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cbdj')" prop="price" align="center" width="150px"/>
-          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getquantity(scope.row) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column :label="$t('updates.kcsl')" prop="inventoryQuantity" align="center" width="150px" />
+
           <el-editable-column :edit-render="{name: 'ElInputNumber', type: 'visible'}" :label="$t('updates.spsl')" prop="actualQuantity" align="center" width="150px"/>
           <el-editable-column :label="$t('updates.cysl')" prop="diffQuantity" align="center" width="150px">
             <template slot-scope="scope">
@@ -302,6 +300,7 @@ export default {
       // 货位数据
       locationlist: [],
       loc: [],
+      tableKey: 0,
       // 批次列表
       batchlist: [],
       // 明细表控制框
@@ -394,12 +393,8 @@ export default {
   },
   methods: {
     getBatch(row) {
+      console.log('row   =====> batchrow', row)
       if (row.flag === undefined) {
-        row.flag = true
-      } else {
-        return row.batch
-      }
-      if (row.flag) {
         const parms3 = row.productCode
         // batchlist(this.personalForm.countRepositoryId, parms3).then(res => {
         //   if (res.data.data.content.length !== 0) {
@@ -420,11 +415,12 @@ export default {
                 }
               })
             }
+            this.getquantity(row)
           }
+          row.flag = false
         })
-        // return row.batch
       }
-      row.flag = false
+      console.log('batch第一次')
     },
     updateLocation(event, scope) {
       if (event === true) {
@@ -570,26 +566,23 @@ export default {
       return quan * pric
     },
     getquantity(sco) {
-      if (sco.flag2 === undefined) {
-        sco.flag2 = true
+      console.log('sco.flag2 ====-----', sco)
+      const parms2 = sco.locationId
+      const parms3 = sco.productCode
+      const parms4 = sco.batch
+      if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
+        getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
+          this.out = res.data.data.content
+          sco.inventoryQuantity = res.data.data.content
+        })
+        sco.flag2 = false
+        return sco.inventoryQuantity
+      } else {
+        sco.inventoryQuantity = 0
+        sco.flag2 = false
+
+        return sco.inventoryQuantity
       }
-      console.log(sco.flag2)
-      if (sco.flag2) {
-        const parms2 = sco.locationId
-        const parms3 = sco.productCode
-        const parms4 = sco.batch
-        if (parms4 !== '' && parms4 !== null && parms4 !== undefined) {
-          getQuantity(this.personalForm.countRepositoryId, parms2, parms3, parms4).then(res => {
-            this.out = res.data.data.content
-            sco.inventoryQuantity = res.data.data.content
-          })
-          return sco.inventoryQuantity
-        } else {
-          sco.inventoryQuantity = 0
-          return sco.inventoryQuantity
-        }
-      }
-      sco.flag2 = false
     },
     // updatebatch(event, scope) {
     //   if (event === true) {
@@ -929,13 +922,14 @@ export default {
             onearr[j].countPerson = filterdata[i].countPerson
             onearr[j].countPersonId = filterdata[i].countPersonId
             onearr[j].countDate = filterdata[i].countDate
+            onearr[j].flag = undefined
           }
         }
       }
       console.log('needarr---======', onearr)
       const finallyarr = [...nonebatch, ...onearr]
       this.list2 = finallyarr
-
+      this.tableKey = Math.random()
       // this.list2 = filterdata
       // for (let i = 0; i < filterdata.length; i++) {
       //   // val[i].quantity = 1

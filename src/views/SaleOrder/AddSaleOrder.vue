@@ -227,6 +227,8 @@
           <my-detail :control.sync="control" :personalform="personalForm" @product="productdetail"/>
           <el-button type="danger" @click="$refs.editable.removeSelecteds()">{{ $t('Hmodule.delete') }}</el-button>
           <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>
+          <el-button type="primary" @click="updateCopyPrice()">{{ $t('update4.gegnxingjiage') }}</el-button>
+
         </div>
         <div class="container">
           <el-editable
@@ -521,6 +523,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { countlist, getRate, countlist3 } from '@/api/public'
+import { customerlist2, getPriceByGroup } from '@/api/Customer'
 import { createsaleOrder } from '@/api/SaleOrder'
 import { searchSaleCategory } from '@/api/SaleCategory'
 import { searchCategory } from '@/api/Supplier'
@@ -693,7 +696,8 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      levelId: ''
     }
   },
   created() {
@@ -709,6 +713,32 @@ export default {
     _that = this
   },
   methods: {
+    updateCopyPrice() {
+      if (!this.levelId) {
+        this.$notify.error({
+          title: 'wrong',
+          message: '请先选择客户',
+          offset: 100
+        })
+        return false
+      }
+      // eslint-disable-next-line prefer-const
+      let listdata = this.$refs.editable.getRecords()
+      for (const i in listdata) {
+        // eslint-disable-next-line prefer-const
+        let searchParms = {
+          productCode: listdata[i].productCode,
+          levelId: this.levelId
+        }
+        getPriceByGroup(searchParms).then(res => {
+          console.log('res ======> customerProductList', res)
+          if (res.data.ret === 200) {
+            listdata[i].salePrice = res.data.data.content.price
+          }
+        })
+      }
+      console.log('listdata ========> listdata', listdata)
+    },
     getdatatime() { // 默认显示今天
       var date = new Date()
       var seperator1 = '-'
@@ -1162,6 +1192,13 @@ export default {
       this.personalForm.customerId = val.id
       this.customerId = val.customerName
       this.personalForm.customerPhone = val.phoneNumber
+
+      customerlist2(this.personalForm.customerId).then(res => {
+        console.log('res ====> customer', res)
+        if (res.data.ret === 200) {
+          this.levelId = res.data.data.content.level
+        }
+      })
     },
     agentdata(val) {
       console.log(val)

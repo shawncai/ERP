@@ -278,7 +278,7 @@
       </div>
     </el-card>
     <!--子件信息-->
-    <el-card class="box-card" style="margin-top: 15px; margin-bottom： 100px" shadow="never">
+    <el-card class="box-card" style="margin-top: 15px; margin-bottom: 100px" shadow="never">
       <h2 ref="fuzhu" class="form-name" >{{ $t('updates.htmx') }}</h2>
       <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
         <el-button :disabled="canclick" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>

@@ -4675,6 +4675,8 @@ export default {
     invoiceQuantity: '发票数量',
     faiaochuangjiariqil: '发票创建日期',
     xiasohouchukdanriqi: '销售出库单日期',
-    gegnxingjiage: '更新价格'
+    gegnxingjiage: '更新价格',
+    shenghcang: '生产类型',
+    feishengchanleixing: '非生产类型'
   }
 }

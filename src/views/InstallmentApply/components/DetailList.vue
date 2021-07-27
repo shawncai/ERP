@@ -538,6 +538,12 @@
             </el-row>
           </el-form>
         </div>
+        <div>
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" type="warning" size="mini" @click="handleReview()">
+            {{ $t('updates.spi') }}
+          </el-button>
+
+        </div>
       </el-card>
     </div>
   </el-dialog>
@@ -545,6 +551,8 @@
 
 <script>
 var _that
+import { updateapply2 } from '@/api/InstallmentApply'
+
 export default {
   filters: {
     liveFilter(status) {
@@ -765,6 +773,97 @@ export default {
     _that = this
   },
   methods: {
+    // 判断审核按钮
+    isReview() {
+      if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
+        const approvalUse = this.personalForm.approvalUseVos
+        if (approvalUse[approvalUse.length - 1].stepHandler) {
+          const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+          console.log('index', index)
+          console.log('this.$store.getters.userId', this.$store.getters.userId)
+          console.log('approvalUse[approvalUse.length - 1].stepHandler', approvalUse[approvalUse.length - 1].stepHandler)
+          if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
+            if (this.personalForm.isInvestigation === 2) {
+              return true
+            } else {
+              return false
+            }
+          // return true
+          } else {
+            return false
+          }
+        } else {
+          return false
+        }
+      }
+      // console.log('row', row)
+      // if (row.isInvestigation === 0) {
+      //   return false
+      // } else {
+      //   if (row.judgeStat !== 0) {
+      //     return false
+      //   } else {
+      //     return true
+      //   }
+      // }
+    },
+    // 审批操作
+    handleReview() {
+      this.reviewParms = {}
+      this.reviewParms.id = this.personalForm.id
+      this.reviewParms.judgePersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.tg'),
+        cancelButtonText: this.$t('prompt.btg'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.judgeStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updateapply2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.shcg')
+            })
+            this.editVisible = false
+            this.$emit('rest', true)
+          }
+        })
+      }).catch(action => {
+        if (action === 'cancel') {
+          // 取消弹框
+          this.$confirm('comfirm not approved?？', 'Warning', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: 'confirm',
+            cancelButtonText: 'cancel'
+          })
+            .then(() => {
+              this.reviewParms.judgeStat = 3
+              const parms = JSON.stringify(this.reviewParms)
+              updateapply2(parms).then(res => {
+                if (res.data.ret === 200) {
+                  this.$message({
+                    type: 'success',
+                    message: this.$t('prompt.shcg')
+                  })
+                  this.editVisible = false
+                  this.$emit('rest', true)
+                }
+              })
+            })
+            .catch(action => {
+              this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                  ? 'confirm '
+                  : 'stay this page'
+              })
+            })
+          // ================取消弹框结束
+        }
+      })
+    },
     getdata() {
       const lis = {}
       // if (this.$refs.editable.getRecords()) {

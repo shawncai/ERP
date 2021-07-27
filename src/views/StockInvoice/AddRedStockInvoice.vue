@@ -56,7 +56,6 @@
               <el-col :span="6">
                 <el-form-item
                   :label="$t('StockInvoice.invoiceNumber')"
-                  prop="invoiceNumber"
                   style="width: 100%"
                 >
                   <el-input
@@ -1207,6 +1206,7 @@ export default {
     },
     // 计算金额
     getMoney(row) {
+      console.log('row', row)
       row.money = (row.quantity * row.price).toFixed(2)
       return row.money
     },

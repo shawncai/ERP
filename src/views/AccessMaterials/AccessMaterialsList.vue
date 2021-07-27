@@ -268,7 +268,8 @@
           </template>
           <detail-list
             :detailcontrol.sync="detailvisible"
-            :detaildata.sync="personalForm" />
+            :detaildata.sync="personalForm"
+            @rest="refreshlist"/>
         </el-table-column>
         <el-table-column
           :label="$t('AccessMaterials.title')"
@@ -436,7 +437,7 @@
 </template>
 
 <script>
-import { accesslist, deleteaccess, updateaccess2 } from '@/api/AccessMaterials'
+import { accesslist, deleteaccess, updateaccess2, accessGetList } from '@/api/AccessMaterials'
 import { getdeptlist } from '@/api/BasicSettings'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination'
@@ -696,7 +697,7 @@ export default {
     getlist() {
       // 物料需求计划列表数据
       this.listLoading = true
-      accesslist(this.getemplist).then(res => {
+      accessGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -724,7 +725,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      accesslist(this.getemplist).then(res => {
+      accessGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -763,11 +764,21 @@ export default {
     },
     // 修改操作
     handleEdit(row) {
-      console.log(row)
-      this.editVisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
-      this.personalForm.processType = String(row.processType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      accesslist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.editVisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          this.personalForm.processType = String(res.data.data.content.list[0].processType)
+        }
+      })
     },
     // 修改组件修改成功后返回
     refreshlist(val) {
@@ -777,10 +788,20 @@ export default {
     },
     // 详情操作
     handleDetail(row) {
-      console.log(row)
-      this.detailvisible = true
-      this.personalForm = Object.assign({}, row)
-      this.personalForm.sourceType = String(row.sourceType)
+      const parms = {
+        id: row.id,
+        repositoryId: 0,
+        pageNum: 1,
+        pageSize: 10
+      }
+      accesslist(parms).then(res => {
+        if (res.data.ret === 200) {
+          console.log(res.data.data.content.list[0])
+          this.detailvisible = true
+          this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+        }
+      })
     },
     // 判断审核按钮
     isReview(row) {
