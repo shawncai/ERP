@@ -423,8 +423,8 @@
       <pagination
         v-show="total>0"
         :total="total"
-        :page.sync="getemplist.pagenum"
-        :limit.sync="getemplist.pagesize"
+        :page.sync="getemplist.pageNum"
+        :limit.sync="getemplist.pageSize"
         @pagination="getlist" />
       <!--修改开始=================================================-->
       <my-dialog

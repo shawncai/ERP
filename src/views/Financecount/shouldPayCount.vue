@@ -29,6 +29,8 @@
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
+      <el-button v-waves size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -241,6 +243,25 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      console.log('this.list', this.list)
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['供应商', '期间', '期初余额', '本期应付', '本期实付', '本年累计应付', '本年累计实付', '期末余额']
+          const filterVal = ['supplierName', 'time', 'begin', 'shouldPay', 'paid', 'thisYearShould', 'thisYearPaid', 'end']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '应付款汇总表'
+          })
+        })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

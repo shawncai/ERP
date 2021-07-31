@@ -70,6 +70,36 @@ export function searchCheckSet(query) {
   })
 }
 
+// 新增分类属性
+export function checkSetList(query) {
+  var params = new URLSearchParams()
+  if (query.id !== '' && query.id !== null && query.id !== undefined) {
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.productCode !== '' && query.productCode !== null && query.productCode !== undefined) {
+    params.append('productCode', query.productCode) // 你要传给后台的参数值 key/value
+  }
+  if (query.productName !== '' && query.productName !== null && query.productName !== undefined) {
+    params.append('productName', query.productName) // 你要传给后台的参数值 key/value
+  }
+  if (query.itemId !== '' && query.itemId !== null && query.itemId !== undefined) {
+    params.append('itemId', query.itemId) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== '' && query.createId !== null && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeid !== '' && query.typeid !== null && query.typeid !== undefined) {
+    params.append('typeid', query.typeid) // 你要传给后台的参数值 key/value
+  }
+  params.append('pagenum', query.pagenum) // 你要传给后台的参数值 key/value
+  params.append('pagesize', query.pagesize) // 你要传给后台的参数值 key/value
+  return request({
+    url: '/checkset/checkSetList',
+    method: 'post',
+    data: params
+  })
+}
+
 // 修改分类属性
 export function updateCheckSet(query) {
   var params = new URLSearchParams()

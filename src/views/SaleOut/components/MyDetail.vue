@@ -252,7 +252,7 @@ export default {
         })
       })
       console.log('customerData', customerData)
-      this.getemplist.levelId = customerData.level
+      this.getemplist.levelId = customerData ? customerData.level : ''
 
       if (this.$store.getters.countryId === 1 && this.getemplist.levelId) {
         const that = this

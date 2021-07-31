@@ -5,6 +5,7 @@
       <el-card class="box-card" shadow="never">
         <h2 ref="geren" class="form-name">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <el-button @click="handleExport">{{ $t('public.export') }}</el-button>
         <div class="container">
           <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-position="top" label-width="300px" style="margin-left: 30px;">
             <el-col :span="12">
@@ -376,6 +377,42 @@ export default {
     _that = this
   },
   methods: {
+    // 导出
+    handleExport() {
+      // eslint-disable-next-line prefer-const
+      let x = this.personalForm.inventoryCountDetailVos
+      for (const i in x) {
+        x[i].title = this.personalForm.title
+        x[i].handlePersonName = this.personalForm.handlePersonName
+        x[i].countRepositoryName = this.personalForm.countRepositoryName
+        x[i].beginTime = this.personalForm.beginTime
+        x[i].endTime = this.personalForm.endTime
+        if (x[i].diffType === 1) {
+          x[i].diffTypeName = '盈'
+        } else if (x[i].diffType === 2) {
+          x[i].diffTypeName = '亏'
+        } else if (x[i].diffType === 0) {
+          x[i].diffTypeName = '平'
+        }
+      }
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['盘点主题', '盘点仓库', '开始时间', '结束时间', '物品编号', '物品名称', '货位', '批次', '颜色', '规格', '单位', '价格', '库存数量', '实盘数量', '差异数量', '盈亏类型', '盘点人', '盘点日期', '备注']
+          const filterVal = ['title', 'countRepositoryName', 'beginTime', 'endTime', 'productCode', 'productName', 'locationCode', 'batch', 'color', 'productType', 'unit', 'price', 'inventoryQuantity', 'actualQuantity', 'diffQuantity', 'diffTypeName', 'countPersonName', 'countDate', 'remarks']
+          const data = this.formatJson(filterVal, x)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '盘点单数据表'
+          })
+          this.downloadLoading = false
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     // 判断审核按钮
     isReview() {
       if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {

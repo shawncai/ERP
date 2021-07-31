@@ -161,6 +161,8 @@
           <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
           <!--          <el-editable-column :edit-render="{name: 'ElDatePicker', attrs: {type: 'date', format: 'yyyy-MM-dd'}, type: 'visible'}" prop="payDate" align="center" label="付款日期" min-width="180px"/>-->
           <el-editable-column :label="$t('update4.faiaochuangjiariqil')" prop="invoiceDate" align="center" min-width="180px"/>
+          <el-editable-column :label="$t('update4.caigoufapiaodanjubianhao')" prop="sourceNumber" align="center" min-width="150px" />
+
           <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" min-width="150px"/>
@@ -180,7 +182,7 @@
               @change="handlechange(scope.row)"/>
           </template>
           </el-editable-column>
-          <el-editable-column :label="$t('update4.invoiceDate')" prop="invoiceDate" align="center" min-width="150px" />
+          <!-- <el-editable-column :label="$t('update4.invoiceDate')" prop="invoiceDate" align="center" min-width="150px" /> -->
 
         </el-editable>
       </div>
@@ -404,13 +406,12 @@ export default {
       sums[4] = ''
       sums[5] = ''
       sums[6] = ''
-      sums[10] = ''
       sums[15] = ''
       sums[18] = ''
       sums[7] = ''
       console.log()
-      this.personalForm.offsetAdvance = sums[9]
-      this.personalForm.moneyThis = sums[8]
+      this.personalForm.offsetAdvance = sums[10]
+      this.personalForm.moneyThis = sums[9]
       return sums
     },
     getways() {
@@ -510,6 +511,7 @@ export default {
           const detailList = res.data.data.content.list
           for (let i = 0; i < detailList.length; i++) {
             detailList[i].shouldPayId = detailList[i].id
+            detailList[i].sourceNumber = detailList[i].sourceNumber
             console.log('advanceMoney - this.personalForm.offsetAdvance', advanceMoney - this.personalForm.offsetAdvance)
             if (detailList[i].payingMoney <= advanceMoney - this.personalForm.offsetAdvance) {
               detailList[i].advanceMoney = detailList[i].payingMoney

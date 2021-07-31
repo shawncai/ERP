@@ -18,6 +18,18 @@
         trigger="click">
         <el-input v-model="supplierId" size="small" placeholder="供应商" style="width: 40%;float: left;margin-left: 20px;" clearable @clear="restFilter" @focus="handlechoose"/>
         <my-supplier :control.sync="empcontrol" @supplierName="supplierName"/>
+
+        <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
+          <el-option :label="$t('updates.zd')" value="1"/>
+          <el-option :label="$t('updates.zx')" value="2"/>
+          <el-option :label="$t('updates.jd')" value="3"/>
+        </el-select>
+        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
+          <el-option :label="$t('updates.wsh')" value="0"/>
+          <el-option :label="$t('updates.shz')" value="1"/>
+          <el-option :label="$t('updates.shtg')" value="2"/>
+          <el-option :label="$t('updates.shptg')" value="3"/>
+        </el-select>
         <el-date-picker
           v-model="date"
           type="daterange"
@@ -28,17 +40,6 @@
           end-placeholder="付款日期"
           value-format="yyyy-MM-dd"
           style="margin-top: 20px;margin-left: 20px"/>
-        <!-- <el-select v-model="getemplist.receiptStat" :value="getemplist.receiptStat" :placeholder="$t('updates.djzt')" clearable style="width: 40%;float: right;margin-right: 20px">
-          <el-option :label="$t('updates.zd')" value="1"/>
-          <el-option :label="$t('updates.zx')" value="2"/>
-          <el-option :label="$t('updates.jd')" value="3"/>
-        </el-select>
-        <el-select v-model="getemplist.judgeStat" :value="getemplist.judgeStat" :placeholder="$t('updates.spzt')" clearable style="width: 40%;float: left;margin-left: 20px;margin-top: 20px">
-          <el-option :label="$t('updates.wsh')" value="0"/>
-          <el-option :label="$t('updates.shz')" value="1"/>
-          <el-option :label="$t('updates.shtg')" value="2"/>
-          <el-option :label="$t('updates.shptg')" value="3"/>
-        </el-select> -->
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -60,9 +61,9 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['266-126-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- <el-button v-permission="['266-126-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
       <!-- 打印操作 -->
-      <el-button v-permission="['266-126-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['266-126-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
       <el-button v-permission="['266-126-1']" v-waves class="filter-item2" size="small" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -96,12 +97,12 @@
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalForm" @rest="refreshlist"/>
         </el-table-column>
-        <el-table-column :label="$t('payment.title')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('payment.title')" :resizable="false" align="center" min-width="150" fixed>
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('payment.supplierId')" :resizable="false" align="center" min-width="150">
+        <el-table-column :label="$t('payment.supplierId')" :resizable="false" align="center" min-width="150" fixed>
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
           </template>
@@ -116,6 +117,11 @@
             <span>{{ scope.row.moneyThis }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Advancemanage.createDate')" :resizable="false" prop="createDate" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('payment.offsetAdvance')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.offsetAdvance }}</span>
@@ -126,6 +132,12 @@
             <span>{{ scope.row.payModeName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('AdvancePay.currency')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.currency | currencyFilter }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('payment.handlePersonId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.handlePersonName }}</span>
@@ -198,6 +210,16 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
+    currencyFilter(status) {
+      const statusMap = {
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB',
+        4: 'LKR',
+        5: 'THB'
+      }
+      return statusMap[status]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),

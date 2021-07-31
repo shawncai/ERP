@@ -27,10 +27,10 @@ export default {
     orderImplDetail: '采购订单执行明细',
     productABC: '物料采购结构ABC分析',
     supplierOnTimeABC: '供应商准时交货分析',
-    supplierProvideABC: '供应商交货ABC分析',
-    purchaseCount: '采购汇总',
-    stockOrderlist: '采购明细',
-    orderReport: '采购订单查询表',
+    SupplierProvideABC: '供应商交货ABC分析',
+    PurchaseCount: '采购汇总',
+    StockOrderlist: '采购明细',
+    OrderReport: '采购订单查询表',
     wuxiinventorychangelist: '无锡库存月报表',
     EndReceipt: '月结管理',
     AddOutSourceOut: '新增委外出库单',
@@ -38,7 +38,7 @@ export default {
     AddOutSourceEnter: '新增委外入库单',
     OutSourceEnterList: '委外入库单列表',
     Stockcount: '采购统计',
-    stockOrderCount: '采购订单汇总表',
+    StockOrderCount: '采购订单汇总表',
     dashboard: '首页',
     errorPages: '错误页面',
     page401: '401',
@@ -381,8 +381,8 @@ export default {
     offlineTask: '线下任务',
     operation: '操作日志',
     operationList: '操作日志列表',
-    stockDetailCount: '采购订单明细表',
-    stockBillCount: '采购开单汇总表',
+    StockDetailCount: '采购订单明细表',
+    StockBillCount: '采购开单汇总表',
     stockBillList: '采购开单明细表',
     stockTrackList: '采购订单全程跟踪表',
     supplierPunishmentCount: '供应商惩罚汇总表',
@@ -464,7 +464,8 @@ export default {
     InventoryReceiptList: '员工赔偿收款单列表',
     EmployeeReceipt: '员工收款单',
     newEmployeeReceipt: '新建员工收款单',
-    employeeReceiptList: '员工收款单列表'
+    employeeReceiptList: '员工收款单列表',
+    FirstMoneySetting: '首付设置'
   },
   installmentAnalyze: {
     repositoryName: '仓库名称',
@@ -3539,7 +3540,7 @@ export default {
     ydsl: '源单数量',
     wcksl: '未出库数量',
     cksli: '出库数量',
-    ckj: '出库价',
+    ckj: '销售单价',
     ckje: '出库金额',
     djbm: '电机编码',
     cjbm: '车架编码',
@@ -4677,6 +4678,8 @@ export default {
     xiasohouchukdanriqi: '销售出库单日期',
     gegnxingjiage: '更新价格',
     shenghcang: '生产类型',
-    feishengchanleixing: '非生产类型'
+    feishengchanleixing: '非生产类型',
+    weishuijine: '未税金额',
+    caigoufapiaodanjubianhao: '采购发票单据编号'
   }
 }

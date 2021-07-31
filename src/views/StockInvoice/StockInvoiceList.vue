@@ -53,6 +53,7 @@
         :height="tableHeight"
         :key="tableKey"
         :data="list"
+        :row-class-name="tableRowClassName"
         size="small"
         border
         fit
@@ -271,6 +272,12 @@ export default {
     _that = this
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (row.isRed === 2) {
+        return 'warning-row'
+      }
+      return ''
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)
@@ -886,4 +893,5 @@ export default {
     /* border : 1px solid #f1f1ff !important; */
     border-bottom : 1px solid #f1f1ff00 !important
   }
+
 </style>

@@ -54,6 +54,7 @@ const getters = {
   printdata: state => state.publics.printdata,
   uploadApi: state => state.publics.uploadApi,
   saleoutcopy: state => state.publics.saleoutcopy,
-  stockOrder: state => state.publics.stockOrder
+  stockOrder: state => state.publics.stockOrder,
+  advancepay: state => state.publics.advancepay
 }
 export default getters

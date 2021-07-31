@@ -6,6 +6,10 @@
       <el-input v-model="getemplist.enterNumber" :placeholder="$t('Stockenter.enterNumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <el-input v-model="deliveryPersonId" :placeholder="$t('Stockenter.deliveryPersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @clear="restFilter2" @focus="handlechooseDelivery"/>
       <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
+      <el-select v-model="getemplist.noInvoice" placeholder="是否开发票" clearable size="small" class="filter-item" @keyup.enter.native="handleFilter" >
+        <el-option :label="$t('updates.yes')" value="1"/>
+        <el-option :label="$t('updates.no')" value="2"/>
+      </el-select>
       <el-popover
         v-model="visible2"
         placement="bottom"
@@ -131,6 +135,11 @@
             <span>{{ scope.row.enterNumber }}</span>
           </template>
         </el-table-column> -->
+        <el-table-column :label="$t('Advancemanage.createDate')" :resizable="false" prop="createDate" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>
@@ -660,6 +669,13 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
+      if (this.date === null || this.date === '') {
+        this.getemplist.begintime = null
+        this.getemplist.endtime = null
+      } else {
+        this.getemplist.begintime = this.date[0]
+        this.getemplist.endtime = this.date[1]
+      }
       this.getlist()
       // stockenterlist(this.getemplist).then(res => {
       //   if (res.data.ret === 200) {

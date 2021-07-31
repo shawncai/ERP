@@ -173,3 +173,77 @@ export function deleteRewardRules(query, query2) {
     data: params
   })
 }
+
+// 新建分期首付设置
+export function addInstallmentFirst(query) {
+  var params = new URLSearchParams()
+  if (query.repositoryIds) {
+    params.append('repositoryIds', query.repositoryIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryNames) {
+    params.append('repositoryNames', query.repositoryNames) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== null && query.typeId !== '' && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.lowerMoney !== null && query.lowerMoney !== '' && query.lowerMoney !== undefined) {
+    params.append('lowerMoney', query.lowerMoney) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== null && query.createId !== '' && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+
+  return request({
+    url: '/installmentrate/addInstallmentFirst',
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改分期首付设置
+export function updateInstallmentFirst(query) {
+  var params = new URLSearchParams()
+  if (query.id) {
+    params.append('firstId', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryIds) {
+    params.append('repositoryIds', query.repositoryIds) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryNames) {
+    params.append('repositoryNames', query.repositoryNames) // 你要传给后台的参数值 key/value
+  }
+  if (query.typeId !== null && query.typeId !== '' && query.typeId !== undefined) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
+  if (query.lowerMoney !== null && query.lowerMoney !== '' && query.lowerMoney !== undefined) {
+    params.append('lowerMoney', query.lowerMoney) // 你要传给后台的参数值 key/value
+  }
+  if (query.createId !== null && query.createId !== '' && query.createId !== undefined) {
+    params.append('createId', query.createId) // 你要传给后台的参数值 key/value
+  }
+
+  return request({
+    url: '/installmentrate/updateInstallmentFirst',
+    method: 'post',
+    data: params
+  })
+}
+
+// 分期首付设置列表
+export function installmentFirstList(query) {
+  var params = new URLSearchParams()
+  if (query.id) {
+    params.append('firstId', query.id) // 你要传给后台的参数值 key/value
+  }
+  if (query.repositoryId) {
+    params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
+  }
+  params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
+  params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
+
+  return request({
+    url: '/installmentrate/installmentFirstList',
+    method: 'post',
+    data: params
+  })
+}

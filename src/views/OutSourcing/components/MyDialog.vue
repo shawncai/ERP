@@ -24,7 +24,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('OutSourcing.outFactoryId')" prop="outFactoryId" style="width: 100%;">
-                <el-input v-model="outFactoryId" style="margin-left: 18px;width: 200px" clearable @focus="chooseFactory"/>
+                <el-input v-model="outFactoryId" disabled style="margin-left: 18px;width: 200px" clearable @focus="chooseFactory"/>
               </el-form-item>
               <my-factory :factorycontrol.sync="factorycontrol" @factoryName="factoryName"/>
             </el-col>

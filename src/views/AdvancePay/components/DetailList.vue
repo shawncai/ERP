@@ -1,8 +1,10 @@
 <template>
-  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
+  <el-dialog :visible.sync="editVisible" :detailcontrol="detailcontrol" :detaildata="detaildata" :close-on-press-escape="false" :title="personalForm.payNumber +$t('updates.xqing')" append-to-body width="1010px" class="edit" top="-10px" @close="$emit('update:detailcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
+      <el-button @click="exportData">{{ $t('public.export') }}</el-button>
+
       <div class="container" style="margin-top: 37px">
         <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
           <el-row>
@@ -275,6 +277,40 @@ export default {
     _that = this
   },
   methods: {
+    exportData() {
+      const currobj = {
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB',
+        4: 'LKR',
+        5: 'THB'
+      }
+
+      if (this.personalForm.sourceType === 1) {
+        this.personalForm.sourceTypeName = '采购订单'
+      } else if (this.personalForm.sourceType === 2) {
+        this.personalForm.sourceTypeName = '采购发票'
+      } else {
+        this.personalForm.sourceTypeName = '其他'
+      }
+      this.personalForm.currName = currobj[this.personalForm.currency]
+      const arr = [this.personalForm]
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['供应商', '源单类型', '源单编号', '预付日期', '采购员', '币种', '结算方式', '付款账户', '开户行', '付款比例', '订单金额', '预付金额', '摘要']
+          const filterVal = ['supplierName', 'sourceTypeName', 'sourceNumber', 'payDate', 'stockPersonName', 'currName', 'settleModeName', 'payNumber', 'bankName', 'ratioRate', 'orderMoney', 'totalMoney', 'summary']
+          const data = this.formatJson(filterVal, arr)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.personalForm.payNumber + '预付款详情'
+          })
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     // 判断审核按钮
     isReview() {
       // if (row.approvalUseVos !== '' && row.approvalUseVos !== null && row.approvalUseVos !== undefined && row.approvalUseVos.length !== 0) {

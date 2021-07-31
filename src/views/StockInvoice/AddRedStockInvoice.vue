@@ -246,6 +246,18 @@
                   />
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item
+                  :label="$t('WarehouseAdjust.remarks')"
+                  style="width: 100%"
+                >
+                  <el-input
+                    v-model="personalForm.summary"
+                    style="margin-left: 18px; width: 200px"
+                    clearable
+                  />
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -254,9 +266,12 @@
       <el-card class="box-card" style="margin-top: 15px" shadow="never">
         <h2 ref="fuzhu" class="form-name">红字采购发票明细</h2>
         <div class="buttons" style="margin-top: 35px; margin-bottom: 10px">
-          <el-button style="width: 130px" size="small" @click="handleAddSouce">{{
-            $t("updates.cydzxz")
-          }}</el-button>
+          <el-button
+            style="width: 130px"
+            size="small"
+            @click="handleAddSouce"
+          >{{ $t("updates.cydzxz") }}</el-button
+          >
           <my-invoice
             :entercontrol.sync="entercontrol"
             :supp.sync="supp"
@@ -281,9 +296,12 @@
 
           <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
           <my-detail :control.sync="control" @product="productdetail" />
-          <el-button type="danger" size="small" @click="$refs.editable.removeSelecteds()">{{
-            $t("Hmodule.delete")
-          }}</el-button>
+          <el-button
+            type="danger"
+            size="small"
+            @click="$refs.editable.removeSelecteds()"
+          >{{ $t("Hmodule.delete") }}</el-button
+          >
           <!--          <el-button type="primary" @click="checkStock()">{{ $t('updates.kckz') }}</el-button>-->
         </div>
         <div class="container">
@@ -481,14 +499,28 @@
               </template>
             </el-editable-column>
 
-            <el-editable-column :label="$t('update4.zhehoujine')" prop="discountreduceMoney" align="center" min-width="150px">
+            <el-editable-column
+              :label="$t('update4.zhehoujine')"
+              prop="discountreduceMoney"
+              align="center"
+              min-width="150px"
+            >
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ getdiscountreduceMoney(scope.row) }}</p>
+                <p v-show="jundgeprice()">
+                  {{ getdiscountreduceMoney(scope.row) }}
+                </p>
               </template>
             </el-editable-column>
-            <el-editable-column :label="$t('update4.zhehouhanshuijine')" prop="discountreduceMoney2" align="center" min-width="150px">
+            <el-editable-column
+              :label="$t('update4.zhehouhanshuijine')"
+              prop="discountreduceMoney2"
+              align="center"
+              min-width="150px"
+            >
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ getdiscountreduceMoney2(scope.row) }}</p>
+                <p v-show="jundgeprice()">
+                  {{ getdiscountreduceMoney2(scope.row) }}
+                </p>
               </template>
             </el-editable-column>
 
@@ -504,50 +536,108 @@
               align="center"
               min-width="150px"
             />
+            <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/> -->
+
           </el-editable>
         </div>
       </el-card>
-      <el-card :body-style="	{ padding: '5px' }" class="box-card" shadow="never" style="margin-top: 5px;margin-bottom: 20px">
-        <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('updates.hjxx') }}</h2>
+      <el-card
+        :body-style="{ padding: '5px' }"
+        class="box-card"
+        shadow="never"
+        style="margin-top: 5px;margin-bottom: 20px"
+      >
+        <h2
+          ref="geren"
+          class="form-name"
+          style="font-size: 16px;color: #606266;margin-top: -5px;"
+        >
+          {{ $t("updates.hjxx") }}
+        </h2>
         <div class="container" style="margin-top: 37px">
-          <el-form :inline="true" status-icon class="demo-ruleForm" label-width="130px">
+          <el-form
+            :inline="true"
+            status-icon
+            class="demo-ruleForm"
+            label-width="130px"
+          >
             <el-row>
               <el-col :span="6">
-                <el-form-item :label="$t('SaleOrder.heji1')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allNumber" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('SaleOrder.heji1')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input v-model="allNumber" style="width: 200px" disabled />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.hehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allMoney" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('updates.hehj')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input v-model="allMoney" style="width: 200px" disabled />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.sehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allTaxMoney" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('updates.sehj')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input
+                    v-model="allTaxMoney"
+                    style="width: 200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.hsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allIncludeTaxMoney" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('updates.hsjehj')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input
+                    v-model="allIncludeTaxMoney"
+                    style="width: 200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.zdzkjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allDiscountMoney" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('updates.zdzkjehj')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input
+                    v-model="allDiscountMoney"
+                    style="width: 200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('update4.zhehoujineheji')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="alldiscountmoney2" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('update4.zhehoujineheji')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input
+                    v-model="alldiscountmoney2"
+                    style="width: 200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
               <el-col v-if="jundgeprice()" :span="6">
-                <el-form-item :label="$t('updates.zhhsjehj')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
-                  <el-input v-model="allMoneyMoveDiscount" style="width: 200px" disabled/>
+                <el-form-item
+                  :label="$t('updates.zhhsjehj')"
+                  style="margin-left: 18px;width: 100%;margin-bottom: 0"
+                >
+                  <el-input
+                    v-model="allMoneyMoveDiscount"
+                    style="width: 200px"
+                    disabled
+                  />
                 </el-form-item>
               </el-col>
-
             </el-row>
           </el-form>
         </div>
@@ -582,7 +672,10 @@
       <!--        </div>-->
       <!--      </el-card>-->
       <!--操作-->
-      <div class="buttons" style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99">
+      <div
+        class="buttons"
+        style="position:fixed;bottom: 0;width: 100%;height: 40px; background: #fff;z-index: 99"
+      >
         <el-button
           v-no-more-click
           type="primary"
@@ -911,11 +1004,16 @@ export default {
     },
     getdiscountreduceMoney(row) {
       // row.discountreduceMoney = (Number(row.money) - Number(row.discountMoney)).toFixed(2)
-      row.discountreduceMoney = (((Number(row.includeTaxMoney) - Number(row.discountMoney)) / (1 + row.taxRate / 100))).toFixed(2)
+      row.discountreduceMoney = (
+        (Number(row.includeTaxMoney) - Number(row.discountMoney)) /
+        (1 + row.taxRate / 100)
+      ).toFixed(2)
       return row.discountreduceMoney
     },
     getdiscountreduceMoney2(row) {
-      row.discountreduceMoney2 = (Number(row.includeTaxMoney) - Number(row.discountMoney)).toFixed(2)
+      row.discountreduceMoney2 = (
+        Number(row.includeTaxMoney) - Number(row.discountMoney)
+      ).toFixed(2)
       return row.discountreduceMoney2
     },
     stockenter(val) {
@@ -1130,9 +1228,18 @@ export default {
     },
     // 通过折扣计算折扣额
     getdiscountRate(row, scope) {
-      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
+      if (
+        row !== '' &&
+        row !== null &&
+        row !== undefined &&
+        scope.$index === 0
+      ) {
         console.log('row', row)
-        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+        if (
+          row.discountRate !== '' &&
+          row.discountRate !== null &&
+          row.discountRate !== undefined
+        ) {
           for (let i = 0; i < this.list2.length; i++) {
             this.list2[i].temp = i
           }
@@ -1153,14 +1260,31 @@ export default {
           (1 - row.discountRate / 100)
         ).toFixed(6)
       }
-      if (row !== '' && row !== null && row !== undefined && scope.$index === 0) {
-        if (row.discountRate !== '' && row.discountRate !== null && row.discountRate !== undefined) {
+      if (
+        row !== '' &&
+        row !== null &&
+        row !== undefined &&
+        scope.$index === 0
+      ) {
+        if (
+          row.discountRate !== '' &&
+          row.discountRate !== null &&
+          row.discountRate !== undefined
+        ) {
           for (let i = 0; i < this.list2.length; i++) {
             this.list2[i].temp = i
           }
           for (let i = row.temp; i < this.list2.length; i++) {
-            console.log('this.list2[i].discountRate', this.list2[i].discountRate)
-            if (this.list2[i].discountRate !== null && this.list2[i].discountRate !== 0 && this.list2[i].discountRate !== '' && this.list2[i].discountRate !== undefined) {
+            console.log(
+              'this.list2[i].discountRate',
+              this.list2[i].discountRate
+            )
+            if (
+              this.list2[i].discountRate !== null &&
+              this.list2[i].discountRate !== 0 &&
+              this.list2[i].discountRate !== '' &&
+              this.list2[i].discountRate !== undefined
+            ) {
               // this.list2[i].requireDate = row.requireDate
               // this.list2[i].requireQuantity = row.requireQuantity
             } else {
@@ -1288,8 +1412,10 @@ export default {
         this.$refs.editable.insert(val[i])
       }
     },
-    enterinfo(val) {
-      this.personalForm.invoiceNumber = val.invoiceNumber
+    enterinfo(invoicedata) {
+      console.log('invoicedata ======> ', invoicedata)
+      const val = invoicedata[0]
+      // this.personalForm.invoiceNumber = val.invoiceNumber
       this.personalForm.invoiceType = val.invoiceType
       this.personalForm.supplierId = val.supplierId
       this.personalForm.settleMode = val.settleMode
@@ -1302,11 +1428,7 @@ export default {
       this.personalForm.payDate = val.payDate
       this.supplierId = val.supplierName
       this.handlePersonId = val.handlePersonName
-      if (
-        this.personalForm.currency !== null &&
-        this.personalForm.currency !== '' &&
-        this.personalForm.currency !== undefined
-      ) {
+      if (this.personalForm.currency) {
         this.personalForm.currency = String(val.currency)
       }
       if (this.personalForm.invoiceType !== null) {
@@ -1314,12 +1436,29 @@ export default {
       }
       this.personalForm.sourceType = '3'
       this.personalForm.isRed = 2
-      this.list2 = val.stockInvoiceDetailVos
-      for (let i = 0; i < this.list2.length; i++) {
-        this.list2[i].quantity2 = this.list2[i].quantity
-        this.list2[i].sourceNumber = val.number
-        this.list2[i].taxRate = this.list2[i].taxRate2
+      const newarr = []
+      for (const i in invoicedata) {
+        for (const j in invoicedata[i].stockInvoiceDetailVos) {
+          if (invoicedata[i].stockInvoiceDetailVos[j].invoiceId === invoicedata[i].id) {
+            invoicedata[i].stockInvoiceDetailVos[j].sourceNumber = invoicedata[i].number
+            invoicedata[i].stockInvoiceDetailVos[j].taxRate = invoicedata[i].stockInvoiceDetailVos[j].taxRate2
+            invoicedata[i].stockInvoiceDetailVos[j].quantity2 = invoicedata[i].stockInvoiceDetailVos[j].quantity
+            newarr.push(invoicedata[i].stockInvoiceDetailVos[j])
+          }
+        }
       }
+      console.log('newarr ======> ', newarr)
+      // this.list2 = newarr
+      for (const x in newarr) {
+        this.$refs.editable.insert(newarr[x])
+      }
+      // this.$refs.editable.insert(val[i])
+      // this.list2 = val.stockInvoiceDetailVos
+      // for (let i = 0; i < this.list2.length; i++) {
+      //   this.list2[i].quantity2 = this.list2[i].quantity
+      //   this.list2[i].sourceNumber = val.number
+      //   this.list2[i].taxRate = this.list2[i].taxRate2
+      // }
     },
     // 更新类型
     updatecountry() {

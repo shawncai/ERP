@@ -647,6 +647,8 @@ export default {
       this.personalForm.createPersonId = this.$store.getters.userId
       this.personalForm.countryId = this.$store.getters.countryId
       this.personalForm.modifyPersonId = this.$store.getters.userId
+      delete this.personalForm.receiptStat
+      delete this.personalForm.checkReportDetailVos
       const EnterDetail = this.$refs.editable.getRecords()
       EnterDetail.map(function(elem) {
         return elem

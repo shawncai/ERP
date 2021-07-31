@@ -2967,6 +2967,12 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'FirstMoneySetting',
+        component: () => import('@/views/Installmentrate/firstMoneySetting'),
+        name: 'FirstMoneySetting',
+        meta: { title: 'FirstMoneySetting', noCache: false, roles: ['200-250-251-1', '200-250-251-2', '200-250-251-3', '200-250-251-4', '200-250-251-5', '200-250-251-6', '200-250-251-7'] }
+      },
+      {
         path: 'InstallmentrateList',
         component: () => import('@/views/Installmentrate/InstallmentrateList'),
         name: 'InstallmentrateList',
@@ -3565,46 +3571,46 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'orderReport',
+        path: 'OrderReport',
         component: () => import('@/views/StockCount/orderReport'),
-        name: 'orderReport',
-        meta: { title: 'orderReport', noCache: false, roles: ['311-317-387-4'] }
+        name: 'OrderReport',
+        meta: { title: 'OrderReport', noCache: false, roles: ['311-317-387-4'] }
       },
       {
-        path: 'stockOrderCount',
+        path: 'StockOrderCount',
         component: () => import('@/views/StockCount/stockOrderCount'),
-        name: 'stockOrderCount',
-        meta: { title: 'stockOrderCount', noCache: false, roles: ['311-317-337-4'] }
+        name: 'StockOrderCount',
+        meta: { title: 'StockOrderCount', noCache: false, roles: ['311-317-337-4'] }
       },
       {
-        path: 'stockDetailCount',
+        path: 'StockDetailCount',
         component: () => import('@/views/StockCount/stockDetailCount'),
-        name: 'stockDetailCount',
-        meta: { title: 'stockDetailCount', noCache: false, roles: ['311-317-338-4'] }
+        name: 'StockDetailCount',
+        meta: { title: 'StockDetailCount', noCache: false, roles: ['311-317-338-4'] }
       },
       {
-        path: 'stockOrderlist',
+        path: 'StockOrderlist',
         component: () => import('@/views/StockCount/stockOrderlist'),
-        name: 'stockOrderlist',
-        meta: { title: 'stockOrderlist', noCache: false, roles: ['311-317-388-4'] }
+        name: 'StockOrderlist',
+        meta: { title: 'StockOrderlist', noCache: false, roles: ['311-317-388-4'] }
       },
       {
-        path: 'stockBillCount',
+        path: 'StockBillCount',
         component: () => import('@/views/StockCount/stockBillCount'),
-        name: 'stockBillCount',
-        meta: { title: 'stockBillCount', noCache: false, roles: ['311-317-339-4'] }
+        name: 'StockBillCount',
+        meta: { title: 'StockBillCount', noCache: false, roles: ['311-317-339-4'] }
       },
       {
-        path: 'purchaseCount',
+        path: 'PurchaseCount',
         component: () => import('@/views/StockCount/purchaseCount'),
-        name: 'purchaseCount',
-        meta: { title: 'purchaseCount', noCache: false, roles: ['311-317-389-4'] }
+        name: 'PurchaseCount',
+        meta: { title: 'PurchaseCount', noCache: false, roles: ['311-317-389-4'] }
       },
       {
-        path: 'supplierProvideABC',
+        path: 'SupplierProvideABC',
         component: () => import('@/views/StockCount/supplierProvideABC'),
-        name: 'supplierProvideABC',
-        meta: { title: 'supplierProvideABC', noCache: false, roles: ['311-317-390-4'] }
+        name: 'SupplierProvideABC',
+        meta: { title: 'SupplierProvideABC', noCache: false, roles: ['311-317-390-4'] }
       },
       {
         path: 'supplierOnTimeABC',

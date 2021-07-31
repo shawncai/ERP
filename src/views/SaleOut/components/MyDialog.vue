@@ -411,6 +411,11 @@
               <p>{{ getMoney(scope.row) }}</p>
             </template>
           </el-editable-column>
+          <el-editable-column :label="$t('update4.weishuijine')" prop="noTaxMoney" align="center" min-width="150">
+            <template slot-scope="scope">
+              <p>{{ getNoTaxMoney(scope.row) }}</p>
+            </template>
+          </el-editable-column>
           <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="includeTaxCostMoney" align="center" min-width="170">
             <template slot-scope="scope">
               <p v-show="jundgeprice()">{{ getincludeTaxCostMoney(scope.row) }}</p>
@@ -2156,6 +2161,11 @@ export default {
     getcostMoney(row) {
       row.costMoney = (row.costPrice * row.quantity).toFixed(6)
       return row.costMoney
+    },
+    // 计算未税金额
+    getNoTaxMoney(row) {
+      row.noTaxMoney = Number(row.salePrice) * Number(row.quantity)
+      return row.noTaxMoney
     },
     // 计算含税金额
     getincludeTaxMoney(row) {

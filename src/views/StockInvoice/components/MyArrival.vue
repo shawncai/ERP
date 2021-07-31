@@ -107,6 +107,11 @@
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.createDate')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockArrival.supplierId')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>

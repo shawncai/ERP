@@ -19,6 +19,14 @@
             </el-form-item>
             <my-delivery :deliverycontrol.sync="deliverycontrol" @deliveryName="deliveryName"/>
           </el-col>
+          <!-- <el-col :span="3" style="margin-left: 20px">
+            <el-form-item>
+              <el-select v-model="getemplist.noInvoice" placeholder="是否开发票" clearable class="filter-item" @keyup.enter.native="handleFilter" >
+                <el-option :label="$t('updates.yes')" value="1"/>
+                <el-option :label="$t('updates.no')" value="2"/>
+              </el-select>
+            </el-form-item>
+          </el-col> -->
           <!--更多搜索条件-->
           <!--          <el-col :span="3" style="margin-left: 30px">-->
           <!--            <el-popover-->
@@ -112,6 +120,11 @@
         <el-table-column :label="$t('Stockenter.deliveryPersonId')" :resizable="false" align="center" width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.deliveryPersonName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.createDate')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('Stockenter.acceptPersonId')" :resizable="false" prop="acceptPersonName" align="center" width="150">

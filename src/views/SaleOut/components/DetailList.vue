@@ -234,7 +234,9 @@
             ref="editable"
             :data.sync="list2"
             :edit-config="{ showIcon: false, showStatus: false}"
+            :summary-method="getSummaries"
             class="click-table1"
+            show-summary
             height="600"
             border
             size="small"
@@ -286,7 +288,11 @@
                 <span v-show="jundgeprice() === false"/>
               </template>
             </el-editable-column>
-
+            <el-editable-column :label="$t('update4.weishuijine')" prop="noTaxMoney" align="center" min-width="150">
+              <template slot-scope="scope">
+                <p>{{ getNoTaxMoney(scope.row) }}</p>
+              </template>
+            </el-editable-column>
             <!-- <el-editable-column :label="$t('NewEmployeeInformation.saleMoney')" prop="money" align="center">
               <template slot-scope="scope">
                 <span v-show="jundgeprice()">{{ scope.row.money }}</span>
@@ -759,6 +765,11 @@ export default {
     _that = this
   },
   methods: {
+    // 计算未税金额
+    getNoTaxMoney(row) {
+      row.noTaxMoney = Number(row.salePrice) * Number(row.quantity)
+      return row.noTaxMoney
+    },
     handleReceipt() {
       console.log('this.personalForm', this.personalForm)
       this.$store.dispatch('getempcontract', this.personalForm)
@@ -924,9 +935,10 @@ export default {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr
+              return (Number(prev) + Number(curr)).toFixed(2)
             } else {
-              return prev
+              console.log(prev)
+              return Number(prev).toFixed(2)
             }
           }, 0)
           sums[index] += ''
@@ -934,17 +946,17 @@ export default {
           sums[index] = ''
         }
       })
-      this.heji1 = sums[8]
-      this.heji2 = sums[7]
       sums[1] = ''
-      sums[2] = ''
       sums[3] = ''
       sums[4] = ''
-      sums[6] = ''
       sums[9] = ''
       sums[10] = ''
-      sums[11] = ''
-      sums[12] = ''
+      sums[22] = ''
+      sums[23] = ''
+      sums[24] = ''
+      sums[25] = ''
+      sums[26] = ''
+
       return sums
     },
     handlecancel() {

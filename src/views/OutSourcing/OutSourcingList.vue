@@ -374,8 +374,8 @@ export default {
           console.log(res.data.data.content.list[0])
           this.editVisible = true
           this.personalForm = Object.assign({}, res.data.data.content.list[0])
-          this.personalForm.billingTypeId = String(res.data.data.content.list[0].billingTypeId)
-          this.personalForm.paymentAgreementId = String(res.data.data.content.list[0].paymentAgreementId)
+          this.personalForm.billingTypeId = res.data.data.content.list[0].billingTypeId ? String(res.data.data.content.list[0].billingTypeId) : ''
+          this.personalForm.paymentAgreementId = res.data.data.content.list[0].paymentAgreementId ? String(res.data.data.content.list[0].paymentAgreementId) : ''
         }
       })
     },

@@ -49,9 +49,9 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['266-222-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- <el-button v-permission="['266-222-6']" v-waves :loading="downloadLoading" class="filter-item2" size="small" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
       <!-- 打印操作 -->
-      <el-button v-permission="['266-222-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button>
+      <!-- <el-button v-permission="['266-222-7']" v-waves class="filter-item2" size="small" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
       <el-button v-permission="['266-222-1']" v-waves class="filter-item2" size="small" icon="el-icon-plus" type="success" style="width: 86px" @click="handleAdd">{{ $t('public.add') }}</el-button>
     </el-card>
@@ -115,6 +115,12 @@
             <span>{{ scope.row.summary }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('AdvancePay.currency')" :resizable="false" align="center" min-width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.currency | currencyFilter }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('public.judgeStat')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
@@ -164,6 +170,16 @@ export default {
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, Pagination, MySupplier },
   filters: {
+    currencyFilter(status) {
+      const statusMap = {
+        1: 'PHP',
+        2: 'USD',
+        3: 'RMB',
+        4: 'LKR',
+        5: 'THB'
+      }
+      return statusMap[status]
+    },
     judgeStatFilter(status) {
       const statusMap = {
         0: _that.$t('updates.wsh'),

@@ -7,7 +7,9 @@
       <el-input v-model="getemplist.handleNumber" :placeholder="$t('updates.djbh')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-input v-model="handlePersonId" :placeholder="$t('CheckFail.handlePersonId')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter" @focus="handlechooseStock" @clea="restFilter"/>
+      <el-input v-model="getemplist.sourceNumber" :placeholder="$t('LogisticsCar.sourcenumber')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
+      <el-input v-model="getemplist.productName" :placeholder="$t('CheckReport.productName')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
       <my-emp :control.sync="stockControl" @stockName="stockName"/>
 
       <el-popover
@@ -27,6 +29,16 @@
           <el-option :label="$t('updates.shtg')" value="2"/>
           <el-option :label="$t('updates.shptg')" value="3"/>
         </el-select>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          size="mini"
+          range-separator="-"
+          unlink-panels
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd"
+          style="margin-top: 20px;margin-left: 20px"/>
         <div class="seachbutton" style="width: 100%;float: right;margin-top: 20px">
           <el-button v-waves size="small" class="filter-item" type="primary" style="float: right" round @click="handleFilter">{{ $t('public.search') }}</el-button>
         </div>
@@ -337,6 +349,13 @@ export default {
     },
     // 搜索
     handleFilter() {
+      if (this.date === null || this.date === '') {
+        this.getemplist.beginTime = null
+        this.getemplist.endTime = null
+      } else {
+        this.getemplist.beginTime = this.date[0]
+        this.getemplist.endTime = this.date[1]
+      }
       this.getemplist.pageNum = 1
       checkfailGetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {

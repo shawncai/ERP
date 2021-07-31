@@ -16,6 +16,9 @@ export function stockenterGetList(query) {
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
   }
+  if (query.noInvoice !== '' && query.noInvoice !== null && query.noInvoice !== undefined) {
+    params.append('noInvoice', query.noInvoice) // 你要传给后台的参数值 key/value
+  }
   if (query.sourceNumber !== '' && query.sourceNumber !== null && query.sourceNumber !== undefined) {
     params.append('sourceNumber', query.sourceNumber) // 你要传给后台的参数值 key/value
   }
@@ -78,6 +81,9 @@ export function stockenterlist(query) {
   var params = new URLSearchParams()
   if (query.title !== '' && query.title !== null && query.title !== undefined) {
     params.append('title', query.title) // 你要传给后台的参数值 key/value
+  }
+  if (query.noInvoice !== '' && query.noInvoice !== null && query.noInvoice !== undefined) {
+    params.append('noInvoice', query.noInvoice) // 你要传给后台的参数值 key/value
   }
   if (query.id !== '' && query.id !== null && query.id !== undefined) {
     params.append('enterId', query.id) // 你要传给后台的参数值 key/value

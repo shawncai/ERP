@@ -2,6 +2,8 @@
   <el-dialog :visible.sync="editVisible" :editcontrol="editcontrol" :editdata="editdata" :close-on-press-escape="false" :title="personalForm.number +$t('updates.xg')" width="1010px" class="edit" top="-10px" @close="$emit('update:editcontrol', false)">
     <!--基本信息-->
     <el-card class="box-card" style="margin-top: 63px" shadow="never">
+      <h1 v-show="personalForm.isRed === 2" style="color: red; font-size: 40px">红字发票{{ personalForm.number }}</h1>
+
       <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
       <div class="container" style="margin-top: 37px">
         <el-form ref="personalForm" :model="personalForm" :rules="personalrules" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
@@ -175,6 +177,12 @@
           @retreat="stockretreat"
           @retreatinfo="stockretreatinfo"
         />
+        <my-invoice
+          :entercontrol.sync="entercontrol"
+          :supp.sync="supp"
+          @enter="enter"
+          @enterinfo="enterinfo"
+        />
 
         <!--          <el-button :disabled="addpro" @click="handleAddproduct">{{ $t('Hmodule.tjsp') }}</el-button>-->
         <my-detail :control.sync="control" @product="productdetail"/>
@@ -189,10 +197,11 @@
           :edit-config="{ showIcon: true, showStatus: true}"
           :edit-rules="validRules"
           :summary-method="getSummaries"
+          :row-class-name="tableRowClassName"
           :show-summary="jundgeprice()"
           height="600px"
           class="click-table1"
-          stripe
+
           border
           size="small"
           style="width: 100%"
@@ -295,6 +304,8 @@
           <el-editable-column :label="$t('update4.redQuantity')" prop="redQuantity" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.ydbh')" prop="sourceNumber" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dddh')" prop="orderNumber" align="center" min-width="150px"/>
+          <!-- <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.zya')" prop="summary" align="center" min-width="150px"/> -->
+
         </el-editable>
       </div>
       <el-card class="box-card" shadow="never">
@@ -370,11 +381,15 @@ import MyOrder from './MyOrder'
 import MyArrival from './MyArrival'
 import MyFactory from './MyFactory'
 import MyOutsource from './MyOutsource'
+import MyRetreat from './MyRetreat'
+import MyEnter from './MyEnter'
+import MyInvoice from './MyInvoice'
+
 import { deleterepairproject } from '../../../api/repair'
 // eslint-disable-next-line no-unused-vars
 var _that
 export default {
-  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyFactory, MyOutsource },
+  components: { MyArrival, MyOrder, MyLnquiry, MyDelivery, MyPlan, MyApply, MySupplier, MyDetail, MyEmp, MyFactory, MyOutsource, MyRetreat, MyEnter, MyInvoice },
   props: {
     editcontrol: {
       type: Boolean,
@@ -569,6 +584,9 @@ export default {
       //   this.personalForm.stockInvoiceDetailVos[i].taxRate = Number(this.personalForm.stockInvoiceDetailVos[i].taxRate) * 100
       // }
       this.list2 = this.personalForm.stockInvoiceDetailVos
+      this.$nextTick(() => {
+        this.calculationMoney()
+      })
     }
   },
   created() {
@@ -579,6 +597,12 @@ export default {
     _that = this
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (this.personalForm.isRed === 2) {
+        return 'warning-row'
+      }
+      return ''
+    },
     calculationMoney() {
       // eslint-disable-next-line prefer-const
       let listData = this.$refs.editable.getRecords()
@@ -800,7 +824,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 审批操作
@@ -1138,6 +1161,17 @@ export default {
           return false
         }
         this.outsourcecontrol = true
+      } else if (this.personalForm.sourceType === '3') {
+        this.entercontrol = true
+      } else if (this.personalForm.sourceType === '4') {
+        this.retreatcontrol = true
+        if (this.list2.length > 0) {
+          console.log('this.list2========>', this.list2)
+          this.checklist = this.list2
+          console.log('this.checklist', this.checklist)
+        } else {
+          this.checklist = []
+        }
       }
     },
     enter(val) {
@@ -1147,28 +1181,53 @@ export default {
         this.$refs.editable.insertAt(val[i], -1)
       }
     },
-    enterinfo(val) {
-      //   this.personalForm.sourceNumber = val.number
-      //   this.personalForm.supplierId = val.supplierId
-      //   this.supplierId = val.supplierName
-      //   if (val.stockTypeId !== null && val.stockTypeId !== undefined && val.stockTypeId !== '') {
-      //     this.personalForm.stockTypeId = val.stockTypeId
-      //   }
-      //   this.personalForm.isVat = val.isVat
-      //   if (val.handlePersonId !== null && val.handlePersonId !== undefined && val.handlePersonId !== '') {
-      //     this.personalForm.handlePersonId = val.handlePersonId
-      //     this.handlePersonId = val.stockPersonName
-      //   }
-      //   if (val.payMode !== null && val.payMode !== undefined && val.payMode !== '') {
-      //     this.personalForm.payMode = val.payMode
-      //   }
-      //   if (val.deliveryModeId !== null && val.deliveryModeId !== undefined && val.deliveryModeId !== '') {
-      //     this.personalForm.deliveryModeId = val.deliveryModeId
-      //   }
-      //   if (val.currencyId !== null && val.currencyId !== undefined && val.currencyId !== '') {
-      //     this.personalForm.currencyId = String(val.currencyId)
-      //   }
-      //   this.getTypes()
+    enterinfo(invoicedata) {
+      console.log('invoicedata ======> ', invoicedata)
+      const val = invoicedata[0]
+      // this.personalForm.invoiceNumber = val.invoiceNumber
+      this.personalForm.invoiceType = val.invoiceType
+      this.personalForm.supplierId = val.supplierId
+      this.personalForm.settleMode = val.settleMode
+      this.personalForm.address = val.address
+      this.personalForm.taxNumber = val.taxNumber
+      this.personalForm.bank = val.bank
+      this.personalForm.handlePersonId = val.handlePersonId
+      this.personalForm.deptId = val.deptId
+      this.personalForm.subject = val.subject
+      this.personalForm.payDate = val.payDate
+      this.supplierId = val.supplierName
+      this.handlePersonId = val.handlePersonName
+      if (this.personalForm.currency) {
+        this.personalForm.currency = String(val.currency)
+      }
+      if (this.personalForm.invoiceType !== null) {
+        this.personalForm.invoiceType = String(val.invoiceType)
+      }
+      this.personalForm.sourceType = '3'
+      this.personalForm.isRed = 2
+      const newarr = []
+      for (const i in invoicedata) {
+        for (const j in invoicedata[i].stockInvoiceDetailVos) {
+          if (invoicedata[i].stockInvoiceDetailVos[j].invoiceId === invoicedata[i].id) {
+            invoicedata[i].stockInvoiceDetailVos[j].sourceNumber = invoicedata[i].number
+            invoicedata[i].stockInvoiceDetailVos[j].taxRate = invoicedata[i].stockInvoiceDetailVos[j].taxRate2
+            invoicedata[i].stockInvoiceDetailVos[j].quantity2 = invoicedata[i].stockInvoiceDetailVos[j].quantity
+            newarr.push(invoicedata[i].stockInvoiceDetailVos[j])
+          }
+        }
+      }
+      console.log('newarr ======> ', newarr)
+      // this.list2 = newarr
+      for (const x in newarr) {
+        this.$refs.editable.insert(newarr[x])
+      }
+      // this.$refs.editable.insert(val[i])
+      // this.list2 = val.stockInvoiceDetailVos
+      // for (let i = 0; i < this.list2.length; i++) {
+      //   this.list2[i].quantity2 = this.list2[i].quantity
+      //   this.list2[i].sourceNumber = val.number
+      //   this.list2[i].taxRate = this.list2[i].taxRate2
+      // }
     },
     // 更新类型
     updatecountry() {

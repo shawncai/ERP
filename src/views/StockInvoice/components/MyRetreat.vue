@@ -100,6 +100,16 @@
             </el-popover>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('StockRetreat.retreatDate')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.retreatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.createDate')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockRetreat.supplierId')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.supplierName }}</span>
@@ -474,7 +484,7 @@ export default {
           quantity2: item.retreatQuantity,
           price: item.price,
           includeTaxPrice: item.includeTaxPrice,
-          taxRate: item.taxRate,
+          taxRate: Number(item.taxRate) * 100,
           money: item.money,
           includeTaxMoney: item.includeTaxMoney,
           taxMoney: item.taxMoney,

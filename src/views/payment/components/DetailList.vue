@@ -5,6 +5,8 @@
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
+        <el-button @click="exportData">{{ $t('public.export') }}</el-button>
+
         <div class="container" style="margin-top: 37px">
           <el-form :model="personalForm" :inline="true" status-icon class="demo-ruleForm" label-width="130px">
             <el-row>
@@ -103,6 +105,7 @@
             <el-editable-column type="selection" min-width="55" align="center"/>
             <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
             <el-editable-column :label="$t('update4.faiaochuangjiariqil')" prop="invoiceDate" align="center" min-width="180px"/>
+            <el-editable-column :label="$t('update4.caigoufapiaodanjubianhao')" prop="sourceNumber" align="center" min-width="150px" />
             <el-editable-column :label="$t('updates.yfje')" prop="shouldMoney" align="center" />
             <el-editable-column :label="$t('updates.yfjei')" prop="paidMoney" align="center" />
             <el-editable-column :label="$t('updates.wfje')" prop="payingMoney" align="center" />
@@ -349,6 +352,35 @@ export default {
     _that = this
   },
   methods: {
+    exportData() {
+      const array = this.list2
+      for (const i in array) {
+        array[i].supplierName = this.personalForm.supplierName
+        array[i].payAccount = this.personalForm.payAccount
+        array[i].payAccountNumber = this.personalForm.payAccountNumber
+        array[i].payDate = this.personalForm.payDate
+        if (array[i].invoiceType === 1) {
+          array[i].invoiceTypeName = '采购发票'
+        } else {
+          array[i].invoiceTypeName = '费用发票'
+        }
+      }
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['供应商', '开户行', '账号', '付款日期', '发票创建日期', '采购发票单据编号', '应付金额', '已付金额', '未付金额', '发票号', '发票类型', '本次支付金额', '抵扣预付款']
+          const filterVal = ['supplierName', 'payAccount', 'payAccountNumber', 'payDate', 'invoiceDate', 'sourceNumber', 'shouldMoney', 'paidMoney', 'payingMoney', 'invoiceNumber', 'invoiceTypeName', 'payThis', 'advanceMoney']
+          const data = this.formatJson(filterVal, array)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.personalForm.paymentNumber + '付款单详情'
+          })
+        })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
     // 判断审核按钮
     isReview() {
       if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {

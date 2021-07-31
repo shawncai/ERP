@@ -126,7 +126,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockDetailCount',
+  name: 'StockOrderlist',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {

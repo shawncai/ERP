@@ -13,9 +13,13 @@ const publics = {
     printdata: '',
     uploadApi: '',
     saleoutcopy: '',
-    stockOrder: ''
+    stockOrder: '',
+    advancepay: ''
   },
   mutations: {
+    set_advancepay: (state, advancepay) => {
+      state.advancepay = advancepay
+    },
     set_stockOrder: (state, stockOrder) => {
       state.stockOrder = stockOrder
     },
@@ -60,6 +64,9 @@ const publics = {
     }
   },
   actions: {
+    getadvancepay({ commit }, advancepay) {
+      commit('set_advancepay', advancepay)
+    },
     getstockOrder({ commit }, stockOrder) {
       commit('set_stockOrder', stockOrder)
     },

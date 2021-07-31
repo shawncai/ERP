@@ -73,21 +73,24 @@
         fit
         highlight-current-row
         style="width: 100%;"
-        @current-change="handleCurrentChange"
+
         @selection-change="handleSelectionChange">
+        <el-table-column :reserve-selection="true" type="selection" min-width="55" align="center" />
+
         <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span class="link-type">{{ scope.row.number }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockInvoice.sourceType')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
-          </template>
-        </el-table-column>
+
         <el-table-column :label="$t('StockInvoice.invoiceNumber')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.invoiceNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('recoveryCarDetail.createDate')" :resizable="false" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockInvoice.supplierId')" :resizable="false" align="center" min-width="150">
@@ -103,6 +106,11 @@
         <el-table-column :label="$t('StockInvoice.createDate')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockInvoice.sourceType')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.sourceType | sourceTypeFilter }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('StockInvoice.payDate')" :resizable="false" align="center" min-width="150">
@@ -122,7 +130,7 @@
         </el-table-column>
       </el-table>
       <!-- 列表结束 -->
-      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pagenum" :limit.sync="getemplist.pagesize" @pagination="getlist" />
+      <pagination v-show="total>0" :total="total" :page.sync="getemplist.pageNum" :limit.sync="getemplist.pageSize" @pagination="getlist" />
       <!--修改开始=================================================-->
       <el-button v-waves class="filter-item" type="success" style="width: 100px;float: left;margin-bottom: 10px" @click="handleConfirm">{{ $t('Hmodule.sure') }}</el-button>
     </el-card>
@@ -457,7 +465,7 @@ export default {
     // 确认添加数据
     async handleConfirm() {
       this.employeeVisible = false
-      this.$emit('enterinfo', this.choosedata)
+      this.$emit('enterinfo', this.moreaction)
     }
     // 仓库管理员选择结束
   }

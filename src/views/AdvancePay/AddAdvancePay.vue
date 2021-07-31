@@ -307,12 +307,12 @@ export default {
       this.personalForm.totalMoney = (Number(this.personalForm.ratioRate) / 100 * Number(this.personalForm.orderMoney)).toFixed(2)
     },
     getinformation() {
-      if (this.$store.getters.empcontract) {
-        console.log('getempcontract', this.$store.getters.empcontract)
-        this.personalForm.orderMoney = Number(this.$store.getters.empcontract.allIncludeTaxMoney)
-        this.personalForm.currency = String(this.$store.getters.empcontract.currency)
-        this.personalForm.sourceNumber = this.$store.getters.empcontract.orderNumber
-        this.personalForm.supplierId = this.$store.getters.empcontract.supplierId
+      if (this.$store.getters.advancepay) {
+        console.log('advancepay', this.$store.getters.advancepay)
+        this.personalForm.orderMoney = Number(this.$store.getters.advancepay.allIncludeTaxMoney)
+        this.personalForm.currency = String(this.$store.getters.advancepay.currency)
+        this.personalForm.sourceNumber = this.$store.getters.advancepay.orderNumber
+        this.personalForm.supplierId = this.$store.getters.advancepay.supplierId
         const parms = { id: this.personalForm.supplierId }
         search2(parms).then(res => {
           console.log('res', res)
@@ -320,14 +320,14 @@ export default {
             this.personalForm.payAccount = res.data.data.content.list[0].account
           }
         })
-        this.supplierId = this.$store.getters.empcontract.supplierName
-        this.stockPersonId = this.$store.getters.empcontract.stockPersonName
-        this.personalForm.stockPersonId = this.$store.getters.empcontract.stockPersonId
-        if (this.$store.getters.empcontract.settleMode !== null) {
-          this.personalForm.settleMode = this.$store.getters.empcontract.settleMode
+        this.supplierId = this.$store.getters.advancepay.supplierName
+        this.stockPersonId = this.$store.getters.advancepay.stockPersonName
+        this.personalForm.stockPersonId = this.$store.getters.advancepay.stockPersonId
+        if (this.$store.getters.advancepay.settleMode !== null) {
+          this.personalForm.settleMode = this.$store.getters.advancepay.settleMode
         }
         this.handerchoose()
-        this.$store.dispatch('getempcontract', '')
+        this.$store.dispatch('getadvancepay', '')
       }
     },
     // 重置一下下拉

@@ -39,8 +39,9 @@
           :label="$t('stockOrderCount.id')"
           prop="id"
           width="200"
-          align="center"/>
-        <el-table-column :label="first" :resizable="false" align="center" min-width="300">
+          align="center"
+          fixed/>
+        <el-table-column :label="first" :resizable="false" align="center" min-width="300" fixed>
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.name }}</span>
           </template>
@@ -53,7 +54,7 @@
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.totalMoney')"
-            prop="totalMoney"
+            prop="orderMoney"
             width="200"
             align="center"/>
           <el-table-column
@@ -63,7 +64,7 @@
             align="center"/>
           <el-table-column
             :label="$t('stockOrderCount.heji')"
-            prop="heji"
+            prop="totalMoney"
             width="200"
             align="center"/>
         </el-table-column>

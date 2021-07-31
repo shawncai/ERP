@@ -60,7 +60,7 @@
               </el-col>
               <!-- 退货调拨时仓库逻辑 结束-->
               <el-col :span="6">
-                <el-form-item :label="$t('Storagemove.requestArrivalDate')" label-width="110px" prop="requestArrivalDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('Storagemove.requestArrivalDate')" prop="requestArrivalDate" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.requestArrivalDate"
                     type="date"
@@ -70,7 +70,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="$t('updates.yqchrq')" label-width="110px" style="margin-left: 18px;width: 100%;margin-bottom: 0">
+                <el-form-item :label="$t('updates.yqchrq')" style="margin-left: 18px;width: 100%;margin-bottom: 0">
                   <el-date-picker
                     v-model="personalForm.moveOutDate"
                     type="date"
@@ -191,7 +191,7 @@
               <template slot="edit" slot-scope="scope">
                 <el-input-number
                   :precision="6"
-                  :controls="true"
+                  :controls="false"
                   :min="1.00"
                   v-model="scope.row.applyQuantity"
                   @change="queryStock(scope.row)"

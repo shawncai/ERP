@@ -62,6 +62,9 @@ export default{
 }
 </script>
 <style>
+.el-table .warning-row {
+    background: red ;
+  }
 .el-table__body-wrapper{
    z-index: 2;
  }

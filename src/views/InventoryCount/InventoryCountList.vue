@@ -58,7 +58,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 表格导出操作 -->
-      <el-button v-permission="['131-148-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+      <!-- <el-button v-permission="['131-148-6']" v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button> -->
       <!-- 打印操作 -->
       <!-- <el-button v-permission="['131-148-7']" v-waves size="small" class="filter-item2" icon="el-icon-printer" style="width: 86px" @click="handlePrint">{{ $t('public.print') }}</el-button> -->
       <!-- 新建操作 -->
@@ -668,26 +668,26 @@ export default {
     handleAdd() {
       this.$router.push('/InventoryCount/AddInventoryCount')
     },
-    // 导出
-    handleExport() {
-      this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
-          const filterVal = ['id', 'InventoryCountName', 'InventoryCountShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
-          const data = this.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: '经销商资料表'
-          })
-          this.downloadLoading = false
-        })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        return v[j]
-      }))
-    },
+    // // 导出
+    // handleExport() {
+    //   this.downloadLoading = true
+    //     import('@/vendor/Export2Excel').then(excel => {
+    //       const tHeader = ['供应商编号', '供应商名称', '供应商简称', '供应商类别', '所在区域', '采购员', '供应商优质级别', '建档人', '建档日期']
+    //       const filterVal = ['id', 'InventoryCountName', 'InventoryCountShortName', 'typeName', 'regionName', 'buyerName', 'levelName', 'createName', 'createTime']
+    //       const data = this.formatJson(filterVal, this.list)
+    //       excel.export_json_to_excel({
+    //         header: tHeader,
+    //         data,
+    //         filename: '经销商资料表'
+    //       })
+    //       this.downloadLoading = false
+    //     })
+    // },
+    // formatJson(filterVal, jsonData) {
+    //   return jsonData.map(v => filterVal.map(j => {
+    //     return v[j]
+    //   }))
+    // },
     // 打印
     handlePrint() {
       console.log(456)

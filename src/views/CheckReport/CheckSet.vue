@@ -196,7 +196,7 @@
 import MyDetail from './components/MyDetail'
 import '@/directive/noMoreClick/index.js'
 import { searchCheckCategory } from '@/api/CheckCategory'
-import { searchCheckSet, delateCheckSet, updateCheckSet, addCheckSetMany } from '@/api/CheckSet'
+import { searchCheckSet, delateCheckSet, updateCheckSet, addCheckSetMany, checkSetList } from '@/api/CheckSet'
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import permission from '@/directive/permission/index.js' // 权限判断指令
@@ -353,7 +353,7 @@ export default {
     },
     getlist() {
       this.listLoading = true
-      searchCheckSet(this.getemplist).then(res => {
+      checkSetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
@@ -389,7 +389,7 @@ export default {
     // 搜索
     handleFilter() {
       this.getemplist.pagenum = 1
-      searchCheckSet(this.getemplist).then(res => {
+      checkSetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount

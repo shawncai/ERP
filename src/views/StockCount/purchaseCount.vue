@@ -20,6 +20,7 @@
         style="width: 250px"/>
 
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
 
@@ -28,8 +29,10 @@
       <el-table
         ref="table"
         :height="tableHeight"
+        :summary-method="getSummaries2"
         :data="list"
         size="small"
+        show-summary
         border
         style="width: 100%"
         @row-click="clickRow">
@@ -38,7 +41,7 @@
           prop="supplierName"
           width="200"
           align="center"/> -->
-        <el-table-column :label="$t('report.supplierName')" :resizable="false" align="center" min-width="200">
+        <el-table-column :label="$t('report.supplierName')" :resizable="false" align="center" min-width="200" fixed>
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.supplierName }}</span>
           </template>
@@ -48,13 +51,15 @@
           label="物品名称"
           prop="productName"
           width="300"
-          align="center"/>
+          align="center"
+          fixed/>
         <el-table-column
           v-if="second"
           label="物品编码"
           prop="productCode"
           width="300"
-          align="center"/>
+          align="center"
+          fixed/>
         <el-table-column
           :label="$t('report.orderQuantity')"
           prop="orderQuantity"
@@ -120,7 +125,7 @@ import MySupplier from './components/MySupplier'
 
 var _that
 export default {
-  name: 'StockDetailCount',
+  name: 'PurchaseCount',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyEmp, MyCustomer, MySupplier, MyAgent, MyRepository, Pagination },
   filters: {
@@ -158,6 +163,7 @@ export default {
   },
   data() {
     return {
+      downloadLoading: false,
       tableHeight: 200,
       second: false,
       first: '',
@@ -205,7 +211,6 @@ export default {
       // 批量操作
       moreaction: '',
       // 加载操作控制
-      downloadLoading: false,
       // 表格数据
       list: [],
       // 表格数据条数
@@ -247,6 +252,77 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      this.downloadLoading = true
+
+      if (this.getemplist.type === '1') {
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['供应商名称', '订单数', '发票数量', '发票金额', '发票含税金额', '入库数量', '入库金额', '差异数量', '差异金额']
+            const filterVal = ['supplierName', 'orderQuantity', 'invoiceQuantity', 'invoiceMoney', 'invoiceTaxMoney', 'enterQuantity', 'enterMoney', 'diffQuantity', 'diffMoney']
+            const data = this.formatJson(filterVal, this.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购汇总表'
+            })
+            this.downloadLoading = false
+          })
+      }
+      if (this.getemplist.type === '2') {
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['供应商名称', '物品名称', '物品编码', '订单数', '发票数量', '发票金额', '发票含税金额', '入库数量', '入库金额', '差异数量', '差异金额']
+            const filterVal = ['name', 'productName', 'productCode', 'orderQuantity', 'invoiceQuantity', 'invoiceMoney', 'invoiceTaxMoney', 'enterQuantity', 'enterMoney', 'diffQuantity', 'diffMoney']
+            const data = this.formatJson(filterVal, this.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '采购汇总表'
+            })
+            this.downloadLoading = false
+          })
+      }
+    },
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

@@ -33,6 +33,8 @@
 
       <el-button v-waves size="small" class="filter-item" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
 
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
+
     </el-card>
 
     <el-card :body-style="	{ padding: '10px' }" class="box-card" shadow="never">
@@ -232,6 +234,27 @@ export default {
     _that = this
   },
   methods: {
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      this.downloadLoading = true
+
+          import('@/vendor/Export2Excel').then(excel => {
+            const tHeader = ['供应商名称', '订单金额', '占订货总额 ', '供货金额', '占供货总额 ', '供货占订货 ', 'ABC分类']
+            const filterVal = ['supplierName', 'orderMoney', 'orderRate', 'arrivalMoney', 'arrivalRate', 'provideRate', 'level']
+            const data = this.formatJson(filterVal, this.list)
+            excel.export_json_to_excel({
+              header: tHeader,
+              data,
+              filename: '供应商交货ABC分析'
+            })
+            this.downloadLoading = false
+          })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

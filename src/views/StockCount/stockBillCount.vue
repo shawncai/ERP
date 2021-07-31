@@ -142,7 +142,7 @@ import MyRepository from './components/MyRepository'
 
 var _that
 export default {
-  name: 'StockOrderCount',
+  name: 'StockBillCount',
   directives: { waves, permission, permission2 },
   components: { MyDialog, DetailList, MyRepository, MyEmp, MyCustomer, MyAgent, Pagination },
   filters: {

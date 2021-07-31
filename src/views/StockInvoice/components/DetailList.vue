@@ -3,6 +3,7 @@
     <div id="printTest" >
       <!--基本信息-->
       <el-card class="box-card" style="margin-top: 63px" shadow="never">
+        <h1 v-show="personalForm.isRed === 2" style="color: red; font-size: 40px">红字发票{{ personalForm.number }}</h1>
         <h2 ref="geren" class="form-name" style="font-size: 16px;color: #606266;margin-top: -5px;">{{ $t('Hmodule.basicinfo') }}</h2>
         <button v-print="'#printTest'" class="print" style="font-size: 13px;background: white;">{{ $t('updates.print') }}</button>
         <div class="container" style="margin-top: 37px">
@@ -102,6 +103,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             :summary-method="getSummaries"
             :show-summary="jundgeprice()"
+            :row-class-name="tableRowClassName"
             height="500"
             class="click-table1"
             border
@@ -379,6 +381,12 @@ export default {
     _that = this
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (this.personalForm.isRed === 2) {
+        return 'warning-row'
+      }
+      return ''
+    },
     // 判断审核按钮
     isReview() {
       if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {

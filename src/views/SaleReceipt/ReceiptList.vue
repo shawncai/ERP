@@ -312,6 +312,11 @@
             <span>{{ scope.row.title }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Advancemanage.createDate')" :resizable="false" prop="createDate" align="center" width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('recoveryCarDetail.repositoryName')"
           :resizable="false"

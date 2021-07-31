@@ -479,7 +479,7 @@ export default {
       }
     },
     handleMyReceipt1(val) {
-      this.$store.dispatch('getempcontract', val)
+      this.$store.dispatch('getadvancepay', val)
       this.$router.push('/AdvancePay/AddAdvancePay')
     },
     // 判断反审批按钮
