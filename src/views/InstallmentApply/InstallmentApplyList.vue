@@ -886,6 +886,7 @@ export default {
           console.log(res.data.data.content.list[0])
           this.editVisible = true
           this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.isInvestigation = row.isInvestigation
           this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
           if (res.data.data.content.list[0].workType !== null) {
             this.personalForm.workType = String(res.data.data.content.list[0].workType)
@@ -929,6 +930,7 @@ export default {
           console.log(res.data.data.content.list[0])
           this.detailvisible = true
           this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.isInvestigation = row.isInvestigation
         }
       })
     },

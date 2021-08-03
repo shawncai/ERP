@@ -150,7 +150,6 @@
           </el-form-item>
           </el-form> -->
         <el-card class="box-card" style="margin-top: 15px" shadow="never">
-          <h2 ref="fuzhu" class="form-name" >{{ $t('updates.zpmx') }}</h2>
           <div class="buttons" style="margin-top: 35px;margin-bottom: 10px;">
             <el-button @click="handlerep">{{ $t('updates.tj') }}</el-button>
             <my-repository2 :repositorycontrol.sync="repositorycontrol2" @repositoryname="repositoryname2"/>

@@ -240,6 +240,9 @@ export default {
         ],
         accountType: [
           { required: true, message: '请选择账户类型', trigger: 'change' }
+        ],
+        customerType: [
+          { required: true, message: '请选择客户类型', trigger: 'change' }
         ]
       },
       // 收入单明细数据

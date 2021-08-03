@@ -32,6 +32,7 @@
         style="width: 250px"/>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
 
@@ -41,11 +42,14 @@
         ref="table"
         :height="tableHeight"
         :data="list"
-        :span-method="arraySpanMethod"
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
         border
         style="width: 100%"
         @row-click="clickRow">
+        <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
+
         <el-table-column
           :label="$t('inventoryCollect.productCode')"
           prop="productCode"
@@ -244,6 +248,64 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[1] = ''
+      sums[3] = ''
+      return sums
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      console.log('this.list', this.list)
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编码', '物品名称', '规格型号', '单位', '调入数量', '调入仓库', '调出数量', '调出仓库']
+          const filterVal = ['productCode', 'productName', 'productType', 'unit', 'inQuantity', 'moveInRepositoryName', 'outQuantity', 'moveOutRepositoryName']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '调拨汇总表'
+          })
+          this.downloadLoading = false
+        })
+    },
     getSpanArr(data) {
       this.spanArr = []
       for (var i = 0; i < data.length; i++) {

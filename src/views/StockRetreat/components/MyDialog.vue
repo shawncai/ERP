@@ -180,6 +180,17 @@
           <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="100px"/>
           <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
           <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
+          <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="200">
+            <template slot="edit" slot-scope="scope">
+              <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0; padding: 0 20px" @visible-change="updatebatch2($event,scope)">
+                <el-option
+                  v-for="(item, index) in batchlist"
+                  :key="index"
+                  :value="item"
+                  :label="item"/>
+              </el-select>
+            </template>
+          </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
           <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
@@ -274,7 +285,7 @@
 
 <script>
 import { querytax } from '@/api/StockOrder'
-import { getRate } from '@/api/public'
+import { getRate, batchlist } from '@/api/public'
 import { updatestockRetreat } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -404,7 +415,8 @@ export default {
       list2: [],
       // 采购申请单明细列表规则
       validRules: {
-      }
+      },
+      batchlist: []
     }
   },
   watch: {
@@ -433,6 +445,16 @@ export default {
     _that = this
   },
   methods: {
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.retreatRepositoryId, parms3).then(res => {
+          if (res.data.ret === 200) {
+            this.batchlist = res.data.data.content
+          }
+        })
+      }
+    },
     gettaxRate(row) {
       console.log('row==============110', row.flag)
       if (row.flag === undefined) {
@@ -482,7 +504,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 处理汇率

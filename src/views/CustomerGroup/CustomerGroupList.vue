@@ -256,8 +256,8 @@ export default {
     }, 100)
   },
   mounted() {
-    this.getlist()
-    this.getCategory()
+    // this.getlist()
+    // this.getCategory()
     // this.getrepos()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140

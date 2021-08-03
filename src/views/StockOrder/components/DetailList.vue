@@ -103,6 +103,8 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             class="click-table1"
             border
+            height="600"
+
             size="small"
             style="width: 100%">
             <el-editable-column :label="$t('Hmodule.xh')" fixed="left" min-width="55" align="center" type="index"/>
@@ -425,7 +427,7 @@ export default {
     // 审批操作
     handleReview() {
       this.reviewParms = {}
-      this.reviewParms.id = this.personalForm.parentId
+      this.reviewParms.id = this.personalForm.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -492,7 +494,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     cutnull(data) {
@@ -531,7 +532,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

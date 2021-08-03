@@ -80,7 +80,7 @@
           width="55"
           fixed="left"
           align="center"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150" sortable>
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.number }}</span>
           </template>
@@ -91,6 +91,34 @@
             <span>{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column :label="$t('StockRetreat.stockPersonId')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.stockPersonName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('StockRetreat.retreatRepositoryId')" :resizable="false" fixed="left" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.retreatRepositoryName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('StockRetreat.retreatDate')" :resizable="false" fixed="left" align="center" min-width="150" sortable>
+          <template slot-scope="scope">
+            <span>{{ scope.row.retreatDate }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('update4.createDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column :label="$t('StockRetreat.retreatRepositoryId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.retreatRepositoryName }}</span>
+          </template>
+        </el-table-column> -->
         <!-- <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
@@ -116,7 +144,7 @@
             <span>{{ scope.row.allRetreatMoney }}</span>
           </template>
         </el-table-column> -->
-        <!-- <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
+        <el-table-column :label="$t('public.judgeStat')" :resizable="false" prop="judgeStat" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.judgeStat | judgeStatFilter }}</span>
           </template>
@@ -125,7 +153,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.receiptStat | receiptStatFilter }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :label="$t('public.actions')" :resizable="false" align="center" min-width="230">
           <template slot-scope="scope">
             <el-button v-permission2="['104-118-3', scope.row.createPersonId]" v-show="scope.row.judgeStat === 0&&scope.row.receiptStat === 1" :key="scope.row.id + Math.random()" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
@@ -432,7 +460,7 @@ export default {
       this.listLoading = true
       stockRetreatgetList(this.getemplist).then(res => {
         if (res.data.ret === 200) {
-          const list = res.data.data.content.list
+          this.list = res.data.data.content.list
           // const needlist = res.data.data.content.list
           // for (let i = 0; i < needlist.length; i++) {
           //   for (let j = 0; j < needlist[i].stockRetreatDetailVos.length; j++) {

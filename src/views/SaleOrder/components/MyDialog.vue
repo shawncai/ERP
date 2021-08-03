@@ -679,7 +679,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 无来源添加商品

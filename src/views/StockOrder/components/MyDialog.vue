@@ -170,6 +170,8 @@
           :summary-method="getSummaries"
           class="click-table1"
           show-summary
+          height="600"
+
           stripe
           border
           size="small"
@@ -540,7 +542,6 @@ export default {
       this.stockPersonId = this.personalForm.stockPersonName
       this.signPersonId = this.personalForm.signPersonName
       this.stockRepositoryId = this.personalForm.stockRepositoryName
-      this.personalForm.id = this.personalForm.parentId
       this.list2 = this.personalForm.stockOrderDetailVos
       this.changeRate()
     },
@@ -563,7 +564,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handlechooseRep() {

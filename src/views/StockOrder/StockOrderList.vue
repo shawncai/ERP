@@ -170,15 +170,25 @@
         <el-table-column
           type="selection"
           width="40"/>
-        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150">
+        <el-table-column :label="$t('public.id')" :resizable="false" fixed="left" align="center" min-width="150" sortable>
           <template slot-scope="scope">
             <span class="link-type" @click="handleDetail(scope.row)">{{ scope.row.orderNumber }}</span>
           </template>
           <detail-list :detailcontrol.sync="detailvisible" :detaildata.sync="personalFormdetail" @rest="refreshlist"/>
         </el-table-column>
+        <el-table-column :label="$t('StockOrder.supplierId')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.supplierName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('StockOrder.title')" :resizable="false" fixed="left" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('updates.dhrq')" :resizable="false" align="center" min-width="150" sortable>
+          <template slot-scope="scope">
+            <span>{{ scope.row.arrivalDate }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column :label="$t('StockArrival.presentdata')" :resizable="false" fixed="left" align="center" min-width="300">
@@ -226,11 +236,7 @@
             <span>{{ scope.row.stockPersonName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('StockOrder.supplierId')" :resizable="false" align="center" min-width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-        </el-table-column>
+
         <!-- <el-table-column v-if="jundgeprice()" :label="$t('StockOrder.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
@@ -465,7 +471,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getinformation() {
@@ -492,7 +497,7 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentId
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -535,7 +540,7 @@ export default {
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentId
+      this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
@@ -571,7 +576,7 @@ export default {
     // 结单操作
     handleReview2(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentId
+      this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
@@ -918,7 +923,7 @@ export default {
     // 审批操作
     handleReview(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentId
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -983,7 +988,7 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.parentId).join()
+      const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -1021,7 +1026,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        deletestockorder(row.parentId, this.$store.getters.userId).then(res => {
+        deletestockorder(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: this.$t('prompt.sccg'),

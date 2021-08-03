@@ -262,7 +262,7 @@ export default {
         checkResult: 2,
         pageNum: 1,
         pageSize: 50,
-        judgeStat: 2,
+        // judgeStat: 2,
         repositoryId: this.$store.getters.repositoryId,
         regionIds: this.$store.getters.regionIds,
         isActive: 1

@@ -783,7 +783,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,
@@ -1087,7 +1086,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

@@ -511,6 +511,7 @@ export default {
         // this.moreaction[i].stockEnterDetailVos.sourceNumber = this.moreaction[i].enterNumber
         // enterdata.push(this.moreaction[i].stockEnterDetailVos)
       }
+      console.log('enterdata', enterdata)
       const enterDetail = enterdata.map(function(item) {
         return {
           productCode: item.productCode,

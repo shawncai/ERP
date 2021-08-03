@@ -174,6 +174,7 @@
             :edit-config="{ showIcon: true, showStatus: true}"
             :edit-rules="validRules"
             class="click-table1"
+            height="600"
             stripe
             border
             size="small"
@@ -790,7 +791,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handlechooseRep() {

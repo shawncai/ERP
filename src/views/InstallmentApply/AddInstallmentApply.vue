@@ -700,7 +700,7 @@
 import { validateEmail } from '@/utils/validate'
 import '@/directive/noMoreClick/index.js'
 import { addinstallmentapply, confirmPhone, confirmAddress, confirmName } from '@/api/InstallmentApply'
-import { ratelist } from '@/api/Installmentrate'
+import { ratelist, installmentFirstList } from '@/api/Installmentrate'
 import { adjustlist } from '@/api/AdjustPrice'
 import { getprovincelist, getcitylist, existList, vehicleInfo } from '@/api/public'
 import MyEmp from './components/MyEmp'
@@ -837,7 +837,7 @@ export default {
     const validisnumber = (rule, value, callback) => {
       console.log('value', value)
       if (value === null || value === undefined || value === '') {
-        callback()
+        callback(new Error('phone number is wrong'))
       }
       if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
@@ -865,7 +865,7 @@ export default {
     const validisnumber2 = (rule, value, callback) => {
       console.log('value', value)
       if (value === null || value === undefined || value === '') {
-        callback()
+        callback(new Error('phone number is wrong'))
       }
       if (value !== null && value !== undefined && value !== '' && (this.$store.getters.useCountry === 1 || this.$store.getters.useCountry === 2)) {
         var re = /^0?0[3|4|5|6|7|8|9][0-9]\d{8}$/
@@ -2048,7 +2048,20 @@ export default {
       }, 5000)
     },
     // 保存操作
-    handlesave() {
+    async handlesave() {
+      const parms3 = {
+        repositoryId: this.personalForm.saleRepositoryId,
+        typeId: this.productForm.typeId,
+        pageNum: 1,
+        pageSize: 10
+      }
+      const firstMoneyResult = await installmentFirstList(parms3)
+      console.log('firstMoneyResult', firstMoneyResult)
+      // eslint-disable-next-line prefer-const
+      let installmentFirstmoney = 0
+      if (firstMoneyResult.data.data.content.list.length !== 0) {
+        installmentFirstmoney = firstMoneyResult.data.data.content.list[0].lowerMoney
+      }
       if (Number(this.personalForm.firstMoney) === 0) {
         this.$notify.error({
           title: 'wrong',
@@ -2066,7 +2079,7 @@ export default {
         return false
       }
 
-      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < 200) {
+      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < installmentFirstmoney) {
         this.$notify.error({
           title: 'wrong',
           message: 'the down payment is wrong',
@@ -2147,6 +2160,15 @@ export default {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        if (Number(this.personalForm.firstMoney) < installmentFirstmoney) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment is wrong',
             offset: 100
           })
           return false

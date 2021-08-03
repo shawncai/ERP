@@ -214,7 +214,7 @@
             </el-editable-column>
             <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
               <template slot-scope="scope">
-                <p v-show="jundgeprice()">{{ (scope.row.includeTaxPrice).toFixed(6) }}</p>
+                <p v-show="jundgeprice()">{{ Number(scope.row.includeTaxPrice).toFixed(6) }}</p>
               </template>
               <!-- <template slot-scope="scope">
                 <el-input-number
@@ -640,7 +640,7 @@ export default {
         })
       }))
 
-      // console.log('moreSourceData', moreSourceData)
+      console.log('moreSourceData', moreSourceData)
       // eslint-disable-next-line prefer-const
       let newarr = []
       for (const i in moreSourceData) {
@@ -835,7 +835,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      // console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getcurrency() {

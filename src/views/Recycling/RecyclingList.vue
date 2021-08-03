@@ -303,7 +303,7 @@ export default {
     }, 100)
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
@@ -458,21 +458,22 @@ export default {
         if (res.data.ret === 200) {
           this.list = res.data.data.content.list
           this.total = res.data.data.content.totalCount
-          const list = res.data.data.content.list
-          const listdata = res.data.data.content.list.map(item => {
-            return item.recyclingDetailVos
-          })
-          const detaildata = [].concat.apply([], listdata)
-          for (const i in list) {
-            for (const j in detaildata) {
-              if (list[i].id === detaildata[j].recyclingId) {
-                list[i].productCode = detaildata[j].productCode
-                list[i].productTypeName = detaildata[j].productType
-                list[i].productCategoryName = detaildata[j].productCategory
-              }
-            }
-          }
+          // const list = res.data.data.content.list
+          // const listdata = res.data.data.content.list.map(item => {
+          //   return item.recyclingDetailVos
+          // })
+          // const detaildata = [].concat.apply([], listdata)
+          // for (const i in list) {
+          //   for (const j in detaildata) {
+          //     if (list[i].id === detaildata[j].recyclingId) {
+          //       list[i].productCode = detaildata[j].productCode
+          //       list[i].productTypeName = detaildata[j].productType
+          //       list[i].productCategoryName = detaildata[j].productCategory
+          //     }
+          //   }
+          // }
         }
+        this.listLoading = false
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 100)

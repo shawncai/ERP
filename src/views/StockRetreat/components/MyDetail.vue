@@ -151,7 +151,7 @@ export default {
       default: false
     },
     supp: {
-      type: Number,
+      type: [Number, String],
       default: null
     }
   },

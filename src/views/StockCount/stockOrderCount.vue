@@ -248,16 +248,16 @@ export default {
       if (this.getemplist.type === '1') {
         const param = {}
         param.supplierId = row.id
-        param.beginTime = this.date[0]
-        param.endTime = this.date[1]
+        param.beginTime = this.date ? this.date[0] : ''
+        param.endTime = this.date ? this.date[1] : ''
         this.$store.dispatch('getempcontract', param)
         this.$router.push('/StockOrder/StockOrderList')
       }
       if (this.getemplist.type === '2') {
         const param = {}
         param.stockPersonId = row.id
-        param.beginTime = this.date[0]
-        param.endTime = this.date[1]
+        param.beginTime = this.date ? this.date[0] : ''
+        param.endTime = this.date ? this.date[1] : ''
         this.$store.dispatch('getempcontract', param)
         this.$router.push('/StockOrder/StockOrderList')
       }

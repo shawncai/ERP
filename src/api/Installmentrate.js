@@ -204,7 +204,7 @@ export function addInstallmentFirst(query) {
 export function updateInstallmentFirst(query) {
   var params = new URLSearchParams()
   if (query.id) {
-    params.append('firstId', query.id) // 你要传给后台的参数值 key/value
+    params.append('id', query.id) // 你要传给后台的参数值 key/value
   }
   if (query.repositoryIds) {
     params.append('repositoryIds', query.repositoryIds) // 你要传给后台的参数值 key/value
@@ -238,11 +238,27 @@ export function installmentFirstList(query) {
   if (query.repositoryId) {
     params.append('repositoryId', query.repositoryId) // 你要传给后台的参数值 key/value
   }
+  if (query.typeId) {
+    params.append('typeId', query.typeId) // 你要传给后台的参数值 key/value
+  }
   params.append('pageNum', query.pageNum) // 你要传给后台的参数值 key/value
   params.append('pageSize', query.pageSize) // 你要传给后台的参数值 key/value
 
   return request({
     url: '/installmentrate/installmentFirstList',
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除分期首付设置
+export function deleteInstallmentFirst(query) {
+  var params = new URLSearchParams()
+  if (query !== '' && query !== null) {
+    params.append('firstId', query) // 你要传给后台的参数值 key/value
+  }
+  return request({
+    url: '/installmentrate/deleteInstallmentFirst',
     method: 'post',
     data: params
   })

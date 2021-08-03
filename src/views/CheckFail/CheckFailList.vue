@@ -143,6 +143,7 @@
             <el-button v-permission2="['227-233-3', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.xg')" type="primary" size="mini" icon="el-icon-edit" circle @click="handleEdit(scope.row)"/>
             <el-button v-permission2="['227-233-2', scope.row.createPersonId]" v-if="scope.row.judgeStat === 0" :title="$t('updates.sc')" size="mini" type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"/>
             <el-button v-permission="['227-233-76']" v-show="isReview4(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fsp')" type="warning" size="mini" circle @click="handleReview4(scope.row)"><svg-icon icon-class="fanhui"/></el-button>
+            <el-button v-permission="['227-233-17']" v-show="isReview3(scope.row)&&(scope.row.receiptStat === 1||scope.row.receiptStat === 2||scope.row.receiptStat === 3)" :title="$t('updates.fjd')" type="success" size="mini" icon="el-icon-back" circle @click="handleReview3(scope.row)"/>
 
           </template>
         </el-table-column>
@@ -294,6 +295,36 @@ export default {
     _that = this
   },
   methods: {
+    // 判断反结单按钮
+    isReview3(row) {
+      // console.log(row)
+      if (row.receiptStat === 3) {
+        return true
+      }
+    },
+    // 反结单操作
+    handleReview3(row) {
+      this.reviewParms = {}
+      this.reviewParms.id = row.id
+      this.reviewParms.endPersonId = this.$store.getters.userId
+      this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
+        distinguishCancelAndClose: true,
+        confirmButtonText: this.$t('prompt.fjd'),
+        type: 'warning'
+      }).then(() => {
+        this.reviewParms.receiptStat = 2
+        const parms = JSON.stringify(this.reviewParms)
+        updatecheckfail2(parms).then(res => {
+          if (res.data.ret === 200) {
+            this.$message({
+              type: 'success',
+              message: this.$t('prompt.fjdcg')
+            })
+            this.getlist()
+          }
+        })
+      })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

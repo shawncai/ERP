@@ -636,7 +636,7 @@
 import { updateapply } from '@/api/InstallmentApply'
 import { getprovincelist, getcitylist, existList, vehicleInfo } from '@/api/public'
 import { adjustlist } from '@/api/AdjustPrice'
-import { ratelist } from '@/api/Installmentrate'
+import { ratelist, installmentFirstList } from '@/api/Installmentrate'
 import MyEmp from './MyEmp'
 import MyDetail from './MyDetail'
 import MyMater from './MyMater'
@@ -1632,7 +1632,20 @@ export default {
     },
     // 修改和取消按钮
     // 修改按钮
-    handleEditok() {
+    async handleEditok() {
+      const parms3 = {
+        repositoryId: this.personalForm.saleRepositoryId,
+        typeId: this.productForm.typeId,
+        pageNum: 1,
+        pageSize: 10
+      }
+      const firstMoneyResult = await installmentFirstList(parms3)
+      console.log('firstMoneyResult', firstMoneyResult)
+      // eslint-disable-next-line prefer-const
+      let installmentFirstmoney = 0
+      if (firstMoneyResult.data.data.content.list.length !== 0) {
+        installmentFirstmoney = firstMoneyResult.data.data.content.list[0].lowerMoney
+      }
       this.personalForm.modifyPersonId = this.$store.getters.userId
       if (Number(this.personalForm.firstMoney) === 0) {
         this.$notify.error({
@@ -1643,7 +1656,7 @@ export default {
         return false
       }
 
-      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < 200) {
+      if ((this.$store.getters.useCountry === '5' || this.$store.getters.useCountry === 5) && Number(this.personalForm.firstMoney) < installmentFirstmoney) {
         this.$notify.error({
           title: 'wrong',
           message: 'the down payment is wrong',
@@ -1724,6 +1737,15 @@ export default {
           this.$notify.error({
             title: 'wrong',
             message: 'the new car firstMoney is wrong',
+            offset: 100
+          })
+          return false
+        }
+
+        if (Number(this.personalForm.firstMoney) < installmentFirstmoney) {
+          this.$notify.error({
+            title: 'wrong',
+            message: 'the down payment is wrong',
             offset: 100
           })
           return false

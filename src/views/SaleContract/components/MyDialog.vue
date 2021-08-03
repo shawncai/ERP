@@ -819,7 +819,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handleExceed(files, fileList) {

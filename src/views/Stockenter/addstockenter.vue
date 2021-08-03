@@ -17,8 +17,8 @@
                   <el-select v-model="personalForm.sourceType" style="width: 200px">
 
                     <el-option :label="$t('updates.cgdhd')" value="1" />
-                    <el-option :label="$t('updates.cgdd')" value="2" />
-                    <el-option :label="$t('Hmodule.Nosource')" value="3" />
+                    <!-- <el-option :label="$t('updates.cgdd')" value="2" /> -->
+                    <!-- <el-option :label="$t('Hmodule.Nosource')" value="3" /> -->
                   </el-select>
                 </el-form-item>
               </el-col>

@@ -520,6 +520,7 @@ export default {
       delete this.personalForm.judgeStat
       delete this.personalForm.receiptStat
       delete this.personalForm.stockApplyDetailVos
+      delete this.personalForm.approvalUseVos
       this.personalForm.repositoryId = this.$store.getters.repositoryId
       this.personalForm.regionId = this.$store.getters.regionId
       this.personalForm.createPersonId = this.$store.getters.userId

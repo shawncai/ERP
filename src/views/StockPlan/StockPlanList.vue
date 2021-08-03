@@ -99,6 +99,17 @@
             <span>{{ scope.row.planPersonName }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('collectAndPayDetail.cgck')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.planRepositoryName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('update4.createDate')" :resizable="false" align="center" min-width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.createDate }}</span>
+          </template>
+        </el-table-column>
         <!-- <el-table-column :label="$t('StockPlan.allMoney')" :resizable="false" align="center" min-width="150">
           <template slot-scope="scope">
             <span>{{ scope.row.allMoney }}</span>
@@ -295,7 +306,7 @@ export default {
     }, 100)
   },
   mounted() {
-    this.getlist()
+    // this.getlist()
     this.getdatatime()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
@@ -359,7 +370,7 @@ export default {
     // 反结单操作
     handleReview4(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentid
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfsp'), this.$t('prompt.fsp'), {
         distinguishCancelAndClose: true,
@@ -402,7 +413,7 @@ export default {
     // 反结单操作
     handleReview3(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentid
+      this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qfjd'), this.$t('prompt.fjd'), {
         distinguishCancelAndClose: true,
@@ -438,7 +449,7 @@ export default {
     // 结单操作
     handleReview2(row) {
       this.reviewParms = {}
-      this.reviewParms.id = row.parentid
+      this.reviewParms.id = row.id
       this.reviewParms.endPersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qjd'), this.$t('prompt.jd'), {
         distinguishCancelAndClose: true,
@@ -744,7 +755,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       this.reviewParms = {}
-      this.reviewParms.id = row.parentid
+      this.reviewParms.id = row.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -932,7 +943,7 @@ export default {
     // 多条删除
     // 批量删除
     handleCommand(command) {
-      const ids = this.moreaction.map(item => item.parentid).join()
+      const ids = this.moreaction.map(item => item.id).join()
       if (command === 'delete') {
         this.$confirm(this.$t('prompt.scts'), this.$t('prompt.ts'), {
           confirmButtonText: this.$t('prompt.qd'),
@@ -970,7 +981,7 @@ export default {
         cancelButtonText: this.$t('prompt.qx'),
         type: 'warning'
       }).then(() => {
-        deletestockplan(row.parentid, this.$store.getters.userId).then(res => {
+        deletestockplan(row.id, this.$store.getters.userId).then(res => {
           if (res.data.ret === 200 || res.data.ret === 100) {
             this.$notify({
               title: this.$t('prompt.sccg'),

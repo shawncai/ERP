@@ -17,6 +17,7 @@
 
       <!-- 搜索按钮 -->
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top:10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
 
@@ -26,19 +27,27 @@
         ref="table"
         :height="tableHeight"
         :data="list"
+
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
+
         border
         style="width: 100%"
         @row-click="clickRow">
+        <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+
         <el-table-column
           :label="$t('inventoryCollect.productCode')"
           prop="productCode"
           width="200"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.productName')"
           prop="productName"
           width="200"
+          fixed
           align="center"/>
         <!-- <el-table-column
           :label="$t('inventoryCollect.productType')"
@@ -49,6 +58,7 @@
           :label="$t('inventoryCollect.repositoryName')"
           prop="repositoryName"
           width="200"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('inventoryCollect.unit')"
@@ -380,6 +390,74 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[1] = ''
+      return sums
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      console.log('this.list', this.list)
+      const params = {
+        date: this.getemplist.date,
+        repositoryId: this.getemplist.repositoryId,
+        code: this.getemplist.code,
+        pageNum: 1,
+        pageSize: 10000000
+      }
+      inventorychangelist(this.getemplist).then(res => {
+        if (res.data.ret === 200) {
+          this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编码', '物品名称', '仓库', '单位', '期初结存数量', '期初结存金额', '销售出库数量', '销售出库金额', '本期采购退货数量', '本期采购退货金额', '本期销售退货数量', '本期销售退货金额', '采购入库数量', '采购入库金额', '其他入库数量', '其他入库金额', '生产完工入库数量', '生产完工入库金额', '调拨入库数量', '调拨入库金额', '调拨出库数量', '调拨出库金额', '盘盈数量', '盘盈金额', '盘亏数量', '盘亏金额', '本期入库数量', '本期入库金额', '本期出库数量', '本期出库金额', '期末结存数量', '期末结存金额']
+          const filterVal = ['productCode', 'productName', 'repositoryName', 'unit', 'begin', 'beginMoney', 'saleOut', 'saleOutMoney', 'stockReturn', 'stockReturnMoney', 'saleReturn', 'saleReturnMoney', 'stockEnter', 'stockEnterMoney', 'otherEnter', 'otherEnterMoney', 'produceEnter', 'produceEnterMoney', 'moveIn', 'moveInMoney', 'moveOut', 'moveOutMoney', 'countFlow', 'countFlowMoney', 'countLess', 'countLessMoney', 'allEnter', 'allEnterMoney', 'allOut', 'allOutMoney', 'end', 'endMoney']
+          const data = this.formatJson(filterVal, res.data.data.content)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '库存月报表'
+          })
+          this.downloadLoading = false
+        })
+        }
+      })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

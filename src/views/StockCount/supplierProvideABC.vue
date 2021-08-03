@@ -43,7 +43,10 @@
         ref="table"
         :height="tableHeight"
         :data="list"
+
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
         border
         style="width: 100%"
         @row-click="clickRow">
@@ -234,6 +237,41 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
         return v[j]

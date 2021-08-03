@@ -484,7 +484,6 @@ export default {
         const hasPermission = roles.some(role => {
           return permissionRoles.includes(role)
         })
-        console.log('hasPermission=======', hasPermission)
         return hasPermission
       },
       // 转换时间格式
@@ -749,7 +748,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

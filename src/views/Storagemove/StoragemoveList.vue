@@ -341,21 +341,30 @@ export default {
     }
   },
   activated() {
-    this.getlist()
-    setTimeout(() => {
-      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
-    }, 100)
-  },
-  mounted() {
     this.getdeptlist()
-    this.getlist()
     this.getallrepositorys()
     this.getallregionlist()
     this.getChildRegion()
+    if (this.$store.getters.empcontract.receiptNumber) {
+      this.getemplist.moveNumber = this.$store.getters.empcontract.receiptNumber
+    }
+    this.getlist()
     setTimeout(() => {
       this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
     }, 100)
   },
+  deactivated() {
+    this.getemplist.moveNumber = ''
+
+    this.$store.dispatch('getempcontract', '')
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 140
+    }, 100)
+  },
+
   beforeCreate() {
     _that = this
   },

@@ -108,6 +108,7 @@
             <el-editable-column :label="$t('Hmodule.gg')" prop="typeName" align="center" />
             <el-editable-column :label="$t('updates.ys')" prop="color" align="center"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" />
+            <el-editable-column :label="$t('Hmodule.pc')" prop="batch" align="center" />
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" />
             <el-editable-column :label="$t('updates.thsl')" prop="retreatQuantity" align="center" />
             <el-editable-column :label="$t('updates.thyy')" prop="retreatReason" align="center" />
@@ -431,7 +432,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 计算税额
@@ -492,7 +492,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

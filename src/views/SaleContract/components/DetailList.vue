@@ -501,6 +501,7 @@ export default {
       if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
         const approvalUse = this.personalForm.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
+        console.log('123=====> ', this.personalForm.InvestigationResult, this.personalForm.isSecondApply, index)
         if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
           if (this.personalForm.InvestigationResult === 1 && this.personalForm.isSecondApply === 1) {
             return true
@@ -515,9 +516,9 @@ export default {
       }
     },
     // 审批操作
-    handleReview(row) {
+    handleReview() {
       this.reviewParms = {}
-      this.reviewParms.id = row.id
+      this.reviewParms.id = this.personalForm.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -583,7 +584,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     handleprint() {

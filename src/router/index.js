@@ -3225,16 +3225,16 @@ export const asyncRouterMap = [
         meta: { title: 'inventoryCollect', noCache: false, roles: ['311-312-318-4'] }
       },
       {
-        path: 'moveDetailList',
+        path: 'MoveDetailList',
         component: () => import('@/views/inventorycount2/moveDetailList'),
-        name: 'moveDetailList',
-        meta: { title: 'moveDetailList', noCache: false, roles: ['311-312-319-4'] }
+        name: 'MoveDetailList',
+        meta: { title: 'MoveDetailList', noCache: false, roles: ['311-312-319-4'] }
       },
       {
-        path: 'moveCount',
+        path: 'MoveCount',
         component: () => import('@/views/inventorycount2/moveCount'),
-        name: 'moveCount',
-        meta: { title: 'moveCount', noCache: false, roles: ['311-312-405-4'] }
+        name: 'MoveCount',
+        meta: { title: 'MoveCount', noCache: false, roles: ['311-312-405-4'] }
       },
       {
         path: 'inventoryFluid',
@@ -3243,10 +3243,10 @@ export const asyncRouterMap = [
         meta: { title: 'inventoryFluid', noCache: false, roles: ['311-312-320-4'] }
       },
       {
-        path: 'productSendAndReceive',
+        path: 'ProductSendAndReceive',
         component: () => import('@/views/inventorycount2/productSendAndReceive'),
-        name: 'productSendAndReceive',
-        meta: { title: 'productSendAndReceive', noCache: false, roles: ['311-312-321-4'] }
+        name: 'ProductSendAndReceive',
+        meta: { title: 'ProductSendAndReceive', noCache: false, roles: ['311-312-321-4'] }
       },
       // {
       //   path: 'wuxiinventorychangelist',
@@ -3291,16 +3291,16 @@ export const asyncRouterMap = [
         meta: { title: 'productSendAndReceiveDetail', noCache: false, roles: ['311-312-400-4'] }
       },
       {
-        path: 'outSourceDetail',
+        path: 'OutSourceDetail',
         component: () => import('@/views/inventorycount2/outSourceDetail'),
-        name: 'outSourceDetail',
-        meta: { title: 'outSourceDetail', noCache: false, roles: ['311-312-402-4'] }
+        name: 'OutSourceDetail',
+        meta: { title: 'OutSourceDetail', noCache: false, roles: ['311-312-402-4'] }
       },
       {
-        path: 'outSourceCount',
+        path: 'OutSourceCount',
         component: () => import('@/views/inventorycount2/outSourceCount'),
-        name: 'outSourceCount',
-        meta: { title: 'outSourceCount', noCache: false, roles: ['311-312-403-4'] }
+        name: 'OutSourceCount',
+        meta: { title: 'OutSourceCount', noCache: false, roles: ['311-312-403-4'] }
       }
     ]
   },

@@ -473,13 +473,13 @@ export default {
     // 详情操作
     handleDetail(row) {
       console.log(row)
-      const query_params = {
-        id: row.supplierId,
-        name: row.supplierName,
-        beginTime: this.date[0] || '',
-        endTime: this.date[1] || ''
-      }
-      this.$router.push({ path: '/StockOrder/StockOrderList', query: { arry: query_params }})
+
+      const param = {}
+      param.supplierId = row.supplierId
+      param.beginTime = this.date ? this.date[0] : ''
+      param.endTime = this.date ? this.date[1] : ''
+      this.$store.dispatch('getempcontract', param)
+      this.$router.push('/StockOrder/StockOrderList')
     },
     // 判断审核按钮
     isReview(row) {

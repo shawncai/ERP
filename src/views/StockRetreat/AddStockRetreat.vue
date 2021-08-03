@@ -196,6 +196,17 @@
             <el-editable-column :label="$t('updates.ys')" fixed="left" prop="color" align="center" min-width="150px"/>
             <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.dhsl')" prop="arrivalQuantity" align="center" min-width="150px"/>
+            <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('Hmodule.pc')" prop="batch" align="center" min-width="200">
+              <template slot="edit" slot-scope="scope">
+                <el-select v-model="scope.row.batch" :value="scope.row.batch" :placeholder="$t('Hmodule.xcpc')" filterable style="margin-left: 18px;width: 100%;margin-bottom: 0; padding: 0 20px" @visible-change="updatebatch2($event,scope)">
+                  <el-option
+                    v-for="(item, index) in batchlist"
+                    :key="index"
+                    :value="item"
+                    :label="item"/>
+                </el-select>
+              </template>
+            </el-editable-column>
             <el-editable-column :edit-render="{name: 'ElInputNumber', attrs: {min: 0}, type: 'visible', events: {change: jungleNumbers}}" :label="$t('updates.thsl')" prop="retreatQuantity" align="center" min-width="150px"/>
             <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.thyy')" prop="retreatReason" align="center" min-width="170px"/>
             <el-editable-column :label="$t('Hmodule.dj')" prop="price" align="center" min-width="170px">
@@ -320,7 +331,7 @@
 <script>
 import '@/directive/noMoreClick/index.js'
 import { querytax } from '@/api/StockOrder'
-import { countlist, getRate } from '@/api/public'
+import { countlist, getRate, batchlist } from '@/api/public'
 import { createstockArrival } from '@/api/StockRetreat'
 import { getdeptlist } from '@/api/BasicSettings'
 import { searchStockCategory } from '@/api/StockCategory'
@@ -337,6 +348,7 @@ import MyArrival from './components/MyArrival'
 import MyRepository from './components/MyRepository'
 import MyRetreat from './components/MyRetreat'
 import MyEnter from './components/MyEnter'
+
 var _that
 export default {
   name: 'AddStockRetreat',
@@ -366,6 +378,14 @@ export default {
         callback()
       }
     }
+    const validatePass5 = (rule, value, callback) => {
+      console.log(this.supplierId)
+      if (this.personalForm.retreatRepositoryId === undefined || this.personalForm.retreatRepositoryId === null || this.personalForm.retreatRepositoryId === '') {
+        callback(new Error('请选择退货门店'))
+      } else {
+        callback()
+      }
+    }
     const validatePass3 = (rule, value, callback) => {
       if (this.personalForm.sourceNumber === undefined || this.personalForm.sourceNumber === null || this.personalForm.sourceNumber === '') {
         callback(new Error('请选择源单编号'))
@@ -384,7 +404,7 @@ export default {
       // 收货人回显
       retreatPerson: '',
       // 回显仓库
-      retreatRepositoryId: this.$store.getters.repositoryName,
+      retreatRepositoryId: '',
       // 控制仓库
       repositorycontrol: false,
       // 合计数据
@@ -449,7 +469,7 @@ export default {
         isVat: 1,
         sourceType: '1',
         retreatDate: null,
-        retreatRepositoryId: this.$store.getters.repositoryId,
+        retreatRepositoryId: '',
         currencyId: '3',
         exchangeRate: '1.0000'
       },
@@ -477,7 +497,7 @@ export default {
           { required: true, message: '请选择采购类别', trigger: 'change' }
         ],
         retreatRepositoryId: [
-          { required: true, validator: validatePass, trigger: 'focus' }
+          { required: true, validator: validatePass5, trigger: 'focus' }
         ]
       },
       // 采购申请单明细数据
@@ -488,7 +508,8 @@ export default {
       receiptVisible2: false,
       list111: [],
       // 批量操作
-      moreaction: []
+      moreaction: [],
+      batchlist: []
     }
   },
   watch: {
@@ -531,6 +552,16 @@ export default {
     _that = this
   },
   methods: {
+    updatebatch2(event, scope) {
+      if (event === true) {
+        const parms3 = scope.row.productCode
+        batchlist(this.personalForm.retreatRepositoryId, parms3).then(res => {
+          if (res.data.ret === 200) {
+            this.batchlist = res.data.data.content
+          }
+        })
+      }
+    },
     jundgeprice() {
       const value = ['1-22-24-115']
       const roles = this.$store.getters && this.$store.getters.roles
@@ -538,7 +569,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     enter(val) {

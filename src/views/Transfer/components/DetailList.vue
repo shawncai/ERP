@@ -175,7 +175,7 @@
           </el-form>
         </div>
         <div>
-          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalFormreceiptStat === 2||personalForm.receiptStat === 3)" :key="personalForm.id + Math.random()" type="warning" size="mini" @click="handleReview()">
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :key="personalForm.id + Math.random()" type="warning" size="mini" @click="handleReview()">
             {{ $t('updates.spi') }}
           </el-button>
 
@@ -292,12 +292,16 @@ export default {
       if (this.personalForm.approvalUseVos && this.personalForm.approvalUseVos.length !== 0) {
         const approvalUse = this.personalForm.approvalUseVos
         const index = approvalUse[approvalUse.length - 1].stepHandler.indexOf(',' + this.$store.getters.userId + ',')
-        // console.log(approvalUse[approvalUse.length - 1].stepHandler)
-        // console.log(index)
+        console.log(approvalUse[approvalUse.length - 1].stepHandler)
+        console.log(index)
+        console.log(this.$store.getters.roles.includes('266-94-202'))
+
+        console.log(this.personalForm.direction)
+
         if (index > -1 && (this.personalForm.judgeStat === 1 || this.personalForm.judgeStat === 0)) {
-          if (this.personalForm.direction === 1 && this.$store.getters.roles.includes('266-94-202')) {
+          if (this.personalForm.direction === '1' && this.$store.getters.roles.includes('266-94-202')) {
             return true
-          } else if (this.personalForm.direction === 2) {
+          } else if (this.personalForm.direction === '2') {
             return true
           } else {
             return false

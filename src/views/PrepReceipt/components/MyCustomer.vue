@@ -217,7 +217,8 @@ export default {
         type: '',
         pagenum: 1,
         pagesize: 10,
-        repositoryid: '',
+        repositoryid: this.$store.getters.repositoryId,
+        regionIds: this.$store.getters.regionIds,
         source: ''
       },
       // 部门列表

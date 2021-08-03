@@ -13,9 +13,9 @@ export default {
     NewOutSouringAdjust: '新建外包工厂调价单',
     ReviewPackage: '审核套餐包',
     NewReviewPackage: '新建审核套餐包',
-    moveCount: '调拨汇总表',
-    outSourceCount: '委外出入库汇总',
-    outSourceDetail: '委外出入库明细',
+    MoveCount: '调拨汇总表',
+    OutSourceCount: '委外出入库汇总',
+    OutSourceDetail: '委外出入库明细',
     accessCount: '领料汇总',
     batchTrack: '物料批次跟踪报表',
     productSendAndReceiveDetail: '物料收发明细',
@@ -392,9 +392,9 @@ export default {
     stockOrderExecute: '采购订单执行情况表',
     inventorycount: '库存统计',
     inventoryCollect: '商品库存汇总表',
-    moveDetailList: '调拨明细报表',
+    MoveDetailList: '调拨明细报表',
     inventoryFluid: '商品库存流水表',
-    productSendAndReceive: '物料收发汇总',
+    ProductSendAndReceive: '物料收发汇总',
     inventorychangelist: '库存月报表',
     inventorydetaillist: '商品库存明细表',
     SaleReport: '销售统计',
@@ -4680,6 +4680,7 @@ export default {
     shenghcang: '生产类型',
     feishengchanleixing: '非生产类型',
     weishuijine: '未税金额',
-    caigoufapiaodanjubianhao: '采购发票单据编号'
+    caigoufapiaodanjubianhao: '采购发票单据编号',
+    zuidishoufu: '最低首付'
   }
 }

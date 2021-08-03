@@ -38,6 +38,7 @@
       </el-select> -->
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
 
@@ -47,24 +48,31 @@
         ref="table"
         :height="tableHeight"
         :data="list"
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
         border
         style="width: 100%"
         @row-click="clickRow">
+        <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+
         <el-table-column
           :label="$t('update4.yearAndMonth')"
           prop="yearAndMonth"
           width="200"
-          align="center"/>
+          align="center"
+          fixed/>
         <el-table-column
           :label="$t('update4.productCode')"
           prop="productCode"
           width="200"
+          fixed
           align="center"/>
         <el-table-column
           :label="$t('update4.productName')"
           prop="productName"
           width="200"
+          fixed
           align="center"/>
         <el-table-column :label="$t('update4.receiptType')" :resizable="false" prop="receiptType" align="center" min-width="100">
           <template slot-scope="scope">
@@ -284,6 +292,89 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      sums[2] = ''
+      sums[4] = ''
+      sums[5] = ''
+      sums[6] = ''
+      return sums
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      const exportarr = this.list
+      const statusMap = {
+        1: '销售出库单',
+        2: '销售退货单',
+        3: '采购入库单',
+        4: '生产入库单',
+        5: '其他入库单',
+        6: '其他出库单',
+        7: '调拨单',
+        8: '报损单',
+        9: '组装单',
+        10: '拆装单',
+        11: '日常调整单',
+        12: '收车单',
+        13: '领料单',
+        14: '退料单',
+        15: '二手回收单',
+        16: '委外出库单',
+        17: '委外入库单'
+      }
+      for (const i in exportarr) {
+        exportarr[i].receiptTypeName = statusMap[exportarr[i].receiptType]
+      }
+      this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['会计期间', '物品编码', '物品名称', '单据类型', '单据日期', '单据编号', '单位', '期初数量', '收到数量', '发出数量', '结余']
+          const filterVal = ['yearAndMonth', 'productCode', 'productName', 'receiptTypeName', 'receiptDate', 'receiptNumber', 'unit', 'beginQuantity', 'receiveQuantity', 'sendQuantity', 'endQuantity']
+          const data = this.formatJson(filterVal, exportarr)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '物料收发明细'
+          })
+          this.downloadLoading = false
+        })
+    },
+
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

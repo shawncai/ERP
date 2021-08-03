@@ -236,7 +236,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('updates.hsj')" prop="includeTaxPrice" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ (scope.row.includeTaxPrice).toFixed(6) }}</p>
+              <p v-show="jundgeprice()">{{ Number(scope.row.includeTaxPrice).toFixed(6) }}</p>
             </template>
             <!-- <template slot-scope="scope">
                 <el-input-number
@@ -248,7 +248,7 @@
           </el-editable-column>
           <el-editable-column :label="$t('updates.sl')" prop="taxRate" align="center" min-width="170px">
             <template slot-scope="scope">
-              <p v-show="jundgeprice()">{{ (scope.row.taxRate).toFixed(2) }}</p>
+              <p v-show="jundgeprice()">{{ Number(scope.row.taxRate).toFixed(2) }}</p>
             </template>
             <!-- <template slot-scope="scope">
                 <el-input-number
@@ -1394,7 +1394,7 @@ export default {
               delete elem.includeTaxPrice
             }
             if (elem.includeTaxPrice !== null || elem.includeTaxPrice !== '' || elem.includeTaxPrice !== undefined) {
-              elem.includeTaxPrice = (elem.includeTaxPrice).toFixed(6)
+              elem.includeTaxPrice = Number(elem.includeTaxPrice).toFixed(6)
             }
             if (elem.taxRate === null || elem.taxRate === '' || elem.taxRate === undefined) {
               delete elem.taxRate

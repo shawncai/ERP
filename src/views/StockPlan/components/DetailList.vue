@@ -199,8 +199,9 @@
           </el-form>
         </div>
         <div>
-          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview()"/>
-
+          <el-button v-show="isReview()&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" type="warning" size="mini" @click="handleReview()">
+            {{ $t('updates.spi') }}
+          </el-button>
         </div>
       </el-card>
     </div>
@@ -289,6 +290,7 @@ export default {
         }
       }
       this.somedate = this.personalForm.planDate
+      console.log('this.personalForm', this.detaildata)
     }
   },
   beforeCreate() {
@@ -308,7 +310,6 @@ export default {
     },
     // 审批操作123
     handleReview() {
-      var _that = this
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -316,7 +317,8 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       this.reviewParms = {}
-      this.reviewParms.id = this.personalForm.parentid
+      console.log('this.personalForm ======> ', _that.personalForm)
+      this.reviewParms.id = this.personalForm.id
       this.reviewParms.judgePersonId = this.$store.getters.userId
       this.$confirm(this.$t('prompt.qsh'), this.$t('prompt.sh'), {
         distinguishCancelAndClose: true,
@@ -325,6 +327,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.reviewParms.judgeStat = 2
+        console.log('reviewParms', this.reviewParms)
         const parms = JSON.stringify(this.reviewParms)
         // console.log('row', row)
 
@@ -548,7 +551,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

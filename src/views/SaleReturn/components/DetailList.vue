@@ -274,7 +274,7 @@
           </el-form>
         </div>
         <div>
-          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :loading="sploading" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview(scope.row)">
+          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :loading="sploading" type="warning" size="mini" @click="handleReview()">
             {{ $t('updates.spi') }}
           </el-button>
 

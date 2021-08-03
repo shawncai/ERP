@@ -16,6 +16,7 @@
       <el-input v-model="getemplist.code" :placeholder="$t('updates.wpbm')" size="small" class="filter-item" clearable @keyup.enter.native="handleFilter"/>
 
       <el-button v-waves class="filter-item" size="small" type="primary" icon="el-icon-search" style="width: 86px;margin-top: 10px" round @click="handleFilter">{{ $t('public.search') }}</el-button>
+      <el-button v-waves :loading="downloadLoading" size="small" class="filter-item2" style="width: 86px" @click="handleExport"> <svg-icon icon-class="daochu"/>{{ $t('public.export') }}</el-button>
 
     </el-card>
 
@@ -25,21 +26,27 @@
         ref="table"
         :height="tableHeight"
         :data="list"
+        :summary-method="getSummaries2"
         size="small"
+        show-summary
 
         border
         style="width: 100%"
         @row-click="clickRow">
+        <el-table-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+
         <el-table-column
           :label="$t('inventoryCollect.productCode')"
           prop="productCode"
           width="200"
-          align="center"/>
+          align="center"
+          fixed/>
         <el-table-column
           :label="$t('inventoryCollect.productName')"
           prop="productName"
           width="200"
-          align="center"/>
+          align="center"
+          fixed/>
         <!-- <el-table-column
           :label="$t('inventoryCollect.productType')"
           prop="productType"
@@ -49,6 +56,7 @@
           :label="$t('inventoryCollect.repositoryName')"
           prop="repositoryName"
           width="200"
+          fixed
           align="center"/>
         <el-table-column :label="$t('productSendAndReceive.begin')" align="center">
           <el-table-column
@@ -274,6 +282,72 @@ export default {
     _that = this
   },
   methods: {
+    numFormat(num) {
+      var res = num.toString().replace(/\d+/, function(n) { // 先提取整数部分
+        return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+          return $1 + ','
+        })
+      })
+      return res
+    },
+    // 总计
+    getSummaries2(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = this.numFormat(values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (Number(prev) + Number(curr)).toFixed(2)
+            } else {
+              return (Number(prev)).toFixed(2)
+            }
+          }, 0))
+          // console.log('sums[index]', sums[index])
+          sums[index] += ''
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+    // 导出
+    handleExport() {
+      const parms = {
+        date: this.getemplist.date,
+        repositoryId: this.getemplist.repositoryId,
+        code: this.getemplist.code,
+        pageNum: 1,
+        pageSize: 10000000
+      }
+      productSendAndReceive(parms).then(res => {
+        if (res.data.ret === 200) {
+          this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['物品编码', '物品名称', '仓库', '期初结存单位', '期初结存数量', '期初结存金额', '本期收入单位', '本期收入数量', '本期收入金额', '本期发出单位', '本期发出数量', '本期发出金额', '期末结存单位', '期末结存数量', '期末结存金额']
+          const filterVal = ['productCode', 'productName', 'repositoryName', 'unit', 'beginQuantity', 'beginMoney', 'unit', 'enterQuantity', 'enterMoney', 'unit', 'outQuantity', 'outMoney', 'unit', 'endQuantity', 'endMoney']
+          const data = this.formatJson(filterVal, res.data.data.content)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '物料收发汇总'
+          })
+          this.downloadLoading = false
+        })
+        }
+      })
+    },
     clickRow(val) {
       if (val.judgeStat === 0) {
         this.$refs.table.toggleRowSelection(val)

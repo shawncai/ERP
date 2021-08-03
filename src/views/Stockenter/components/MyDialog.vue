@@ -14,7 +14,7 @@
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.sourceType')" prop="sourceType" style="width: 100%;">
                 <el-select v-model="personalForm.sourceType" placeholder="请选择源单类型" style="margin-left: 18px;width: 200px">
-                  <el-option :label="$t('updates.cgdhd')" value="1" />
+                  <!-- <el-option :label="$t('updates.cgdhd')" value="1" /> -->
                   <el-option :label="$t('updates.cgdd')" value="2" />
                 </el-select>
               </el-form-item>
@@ -23,7 +23,8 @@
               <el-form-item :label="$t('updates.ydbh')" style="width: 100%;">
                 <el-input v-model="personalForm.sourceNumber" placeholder="请选择源单编号" style="margin-left: 18px;width: 150px" @focus="handleAddSouce"/>
               </el-form-item>
-              <my-arrival :arrivalcontrol.sync="arrivalcontrol" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+              <my-arrival :arrivalcontrol.sync="arrivalcontrol" :repositoryid="personalForm" @arrival="arrival" @allarrivalinfo="allarrivalinfo"/>
+              <my-order :ordercontrol.sync="ordercontrol" :supp.sync="supp" @order="order" @allOrderinfo="allOrderinfo"/>
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('Stockenter.supplierId')" style="width: 100%">
@@ -116,13 +117,9 @@
           style="width: 100%">
           <el-editable-column type="selection" fixed width="55" align="center"/>
           <el-editable-column type="index" fixed align="center" label="编号" width="150px" />
-          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px">
-            <template slot-scope="scope">
-              <p>{{ getmylocation(scope) }}</p>
-            </template>
-          </el-editable-column>
+          <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" fixed align="center" width="150px" />
           <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" fixed align="center" width="150px"/>
-          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px">
+          <el-editable-column :edit-render="{name: 'ElSelect', type: 'default'}" :label="$t('Hmodule.hw')" prop="locationId" align="center" width="200px" >
             <template slot-scope="scope">
               <el-select v-model="scope.row.locationId" :value="scope.row.locationId" :placeholder="$t('Hmodule.xzhw')" filterable style="width: 100%;" @visible-change="updatebatch($event,scope)">
                 <el-option
@@ -186,7 +183,7 @@
           </el-editable-column>
           <el-editable-column :edit-render="{name: 'ElInput', type: 'visible'}" :label="$t('updates.dcbm')" prop="batteryCode" align="center" min-width="150" >
             <template slot="edit" slot-scope="scope">
-              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable @blur="getInfo2(scope.row)"/>
+              <el-input v-if="isEdit4(scope.row)" v-model="scope.row.batteryCode" clearable />
               <span v-else>{{ scope.row.batteryCode }}</span>
             </template>
           </el-editable-column>
@@ -231,6 +228,8 @@ export default {
   },
   data() {
     return {
+      // 供应商id
+      supp: null,
       ordercontrol: false,
       // 入库员控制框
       entercontrol: false,
@@ -321,6 +320,7 @@ export default {
         }
       }
       this.supplierId = this.personalForm.supplierName
+      this.supp = this.personalForm.supplierId
       this.enterDate = this.personalForm.enterDate
       this.enterPersonId = this.personalForm.enterPersonName
       this.stockPersonId = this.personalForm.stockPersonName
@@ -346,14 +346,12 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     // 计算金额
     getMoney(row) {
-      console.log(row.actualEnterQuantity, row.price)
-      row.money = (Number(row.actualEnterQuantity) * Number(row.price)).toFixed(6)
-      return row.money
+      // row.money = (Number(row.actualEnterQuantity) * Number(row.includeTaxPrice)).toFixed(6)
+      // return row.money
     },
     // 计算含税金额
     getTaxMoney(row) {
@@ -370,20 +368,40 @@ export default {
     },
     // 计算税额
     getTaxMoney2(row) {
-      row.taxMoney = (Number(row.price) * Number(row.taxRate) / 100 * Number(row.actualEnterQuantity)).toFixed(6)
+      row.taxMoney = (Number(row.enterPrice) * Number(row.taxRate) / 100 * Number(row.actualEnterQuantity)).toFixed(6)
       return row.taxMoney
     },
     order(val) {
+      const that = this
       console.log('ssssss', val)
+      const newarr = []
       for (let i = 0; i < val.length; i++) {
-        // val[i].arrivalQuantity = (val[i].stockQuantity - val[i].allarrivalQuantity + val[i].returnQuantity).toFixed(6)
         val[i].actualEnterQuantity = (val[i].basicQuantity - val[i].actualArrivalQuantity).toFixed(6)
-        this.$refs.editable.insert(val[i])
+
+        const re = val[i].productCode.slice(0, 2)
+        if (re === '05' && that.$store.getters.countryId === 2) {
+          const arrlength = Number(val[i].basicQuantity - val[i].actualArrivalQuantity)
+          let newobj = {}
+          for (let index = 0; index < arrlength; index++) {
+            newobj = val[i]
+            newobj.actualEnterQuantity = 1
+            newarr.push(newobj)
+          }
+        } else {
+          newarr.push(val[i])
+        }
       }
+      for (const j in newarr) {
+        this.$refs.editable.insert(newarr[j])
+      }
+      console.log('newarr', newarr)
     },
     allOrderinfo(val) {
+      this.personalForm.enterRepositoryId = val.stockRepositoryId
+      this.enterRepositoryId = val.stockRepositoryName
       this.personalForm.sourceNumber = val.orderNumber
       this.personalForm.supplierId = val.supplierId
+      this.supp = val.supplierId
       this.supplierId = val.supplierName
       this.personalForm.stockPersonId = val.stockPersonId
       this.stockPersonId = val.stockPersonName
@@ -578,7 +596,7 @@ export default {
       if (scope.row.flag === undefined) {
         scope.row.flag = true
       } else {
-        return scope.row.productCode
+        return
       }
       if (scope.row.flag) {
         getlocation(this.personalForm.enterRepositoryId, scope.row).then(res => {
@@ -591,7 +609,6 @@ export default {
         })
       }
       scope.row.flag = false
-      return scope.row.productCode
     },
     // 深拷贝
     deepClone(obj) {
@@ -648,7 +665,6 @@ export default {
         }
         if (elem.batch === null || elem.batch === '' || elem.batch === undefined) {
           delete elem.batch
-          i = 4
         }
         if (elem.productCode === null || elem.productCode === '' || elem.productCode === undefined) {
           delete elem.productCode

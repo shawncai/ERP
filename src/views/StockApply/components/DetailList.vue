@@ -192,7 +192,9 @@
           </el-form>
         </div>
         <div>
-          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" :title="$t('updates.spi')" type="warning" size="mini" icon="el-icon-view" circle @click="handleReview()"/>
+          <el-button v-show="isReview( )&&(personalForm.receiptStat === 1||personalForm.receiptStat === 2||personalForm.receiptStat === 3)" type="warning" size="mini" @click="handleReview()">
+            {{ $t('updates.spi') }}
+          </el-button>
 
         </div>
       </el-card>

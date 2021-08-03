@@ -280,6 +280,7 @@ export default {
         isActive: 1
         // supplierId: this.supp
       },
+      supplierId: '',
       visible2: {},
       // 传给组件的数据
       personalForm: {},

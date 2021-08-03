@@ -329,7 +329,7 @@ export default {
       this.planPersonId = this.personalForm.planPersonName
       this.stockPersonId = this.personalForm.stockPersonName
       this.planRepositoryId = this.personalForm.planRepositoryName
-      this.personalForm.id = this.personalForm.parentid
+      // this.personalForm.id = this.personalForm.parentid
       this.personalForm.sourceType = String(this.personalForm.sourceType)
       if (this.personalForm.sourceType === '1' || this.personalForm.sourceType === '2') {
         this.addsouce = false

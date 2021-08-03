@@ -417,7 +417,7 @@
           </el-form>
         </div>
         <div class="buttons">
-          <el-button v-show="isJudgeReview()" type="warning" size="mini" @click="handleReview(scope.row)">{{ $t('updates.spi') }}</el-button>
+          <el-button v-show="isJudgeReview()" type="warning" size="mini" @click="handleReview()">{{ $t('updates.spi') }}</el-button>
           <el-button v-permission="['54-57-22']" v-show="personalForm.judgeStat === 2&& personalForm.flag===1" type="primary" style="width: 107px" @click="handleMyReceipt1()"><span style="margin-left: -15px;">{{ $t('newupd.qqq') }}</span></el-button>
           <el-button v-permission="['54-57-23']" v-show="personalForm.judgeStat === 2&&personalForm.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt5()"><span style="margin-left: -15px;">{{ $t('newupd.www') }}</span></el-button>
           <el-button v-permission="['54-57-24']" v-show="personalForm.judgeStat === 2&&personalForm.flag!==3" type="primary" style="width: 107px" @click="handleMyReceipt3()"><span style="margin-left: -15px;">{{ $t('newupd.eee') }}</span></el-button>
@@ -679,7 +679,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       return hasPermission
     },
     getsaleOutLis() {
@@ -802,7 +801,6 @@ export default {
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
-      console.log('hasPermission=======', hasPermission)
       if (hasPermission) {
         printJS({
           printable: arr,

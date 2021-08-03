@@ -51,13 +51,13 @@
             border
             size="small"
             style="width: 100%">
-            <el-editable-column type="selection" width="85" align="center"/>
-            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index"/>
-            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px"/>
-            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px"/>
-            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px"/>
+            <el-editable-column type="selection" width="85" align="center" fixed/>
+            <el-editable-column :label="$t('Hmodule.xh')" min-width="55" align="center" type="index" fixed/>
+            <el-editable-column :label="$t('Hmodule.wpbh')" prop="productCode" align="center" min-width="150px" fixed/>
+            <el-editable-column :label="$t('Hmodule.wpmc')" prop="productName" align="center" min-width="150px" fixed/>
+            <el-editable-column :label="$t('Hmodule.gg')" prop="productType" align="center" min-width="150px" fixed/>
+            <el-editable-column :label="$t('updates.ys')" prop="color" align="center" width="150px" fixed/>
+            <el-editable-column :label="$t('Hmodule.dw')" prop="unit" align="center" min-width="150px" />
             <el-editable-column :label="$t('update4.oldPrice')" prop="oldPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('update4.newPrice')" prop="newPrice" align="center" min-width="150px"/>
             <el-editable-column :label="$t('updates.oldIncludeTaxPrice')" prop="oldIncludeTaxPrice" align="center" min-width="150px"/>

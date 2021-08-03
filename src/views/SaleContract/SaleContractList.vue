@@ -764,6 +764,9 @@ export default {
           this.editVisible = true
           this.personalForm = Object.assign({}, res.data.data.content.list[0])
           this.personalForm.sourceType = String(res.data.data.content.list[0].sourceType)
+          this.personalForm.InvestigationResult = row.InvestigationResult
+          this.personalForm.isSecondApply = row.isSecondApply
+
           if (res.data.data.content.list[0].currency !== null) {
             this.personalForm.currency = String(res.data.data.content.list[0].currency)
           }
@@ -807,6 +810,8 @@ export default {
         if (res.data.ret === 200) {
           this.detailvisible = true
           this.personalForm = Object.assign({}, res.data.data.content.list[0])
+          this.personalForm.InvestigationResult = row.InvestigationResult
+          this.personalForm.isSecondApply = row.isSecondApply
         }
       })
     },
